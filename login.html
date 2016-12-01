@@ -1,0 +1,59 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+{% block content %}
+<div id="content">
+	<h1>{% filter ak_text:"user_login_intro"|title %}Update your personal information and manage your donations.{% endfilter %}</h1>
+<p>{% filter ak_text:"user_login_first_time" %}If this is your first time logging in, you'll need to set up your password.{% endfilter %}</p>
+<p><a class="button" href="/forgot/?next={{ next }}&first=1&email={{ email }}">{% filter ak_text:"user_login_set_up_pw"|capfirst %}Set up your password{% endfilter %}.</a></p>
+{% if error_message %}
+	<p class="errornote">{{ error_message }}</p>
+{% endif %}
+
+
+
+{% if no_password %}
+<p>{% filter ak_text:"user_login_first_time_error" %}It looks like you've never logged in before, please set up your password.{% endfilter %}</p>
+	<p><a class="button" href="/forgot/?email={{ email }}">{% filter ak_text:"user_login_set_up_pw" %}Set up your password{% endfilter %}</a>.</p>
+{% endif %}
+{% if wrong_account %}
+<p>{% filter ak_text:"user_login_wrong_email" %}Sorry, this email address doesn't have permission to view this page.{% endfilter %}</p>
+{% endif %}
+	{% if invalid %}
+<p class="errornote">Incorrect email or password.  Try again, or <a href="{% url 'user_password_forgot' %}?next={{ next }}&email={{ email }}">we can email you a link to reset your password</a>.</p>
+{% endif %}
+
+</div>
+
+<form action="{{ app_path }}" method="post" id="login-form" class="login-form ">
+<div id="form" class="ak-labels-overlaid ak-err-below">
+	<h5 class="form-title">{% filter ak_text:"general_log_in"|title %}Log In{% endfilter %}</h5>
+  <div id="id_email_box">
+    <label for="id_email">{% filter ak_text:"field_email"|capfirst %}Email Address{% endfilter %}</label> <input type="text" name="email" value="{{ email }}" id="id_email" title="{% filter ak_text:'user-login-email-instructions' %}Enter the email you signed up with here.{% endfilter %}" />
+  </div>
+  <div id="id_password_box">
+    <label for="id_password">{% filter ak_text:"general_password"|capfirst %}Password{% endfilter %}</label> <input type="password" name="password" id="id_password" />
+  </div>
+    <input type="hidden" name="this_is_the_login_form" value="1" />
+    <input type="hidden" name="next" value="{{ next }}" />
+{% if invalid %}
+<p class="error">{% filter ak_text:"user_login_error" %}Incorrect e-mail or password.  Try again, or reset your password.{% endfilter %}</p>
+<p><a class="button" href="/forgot/?next={{ next }}&email={{ email }}">{% filter ak_text:"user_login_reset_password"|capfirst %}Reset your password{% endfilter %}</a>.</p>
+{% endif %}
+  <div class="submit-row">
+    <input type="submit" class="submit" value="Log In" />
+  </div>
+<p class="errormsg">{{ error_message }}</p>
+
+	</div>
+<p style="margin-top: 5px;"><a href="/forgot/?next={{ next }}&email={{ email }}">{% filter ak_text:"user_login_forgot_password" %}Forgot your password?{% endfilter %}</a> / <a href="/forgot/?next={{ next }}&first=1&email={{ email }}">{% filter ak_text:"user_login_first_time_start" %}Is this your first time logging in?{% endfilter %}</a></p>
+
+</form>
+<br class="clear" />
+
+<script type="text/javascript">
+$(document).ready(function(){
+actionkit.forms.installOverlayLabelHandler();
+});
+document.getElementById('id_{% if email %}password{% else %}email{% endif %}').focus()
+</script>
+{% endblock %}

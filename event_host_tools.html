@@ -1,0 +1,215 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+{% block content %}
+<link rel="stylesheet" href="https://s3.amazonaws.com/s3.350.org/images/event-styles-2013.css" type="text/css" />
+
+<div id="page-header">
+	<div id="notifications">
+			<div id="ak-confirmation" style="display:none;" class="notification success">
+				{% filter ak_text:"error_event_email_sent:success" %}Message sent.{% endfilter %}
+			</div>
+	</div>
+<h2 id="page-title" style="margin-bottom:0;">{% if campaign.use_title %}{{ event.title }}{% else %}{{ campaign.local_title }}{% endif %}</h2>
+</div>
+
+
+<div id="content">
+<div class="ak-confirmation">
+</div>
+
+{% if signup and not event.is_inactive %}
+
+
+
+<!-- Message from mothership -->
+{% autoescape off %}
+<div id="host-tools-intro">
+{{ form.tools_text|safe }}
+</div>
+{% endautoescape %}
+
+<script type="text/javascript">
+// Roster toggle-all checkbox
+function toggleSignups() {
+    $(this)
+        .closest('form')
+        .find('input.toggle')
+        .attr('checked', this.checked);
+}
+// Update "N attendee(s)" in e-mail form
+function handleSignupsChanged() {
+    var frm = $(this).closest('form');
+    var to_count = $('input.toggle:checked').length;
+    // Mailing all recipients if nobody's checked
+    if ( !to_count )
+        to_count = $('input.toggle').length
+    // They've figured out the checkboxes; no need to advertise
+    if ( to_count )
+        frm.find('.check-recipients-help').fadeOut('slow');
+    frm.find('.to-count').text(to_count);
+}
+// E-mail button
+function handleEmail() {
+    var frm = $(this).closest('form');
+    frm.find('.contact-form').slideDown('fast');
+    return false;
+}
+// "E-mail attendee", "e-mail cohost", "invite friends" links
+// Unhide if needed and fake :target on IE
+function handleJumpLink() {
+    var targetEl;
+    if ( this.id == 'email-cohosts-link' )
+        targetEl = $('fieldset.contact-cohosts');
+    else if ( this.id == 'email-attendees-link' )
+        targetEl = $('fieldset.contact-attendees');
+    else if ( this.id == 'invite-friends-link' )
+        targetEl = $('#taf');
+    console.log(targetEl);
+    // Unhide e-mail form if needed
+    if ( /^email-/.test(this.id) ) {
+        var emailButton = targetEl.closest('form').find('input[type="submit"].email');
+        handleEmail.apply(emailButton, []);
+    }
+    // Highlight
+    targetEl.addClass('target');
+    // Allow jump to #foo to happen
+    return true;
+}
+// Confirm cancelling event
+function confirmSubmit() {
+    return confirm($(this).attr('confirm-message'));
+}
+// Stash the name of the submit button in the 'action' form field
+// (helps the validation JS see which kind of action to validate for)
+function setFormAction() {
+    var formEl = $(this).closest('form')[0];
+    if ( !formEl && !formEl.action ) return;
+    formEl.action.value = this.name;
+}
+// Check for required fields for remove/promote/demote/e-mail
+function validateRoster(form) {
+    var action = form.action.value;
+    // Nobody to remove/promote/demote
+    if ( /(change-role|remove)/.test(action) 
+         && !($(form).find('input.toggle:checked').length) )
+        actionkit.errors['user_id:missing'] = 
+            actionkit.forms.errorMessage('event_roster_user_ids:missing');
+    // No message to send
+    if ( action == 'send_email' 
+         && !form.body.value )
+        actionkit.errors['body:missing'] = 
+            actionkit.forms.errorMessage('event_contact_body:missing');
+}
+// Confirm removing folks
+function confirmRoster(form) {
+    var action = form.action.value;
+    var actionButton = $(form).find('input[name="' + action + '"]');
+    var confirmMessage = actionButton.attr('confirm-message');
+    if ( confirmMessage ) 
+        return confirm(confirmMessage);
+    else
+        return true;
+}
+// Click anywhere in row to check/uncheck attendee
+function toggleRow(e) {
+    var toggleEl = $(this).closest('tr').find('.toggle')[0];
+    if ( toggleEl ) toggleEl.checked = !toggleEl.checked;
+    return false;
+}
+// Set everything up onready
+function initHostTools() {
+    $('input.toggle-all').click(toggleSignups);
+    $('input.toggle').click(handleSignupsChanged);
+    $('.signup-list td:not(.toggle-col)').click(toggleRow);
+    $('input[type="submit"].email').click(handleEmail);
+    $('input[type="submit"]').click(setFormAction);
+    $('.jump-link').click(handleJumpLink);
+    $('a[confirm-message]').click(confirmSubmit);
+    if ($('#manage-host').length)
+        actionkit.forms.initValidation('manage-host');
+    if ($('#manage-attendee').length)
+        actionkit.forms.initValidation('manage-attendee');
+}
+$(initHostTools);
+</script>
+
+<!-- Tools -->
+
+<div id="event-host-tools">	
+<h6>{% filter ak_text:"event_host_tools_title" %}Manage your event:{% endfilter %}</h6>
+<ul id="event-host-links">
+{% if form.tools_sidebar %}
+	{{ form.tools_sidebar|safe }}
+{% endif %}
+{% if user_is_manager %}
+	{# <li>Logged in as a manager </li #}
+	{% if campaign.require_email_confirmation and not event.host_is_confirmed %}
+	</br><a onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $(this).text('Confirmed');" href="#" class="button">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm your event{% endfilter %}</a><br></br>
+	{% endif %}
+{% endif %}
+	<li><a href="../../create/?action_id={{ action.id }}&update=1&want_prefill_data=1">{% filter ak_text:"event_host_tools_edit_details" %}Edit event details{% endfilter %}</a></li>
+	{% if action.page.custom_fields.event_host_facebook_help_text %}
+	<li><a href="./?manage_facebook=1">{% filter ak_text:"event_host_tools_manage_facebook_link" %}Manage Facebook link{% endfilter %}</a></li>
+	{% endif %}
+	{% if cohosts %}
+	<li class="if-js"><a class="jump-link" id="email-cohosts-link" href="#contact-cohosts">{% filter ak_text:"event_host_tools_email_cohosts" %}Email co-hosts{% endfilter %}</a></li>
+	{% endif %}
+	{% if attendees %}
+	<li class="if-js"><a class="jump-link" id="email-attendees-link" href="#contact-attendees">{% filter ak_text:"event_host_tools_email_attendees" %}Email attendees{% endfilter %}</a></li>
+	{% else %}
+	<!-- Flag that the functionality will be there -->
+	<li class="if-js">{% filter ak_text:"event_host_tools_email_attendees" %}Email attendees{% endfilter %} ({% filter ak_text:"event_host_tools_email_attendees_disabled" %}Available after people sign up for your event.{% endfilter %})</li>
+	{% endif %}
+	<li><a href="https://www.facebook.com/sharer/sharer.php?u=http://{% client_domain %}{{ event.public_url }}">{% filter ak_text:"general_share_on_fb" %}Share Your Event on Facebook{% endfilter %}</a></li>
+	<li><a href="/logout/">{% filter ak_text:"general_log_out" %}Log out{% endfilter %}</a></li>
+	<li style="margin-top:10px;"><a style="color:red;" confirm-message="{% filter ak_text:"event_host_tools_cancel_confirm" %}Really cancel event? This can't be undone.{% endfilter %}" href="../cancel_event/">{% filter ak_text:"event_host_tools_cancel" %}Cancel event{% endfilter %}</a></li>
+</ul>
+</div>
+
+
+<!-- Details -->
+<div id="host-event-details">
+<h6>{% filter ak_text:"event_create_section_info" %}Event Information{% endfilter %} <a href="../../create/?action_id={{ action.id }}&update=1&want_prefill_data=1">({% filter ak_text:"general_edit" %}Edit{% endfilter %})</a></h6>
+{% include "./event_host_details.html" %}
+</div>
+
+
+
+<!-- Cohost roster -->
+{% if cohosts %}
+{% with cohosts as signups %}
+    {% include "./event_roster.html" %}
+{% endwith %}
+{% endif %}
+
+<!-- Guest roster -->
+{% if attendees %}
+{% with attendees as signups %}
+    {% include "./event_roster.html" %}
+{% endwith %}
+{% else %}
+    <!-- Optional no attendees message, e.g., "go use the Invite Folks tool at right" -->
+{% endif %}
+
+{% else %}
+{% if event.is_inactive %}
+<h2>{% filter ak_text:"event_host_tools_event_inactive" %}This event is no longer active.{% endfilter %}</h2>
+{% endif %}
+{% if not signup %}
+<h2>{% filter ak_text:"event_host_tools_not_signed_up" %}Sorry, you aren't currently signed up for this event.{% endfilter %}</h2>
+{% endif %}
+<p><a href="/event/{{ campaign.local_name }}/?akid={{args.akid}}&zip={{args.zip}}">{% filter ak_text:"event_attend_search_for_another" %}Search for another event{% endfilter %}</a></p>
+{% endif %}
+{% endblock %}
+
+
+{% block below_form %}
+
+</div>
+<script type="text/javascript">
+actionkit.forms.contextRoot = '/context/';
+actionkit.forms.initTafForm('taf');
+</script>
+
+{% include "snippets/wrapper.html" with snippet="event_host_tools_manage_facebook_script" %}
+
+{% endblock %}

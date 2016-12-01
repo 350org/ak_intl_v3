@@ -1,0 +1,41 @@
+{% if page.goal %}
+{% load actionkit_tags %}
+<div id="progress" class="margin-bottom-medium"></div>
+<script type="text/ak-template" for="progress">
+[% with (progress) { %]
+	[% if ( goal && total ) { %]
+		{% comment %}Set up variables{% endcomment %}
+		[% 
+			{% comment %}If "Progress Meter - Starting Value" custom page field is present, add that to the total # of actions, else just display the normal action count {% endcomment %}
+			if ( page.custom_fields.progressmeter_starting_value ) {
+				progress.current = goal_type == 'dollars' ? ( parseInt(total.dollars) + parseInt(page.custom_fields.progressmeter_starting_value) ) : ( parseInt(total.actions) + parseInt(page.custom_fields.progressmeter_starting_value) );
+			} else {
+				progress.current = goal_type == 'dollars' ? total.dollars : total.actions;
+			}
+			{% comment %}Set the percentage threshold below which the progress meter is hidden{% endcomment %}
+			progress.threshold = page.custom_fields.progress_meter_visibility_threshold ? parseInt(page.custom_fields.progress_meter_visibility_threshold) : 33;
+			progress.percent = parseInt(progress.current/goal*100);
+			{% comment %}Set fallback goals for when original is exceeded{% endcomment %}
+			goals = page.custom_fields.page_goals ? page.custom_fields.page_goals.split(',').map(Number) : [] ;
+			new_goal = false;
+			while (goals.length && goal <= progress.current) {
+				goal = goals.shift();
+				new_goal = true; } 
+		%]
+		<p class="hidden">progress current is [%= progress.current %]. progress percent is [%= progress.percent %]%. threshold is [%= progress.threshold %]%</p>
+		{% comment %}Only show the progress meter if it's above the threshold{% endcomment %}
+		[% if ( ( progress.percent > progress.threshold ) ) { %]
+	<p id="action-progress-current" class="text-small no-margin-bottom">[% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(progress.current) %] [% if (goal_type == 'dollars') { %]{% filter ak_text:"progressbar_donated_amount_label"%}Donated{% endfilter %}[% } else { %]{% filter ak_text:"progressbar_actions_sofar_label"%}actions so far{% endfilter %}[% } %]</p>
+	<div id="action-progress-bar">
+		<div id="action-progress-bar-inner" style="width:[%= progress.current > goal ? 100 : parseInt(progress.current/goal*100) %]%;"></div>
+	</div>
+	<p id="action-progress-goal" class="text-small text-right">[% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal - progress.current) %] needed to get to [% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal) %]</p>
+
+		[% } else { %]
+			
+		[% } %]
+	[% } %]
+[% } %]
+</script>
+<input type="hidden" name="want_progress" value="1" />
+{% endif %}

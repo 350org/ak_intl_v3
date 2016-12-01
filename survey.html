@@ -1,0 +1,49 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+{% block content %}
+
+<section id="action-lead" class="section action-lead width-narrow padding-large bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section-inner">
+		<div id="action-header" class="">
+			<h1 id="action-title" class="title3">{{ page.title }}</h1>
+			<div class="" data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}">{% include_tmpl form.introduction_text %}</div>
+		</div>
+		{% include "./social_plugins.html" %}	
+	</div>
+</section>
+
+<section id="survey-questions" class="width-narrow bg-ltgray padding-medium">
+	<div class="section-inner">
+{% if page.custom_fields.page_is_inactive %}
+	{% autoescape off %}
+		<div id="page-inactive">{{ page.custom_fields.page_is_inactive }}</div>
+	{% endautoescape %}
+{% else %}
+		<form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+			<input type="hidden" name="utf8" value="&#x2714;">
+{% if page.custom_fields.form_text_above_form %}
+	{% autoescape off %}
+			<div id="form-intro">{{ page.custom_fields.form_text_above_form }}</div>
+	{% endautoescape %}
+{% endif %}
+
+{% autoescape off %}
+			<input type="hidden" name="lists" value="{{ page.list.id }}" />
+			<input type="hidden" name="page" value="{{ page.name }}" />
+			<div id="survey-custom-questions" class="form-style-expanded text-large2 margin-bottom-huge">
+	{% for question in form.surveyquestion_set.all %}
+				<div class="survey-question margin-bottom-large input-{{ question.field_type }}">
+					<label class="strong text-strong text-blue margin-bottom-small">{{ question.question_label }}</label>
+				{{ question.question_html }}
+				</div>
+	{% endfor %}
+			</div>
+		{% include "./user_form_wrapper.html" %}
+		<div class="input-submit">
+			<input type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}Submit{% endif %}" class="submit" />
+		</div>
+{% endautoescape %}
+		</form>
+	</div>
+</section>
+{% endif %}
+{% endblock %}

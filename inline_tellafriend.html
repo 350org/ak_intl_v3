@@ -1,0 +1,13 @@
+{% load actionkit_tags %}{% if page.followup.send_taf %}
+
+<p><label class="wide" for="id_taf_emails">Optional: enter friends' e-mail addresses to send them this page <span id="preview_edit" clicked-text="">(<a href="#" onclick="$('#taf_preview').show();p=this.parentNode;t='(view message/add note below)';if(p.innerText)p.innerText=t;else p.textContent=t; return false;">preview message/add note</a>)</span>:</label><br/> <textarea class="email-list" id="id_taf_emails" name="taf_emails"  class="span-7"></textarea></p>
+
+<div class="nodisplay gridded" id="taf_preview">
+<span class="wide" for="id_taf_body">Your message to friends:</span>
+<div class="taf_body wide">
+<label id="lbl_taf_subject" for="id_taf_subject">Subject:</label>
+<span class="taf_subject">{% include_tmpl page.followup.taf_subject escaped %}</span>
+{% filter referring_akid:akid|tag_links:"source=taf"|linebreaksbr %}{% include_tmpl page.followup.taf_body escaped %}{% endfilter %}</div><br /><div>Add a short note (optional):</div>
+<textarea id="id_taf_note" name="taf_note" class="wide"></textarea></div>
+</div>
+{% endif %}

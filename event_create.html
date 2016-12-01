@@ -1,0 +1,415 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags smartif %}
+{% block content %}
+{% include "includes/jquery_ui.html" %}
+{% if args.embed == "y" %}
+<style type="text/css">
+  	#page-header {
+		display: none;
+		}
+	#main {
+		padding: 0;
+		margin: 0;
+		border: none;
+		}
+	body {
+		background: none;
+		}
+	#form, form {
+		background-color: white !important;
+		}
+	label, legend, em {
+		color: black !important;
+		}
+	#container {
+		padding: 0;
+		}
+	#footer {
+		display: none;
+		}
+	input, select, textarea {
+		border: 1px solid lightgray;
+		border-radius: 5px;
+		}
+	
+	
+</style>
+{% endif %}
+<script type="text/javascript">
+isEventUnitedStates = function () {
+    var country = actionkit.form && actionkit.form.event_country 
+               && actionkit.utils.val(actionkit.form.event_country)
+    return country == 'United States' || country == 'US' || !country;
+};
+
+reflectEventCountryChange = function() {
+    var is_us = isEventUnitedStates();
+    var event_zip = actionkit.form.event_zip, 
+        event_postal = actionkit.form.event_postal,
+        event_state = actionkit.form.event_state;
+    if ( event_zip && event_postal ) {
+ if ( is_us ){ 
+  actionkit.forms.showAndHide(event_zip, event_postal);
+ } else { 
+  actionkit.forms.showAndHide(event_postal, event_zip); 
+ }
+    }
+    if ( event_state ) {
+        if ( is_us ) {
+            $(event_state).removeAttr('disabled');
+            var shownRow = actionkit.forms.getRowForElement(event_state);
+            shownRow.show();
+        } 
+        else {
+            $(event_state).attr('disabled', true);
+            $(event_state).val('');
+            $(event_state).change();
+            var hiddenRow = actionkit.forms.getRowForElement(event_state);
+            hiddenRow.hide();
+        }
+    }
+};
+
+actionkitFormReady =  function() {
+    if ( (actionkit.form.event_zip && actionkit.form.event_postal) 
+            || (actionkit.form.event_state && actionkit.form.event_region) ) {
+        if (actionkit.context.prefill_data) { 
+            var event_zip_val = actionkit.context.prefill_data.event_zip,
+                event_postal_val = actionkit.context.prefill_data.event_postal;
+        }
+        reflectEventCountryChange();
+        if (actionkit.context.prefill_data) {
+            var is_us = isEventUnitedStates();
+            if (is_us) {
+                actionkit.form.event_zip.value = event_zip_val;
+                $(actionkit.form.event_zip).change();
+            }
+            else {
+                actionkit.form.event_postal.value = event_postal_val;
+                $(actionkit.form.event_postal).change();
+            }
+        }
+    }
+};
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+	
+$(document).ready( function() {
+	
+	{% if args.qs_prefill == "y" %}
+	$("form :input").each(function() {
+		var name = $(this).attr("name");
+		if( !name ) { console.log("no name", this); return; }
+		var value = getParameterByName(name);
+		if( !value ) { console.log("no qs value", this); return; }
+		//if( $(this).val() ) { console.log("dom value", this); return; }
+		$(this).val(value);
+	});
+	{% endif %}
+	
+    var prev_is_us, now_is_us;
+    $(actionkit.form.event_country).focus(function() {
+        prev_is_us = isEventUnitedStates();
+    }).change(function() {
+        now_is_us = isEventUnitedStates();
+        if ( prev_is_us != now_is_us ) {
+            reflectEventCountryChange();
+        }
+    });
+
+$("#event_country").change(function(){
+ reflectEventCountryChange();
+ console.log('reflectEventCountryChange function fired');
+} );
+});
+</script>
+
+<div id="page-header">
+{% if not update %}
+	<h2 id="page-title" class="">{{ page.title }}</h2>
+{% else %}
+	<h2 class="page-title">{% filter ak_text:"event_create_title_update" %}Update event information{% endfilter %}</h2>
+{% endif %}
+</div>
+
+<div style="padding:15px 35px;" id="known_user">
+	<div id="logout_link">
+		<p><a href="?" onclick="return actionkit.forms.logOut()">Not <span id="known_user_name"></span>? Click here to log out </a></p>
+	</div>
+</div>
+
+{% if args.embed != "y" %}
+<div id="content">
+	<div class="text">{% include_tmpl form.host_text %}</div>
+</div>
+{% endif %}
+
+<form class="ak-form norecognize ak-errs-below" name="act" method="post" action="{% if update %}/update_action/{% else %}/act/{% endif %}" accept-charset="utf-8">
+<div id="form">
+
+<input type="hidden" name="utf8" value="&#x2714;" />
+<input type="hidden" name="page" value="{{ page.name }}" />
+
+<fieldset id="event-info">
+<legend>{% filter ak_text:"event_create_section_info" %}Event Information{% endfilter %}</legend>
+
+	{% if campaign.use_title %}
+	<div class="input id_event_title">
+		<label for="id_event_title">{% filter ak_text:"event_create_field_label_title" %}Event name{% endfilter %}</label>
+		<input id="id_event_title" type="text" name="event_title" value="{% if  page.custom_fields.event_default_title %} {{ page.custom_fields.event_default_title }} {% else %} {{ campaign.default_title }} {% endif %}" />
+	</div>
+	{% endif %}
+
+    {% with event_starts_at as date_field %}
+    <div id="id_event_starts_at_row" class="para">
+		{% include "./date_picker.html" %}<br class="clear" />
+	</div>
+
+    <script type="text/javascript">
+    // Replace animation w/instant show, because anim breaks 
+    // tabbing quickly past the date field.
+    jQuery.fn.showFast = function(speed, callback) {
+        this.show()
+        callback()
+    }
+    // Removing datepicker doesn't break anything, and it might even be
+    // useful -- I can imagine users being confused when the picker
+    // covers up other key form fields.
+    $("#id_event_starts_at_date").datepicker({minDate: 0, showAnim: 'showFast' });
+		
+	{% if page.custom_fields.event_use_24hour_time %}
+	$(window).load(function() {
+  	  var time = $(":input[name=event_starts_at_time]").val();
+	  var ampm = $(":input[name=event_starts_at_ampm]").val();
+	  $(":input[name=event_starts_at_time]").hide();
+	  $("div.input.ampm").hide();
+	  var hour = time.split(":")[0], min = time.split(":")[1];
+	  hour = parseInt(hour);
+	  var hour24;
+	  if (ampm === "PM" && hour !== 12) {  hour24 = hour + 12; } else if (ampm === "AM" && hour === 12) { hour24 = 0; } else { hour24 = hour; } 
+	  $("<input name='action_event_starts_at_time24' id='id_action_event_starts_at_time24'>").val("" + hour24 + ":" + min).insertBefore(":input[name=event_starts_at_time]");
+	});
+	{% endif %}
+    </script>
+    {% endwith %}
+    
+    {% if campaign.use_ends_at %}
+    {% with event_ends_at as date_field %}
+    <p><label for="id_event_ends_at">{% filter ak_text:"event_create_field_label_endtime" %}End time{% endfilter %}</label> {% include "./date_picker.html" %}</p>
+    {% endwith %}
+    {% endif %}
+    
+	{% include "snippets/wrapper.html" with snippet="event_create_facebook_id_field" %}
+	
+    <div class="input id_event_max_attendees">
+		<label for="id_event_max_attendees">{% filter ak_text:"event_create_field_label_max_attendees" %}Maximum Number of Attendees {% endfilter %}</label>
+		<input id="id_event_max_attendees" type="text" name="event_max_attendees" value="{{ campaign.default_event_size|default:"" }}" size="8" />
+	</div>	
+    {% include_tmpl form.custom_field_html %}
+<div class="input textarea id_event_public_description">
+<label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Event description{% endfilter %}</label>
+<!-- div id="wysihtml5-toolbar" style="display: none;">
+  <a data-wysihtml5-command="bold" class="wysihtml5-bold">Bold</a>
+  <a data-wysihtml5-command="italic" class="wysihtml5-italic">Italic</a>
+  <a data-wysihtml5-command="createLink" class="wysihtml5-insertlink">Insert link</a>
+
+  <a class="action wysihtml5-showhtml" title="Show HTML" data-wysihtml5-action="change_view" >&lt;Show HTML&gt;</a>
+<div data-wysihtml5-dialog="createLink" class="wysihtml5-insertlinkbox" style="display: none;">
+    <label>
+      Select text, enter link URL and hit enter:
+      <input data-wysihtml5-dialog-field="href" value="http://" class="text">
+    </label>
+  </div>
+</div -->
+		<textarea id="id_event_public_description" name="event_public_description">{% if page.custom_fields.event_default_description %}{% autoescape off %}{{ page.custom_fields.event_default_description }}{% endautoescape %}{% endif %}</textarea>
+<em>{% filter ak_text:"event_create_field_label_description_help" %}Your event description will be displayed on the website — so try to write a compelling invitation that will make people want to join. Don't worry! You will be able to edit it even if your plans change. 5 word minimum.{% endfilter %}</em>
+	</div>
+	{% if campaign.allow_private %}
+    <div class="input checkbox id_event_is_private cb-container" id="id_event_is_private_row">
+        <input id="id_event_is_private" type="checkbox" class="checkbox" name="event_is_private" />
+        <label class="cb-label" for="id_event_is_private">{% filter ak_text:"event_create_field_label_private" %}Check the box to make your event private. Only people who have the link will be able to sign up — and we will not promote your event, list it on the events map, or recruit people in your community to attend.{% endfilter %}</label>
+    </div>
+    {% endif %}
+</fieldset>
+
+<fieldset id="event-location">
+	<legend>{% filter ak_text:"event_create_section_location" %}Event Location{% endfilter %}</legend>
+{% with "event_" as input_name_prefix %}
+    <div>
+		<label for="id_event_venue">{% filter ak_text:"event_create_label_venue" %}Venue (i.e. "My Living Room" or "North Side Park"){% endfilter %}</label> <input id="id_event_venue" type="text" if-at-my-house="Home" name="event_venue" />
+	</div>
+    <div>
+		<label for="event_country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
+		{% include "./country_select.html" %}
+	</div>
+    <div>
+		<label for="id_event_address1">{% filter ak_text:"field_address1"|capfirst %}Street address{% endfilter %}</label>
+		<input id="id_event_address1" type="text" name="event_address1" />
+	</div>
+    <div>
+		<label for="id_event_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
+		<input id="id_event_city" type="text" name="event_city" />
+	</div>
+    <div>
+		<label for="id_event_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
+		{% include "./state_select.html" %}
+	</div>
+    <div>
+		<label for="id_event_postal">{% filter ak_text:"field_postal" %}Postal{% endfilter %}</label>
+		<input id="id_event_postal" type="text" name="event_postal" />
+	</div>
+    <div>
+		<label for="id_event_zip">{% filter ak_text:"field_postal" %}Postal/ZIP{% endfilter %}</label>
+		<input id="id_event_zip" type="text" name="event_zip" />
+	</div>
+    {# <div><label for="id_event_phone">Contact phone:</label> <input id="id_event_phone" type="tel" name="event_phone" size="12"/></div> #}
+    {% if campaign.show_address1 %}
+    <div class="strong">{% filter ak_text:"event_create_address_privacy_note" %}NOTE: Unless you're hosting a Private event, event addresses will be listed publicly.{% endfilter %}</div>
+    {% endif %}
+{% endwith %}
+
+</fieldset>
+
+<div id="unknown_user">
+<fieldset id="user-info">
+<legend>{% filter ak_text:"event_create_section_contact" %}Your contact information{% endfilter %}</legend>
+	<p>({% filter ak_text:"event_create_contact_privacy_note" %}This information will remain private{% endfilter %})</p>
+    {% include "./user_form.html" %}
+{% if update %}
+    <script type="text/javascript">
+    $(function() { $('#user-info input[name=email]').attr('disabled','disabled') });
+    </script>
+{% endif %}
+<input type="hidden" name="never_recognize" value="1" />
+{% comment %}<!-- div class="input">    
+ <label for="id_phone">Phone</label><input class="phone" id="id_phone" type="text" name="phone" title="Your phone number'" /></div--> {% endcomment %}
+</fieldset>
+</div>
+{% if not update %}
+	{% if form.host_requirements|is_nonblank or form.ground_rules|is_nonblank %}
+<fieldset id="ground-rules">
+	<legend>{% filter ak_text:"event_create_section_rules" %}Event rules{% endfilter %}</legend>
+		{% if form.host_requirements %}
+	<div id="host-requirements">
+		<h5>{% filter ak_text:"event_create_requirements" %}Requirements for event hosts:{% endfilter %}</h5>
+		<div>
+			{% include_tmpl form.host_requirements %}
+		</div>
+		<div class="input checkbox">
+			<input id="id_event_host_requirements" type="checkbox" name="event_host_requirements" />
+			<label class="cb-label highlighted" for="id_event_host_requirements">{% filter ak_text:"event_create_requirements_confirm" %}I can meet the requirements for hosting an event.{% endfilter %} <strong>{% filter ak_text:"general_required" %}Required.{% endfilter %}</strong></label>
+		</div>
+	</div>
+		{% else %}
+	<input type="hidden" name="event_host_requirements" value="1" />
+		{% endif %}
+		{% if form.ground_rules|is_nonblank %}
+	<div id="host-rules">
+		<h5>{% filter ak_text:"event_create_guidelines" %}Guidelines:{% endfilter %}</h5>
+		<div>
+			{% include_tmpl form.ground_rules %}
+		</div>
+		<div class="input checkbox">
+			<input id="id_event_host_ground_rules" type="checkbox" name="event_host_ground_rules" />
+			<label class="cb-label highlighted" for="id_event_host_ground_rules">{% filter ak_text:"event_create_guidelines_confirm" %}I agree to the rules for hosting an event.{% endfilter %} <strong>{% filter ak_text:"general_required" %}Required.{% endfilter %}</strong></label>
+		</div>
+	</div>
+</fieldset>
+		{% else %}
+	<input type="hidden" name="event_host_ground_rules" value="1" />
+		{% endif %}
+	{% else %}
+	<input type="hidden" name="event_host_requirements" value="1" />
+	<input type="hidden" name="event_host_ground_rules" value="1" />
+	{% endif %}
+{% else %}
+	<input type="hidden" name="event_host_requirements" value="1" />
+	<input type="hidden" name="event_host_ground_rules" value="1" />
+{% endif %}
+
+{% if not update %}
+<div class="strong">
+	{% filter ak_text:"event_create_next_step" %}Next, we'll e-mail you a link to confirm your event.{% endfilter %}
+</div>
+{% endif %}
+<ul class="compact" id="ak-errors"></ul>
+<input id="id_submit" type="submit" name="submit" class="submit" value="
+{% if update %}
+{% filter ak_text:"event_create_submit_button_update" %}Update event{% endfilter %}
+{% else %}
+{% filter ak_text:"event_create_submit_button" %}Continue to next step: Confirm event{% endfilter %}
+{% endif %}" />
+</div>
+</form>
+
+{% endblock %}
+
+{% block tail_js %}
+<style type="text/css">
+	#id_event_public_description_ifr {
+		background-color: #2E8EBB;
+		}
+	.mce-content-body {
+		background-color: rgba(255,255,255,0.8);
+		}
+	</style>
+<script type="text/javascript">
+	jQuery(window).load(function() {
+		{% if args.embed == "y" %}
+		if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+            return;
+        }
+		{% endif %}
+		tinymce.init({"content_css": "https://s3.amazonaws.com/s3.350.org/images/tinymce.css", "statusbar": false, "selector": "#id_event_public_description", "menubar": false, "plugins": "link code", "toolbar": ["bold italic underline | link | formatselect | code"], "extended_valid_elements": "meta[*]", valid_children : "+body[meta],+div[h2|span|meta|object]", "setup": function(editor) {
+        editor.on('init', function(e) {
+		  var originalOpen = tinymce.editors[0].windowManager.open; 
+	      editor.windowManager.open = function(t, r) { 
+			t = t || {};
+			t.width = 500; t.height = 250;
+			return originalOpen(t, r);
+		  };
+		}) }});
+	});
+	function actionkitBeforeValidation() {
+		var form = this;
+		var editor = tinyMCE.editors[0];
+		if (editor.id == "id_event_public_description")  {
+			var html = editor.getContent();
+			jQuery(form).find("#id_event_public_description").val(html);
+		}
+		
+		{% if page.custom_fields.event_use_24hour_time %}
+		var time24 = $("#id_action_event_starts_at_time24").val();
+
+	    var hour = time24.split(":")[0], 
+			min = time24.split(":")[1] || "00";
+  	    hour = parseInt(hour);
+	  
+		var hour12, ampm;
+		if (hour === 12) {
+			hour12 = 12;
+			ampm = "PM";
+		} else if (hour === 0) {
+			hour12 = 12;
+			ampm = "AM";
+		} else if (hour > 12) {
+			hour12 = hour - 12;
+			ampm = "PM";
+		} else {
+			hour12 = hour;
+			ampm = "AM";
+		}
+		
+ 		$(":input[name=event_starts_at_time]").val("" + hour12 + ":" + min);
+	    $(":input[name=event_starts_at_ampm]").val(ampm);
+
+		{% endif %}
+		
+		{% include "snippets/wrapper.html" with snippet="event_create_facebook_id_validation_script" %}
+	}
+	</script> 
+{% endblock %}

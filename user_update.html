@@ -1,0 +1,33 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+
+
+{% block title %}Update Your Info{% endblock %}
+
+{% block content %}
+<h2>{{ user.name }}</h2>
+<div id="content" class="user-update">
+{% if updated %}
+<h3>Thanks! Your information has been updated. <a href="/logout">Click here to log out.</a></h3><br>
+{% endif %}
+<p class="lead">Update your information:</p>
+</div>
+
+
+<form name="accountupdate" method="POST" class="ak-form user-update">
+    <div id="form" class="user-update">
+    <table border="0" cellpadding="3" style="width:100%;">
+
+{{ form.as_p }}
+        
+        </table>
+    <input type="submit" class="submit" value="Update My Info" />
+</div>
+    </form>
+
+<br class="clear" />
+<script type="text/javascript">
+$(document).ready(function(){
+actionkit.forms.installOverlayLabelHandler();
+});
+</script>
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+{% load smartif %}
+
+{% block content %}
+
+<div id="page-header">
+<h2 id="page-title" class="">{{ page.title }}</h2>
+</div>
+
+<div id="content">
+{% autoescape off %}
+{% include_tmpl form.introduction_text %}
+{% endautoescape %}
+</div>
+
+<form class="ak-form action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+<div id="form">
+{% autoescape off %}
+{% if page.custom_fields.form_text_above_form %}
+<div id="form-intro">{{ page.custom_fields.form_text_above_form }}</div>
+{% endif %}
+{% endautoescape %}
+<ul class="compact" id="ak-errors"></ul>
+<div id="unknown_user">
+<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}{% endfilter %}</h5>
+<div class="ak-labels-overlaid"> 
+    <div><label for="id_email">{% filter ak_text:"field_email"|capfirst %}{% endfilter %} </label><input id="id_email" type="text" name="email" size=40 /></div>
+    <input type="hidden" name="country" value="United States" />
+</div>
+</div>
+<div id="known_user">
+<h5>{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"unsubscribe_user_warning_postname " %}? Don't use this form!{% endfilter %}</h5>
+	<p><a href="/unsubscribe/unsubscribe">{% filter ak_text:"general_recognized_user_logout_instructions" %}Click here to log out{% endfilter %}</a></p>
+</div>
+
+{% if user.subscriptions|length > 1 %}
+	<hr>
+<fieldset>
+	<div><strong>{% filter ak_text:"unsubscribe_from_lists" %}Unsubscribe from:{% endfilter %}</strong></div>
+<input type="hidden" name="have_unsub_lists" value="1" />
+{% for s in user.subscriptions %}
+<input type="checkbox" checked name="unsub_lists" value="{{ s.list.id }}" /> {{ s.list.name }}<br />
+{% endfor %}
+	</fieldset>
+	<hr>
+{% endif %}
+
+<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe{% endfilter %}{% endif %}">
+
+<input type="hidden" name="page" value="{{ page.name }}">
+</div>
+</form>
+{% endblock %}

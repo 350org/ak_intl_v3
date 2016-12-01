@@ -1,0 +1,76 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+{% block content %}
+
+<div id="page-header">
+<h2 id="page-title" class="">{{ page.title }}</h2>
+</div>
+
+{% autoescape off %}
+<div id="content">
+<div class="about letter-about">{% include_tmpl form.about_text %}</div>
+</div>
+{% endautoescape %}
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+var letter = $("#letter-content");
+$('.add-to-letter').on('click', function(){
+var letterAddText = $(this).text();
+var letterText = $(letter).val();
+var newLetterText = letterText + "\n\n" + letterAddText;
+$(letter).val(newLetterText).scrollTop(99999);
+});
+});
+</script>
+
+
+{% if page.custom_fields.page_is_inactive %}
+<div id="page-inactive">
+{% autoescape off %}
+{{ page.custom_fields.page_is_inactive }}
+{% endautoescape %}
+</div>
+{% else %}
+<form class="action_form ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+<div class="letter">
+<div class="letter-intro">
+{% if form.statement_leadin %}{% include_tmpl form.statement_leadin %}
+{% else %}
+<strong>Customize and send your letter:</strong>
+{% endif %}
+</div>
+<textarea title="You can personalize this letter by editing the text." class="letter-text" id="letter-content" name="action_comment">{% include_tmpl form.letter_text  %}</textarea>
+</div>
+
+<div id="form">
+
+{% if page.custom_fields.form_text_above_form %}
+{% autoescape off %}
+<div id="form-intro">{{ page.custom_fields.form_text_above_form }}</div>
+{% endautoescape %}
+{% endif %}
+
+<input type="hidden" name="utf8" value="&#x2714;" />
+
+{% include "./user_form_wrapper.html" %}
+<!-- div class="input textarea comment"><label class="comment" for="id_comment">Your Personal Comment (OPTIONAL)</label><textarea id="id_comment" name="action_comment" class="comment" rows="3" cols="70"></textarea>
+</div -->
+<input type="hidden" name="page" value="{{ page.name }}" />
+<input type="submit" class="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"letter_submit_button" %}Add Your Name{% endfilter %}{% endif %}" />
+<input type="hidden" name="want_progress" value="1" />
+
+</div>
+{% spaceless %}
+<div id="form-secondary">
+{% include "./progress_meter.html" %}
+{% include "./social_plugins.html" %}
+{% endspaceless %}
+</form>
+{% endif %}
+
+
+<br class="clear" />
+
+{% endblock %}

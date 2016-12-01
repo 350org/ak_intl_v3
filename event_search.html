@@ -1,0 +1,362 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags smartif %}
+{% block content %}<link rel="stylesheet" href="https://s3.amazonaws.com/s3.350.org/images/event-styles-2013.css" type="text/css" />
+<div id="page-header">
+<h2 id="page-title">{{ page.title }}</h2>
+</div>
+<div id="content" class="event-search">
+
+
+<!-- no class=ak-form because we don't need to wait for context to show this -->
+
+<div id="event-map">
+      <div id="map_canvas"></div>
+</div>
+
+<div id="event-search-results">
+{% if args.page %}
+{% include "./event_search_results.html" %}
+{% endif %}
+</div>
+
+{{ form.search_page_text|safe }}
+</div>
+
+
+<form name="act" class="ak-form" method="GET" action="" accept-charset="utf-8" onsubmit="actionkit.forms.eventSearch(this); return false;">
+<div id="form" class="ak-labels-overlaid">
+{% if page.custom_fields.form_text_above_form %}
+{{ page.custom_fields.form_text_above_form }}
+{% else %}
+<h5>{% filter ak_text:"event_search_form_instructions" %}Find an event near you:{% endfilter %}</h5>
+{% endif %}
+<input type="hidden" name="page" value="{{ page.name }}">
+<input type="hidden" name="template" value="event_search.html">
+<input type="hidden" name="akid" value="{{ args.akid }}">
+<input type="hidden" name="distance" value="100">
+<input type="hidden" name="limit" value="10">
+
+<div class="input text zip">
+<label for="id_zip" class="search-zip">{% filter ak_text:"event_search_label_search" %}City/ZIP/Postal &amp; Country{% endfilter %}</label>
+<input id="id_zip" class="search-zip" type="text" name="zip" value={{args.zip}}>
+</div>
+<ul class="compact" id="ak-errors"></ul>
+<input type="submit" class="submit" value="{% filter ak_text:"event_search_label_submit" %}Find an Event{% endfilter %}">
+</div>
+
+
+<div id="form-sm" class="sm presign">
+{% if page.custom_fields.page_is_c4 %}{% else %}
+<a class="fb-share" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={% if page.custom_fields.fb_share_url %}{{ page.custom_fields.fb_share_url }}{% else %}{{ page.canonical_url }}{% endif %}?source=fb-AK">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>{% endif %}<a class="tw-share" target="_blank" href="http://twitter.com/home?status={{ page.custom_fields.tweet_content|escape}}">{% filter ak_text:"general_tweet" %}Tweet{% endfilter %}</a>
+{% if page.custom_fields.page_is_c4 %}{% else %}
+<div class="page-link">
+<span class="page-link-label" onClick="SelectAll('page-link-url')">{% filter ak_text:"general_share_link" %}Link:{% endfilter %}</span><input onClick="SelectAll('page-link-url')" id="page-link-url" type="text" class="page-link-url" value="{{ page.canonical_url }}"/>
+</div>
+{% endif %}
+
+</form>
+
+</div>
+{% endblock %}
+
+{% block tail_js %}
+<script type="text/javascript" src="//350dotorg.github.io/megamap/js/tabletop.js"></script>
+<script type="text/javascript">
+      RAH = {};
+      RAH.sprite_url = "//s3.amazonaws.com/static.local.350.org/images/map_markers/map-pin-single.png";
+      RAH.multiple_sprite_url = "//s3.amazonaws.com/static.local.350.org/images/map_markers/map-pin-multiple.png";
+      // Add locations for plotting on the map
+      RAH.event_locations = [];
+      RAH.map_center = {};
+</script>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAyc65HgY18lHPM_vjvZS-jgkqpZPwaCDc&sensor=false"></script>
+<script type="text/javascript" src="//s3.amazonaws.com/static.local.350.org/js/libs/markerclusterer.js"></script>
+<script type="text/javascript">
+
+$.urlParam = function(name){
+	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	if (!results) { return 0; }
+	return results[1] || 0;
+}
+var evMapSource = $.urlParam('source');
+
+var myOptions = {
+    zoom: {% if page.custom_fields.event_search_map_zoom %}{{ page.custom_fields.event_search_map_zoom }}{% else %}1{% endif %},
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    mapTypeControl: false,
+    streetViewControl: false,
+    zoomControlOptions: {style: google.maps.ZoomControlStyle.SMALL},
+    panControl: true,
+    scrollwheel: true,
+    center: new google.maps.LatLng({% if page.custom_fields.event_search_map_center %}{{ page.custom_fields.event_search_map_center }}{% else %}13.076647312917522, 28.828125{% endif %})
+};
+
+var gmap = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+var infowindow = new google.maps.InfoWindow({ content: "" });
+
+var geocoder = new google.maps.Geocoder();
+function loadMap(events) {
+    window.events = events;
+    var d_names = new Array("Sunday", "Monday", "Tuesday",
+"Wednesday", "Thursday", "Friday", "Saturday");
+    for( var i = 0; i < events.length; ++i ) {
+        var event = events[i];
+        var nowRaw = new Date();
+        var now = moment(nowRaw);
+		var dt;
+		if( event.starts_at ) {
+          dt = moment(event.starts_at, moment.ISO_8601);
+		} else {
+		  dt = moment(event.event_date + " " + event.start_time, "YYYY-MM-DD HH:mm:ss");	
+		}
+
+if ( moment(dt).isAfter(now) ) {
+// if event is hasn't already happened
+
+
+
+
+        var formattedTime = {% if campaign.name == "changes-everything-screening" %}moment(dt).format("dddd, MMMM D YYYY"){% else %}moment(dt).format("dddd, MMMM D YYYY, h:mma"){% endif %};
+	    var info;
+	    if( event.rsvp_url && event.rsvp_url.match(/^https:\/\/secure.avaaz.org\//) ) {
+          info = "<div class='map-event-info-metadata'><b><a target='_blank' href='" + event.rsvp_url + "'>" + event.name + "</a></b><br/>" + event.venue + "<br/><span class='start-time'>" + formattedTime + "</span></div>";			
+		} else {
+		  var rsvp_url = event.rsvp_url || "http://act.350.org/event/{{ campaign.local_name }}/" + event.event_id + "/";
+          info = "<div class='map-event-info-metadata'><b><a target='_blank' href='"+rsvp_url+"'>" + event.title + "</a></b><br/>" + event.venue + "<br/>{% if campaign.name != "commbank-under-new-management" and campaign.name != "CBA_Week_of_Action" %}<span class='start-time'>" + formattedTime + "</span>{% endif %}";
+			if (event.facebook_id) {
+				info += '<a style="float: right; display: block; text-transform: none; border: none" href="https://www.facebook.com/' + event.facebook_id + '"><img src="https://s3.amazonaws.com/s3.350.org/images/tiny-fb-event-button.png" width="20" style="border: 1px solid #40579A; margin-left: 5px; margin-top: -5px"></a></div>';
+			} else {
+			    info += "</div>";
+			}
+		}
+	
+        if( 0 && event.public_description ) {
+            info += "<p>" + event.public_description + "</p>";
+        }
+        RAH.event_locations.push({
+                lat: event.latitude,
+                lon: event.longitude,
+                info: info,
+				data: event
+            });
+    }
+}
+
+    var markers = window.map_markers = [];
+    var latlngs = {};
+    for (var i = RAH.event_locations.length - 1; i >= 0; i = i - 1) {
+        var latlng = [RAH.event_locations[i].lat, RAH.event_locations[i].lon];
+        if( latlngs[latlng] ) {
+            var marker = latlngs[latlng];
+            marker.info += "<hr/>" + RAH.event_locations[i].info;
+            marker.setIcon(RAH.multiple_sprite_url);
+	} else {
+            var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(RAH.event_locations[i].lat,
+                                                     RAH.event_locations[i].lon),
+                    map: gmap,
+                    icon: RAH.sprite_url,
+                    info: RAH.event_locations[i].info,
+					data: RAH.event_locations[i]
+		});
+	}
+
+        latlngs[latlng] = marker;
+        markers.push(marker);
+    }
+    for( var i = RAH.event_locations.length - 1; i >= 0; i = i - 1 ) {
+        var marker = markers[i];
+        google.maps.event.addListener(marker, 'click', function () {
+                infowindow.setContent(this.info);
+                infowindow.open(gmap, this);
+            });
+    }
+    delete latlngs;
+    var style = [{
+            url: RAH.multiple_sprite_url,
+            height: 53,
+            width: 53,
+            textColor: '#FFFFFF',
+            textSize: 12,
+        }];
+    var markerCluster = new MarkerClusterer(gmap, markers, {
+            gridSize: {{ page.custom_fields.event_search_map_cluster_grid_size|default:20 }},
+            styles: style
+        });
+}
+function codeAddress(address) {
+    geocoder.geocode( { 'address': address}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                gmap.setCenter(results[0].geometry.location);
+                gmap.fitBounds(results[0].geometry.viewport);
+            }
+        });
+}
+</script>
+<script type="text/javascript">
+window.mapEvents = [
+{% for event in campaign.event_set.all.select_related %}
+{% if not event.is_private %}{% if event.host_is_confirmed and event.status == "active" %}{% if event.is_approved or not campaign.require_staff_approval %}
+{
+"event_id": "{{ event.id }}", "created_at": "{{ event.created_at }}", "updated_at": "{{ event.updated_at }}", "address1": "{{ event.address1 }}", "address2": "{{ event.address2 }}", "city": "{{ event.city }}", "state": "{{ event.state }}", "region": "{{ event.region }}", "postal": "{{ event.postal }}", "zip": "{{ event.zip }}", "plus4": "{{ event.plus4 }}",
+"country": "{{ event.country }}", "longitude": {% if event.custom_fields.longitude350 %}{{ event.custom_fields.longitude350 }} {% else %}{{ event.longitude }}{% endif %}, "latitude": {% if event.custom_fields.latitude350 %}{{ event.custom_fields.latitude350 }} {% else %}{{ event.latitude }}{% endif %}, "campaign_id": "{{ event.campaign_id }}", "title": "{{ event.title }}", "creator_id": "{{ event.creator_id }}", "starts_at": "{{ event.starts_at|date:'c' }}", "ends_at": "{{ event.ends_at|date:'c' }}", "status": "{{ event.status }}", "host_is_confirmed": "{{ event.host_is_confirmed }}", "is_private": "{{ event.is_private }}", "is_approved": "{{ event.is_approved }}", 
+"attendee_count": "{{ event.attendee_count }}", "max_attendees": "{{ event.max_attendees }}", "venue": "{{ event.venue }}", 
+"public_description": "{{ event.public_description|linebreaksbr|escapejs }}",
+"directions": "{{ event.directions|linebreaksbr|escapejs }}",
+"note_to_attendees": "{{ event.note_to_attendees|linebreaksbr|escapejs }}",
+{% if event.custom_fields.event_facebook_id and event.custom_fields.event_facebook_id != "none" %}"facebook_id": "{{ event.custom_fields.event_facebook_id }}",{% endif %}
+"notes": "{{ event.notes|linebreaksbr|escapejs }}"
+},
+{% endif %}{% endif %}{% endif %}
+{% endfor %}
+0
+];
+window.mapEvents = window.mapEvents.slice(0, -1);
+
+function initData(geocoded_events, offsite_events) {
+  if( offsite_events.length ) {
+    window.mapEvents.push.apply(window.mapEvents, offsite_events);
+  }
+	
+  for( var i=0; i<window.mapEvents.length; ++i ) {
+    var event_id = window.mapEvents[i].event_id;
+    if( geocoded_events[event_id] ) {
+      window.mapEvents[i].latitude = geocoded_events[event_id].latitude;
+      window.mapEvents[i].longitude = geocoded_events[event_id].longitude;
+    }
+  }
+  loadMap(window.mapEvents);
+console.log('initData called.');
+};
+
+{% if campaign.name != "peoples_climate" and campaign.name != "changes-everything-screening" %}	
+initData({}, []);
+{% else %}
+//window.setTimeout(function() { console && console.log("fallback!"); initData({}, []); }, 3000);			  
+{% endif %}		
+
+var $sel = function(selector) { 
+    if ( actionkit.multiForms && actionkit.form ) 
+        return $(actionkit.form).find(selector);
+    return $(selector);
+};
+
+var featured_events = [], featured_events_ready = false, featured_events_highlighted = false;
+function getFeaturedEventsFromSpreadsheet(data) { 
+  for( var i=0; i<data.length; ++i ) {
+    if( parseInt(data[i].eventid) ) {
+      featured_events.push(parseInt(data[i].eventid));
+    }
+  }
+  featured_events_ready = true;
+  var el = $("#event_search_results_event_list");
+  if( el && el.length ) {
+    highlightFeaturedEvents(el);
+  }
+};
+Tabletop.init({
+    	key: "0Agcr__L1I1PDdHdwUkpZcmxlLW85bTlrWHBLT3ZEcUE",
+        simpleSheet: true,
+    	callback: getFeaturedEventsFromSpreadsheet,
+    	debug: false,
+        proxy: "//350dotorg.github.io/megamap-data"
+    });
+
+function highlightFeaturedEvents(el) {
+  if( featured_events_highlighted ) return;
+  var events = el.find("li[data-event_id]");
+  if( !events || !events.length ) {
+    html = el.html();
+    $sel('#event-search-results, .event-search-results').html(html);
+    return;
+  }
+  var parent = events.parent();
+  for( var i=events.length-1; i>=0; --i ) {
+    var event = events[i];
+    var arrayPosition = $.inArray($(event).data("event_id"), featured_events);
+    if( arrayPosition != -1 ) {
+      var insertBefore = parent.find("li:first");
+
+      $(event).css("background-color", "yellow").addClass("featuredEvent");
+      if( insertBefore.data("event_id") != $(event).data("event_id") ) { 
+        $(event).insertBefore(insertBefore);
+      }
+    }
+  }
+  featured_events_highlighted = true;
+}
+
+function fitMapToEvents(el) {
+  var events = el.find("li[data-event_id]");
+  if( !events || !events.length ) {
+    gmap.setZoom(myOptions.zoom);
+    gmap.setCenter(myOptions.center);
+    return;
+  }
+  var fitBounds = new google.maps.LatLngBounds();
+  for( var i=events.length-1; i>=0; --i ) {
+    var event = events[i];
+    var arrayPosition = $.inArray($(event).data("event_id"), $.map(mapEvents, function(el){ return parseInt(el.event_id); }));
+    if( arrayPosition != -1 ) {
+      var entry = mapEvents[arrayPosition];
+      fitBounds.extend(new google.maps.LatLng(entry.latitude, entry.longitude));
+    }
+  }
+  gmap.fitBounds(fitBounds);
+  if( gmap.getZoom() > 17 ) { gmap.setZoom(17); }
+}
+	
+mergeNearbyAvaazEvents = function(data) {
+    var unit = $("#event-search-results .event-distance, .event-search-results .event-distance").first().text().match(/km/) ? "km" : "mi";	
+	var avaaz_urls = [];
+	for( var i=0; i < window.map_markers.length; ++i ) {
+      if( typeof map_markers[i].data.data.rsvp_url	=== "string" ) {
+	    avaaz_urls.push(map_markers[i].data.data.rsvp_url);			  
+	  }			  
+	}				  
+    var avaaz = data.events;
+	for( var i = 0; i < avaaz.length; ++i ) {
+		var ev = avaaz[i];
+		if( avaaz_urls.indexOf(ev.rsvp_url) === -1 ) {
+		  continue;	
+	    }
+		var time = moment(ev.event_date + " " + ev.start_time, "YYYY-MM-DD HH:mm:ss");
+		time = time.format("dddd, MMMM D YYYY, h:mmA");
+		var tmpl = '<div class="event-info"><div class="event-title"><a class="event-link" href="' + ev.rsvp_url + '">' + ev.name + '</a></div>';
+		{% if campaign.name != "CBA_Week_of_Action" %}tmpl += '<span class="event-time">' + time + ' </span>';{% endif %}
+		tmpl += '<span class="event-venue">' + ev.venue + '</span><span class="event-location"><div class="event-address1">' + ev.address + '</div></span><span class="event-distance">' + Math.round(ev.distance) + ' ' + unit + '</span></div><span class="event-description"><p>' + '' + '</p></span>';
+		$("<li>").addClass("event").html(tmpl).appendTo('ul#event_search_results_event_list');
+	}
+	var parent = $("#event-search-results ul");
+	$("#event-search-results li").sort(function(a, b) { var aa = parseFloat($(a).find(".event-distance").text().split(" ")[0]); var bb = parseFloat($(b).find(".event-distance").text().split(" ")[0]); if ( aa > bb ) return 1; if( bb > aa ) return -1; return 0; }).detach().appendTo(parent);
+};
+	
+actionkit.forms.onEventSearchResults = function(html) {
+  try {
+    var el = $("<div>").html(html);
+    if( featured_events_ready ) {
+      highlightFeaturedEvents(el);
+    }
+    fitMapToEvents(el);
+    html = el.html();
+  } finally {
+    $sel('#event-search-results, .event-search-results').html(html);
+  }
+  {% if campaign.name == "peoples_climate" %}
+  var lat = gmap.getCenter().lat(), lng = gmap.getCenter().lng();
+  var unit = $("#event-search-results .event-distance, .event-search-results .event-distance").first().text().match(/km/) ? "km" : "mi";	
+  $("<script>").attr("type", "text/javascript").attr("src", "https://secure.avaaz.org/act/events.php?resource=event&action=getNearbyEvents&lat="+lat+"&lng="+lng+"&range=100&unit="+unit+"&calendar_id=2&jsonp=mergeNearbyAvaazEvents").appendTo("body");
+  {% endif %}
+};
+</script>
+{% if campaign.name == "peoples_climate" %}
+<script type="application/javascript" src="//350dotorg.github.io/megamap-data/avaaz-peoples-climate.js"></script>
+{% endif %}
+{% if campaign.name == "changes-everything-screening" %}
+<script type="application/javascript" src="//350dotorg.github.io/megamap-data/tce-events.js"></script>
+{% endif %}
+<style type="text/css">
+#map_canvas{ margin-bottom:15px; width:500px; height:270px;}
+#map_canvas img { max-width: none; }
+</style>
+
+{% endblock %}

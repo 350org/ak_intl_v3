@@ -1,0 +1,128 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+{% block content %}
+
+<link rel="stylesheet" href="https://s3.amazonaws.com/s3.350.org/images/event-styles-2013.css" type="text/css" />
+
+<div id="page-header">
+	<h2 id="page-title">{{ event.title }}</h2>
+</div>
+<div id="content">
+	<div class="event-signup">
+		<div id="event-search-results">
+		{% if campaign.show_address1 %}
+			<div id="map">
+				<a style="border-bottom:0 none !important;" href="http://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank" title="View in Google Maps"><img src="http://maps.google.com/maps/api/staticmap?sensor=false&size=500x200&markers={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" width="500" height="200" /></a><br/>
+				<a class="small" style="font-size:0.8em;" href="http://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">Get directions to this event</a>
+			</div>
+		{% endif %}
+		{# If you're embedding this page on your own site, remove everything from here... #}
+		{% with 1 as hide_map %}
+			{% include "./event_search_results.html" %}
+		{% endwith %}
+		{# ...to here #}
+		</div>
+		<script type="text/javascript">
+			var have_events = $('#id_have_events').val(); 
+			if ( !have_events ) {
+				var args = actionkit.utils.getArgs();
+				actionkit.forms.eventSearch(null, {event_id: args.event_id, zip: args.zip, page: $('#id_page').val()});
+			}
+		</script>
+
+		{% if form.ground_rules|is_nonblank and not update %}
+		<div id="id_ground_rules_text" class="nojs">
+			<h4>Rules:</h4>{% include_tmpl form.ground_rules %}
+		</div>
+		{% endif %}
+		{% if page.custom_fields.event_attend_addl_html %}
+		{% autoescape off %}
+		<div id="event_attend_addl_content">
+			{{ page.custom_fields.event_attend_addl_html }}
+		</div>
+		{% endautoescape %}
+		{% endif %}
+	</div>
+</div>
+
+<form id="id_act" class="ak-form" name="act" method="POST" action="{% if update %}/update_action/{% else %}/act/{% endif %}" accept-charset="utf-8">
+{% if args.foo or event.is_open_for_signup or update %}
+	<div id="form">
+	{% if not update %}
+		{% if page.custom_fields.form_text_above_form %}
+			<h5>{{ page.custom_fields.form_text_above_form }}</h5>
+		{% else %}
+			<h5>{% filter ak_text:"event_attend_form_instructions" %}RSVP:{% endfilter %}</h5>
+		{% endif %}
+	{% else %}
+		<h5>{% filter ak_text:"event_attend_update_info" %}Update your information:{% endfilter %}</h5>
+	{% endif %}
+		<input type="hidden" name="utf8" value="&#x2714;">
+		<input type="hidden" name="page" id="id_page" value="{{ page.name }}">
+		<input type="hidden" name="event_id" value="{{ args.event_id }}">
+		<div id="known_user">
+			<div id="known_user_welcome">
+				<span id="known-user-greeting">{% filter ak_text:"user_knownuser_greeting" %}Hi{% endfilter %} <span id="known_user_name"></span>!</span>
+				<p>{% filter ak_text:"user_knownuser_instructions" %}We already have your contact info, so you can just click the button below.{% endfilter %}</p>
+			</div> 
+			<div id="known_user_logout">
+				<span class="user-logout-link"><strong>{% filter ak_text:"user_knownuser_notyou" %}Not{% endfilter %} <span id="known_user_name"></span>?</strong><br/><a href="?" onclick="return actionkit.forms.logOut()">{% filter ak_text:"user_knownuser_logout" %}Click here to log out.{% endfilter %}</a></span>
+			</div>
+		</div>
+		
+		
+		{% if not update %}
+		<div id="unknown_user" class="ak-labels-overlaid">
+			{% include "./user_form.html" %}
+		</div>
+		{% else %}
+			{% include "./user_update_form.html" %}
+		<p>{% filter ak_text:"user_knownuser_different_email" %}Need to sign up with another e-mail address?{% endfilter %}  <a href="?" onclick="return actionkit.forms.logOut()">Click here.</a></p>
+		{% endif %}
+		
+		{% if form.ground_rules|is_nonblank and not update %}
+		<p class="ak-labels-above">
+			<input id="id_event_signup_ground_rules" type="checkbox" name="event_signup_ground_rules" />
+			<label class="cb-label highlighted" for="id_event_signup_ground_rules" style="color:#fff;">
+				{% filter ak_text:"event_attend_agree_to_rules" %}I agree to the rules for this event.{% endfilter %}
+			</label>
+		</p>
+		{% else %}
+		<input type="hidden" name="event_signup_ground_rules" value="1" />
+		
+		{% endif %}
+		<ul class="compact" id="ak-errors"></ul>
+		<input id="id_submit" class="submit" type="submit" name="submit" value='{% if update %}Update Your Info{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign up{% endfilter %}{% endif %}' />
+{% else %}
+		<div id="form">
+	{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
+		{% if event.is_inactive %}
+		<h3>{% filter ak_text:"event_attend_error_cancelled" %}Sorry, this event was cancelled.{% endfilter %}</h3>
+		{% endif %}
+		{% if event.is_full %}
+		<h3>{% filter ak_text:"event_attend_error_full" %}Sorry, this event is full.{% endfilter %}</h3>
+		{% endif %}
+		{% if event.is_in_past %}
+		<h3>{% filter ak_text:"event_attend_error_over" %}Sorry, it's too late to sign up for this event.{% endfilter %}</h3>
+		{% endif %}
+		{% if event.is_awaiting_confirmation %}
+		<h3>{% filter ak_text:"event_attend_error_unconfirmed" %}Sorry, the event host has not yet confirmed this event.{% endfilter %}</h3>
+		{% endif %}	
+	{% else %}
+		<h3>{% filter ak_text:"event_attend_error_unavailable" %}Sorry, this event isn't available for signup.{% endfilter %}</h3>
+	{% endif %}
+		<p><a class="button big" href="/event/{{ campaign.local_name }}/?akid={{args.akid}}&zip={{args.zip}}">{% filter ak_text:"event_attend_search_for_another" %}Search for another event{% endfilter %}</a></p>
+		
+{% endif %}
+		</div>
+		
+{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}{% else %}
+	<div class="sm presign">
+		<!-- a class="fb-share" href="http://www.facebook.com/sharer/sharer.php?u=http://{% client_domain %}{{ event.public_url }}?source=AK-FB" >{% filter ak_text:"social_share_on_fb" %}Share on Facebook{% endfilter %}</a -->
+		<a class="fb-share" target="_blank" href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+		<a class="tw-share" target="_blank" href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_tweet" %}Tweet{% endfilter %}</a>
+	</div>
+{% endif %}
+</form>
+<br class="clear" />
+
+{% endblock %}

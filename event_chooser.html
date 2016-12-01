@@ -1,0 +1,26 @@
+{% extends "./wrapper.html" %}
+{% block content %}
+{% ifequal signups.count 0 %}
+<h3>Oops -- you can&#39;t access that page.</h3>
+
+<p>It looks like you either aren&#39;t logged in, or you aren&#39;t&nbsp;signed up to host or attend any events.&nbsp;</p>
+
+<p><span style="line-height:1.6em">If you&#39;re a registered host for a Disruption movie event, </span><a href="https://act.350.org/login/?next=%2Fevent%2Fdisruption_create%2Ftools%2F" style="line-height: 1.6em;">click here to login to your host tools.</a></p>
+
+<p><span style="line-height:1.6em">If you&#39;re a registered host for People's Climate Mobilisation event, </span><a href="https://act.350.org/login/?next=%2Fevent%2Fpeoples_climate_create%2Ftools%2F" style="line-height: 1.6em;">click here to login to your host tools.</a></p>
+
+{% else %}
+<h2>Please choose an event below.</h2>
+
+<ul>
+{% for signup in signups %}
+<li>
+<a href="{{ signup.url }}">{{ signup.event.title }} &mdash; {{ signup.event.get_starts_at_display }}</a>
+{% ifequal signup.role 'host' %}
+&nbsp;(you are hosting)
+{% endifequal %}
+</li>
+{% endfor %}
+</ul>
+{% endifequal %}
+{% endblock %}

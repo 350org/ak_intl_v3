@@ -1,0 +1,42 @@
+{% load actionkit_tags smartif %}
+
+<a name="contact{% if to %}-{{to}}{% endif %}"></a>
+<fieldset class="ak-nodisplay-if-js contact-form contact{% if to %}-{{to}}{% endif %}">
+{% ifnotequal need_form 'no' %}
+<form name="contact{% if to %}-{{to}}{% endif %}" method="post" action="/event/{{ campaign.local_name }}/{{ event.id }}/contact/" accept-charset="utf-8">
+<input type="hidden" name="page" value="{{ page.name }}">
+<input type="hidden" name="akid" value="{{ args.akid }}">
+<input type="hidden" name="form_name" value="contact{% if to %}-{{to}}{% endif %}">
+
+{% endifnotequal %}
+
+<hr>
+<div id="ak-confirmation" class="notification success">
+	{% filter ak_text:"event_contact_sent_confirm" %}Message Sent!{% endfilter %}
+</div>
+<div class="event-contact-headers">
+{% if user.name %}
+	<label><strong>{% filter ak_text:"general_message_from" %}From:{% endfilter %}</strong></label>
+	<span class="header-from header-val">{{ user.name }}</span><br/>
+{% endif %}
+	<label><strong>{% filter ak_text:"general_message_to" %}To:{% endfilter %}</strong></label>
+	<span class="header-to header-val">
+{% ifequal signup.role 'attendee' %}
+	{% filter ak_text:"event_contact_label_host" %}Your event host{% endfilter %}
+{% else %}
+{% ifequal to 'attendees' %}{% filter ak_text:"event_contact_attendees" %}Attendees{% endfilter %}{% else %}{% filter ak_text:"event_contact_cohosts" %}Co-hosts{% endfilter %}{% endifequal %} (<span class="if-js to-count">{{signups|length}}</span>)
+<span class="check-recipients-help">{% filter ak_text:"event_contact_to_help" %}(you can check off specific recipients above){% endfilter %}</span>
+{% endifequal %}
+</span>
+</div>
+<div class="event-contact-body" style="margin-top:10px;position:relative;">
+	<label for="msg-body"><strong>{% filter ak_text:"event_contact_label_message" %}Your message:{% endfilter %}</strong></label>
+	<textarea id="msg-body" name="body"></textarea>
+	<input name="send_email" value="{% filter ak_text:"general_send" %}Send{% endfilter %}" type="submit" class="button" /> <input type="submit" name="cancel" value="{% filter ak_text:"general_cancel" %}Cancel{% endfilter %}" class="button" onclick="window.location.reload(); return false;" />
+</div>
+
+{% ifnotequal need_form 'no' %}
+<input type="hidden" name="required" value="body">
+</form>
+{% endifnotequal %}
+</fieldset>

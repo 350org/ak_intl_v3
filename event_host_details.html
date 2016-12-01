@@ -1,0 +1,47 @@
+{% load actionkit_tags %}{% filter collapse_spaces %}
+<style type="text/css">
+.event-over-notice { color: red; }
+</style>
+<h5 class="event-time">{% if campaign.use_title %}{{ event.title }}{% else %}{{ campaign.local_title }}{% endif %}</h5>
+{% if event.get_starts_at_display %}
+<div class="">
+	{{ event.get_starts_at_display }}
+	{% if event.is_in_past %}
+	<span class="event-over-notice">{% filter ak_text:"event_details_has_ended" %}This event has ended.{% endfilter %}</span>
+	{% endif %}
+</div>
+{% endif %}
+<div class="event-location">
+	{% if event.venue %}{{ event.venue }}{% endif %} <br/>
+	{{ event.address1 }}, {{ event.city_etc }}
+</div>
+{% if event.campaign.allow_private %}
+<div class="event-privacy">
+	{% filter ak_text:"event_details_is_private" %}Your event is{% endfilter %} {% if event.is_private %}{% filter ak_text:"event_details_is_private_y" %}private{% endfilter %}{% else %}{% filter ak_text:"event_details_is_private_n" %}public{% endfilter %}{% endif %}.
+</div>
+{% endif %}
+{% if event.public_description %}
+	{% autoescape off %}
+<div class="event-description">
+	<strong>{% filter ak_text:"event_create_field_label_description" %}Event Description{% endfilter %}</strong><br/>{{ event.public_description }}
+</div>
+	{% endautoescape %}
+{% endif %}
+{% if event.directions %} 
+<div class="event-directions">
+	<strong>{% filter ak_text:"event_details_directions" %}Directions{% endfilter %}</strong> <br/>
+	{{ event.directions }}
+</div>
+{% endif %}
+{% if event.note_to_attendees %}
+<div class="event-note-to-attendees">
+	<strong>{% filter ak_text:"event_details_note_to_attendees" %}Note to attendees:{% endfilter %}</strong><br/>
+	{{ event.note_to_attendees }}
+</div>
+{% endif %}
+<div class="event-signup-link">
+	<strong>{% filter ak_text:"event_details_signup_link" %}Event signup link:{% endfilter %} </strong>
+	<p><a href="http://{% client_domain %}{{ event.public_url }}">http://{% client_domain %}{{ event.public_url }}</a></p>
+</div>
+
+{% endfilter %}

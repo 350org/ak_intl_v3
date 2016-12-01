@@ -1,0 +1,54 @@
+{% load actionkit_tags %}
+{% autoescape off %}
+
+{% if page.pagefollowup.send_taf %}
+<a name="invite-friends"></a>
+<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">
+<input type="hidden" name="utf8" value="&#x2714;">
+<input type="hidden" name="page" value="{{ page.name }}">
+<input type="hidden" name="action_id" value="{{ action.id }}">
+<input type="hidden" name="taf_only" value="1">
+
+<fieldset id="taf" class="bar">
+<h6>{% filter ak_text:"event_invite_title" %}Invite People via Email{% endfilter %}</h6>
+
+<!-- COMMENTED OUT B/C IT SHOWS UP ON PAGES EVEN BEFORE USER HAS SENT ANY TAFs
+<div id="taf-confirmation" class="ak-confirmation">
+Sent! If you like, you can send more messages below.
+</div>
+-->
+<ul id="ak-errors">
+</ul>
+
+
+<div class="taf">
+<div class="input textarea">
+<label class="wide" for="id_taf_emails">{% filter ak_text:"event_invite_label_email" %}Enter e-mail addresses:{% endfilter %}</label>
+<textarea id="id_taf_emails" name="taf_emails" style="height: 50px; width: 100%;"></textarea>
+</div>
+
+<input type="submit" class="submit" value="Send invitations" />
+<div>
+<a class="if-js" href="#" onclick="$('#taf_preview').show();p=this.parentNode;t='View/edit message below';if(p.innerText)p.innerText=t;else p.textContent=t; return false;">{% filter ak_text:"event_invite_view_message" %}View message/add note{% endfilter %}</a>
+</div>
+</div>
+
+
+</div>
+
+<div>
+
+<div style="margin-top: 10pt;"  class="nodisplay-if-js gridded" id="taf_preview">
+<div class="input text">
+<label for="id_taf_body">{% filter ak_text:"event_invite_label_message" %}Your message:{% endfilter %}</label><br/> 
+<label id="lbl_taf_subject" for="id_taf_subject">{% filter ak_text:"event_invite_label_subject" %}Subject:{% endfilter %}</label>
+<span class="taf_subject">{% include_tmpl page.followup.taf_subject escaped %}</span>
+<div class="taf_body">{% filter referring_akid:akid|tag_links:"source=taf"|strip|linebreaksbr %}{% include_tmpl page.followup.taf_body escaped %}{% endfilter %}</div><br /><div>{% filter ak_text:"event_invite_label_note" %}Add a short note (optional):{% endfilter %}</div>
+<textarea id="id_taf_note" name="taf_note" class="wide" style="height: 75px;"></textarea></div>
+
+</div>
+<input type="hidden" name="required" value="taf_emails">
+</fieldset>
+</form>
+{% endif %}
+{% endautoescape %}

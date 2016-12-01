@@ -1,0 +1,16 @@
+Subject: A message from an attendee!
+
+{% load actionkit_tags %}
+<p>Here's a message from someone who signed up to your event:</p>
+
+<blockquote>
+{{ message|linebreaksbr }}
+</blockquote>
+
+<p>To respond, you can reply to this email directly. To use your event tools, visit https://{% client_domain %}{{ signup.url }}</p>
+
+<!-- Replacement for unsubscribe. -->
+<p><small>
+    You're receiving this message because you're signed up for an event.  
+    You can use the link above to cancel your signup and quit receiving these messages.
+</small></p>

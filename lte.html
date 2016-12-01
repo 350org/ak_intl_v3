@@ -1,0 +1,254 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+{% block content %}
+
+<div id="page-header">
+<h2 id="page-title" class="">{{ page.title }}</h2>
+</div>
+
+<!-- {% include "includes/jquery_ui.html" %} -->
+<script type="text/javascript">
+function toggleChooser(on) {
+    var name,
+        to_letter = $("#letter_form"),
+        media_target = $("#media_target");
+    if (on) {
+        media_target.show();
+        to_letter.hide();
+        $("input[name=media_target]:checked").attr('checked', false);
+    } else {
+        media_target.hide();
+        to_letter.show();
+        name = $("input[name=media_target]:checked + label").html();
+        $("#to_target_name").html("Editor, " + name);
+    }
+}
+
+$("input[name=media_target]").change(function() { toggleChooser(false) } );
+
+// adapted from http://blog.themeforest.net/tutorials/creating-a-jquery-word-counter/
+function countWords(textarea) {
+
+    var elClass = $(textarea).attr('class');
+    var minWords = 0;
+    var maxWords = 0;
+    var countControl = elClass.substring((elClass.indexOf('count['))+6, elClass.lastIndexOf(']')).split(',');
+    var countArea = $(textarea).siblings(".wordCount");
+    
+    if(countControl.length > 1) {
+        minWords = countControl[0];
+        maxWords = countControl[1];
+    } else {
+        maxWords = countControl[0];
+    }   
+    
+    if(minWords > 0) {
+        countArea.addClass('error');
+    }   
+    
+    $(textarea).bind('keyup click blur focus change paste', function() {
+        var numWords = jQuery.trim($(this).val()).split(/\s+/).length;
+        if($(textarea).val() === '') {
+            numWords = 0;
+        }   
+        countArea.children('strong').text(numWords);
+        
+        if(numWords < minWords || (numWords > maxWords && maxWords != 0)) {
+            countArea.addClass('count_error');
+        } else {
+            countArea.removeClass('count_error');    
+        }
+    });
+}
+function commify(n) {
+    return n.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
+}
+function abbreviate(word, maxLength) {
+    return word.length <= maxLength ? 
+        word : word.substring(0, maxLength - 3) + "...";
+}
+</script>
+
+{% if page.custom_fields.page_is_inactive %}
+<div id="page-inactive">
+{% autoescape off %}
+{{ page.custom_fields.page_is_inactive }}
+{% endautoescape %}
+</div>
+{% else %}
+<form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+<div id="form">
+
+{% if page.custom_fields.form_text_above_form %}
+<div class="above-form">{{ page.custom_fields.form_text_above_form }}</div>
+{% endif %}
+
+<input type="hidden" name="utf8" value="&#x2714;">
+<div id="known_user">
+<div id="user-name">Hi, <span id="known_user_name"></span>!</div>
+<div id="logout_link"><a href="?" onclick="return actionkit.forms.logOut()">Not you? Click here to log out</a>
+</div>
+</div>
+
+
+<div id="user_info_prompt"></div>
+<script type="text/ak-template" for="user_info_prompt">
+[% if (incomplete) { %]
+<h6>Write a letter to the editor:</h6>
+<p class="instructions"><strong>Step 1.</strong> Enter your info and we'll find newspapers to contact. Newspapers only publish letters with an address and phone number.</p>
+[% } %]
+</script>
+
+<ul id="ak-errors"></ul>
+
+<div id="unknown_user" class="ak-labels-overlaid">
+    {% include "./user_form.html" %}
+
+<input type="submit" value="Next" class="submit">
+</div>
+
+<div id="media_target"></div>
+<script type="text/ak-template" for="media_target">
+[% if (!incomplete) { %]
+<p class="instructions"><strong>Step 2.</strong> Pick a newspaper.</p>
+<table id="target-table">
+[%  
+    var headers = {
+        "local": "Local Newspapers",
+        "regional": "Regional Newspapers",
+        "national": "National Newspapers"
+    };
+
+    var mediaTargets = actionkit.context.mediaTargets || {};
+    var mediaTargetTypes = ['national', 'regional', 'local'];
+    for (var j = 0; j < mediaTargetTypes.length; j++) {
+        var mediaTargetType = mediaTargetTypes[j];
+        var targetsOfType = mediaTargets[mediaTargetType];
+        if (targetsOfType) {
+%]
+<tr class="level_header">
+<td class="paper-name"><strong>[%=headers[mediaTargetType]%]</strong></td>
+<td class="sent">Letters Sent:</td>
+</tr>
+[%        
+            var shade = true;
+            for (var i = 0; i < targetsOfType.length; i++) {
+                var mediaTarget = targetsOfType[i],
+                    targetId = "media_target_" + mediaTarget.id,
+                    name = abbreviate(mediaTarget.name, 30),
+                    label = name;
+                if (mediaTarget.website_url) {
+label = "<span class=\"target-name\">" + name + "</span>";
+                    
+                }
+                shade = !shade;
+%]
+<tr class="[%= shade ? "shaded" : "" %]">
+<td class="paper-name" title="Circulation: [%=commify(mediaTarget.circulation)  %] - [% if (actionkit.context.show_phones && mediaTarget.phone) { %]
+Phone Number: [%=mediaTarget.phone%][% } %]">
+    <input class='media_target' id='[%=targetId%]' value='[%=mediaTarget.id%]'
+        type='radio' name='media_target' onclick='javascript:toggleChooser(false)'/>
+    <label class="tooltip" for='[%=targetId%]'>[%=label%]</label>
+</td>
+<td class="number sent">[%=mediaTarget.sent%]</td>
+</tr>
+[%
+            }
+        }
+    }
+} %]
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#letter_form").hide();
+});
+</script>
+
+<div id="letter_form"></div>
+<script type="text/ak-template" for="letter_form">
+[% if (!incomplete) { %]
+<p class="instructions"><strong>Step 3.</strong> Write and send your letter</p>
+<div id="to_target_row">
+To: <a href="#" id="change-target" title="Click to choose a different newspaper" onclick="javascript:toggleChooser(true)"><span id="to_target_name"></span></a>
+</div>
+<div class="input">
+<label for="letter_subject">Subject</label>
+<input id="letter_subject" type="text" name="subject" size="40"/>
+</div>
+
+<div class="input textarea">
+<label for="letter_text">Message</label>
+<textarea id="letter_text" name="letter_text" class="count[250]"></textarea>
+<p class="wordCount disclaimer"><strong>0</strong> Words.  Most newspapers only consider letters of 250 to 350 words. Your name, address and phone number will be included with your letter.</p>
+</div>
+
+<input type="submit" class="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}Send Your Letter{% endif %}" />
+[% } %]
+</script>
+
+
+
+
+
+
+<div id="na"></div>
+<script type="text/ak-template" for="na">
+[% /* Done inside an ak-template to ensure this executes after other ak-templates. */
+if (!incomplete) {
+    countWords($("#letter_text")[0]);
+setupTabs();
+setupLabels();
+} %]
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+});
+</script>
+
+
+<input type="hidden" name="page" value="{{ page.name }}">
+</div>
+<div id="form-secondary">
+{% include "./progress_meter.html" %}
+{% include "./social_plugins.html" %}
+</form>
+{% endif %}
+<div id="content">
+
+<div class="intro">{% include_tmpl form.introduction_text %}</div>
+
+<div id="help_tabs">
+<div id="tabs">
+<div id="tab-nav">
+<a class="tab" title="talking_points">Talking Points</a>
+<a class="tab" title="writing_tips">Writing Tips</a>
+{% for letter in form.cannedletter_set.all %}	
+<a class="tab" title="letter_{{letter.id}}">Sample Letter</a>
+{% endfor %}
+</div>
+    <div id="talking_points" class="lte-help tab-content active">
+    {% include_tmpl form.talking_points %}
+    </div>
+    
+    <div id="writing_tips" class="lte-help tab-content">
+    {% include_tmpl form.writing_tips %}
+    </div>
+
+
+
+
+{% for letter in form.cannedletter_set.all %}		
+    <div id="letter_{{letter.id}}" class="lte-help tab-content">
+<p><strong>{{letter.subject}}</strong></p>
+<p>{{letter.letter_text|linebreaks}}</p>
+    </div>
+{% endfor %}
+</div>
+</div>
+</div>
+
+
+
+{% endblock %}

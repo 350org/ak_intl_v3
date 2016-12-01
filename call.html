@@ -1,0 +1,111 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+{% block content %}
+
+<section id="action-lead" class="section action-lead width-narrow padding-large bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section-inner">
+		<div id="action-header" class="">
+			<h1 id="action-title" class="title3">{{ page.title }}</h1>
+			<div class="" data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}">{% include_tmpl form.introduction_text %}</div>
+		</div>
+		{% include "./social_plugins.html" %}	
+	</div>
+</section>
+	
+{% if page.custom_fields.page_is_inactive %}
+<div id="page-inactive">
+{% autoescape off %}
+{{ page.custom_fields.page_is_inactive }}
+{% endautoescape %}
+</div>
+{% else %}
+
+<form class="ak-form" name="act" method="post" action="/act/" accept-charset="utf-8">
+<input type="hidden" name="utf8" value="&#x2714;" />
+<input type="hidden" name="page" value="{{ page.name }}">
+<section id="call-info" class="section bg-blue width-wide text-center padding-medium notch">
+	<div class="section-inner">
+		<div id="ak-need-contact-info"></div>
+		<script type="text/ak-template" for="ak-need-contact-info">
+			[% if (incomplete) { %]
+				<div class="c6 ct10 cm10 left2 bg-dkgray-trans box box-big">
+					<p class="strong text-large icon-before icon-faded" data-icon="&#xE908;">{% filter ak_text:"call_needs_contact_info" %}Enter your information below and we'll look up the phone number for you to call.{% endfilter %}</p>
+				</div>
+			[% } %]
+		</script>
+		<div id="who_called"></div>
+		<script type="text/ak-template" for="who_called">
+			[% if (!incomplete) { %]
+				{% for target in context.targets.targets %} 
+				<div class="call-target margin-bottom-medium">
+					<p class="text-large3 strong"><span class="target-label-before">{% filter ak_text:"call_target_label_before" %}Call {% endfilter %}</span><span class="target-label-name">{{ target.title_full }}</span><span class="target-label-after">{% filter ak_text:"call_target_label_after" %}:{% endfilter %}</span></p>
+					<div class="text-large"><p class="title0 text-font-display icon-before icon-faded icon-small margin-bottom-none" data-icon="&#xE908;"><span class="bg-dkgray-trans highlight">{{ target.phone }}</span></p></div>
+				</div>
+				{% endfor %}
+				<p><span class="text-small">{% filter ak_text:"call_rationale" %}Phone calls are one of the easiest and most effective ways to put pressure on public officials.{% endfilter %}</span>&nbsp;&nbsp;<em><a href="#" class="inline-dot bg-ltgray">i</a></em></p>
+
+			[% } %]
+		</script>
+	</div>
+</section>
+
+<section id="call-info-2" class="section width-wide bg-ltgray padding-medium">
+	<div class="section-inner">
+		<div class="c4 ct10 cm10 c-wide right margin-bottom-large">
+			<div id="call-form-leadin" class="margin-bottom-normal"></div>
+			<script type="text/ak-template" for="call-form-leadin">
+			[% if (!incomplete) { %]
+				<h3 class="text-blue">{% filter ak_text:"call_report_heading" %}Report on your call:{% endfilter %}</h3>
+				<p class="margin-bottom-medium">{% filter ak_text:"call_report_instructions" %}Let us know how your call went! Your report helps 350 know how effective the calls are.{% endfilter %}</p>
+				<p class="text-small text-blue strong">{% filter ak_text:"call_report_checkbox_instructions" %}Check the box next to each public official you successfully left a message for:{% endfilter %}</p>
+			[% } else { %]
+				<h3 class="text-blue">{% filter ak_text:"call_lookup_heading" %}Look up the phone number:{% endfilter %}{{ context.targets.s }}</h3>
+				<p class="text-small strong">{% filter ak_text:"call_lookup_instructions" %}Enter your information here to find the correct phone number to call:{% endfilter %}</p>
+			[% } %]
+			</script>
+			<div id="target_checkboxes" class="margin-bottom-medium strong"></div>
+			<div id="ak-survey_question" class="form-style-labelabove margin-bottom-normal"></div>
+            {% if form.survey_question_text %}
+            <script type="text/ak-template" for="ak-survey_question">
+                [% if (!incomplete) { %]
+                    <div class="input-textarea">
+                        {% autoescape off %}
+                        <label for="id_action_survey" class="text-small strong">{% include_tmpl form.survey_question_text %}</label>
+                        {% endautoescape %}
+                        <textarea id="id_action_survey" name="action_survey" class=""></textarea>
+                        </div>
+                      
+                [% } %]
+            </script>
+            {% endif %}
+			{% include "./user_form_wrapper.html" %}
+			{% if page.custom_fields.form_additional_fields %}
+				<div class="form-additional-html">
+					{{ page.custom_fields.form_additional_fields }}
+				</div>	
+			{% endif %}
+			<div id="call-submit" class="input-submit"></div>
+			<script type="text/ak-template" for="call-submit">
+			[% if (!incomplete) { %]
+				 <input type="submit" class="submit button" value="{% filter ak_text:"call-report-button-text" %}Send your Report{% endfilter %}">
+			[% } else { %]
+				<input type="submit" class="submit button" value="{% filter ak_text:"call-lookup-button-text" %}Find Phone Number{% endfilter %}">
+			[% } %]
+			</script>
+		</div>
+		<div class="c6 ct cm10 c-wide">
+			<div class="action-call-script">
+				<h3 class="text-blue">{% filter ak_text:"call-script-heading" %}What to say:{% endfilter %}</h3>
+				<blockquote class="text-large">{% include_tmpl form.script_text %}</blockquote>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+</form>
+{% endif %}
+{% endblock %}
+{% block script_additions %}
+
+{% endblock %}
+		

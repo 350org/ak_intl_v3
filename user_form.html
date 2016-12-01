@@ -1,0 +1,98 @@
+{% load actionkit_tags smartif switchcase %}{% filter remove_blank_lines %}
+
+{% comment %}
+
+  To change which fields show, edit {% hide_by_default %} below and set
+  individual pages' required fields in the page admin, or activate the 
+  User Fields customization option in the page admin to override which
+  fields are visible and the order they're shown in.
+  
+  Unhide or require the 'country' field to make the form international. To
+  geolocate more users outside the United States, unhide/require 'city'.
+  
+  You can change label text in the language admin, change {% field_order %}
+  below, edit the CSS, or replace this form entirely with static HTML. See
+  the advanced template ref for more:
+  
+  https://roboticdogs.actionkit.com/docs/manual/guide/advanced_templates.html
+
+  name email prefix first_name middle_name last_name suffix country address1 address2 city state zip region postal phone
+  
+  Enjoy!
+
+{% endcomment %}
+
+{% field_order name email prefix first_name middle_name last_name suffix address1 address2 city state postal zip region  country phone %}
+{% hide_by_default prefix first_name middle_name last_name suffix phone address1 address2 city state region zip %}
+
+{% for field in user_fields %}
+	{% switch field.field_name %}
+	{% case 'country' %}
+	<div id="id_{{ field.field_name }}_box" class="input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+		<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
+		{% include "./country_select.html" %}
+	</div>
+	{% case 'state' %} 
+	<div id="id_{{ field.field_name }}_box" class="input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+		<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
+		{% include "./state_select.html" %}
+	</div>
+    {% else %}
+	<div id="id_{{ field.field_name }}_box" class="input-{{field.input}} ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+		<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
+		{{ field.input_html }}
+	</div>
+    {% endswitch %}
+{% endfor %}
+
+<div class="honey" style="display: none">
+  <input name="action_honey">
+</div>	
+
+{% if 'country'|is_in:fields %}
+  <input type="hidden" name="auto_country" value="1">
+  <style type="text/css">
+    /* Ensure that, if there's no JavaScript, the global-friendly fields show
+     * rather than the US-only ones */
+    #id_zip_box, #id_state_box { display: none; }
+  </style>
+{% else %}
+  <input type="hidden" name="country" value="United States">
+{% endif %}
+{% endfilter %}
+
+{% if page.custom_fields.form_include_phone %}
+<div class="input phone">    
+<label for="id_phone">{% filter ak_text:"field_phone"|capfirst %}Phone{% endfilter %}</label><input class="phone" id="id_phone" type="text" name="phone"/>
+</div>
+{% endif %}
+
+{% if page.custom_fields.form_include_college %}
+	{% include "./us-colleges.html" %}
+{% endif %}
+
+{% if page.custom_fields.form_include_partner %}
+<div id="partner-share" class="input checkbox input-checkbox">
+<input type="checkbox" name="action_share_with_partners" value="{{ page.custom_fields.form_include_partner }}" id="include-partner" {% if page.custom_fields.form_include_partner_checked %}checked="checked"{% endif %} />&nbsp;
+<label for="include-partner">
+{% if page.custom_fields.form_include_partner_intro_text %}{{ page.custom_fields.form_include_partner_intro_text }} {% else %}
+{% filter ak_text:"general_partner_get_updates" %}Get updates from{% endfilter %} {{ page.custom_fields.form_include_partner }}
+{% endif %}
+</label>
+</div>
+{% endif %}
+<script type="text/javascript">
+$(document).ready(function(){
+$("#partner-share").addClass("appended").insertBefore("#form input.submit");
+});
+</script>
+{% if page.custom_fields.form_opt_in %}
+<input type="hidden" name="opt_in" value="1">
+<div class="input-checkbox ak-userfield-checkbox-choice">
+	<label for="lists-checkbox">
+		<input id="lists-checkbox" class="checkbox" type="checkbox" name="lists" value="{{ page.list.id }}" checked> {% filter ak_text:"general_opt_in_label" %}Stay up to date with 350.org and the climate movement.{% endfilter %}
+	</label>
+</div>
+{% else %}
+<input name="lists" value="{{ page.list.id }}" type="hidden"/> 
+{% endif %}

@@ -263,7 +263,7 @@
                             <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
                         </div>
                         <div class="input input-textarea" title="An optional note to the honoree.">
-                            <label for="action_in_honor_of_note" title="An optional note to the honoree.">{% filter ak_text:"donate_inhonorof_note_label" %}Note to Honoree</label>
+                            <label for="action_in_honor_of_note" title="An optional note to the honoree.">{% filter ak_text:"donate_inhonorof_note_label" %}Note to Honoree{% endfilter %}</label>
                             <textarea id="action_in_honor_of_note" name="action_in_honor_of_note" title="An optional note to the honoree." ></textarea>
                         </div>
                         <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll send a notification of your donation to this email address.{% endfilter %}</p>

@@ -4,6 +4,7 @@
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 		<form id="act" name="act" class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} " method="POST" action="/act/" accept-charset="utf-8">
+            <a id="jump-to-form" href="#donate" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a> 
     		<input type="hidden" name="page" value="{{ page.name }}">
     		<input type="hidden" name="orig_akid" value="{{ akid }}">
 			<div id="action-header" class="c5 ct10 cm10 c-wide">
@@ -30,11 +31,11 @@
 					<div {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
 					{% include_tmpl form.ask_text %}
 					</div>
-				</div>
-
+				</div> 
 				
 			</div>
-        <div class="c5 ct10 cm10 c-wide margin-top-none">
+        {% comment %}The ID "donate" here breaks from normal naming convention so that there cleaner appearance when using it for anchor linking directly to the form.{% endcomment %}
+        <div id="donate" class="action-form c5 ct10 cm10 c-wide margin-top-none">
             <div class="ak-field-box ak-donate-three-step">
 				{% autoescape off %}
 				{% if page.custom_fields.form_text_above_form %}

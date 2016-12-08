@@ -48,15 +48,15 @@
             <!--Add .ak-donate-three-step for three-step-->
             <div class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box bg-white-trans">
                 <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span> <span>Amount</span>
+                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>&nbsp;<span>Amount</span>
                     <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1" checked="checked">
                 </label>
                 <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span> <span>Info</span>
+                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>&nbsp;<span>Info</span>
                     <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
                 </label>
                 <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span> <span>Payment</span>
+                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>&nbsp;<span>Payment</span>
                     <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
                 </label>
             </div>
@@ -158,7 +158,7 @@
                 {% endif %}
                 <div id="ak-amount-list" class="ak-err-above ak-donate-area-step-1">
 
-                 {% if show_currency_select %}
+                {% if show_currency_select %}
 
                     {% for currency in currency_options %}
                     <span class="ak-currency input-radio input-radio-inline">
@@ -179,7 +179,7 @@
 							{% endfor %}
 						</div>
                     </div>
-					<hr>
+					
 
                 {% endif %}
 
@@ -228,30 +228,59 @@
 
                 {% if not has_products %}
                     {% if allow_monthly %}
-						{% if page.custom_fields.donation_once_recurring_or_both|lower == "recurring" %}
-				<div id="ak-recurring-type"></div>
-				<input type="hidden" name="donation_type" value="recurring">
-						{% elif page.custom_fields.donation_once_recurring_or_both|lower == "once" %}
-				<div id="ak-recurring-type"></div>
-				<input type="hidden" name="donation_type" value="single">
-						{% else %}
-				<div id="ak-recurring-type" class="ak-donate-area-step-1 text-center margin-bottom-normal input-radio">
-					<span>
-						<input type="radio" name="donation_type" id="id_donation_type_single" value="single" checked>
-						<label for="id_donation_type_single"> One-Time</label>
-					</span>
-					&nbsp;
-					<span>
-						<input type="radio" name="donation_type" id="id_donation_type_recurring" value="recurring">
-						<label for="id_donation_type_recurring"> Monthly</label>
-					</span>
-				</div>
-						{% endif %}
+                        {% if page.custom_fields.donation_once_recurring_or_both|lower == "recurring" %}
+                <div id="ak-recurring-type"></div>
+                <input type="hidden" name="donation_type" value="recurring">
+                        {% elif page.custom_fields.donation_once_recurring_or_both|lower == "once" %}
+                <div id="ak-recurring-type"></div>
+                <input type="hidden" name="donation_type" value="single">
+                        {% else %}
+                <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
+                    <div class="input-checkbox text-large text-strong margin-bottom-none">
+                        <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="recurring"> <label for="id_donation_type_recurring" class="text-strong">{% filter ak_text:"donate_make_recurring" %}Make this a monthly donation.{% endfilter %}</label>
+                    </div>
+                </div>
+                        {% endif %}
                     {% else %}
-                        <div id="ak-recurring-type"></div>
-                        <input type="hidden" name="donation_type" value="single">
+                <div id="ak-recurring-type"></div>
+                <input type="hidden" name="donation_type" value="single">
                     {% endif %}
                 {% endif %}
+
+                {% if page.custom_fields.donation_show_inhonorof|lower == "show" %}
+                <fieldset id="in-honor-of" class="ak-donate-area-step-1 form-style-labelabove">
+                    <div class="input checkbox input-checkbox margin-top-none text-large text-strong">
+                        <input type="checkbox" value="1" name="inhonorcheck" id="in-honor-check" />
+                        <label for="in-honor-check">{% filter ak_text:"donate_inhonorof_option_label" %}Donate in someone's honor.{% endfilter %}</label>
+                    </div>
+                    <div id="in-honor-of-fields" class="margin-bottom-normal">
+                        <div class="input text input-text ak-">
+                            <label for="action_in_honor_of_name">{% filter ak_text:"donate_inhonorof_name_label" %}Honoree's Name{% endfilter %}</label>
+                            <input type="text" id="action_in_honor_of_name" name="action_in_honor_of_name" />
+                        </div>
+                        <div class="input input-text" title="The email address to send a notification of the donation to.">
+                            <label for="action_in_honor_of_email">{% filter ak_text:"donate_inhonorof_email_label" %}Honoree's Email Address{% endfilter %}</label>
+                            <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
+                        </div>
+                        <div class="input input-textarea" title="An optional note to the honoree.">
+                            <label for="action_in_honor_of_note" title="An optional note to the honoree.">{% filter ak_text:"donate_inhonorof_note_label" %}Note to Honoree</label>
+                            <textarea id="action_in_honor_of_note" name="action_in_honor_of_note" title="An optional note to the honoree." ></textarea>
+                        </div>
+                        <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll send a notification of your donation to this email address.{% endfilter %}</p>
+                    </div>
+                    <script>
+                        jQuery("#in-honor-of-fields").hide();
+                        jQuery("#in-honor-check").change(function(){
+                            if ( $(this).is(':checked') ) {
+                                jQuery("#in-honor-of-fields").fadeIn();
+                            } else {
+                                jQuery("#in-honor-of-fields").fadeOut();
+                            }
+                        });
+                    </script>
+                </fieldset>
+                {% endif %}
+
 
                 <div id="ak-donation-contact" class="ak-donate-area-step-2 ak-err-below form-style-labelabove">
 

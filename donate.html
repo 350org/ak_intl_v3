@@ -309,34 +309,34 @@
                         </div>
                         {% endif %}
                         <div class="input-text ak-input-type-user">
-                            <label for="id_city">City</label>
+                            <label for="id_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
                             <input id="id_city" type="text" name="city">
                         </div>
 						<div>
 							<div class="ak-us-billing-fields input-text ak-input-type-user">
 								<input type="hidden" name="required" value="zip">
-								<label for="id_zip">Zip</label>
+								<label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
 								<input id="id_zip" type="text" name="zip" maxlength="5" size="5">
 							</div>
 							<div class="ak-us-billing-fields input-select ak-input-type-user">
 								<input type="hidden" name="required" value="state">
-								<label for="id_state">State</label>
+								<label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
 								{% include "./state_select.html" %}
 							</div>
 						</div>
                         {% if page.allow_international %}
 						<div>
 							<div class="input-text ak-input-type-user ak-intl-billing-fields">
-								<label for="id_postal">Postal Code</label>
+								<label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
 								<input id="id_postal" type="text" name="postal" size="10">
 							</div>
 							<div class="input-text ak-input-type-user ak-intl-billing-fields">
-								<label for="id_region">Region</label>
+								<label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
 								<input id="id_region" type="text" name="region" size="20">
 							</div>
 						</div>
                         <div class="input-select input-country ak-input-type-user">
-                            <label for="country">Country</label>
+                            <label for="country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
                             {% include "./country_select.html" %}
                         </div>
 
@@ -429,15 +429,15 @@
                 <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
 					<h5 class="margin-bottom-normal">Payment Information</h5>
 					<div class="input-text ak-input-type-user">
-						<label for="id_name">Name</label>
+						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
 						<input id="id_name" class="ak-input-type-user" type="text" name="name">
 					</div>
 					<div class="input-text ak-input-type-user">
-						<label class="required" for="id_email">Email</label>
+						<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
 						<input id="id_email" class="" type="text" name="email">
 					</div>
                     <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-                        <label for="ak-card_num">Credit Card #</label>
+                        <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
                         <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
                         <input id="ak-card_num" type="text" name="card_num">
                     </div>

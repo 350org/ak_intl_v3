@@ -541,17 +541,24 @@
 		<p class="strong">Contributions or gifts to 350 Action are not deductible as charitable contributions for Federal income tax purposes.</p>
 		<hr>
 		{% endif %}
-		<p><img style="float:right;margin:0 0 1em 1em;" src="https://s3.amazonaws.com/s3.350.org/images/RapidSSL_SEAL-90x50.gif" height="40" width="70" alt="This site is secured by RapidSSL" /><strong class="text-small-caps">Security:</strong> This page uses <a href="http://en.wikipedia.org/wiki/HTTP_Secure" target="_blank">Secure HTTP</a> and <a href="http://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank">SSL</a> technologies to make sure your information is 100% secure.</p>
+		<p><img style="float:right;margin:0 0 1em 1em;" src="https://s3.amazonaws.com/s3.350.org/images/RapidSSL_SEAL-90x50.gif" height="40" width="70" alt="This site is secured by RapidSSL" />
+			{% filter ak_text:"donate_security" %}
+			<strong class="text-small-caps">Security:</strong> This page uses <a href="http://en.wikipedia.org/wiki/HTTP_Secure" target="_blank">Secure HTTP</a> and <a href="http://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank">SSL</a> technologies to make sure your information is 100% secure.
+			{% endfilter %}
+		</p>
 		{% if page.custom_fields.page_is_c4 %}
 		<p><strong class="text-small-caps">Contact Us:</strong>Questions? Problems? Please contact us at <a href="mailto:donations@350.org?subject=Question%20about%20donation%20to%20350.org">donations@350action.org</a>.</p>
 		<p><strong class="text-small-caps">Update Your Account: </strong>To update your account with a new credit card, new expiration date, or new amount please visit <a href="http://350action.org/update">350action.org/update</a></p>
 		{% else %}
-			<div class="margin-bottom-normal"><strong class="text-small-caps">Donate by Check:</strong> Make your check payable to <em>350.org</em> and mail it to <em>350.org, 20 Jay St, Suite 732, Brooklyn, NY 11201, USA</em>.</div>
+			<div class="margin-bottom-normal">
+				{% filter ak_text:"donate_footer_text_block" %}
+				<strong class="text-small-caps">Donate by Check:</strong> Make your check payable to <em>350.org</em> and mail it to <em>350.org, 20 Jay St, Suite 732, Brooklyn, NY 11201, USA</em>.</div>
 				<p><strong class="text-small-caps">Other Options:</strong> You can also donate with <a href="https://www.coinbase.com/350org" target="_blank">BitCoin</a>, transfer stock, or include 350.org in your planned giving. <!-- or do <a href="http://350.causevox.com/">peer-to-peer fundraising</a>. --></p>
 				<p><strong class="text-small-caps">Contact Us:</strong> Questions? Problems? Please contact us at <a href="mailto:donations@350.org?subject=Question%20about%20donation%20to%20350.org">donations@350.org</a>.</p>
 				<p><strong class="text-small-caps">Update Your Account: </strong>To update your account with a new credit card, new expiration date, or new amount please visit <a href="http://350.org/update">350.org/update</a></p>
 				<div style="width:40px;float:left;margin:0 1em 1em 0;"><img src="https://dbqvwi2zcv14h.cloudfront.net/images/350-ak-1pftp-donate-footer.png" alt="1% For The Planet" /></div>
 				<p>350.org is a registered 501c3 non-profit organization and all contributions are tax-deductible in the United States. 350.org's EIN/Tax ID is 26-1150699.</p>	
+				{% endfilter %}
 			</div>
 		{% endif %}
 	</div>

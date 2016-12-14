@@ -7,7 +7,7 @@
             <a id="jump-to-form" href="#donate" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a> 
     		<input type="hidden" name="page" value="{{ page.name }}">
     		<input type="hidden" name="orig_akid" value="{{ akid }}">
-			<div id="action-header" class="c5 ct10 cm10 c-wide">
+			<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
 			{% if page.custom_fields.page_pretitle %}
 				<p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
 			{% endif %}
@@ -23,18 +23,26 @@
 					{% if page.custom_fields.page_author_image %}<span class="action-author-image"><img src="{{ page.custom_fields.page_author_image }}"></span> {% else %}&mdash; {% endif %}<span class="action-author-text meta">{% autoescape off %}{{ page.custom_fields.page_author }}{% endautoescape %}</span>
 				</div>
 			{% endif %}
+
+            {% comment %}If "layout" is set to "expanded", end the full-width title <div> and start a half-width description <div>.{% endcomment %}
+            {% if page.custom_fields.page_layout_style == 'expanded' %}
+            </div>
+            {% endif %}
 				
-				<div id="action-description" class="text-large margin-top-none margin-bottom-huge">
+				<div id="action-description" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c5 ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
 				   {% if page.custom_fields.featured_image %}
-					<img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+					<img class="ak-featured-img" src="{{ page.custom_fields.featured_image }}">
 					{% endif %}
 					<div {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
 					{% include_tmpl form.ask_text %}
 					</div>
 				</div> 
-				
+
+            {% comment %}If "layout" is *not* set to "expanded", end the title <div> here, after the description <div>.{% endfcomment %}
+			{% if page.custom_fields.page_layout_style != 'expanded' %}
 			</div>
-        {% comment %}The ID "donate" here breaks from normal naming convention so that there cleaner appearance when using it for anchor linking directly to the form.{% endcomment %}
+            {% endif %}
+        {% comment %}The ID "donate" here breaks from normal naming convention so that there's a cleaner appearance when using it for anchor linking directly to the form.{% endcomment %}
         <div id="donate" class="action-form c5 ct10 cm10 c-wide margin-top-none">
             <div class="ak-field-box ak-donate-three-step">
 				{% autoescape off %}

@@ -56,15 +56,15 @@
             <!--Add .ak-donate-three-step for three-step-->
             <div class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box bg-white-trans">
                 <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>&nbsp;<span>Amount</span>
+                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>&nbsp;<span>{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
                     <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1" checked="checked">
                 </label>
                 <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>&nbsp;<span>Info</span>
+                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
                     <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
                 </label>
                 <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>&nbsp;<span>Payment</span>
+                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
                     <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
                 </label>
             </div>
@@ -298,7 +298,7 @@
                     </div></div>
                     <div id="unknown_user"></div>
 
-                    <h5 class="margin-bottom-normal">Billing Information</h5>
+                    <h5 class="margin-bottom-normal">{% filter ak_text:"billing_information" %}Billing Information{% endfilter %}</h5>
 
                     <div class="">
                         {% if has_shippable_products %}
@@ -312,7 +312,7 @@
                         </div>
                         {% else %}
                         <div class="input-text ak-input-type-user">
-                            <label for="id_address1">Billing address</label>
+                            <label for="id_address1">{% filter ak_text:"field_billing_address" %}Billing address{% endfilter %}</label>
                             <input id="id_address1" class="" type="text" name="address1">
                         </div>
                         {% endif %}
@@ -435,7 +435,7 @@
                 </div> <!-- donation contact -->
 
                 <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
-					<h5 class="margin-bottom-normal">Payment Information</h5>
+					<h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5>
 					<div class="input-text ak-input-type-user">
 						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
 						<input id="id_name" class="ak-input-type-user" type="text" name="name">
@@ -453,7 +453,7 @@
                     <div class="ak-err-below">
                         <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration c6 ct6 cm10 margin-top-none">
                             <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-                            <label for="ak-exp_date_month">Expiration Date</label>
+                            <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
                             <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
                                 <option value="">MM</option>
                                 <option value="01">01</option>
@@ -480,7 +480,7 @@
                         </div>
                         <div id="ak-fieldbox-card_code" class="input-text input-cvv ak-input-type-user c4 ct4 cm10 margin-top-none">
                             <input type="hidden" name="required" value="card_code" id="ak-card_code-required">
-                            <label for="ak-card_code" title="The 3–4 digit security code on the back of your card.">CVV</label>
+                            <label for="ak-card_code" title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>
                             <input id="ak-card_code" type="text" name="card_code" size="4">
                         </div>
 						<div class="clear"></div>
@@ -519,14 +519,14 @@
 				{% if show_paypal %}
                     <div class="ak-payment-options text-center ak-donate-area-step-3">
                         <input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
-                       <p class="margin-bottom-small text-small"><em>or check out with </em> <button type="submit" id="ak-paypal-button" class="button bg-ltgray button-small"><img src="/media/modern/paypal-logo-1.svg" style="position:relative;top:3px;"></button></p>
+                       <p class="margin-bottom-small text-small"><em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em> <button type="submit" id="ak-paypal-button" class="button bg-ltgray button-small"><img src="/media/modern/paypal-logo-1.svg" style="position:relative;top:3px;"></button></p>
                     </div>
                 {% endif %}
 			</div>
 				</div>
 
 				</div>
-					<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;"><strong>Secure donation.</strong> {% if page.custom_fields.form_short_toc %}{{ page.custom_fields.form_short_toc }}{% else %}Your contribution will support 350.org groups all over the world working to build a better, climate-safe future.{% endif %}
+					<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;"><strong>{% filter ak_text:"donate_secure_donation" %}Secure donation{% endfilter %}.</strong> {% if page.custom_fields.form_short_toc %}{{ page.custom_fields.form_short_toc }}{% else %}Your contribution will support 350.org groups all over the world working to build a better, climate-safe future.{% endif %}
 			</div>
 			</div>
 

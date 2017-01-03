@@ -38,7 +38,7 @@
 				{% for target in context.targets.targets %} 
 				<div class="call-target margin-bottom-medium">
 					<p class="text-large3 strong"><span class="target-label-before">{% filter ak_text:"call_target_label_before" %}Call {% endfilter %}</span><span class="target-label-name">{{ target.title_full }}</span><span class="target-label-after">{% filter ak_text:"call_target_label_after" %}:{% endfilter %}</span></p>
-					<div class="text-large"><p class="title0 text-font-display icon-before icon-faded icon-small margin-bottom-none" data-icon="&#xE908;"><span class="bg-dkgray-trans highlight">{{ target.phone|default:"(202) 224-3121 (Capitol Switchboard)" }}</span></p></div>
+					<div class="text-large"><p class="title0 text-font-display icon-before icon-faded icon-small margin-bottom-none" data-icon="&#xE908;"><span class="bg-dkgray-trans highlight">{{ target.phone }}</span></p></div>
 				</div>
 				{% endfor %}
 				<p><span class="text-small">{% filter ak_text:"call_rationale" %}Phone calls are one of the easiest and most effective ways to put pressure on public officials.{% endfilter %}</span>&nbsp;&nbsp;<em><a href="#" class="inline-dot bg-ltgray">i</a></em></p>

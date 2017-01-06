@@ -1,4 +1,5 @@
 {% load actionkit_tags %}
+{% if page.custom_fields.page_no_social %}{% else %}
 <div class="buttons-share-side mobile-hide">
 	<a class="button-square button-share-facebook bg-facebook-icon bg-facebook-color" href="/share/link?type=fb&amp;page_name={{ page.name }}&amp;action_id={{ action.id }}&amp;akid={{ akid }}" >{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
 	<a href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}" class="button-square button-share-twitter bg-twitter-icon bg-twitter-color">{% filter ak_text:"general_tweet" %}Tweet{% endfilter %}</a>
@@ -26,3 +27,4 @@
 			</div>
 		</div>
 	</div>
+{% endif %}

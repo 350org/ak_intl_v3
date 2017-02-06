@@ -69,9 +69,8 @@
 			<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
 				{% if page.custom_fields.form_short_toc %}
 					{{ page.custom_fields.form_short_toc }}
-					{% if page.custom_fields.form_opt_in %}
-						{% filter ak_text:"general_secure_signup" %}350.org respects your privacy.{% endfilter %}
-					{% endif %}
+				{% elif page.custom_fields.form_opt_in %}
+					{% filter ak_text:"general_secure_signup" %}350.org respects your privacy.{% endfilter %}
 				{% else %}
 					{% filter ak_text:"general_default_toc" %}350.org will send you updates and notifications when you can make a difference.{% endfilter %}
 				{% endif %}

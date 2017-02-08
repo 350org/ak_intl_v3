@@ -129,8 +129,14 @@ actionkit.forms.initForm('act');
 			<a id="footer-logo" href="http://350action.org/"><span class="tf-logo text-large3">350</span> Action</a> / {% ifnotequal page.type "Donation" %}<a href="https://act.350.org/donate/action/">Donate</a> / {% endifnotequal%}<a id="privacy-link" href="http://www.350action.org/privacy/">Privacy</a> / <a href="http://www.350action.org/contact/">Contact</a>
 {% else %}
 		{% if page.custom_fields.page_no_logo %}{% else %}
+			{% if page.payment_processor_information.currency == 'AUD' %}
+			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org.au/">350.org.au</a></span> &nbsp; <a href="{% filter ak_text:"footer_about" %}http://350.org.au/about/{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a 
+	href="{% filter ak_text:"footer_donate_url" %}http://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a> / {% endifequal%}<a id="privacy-link" href="{% filter ak_text:"footer_privacy_url" %}http://350.org.au/privacy-policy/{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a> / <a href="{% filter ak_text:"footer_contact_url" %}http://350.org.au/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
+			{% else %}
 			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org/">350.org</a></span> &nbsp; <a href="{% filter ak_text:"footer_about" %}http://350.org/how{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a 
 	href="{% filter ak_text:"footer_donate_url" %}http://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a> / {% endifequal%}<a id="privacy-link" href="{% filter ak_text:"footer_privacy_url" %}http://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a> / <a href="{% filter ak_text:"footer_contact_url" %}http://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
+			{% endif %}
+
 		{% endif %}
 	{% endif %}
 		</nav>

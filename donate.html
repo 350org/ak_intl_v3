@@ -201,7 +201,7 @@
                         <li id="ak-other-amount-container" class="c3_3 ct3_3 cm3_3 no-margin-bottom">
                             <noscript><input type="radio" value="" class="ak-amount-radio-button" name="amount"></noscript>
                             <label for="ak-other-amount-field" class="input-radio-button input-radio-button-other bg-ltgray text-font-display text-large3 strong margin-bottom-small">
-                                <span class="ak-currency-sym">{{ page.currency_sym }}</span> <input type="number" id="ak-other-amount-field" name="amount_other" size="3" >
+                                <span class="ak-currency-sym">{{ page.currency_sym }}</span> <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" id="ak-other-amount-field" name="amount_other" size="3" >
                             </label>
                         </li>
                         {% else %}

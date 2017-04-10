@@ -29,7 +29,7 @@
 	<div id="action-progress-bar">
 		<div id="action-progress-bar-inner" style="width:[%= progress.current > goal ? 100 : parseInt(progress.current/goal*100) %]%;"></div>
 	</div>
-	<p id="action-progress-goal" class="text-small text-right">{% filter ak_text:"progressbar_actions_needed_prelabel"%}{% endfilter %} [% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal - progress.current) %] {% filter ak_text:"progressbar_actions_needed_label"%}needed to get to{% endfilter %} [% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal) %]{% filter ak_text:"progressbar_actions_needed_postlabel"%}{% endfilter %}</p>
+	<p id="action-progress-goal" class="text-small text-right">{% filter ak_text:"progressbar_actions_needed_prelabel"%}{% endfilter %} [% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal - progress.current) %]{% filter ak_text:"progressbar_actions_needed_label"%}needed to get to{% endfilter %}[% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal) %]{% filter ak_text:"progressbar_actions_needed_postlabel"%}{% endfilter %}</p>
 
 		[% } else { %]
 			

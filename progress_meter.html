@@ -25,11 +25,11 @@
 		<p class="hidden">progress current is [%= progress.current %]. progress percent is [%= progress.percent %]%. threshold is [%= progress.threshold %]%</p>
 		{% comment %}Only show the progress meter if it's above the threshold{% endcomment %}
 		[% if ( ( progress.percent > progress.threshold ) ) { %]
-	<p id="action-progress-current" class="text-small no-margin-bottom">[% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(progress.current) %] [% if (goal_type == 'dollars') { %]{% filter ak_text:"progressbar_donated_amount_label"%}Donated{% endfilter %}[% } else { %]{% filter ak_text:"progressbar_actions_sofar_label"%}actions so far{% endfilter %}[% } %]</p>
+	<p id="action-progress-current" class="text-small no-margin-bottom">[% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(progress.current) %][% if (goal_type == 'dollars') { %]{% filter ak_text:"progressbar_donated_amount_label"%} Donated{% endfilter %}[% } else { %]{% filter ak_text:"progressbar_actions_sofar_label"%} actions so far{% endfilter %}[% } %]</p>
 	<div id="action-progress-bar">
 		<div id="action-progress-bar-inner" style="width:[%= progress.current > goal ? 100 : parseInt(progress.current/goal*100) %]%;"></div>
 	</div>
-	<p id="action-progress-goal" class="text-small text-right">{% filter ak_text:"progressbar_actions_needed_prelabel"%}{% endfilter %} [% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal - progress.current) %]{% filter ak_text:"progressbar_actions_needed_label"%}needed to get to{% endfilter %}[% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal) %]{% filter ak_text:"progressbar_actions_needed_postlabel"%}{% endfilter %}</p>
+	<p id="action-progress-goal" class="text-small text-right">{% filter ak_text:"progressbar_actions_needed_prelabel"%}{% endfilter %}[% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal - progress.current) %]{% filter ak_text:"progressbar_actions_needed_label"%}needed to get to{% endfilter %}[% if (goal_type == 'dollars') { %]$[% } %][%= add_commas(goal) %]{% filter ak_text:"progressbar_actions_needed_postlabel"%}{% endfilter %}</p>
 
 		[% } else { %]
 			

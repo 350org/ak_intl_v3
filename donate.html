@@ -445,51 +445,46 @@
 						<input id="id_email" class="" type="text" name="email">
 					</div>
                     <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
-					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-					    <div id="ak-card_num-hosted" class="hosted-field"></div>
-					    <input id="ak-card_num" type="text" name="card_num">
-					</div>
-					
-					<div class="ak-err-below">
-					
-					    <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c6 ct6 margin-top-none">
-					        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-					        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
-					        <div id="ak-exp_date-hosted" class="hosted-field"></div>
-					        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-					            <option value="">MM</option>
-					            <option value="01">01</option>
-					            <option value="02">02</option>
-					            <option value="03">03</option>
-					            <option value="04">04</option>
-					            <option value="05">05</option>
-					            <option value="06">06</option>
-					            <option value="07">07</option>
-					            <option value="08">08</option>
-					            <option value="09">09</option>
-					            <option value="10">10</option>
-					            <option value="11">11</option>
-					            <option value="12">12</option>
-					        </select>
-					        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-					        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
-					            <option value="">YYYY</option>
-					            {% for year in exp_years %}
-					            <option value="{{ year.two }}">{{ year.four }}</option>
-					            {% endfor %}
-					        </select>
-					        <div class="clear"></div>
-					    </div>
-					
-					    <div id="ak-fieldbox-card_code" class="input-text input-cvv ak-input-type-user c4 ct4 margin-top-none">
-					        <input type="hidden" name="required" value="card_code" id="ak-card_code-required">
-					        <label for="ak-card_code" title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>
-					        <div id="ak-card_code-hosted" class="hosted-field"></div>
-					        <input id="ak-card_code" type="text" name="card_code" size="4">
-					    </div>
-					    <div class="clear"></div>
-					</div>
+                        <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
+                        <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
+                        <input id="ak-card_num" type="text" name="card_num">
+                    </div>
+
+                    <div class="ak-err-below">
+                        <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration c6 ct6 cm10 margin-top-none">
+                            <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
+                            <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
+                            <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
+                                <option value="">MM</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
+                            <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
+                                <option value="">YYYY</option>
+                                {% for year in exp_years %}
+                                <option value="{{ year.two }}">{{ year.four }}</option>
+                                {% endfor %}
+                            </select>
+							<div class="clear"></div>
+                        </div>
+                        <div id="ak-fieldbox-card_code" class="input-text input-cvv ak-input-type-user c4 ct4 cm10 margin-top-none">
+                            <input type="hidden" name="required" value="card_code" id="ak-card_code-required">
+                            <label for="ak-card_code" title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>
+                            <input id="ak-card_code" type="text" name="card_code" size="4">
+                        </div>
+						<div class="clear"></div>
+                    </div>
                 </div><!--ak-styled-fields-->
 			{% autoescape off %}
 			{% if page.custom_fields.form_additional_fields %}
@@ -575,6 +570,11 @@
 		{% endif %}
 	</div>
 </div>
+
+
+{% if pp.use_cse %}
+    <script src="https://js.braintreegateway.com/v1/braintree-data.js"></script>
+{% endif %}
 
 {% endblock %}
 
@@ -1267,151 +1267,23 @@
 </script>
 
 {% with page.payment_processor_information as pp %}
-{% if pp.use_vzero %}
-<style type="text/css">
-.hosted-field {
-  height: 50px;
-  padding: 0px 7px;
-  padding-top: 2em;
-  margin-bottom:0.7em;
-}
-.hosted-field.braintree-hosted-fields-invalid {
-  border-color: {{ templateset.custom_fields.color_error }};
-  background: #fff0d4;
-}
-#ak-fieldbox-card_code{
-	min-height: inherit;
-}
-
-#ak-fieldbox-card_code{
-  margin:0;
-  min-height:inherit;
-  width:auto;
-  margin-bottom: 20px;
-}
-
-.button{
-  margin-top: 20px;
-}
-
-@media screen and ( min-width:720px ){
-	#ak-fieldbox-card_code{
-  	margin:0px 0 0 3%;
-		width:39%;
-  }
-}
-
-
-</style>
-<script src="https://js.braintreegateway.com/web/3.5.0/js/client.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.5.0/js/hosted-fields.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.5.0/js/data-collector.min.js"></script>
-<script src="/resources/ak_braintree_vzero.js"></script>
-<script>
-$(function() {
-    var form = document.querySelector("#act"),
-        options = {
-            form: form,
-            fields: {
-                number: {
-                    selector: '#ak-card_num-hosted'
-                },
-                cvv: {
-                    selector: '#ak-card_code-hosted'
-                },
-                expirationDate: {
-                    selector: '#ak-exp_date-hosted',
-                    placeholder: 'MM / YYYY'
-                }
-            },
-            styles: {
-                'input': {
-                    'font-family': '{{ templateset.custom_fields.font_family|default:"sans-serif"|safe }}',
-                    'font-size': '1.1rem',
-                    'font-weight': 'bold',
-                    'color': '#17292e',
-                    'padding': '0.6em'
-                },
-                'input.invalid': {
-                    'color': '{{templateset.custom_fields.color_error }}',
-                    'background-color': '#fff0d4'
-                },
-                'input.valid': {
-                }
-            },
-            submitOnEmpty: function() {
-                return $('#ak-pay-by-paypal').val() == 1;
-            },
-            submit: form.querySelector(".ak-submit-button")
-        },
-        toRemove = ["#ak-card_num", "#ak-card_code", "#ak-exp_date_month",
-                    "#ak-exp_date_year", "#ak-card_num-required",
-                    "#ak-card_code-required", "#ak-exp_date_month-required",
-                    "#ak-exp_date_year-required"];
-
-    toRemove.forEach(function(el) {
-        $(el).remove();
+{% if pp.use_cse %}
+    <script language="javascript" src="/samples/ak_braintree_cse.js"></script>
+    <script language="javascript" src="https://js.braintreegateway.com/v1/braintree.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        var form = $('form#act')[0];
+        clientSideEncryptionKey = "{{ pp.cse_key }}";
+        braintree_cse.encryptOnSubmit(form, clientSideEncryptionKey);
+        $('form#act :input[type=submit]').prop('disabled', false);
     });
-
-    actionkit.donations.handleError = function(err) {
-        if (window.console) {
-            window.console.log(err);
-        }
-
-        if (!actionkit.errors) {
-            actionkit.errors = {};
-        }
-
-        switch (err.code) {
-            case 'HOSTED_FIELDS_FIELDS_EMPTY':
-                actionkit.errors['card_num:invalid'] = "Credit card field is empty.";
-                break;
-          case 'HOSTED_FIELDS_FIELDS_INVALID':
-									err.details.invalidFieldKeys.forEach(function(key) {
-									    switch(key) {
-									        case "number":
-									            actionkit.errors['card_num:invalid'] = "Credit card field is invalid.";
-									            break;
-									        case "cvv":
-									            actionkit.errors['card_code:invalid'] = "CVV field is invalid.";
-									            break;
-									        case "expirationDate":
-									            actionkit.errors['card_exp:invalid'] = "Expiration Date field is invalid.";                                
-									            break;
-									    }
-									});
-/*                err.details.invalidFieldKeys.forEach(function(key) {
-                    var map = {
-                        'number': 'card_num',
-                        'cvv': 'card_code',
-                        'expirationDate': 'card_exp'
-                    };
-                    actionkit.errors[map[key] + ':invalid'] = key +" is invalid.";;
-                });
-*/                
-                break;
-          case 'HOSTED_FIELDS_FAILED_TOKENIZATION':
-                actionkit.errors['card_num:invalid'] = "Please check that your credit card is valid.";
-                break;
-          case 'HOSTED_FIELDS_TOKENIZATION_NETWORK_ERROR':
-                actionkit.errors['card_num:invalid'] = "Network error.";
-                break;
-          default:
-                actionkit.errors['card_num:invalid'] = "An error occurred: " + err.message;
-        }
-        actionkit.forms.onValidationErrors(actionkit.errors);
+    window.onBraintreeDataLoad = function() {
+        BraintreeData.setup("{{ pp.merchant_id }}", "act", BraintreeData.environments.{{ pp.braintree_environment }});
     };
-
-    actionkit.donations.initClient('{{ pp.client_token }}', options);
-
-    // read by 3-step validation
-    actionkit.donations.skip_cc_validation = true;
-    actionkit.donations.vzero = true;
-
-	$(".hosted-field.braintree-hosted-fields-invalid").prev().css("background-color", "#fff0d4")
-
-});
-</script>
+    </script>
+{% endif %}
+{% if pp.use_tr %}
+    <script language="javascript" src="/samples/braintree.js"></script>
 {% endif %}
 {% endwith %}
 

@@ -4,18 +4,16 @@
 	<div class="section-inner">
 		<ul class="menu">
 	{% for translated_page in translations %}
-	{% ifequal translated_page.id page.id %}
-			<li><a class="disabled lang">{{ translated_page.lang.name|default:"English" }}</a></li>
-	{% else %}
+		{% ifequal translated_page.id page.id %}
+			<li><a class="disabled lang" lang="{{ translated_page.lang.iso_code }}">{{ translated_page.lang.name|default:"English" }}</a></li>
+		{% else %}
 			<li><a class="lang lang-{{ translated_page.lang.iso_code }}" lang="{{ translated_page.lang.iso_code }}" href="/act/{{ translated_page.name }}/">{{ translated_page.lang.name|default:"English" }}</a></li>
-	{% endifequal %}
-	{% if not forloop.last %}
-			<li>&bull;</li>
-	{% endif %}
+		{% endifequal %}
 	{% endfor %}
 		</ul>
 	</div>
 </nav>
 {% endwith %}
+{% endif %}}
 {% endif %}
 

@@ -7,7 +7,7 @@
 	{% ifequal translated_page.id page.id %}
 			<li><a class="disabled lang">{{ translated_page.lang.name|default:"English" }}</a></li>
 	{% else %}
-			<li><a class="lang lang-{{ translated_page.lang.iso_code }}" href="/act/{{ translated_page.name }}/">{{ translated_page.lang.name|default:"English" }}</a></li>
+			<li><a class="lang lang-{{ translated_page.lang.iso_code }}" lang="{{ translated_page.lang.iso_code }}" href="/act/{{ translated_page.name }}/">{{ translated_page.lang.name|default:"English" }}</a></li>
 	{% endifequal %}
 	{% if not forloop.last %}
 			<li>&bull;</li>

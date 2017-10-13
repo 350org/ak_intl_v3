@@ -1,5 +1,5 @@
 {% load actionkit_tags %}<!doctype html>
-<html lang="{{ page.lang.iso_code|default:"en-US" }}"{% if page.lang.is_rtl %} dir="rtl"{% endif %}>
+<html class="no-blend" lang="{{ page.lang.iso_code|default:"en-US" }}"{% if page.lang.is_rtl %} dir="rtl"{% endif %}>
 <head>
 	<title>{% if events|is_defined %}{{ event.title }} - {% client_name %}{% else %}{{ page.title }} - {% client_name %}{% endif %}</title>
 	<link rel="icon" type="image/png" href="//dbqvwi2zcv14h.cloudfront.net/images/favicon.png" />
@@ -11,7 +11,7 @@
 {% endif %}
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta property="og:type" content="website" />
-{% if page.custom_fields.page_is_c4 %}	
+{% if page.custom_fields.page_is_c4 %}
 	<meta property="fb:app_id" content="813320562104969" />
 {% else %}
 	<meta property="fb:app_id" content="148617041897246" />
@@ -32,10 +32,10 @@
 	<meta property="og:url" content="http://act.350.org{{ event.public_url }}" />
 	<meta property="og:title" content="{% if event.title %}{{ event.title }}{% else %}{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}{% endif %}" />
 	{% if page.custom_fields.fb_description %}
-	<meta property="og:description" content="{{ page.custom_fields.fb_description }}" />	
+	<meta property="og:description" content="{{ page.custom_fields.fb_description }}" />
 	{% else %}
 	<meta property="og:description" content="{{ event.public_description|striptags }}" />
-	{% endif %} 
+	{% endif %}
 {% else %}
 	{% if page.followup.share_title_tag %}
 	{{ page.followup.share_title_tag }}
@@ -52,7 +52,7 @@
 	{% endif %}
 	{% if page.custom_fields.fb_description %}
 	<meta property="og:description" content="{{ page.custom_fields.fb_description }}" />
-	{% endif %} 
+	{% endif %}
 {% endif %}
 <meta name="twitter:url" content="{% if page.custom_fields.fb_share_url %}{{ page.custom_fields.fb_share_url }}{% else %}{{ page.canonical_url }}{% endif %}" />
 <meta name="twitter:title" content="{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}" />
@@ -68,7 +68,7 @@
 	<meta name="twitter:site:id" content="350.org" />
 {% endif %}
 {% block meta_additions %}{% endblock %}
-	
+
 <link rel='stylesheet' id='baseline-css' href='https://s3.amazonaws.com/s3.350.org/ak/ak-v3.css' type='text/css' media='all' />
 	{% if page.lang.is_rtl %}
 	<link rel='stylesheet' id='baseline-rtl-css' href='https://s3.amazonaws.com/s3.350.org/ak/ak-v3-rtl.css' type='text/css' media='all' />
@@ -130,10 +130,10 @@ actionkit.forms.initForm('act');
 {% else %}
 		{% if page.custom_fields.page_no_logo %}{% else %}
 			{% if page.payment_processor_information.currency == 'AUD' %}
-			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org.au/">350.org.au</a></span> &nbsp; <a href="http://350.org.au/about/">About</a> /{% ifequal page.type "Donation" %} {% else %} <a 
+			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org.au/">350.org.au</a></span> &nbsp; <a href="http://350.org.au/about/">About</a> /{% ifequal page.type "Donation" %} {% else %} <a
 	href="http://350.org/donate">Donate</a> / {% endifequal%}<a id="privacy-link" href="http://350.org.au/privacy-policy/">Privacy</a> / <a href="http://350.org.au/contact/">Contact</a>
 			{% else %}
-			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org/">350.org</a></span> &nbsp; <a href="{% filter ak_text:"footer_about" %}http://350.org/how{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a 
+			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org/">350.org</a></span> &nbsp; <a href="{% filter ak_text:"footer_about" %}http://350.org/how{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a
 	href="{% filter ak_text:"footer_donate_url" %}http://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a> / {% endifequal%}<a id="privacy-link" href="{% filter ak_text:"footer_privacy_url" %}http://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a> / <a href="{% filter ak_text:"footer_contact_url" %}http://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
 			{% endif %}
 
@@ -177,7 +177,7 @@ jQuery(document).ready(function(){
 <style>
 @import url(https://fonts.googleapis.com/earlyaccess/notokufiarabic.css);
 @import url(https://fonts.googleapis.com/earlyaccess/notonaskharabic.css);
-	
+
 	h1,h2,h3,
 	.title1,.title2,.title3,.title4,
 	.text-font-display{
@@ -208,7 +208,7 @@ jQuery(document).ready(function(){
 		wf.async = 'true';
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(wf, s);
-	})(); 
+	})();
 </script>
 {% elif page.lang.iso_code == "ja" %}
 
@@ -234,7 +234,7 @@ jQuery(document).ready(function(){
 		wf.async = 'true';
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(wf, s);
-	})(); 
+	})();
 </script>
 <script>startTime=new Date()</script>
 {% endif %}

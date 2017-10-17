@@ -1,6 +1,6 @@
 {% if can_switch_lang %}
 {% with page.translations as translations %}
-<nav id="language-nav" class="section width-wide bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white-trans{% endif %} padding-none meta nav-desktop-dropdown nav-tablet-select nav-mobile-select text-center">
+<nav id="language-nav" class="section width-full bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white-trans{% endif %} padding-none meta nav-desktop-dropdown nav-tablet-select nav-mobile-select text-center">
 	<div class="section-inner">
 		<ul class="menu">
 	{% for translated_page in translations %}

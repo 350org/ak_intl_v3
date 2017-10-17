@@ -5,9 +5,9 @@
 		<ul class="menu">
 	{% for translated_page in translations %}
 		{% ifequal translated_page.id page.id %}
-			<li><a class="disabled lang" lang="{{ translated_page.lang.iso_code }}">{{ translated_page.lang.name|default:"English" }}</a></li>
+			<li class="language-nav-item-{{ translated_page.name }}"><a class="disabled lang" lang="{{ translated_page.lang.iso_code }}">{{ translated_page.lang.name|default:"English" }}</a></li>
 		{% else %}
-			<li><a class="lang lang-{{ translated_page.lang.iso_code }}" lang="{{ translated_page.lang.iso_code }}" href="/act/{{ translated_page.name }}/">{{ translated_page.lang.name|default:"English" }}</a></li>
+			<li class="language-nav-item-{{ translated_page.name }}"><a class="lang lang-{{ translated_page.lang.iso_code }}" lang="{{ translated_page.lang.iso_code }}" href="/act/{{ translated_page.name }}/">{{ translated_page.lang.name|default:"English" }}</a></li>
 		{% endifequal %}
 	{% endfor %}
 		</ul>
@@ -15,4 +15,3 @@
 </nav>
 {% endwith %}
 {% endif %}
-

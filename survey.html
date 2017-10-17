@@ -4,10 +4,19 @@
 <section id="action-lead" class="section action-lead width-narrow padding-large bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 		<div id="action-header" class="">
-			<h1 id="action-title" class="title3">{{ page.title }}</h1>
+			{% if page.custom_fields.page_pretitle %}
+				<p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
+			{% endif %}
+				<h2 id="action-title" class="title3">
+			{% if page.custom_fields.page_title_custom_html %}
+				{% autoescape off %} {{ page.custom_fields.page_title_custom_html }} {% endautoescape %}
+			{% else %}
+				<span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
+			{% endif %}
+				</h2>
 			<div class="" data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}">{% include_tmpl form.introduction_text %}</div>
 		</div>
-		{% include "./social_plugins.html" %}	
+		{% include "./social_plugins.html" %}
 	</div>
 </section>
 

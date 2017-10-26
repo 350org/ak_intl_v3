@@ -4,7 +4,7 @@
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 		<form id="act" name="act" class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} " method="POST" action="/act/" accept-charset="utf-8">
-            <a id="jump-to-form" href="#donate" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a> 
+            <a id="jump-to-form" href="#donate" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a>
     		<input type="hidden" name="page" value="{{ page.name }}">
     		<input type="hidden" name="orig_akid" value="{{ akid }}">
 			<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
@@ -28,7 +28,7 @@
             {% if page.custom_fields.page_layout_style == 'expanded' %}
             </div>
             {% endif %}
-				
+
 				<div id="action-description" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c5 ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
 				   {% if page.custom_fields.featured_image %}
 					<img class="ak-featured-img" src="{{ page.custom_fields.featured_image }}">
@@ -36,7 +36,7 @@
 					<div {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
 					{% include_tmpl form.ask_text %}
 					</div>
-				</div> 
+				</div>
 
             {% comment %}If "layout" is *not* set to "expanded", end the title <div> here, after the description <div>.{% endcomment %}
 			{% if page.custom_fields.page_layout_style != 'expanded' %}
@@ -187,13 +187,13 @@
 							{% endfor %}
 						</div>
                     </div>
-					
+
 
                 {% endif %}
 
                    <div class="ak-amount-wrapper clearfix margin-bottom-small">
 					   <h5 class="margin-bottom-normal ak-donate-three-step-hidden">Amount:</h5>
-                   
+
                     <ul class="ak-unstyled nobullet text-large">
 						 {% for row in amounts|columns:1 %}
                         {% for amount in row %}
@@ -212,8 +212,8 @@
                         </li>
                         {% endif %}
                         {% endfor %}
-                   
-					
+
+
                     {% endfor %}
 						 </ul>
                 </div>
@@ -450,9 +450,9 @@
 					    <div id="ak-card_num-hosted" class="hosted-field"></div>
 					    <input id="ak-card_num" type="text" name="card_num">
 					</div>
-					
+
 					<div class="ak-err-below">
-					
+
 					    <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c6 ct6 margin-top-none">
 					        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
 					        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
@@ -481,7 +481,7 @@
 					        </select>
 					        <div class="clear"></div>
 					    </div>
-					
+
 					    <div id="ak-fieldbox-card_code" class="input-text input-cvv ak-input-type-user c4 ct4 margin-top-none">
 					        <input type="hidden" name="required" value="card_code" id="ak-card_code-required">
 					        <label for="ak-card_code" title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>
@@ -556,13 +556,13 @@
 		<p><strong class="text-small-caps">Update Your Account: </strong>To update your account with a new credit card, new expiration date, or new amount please visit <a href="http://350action.org/update">350action.org/update</a></p>
 		{% else %}
 			<div class="margin-bottom-normal">
-					{% if page.payment_processor_information.currency == 'AUD' %}
-						<p><strong class="text-small-caps">Donate by Cheque</strong>: Make your cheque payable to <em>350.org</em> and mail it to <em>350.org Limited, 60 Blenheim St, Queens Park, NSW 2002, Australia</em>.</p>
+				{% if page.payment_processor_information.currency == 'AUD' %}
+				<p><strong class="text-small-caps">Donate by Cheque</strong>: Make your cheque payable to <em>350.org</em> and mail it to <em>350.org  Limited, Suite 8 / 50 Reservoir Street, Surry Hills, NSW 2010, Australia.</em>.</p>
 				<p><strong class="text-small-caps">Contact Us:</strong> Questions? Problems? Please contact us at <a href="mailto:donations@350.org.au?subject=Question%20about%20donation%20to%20350.org%20Australia">donations@350.org.au</a>.</p>
 				<p><strong class="text-small-caps">Update Your Account: </strong>To update your account with a new credit card, new expiration date, or new amount please visit <a href="http://350.org/update">350.org/update</a></p>
-				<p>350.org Limited is a registered Australian charity but donations are NOT tax-deductible in Australia. ABN: 46 138 155 192. Some donations for joint work with our partner organisation Friends of the Earth can be made tax deductible. For information about that, please contact <a href="mailto:andrew.wilcox@350.org.au">andrew.wilcox@350.org.au</a>.</p>
-					{% else %}
-						{% filter ak_text:"donate_footer_text_block" %}					
+				<p>350.org Limited is a registered Australian charity but donations are NOT tax-deductible in Australia. ABN: 46 138 155 192. Some donations for joint work with our partner organisation Friends of the Earth can be made tax deductible. For information about that, please contact <a href="mailto:donations@350.org.au">donations@350.org.au</a>.</p>
+				{% else %}
+					{% filter ak_text:"donate_footer_text_block" %}
 <p><strong class="text-small-caps">Donate by Check:</strong> Make your check payable to <em>350.org</em> and mail it to <em>350.org, 20 Jay St, Suite 732, Brooklyn, NY 11201, USA</em>.</p>
 <p><strong class="text-small-caps">Other Ways To Give:</strong> <a href="https://350.org/other-ways-to-give/">Click here</a> to see additional options, including transferring stock.</p>
 <p><strong class="text-small-caps">Contact Us:</strong> Questions? Problems? Please contact us at <a href="mailto:donations@350.org?subject=Question%20about%20donation%20to%20350.org">donations@350.org</a>.</p>
@@ -701,13 +701,13 @@
     function country_change() {
         if ( $('#country').val() == 'United States' ) {
             $('.ak-us-billing-fields').show().each(function(){
-				$(this).children('input').prop('disabled', false);	
+				$(this).children('input').prop('disabled', false);
 			});
             $('.ak-intl-billing-fields').hide();
         } else {
             $('.ak-us-billing-fields').hide();
             $('.ak-intl-billing-fields').show().each(function(){
-				$(this).children('input').prop('disabled', false);	
+				$(this).children('input').prop('disabled', false);
 			});
         }
         sync_to_shipping();
@@ -801,7 +801,7 @@
 
         } else if ( current_step == "2" ) {
             $('.ak-donate-area-step-1, .ak-donate-area-step-3').hide();
-            /* this automatic focus on the input combines with the onblur validation to be over-aggressive 
+            /* this automatic focus on the input combines with the onblur validation to be over-aggressive
 			$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed,
                 focus_field_if_blank( $('#id_name') )
             ); */
@@ -1095,7 +1095,7 @@
                         product_quantity = parseInt($('#product_' + id).val());
                     }
                 }
-                
+
                 //console.log(product_quantity);
                 var subtotal = product_amount * product_quantity;
                 $('.ak_product_subtotal_'+id).text(subtotal.toFixed(2));
@@ -1122,7 +1122,7 @@
     $(function() {
         calculate_product_subtotals();
         calculate_product_subtotals_total();
-        
+
         $('.ak_product_inputs').on('change', function() {
             calculate_product_subtotals();
             calculate_product_subtotals_total();
@@ -1362,7 +1362,7 @@ $(function() {
 									            actionkit.errors['card_code:invalid'] = "CVV field is invalid.";
 									            break;
 									        case "expirationDate":
-									            actionkit.errors['card_exp:invalid'] = "Expiration Date field is invalid.";                                
+									            actionkit.errors['card_exp:invalid'] = "Expiration Date field is invalid.";
 									            break;
 									    }
 									});
@@ -1374,7 +1374,7 @@ $(function() {
                     };
                     actionkit.errors[map[key] + ':invalid'] = key +" is invalid.";;
                 });
-*/                
+*/
                 break;
           case 'HOSTED_FIELDS_FAILED_TOKENIZATION':
                 actionkit.errors['card_num:invalid'] = "Please check that your credit card is valid.";

@@ -85,8 +85,9 @@
 			</fieldset>
 			<hr>
 		{% endif %}
-		
-		<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe{% endfilter %}{% endif %}">
+			<div class="input-wrapper input-submit">		
+				<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe{% endfilter %}{% endif %}" />
+			</div>
 		
 		<input type="hidden" name="page" value="{{ page.name }}">
 		</div>

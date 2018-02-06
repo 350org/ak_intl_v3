@@ -63,11 +63,20 @@
 		{% endautoescape %}
 		<ul class="compact" id="ak-errors"></ul>
 		<div id="unknown_user">
-		<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}{% endfilter %}</h5>
-		<div class="ak-labels-overlaid"> 
-		    <div><label for="id_email">{% filter ak_text:"field_email"|capfirst %}{% endfilter %} </label><input id="id_email" type="text" name="email" size=40 /></div>
+			<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}{% endfilter %}</h5>
+				<div id="id_email_box" class="input-text ak-input-type-user required ak-err-below">
+					<label for="id_email">Email Address</label>
+					<input type="text" name="email" id="id_email" class="ak-userfield-input">
+				</div>			 
+<!--		   
+			<div class="ak-labels-overlaid">
+				<div>
+					<label for="id_email">{% filter ak_text:"field_email"|capfirst %}{% endfilter %}</label>
+					<input id="id_email" type="text" name="email" size=40 />
+				</div>
 		    <input type="hidden" name="country" value="United States" />
-		</div>
+			</div>
+-->	
 		</div>
 		<div id="known_user">
 		<h5>{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"unsubscribe_user_warning_postname " %}? Don't use this form!{% endfilter %}</h5>

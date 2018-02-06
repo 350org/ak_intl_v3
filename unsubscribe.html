@@ -4,52 +4,61 @@
 
 {% block content %}
 
-<section id="action-lead" class="section action-lead width-narrow padding-large bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
-	<div class="section-inner">
-		<div id="action-header" class="">
-			<h1 id="action-title" class="title3">{{ page.title }}</h1>
-			<div class="" data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}">{% include_tmpl form.introduction_text %}</div>
+<div id="action-description" class="text-large margin-top-none margin-bottom-huge {% if page.custom_fields.page_layout_style == 'expanded' %}c6 ct10 cm10 c-wide{% endif %}" {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
+		{% autoescape off %}
+			{% include_tmpl form.introduction_text %}
+		{% endautoescape %}
 		</div>
+		{% if page.custom_fields.page_layout_style == "expanded" %}{% else %}
+	</div>
+	{% endif %}
+	{% if page.custom_fields.page_is_inactive %}
+		<div id="page-inactive" class="c4 ct7_5 cm10 c-wide">
+		{% autoescape off %}
+			{{ page.custom_fields.page_is_inactive }}
+		{% endautoescape %}
+		</div>
+	{% else %}			
+			
+
+		<form id="action-form" class="c4 ct7_5 cm10 c-wide form-changeorg form-style-labelabove ak-form action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+		<div id="form">
+		{% autoescape off %}
+		{% if page.custom_fields.form_text_above_form %}
+		<div id="form-intro">{{ page.custom_fields.form_text_above_form }}</div>
+		{% endif %}
+		{% endautoescape %}
+		<ul class="compact" id="ak-errors"></ul>
+		<div id="unknown_user">
+		<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}{% endfilter %}</h5>
+		<div class="ak-labels-overlaid"> 
+		    <div><label for="id_email">{% filter ak_text:"field_email"|capfirst %}{% endfilter %} </label><input id="id_email" type="text" name="email" size=40 /></div>
+		    <input type="hidden" name="country" value="United States" />
+		</div>
+		</div>
+		<div id="known_user">
+		<h5>{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"unsubscribe_user_warning_postname " %}? Don't use this form!{% endfilter %}</h5>
+			<p><a href="/unsubscribe/unsubscribe">{% filter ak_text:"general_recognized_user_logout_instructions" %}Click here to log out{% endfilter %}</a></p>
+		</div>
+		
+		{% if user.subscriptions|length > 1 %}
+			<hr>
+		<fieldset>
+			<div><strong>{% filter ak_text:"unsubscribe_from_lists" %}Unsubscribe from:{% endfilter %}</strong></div>
+		<input type="hidden" name="have_unsub_lists" value="1" />
+		{% for s in user.subscriptions %}
+		<input type="checkbox" checked name="unsub_lists" value="{{ s.list.id }}" /> {{ s.list.name }}<br />
+		{% endfor %}
+			</fieldset>
+			<hr>
+		{% endif %}
+		
+		<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe{% endfilter %}{% endif %}">
+		
+		<input type="hidden" name="page" value="{{ page.name }}">
+		</div>
+		</form>
+	{% endif %}
 	</div>
 </section>
-			
-			
-
-<form class="ak-form action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
-<div id="form">
-{% autoescape off %}
-{% if page.custom_fields.form_text_above_form %}
-<div id="form-intro">{{ page.custom_fields.form_text_above_form }}</div>
-{% endif %}
-{% endautoescape %}
-<ul class="compact" id="ak-errors"></ul>
-<div id="unknown_user">
-<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}{% endfilter %}</h5>
-<div class="ak-labels-overlaid"> 
-    <div><label for="id_email">{% filter ak_text:"field_email"|capfirst %}{% endfilter %} </label><input id="id_email" type="text" name="email" size=40 /></div>
-    <input type="hidden" name="country" value="United States" />
-</div>
-</div>
-<div id="known_user">
-<h5>{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"unsubscribe_user_warning_postname " %}? Don't use this form!{% endfilter %}</h5>
-	<p><a href="/unsubscribe/unsubscribe">{% filter ak_text:"general_recognized_user_logout_instructions" %}Click here to log out{% endfilter %}</a></p>
-</div>
-
-{% if user.subscriptions|length > 1 %}
-	<hr>
-<fieldset>
-	<div><strong>{% filter ak_text:"unsubscribe_from_lists" %}Unsubscribe from:{% endfilter %}</strong></div>
-<input type="hidden" name="have_unsub_lists" value="1" />
-{% for s in user.subscriptions %}
-<input type="checkbox" checked name="unsub_lists" value="{{ s.list.id }}" /> {{ s.list.name }}<br />
-{% endfor %}
-	</fieldset>
-	<hr>
-{% endif %}
-
-<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe{% endfilter %}{% endif %}">
-
-<input type="hidden" name="page" value="{{ page.name }}">
-</div>
-</form>
 {% endblock %}

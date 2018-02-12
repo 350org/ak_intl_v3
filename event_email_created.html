@@ -4,7 +4,9 @@ Subject: Confirm your "{{ action.event.campaign.local_title }}" event
 <!-- event_email_created.html in the templateset contains the default
      confirmation e-mail for hosts -->
 
-<p>Thanks for setting up a "{{ action.event.campaign.local_title }}" event.  <b>Before anyone can sign up for your event, you must confirm it by clicking below to {% if not user.password %}set a password and{% endif %} log in to your host tools:</b></p>
+<h3>{{ action.event.campaign.local_title }}</h3>
+
+<p>Thanks for setting up your event! <b>Before anyone can sign up, you must confirm your event by clicking below to {% if not user.password %}set a password and{% endif %} log in to your host tools:</b></p>
 
 <p><a href="http://{% client_domain %}/event/{{ action.event.campaign.local_name }}/{{ action.event.id }}/host/?i={{ user.password_change_token }}">http://{% client_domain %}/event/{{ action.event.campaign.local_name }}/{{ action.event.id }}/host/?i={{ user.password_change_token }}</a></p>
 
@@ -13,4 +15,4 @@ Subject: Confirm your "{{ action.event.campaign.local_title }}" event
 <p>Thanks again!</p>
 
 <!-- Replacement for unsubscribe -->
-<p><small>You're receiving this message because you set up a "{{ action.event.campaign.local_title }}" event.  If you don't want to receive further e-mails about this event, you can cancel the event using the host tools linked above.</small></p>
+<p><small>You're receiving this message because you set up a {{ action.event.campaign.local_title }} event.  If you don't want to receive further e-mails about this event, you can cancel the event using the host tools linked above.</small></p>

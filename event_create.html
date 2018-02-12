@@ -95,14 +95,17 @@
         <div id="id_event_starts_at_row" class="ak-input-type-event input-date input-start-date margin-bottom-medium clearfix">
           {% include "./date_picker.html" %}
       	</div>
-        <script type="text/javascript">
+        <script>
+
           // Replace animation w/instant show, because anim breaks
           // tabbing quickly past the date field.
           jQuery.fn.showFast = function(speed, callback) {
             this.show()
             callback()
           }
-          $("#id_event_starts_at_date").datepicker({minDate: 0, showAnim: 'showFast' });
+          jQuery(document).ready(function($){
+            $("#id_event_starts_at_date").datepicker({minDate: 0, showAnim: 'showFast' });
+          });
 
   {% if page.custom_fields.event_use_24hour_time %}
         	$(window).load(function() {
@@ -176,10 +179,18 @@
       <fieldset id="event-location">
       	<h3 class="section-header meta margin-bottom-large">{% filter ak_text:"event_create_section_location" %}Event Location{% endfilter %}</h3>
 {% with "event_" as input_name_prefix %}
+  {% if campaign.show_address1 %}
+        <p class="text-small opacity-50">{% filter ak_text:"event_create_address_privacy_note" %}NOTE: Unless you're hosting a Private event, event addresses will be listed publicly.{% endfilter %}</p>
+  {% else %}
+        <p class="text-small opacity-50">{% filter ak_text:"event_create_address_privacy_note" %}NOTE: The exact address will be hidden until people sign up to attend your event.{% endfilter %}</p>
+  {% endif %}
         <div class="input-text ak-input-type-event input-venue">
       		<label for="id_event_venue">{% filter ak_text:"event_create_label_venue" %}Venue (i.e. "My Living Room" or "North Side Park"){% endfilter %}</label>
           <input id="id_event_venue" type="text" if-at-my-house="Home" name="event_venue" />
       	</div>
+  {% if not campaign.show_address1 %}
+        <p class="text-small opacity-50">{% filter ak_text:"event_create_location_hidden_bigcity_note" %}If your event is in a large city, you might want to include the neighborhood or district in the venue name.{% endfilter %}</p>
+  {% endif %}
         <div class="input-select ak-input-type-event input-country">
       		<label for="event_country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
       		{% include "./country_select.html" %}
@@ -188,6 +199,7 @@
       		<label for="id_event_address1">{% filter ak_text:"field_address1"|capfirst %}Street address{% endfilter %}</label>
       		<input id="id_event_address1" type="text" name="event_address1" />
       	</div>
+
         <div class="input-text ak-input-type-event input-city">
       		<label for="id_event_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
       		<input id="id_event_city" type="text" name="event_city" />
@@ -204,9 +216,7 @@
       		<label for="id_event_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
       		{% include "./state_select.html" %}
       	</div>
-  {% if campaign.show_address1 %}
-        <div class="strong">{% filter ak_text:"event_create_address_privacy_note" %}NOTE: Unless you're hosting a Private event, event addresses will be listed publicly.{% endfilter %}</div>
-  {% endif %}
+
 {% endwith %}
       </fieldset>
     </div>
@@ -315,7 +325,18 @@
 {% block script_additions %}
 {% include "includes/jquery_ui.html" %}
 
-<script type="text/javascript">
+<script>
+
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+
     isEventUnitedStates = function () {
         var country = actionkit.form && actionkit.form.event_country
         && actionkit.utils.val(actionkit.form.event_country)

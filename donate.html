@@ -33,7 +33,7 @@
 				   {% if page.custom_fields.featured_image %}
 					<img class="ak-featured-img" src="{{ page.custom_fields.featured_image }}">
 					{% endif %}
-					<div {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
+					<div {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
 					{% include_tmpl form.ask_text %}
 					</div>
 				</div>

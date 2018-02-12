@@ -1,29 +1,4 @@
-{% load actionkit_tags %}{% filter collapse_spaces %}
-<style type="text/css">
-.event-over-notice { color: red; }
-</style>
-<link rel="stylesheet" href="https://s3.amazonaws.com/s3.350.org/images/event-styles-2013.css" type="text/css" />
-{% if event.get_starts_at_display %}
-<div class="event-time">
-	{{ event.get_starts_at_display }}
-	{% if event.is_in_past %}
-	<span class="event-over-notice">({% filter ak_text:"event_details_has_ended" %}this event has ended.{% endfilter %})</span>
-	{% endif %}
-</div>
-{% endif %}
+{% load actionkit_tags %}
+{% filter collapse_spaces %}
 
-<div class="event-location">{% if event.venue %}{{ event.venue }}, {% endif %}{{ event.address1 }}, {{ event.city_etc }}</div>
-{% if event.public_description %}
-<br/>
-{% autoescape off %}
-<div class="event-description">{{ event.public_description }}</div>
-{% endautoescape %}
-{% endif %}
-{% if event.directions %}
-<div class="event-directions"><strong>{% filter ak_text:"event_details_directions" %}Directions:{% endfilter %} </strong> {{ event.directions }}</div>
-{% endif %}
-{% if event.note_to_attendees %}
-<div class="event-note-to-attendees"><strong>{% filter ak_text:"event_details_host_note" %}Note from the host: {% endfilter %}</strong> {{ event.note_to_attendees }}</div>
-{% endif %}
 {% endfilter %}
-<br/>

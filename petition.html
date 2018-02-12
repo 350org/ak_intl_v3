@@ -26,7 +26,7 @@
 		</div>
 	{% endif %}
 		<div id="action-description" class="text-large margin-top-none margin-bottom-huge {% if page.custom_fields.page_layout_style == 'expanded' %}c6 ct10 cm10 c-wide{% endif %}">
-			<div id="action-description-text" {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-readmore-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
+			<div id="action-description-text" {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
 		{% autoescape off %}
 			{% include_tmpl form.about_text %}
 		{% endautoescape %}

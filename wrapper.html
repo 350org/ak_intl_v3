@@ -25,9 +25,6 @@
 {% if page.custom_fields.fb_pic_url %}
 	<meta property="og:image" content="{{ page.custom_fields.fb_pic_url }}" />
 {% endif %}
-{% if page.type == "EventCreate" or page.type == "EventSignup" %}
-	<link rel="stylesheet" href="https://s3.amazonaws.com/s3.350.org/images/event-styles-2013.css" type="text/css" />
-{% endif %}
 {% if events|length %}
 	<meta property="og:url" content="http://act.350.org{{ event.public_url }}" />
 	<meta property="og:title" content="{% if event.title %}{{ event.title }}{% else %}{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}{% endif %}" />

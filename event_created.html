@@ -1,27 +1,25 @@
-{% extends "./wrapper.html" %}{% load actionkit_tags smartif %}
-<link rel="stylesheet" href="https://s3.amazonaws.com/s3.350.org/images/event-styles-2013.css" type="text/css" />
+{% extends "./wrapper.html" %}
+{% load actionkit_tags smartif %}
 {% block content %}
+
 {% if args.embed == "y" %}
-	<style type="text/css">
-		#container {
-			padding: 0;
-			}
-		#main{
-			background:#fff;
-			background:rgba(255,255,255,0.95);
-			margin:0;}
+<style type="text/css">
 		#footer { display: none; }
-		</style>
-	{% endif %}
-<div id="content">
-<h3>{% filter ak_text:"event_created_headline" %}You're almost done!{% endfilter %}</h3><br>
-<h2>{% filter ak_text:"event_created_text_pt1" %}Check your e-mail{% endfilter %} {% if args.email %}( {{args.email}}) {% endif %}{% filter ak_text:"event_created_text_pt2" %}and click the link inside it to confirm your event. If you don't see the email, check your spam folder — or email events@350.org.{% endfilter %}</h2>
+</style>
+{% endif %}
+
+<div class="section width-narrow padding-large bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section-inner bg-white padding-medium">
+		<h1>{% filter ak_text:"event_created_headline" %}You're almost done!{% endfilter %}</h1>
+		<p class="text-large2">{% filter ak_text:"event_created_text_pt1" %}Check your e-mail{% endfilter %} {% if args.email %} ( {{args.email}} ) {% endif %}{% filter ak_text:"event_created_text_pt2" %}and click the link inside it to confirm your event. If you don't see the email, check your spam folder — or email events@350.org.{% endfilter %}</p>
+	</div>
 </div>
+
 <script type="text/javascript">
 	jQuery(window).load(function() {
 		if ('parentIFrame' in window) {
-          parentIFrame.sendMessage("event_created");
-        }
+      parentIFrame.sendMessage("event_created");
+    }
 	});
-	</script>
+</script>
 {% endblock %}

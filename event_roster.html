@@ -1,55 +1,62 @@
 {% load actionkit_tags smartif %}
 <!-- event_roster.html: Cohost/attendee roster for host page -->
+
 <style type="text/css">
+
 .{{signups.role}}-list .toggle-col { width: 1% }
 .{{signups.role}}-list-holder button { margin-top: 0; margin-bottom: 0; }
 fieldset.{{signups.role}}-list-holder { clear: both; }
+
+th{
+  text-align:left;}
+tr:nth-child(2n - 1){
+  background:rgba(21,36,42,0.1);}
 </style>
+
 <form id="manage-{{signups.role}}" onvalidate="return validateRoster(this)" onconfirm="return confirmRoster(this)" name="manage-{{signups.role}}" method="post" action="/event/{{campaign.local_name}}/{{event.id}}/manage_signups" accept-charset="utf-8">
-<ul class="compact" id="ak-errors"></ul>
-<input type="hidden" name="utf8" value="&#x2714;">
-<input type="hidden" name="page" value="{{ page.name }}">
-<input type="hidden" name="event_id" value="{{ event.id }}">
-<input type="hidden" name="akid" value="{{ args.akid }}">
-<input type="hidden" name="role" value="{{ signups.role }}">
-<input type="hidden" name="action" value="">
-<input type="hidden" name="form_name" value="manage-{{signups.role}}">
-<fieldset class="signup-list {{signups.role}}-list">
-<h6>{% ifequal signups.role 'host' %}{% filter ak_text:"event_roster_cohosts"%}Co-hosts:{% endfilter %}{% else %}{% filter ak_text:"event_roster_attendees"%}Attendees:{% endfilter %}{% endifequal %} {{ signups|length }} 
-</h6>
+  <ul class="compact" id="ak-errors"></ul>
 
+  <input type="hidden" name="utf8" value="&#x2714;">
+  <input type="hidden" name="page" value="{{ page.name }}">
+  <input type="hidden" name="event_id" value="{{ event.id }}">
+  <input type="hidden" name="akid" value="{{ args.akid }}">
+  <input type="hidden" name="role" value="{{ signups.role }}">
+  <input type="hidden" name="action" value="">
+  <input type="hidden" name="form_name" value="manage-{{signups.role}}">
 
-<ul class="ak-errors"></ul>
-<ul class="ak-confirmation"></ul>
+  <fieldset class="signup-list {{signups.role}}-list">
+    <div class="text-large2 text-strong">{% ifequal signups.role 'host' %}{% filter ak_text:"event_roster_cohosts"%}Co-hosts:{% endfilter %}{% else %}{% filter ak_text:"event_roster_attendees"%}Attendees:{% endfilter %}{% endifequal %} {{ signups|length }}
+    </div>
+    <ul class="ak-confirmation"></ul>
 
-<table class="signup-tbl {{signups.role}}-tbl">
-  <thead>
-    <th class="toggle-col"><input type="checkbox" class="if-js toggle-all" /></th>
-    <th class="name-col">{% filter ak_text:"field_name"%}Name{% endfilter %}</th>
-    <th class="phone-col">{% filter ak_text:"field_phone"%}Phone{% endfilter %}</th>
-	  <th class="vol-col">{% filter ak_text:"event_roster_can_volunteer" %}Can Volunteer{% endfilter %}</th>
-{# "Notes" column is commented out for user clarity since we're not using it --> #}
-    {# <!-- th class="notes-col">Notes</th --> #}
-  </thead>
-  <tbody>
-    {% for signup in signups %}
-      <tr class="{% cycle even,odd %}">
-        <td class="toggle-col"><input type="checkbox" class="toggle" name="user_id" value="{{ signup.user.id }}" /></td>
-        <td class="name-col">{{ signup.user }}</td>
-        <td class="phone-col">{{ signup.user.phone }}</td>
-        <td class="notes-col">{{ signup.custom_fields.can_volunteer }}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<div class="signup-list-controls">
-<input type="submit" class="email if-js button" value="{% filter ak_text:"event_roster_remove_contact"%}Contact{% endfilter %}">
-{% ifequal signups.role 'attendee' %}
-<input type="submit" confirm-message="{% filter ak_text:"event_roster_remove_confirm"%}Really remove attendee? This can't be undone.{% endfilter %}" name="remove" value="{% filter ak_text:"event_roster_remove"%}Remove{% endfilter %}" class="remove button" />
-{% endifequal %}
-<input type="submit" name="change-role" value="{% ifequal signups.role 'host' %}{% filter ak_text:"event_roster_make_attendee"%}Make attendee{% endfilter %}{% else %}{% filter ak_text:"event_roster_make_cohost"%}Make co-host{% endfilter %}{% endifequal %}" class="change-role button" />
-</div>
-</fieldset>
+    <table class="text-large signup-tbl {{signups.role}}-tbl margin-bottom-medium">
+      <thead>
+        <th class="toggle-col"><input type="checkbox" class="if-js toggle-all" /></th>
+        <th class="name-col">{% filter ak_text:"field_name"%}Name{% endfilter %}</th>
+        <th class="phone-col">{% filter ak_text:"field_phone"%}Phone{% endfilter %}</th>
+    	  <th class="vol-col">{% filter ak_text:"event_roster_can_volunteer" %}Can Volunteer{% endfilter %}</th>
+    {# "Notes" column is commented out for user clarity since we're not using it --> #}
+        {# <!-- th class="notes-col">Notes</th --> #}
+      </thead>
+      <tbody>
+        {% for signup in signups %}
+          <tr class="{% cycle even,odd %}">
+            <td class="toggle-col"><input type="checkbox" class="toggle" name="user_id" value="{{ signup.user.id }}" /></td>
+            <td class="name-col">{{ signup.user }}</td>
+            <td class="phone-col">{{ signup.user.phone }}</td>
+            <td class="notes-col">{{ signup.custom_fields.can_volunteer }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="signup-list-controls margin-bottom-huge">
+      <button type="submit" class="button">{% filter ak_text:"event_roster_remove_contact"%}Contact{% endfilter %}</button>  &nbsp;
+      <button type="submit" class="button button-secondary bg-teal" name="change-role">{% ifequal signups.role 'host' %}{% filter ak_text:"event_roster_make_attendee"%}Make attendee{% endfilter %}{% else %}{% filter ak_text:"event_roster_make_cohost"%}Make co-host{% endfilter %}{% endifequal %}</button>  &nbsp;
+      {% ifequal signups.role 'attendee' %}
+      <button type="submit" class="button button-secondary bg-red" confirm-message="{% filter ak_text:"event_roster_remove_confirm"%}Really remove attendee? This can't be undone.{% endfilter %}" name="remove">{% filter ak_text:"event_roster_remove"%}Remove{% endfilter %}</button> &nbsp;
+      {% endifequal %}
+    </div>
+  </fieldset>
 
 {% with 'no' as need_form %}
 {% if signups.role == 'host' %}

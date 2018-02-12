@@ -1,42 +1,58 @@
-{% load actionkit_tags smartif %}
+{% load actionkit_tags %}
+{% filter collapse_spaces %}
 
 <a name="contact{% if to %}-{{to}}{% endif %}"></a>
-<fieldset class="ak-nodisplay-if-js contact-form contact{% if to %}-{{to}}{% endif %}">
-{% ifnotequal need_form 'no' %}
-<form name="contact{% if to %}-{{to}}{% endif %}" method="post" action="/event/{{ campaign.local_name }}/{{ event.id }}/contact/" accept-charset="utf-8">
-<input type="hidden" name="page" value="{{ page.name }}">
-<input type="hidden" name="akid" value="{{ args.akid }}">
-<input type="hidden" name="form_name" value="contact{% if to %}-{{to}}{% endif %}">
 
-{% endifnotequal %}
-
-<hr>
-<div id="ak-confirmation" class="notification success">
-	{% filter ak_text:"event_contact_sent_confirm" %}Message Sent!{% endfilter %}
-</div>
-<div class="event-contact-headers">
-{% if user.name %}
-	<label><strong>{% filter ak_text:"general_message_from" %}From:{% endfilter %}</strong></label>
-	<span class="header-from header-val">{{ user.name }}</span><br/>
+<div class="form-style-labelabove contact-form contact{% if to %}-{{to}}{% endif %} ak-errs-below">
+  <h4>Email {% if to == 'attendees' %}attendee{% else %}Host{% endif %}(s)</h4>
+  <hr class="margin-small">
+{% if need_form != 'no' %}
+  <form name="contact{% if to %}-{{to}}{% endif %}" method="post" action="/event/{{ campaign.local_name }}/{{ event.id }}/contact/" accept-charset="utf-8">
+    <input type="hidden" name="page" value="{{ page.name }}">
+    <input type="hidden" name="akid" value="{{ args.akid }}">
+    <input type="hidden" name="form_name" value="contact{% if to %}-{{to}}{% endif %}">
+    <ul id="ak-errors"></ul>
+    <div id="ak-confirmation">
+      {% filter ak_text:"event_contact_message_confirmation" %}Sent!  If you like, you can send more messages below.{% endfilter %}
+    </div>
 {% endif %}
-	<label><strong>{% filter ak_text:"general_message_to" %}To:{% endfilter %}</strong></label>
-	<span class="header-to header-val">
-{% ifequal signup.role 'attendee' %}
-	{% filter ak_text:"event_contact_label_host" %}Your event host{% endfilter %}
-{% else %}
-{% ifequal to 'attendees' %}{% filter ak_text:"event_contact_attendees" %}Attendees{% endfilter %}{% else %}{% filter ak_text:"event_contact_cohosts" %}Co-hosts{% endfilter %}{% endifequal %} (<span class="if-js to-count">{{signups|length}}</span>)
-<span class="check-recipients-help">{% filter ak_text:"event_contact_to_help" %}(you can check off specific recipients above){% endfilter %}</span>
-{% endifequal %}
-</span>
-</div>
-<div class="event-contact-body" style="margin-top:10px;position:relative;">
-	<label for="msg-body"><strong>{% filter ak_text:"event_contact_label_message" %}Your message:{% endfilter %}</strong></label>
-	<textarea id="msg-body" name="body"></textarea>
-	<input name="send_email" value="{% filter ak_text:"general_send" %}Send{% endfilter %}" type="submit" class="button" /> <input type="submit" name="cancel" value="{% filter ak_text:"general_cancel" %}Cancel{% endfilter %}" class="button" onclick="window.location.reload(); return false;" />
-</div>
 
-{% ifnotequal need_form 'no' %}
-<input type="hidden" name="required" value="body">
-</form>
-{% endifnotequal %}
-</fieldset>
+    <div class="input-message-from margin-bottom-small">
+      <label class="text-blue text-small-caps text-strong">{% filter ak_text:"general_email_from" %}From{% endfilter %}</label>&nbsp;
+      <span class="input-message-from-value">{{ user.name }}</span>
+    </div>
+    <div class="input-message-to margin-bottom-small">
+      <label class="text-blue text-small-caps text-strong">{% filter ak_text:"general_email_to" %}To{% endfilter %}</label>&nbsp;
+      <span class="input-message-to-value">
+            {% if signup.role == 'attendee' %}
+              Your event host
+            {% else %}
+              {{signups|length}}
+              {% if to == 'attendees' %}attendee{% else %}co-host{% endif %}{% if signups|length > 1 %}(s){% endif %}
+            {% endif %}
+      </span>
+    </div>
+{% if to in 'attendees|cohosts' %}
+    <div class="input-text input-message-subject">
+      <label for="message-subject" class="text-caps text-strong text-blue">{% filter ak_text:"general_email_subject" %}Subject{% endfilter %}*</label>
+      <input id="message-subject" type="text" name="subject" class="ak-full-width" style="max-width:100%;width:100%;" value="Message from your &quot;{{ event.title|default:campaign.local_title }}&quot; {% if to == 'cohosts'%}co-{% endif %}host">
+    </div>
+{% endif %}
+    <div class="input-textarea input-message-body">
+      <label for="message-body" class="text-caps text-strong text-blue">{% filter ak_text:"general_message" %}Message{% endfilter %}</label>
+      <textarea id="message-body" name="body" style="min-height:160px;"></textarea>
+    </div>
+
+    <div class="text-right">
+      <button name="send_email" type="submit" class="button arrow-right">{% filter ak_text:"general_send" %}Send{% endfilter %}</button> &nbsp;
+      <button type="submit" name="cancel" class="button" onclick="window.location.reload(); return false;">{% filter ak_text:"general_cancel" %}Cancel{% endfilter %}</button>
+    </div>
+
+    </div>
+
+{% if need_form != 'no' %}
+    <input type="hidden" name="required" value="body">
+  </form>
+{% endif %}
+</div>
+{% endfilter %}

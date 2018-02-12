@@ -65,7 +65,7 @@
 		<div id="unknown_user">
 			<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}{% endfilter %}</h5>
 				<div id="id_email_box" class="input-text ak-input-type-user required ak-err-below">
-					<label for="id_email">Email Address</label>
+					<label for="id_email">{% filter ak_text:"field_email" %}Email Address{% endfilter %}</label>
 					<input type="text" name="email" id="id_email" class="ak-userfield-input">
 				</div>			 
 <!--		   

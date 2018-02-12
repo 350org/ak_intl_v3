@@ -71,11 +71,12 @@
 
 <div id="event-attend-header" class="section width-normal padding-large">
 	<div class="section-inner">
+		<h4 class="event-campaign-title margin-bottom-medium text-center">{{ campaign.local_title }}<h4>
 		<h1 id="page-title" class="title3 text-center">{{ event.title }}</h1>
 {% with 1 as hide_map %}
 	{% for event in events %}
 		<div id="event-attend-info" class="event-info text-center margin-bottom-large">
-			<div class="event-time text-strong text-large3 text-style-lead3">
+			<div class="event-time text-strong text-large3 text-style-lead3 icon-before" data-icon="&#xE915;">
 		{% if page.lang.iso_code == "en" %}
 			{{ event.starts_at }}
 		{% elif page.lang.iso_code == "fr" %}
@@ -93,7 +94,7 @@
 		{% if campaign.show_venue and event.venue %}
 			<div class="event-venue text-large3 text-style-lead3">{{ event.venue }}</div>
 		{% endif %}
-			<div class="event-location text-large3 text-style-lead3">
+			<div class="event-location text-large3 text-style-lead3 icon-before" data-icon="&#xe907;">
 		{% if campaign.show_address1 %}
 				<span class="event-address1 text-style-lead3">{{ event.address1 }}</span>
 		{% endif %}
@@ -109,7 +110,7 @@
 			<div class="event-address-hidden note opacity-50">{% filter ak_text:"event_search_results_address_hidden_until_rsvp" %}(We'll show you the exact address once you RSVP){% endfilter %}</div>
 		{% endif %}
 		{% if event.distance|is_nonblank %}
-			<div class="event-distance text-large3 text-style-lead3">{{ event.distance_str }}</div>
+			<div class="event-distance opacity-50">{{ event.distance_str }}</div>
 		{% endif %}
 		</div>
 		{% if event.custom_fields.event_facebook_id and event.custom_fields.event_facebook_id != "none" %}

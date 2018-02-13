@@ -1,9 +1,7 @@
 {% extends "./wrapper.html" %}
 {% load actionkit_tags smartif %}
 {% block content %}
-<!--
-<link rel="stylesheet" href="https://s3.amazonaws.com/s3.350.org/images/event-styles-2013.css" type="text/css" />
--->
+
 <style>
 #page-header{
   margin-bottom:-3em;}
@@ -156,17 +154,17 @@ a.area-link.event-link:hover {
 {% endblock %}
 
 {% block tail_js %}
-<script type="text/javascript" src="//350dotorg.github.io/megamap/js/tabletop.js"></script>
+<script type="text/javascript" src="https://350dotorg.github.io/megamap/js/tabletop.js"></script>
 <script type="text/javascript">
       RAH = {};
-      RAH.sprite_url = "//s3.amazonaws.com/static.local.350.org/images/map_markers/map-pin-single.png";
-      RAH.multiple_sprite_url = "//s3.amazonaws.com/static.local.350.org/images/map_markers/map-pin-multiple.png";
+      RAH.sprite_url = "http://s3.amazonaws.com/static.local.350.org/images/map_markers/map-pin-single.png";
+      RAH.multiple_sprite_url = "https://s3.amazonaws.com/static.local.350.org/images/map_markers/map-pin-multiple.png";
       // Add locations for plotting on the map
       RAH.event_locations = [];
       RAH.map_center = {};
 </script>
-<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAyc65HgY18lHPM_vjvZS-jgkqpZPwaCDc&sensor=false"></script>
-<script type="text/javascript" src="//s3.amazonaws.com/static.local.350.org/js/libs/markerclusterer.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc65HgY18lHPM_vjvZS-jgkqpZPwaCDc&sensor=false"></script>
+<script type="text/javascript" src="https://s3.amazonaws.com/s3.350.org/js/map/markerclusterer.js"></script>
 <script type="text/javascript">
 
 $.urlParam = function(name){
@@ -217,7 +215,7 @@ if ( moment(dt).isAfter(now) ) {
 	    if( event.rsvp_url && event.rsvp_url.match(/^https:\/\/secure.avaaz.org\//) ) {
           info = "<div class='map-event-info-metadata'><b><a target='_blank' href='" + event.rsvp_url + "'>" + event.name + "</a></b><br/>" + event.venue + "<br/><span class='start-time'>" + formattedTime + "</span></div>";
 		} else {
-		  var rsvp_url = event.rsvp_url || "http://act.350.org/event/{{ campaign.local_name }}/" + event.event_id + "/";
+		  var rsvp_url = event.rsvp_url || "https://act.350.org/event/{{ campaign.local_name }}/" + event.event_id + "/";
           info = "<div class='map-event-info-metadata'><b><a target='_blank' href='"+rsvp_url+"'>" + event.title + "</a></b><br/>" + event.venue + "<br/>{% if campaign.name != "commbank-under-new-management" and campaign.name != "CBA_Week_of_Action" %}<span class='start-time'>" + formattedTime + "</span>{% endif %}";
 			if (event.facebook_id) {
 				info += '<a style="float: right; display: block; text-transform: none; border: none" href="https://www.facebook.com/' + event.facebook_id + '"><img src="https://s3.amazonaws.com/s3.350.org/images/tiny-fb-event-button.png" width="20" style="border: 1px solid #40579A; margin-left: 5px; margin-top: -5px"></a></div>';
@@ -349,7 +347,7 @@ Tabletop.init({
         simpleSheet: true,
     	callback: getFeaturedEventsFromSpreadsheet,
     	debug: false,
-        proxy: "//350dotorg.github.io/megamap-data"
+        proxy: "https://350dotorg.github.io/megamap-data"
     });
 
 function highlightFeaturedEvents(el) {

@@ -141,7 +141,7 @@
         <div id="id_event_is_private_row" class="input-radio ak-input-type-event id_event_is_private cb-container">
           <label>Visibility</label>
           <div id="event-is-pubic-wrapper" class="input-radio-option-group">
-            <input id="id_event_is_public" type="radio" class="radio" value="false" name="event_is_private" selected />
+            <input id="id_event_is_public" type="radio" class="radio" value="false" name="event_is_private" checked />
             <label class="radio-label" for="id_event_is_public">
               <span class="text-large text-strong">{% filter ak_text:"event_create_field_label_public" %}Public{% endfilter %}</span><br>
               <span class="text-small opacity-50">{% filter ak_text:"event_create_field_label_public_note" %}Anyone can find your event by searching the events map, and 350 will send emails inviting people in your area.{% endfilter %}</span>
@@ -180,9 +180,9 @@
       	<h3 class="section-header meta margin-bottom-large">{% filter ak_text:"event_create_section_location" %}Event Location{% endfilter %}</h3>
 {% with "event_" as input_name_prefix %}
   {% if campaign.show_address1 %}
-        <p class="text-small opacity-50">{% filter ak_text:"event_create_address_privacy_note" %}NOTE: Unless you're hosting a Private event, event addresses will be listed publicly.{% endfilter %}</p>
+        <p class="opacity-50 text-strong">{% filter ak_text:"event_create_address_privacy_note" %}NOTE: Unless you're hosting a private event, event addresses will be listed publicly.{% endfilter %}</p>
   {% else %}
-        <p class="text-small opacity-50">{% filter ak_text:"event_create_address_privacy_note" %}NOTE: The exact address will be hidden until people sign up to attend your event.{% endfilter %}</p>
+        <p class="text-small opacity-50">{% filter ak_text:"event_create_address_hidden_privacy_note" %}NOTE: The exact address will be hidden until people sign up to attend your event.{% endfilter %}</p>
   {% endif %}
         <div class="input-text ak-input-type-event input-venue">
       		<label for="id_event_venue">{% filter ak_text:"event_create_label_venue" %}Venue (i.e. "My Living Room" or "North Side Park"){% endfilter %}</label>

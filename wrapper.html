@@ -2,7 +2,7 @@
 <html class="no-blend" lang="{{ page.lang.iso_code|default:"en-US" }}"{% if page.lang.is_rtl %} dir="rtl"{% endif %}>
 <head>
 	<title>{% if events|is_defined %}{{ event.title }} - {% client_name %}{% else %}{{ page.title }} - {% client_name %}{% endif %}</title>
-	<link rel="icon" type="image/png" href="//dbqvwi2zcv14h.cloudfront.net/images/favicon.png" />
+	<link rel="icon" type="image/png" href="{{ templateset.custom_fields.favicon_url }}" />
 	<meta charset="utf-8" />
 	<meta name="google-site-verification" content="xBbyZ3PFWhcaCUUS4MfP-1L-BCB1CgGiUzcpOzbk6pM" />
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
@@ -11,23 +11,22 @@
 {% endif %}
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta property="og:type" content="website" />
-{% if page.custom_fields.page_is_c4 %}
-	<meta property="fb:app_id" content="813320562104969" />
-{% else %}
-	<meta property="fb:app_id" content="148617041897246" />
-{% endif %}
+
+	<meta property="fb:app_id" content="{{ templateset.custom_fields.fb_app_id }}" />
+
 {% if page.lang.iso_code == 'en' %}
 	<meta property="og:locale" content="{{page.lang.iso_code|default:'en' }}_US" />
 {% else %}
 	<meta property="og:locale" content="{{ page.lang.iso_code|default:'en' }}_{{ page.lang.iso_code|default:'US'|upper }}" />
 {% endif %}
+
 	{{ page.followup.share_image_tag }}
 {% if page.custom_fields.fb_pic_url %}
 	<meta property="og:image" content="{{ page.custom_fields.fb_pic_url }}" />
 {% endif %}
 {% if events|length %}
 	<meta property="og:url" content="http://act.350.org{{ event.public_url }}" />
-	<meta property="og:title" content="{% if event.title %}{{ event.title }}{% else %}{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}{% endif %}" />
+	<meta property="og:title" content="{% if event.title %}{{ event.title }} – {{ campaign.local_title }}{% else %}{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}{% endif %}" />
 	{% if page.custom_fields.fb_description %}
 	<meta property="og:description" content="{{ page.custom_fields.fb_description }}" />
 	{% else %}
@@ -51,34 +50,37 @@
 	<meta property="og:description" content="{{ page.custom_fields.fb_description }}" />
 	{% endif %}
 {% endif %}
-<meta name="twitter:url" content="{% if page.custom_fields.fb_share_url %}{{ page.custom_fields.fb_share_url }}{% else %}{{ page.canonical_url }}{% endif %}" />
-<meta name="twitter:title" content="{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}" />
-<meta name="twitter:description" content="{% if page.custom_fields.fb_description %}{{ page.custom_fields.fb_description }}{% else %}{{ page.followup.share_description_value }}{% endif %}" />
+	<meta name="twitter:url" content="{% if page.custom_fields.fb_share_url %}{{ page.custom_fields.fb_share_url }}{% else %}{{ page.canonical_url }}{% endif %}" />
+	<meta name="twitter:title" content="{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}" />
+	<meta name="twitter:description" content="{% if page.custom_fields.fb_description %}{{ page.custom_fields.fb_description }}{% else %}{{ page.followup.share_description_value }}{% endif %}" />
 {% if page.custom_fields.fb_pic_url %}
 	<meta name="twitter:image" content="{{ page.custom_fields.fb_pic_url }}" />
 {% endif %}
-{% if page.custom_fields.page_is_c4 %}
-	<meta name="twitter:site" content="@350action" />
-	<meta name="twitter:site:id" content="350action.org" />
-{% else %}
-	<meta name="twitter:site" content="@350" />
-	<meta name="twitter:site:id" content="350.org" />
-{% endif %}
+
+	<meta name="twitter:site" content="{{ templateset.custom_fields.site_twitter }}" />
+	<meta name="twitter:site:id" content="{{ templateset.custom_fields.site_url }}" />
+
 {% block meta_additions %}{% endblock %}
 
-<link rel='stylesheet' id='baseline-css' href='https://s3.amazonaws.com/s3.350.org/ak/ak-v3.css' type='text/css' media='all' />
-	{% if page.lang.is_rtl %}
-	<link rel='stylesheet' id='baseline-rtl-css' href='https://s3.amazonaws.com/s3.350.org/ak/ak-v3-rtl.css' type='text/css' media='all' />
-	{% endif %}
-<style>
-{% if page.custom_fields.page_background_image %}
-	#body-mobile-background{
-		background-image:url({{ page.custom_fields.page_background_image }});}
+	<link rel='stylesheet' id='baseline-css' href='https://s3.amazonaws.com/s3.350.org/ak/ak-v3.css' type='text/css' media='screen' />
+{% if templateset.custom_fields.site_addl_css_url %}
+	<link rel='stylesheet' id='addl-css' href='{{ templateset.custom_fields.site_addl_css_url }}' type='text/css' media='screen' />
 {% endif %}
-</style>
+{% if page.lang.is_rtl %}
+	<link rel='stylesheet' id='baseline-rtl-css' href='https://s3.amazonaws.com/s3.350.org/ak/ak-v3-rtl.css' type='text/css' media='all' />
+{% endif %}
+
+	<style>
+{% if page.custom_fields.page_background_image %}
+		#body-mobile-background{
+			background-color:{{ templateset.custom_fields.color_page }};
+			background-image:url({{ page.custom_fields.page_background_image }});}
+{% endif %}
+	</style>
+
 {% block css_additions %}{% endblock %}
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="/resources/actionkit.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/resources/actionkit.js"></script>
 <!--[if lte IE 9]>
 	<link href="https://dbqvwi2zcv14h.cloudfront.net/images/ak-v3-ie9.css" rel="stylesheet" type="text/css">
 	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -86,6 +88,7 @@
 <![endif]-->
 {% block script_additions %}{% endblock %}
 </head>
+
 <body class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.iso_code|default:'en-US'}} page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %} {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js ">
 {% if page.custom_fields.page_hide_from_search_engines %}
 <div id="hidden-from-search-engines-bar" class="section bg-teal text-center text-small padding-tiny width-wide">
@@ -98,6 +101,7 @@
 <script type="text/javascript">actionkit.forms.initPage()</script>
 
 {% block content %}{% endblock %}
+
 {% block below_form %}
 <script type="text/javascript">
 actionkit.forms.contextRoot = '/context/';
@@ -121,25 +125,30 @@ actionkit.forms.initForm('act');
 <div class="clear" /></div>
 <footer id="" class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %} width-full text-small">
 	<div class="section-inner">
-		<nav id="footer-links" class="c6_6 ct6 cm10 c-wide">
-{% if page.custom_fields.page_is_c4 %}
-			<a id="footer-logo" href="http://350action.org/"><span class="tf-logo text-large3">350</span> Action</a> / {% ifnotequal page.type "Donation" %}<a href="https://act.350.org/donate/action/">Donate</a> / {% endifnotequal%}<a id="privacy-link" href="http://www.350action.org/privacy/">Privacy</a> / <a href="http://www.350action.org/contact/">Contact</a>
-{% else %}
-		{% if page.custom_fields.page_no_logo %}{% else %}
-			{% if page.payment_processor_information.currency == 'AUD' %}
-			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org.au/">350.org.au</a></span> &nbsp; <a href="http://350.org.au/about/">About</a> /{% ifequal page.type "Donation" %} {% else %} <a
-	href="http://350.org/donate">Donate</a> / {% endifequal%}<a id="privacy-link" href="http://350.org.au/privacy-policy/">Privacy</a> / <a href="http://350.org.au/contact/">Contact</a>
-			{% else %}
-			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org/">350.org</a></span> &nbsp; <a href="{% filter ak_text:"footer_about" %}http://350.org/how{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a
-	href="{% filter ak_text:"footer_donate_url" %}http://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a> / {% endifequal%}<a id="privacy-link" href="{% filter ak_text:"footer_privacy_url" %}http://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a> / <a href="{% filter ak_text:"footer_contact_url" %}http://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
-			{% endif %}
 
-		{% endif %}
+		<nav id="footer-links" class="c6_6 ct6 cm10 c-wide">
+{% filter collapse_spaces %}
+{% autoescape off %}
+	{% if templateset.custom_fields.site_logo_html %}
+			<a id="footer-logo" href="https://{{ templateset.custom_fields.site_url }}/">
+				{{ templateset.custom_fields.site_logo_html }}
+			</a>
+	{% else %}
+			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org/">350.org</a></span> &nbsp; /
 	{% endif %}
+	{% if templateset.custom_fields.footer_menu_html %}
+			{{ templateset.custom_fields.footer_menu_html }}
+	{% else %}
+			 &nbsp;&nbsp; <a href="{% filter ak_text:"footer_about" %}http://350.org/how{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a
+	href="{% filter ak_text:"footer_donate_url" %}http://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a> / {% endifequal%}<a id="privacy-link" href="{% filter ak_text:"footer_privacy_url" %}http://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a> / <a href="{% filter ak_text:"footer_contact_url" %}http://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
+	{% endif %}
+{% endautoescape %}
+{% endfilter %}
 		</nav>
+
 {% if page.custom_fields.page_background_image %}
 	{% autoescape off %}
-	<div class="c3_3 ct4 cm10 right text-right">
+		<div class="c3_3 ct4 cm10 right text-right">
 		{% if page.custom_fields.page_background_image_credit %}
 			<span class="mobile-hide page-bg-img-credit icon-before icon-faded text-underline-none" data-icon="&#xE90A;" href="">{{ page.custom_fields.page_background_image_credit }}</span>
 		{% else %}
@@ -149,7 +158,6 @@ actionkit.forms.initForm('act');
 	{% endautoescape %}
 	{% endif %}
 
-		<div class="clear"></div>
 	</div>
 </footer>
 
@@ -165,12 +173,18 @@ jQuery(document).ready(function(){
 </script>
 {% endif %}
 
+{% comment %}
+	Font loading code — checks for CPF fonts, then checks for language/writing system, then checks for CTF,
+{% endcomment %}
 
+{% autoescape off %}
 {% if page.custom_fields.page_custom_webfonts %}
-	{% autoescape off %}
-{{ page.custom_fields.page_custom_webfonts }}
-	{% endautoescape %}
-{% elif page.lang.iso_code == "ar" %}
+	{{ page.custom_fields.page_custom_webfonts }}
+{% else %}
+	{% if page.lang.iso_code == "ar" %}
+		{% if templateset.custom_fields.font_loading_code_arabic %}
+			{{ templateset.custom_fields.font_loading_code_arabic }}
+		{% else %}
 <style>
 @import url(https://fonts.googleapis.com/earlyaccess/notokufiarabic.css);
 @import url(https://fonts.googleapis.com/earlyaccess/notonaskharabic.css);
@@ -207,9 +221,16 @@ jQuery(document).ready(function(){
 		s.parentNode.insertBefore(wf, s);
 	})();
 </script>
-{% elif page.lang.iso_code == "ja" %}
-
-{% else %}
+		{% endif %}
+	{% elif page.lang.iso_code == "ja" or page.lang.iso_code == "zh" or page.lang.iso_code == "kr" %}
+		{% if templateset.custom_fields.font_loading_code_cjk %}
+			{{ templateset.custom_fields.font_loading_code_cjk }}
+		{% else %}
+		{% endif %}
+	{% else %}
+		{% if templateset.custom_fields.font_loading_code_roman %}
+			{{ templateset.custom_fields.font_loading_code_roman }}
+		{% else %}
 <script>
 	WebFontConfig = {
 		custom: {
@@ -234,16 +255,23 @@ jQuery(document).ready(function(){
 	})();
 </script>
 <script>startTime=new Date()</script>
+		{% endif %}
+	{% endif %}
 {% endif %}
+{% endautoescape %}
+
 {% ifequal page.type "EventCreate" %}
 <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 {% endifequal %}
+
 {% block tail_js %}{% endblock %}
+
 <script type="text/javascript">
 	if ('parentIFrame' in window) {
 	  parentIFrame.sendMessage(window.location.href, "*");
 	}
 </script>
+
 <div id="body-mobile-background"></div>
 </body>
 </html>

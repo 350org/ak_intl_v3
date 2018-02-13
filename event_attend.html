@@ -37,33 +37,31 @@
 <div id="event-attend" class="bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 
 {% if update or args.foo or event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
-<div class="section width-medium text-center">
+<div class="notifications section width-medium text-center">
 	<div class="section-inner">
 	{% if update %}
 		<div class="notification success notification-success">
 			<p class="text-strong">{% filter ak_text:"event_attend_tools_attending" %}You're signed up for this event.{% endfilter %}</h5>
 		</div>
 	{% else %}
-		{% if args.foo or event.is_open_for_signup %}
 		<div class="notification alert">
-			{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
-				{% if event.is_inactive %}
+		{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
+			{% if event.is_inactive %}
 			<p>{% filter ak_text:"event_attend_error_cancelled" %}Sorry, this event was cancelled.{% endfilter %}</p>
-				{% endif %}
-				{% if event.is_full %}
-			<p>{% filter ak_text:"event_attend_error_full" %}Sorry, this event is full.{% endfilter %}</p>
-				{% endif %}
-				{% if event.is_in_past %}
-			<p>{% filter ak_text:"event_attend_error_over" %}Sorry, it's too late to sign up for this event.{% endfilter %}</p>
-				{% endif %}
-				{% if event.is_awaiting_confirmation %}
-			<p>{% filter ak_text:"event_attend_error_unconfirmed" %}Sorry, the event host has not yet confirmed this event.{% endfilter %}</p>
-				{% endif %}
-			{% else %}
-			<p>{% filter ak_text:"event_attend_error_unavailable" %}Sorry, this event isn't available for signup.{% endfilter %}</p>
 			{% endif %}
-		</div>
+			{% if event.is_full %}
+			<p>{% filter ak_text:"event_attend_error_full" %}Sorry, this event is full.{% endfilter %}</p>
+			{% endif %}
+			{% if event.is_in_past %}
+			<p>{% filter ak_text:"event_attend_error_over" %}Sorry, it's too late to sign up for this event.{% endfilter %}</p>
+			{% endif %}
+			{% if event.is_awaiting_confirmation %}
+			<p>{% filter ak_text:"event_attend_error_unconfirmed" %}Sorry, the event host has not yet confirmed this event.{% endfilter %}</p>
+			{% endif %}
+		{% else %}
+			<p>{% filter ak_text:"event_attend_error_unavailable" %}Sorry, this event isn't available for signup.{% endfilter %}</p>
 		{% endif %}
+		</div>
 	{% endif %}
 	</div>
 </div>
@@ -71,7 +69,7 @@
 
 <div id="event-attend-header" class="section width-normal padding-large">
 	<div class="section-inner">
-		<h4 class="event-campaign-title margin-bottom-medium text-center">{{ campaign.local_title }}<h4>
+		<h4 class="event-campaign-title margin-bottom-medium text-center text-large meta">{{ campaign.local_title }}<h4>
 		<h1 id="page-title" class="title3 text-center">{{ event.title }}</h1>
 {% with 1 as hide_map %}
 	{% for event in events %}
@@ -91,18 +89,18 @@
 			{{ event.obj.starts_at|date:"Y-n-d, H:i" }}
 		{% endif %}
 			</div>
-		{% if campaign.show_venue and event.venue %}
-			<div class="event-venue text-large3 text-style-lead3">{{ event.venue }}</div>
-		{% endif %}
 			<div class="event-location text-large3 text-style-lead3 icon-before" data-icon="&#xe907;">
+		{% if campaign.show_venue and event.venue %}
+				<span class="event-venue">{{ event.venue }}</span><br>
+		{% endif %}
 		{% if campaign.show_address1 %}
-				<span class="event-address1 text-style-lead3">{{ event.address1 }}</span>
+				<span class="event-address1">{{ event.address1 }}</span><br>
 		{% endif %}
 		{% if campaign.show_city or campaign.show_state or campaign.show_zip %}
 			{% if campaign.show_zip %}
-				<span class="event-city-etc text-style-lead3">{{ event.city_etc }}</span>
+				<span class="event-city-etc">{{ event.city_etc }}</span>
 			{% else %}
-				<span class="event-city-etc text-style-lead3">{{ event.city_etc_no_postal }}</span>
+				<span class="event-city-etc">{{ event.city_etc_no_postal }}</span>
 			{% endif %}
 		{% endif %}
 			</div>
@@ -118,8 +116,7 @@
 			<a href="https://www.facebook.com/{{ event.custom_fields.event_facebook_id }}" class="button-share-medium bg-facebook-color bg-facebook-icon">RSVP on Facebook</a>
 		</div>
 		{% else %}
-			{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
-			{% else %}
+			{% if args.foo or event.is_open_for_signup or update %}
 		<div class="margin-bottom-large text-center">
 			<a id="event-attend-jump-link" href="#rsvp" class="button button-big button-primary arrow-down">{% if update %}Update Your Info{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign Up{% endfilter %}{% endif %}</a>
 		</div>
@@ -133,7 +130,7 @@
 		<div class="padding-medium margin-bottom-none">
 		{% if campaign.show_public_description %}
 			{% autoescape off %}
-			<div class="event-description">{{ event.public_description }}</div>
+			<div class="event-description text-large" data-read-more-after="3">{{ event.public_description }}</div>
 			{% endautoescape %}
 		{% endif %}
 		{% if page.custom_fields.event_attend_addl_html %}

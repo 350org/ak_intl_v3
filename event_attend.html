@@ -6,6 +6,12 @@
 .section.padding-none{
 	padding:0;}
 
+#notification-bar{
+	left:0;
+	position:absolute;
+	top:0;
+	width:100%;}
+
 #event-attend-header{
 	padding-bottom:1em;}
 
@@ -69,7 +75,6 @@
 
 <div id="event-attend-header" class="section width-normal padding-large">
 	<div class="section-inner">
-		<h4 class="event-campaign-title margin-bottom-medium text-center text-large meta">{{ campaign.local_title }}<h4>
 		<h1 id="page-title" class="title3 text-center">{{ event.title }}</h1>
 {% with 1 as hide_map %}
 	{% for event in events %}

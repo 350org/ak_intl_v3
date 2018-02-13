@@ -59,13 +59,13 @@
 	</div>
 </div>
 
-<div id="event-attend-header" class="section width-normal bg-transparent padding-large">
+<div id="event-attend-header" class="section width-normal padding-large">
 	<div class="section-inner">
 		<h1 id="page-title" class="title3 text-center">{{ event.title }}</h1>
 	{% with 1 as hide_map %}
 		{% for event in events %}
 		<div id="event-attend-info" class="event-info text-center margin-bottom-large">
-			<div class="event-time text-strong text-large3 text-style-lead3">
+			<div class="event-time text-strong text-large3 text-style-lead3 icon-before" data-icon="&#xE915;">
 			{% if page.lang.iso_code == "en" %}
 				{{ event.starts_at }}
 			{% elif page.lang.iso_code == "fr" %}
@@ -80,18 +80,18 @@
 				{{ event.obj.starts_at|date:"Y-n-d, H:i" }}
 			{% endif %}
 			</div>
+			<div class="event-location text-large3 text-style-lead3 icon-before" data-icon="&#xe907;">
 			{% if campaign.show_venue and event.venue %}
-			<div class="event-venue text-large3 text-style-lead3">{{ event.venue }}</div>
+				<span class="event-venue">{{ event.venue }}</span><br>
 			{% endif %}
-			<div class="event-location text-large3 text-style-lead3">
 			{% if campaign.show_address1 %}
-				<span class="event-address1 text-style-lead3">{{ event.address1 }}</span>
+				<span class="event-address1">{{ event.address1 }}</span><br>
 			{% endif %}
 			{% if campaign.show_city or campaign.show_state or campaign.show_zip %}
 				{% if campaign.show_zip %}
-				<span class="event-city-etc text-style-lead3">{{ event.city_etc }}</span>
+				<span class="event-city-etc">{{ event.city_etc }}</span>
 				{% else %}
-				<span class="event-city-etc text-style-lead3">{{ event.city_etc_no_postal }}</span>
+				<span class="event-city-etc">{{ event.city_etc_no_postal }}</span>
 				{% endif %}
 			{% endif %}
 			</div>
@@ -99,7 +99,7 @@
 			<div class="event-address-hidden note opacity-50">{% filter ak_text:"event_search_results_address_hidden_until_rsvp" %}(We'll show you the exact address once you RSVP){% endfilter %}</div>
 			{% endif %}
 			{% if event.distance|is_nonblank %}
-			<div class="event-distance text-large3 text-style-lead3">{{ event.distance_str }}</div>
+			<div class="event-distance opacity-50">{{ event.distance_str }}</div>
 			{% endif %}
 		</div>
 		<div id="event-attend-tools-links" class="text-center">

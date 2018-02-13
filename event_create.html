@@ -4,9 +4,15 @@
 
 <style>
 
-.text-style-parenthesis::before{
+.en .text-style-parenthesis::before,
+.es .text-style-parenthesis::before,
+.fr .text-style-parenthesis::before,
+.de .text-style-parenthesis::before{
   content:'(';}
-.text-style-parenthesis::after{
+.en .text-style-parenthesis::after,
+.es .text-style-parenthesis::after,
+.fr .text-style-parenthesis::after,
+.de .text-style-parenthesis::after{
   content:')';}
 
 .ak-err{
@@ -238,7 +244,7 @@
             <span class="ak-user-phone icon-before icon-faded" data-icon="&#xE951;">{{ user.phone }}</span>
           </p>
           <p>
-            <a href="https://act.350.org/me/" class="text-style-parenthesis opacity-50" target="_blank" class="text-small text-underline-none">{% filter ak_text:"event_create_update_info_button" %}Update your information{% endfilter %}</a>
+            <a href="https://act.350.org/me/" class="text-style-parenthesis text-underline-none opacity-50" target="_blank" class="text-small text-underline-none">{% filter ak_text:"event_create_update_info_button" %}Update your information{% endfilter %}</a>
           </p>
         </div>
       	<div id="logout_link" class="text-small opacity-50">

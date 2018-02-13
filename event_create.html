@@ -228,16 +228,16 @@
       <h3 class="section-header meta margin-bottom-large">{% filter ak_text:"event_create_section_contact" %}Your contact information{% endfilter %}</h3>
       <div id="known_user" class="text-center">
         <div class="padding-small bg-white-trans text-large3 margin-bottom-small">
-          <p><span class="ak-user-name text-strong">{{ user.name }}</span><br>
-            <span class="ak-user-email">{{ user.email }}</span><br>
-            <span class="ak-user-phone">{{ user.phone }}</span>
+          <p><span class="ak-user-name text-strong icon-before icon-faded" data-icon="&#xE904;">{{ user.name }}</span><br>
+            <span class="ak-user-email icon-before icon-faded" data-icon="&#xE900;">{{ user.email }}</span><br>
+            <span class="ak-user-phone icon-before icon-faded" data-icon="&#xE951;">{{ user.phone }}</span>
+          </p>
+          <p>
+            (<a href="https://act.350.org/me/" target="_blank" class="text-small text-underline-none">{% filter ak_text:"event_create_update_info_button" %}Update your information{% endfilter %}</a>)
           </p>
         </div>
-        <div class="margin-bottom-small">
-          <a class="button button-secondary">{% filter ak_text:"event_create_update_info_button" %}Update your information{% endfilter %}</a>
-        </div>
       	<div id="logout_link" class="text-small">
-      		<p><a href="?" onclick="return actionkit.forms.logOut()" class="text-underline-none">Not <span id="known_user_name"></span>? Click here to log out </a></p>
+      		<p><a href="?" onclick="return actionkit.forms.logOut()" class="text-underline-none arrow-right">Not <span id="known_user_name"></span>? Click here to log out </a></p>
       	</div>
       </div>
 
@@ -304,7 +304,7 @@
 {% endif %}
 
 {% if not update %}
-      <div class="text-strong margin-bottom-medium">
+      <div class="text-strong margin-bottom-medium text-center">
   {% filter ak_text:"event_create_next_step" %}Next, we'll e-mail you a link to confirm your event.{% endfilter %}
       </div>
 {% endif %}

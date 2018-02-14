@@ -223,14 +223,15 @@ a.cancel-link:hover,
 						<a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE900;" id="email-attendees-link" href="#contact-attendees">{% filter ak_text:"event_host_tools_email_attendees" %}Email attendees{% endfilter %}</a>
 					</li>
 	{% else %}
-			    <!-- Flag that the functionality will be there -->
-			    <li class="if-js">
-						<span class="host-tool icon-before icon-faded" data-icon="&#xE900;">
-							<span class="opacity-50 text-strong">{% filter ak_text:"event_host_tools_email_attendees" %}Email attendees{% endfilter %}</span><br>
-				      <span class="opacity-50 text-small2">{% filter ak_text:"event_host_tools_email_attendees_disabled" %}(Available after people sign up for your event.){% endfilter %}</span>
-						</span>
-			    </li>
-	{% endif %}
+    {% filter collapse_spaces %}
+          <li class="if-js">
+            <span class="host-tool icon-before icon-faded" data-icon="&#xE900;">
+              <span class="opacity-50 text-strong">{% filter ak_text:"event_host_tools_email_attendees" %}Email attendees{% endfilter %}</span><br>
+              <span class="opacity-50 text-small2">{% filter ak_text:"event_host_tools_email_attendees_disabled" %}(Available after people sign up for your event.){% endfilter %}</span>
+            </span>
+          </li>
+    {% endfilter %}
+  {% endif %}
 	{% if event.is_in_past %}
 		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE904;"  id="add-attendees-link" href="#attendees-add">Add Attendees</a></li>
 	{% endif %}

@@ -175,7 +175,7 @@ a.cancel-link:hover,
 		</h3>
 		<h4 class="event-campaign-title margin-bottom-medium">{{ campaign.local_title }}<h4>
   {% if campaign.use_title %}
-    <h1 class="text-style-title-large title4 event-title">{{ event.title }}</h1>
+    <h1 class="text-style-title-large title3 event-title">{{ event.title }}</h1>
   {% else %}
     <h1 class="text-style-title-large title1">Event Tools</h1>
   {% endif %}
@@ -205,35 +205,35 @@ a.cancel-link:hover,
 	{% if user_is_manager %}
 		{% if campaign.require_email_confirmation and not event.host_is_confirmed %}
 		     		<li>
-							<a class="host-tool" onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $(this).text('Confirmed');" href="#">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm event{% endfilter %}</a>
+							<a class="host-tool icon-before icon-faded" data-icon="&#xE942;" onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $(this).text('Confirmed');" href="#">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm event{% endfilter %}</a>
 						</li>
 		{% endif %}
 	{% endif %}
-		    	<li><a class="host-tool" href="../../create/?action_id={{ action.id }}&amp;update=1&amp;want_prefill_data=1">{% filter ak_text:"event_host_tools_edit_details" %}Edit event details{% endfilter %}</a></li>
+		    	<li><a class="host-tool icon-before icon-faded" data-icon="&#xE913;" href="../../create/?action_id={{ action.id }}&amp;update=1&amp;want_prefill_data=1">{% filter ak_text:"event_host_tools_edit_details" %}Edit event details{% endfilter %}</a></li>
 	{% if cohosts %}
-		    	<li class="if-js"><a class="jump-link host-tool" id="email-cohosts-link" href="#contact-cohosts">{% filter ak_text:"event_host_tools_email_cohosts" %}Email cohosts{% endfilter %}</a></li>
+		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE900;" id="email-cohosts-link" href="#contact-cohosts">{% filter ak_text:"event_host_tools_email_cohosts" %}Email cohosts{% endfilter %}</a></li>
 	{% endif %}
 	{% if attendees %}
 		    	<li class="if-js">
-						<a class="jump-link host-tool" id="email-attendees-link" href="#contact-attendees">{% filter ak_text:"event_host_tools_email_attendees" %}Email attendees{% endfilter %}</a>
+						<a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE900;" id="email-attendees-link" href="#contact-attendees">{% filter ak_text:"event_host_tools_email_attendees" %}Email attendees{% endfilter %}</a>
 					</li>
 	{% else %}
 			    <!-- Flag that the functionality will be there -->
 			    <li class="if-js">
 						<span class="host-tool">
-							<span class="opacity-50 text-strong">{% filter ak_text:"event_host_tools_email_attendees" %}Email attendees{% endfilter %}</span><br>
+							<span class="opacity-50 text-strong icon-before icon-faded" data-icon="&#xE900;">{% filter ak_text:"event_host_tools_email_attendees" %}Email attendees{% endfilter %}</span><br>
 				      <span class="opacity-50 text-small2">{% filter ak_text:"event_host_tools_email_attendees_disabled" %}(Available after people sign up for your event.){% endfilter %}</span>
 						</span>
 			    </li>
 	{% endif %}
 	{% if event.is_in_past %}
-		    	<li class="if-js"><a class="jump-link host-tool" id="add-attendees-link" href="#attendees-add">Add Attendees</a></li>
+		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE904;"  id="add-attendees-link" href="#attendees-add">Add Attendees</a></li>
 	{% endif %}
 	{% if event.is_open_for_signup and page.pagefollowup.send_taf %}
-		    	<li class="if-js"><a class="jump-link host-tool" id="invite-friends-link" href="#invite-friends">Invite friends</a></li>
+		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE94E;" id="invite-friends-link" href="#invite-friends">Invite friends</a></li>
 	{% endif %}
-			    <li><a class="logout-link host-tool" href="/logout/">Log out</a></li>
-					<li><a class="cancel-link host-tool" confirm-message="Really cancel event? This can't be undone." href="../cancel_event/">{% filter ak_text:"event_host_tools_cancel" %}Cancel event{% endfilter %}</a></li>
+			    <li><a class="logout-link host-tool icon-before icon-faded" data-icon="&rarr;" href="/logout/">Log out</a></li>
+					<li><a class="cancel-link host-tool icon-before icon-faded" data-icon="&#xE943;" confirm-message="Really cancel event? This can't be undone." href="../cancel_event/">{% filter ak_text:"event_host_tools_cancel" %}Cancel event{% endfilter %}</a></li>
 			  </ul>
 			  <!-- Message from mothership -->
 				<div class="event-host-tools-custom">

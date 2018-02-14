@@ -80,7 +80,7 @@
 {% with 1 as hide_map %}
 	{% for event in events %}
 		<div id="event-attend-info" class="event-info text-center margin-bottom-large">
-			<div class="event-time text-strong text-large3 text-style-lead3 icon-before" data-icon="&#xE915;">
+			<div class="event-time text-strong text-large3 text-style-lead2 icon-before" data-icon="&#xE915;">
 		{% if page.lang.iso_code == "en" %}
 			{{ event.starts_at }}
 		{% elif page.lang.iso_code == "fr" %}
@@ -95,7 +95,7 @@
 			{{ event.obj.starts_at|date:"Y-n-d, H:i" }}
 		{% endif %}
 			</div>
-			<div class="event-location text-large3 text-style-lead3 icon-before" data-icon="&#xe907;">
+			<div class="event-location text-large3 text-style-lead2 icon-before" data-icon="&#xe907;">
 		{% if campaign.show_venue and event.venue %}
 				<span class="event-venue">{{ event.venue }}</span><br>
 		{% endif %}
@@ -136,7 +136,7 @@
 		<div class="padding-medium margin-bottom-none">
 		{% if campaign.show_public_description %}
 			{% autoescape off %}
-			<div class="event-description text-large" data-read-more-after="3">{{ event.public_description }}</div>
+			<div class="event-description" data-read-more-after="3">{{ event.public_description }}</div>
 			{% endautoescape %}
 		{% endif %}
 		{% if page.custom_fields.event_attend_addl_html %}

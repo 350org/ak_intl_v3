@@ -1,131 +1,134 @@
 {% extends "./wrapper.html" %}
 {% load actionkit_tags %}
+
 {% block content %}
+
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 		<form id="act" name="act" class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} " method="POST" action="/act/" accept-charset="utf-8">
-            <a id="jump-to-form" href="#donate" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a>
-    		<input type="hidden" name="page" value="{{ page.name }}">
-    		<input type="hidden" name="orig_akid" value="{{ akid }}">
+      <a id="jump-to-form" href="#donate" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a>
+  		<input type="hidden" name="page" value="{{ page.name }}">
+  		<input type="hidden" name="orig_akid" value="{{ akid }}">
 			<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
-			{% if page.custom_fields.page_pretitle %}
-				<p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
-			{% endif %}
-				<h2 id="action-title" class="title3">
-			{% if page.custom_fields.page_title_custom_html %}
-				{% autoescape off %} {{ page.custom_fields.page_title_custom_html }} {% endautoescape %}
-			{% else %}
+{% if page.custom_fields.page_pretitle %}
+			<p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
+{% endif %}
+			<h2 id="action-title" class="title3">
+{% if page.custom_fields.page_title_custom_html %}
+	{% autoescape off %}{{ page.custom_fields.page_title_custom_html }}{% endautoescape %}
+{% else %}
 				<span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
-			{% endif %}
-				</h2>
-			{% if page.custom_fields.page_author %}
-				<div class="action-author" class="p">
-					{% if page.custom_fields.page_author_image %}<span class="action-author-image"><img src="{{ page.custom_fields.page_author_image }}"></span> {% else %}&mdash; {% endif %}<span class="action-author-text meta">{% autoescape off %}{{ page.custom_fields.page_author }}{% endautoescape %}</span>
-				</div>
-			{% endif %}
-
-            {% comment %}If "layout" is set to "expanded", end the full-width title <div> and start a half-width description <div>.{% endcomment %}
-            {% if page.custom_fields.page_layout_style == 'expanded' %}
-            </div>
-            {% endif %}
-
-				<div id="action-description" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c5 ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
-				   {% if page.custom_fields.featured_image %}
-					<img class="ak-featured-img" src="{{ page.custom_fields.featured_image }}">
-					{% endif %}
-					<div {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
-					{% include_tmpl form.ask_text %}
-					</div>
-				</div>
-
-            {% comment %}If "layout" is *not* set to "expanded", end the title <div> here, after the description <div>.{% endcomment %}
-			{% if page.custom_fields.page_layout_style != 'expanded' %}
+{% endif %}
+			</h2>
+{% if page.custom_fields.page_author %}
+			<div class="action-author" class="margin-bottom-normal">
+				{% if page.custom_fields.page_author_image %}<span class="action-author-image"><img src="{{ page.custom_fields.page_author_image }}"></span> {% else %}&mdash; {% endif %}<span class="action-author-text meta">{% autoescape off %}{{ page.custom_fields.page_author }}{% endautoescape %}</span>
 			</div>
-            {% endif %}
-        {% comment %}The ID "donate" here breaks from normal naming convention so that there's a cleaner appearance when using it for anchor linking directly to the form.{% endcomment %}
-        <div id="donate" class="action-form c5 ct10 cm10 c-wide margin-top-none">
-            <div class="ak-field-box ak-donate-three-step">
-				{% autoescape off %}
-				{% if page.custom_fields.form_text_above_form %}
-				<div id="form-intro" class="p text-large text-lineheight-small strong">
-					{{ page.custom_fields.form_text_above_form }}
-				</div>
-				{% endif %}
-				{% endautoescape %}
-				{% include "./progress_meter.html" %}
-            <!--Add .ak-donate-three-step for three-step-->
-            <div class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box bg-white-trans">
-                <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>&nbsp;<span>{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
-                    <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1" checked="checked">
-                </label>
-                <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
-                    <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
-                </label>
-                <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
-                    <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
-                </label>
-            </div>
+{% endif %}
 
-            <div id="ak-donation-details" class="box box-medium bg-white">
+{% comment %}If "layout" is set to "expanded", end the full-width title <div> and start a half-width description <div>.{% endcomment %}
+{% if page.custom_fields.page_layout_style == 'expanded' %}
+	</div>
+{% endif %}
 
-                <div id="ak-product-list" class="ak-donate-area-step-1 ak-errs-below">
-                    {% if has_products %}
-                    <table class="ak-margin-bottom-1">
-                        <thead>
-                        <tr>
-                            <th class="ak-product-details-header ak-small-header">Product</th>
-                            <th class="ak-product-amount-header ak-small-header">Price</th>
-                            <th class="ak-product-quantity-header ak-small-header">Quantity</th>
-                            <th class="ak-product-quantity-header ak-small-header">Total</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for product in products %}
-                        <tr>
-                            <td class="ak-product-details">
-                                <div class="ak-product-name">{{ product.name }}</div>
-                                {% if product.desc %}<div class="ak-product-description">{{ product.desc }}</div>{% endif %}
-                            </td>
-                            <td class="ak-product-amount">
-                                <span id="product_{{ product.id }}_price" data-price="{{ product.price }}">
-                                    {% if product.price == 0 %}
-                                        FREE!
-                                    {% else %}
-                                        <span class="ak-currency-sym">{{ page.currency_sym }}</span>{{ product.price|commify }}
-                                    {% endif %}
-                                </span>
-                            </td>
-                            <td class="ak-product-quantity">
-                                {% if product.max == 1 %}
-                                <input type="checkbox" value="1" name="product_{{ product.id }}" id="product_{{ product.id }}" class="ak_product_inputs">
-                                {% else %}
-                                <input type="number" min="0" max="{{ product.max }}" onvalidate="return validate_product_count(this)" name="product_{{ product.id }}" id="product_{{ product.id }}" size="2" class="ak_product_inputs">
-                                {% endif %}
-                            </td>
-                            <td class="ak-product-subtotal">
-                                <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak_product_subtotal_{{ product.id }}"></span>
-                            </td>
-                        </tr>
-                        {% endfor %}
+	<div id="action-description" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c5 ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
+{% if page.custom_fields.featured_image %}
+		<img class="ak-featured-img" src="{{ page.custom_fields.featured_image }}">
+{% endif %}
+		<div {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
+			{% include_tmpl form.ask_text %}
+		</div>
+	</div>
 
-                        </tbody>
-                    </table>
+{% comment %}If "layout" is *not* set to "expanded", end the title <div> here, after the description <div>.{% endcomment %}
+{% if page.custom_fields.page_layout_style != 'expanded' %}
+			</div>
+{% endif %}
 
-                     <p class="ak-donation-subtotal ak-align-right">
-                         <label class="ak-small-header">Product Total</label>
-                             <strong><span class="ak-currency-sym">{{ page.currency_sym }}</span></strong>
-                             <span id="ak-donation-subtotal-amount"></span>
-                         </label>
-                    </p>
 
-                    {% endif %}
-                </div><!--product-list-->
+{% comment %}The ID "donate" here breaks from normal naming convention so that there's a cleaner appearance when using it for anchor linking directly to the form.{% endcomment %}
+  <div id="donate" class="action-form c5 ct10 cm10 c-wide margin-top-none">
+    <div class="ak-field-box ak-donate-three-step">
+{% autoescape off %}
+	{% if page.custom_fields.form_text_above_form %}
+		<div id="form-intro" class="p text-large text-lineheight-small strong">
+			{{ page.custom_fields.form_text_above_form }}
+		</div>
+	{% endif %}
+{% endautoescape %}
+		{% include "./progress_meter.html" %}
+    <!--Add .ak-donate-three-step for three-step-->
+    <div class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
+        <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
+            <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>&nbsp;<span>{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
+            <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1" checked="checked">
+        </label>
+        <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
+            <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
+            <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
+        </label>
+        <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
+            <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
+            <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
+        </label>
+    </div>
+
+    <div id="ak-donation-details" class="box box-medium bg-white">
+      <div id="ak-product-list" class="ak-donate-area-step-1 ak-errs-below">
+{% if has_products %}
+          <table class="ak-margin-bottom-1">
+            <thead>
+	            <tr>
+	              <th class="ak-product-details-header ak-small-header">Product</th>
+	              <th class="ak-product-amount-header ak-small-header">Price</th>
+	              <th class="ak-product-quantity-header ak-small-header">Quantity</th>
+	              <th class="ak-product-quantity-header ak-small-header">Total</th>
+	            </tr>
+            </thead>
+            <tbody>
+  {% for product in products %}
+            <tr>
+              <td class="ak-product-details">
+                <div class="ak-product-name">{{ product.name }}</div>
+    {% if product.desc %}
+								<div class="ak-product-description">{{ product.desc }}</div>
+		{% endif %}
+              </td>
+              <td class="ak-product-amount">
+                <span id="product_{{ product.id }}_price" data-price="{{ product.price }}">
+    {% if product.price == 0 %}
+				      		FREE!
+    {% else %}
+                <span class="ak-currency-sym">{{ page.currency_sym }}</span>{{ product.price|commify }}
+    {% endif %}
+                </span>
+              </td>
+              <td class="ak-product-quantity">
+    {% if product.max == 1 %}
+                  <input type="checkbox" value="1" name="product_{{ product.id }}" id="product_{{ product.id }}" class="ak_product_inputs">
+    {% else %}
+                  <input type="number" min="0" max="{{ product.max }}" onvalidate="return validate_product_count(this)" name="product_{{ product.id }}" id="product_{{ product.id }}" size="2" class="ak_product_inputs">
+    {% endif %}
+              </td>
+              <td class="ak-product-subtotal">
+                  <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak_product_subtotal_{{ product.id }}"></span>
+              </td>
+            </tr>
+  {% endfor %}
+          </tbody>
+        </table>
+
+        <p class="ak-donation-subtotal ak-align-right">
+        	<label class="ak-small-header">Product Total</label>
+        	<strong><span class="ak-currency-sym">{{ page.currency_sym }}</span></strong>
+          <span id="ak-donation-subtotal-amount"></span>
+        </p>
+
+{% endif %}
+</div><!--product-list-->
 
                 <div id="ak-candidate-list" class="ak-donate-area-step-1 ak-errs-below">
-                    {% if has_candidates %}
+{% if has_candidates %}
 
                     <table>
                         <thead>
@@ -136,85 +139,90 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for candidate in candidates %}
+  {% for candidate in candidates %}
                         <tr>
                             <td class="ak-candidate-details">
-                                {% if candidate.portrait_url %}
-                                {% autoescape off %}
+    {% if candidate.portrait_url %}
+    	{% autoescape off %}
                                 <img class="ak-candidate-portrait" src="{{ candidate.portrait_url }}">
-                                {% endautoescape %}
-                                {% endif %}
+      {% endautoescape %}
+    {% endif %}
                             </td>
                             <td class="ak-candidate-name">
                                 <div>{{ candidate.name }}</div>
-                                {% autoescape off %}
+    {% autoescape off %}
                                 <p>{{ candidate.desc }}</p>
-                                {% endautoescape %}
+    {% endautoescape %}
                             </td>
                             <td class="ak-candidate-amount ak-align-right">
                                 <span class="ak-currency-sym">{{ page.currency_sym }}</span><input type="text" name="candidate_{{ candidate.id }}" id="candidate_{{ candidate.id }}" size="2" class="ak_candidate_inputs">
                             </td>
                         </tr>
-                        {% endfor %}
+  {% endfor %}
                         </tbody>
                     </table>
-                    {% endif %}
+{% endif %}
                 </div>
 
-                {% if has_products %}
+{% if has_products %}
                 <h4 class="ak-donate-area-step-1">Donation (Optional)</h4>
-                {% endif %}
+{% endif %}
                 <div id="ak-amount-list" class="ak-err-above ak-donate-area-step-1">
 
-                {% if show_currency_select %}
+{% if show_currency_select %}
 
-                    {% for currency in currency_options %}
-                    <span class="ak-currency input-radio input-radio-inline">
-                        <input type="radio" {% if forloop.first %}checked{% endif %} name="currency" id="id_currency_{{currency}}" value="{{currency}}">
-                        <label for="id_currency_{{currency}}">{{currency}}</label>
-                    </span>
-                    {% endfor %}
+									<div class="ak-currency">
+								    <label>
+							        <select name="currency">
+  {% for code in "USD,GBP,CAD,AUD,EUR"|split:"," %}
+  	{% with currency_info|get:code as currency %}
+												<option value="{{code}}">{{code}} - {{currency.name}}</option>
+		{% endwith %}
+	{% endfor %}
+						            <option value="" disabled>&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</option>
+	{% for code, currency in currency_info.items %}
+												<option value="{{code}}">{{code}} - {{currency.name}}</option>
+	{% endfor %}
+							        </select>
+								    </label>
+									</div>
 
-                {% elif page.derived.use_account_switcher %}
+{% elif page.derived.use_account_switcher %}
 
-                    <div id="ak-multi-currency" class="text-center text-small text-caps margin-bottom-normal">
-						<div class="ak-currencies">
-							{% for currency, account_name in page.derived.currency_accounts %}
-							<span class="ak-currency input-radio input-radio-inline">
-								<input type="radio" {% if forloop.first %}checked{% endif %} name="payment_account" id="id_currency_{{currency}}" value="{{account_name}}">
-								<label for="id_currency_{{currency}}">{{currency}}</label>
-							</span>
-							{% endfor %}
-						</div>
-                    </div>
+									<div id="ak-multi-currency">
+										<label class="text-small2 text-caps text" for="amount">{% filter ak_text:"general_currency" %}Currency{% endfilter %}</label> 
+										<select id="ak-currency-switcher" name="payment_account" class="ak-currencies">
+	{% for currency, account_name in page.derived.currency_accounts %}
+								    <option class="ak-currency" {% if forloop.first %}checked{% endif %} id="id_currency_{{currency}}" value="{{account_name}}">{{currency}}</option>
+	{% endfor %}
+										</select>
+									</div>
 
+{% endif %}
 
-                {% endif %}
 
                    <div class="ak-amount-wrapper clearfix margin-bottom-small">
 					   <h5 class="margin-bottom-normal ak-donate-three-step-hidden">Amount:</h5>
 
                     <ul class="ak-unstyled nobullet text-large">
-						 {% for row in amounts|columns:1 %}
-                        {% for amount in row %}
-                        {% if amount == "other" %}
+						{% for row in amounts|columns:1 %}
+              {% for amount in row %}
+                {% if amount == "other" %}
                         <li id="ak-other-amount-container" class="c3_3 ct3_3 cm3_3 no-margin-bottom">
                             <noscript><input type="radio" value="" class="ak-amount-radio-button" name="amount"></noscript>
                             <label for="ak-other-amount-field" class="input-radio-button input-radio-button-other bg-ltgray text-font-display text-large3 strong margin-bottom-small">
                                 <span class="ak-currency-sym">{{ page.currency_sym }}</span> <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" id="ak-other-amount-field" name="amount_other" size="3" >
                             </label>
                         </li>
-                        {% else %}
+                {% else %}
                         <li class="ak-amount-container c3_3 ct3_3 cm3_3 no-margin-bottom">
                             <label for="id_amount_{{amount}}" class="input-radio-button bg-ltgray text-font-display text-large3 strong margin-bottom-small">
                                 <span class="ak-currency-sym"></span><input type="radio" id="id_amount_{{amount}}" value="{{ amount }}" class="ak-amount-radio-button hidden" name="amount" {% if not args.amount_other and amount == default_amount %}checked{% endif %}>{{ page.currency_sym }}{{ amount|commify }}
                             </label>
                         </li>
-                        {% endif %}
-                        {% endfor %}
-
-
-                    {% endfor %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
 						 </ul>
                 </div>
                 </div>

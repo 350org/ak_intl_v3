@@ -237,7 +237,7 @@
 				</div>
 {% else %}
 	{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
-				<div class="text-large3 text-strong">
+				<div class="text-large3 text-strong margin-bottom-medium">
 				{% if event.is_inactive %}
 					<p>{% filter ak_text:"event_attend_error_cancelled" %}Sorry, this event was cancelled.{% endfilter %}</p>
 					{% elif event.is_full %}

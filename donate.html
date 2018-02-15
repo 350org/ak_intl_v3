@@ -191,7 +191,7 @@
 						<select id="ak-currency-switcher" name="payment_account" class="ak-currencies">
 	{% for currency, account_name in page.derived.currency_accounts %}
 							<option class="ak-currency" {% if forloop.first %}checked{% endif %} id="id_currency_{{currency}}" value="{{account_name}}">
-		{% if currency == "AUD" %}   {% filter ak_text:"general_au_dollar" %}Australian Dollar (USD $){% endfilter %}
+		{% if currency == "AUD" %}   {% filter ak_text:"general_au_dollar" %}Australian Dollar (AUD $){% endfilter %}
 		{% elif currency == "BRL" %} {% filter ak_text:"general_br_real" %}Brazilian Réal (BRL R$){% endfilter %}
 		{% elif currency == "CAD" %} {% filter ak_text:"general_ca_dollar" %}Canadian Dollar (CAD $){% endfilter %}
 		{% elif currency == "EUR" %} {% filter ak_text:"general_eu_euro" %}Euro (EUR €){% endfilter %}

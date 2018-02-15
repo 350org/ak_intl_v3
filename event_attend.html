@@ -54,14 +54,11 @@
 		{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
 			{% if event.is_inactive %}
 			<p>{% filter ak_text:"event_attend_error_cancelled" %}Sorry, this event was cancelled.{% endfilter %}</p>
-			{% endif %}
-			{% if event.is_full %}
+			{% elif event.is_full %}
 			<p>{% filter ak_text:"event_attend_error_full" %}Sorry, this event is full.{% endfilter %}</p>
-			{% endif %}
-			{% if event.is_in_past %}
+			{% elif event.is_in_past %}
 			<p>{% filter ak_text:"event_attend_error_over" %}Sorry, it's too late to sign up for this event.{% endfilter %}</p>
-			{% endif %}
-			{% if event.is_awaiting_confirmation %}
+			{% elif event.is_awaiting_confirmation %}
 			<p>{% filter ak_text:"event_attend_error_unconfirmed" %}Sorry, the event host has not yet confirmed this event.{% endfilter %}</p>
 			{% endif %}
 		{% else %}
@@ -240,23 +237,21 @@
 				</div>
 {% else %}
 	{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
-		{% if event.is_inactive %}
-			<h3>{% filter ak_text:"event_attend_error_cancelled" %}Sorry, this event was cancelled.{% endfilter %}</h3>
-		{% endif %}
-		{% if event.is_full %}
-			<h3>{% filter ak_text:"event_attend_error_full" %}Sorry, this event is full.{% endfilter %}</h3>
-		{% endif %}
-		{% if event.is_in_past %}
-			<h3>{% filter ak_text:"event_attend_error_over" %}Sorry, it's too late to sign up for this event.{% endfilter %}</h3>
-		{% endif %}
-		{% if event.is_awaiting_confirmation %}
-			<h3>{% filter ak_text:"event_attend_error_unconfirmed" %}Sorry, the event host has not yet confirmed this event.{% endfilter %}</h3>
-		{% endif %}
+				<div class="text-large3 text-strong">
+				{% if event.is_inactive %}
+					<p>{% filter ak_text:"event_attend_error_cancelled" %}Sorry, this event was cancelled.{% endfilter %}</p>
+					{% elif event.is_full %}
+					<p>{% filter ak_text:"event_attend_error_full" %}Sorry, this event is full.{% endfilter %}</p>
+					{% elif event.is_in_past %}
+					<p>{% filter ak_text:"event_attend_error_over" %}Sorry, it's too late to sign up for this event.{% endfilter %}</p>
+					{% elif event.is_awaiting_confirmation %}
+					<p>{% filter ak_text:"event_attend_error_unconfirmed" %}Sorry, the event host has not yet confirmed this event.{% endfilter %}</p>
+				{% endif %}
+				</div>
 	{% else %}
-			<h3>{% filter ak_text:"event_attend_error_unavailable" %}Sorry, this event isn't available for signup.{% endfilter %}</h3>
+				<h3>{% filter ak_text:"event_attend_error_unavailable" %}Sorry, this event isn't available for signup.{% endfilter %}</h3>
 	{% endif %}
-			<p><a class="button big" href="/event/{{ campaign.local_name }}/?akid={{args.akid}}&zip={{args.zip}}">{% filter ak_text:"event_attend_search_for_another" %}Search for another event{% endfilter %}</a></p>
-
+				<p><a class="button arrow-right" href="/event/{{ campaign.local_name }}/?akid={{args.akid}}&zip={{args.zip}}">{% filter ak_text:"event_attend_search_for_another" %}Search for another event{% endfilter %}</a></p>
 {% endif %}
 			</div>
 		</form>

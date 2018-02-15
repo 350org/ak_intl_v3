@@ -2,12 +2,13 @@
 {% load actionkit_tags %}
 
 <div id="known_user">
- <div id="known_user_welcome" class="box bg-white margin-bottom-none">
-  <p id="known-user-greeting" class="text-large2 strong margin-bottom-small">{% filter ak_text:"general_recognized_user_greeting_prename" %}Hi{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"general_recognized_user_greeting_postname" %}!{% endfilter %}</p>
-  <p>{% filter ak_text:"general_recognized_user_instructions" %}We have your info saved from last time, just click the button below to continue.{% endfilter %}</p>
- </div> 
- <div id="known_user_logout" class="box bg-white-trans border-top margin-bottom-medium">
-  <span class="user-logout-link"><strong>{% filter ak_text:"general_recognized_user_logout_prename" %}Not{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"general_recognized_user_logout_postname" %}?{% endfilter %}</strong><br/><a href="?" onclick="return actionkit.forms.logOut()" class="icon-before icon-faded text-underline-none text-blue" data-icon="&#xE904;">{% filter ak_text:"general_recognized_user_logout_instructions" %}Log out.{% endfilter %}</a></span>
+ <div id="known_user_welcome" class="padding-small bg-white margin-bottom-none">
+  <p id="known-user-greeting" class="text-large strong margin-bottom-small">{% filter ak_text:"general_recognized_user_greeting_prename" %}Hi{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"general_recognized_user_greeting_postname" %}!{% endfilter %}</p>
+  <p class="text-small">{% filter ak_text:"general_recognized_user_instructions" %}We have your info saved from last time, just click the button below to continue.{% endfilter %}</p>
+  <div id="known_user_logout" class="text-small2">
+    <span class="user-logout-link"><strong>{% filter ak_text:"general_recognized_user_logout_prename" %}Not{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"general_recognized_user_logout_postname" %}?{% endfilter %}</strong>
+    <a href="?" onclick="return actionkit.forms.logOut()" class="icon-before icon-faded text-underline-none text-blue" data-icon="&#xE904;">{% filter ak_text:"general_log_out" %}Log out.{% endfilter %}</a></span>
+  </div>
  </div>
 </div>
 
@@ -15,7 +16,7 @@
  {% include "./user_form.html" %}
  <div style="display: none">
   <input name="user_honey">
- </div>	
+ </div>
 
 </div>
 

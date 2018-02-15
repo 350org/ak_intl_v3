@@ -125,324 +125,318 @@
         </p>
 
 {% endif %}
-</div><!--product-list-->
+			</div><!--product-list-->
 
-                <div id="ak-candidate-list" class="ak-donate-area-step-1 ak-errs-below">
+      <div id="ak-candidate-list" class="ak-donate-area-step-1 ak-errs-below">
 {% if has_candidates %}
-
-                    <table>
-                        <thead>
-                        <tr>
-                            <th id="ak-candidate-details-header">Candidate</th>
-                            <th>&nbsp;</th>
-                            <th id="ak-candidate-amount-header">Donation</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+          <table>
+						<thead>
+							<tr>
+								<th id="ak-candidate-details-header">Candidate</th>
+								<th>&nbsp;</th>
+								<th id="ak-candidate-amount-header">Donation</th>
+							</tr>
+						</thead>
+						<tbody>
   {% for candidate in candidates %}
-                        <tr>
-                            <td class="ak-candidate-details">
+							<tr>
+								<td class="ak-candidate-details">
     {% if candidate.portrait_url %}
     	{% autoescape off %}
-                                <img class="ak-candidate-portrait" src="{{ candidate.portrait_url }}">
+									<img class="ak-candidate-portrait" alt="{{ candidate.name }}" src="{{ candidate.portrait_url }}">
       {% endautoescape %}
     {% endif %}
-                            </td>
-                            <td class="ak-candidate-name">
-                                <div>{{ candidate.name }}</div>
+								</td>
+								<td class="ak-candidate-name">
+									<div>{{ candidate.name }}</div>
     {% autoescape off %}
-                                <p>{{ candidate.desc }}</p>
+  								<p>{{ candidate.desc }}</p>
     {% endautoescape %}
-                            </td>
-                            <td class="ak-candidate-amount ak-align-right">
-                                <span class="ak-currency-sym">{{ page.currency_sym }}</span><input type="text" name="candidate_{{ candidate.id }}" id="candidate_{{ candidate.id }}" size="2" class="ak_candidate_inputs">
-                            </td>
-                        </tr>
+								</td>
+								<td class="ak-candidate-amount ak-align-right">
+  								<span class="ak-currency-sym">{{ page.currency_sym }}</span><input type="text" name="candidate_{{ candidate.id }}" id="candidate_{{ candidate.id }}" size="2" class="ak_candidate_inputs">
+								</td>
+							</tr>
   {% endfor %}
-                        </tbody>
-                    </table>
+						</tbody>
+					</table>
 {% endif %}
-                </div>
+				</div>
 
 {% if has_products %}
-                <h4 class="ak-donate-area-step-1">Donation (Optional)</h4>
+				<h4 class="ak-donate-area-step-1">Donation (Optional)</h4>
 {% endif %}
-                <div id="ak-amount-list" class="ak-err-above ak-donate-area-step-1">
+        <div id="ak-amount-list" class="ak-err-above ak-donate-area-step-1">
 
 {% if show_currency_select %}
-
-									<div class="ak-currency">
-								    <label>
-							        <select name="currency">
+					<div class="ak-currency">
+				    <label>
+			        <select name="currency">
   {% for code in "USD,GBP,CAD,AUD,EUR"|split:"," %}
   	{% with currency_info|get:code as currency %}
-												<option value="{{code}}">{{code}} - {{currency.name}}</option>
+								<option value="{{code}}">{{code}} - {{currency.name}}</option>
 		{% endwith %}
 	{% endfor %}
-						            <option value="" disabled>&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</option>
+		            <option value="" disabled>&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</option>
 	{% for code, currency in currency_info.items %}
-												<option value="{{code}}">{{code}} - {{currency.name}}</option>
+								<option value="{{code}}">{{code}} - {{currency.name}}</option>
 	{% endfor %}
-							        </select>
-								    </label>
-									</div>
+			        </select>
+				    </label>
+					</div>
 
 {% elif page.derived.use_account_switcher %}
-
-									<div id="ak-multi-currency">
-										<label class="text-small2 text-caps" for="amount">{% filter ak_text:"general_currency" %}Currency{% endfilter %}</label>
-										<select id="ak-currency-switcher" name="payment_account" class="ak-currencies">
+					<div id="ak-multi-currency">
+						<label class="text-small2 text-caps" for="amount">{% filter ak_text:"general_currency" %}Currency{% endfilter %}</label>
+						<select id="ak-currency-switcher" name="payment_account" class="ak-currencies">
 	{% for currency, account_name in page.derived.currency_accounts %}
-								    <option class="ak-currency" {% if forloop.first %}checked{% endif %} id="id_currency_{{currency}}" value="{{account_name}}">{{currency}}</option>
+							<option class="ak-currency" {% if forloop.first %}checked{% endif %} id="id_currency_{{currency}}" value="{{account_name}}">
+		{% if currency == "AUD" %}   {% filter ak_text:"general_au_dollar" %}Australian Dollar (USD $){% endfilter %}
+		{% elif currency == "BRL" %} {% filter ak_text:"general_br_real" %}Brazilian Réal (BRL R$){% endfilter %}
+		{% elif currency == "CAD" %} {% filter ak_text:"general_ca_dollar" %}Canadian Dollar (CAD $){% endfilter %}
+		{% elif currency == "EUR" %} {% filter ak_text:"general_eu_euro" %}Euro (EUR €){% endfilter %}
+		{% elif currency == "GBP" %} {% filter ak_text:"general_gb_pound" %}British Pound (GBP £){% endfilter %}
+		{% elif currency == "USD" %} {% filter ak_text:"general_us_dollar" %}U.S. Dollar (USD $){% endfilter %}
+		{% else %}
+			{{ currency }}
+		{% endif %}
+							</option>
 	{% endfor %}
-										</select>
-									</div>
+						</select>
+					</div>
+{% endif %}
 
+          <div class="ak-amount-wrapper clearfix margin-bottom-small">
+						<h5 class="margin-bottom-normal ak-donate-three-step-hidden">Amount:</h5>
+						<ul class="ak-unstyled nobullet text-large">
+
+{% for row in amounts|columns:1 %}
+  {% for amount in row %}
+    {% if amount == "other" %}
+              <li id="ak-other-amount-container" class="c3_3 ct3_3 cm3_3 no-margin-bottom">
+                <noscript>
+									<input type="radio" value="" class="ak-amount-radio-button" name="amount">
+								</noscript>
+                <label for="ak-other-amount-field" class="input-radio-button input-radio-button-other bg-ltgray text-font-display text-large3 strong margin-bottom-small">
+                  <span class="ak-currency-sym">{{ page.currency_sym }}</span>
+									<input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" id="ak-other-amount-field" name="amount_other" size="3">
+                </label>
+              </li>
+    {% else %}
+              <li class="ak-amount-container c3_3 ct3_3 cm3_3 no-margin-bottom">
+                <label for="id_amount_{{amount}}" class="input-radio-button bg-ltgray text-font-display text-large3 strong margin-bottom-small">
+                  <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-amount-button-amount">{{ amount|commify }}</span>
+									<input type="radio" id="id_amount_{{amount}}" value="{{ amount }}" class="ak-amount-radio-button hidden" name="amount" {% if not args.amount_other and amount == default_amount %}checked{% endif %}>
+                </label>
+              </li>
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+						</ul>
+          </div>
+        </div>
+
+        <div id="ak-donation-total-div"></div>
+      	<script type="text/ak-template" for="ak-donation-total-div">
+          [% if (has_products || has_candidates) { %]
+            <p class="ak-donation-total ak-donate-area-step-1">
+              <label for="amount">Total Amount</label>
+              <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span>
+            </p>
+          [% }
+          	setTimeout(update_total, 0);
+          %]
+      	</script>
+
+{% if not has_products %}
+  {% if allow_monthly %}
+    {% if page.custom_fields.donation_once_recurring_or_both|lower == "recurring" %}
+      	<div id="ak-recurring-type"></div>
+        <input type="hidden" name="donation_type" value="recurring">
+    {% elif page.custom_fields.donation_once_recurring_or_both|lower == "once" %}
+        <div id="ak-recurring-type"></div>
+        <input type="hidden" name="donation_type" value="single">
+        {% else %}
+        <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
+          <div class="input-checkbox text-strong margin-bottom-none">
+            <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="recurring"> <label for="id_donation_type_recurring" class="text-strong">{% filter ak_text:"donate_make_recurring" %}Make this a monthly donation.{% endfilter %}</label>
+          </div>
+        </div>
+		{% endif %}
+	{% else %}
+	      <div id="ak-recurring-type"></div>
+	      <input type="hidden" name="donation_type" value="single">
+  {% endif %}
+{% endif %}
+
+{% if page.custom_fields.donation_show_inhonorof|lower == "show" %}
+        <fieldset id="in-honor-of" class="ak-donate-area-step-1 form-style-labelabove">
+          <div class="input checkbox input-checkbox margin-top-none text-strong">
+            <input type="checkbox" value="1" name="inhonorcheck" id="in-honor-check" />
+            <label for="in-honor-check">{% filter ak_text:"donate_inhonorof_option_label" %}Donate in someone's honor.{% endfilter %}</label>
+          </div>
+          <div id="in-honor-of-fields" class="margin-bottom-normal">
+            <div class="input text input-text ak-">
+              <label for="action_in_honor_of_name">{% filter ak_text:"donate_inhonorof_name_label" %}Honoree's Name{% endfilter %}</label>
+              <input type="text" id="action_in_honor_of_name" name="action_in_honor_of_name" />
+            </div>
+            <div class="input input-text" title="The email address to send a notification of the donation to.">
+              <label for="action_in_honor_of_email">{% filter ak_text:"donate_inhonorof_email_label" %}Honoree's Email Address{% endfilter %}</label>
+              <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
+            </div>
+            <div class="input input-textarea" title="An optional note to the honoree.">
+              <label for="action_in_honor_of_note" title="An optional note to the honoree.">{% filter ak_text:"donate_inhonorof_note_label" %}Note to Honoree{% endfilter %}</label>
+              <textarea id="action_in_honor_of_note" name="action_in_honor_of_note" title="An optional note to the honoree." ></textarea>
+            </div>
+            <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll send a notification of your donation to this email address.{% endfilter %}</p>
+          </div>
+          <script>
+            jQuery("#in-honor-of-fields").hide();
+            jQuery("#in-honor-check").change(function(){
+                if ( $(this).is(':checked') ) {
+                    jQuery("#in-honor-of-fields").fadeIn();
+                } else {
+                    jQuery("#in-honor-of-fields").fadeOut();
+                }
+            });
+          </script>
+      </fieldset>
 {% endif %}
 
 
-                   <div class="ak-amount-wrapper clearfix margin-bottom-small">
-					   <h5 class="margin-bottom-normal ak-donate-three-step-hidden">Amount:</h5>
-
-                    <ul class="ak-unstyled nobullet text-large">
-						{% for row in amounts|columns:1 %}
-              {% for amount in row %}
-                {% if amount == "other" %}
-                        <li id="ak-other-amount-container" class="c3_3 ct3_3 cm3_3 no-margin-bottom">
-                            <noscript><input type="radio" value="" class="ak-amount-radio-button" name="amount"></noscript>
-                            <label for="ak-other-amount-field" class="input-radio-button input-radio-button-other bg-ltgray text-font-display text-large3 strong margin-bottom-small">
-                                <span class="ak-currency-sym">{{ page.currency_sym }}</span> <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" id="ak-other-amount-field" name="amount_other" size="3" >
-                            </label>
-                        </li>
-                {% else %}
-                        <li class="ak-amount-container c3_3 ct3_3 cm3_3 no-margin-bottom">
-                            <label for="id_amount_{{amount}}" class="input-radio-button bg-ltgray text-font-display text-large3 strong margin-bottom-small">
-                                <span class="ak-currency-sym"></span><input type="radio" id="id_amount_{{amount}}" value="{{ amount }}" class="ak-amount-radio-button hidden" name="amount" {% if not args.amount_other and amount == default_amount %}checked{% endif %}>{{ page.currency_sym }}{{ amount|commify }}
-                            </label>
-                        </li>
-                {% endif %}
-              {% endfor %}
-            {% endfor %}
-						 </ul>
-                </div>
-                </div>
-
-                <div id="ak-donation-total-div"></div>
-                <script type="text/ak-template" for="ak-donation-total-div">
-                    [% if (has_products || has_candidates) { %]
-                        <p class="ak-donation-total ak-donate-area-step-1">
-                            <label for="amount">
-                                Total Amount
-                             </label>
-                                <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span>
-
-                        </p>
-                    [% }
-                    setTimeout(update_total, 0);
-                    %]
-                </script>
-
-                {% if not has_products %}
-                    {% if allow_monthly %}
-                        {% if page.custom_fields.donation_once_recurring_or_both|lower == "recurring" %}
-                <div id="ak-recurring-type"></div>
-                <input type="hidden" name="donation_type" value="recurring">
-                        {% elif page.custom_fields.donation_once_recurring_or_both|lower == "once" %}
-                <div id="ak-recurring-type"></div>
-                <input type="hidden" name="donation_type" value="single">
-                        {% else %}
-                <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
-                    <div class="input-checkbox text-strong margin-bottom-none">
-                        <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="recurring"> <label for="id_donation_type_recurring" class="text-strong">{% filter ak_text:"donate_make_recurring" %}Make this a monthly donation.{% endfilter %}</label>
-                    </div>
-                </div>
-                        {% endif %}
-                    {% else %}
-                <div id="ak-recurring-type"></div>
-                <input type="hidden" name="donation_type" value="single">
-                    {% endif %}
-                {% endif %}
-
-                {% if page.custom_fields.donation_show_inhonorof|lower == "show" %}
-                <fieldset id="in-honor-of" class="ak-donate-area-step-1 form-style-labelabove">
-                    <div class="input checkbox input-checkbox margin-top-none text-strong">
-                        <input type="checkbox" value="1" name="inhonorcheck" id="in-honor-check" />
-                        <label for="in-honor-check">{% filter ak_text:"donate_inhonorof_option_label" %}Donate in someone's honor.{% endfilter %}</label>
-                    </div>
-                    <div id="in-honor-of-fields" class="margin-bottom-normal">
-                        <div class="input text input-text ak-">
-                            <label for="action_in_honor_of_name">{% filter ak_text:"donate_inhonorof_name_label" %}Honoree's Name{% endfilter %}</label>
-                            <input type="text" id="action_in_honor_of_name" name="action_in_honor_of_name" />
-                        </div>
-                        <div class="input input-text" title="The email address to send a notification of the donation to.">
-                            <label for="action_in_honor_of_email">{% filter ak_text:"donate_inhonorof_email_label" %}Honoree's Email Address{% endfilter %}</label>
-                            <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
-                        </div>
-                        <div class="input input-textarea" title="An optional note to the honoree.">
-                            <label for="action_in_honor_of_note" title="An optional note to the honoree.">{% filter ak_text:"donate_inhonorof_note_label" %}Note to Honoree{% endfilter %}</label>
-                            <textarea id="action_in_honor_of_note" name="action_in_honor_of_note" title="An optional note to the honoree." ></textarea>
-                        </div>
-                        <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll send a notification of your donation to this email address.{% endfilter %}</p>
-                    </div>
-                    <script>
-                        jQuery("#in-honor-of-fields").hide();
-                        jQuery("#in-honor-check").change(function(){
-                            if ( $(this).is(':checked') ) {
-                                jQuery("#in-honor-of-fields").fadeIn();
-                            } else {
-                                jQuery("#in-honor-of-fields").fadeOut();
-                            }
-                        });
-                    </script>
-                </fieldset>
-                {% endif %}
-
-
-                <div id="ak-donation-contact" class="ak-donate-area-step-2 ak-err-below form-style-labelabove">
-
-                    <ul id="ak-errors"></ul>
-                    <div style="display: none"><div id="known_user">
-                        Not <span id="known_user_name"></span>?  <a href="?" onclick="return actionkit.forms.logOut()">Click here.</a>
-                    </div></div>
-                    <div id="unknown_user"></div>
-
-                    <h5 class="margin-bottom-normal">{% filter ak_text:"donate_billing_information" %}Billing Information{% endfilter %}</h5>
-
-                    <div class="">
-                        {% if has_shippable_products %}
-                        <div class="input-text ak-input-type-user">
-                            <label for="id_address1">Billing address line 1</label>
-                            <input id="id_address1" class="" type="text" name="address1">
-                        </div>
-                        <div class="input-text ak-input-type-user">
-                            <label for="id_address2">Billing address line 2 (optional)</label>
-                            <input id="id_address2" class="" type="text" name="address2">
-                        </div>
-                        {% else %}
-                        <div class="input-text ak-input-type-user">
-                            <label for="id_address1">{% filter ak_text:"field_billing_address" %}Billing address{% endfilter %}</label>
-                            <input id="id_address1" class="" type="text" name="address1">
-                        </div>
-                        {% endif %}
-                        <div class="input-text ak-input-type-user">
-                            <label for="id_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
-                            <input id="id_city" type="text" name="city">
-                        </div>
-						<div>
-							<div class="ak-us-billing-fields input-text ak-input-type-user">
-								<input type="hidden" name="required" value="zip">
-								<label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
-								<input id="id_zip" type="text" name="zip" maxlength="5" size="5">
-							</div>
-							<div class="ak-us-billing-fields input-select ak-input-type-user">
-								<input type="hidden" name="required" value="state">
-								<label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
-								{% include "./state_select.html" %}
-							</div>
+      <div id="ak-donation-contact" class="ak-donate-area-step-2 ak-err-below form-style-labelabove">
+        <ul id="ak-errors"></ul>
+        <div style="display: none"><div id="known_user">
+            Not <span id="known_user_name"></span>?  <a href="?" onclick="return actionkit.forms.logOut()">Click here.</a>
+        </div></div>
+        <div id="unknown_user"></div>
+        <h5 class="margin-bottom-normal">{% filter ak_text:"donate_billing_information" %}Billing Information{% endfilter %}</h5>
+        <div class="">
+          {% if has_shippable_products %}
+          <div class="input-text ak-input-type-user">
+            <label for="id_address1">Billing address line 1</label>
+            <input id="id_address1" class="" type="text" name="address1">
+          </div>
+          <div class="input-text ak-input-type-user">
+            <label for="id_address2">Billing address line 2 (optional)</label>
+            <input id="id_address2" class="" type="text" name="address2">
+          </div>
+          {% else %}
+          <div class="input-text ak-input-type-user">
+            <label for="id_address1">{% filter ak_text:"field_billing_address" %}Billing address{% endfilter %}</label>
+            <input id="id_address1" class="" type="text" name="address1">
+          </div>
+          {% endif %}
+          <div class="input-text ak-input-type-user">
+            <label for="id_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
+            <input id="id_city" type="text" name="city">
+          </div>
+					<div>
+						<div class="ak-us-billing-fields input-text ak-input-type-user">
+							<input type="hidden" name="required" value="zip">
+							<label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
+							<input id="id_zip" type="text" name="zip" maxlength="5" size="5">
 						</div>
-                        {% if page.allow_international %}
-						<div>
-							<div class="input-text ak-input-type-user ak-intl-billing-fields">
-								<label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
-								<input id="id_postal" type="text" name="postal" size="10">
-							</div>
+						<div class="ak-us-billing-fields input-select ak-input-type-user">
+							<input type="hidden" name="required" value="state">
+							<label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
+							{% include "./state_select.html" %}
+						</div>
+					</div>
+{% if page.allow_international %}
+					<div>
+						<div class="input-text ak-input-type-user ak-intl-billing-fields">
+							<label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
+							<input id="id_postal" type="text" name="postal" size="10">
+						</div>
 							<div class="input-text ak-input-type-user ak-intl-billing-fields">
 								<label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
 								<input id="id_region" type="text" name="region" size="20">
 							</div>
 						</div>
-                        <div class="input-select input-country ak-input-type-user">
-                            <label for="country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
-                            {% include "./country_select.html" %}
-                        </div>
+            <div class="input-select input-country ak-input-type-user">
+              <label for="country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
+              {% include "./country_select.html" %}
+            </div>
+{% else %}
+    				<input type="hidden" name="country" value="United States">
+{% endif %}
+          </div>
 
-                        {% else %}
-                            <input type="hidden" name="country" value="United States">
-                        {% endif %}
-                    </div> <!-- labels overlaid (billing address) -->
+{% if has_candidates %}
+          <p class="ak-label-above" id="ak-occ-emp-why">
+              For political donations, we're required to ask for your employer and occupation:
+          </p>
+					<div class="ak-errs-below">
+            <div class="input-text ak-input-type-action">
+              <label for="action_employer">Employer</label>
+              <input id="action_employer" class="" type="text" name="action_employer" size="20">
+              <input type="hidden" name="required" value="action_employer">
+            </div>
+            <div class="input-text ak-input-type-action">
+              <label for="action_occupation">Occupation</label>
+              <input id="action_occupation" type="text" name="action_occupation" size="20">
+              <input type="hidden" name="required" value="action_occupation">
+            </div>
+          </div>
+{% endif %}
 
-                    {% if has_candidates %}
+{% if has_shippable_products %}
+					<div id="ak-shipping-address">
+						<h4>Shipping Address</h4>
+  {% with "shipping_" as input_name_prefix %}
+						<div class="ak-margin-1 input-checkbox">
+              <label for="ak-shipping-same" class="ak-small">
+                <input id="ak-shipping-same" type="checkbox" name="shipping_same" value="1" checked>
+                Ship to billing address
+              </label>
+            </div>
+            <div id="ak-shipping-fields" class="ak-errs-below" style="display: none">
+              <div class="input-text">
+                <label for="id_shipping_address1">Shipping address line 1</label>
+                <input id="id_shipping_address1" class="ak-input-type-action" type="text" name="shipping_address1">
+              </div>
+              <div class="input-text">
+                <label for="id_shipping_address2">Shipping address line 2 (optional)</label>
+                <input id="id_shipping_address2" class="ak-input-type-action" type="text" name="shipping_address2">
+              </div>
+              <div class="input-text">
+                <label for="id_shipping_city">Shipping city</label>
+                <input id="id_shipping_city" class="ak-input-type-action" type="text" name="shipping_city">
+              </div>
+              <div class="ak-us-shipping-fields">
+                <div class="input-select">
+                  <label for="id_shipping_state">Shipping state</label>
+                  {% include "./state_select.html" %}
+                </div>
+              	<div class="input-text">
+                  <label for="id_shipping_zip">Shipping ZIP</label>
+                  <input id="id_shipping_zip" class="ak-input-type-action" type="text" name="shipping_zip" maxlength="5" size="5">
+                </div>
+              </div>
+		{% if page.allow_international %}
+              <div class="ak-intl-shipping-fields">
+                <div class="input-text ak-input-type-action">
+                  <label for="id_shipping_region">Shipping region</label>
+                  <input id="id_shipping_region" class="ak-input-type-action" type="text" name="shipping_region" size="20">
+                </div>
+                <div class="input-text ak-input-type-action">
+                  <label for="id_shipping_postal">Shipping postal Code</label>
+                  <input id="id_shipping_postal" type="text" name="shipping_postal" size="10">
+                </div>
+              </div>
+              <div class="input-select input-country">
+                <label for="id_shipping_country">Shipping country</label>
+                {% include "./country_select.html" %}
+              </div>
+    {% endif %}
+            </div>
+  {% endwith %}
+        	</div> <!-- shipping address -->
+{% endif %}
+				</div> <!-- donation contact -->
 
-                    <p class="ak-label-above" id="ak-occ-emp-why">
-                        For political donations, we're required to ask for your employer and occupation:
-                    </p>
-
-                    <div class="ak-errs-below">
-                        <div class="input-text ak-input-type-action">
-                            <label for="action_employer">Employer</label>
-                            <input id="action_employer" class="" type="text" name="action_employer" size="20">
-                            <input type="hidden" name="required" value="action_employer">
-                        </div>
-
-                        <div class="input-text ak-input-type-action">
-                            <label for="action_occupation">Occupation</label>
-                            <input id="action_occupation" type="text" name="action_occupation" size="20">
-                            <input type="hidden" name="required" value="action_occupation">
-                        </div>
-
-                    </div>
-                    {% endif %}
-
-                    {% if has_shippable_products %}
-                    <div id="ak-shipping-address">
-
-                        <h4>Shipping Address</h4>
-                        {% with "shipping_" as input_name_prefix %}
-
-                        <div class="ak-margin-1 input-checkbox">
-                            <label for="ak-shipping-same" class="ak-small">
-                                <input id="ak-shipping-same" type="checkbox" name="shipping_same" value="1" checked>
-                                Ship to billing address
-                            </label>
-                        </div>
-                        <div id="ak-shipping-fields" class="ak-errs-below" style="display: none">
-                            <div class="input-text">
-                                <label for="id_shipping_address1">Shipping address line 1</label>
-                                <input id="id_shipping_address1" class="ak-input-type-action" type="text" name="shipping_address1">
-                            </div>
-                            <div class="input-text">
-                                <label for="id_shipping_address2">Shipping address line 2 (optional)</label>
-                                <input id="id_shipping_address2" class="ak-input-type-action" type="text" name="shipping_address2">
-                            </div>
-                            <div class="input-text">
-                                <label for="id_shipping_city">Shipping city</label>
-                                <input id="id_shipping_city" class="ak-input-type-action" type="text" name="shipping_city">
-                            </div>
-                            <div class="ak-us-shipping-fields">
-                                <div class="input-select">
-                                    <label for="id_shipping_state">Shipping state</label>
-                                    {% include "./state_select.html" %}
-                                </div>
-                                <div class="input-text">
-                                    <label for="id_shipping_zip">Shipping ZIP</label>
-                                    <input id="id_shipping_zip" class="ak-input-type-action" type="text" name="shipping_zip" maxlength="5" size="5">
-                                </div>
-                            </div>
-                            {% if page.allow_international %}
-                            <div class="ak-intl-shipping-fields">
-                                <div class="input-text ak-input-type-action">
-                                    <label for="id_shipping_region">Shipping region</label>
-                                    <input id="id_shipping_region" class="ak-input-type-action" type="text" name="shipping_region" size="20">
-                                </div>
-                                <div class="input-text ak-input-type-action">
-                                    <label for="id_shipping_postal">Shipping postal Code</label>
-                                    <input id="id_shipping_postal" type="text" name="shipping_postal" size="10">
-                                </div>
-                            </div>
-                            <div class="input-select input-country">
-                                <label for="id_shipping_country">Shipping country</label>
-                                {% include "./country_select.html" %}
-                            </div>
-                            {% endif %}
-                        </div>
-                        {% endwith %}
-
-                    </div> <!-- shipping address -->
-                    {% endif %}
-
-                </div> <!-- donation contact -->
-
-                <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
+        <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
 					<h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5>
 					<div class="input-text ak-input-type-user">
 						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
@@ -452,96 +446,87 @@
 						<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
 						<input id="id_email" class="" type="text" name="email">
 					</div>
-                    <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
-					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-					    <div id="ak-card_num-hosted" class="hosted-field"></div>
-					    <input id="ak-card_num" type="text" name="card_num">
+          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
+				    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
+				    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
+				    <div id="ak-card_num-hosted" class="hosted-field"></div>
+				    <input id="ak-card_num" type="text" name="card_num">
 					</div>
 
 					<div class="ak-err-below">
-
-					    <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c5 ct5 margin-top-none">
-					        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-					        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
-					        <div id="ak-exp_date-hosted" class="hosted-field"></div>
-					        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-					            <option value="">MM</option>
-					            <option value="01">01</option>
-					            <option value="02">02</option>
-					            <option value="03">03</option>
-					            <option value="04">04</option>
-					            <option value="05">05</option>
-					            <option value="06">06</option>
-					            <option value="07">07</option>
-					            <option value="08">08</option>
-					            <option value="09">09</option>
-					            <option value="10">10</option>
-					            <option value="11">11</option>
-					            <option value="12">12</option>
-					        </select>
-					        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-					        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
-					            <option value="">YYYY</option>
-					            {% for year in exp_years %}
-					            <option value="{{ year.two }}">{{ year.four }}</option>
-					            {% endfor %}
-					        </select>
-					        <div class="clear"></div>
-					    </div>
-
-					    <div id="ak-fieldbox-card_code" class="input-text input-cvv ak-input-type-user c5 ct5 margin-top-none">
-					        <input type="hidden" name="required" value="card_code" id="ak-card_code-required">
-					        <label for="ak-card_code" title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>
-					        <div id="ak-card_code-hosted" class="hosted-field"></div>
-					        <input id="ak-card_code" type="text" name="card_code" size="4">
-					    </div>
-					    <div class="clear"></div>
+						<div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c5 ct5 margin-top-none">
+			        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
+			        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
+			        <div id="ak-exp_date-hosted" class="hosted-field"></div>
+			        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
+		            <option value="">MM</option>
+		            <option value="01">01</option>
+		            <option value="02">02</option>
+		            <option value="03">03</option>
+		            <option value="04">04</option>
+		            <option value="05">05</option>
+		            <option value="06">06</option>
+		            <option value="07">07</option>
+		            <option value="08">08</option>
+		            <option value="09">09</option>
+		            <option value="10">10</option>
+		            <option value="11">11</option>
+		            <option value="12">12</option>
+							</select>
+			        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
+			        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
+		            <option value="">YYYY</option>
+{% for year in exp_years %}
+		            <option value="{{ year.two }}">{{ year.four }}</option>
+{% endfor %}
+			        </select>
+							<div class="clear"></div>
+						</div>
+				    <div id="ak-fieldbox-card_code" class="input-text input-cvv ak-input-type-user c5 ct5 margin-top-none">
+			        <input type="hidden" name="required" value="card_code" id="ak-card_code-required">
+			        <label for="ak-card_code" title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>
+			        <div id="ak-card_code-hosted" class="hosted-field"></div>
+			        <input id="ak-card_code" type="text" name="card_code" size="4">
+				    </div>
+				    <div class="clear"></div>
 					</div>
-                </div><!--ak-styled-fields-->
-			{% autoescape off %}
-			{% if page.custom_fields.form_additional_fields %}
-			<div class="addl-html">
-				{{ page.custom_fields.form_additional_fields }}
-			</div>
-			{% endif %}
-			{% endautoescape %}
-			<div class="text-center">
-                <button class="ak-styled-submit-button button ak-donate-three-step-visible" id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue &rarr;{% endfilter %}</button>
+        </div><!--ak-styled-fields-->
 
-
-                {% if page.payment_processor_information.use_cse %}
-
-                    {% comment %}
-                    For pages that use CSE, the submit button will be enabled by javascript above.
-                    {% endcomment %}
-
-                    <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
-                    <noscript>
-                        <p>
-                            <b>JavaScript is required</b> so this page
-                            can securely submit your donation.
-                        </p>
-                    </noscript>
-
-                {% else %}
-
-                    <button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
-
-                {% endif %}
-				{% if show_paypal %}
-                    <div class="ak-payment-options text-center ak-donate-area-step-3">
-                        <input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
-                       <p class="margin-bottom-small text-small"><em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em> <button type="submit" id="ak-paypal-button" class="button bg-ltgray button-small"><img src="/media/modern/paypal-logo-1.svg" style="position:relative;top:3px;"></button></p>
-                    </div>
-                {% endif %}
-			</div>
+{% autoescape off %}
+	{% if page.custom_fields.form_additional_fields %}
+				<div class="addl-html">
+		{{ page.custom_fields.form_additional_fields }}
 				</div>
+	{% endif %}
+{% endautoescape %}
 
+				<div class="text-center">
+	        <button class="ak-styled-submit-button button ak-donate-three-step-visible" id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue &rarr;{% endfilter %}</button>
+{% if page.payment_processor_information.use_cse %}
+  {% comment %}
+  For pages that use CSE, the submit button will be enabled by javascript above.
+  {% endcomment %}
+	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
+	        <noscript>
+	          <p><b>JavaScript is required</b> so this page can securely submit your donation.</p>
+	      	</noscript>
+{% else %}
+        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
+{% endif %}
+
+{% if show_paypal %}
+	        <div class="ak-payment-options text-center ak-donate-area-step-3">
+	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
+						<p class="margin-bottom-small text-small"><em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em> <button type="submit" id="ak-paypal-button" class="button bg-ltgray button-small"><img src="/media/modern/paypal-logo-1.svg" style="position:relative;top:3px;"></button></p>
+	        </div>
+{% endif %}
 				</div>
-					<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;"><strong>{% filter ak_text:"donate_secure_donation" %}Secure donation{% endfilter %}.</strong> {% if page.custom_fields.form_short_toc %}{{ page.custom_fields.form_short_toc }}{% else %}Your contribution will support 350.org groups all over the world working to build a better, climate-safe future.{% endif %}
 			</div>
-			</div>
+		</div>
+		<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
+			<strong>{% filter ak_text:"donate_secure_donation" %}Secure donation{% endfilter %}.</strong> {% if page.custom_fields.form_short_toc %}{{ page.custom_fields.form_short_toc }}{% else %}Your contribution will support 350.org groups all over the world working to build a better, climate-safe future.{% endif %}
+		</div>
+	</div>
 
 
 		</form>
@@ -682,9 +667,19 @@
         );
     });
 
-    /* Currency symbols */
+/* Currency symbols */
+
+		actionkit.utils.currencySymbols = {
+			"AUD": "AUD",
+			"BRL": "R$",
+			"CAD": "CAD",
+			"EUR": "€",
+			"GBP": "£",
+			"USD": "$",
+		}
+
     function redraw_currency_symbol() {
-        var id = $('input[id^=id_currency_]:checked').attr('id');
+        var id = $('input[id^=id_currency_]:checked, option[id^=id_currency_]:selected').attr('id');
         var iso_code_match = /([A-Z][A-Z][A-Z])$/.exec(id);
         if ( ! iso_code_match ) {
             return
@@ -692,10 +687,11 @@
         var iso_code = iso_code_match[1];
         var currency_sym = actionkit.utils.currencySymbols[iso_code];
         $('.ak-currency-sym').text( currency_sym || '' );
+				$("#ak-amount-list").removeClass('currency-AUD currency-BRL currency-CAD currency-EUR currency-GBP currency-USD').addClass('currency-' + iso_code);
     }
 
     $(function() {
-        $('input[id^=id_currency_]').on('change', redraw_currency_symbol);
+        $('input[id^=id_currency_], select[name="currency"], select[name="payment_account"]').on('change', redraw_currency_symbol);
         redraw_currency_symbol();
     });
 

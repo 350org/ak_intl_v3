@@ -166,7 +166,7 @@
 {% if has_products %}
 				<h4 class="ak-donate-area-step-1">Donation (Optional)</h4>
 {% endif %}
-        <div id="ak-amount-list" class="ak-err-above ak-donate-area-step-1">
+        <div id="ak-amount-list" class="ak-err-above ak-donate-area-step-1 {% for currency, account_name in page.derived.currency_accounts %}{% if forloop.first %}currency-{{ currency }}{% endif %}{% endfor %}">
 
 {% if show_currency_select %}
 					<div class="ak-currency">

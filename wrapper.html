@@ -25,7 +25,7 @@
 	<meta property="og:image" content="{{ page.custom_fields.fb_pic_url }}" />
 {% endif %}
 {% if events|length %}
-	<meta property="og:url" content="http://act.350.org{{ event.public_url }}" />
+	<meta property="og:url" content="https://act.350.org{{ event.public_url }}" />
 	<meta property="og:title" content="{% if event.title %}{{ event.title }} – {{ campaign.local_title }}{% else %}{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}{% endif %}" />
 	{% if page.custom_fields.fb_description %}
 	<meta property="og:description" content="{{ page.custom_fields.fb_description }}" />
@@ -62,12 +62,12 @@
 
 {% block meta_additions %}{% endblock %}
 
-	<link rel='stylesheet' id='baseline-css' href='https://s3.amazonaws.com/s3.350.org/ak/ak-v3.css' type='text/css' media='screen' />
+	<link rel='stylesheet' id='baseline-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.css' type='text/css' media='screen' />
 {% if templateset.custom_fields.site_addl_css_url %}
 	<link rel='stylesheet' id='addl-css' href='{{ templateset.custom_fields.site_addl_css_url }}' type='text/css' media='screen' />
 {% endif %}
 {% if page.lang.is_rtl %}
-	<link rel='stylesheet' id='baseline-rtl-css' href='https://s3.amazonaws.com/s3.350.org/ak/ak-v3-rtl.css' type='text/css' media='all' />
+	<link rel='stylesheet' id='baseline-rtl-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3-rtl.css' type='text/css' media='all' />
 {% endif %}
 
 	<style>
@@ -134,13 +134,13 @@ actionkit.forms.initForm('act');
 				{{ templateset.custom_fields.site_logo_html }}
 			</a>
 	{% else %}
-			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="http://350.org/">350.org</a></span> &nbsp; /
+			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="https://350.org/">350.org</a></span> &nbsp; /
 	{% endif %}
 	{% if templateset.custom_fields.site_footer_menu %}
 			{{ templateset.custom_fields.site_footer_menu }}
 	{% else %}
-			 &nbsp;&nbsp; <a href="{% filter ak_text:"footer_about" %}http://350.org/how{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a
-	href="{% filter ak_text:"footer_donate_url" %}http://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a> / {% endifequal%}<a id="privacy-link" href="{% filter ak_text:"footer_privacy_url" %}http://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a> / <a href="{% filter ak_text:"footer_contact_url" %}http://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
+			 &nbsp;&nbsp; <a href="{% filter ak_text:"footer_about" %}https://350.org/how{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a
+	href="{% filter ak_text:"footer_donate_url" %}https://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a> / {% endifequal%}<a id="privacy-link" href="{% filter ak_text:"footer_privacy_url" %}https://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a> / <a href="{% filter ak_text:"footer_contact_url" %}https://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
 	{% endif %}
 {% endautoescape %}
 {% endfilter %}
@@ -161,9 +161,9 @@ actionkit.forms.initForm('act');
 	</div>
 </footer>
 
-<script src="https://s3.amazonaws.com/s3.350.org/ak/ak-v3.js"></script>
+<script src="https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.js"></script>
 {% if page.custom_fields.form_include_college %}
-{% comment %} Select menu plugin for huge select menus: http://harvesthq.github.com/chosen/ {% endcomment %}
+{% comment %} Select menu plugin for huge select menus: https://harvesthq.github.com/chosen/ {% endcomment %}
 <link rel="stylesheet" type="text/css" href="//dbqvwi2zcv14h.cloudfront.net/images/chosen.css" />
 <script type="text/javascript" src="//dbqvwi2zcv14h.cloudfront.net/images/chosen.js"></script>
 <script type="text/javascript">
@@ -202,7 +202,7 @@ jQuery(document).ready(function(){
 	WebFontConfig = {
 		custom: {
 			families: ['tf-icons:n7'],
-			urls: ['https://s3.amazonaws.com/s3.350.org/fonts/ak-fonts.css'],
+			urls: ['https://dbqvwi2zcv14h.cloudfront.net/fonts/ak-fonts.css'],
 			testStrings: {
 				'tf-icons': '\u0020\uE900',
 			}
@@ -235,7 +235,7 @@ jQuery(document).ready(function(){
 	WebFontConfig = {
 		custom: {
 			families: ['GraphCondensedWeb:n7', 'KlimaWeb:n9', 'tf-icons:n7'],
-			urls: ['https://s3.amazonaws.com/s3.350.org/fonts/ak-fonts.css'],
+			urls: ['https://dbqvwi2zcv14h.cloudfront.net/fonts/ak-fonts.css'],
 			testStrings: {
 				'tf-icons': '\u0020\uE900',
 			}

@@ -21,7 +21,7 @@ event titles, venues, etc., and different choices produce different HTML.
 
 		{% if campaign.show_address1 and not hide_map %}
 <!-- div id="map">
-    <img src="http://maps.google.com/maps/api/staticmap?sensor=false&size=300x300&markers={% for event in events %}{{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}{% if not forloop.last %}|{% endif %}{% endfor %}" width="300" height="300" />
+    <img src="https://maps.google.com/maps/api/staticmap?sensor=false&size=300x300&markers={% for event in events %}{{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}{% if not forloop.last %}|{% endif %}{% endfor %}" width="300" height="300" />
 </div -->
 		{% endif %}
 <ul id="event_search_results_event_list" class="events nobullet">

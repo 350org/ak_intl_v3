@@ -15,7 +15,7 @@ on {{ event.starts_at|date:"l, F j" }} at {{ event.starts_at|date:"f A" }}.
 
 RSVP here so I can know you're coming:
 
-http://{% client_domain %}/event/{{ event.campaign.signup_page.name }}/{{ event.id }}/?source=taf
+https://{% client_domain %}/event/{{ event.campaign.signup_page.name }}/{{ event.id }}/?source=taf
 {% endwith %}
 Thanks,
 {{ action.user.first_name }}

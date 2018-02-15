@@ -8,7 +8,7 @@ Subject: Confirm your "{{ action.event.campaign.local_title }}" event
 
 <p>Thanks for setting up your event! <b>Before anyone can sign up, you must confirm your event by clicking below to {% if not user.password %}set a password and{% endif %} log in to your host tools:</b></p>
 
-<p><a href="http://{% client_domain %}/event/{{ action.event.campaign.local_name }}/{{ action.event.id }}/host/?i={{ user.password_change_token }}">http://{% client_domain %}/event/{{ action.event.campaign.local_name }}/{{ action.event.id }}/host/?i={{ user.password_change_token }}</a></p>
+<p><a href="https://{% client_domain %}/event/{{ action.event.campaign.local_name }}/{{ action.event.id }}/host/?i={{ user.password_change_token }}">https://{% client_domain %}/event/{{ action.event.campaign.local_name }}/{{ action.event.id }}/host/?i={{ user.password_change_token }}</a></p>
 
 <p>Please <b>don't forward this e-mail</b>: the link above is personalized, and can be used to manage your event or change your account password.</p>
 

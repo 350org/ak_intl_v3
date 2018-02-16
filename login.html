@@ -50,7 +50,7 @@ input, select, textarea{max-width: initial;}
 				  </div>
 					<br>
 				  <div class="submit-row">
-				    <input type="submit" class="submit" value="Log In" />
+				    <input type="submit" class="submit" value="{% filter ak_text:'general_log_in' %}Sign In{% endfilter %}" />
 				  </div>
 			  
 			</form>		
@@ -65,9 +65,6 @@ input, select, textarea{max-width: initial;}
 $(document).ready(function(){
 actionkit.forms.installOverlayLabelHandler();
 });
-
-  actionkit.forms.contextRoot = '/context/';
-  actionkit.forms.initValidation('login-form');
 
 	document.getElementById('id_{% if email %}password{% else %}email{% endif %}').focus()
 </script>

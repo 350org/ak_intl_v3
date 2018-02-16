@@ -2,18 +2,18 @@
 
 {% block content %}
 
-<div id="content">
-
-<h2 class="page-title">Enter your desired password in the boxes below. </h2>
-{% if message %}
-<p class="loud large">{{ message }}</p>
-{% endif %}
-<form action="{{ app_path }}" method="post" id="login-form">
-  {{ form.as_p }}
-
-<input type="submit" class="submit" value="Set Password" />
-
-</form>
-</div>
-
+<section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section-inner">
+		<h2 class="page-title">Enter your desired password in the boxes below. </h2>
+		{% if message %}
+		<p class="loud large">{{ message }}</p>
+		{% endif %}
+		<form action="{{ app_path }}" method="post" id="login-form">
+		  {{ form.as_p }}
+		
+		<input type="submit" class="submit" value="Set Password" />
+		
+		</form>
+	</div>
+</section>
 {% endblock %}

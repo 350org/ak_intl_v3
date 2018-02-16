@@ -10,7 +10,7 @@ input, select, textarea{max-width: initial;}
 		<div id="action-header">
 
 			<h2>{% filter ak_text:"general_log_in"|title %}Sign In{% endfilter %}</h2>
-			<p>{% filter ak_text:"user_login_intro"|title %}Sign in to your personal information and manage your donations{% endfilter %}.</p>
+			<p>{% filter ak_text:"user_login_intro"|title %}Sign in to your personal information and manage your donations.{% endfilter %}</p>
 
 			<div class="errors">
         {% if error_message %}
@@ -42,10 +42,10 @@ input, select, textarea{max-width: initial;}
 				    <label for="id_password">{% filter ak_text:"general_password"|capfirst %}Password{% endfilter %}</label>
 				    <input type="password" name="password" id="id_password" />
 				  </div>
-
-				  <p class="submit-row">
+					<br>
+				  <div class="submit-row">
 				    <input type="submit" class="submit" value="Log In" />
-				  </p>
+				  </div>
 			  
 			</form>		
 			<p style="margin-top: 5px;">

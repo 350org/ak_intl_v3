@@ -1,30 +1,28 @@
-{% extends "./wrapper.html" %}{% load actionkit_tags %}
-
-
-{% block title %}Update Your Info{% endblock %}
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
 
 {% block content %}
-<h2>{{ user.name }}</h2>
-<div id="content" class="user-update">
-{% if updated %}
-<h3>Thanks! Your information has been updated. <a href="/logout">Click here to log out.</a></h3><br>
-{% endif %}
-<p class="lead">Update your information:</p>
-</div>
 
+<section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section-inner">
+		{% block title %}Update Your Info{% endblock %}
 
-<form name="accountupdate" method="POST" class="ak-form user-update">
-    <div id="form" class="user-update">
-    <table border="0" cellpadding="3" style="width:100%;">
-
-{{ form.as_p }}
-        
-        </table>
-    <input type="submit" class="submit" value="Update My Info" />
-</div>
-    </form>
-
-<br class="clear" />
+		<h2>{{ user.name }}</h2>
+		<div id="content" class="user-update">
+			{% if updated %}
+				<h3>Thanks! Your information has been updated. <a href="/logout">Click here to log out.</a></h3><br>
+			{% endif %}
+			<p class="lead">Update your information:</p>
+		</div>
+		
+		<form name="accountupdate" method="POST" class="ak-form user-update">
+			<div id="form" class="user-update">			
+				{{ form.as_div }}			
+				<input type="submit" class="submit" value="Update My Info" />
+			</div>
+		</form>
+	</div>
+</section>
 <script type="text/javascript">
 $(document).ready(function(){
 actionkit.forms.installOverlayLabelHandler();

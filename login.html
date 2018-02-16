@@ -3,7 +3,7 @@
 {% block content %}
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
-		<div id="action-header" class="c6 ct10 cm10 c-wide">
+		<div id="action-header">
 
 			<h1>{% filter ak_text:"user_login_intro"|title %}Update your personal information and manage your donations.{% endfilter %}</h1>
 			<p>{% filter ak_text:"user_login_first_time" %}If this is your first time logging in, you'll need to set up your password.{% endfilter %}</p>
@@ -31,7 +31,7 @@
 			{% endif %}
 		</div>
 
-		<div id="form" class="c4 ct7_5 cm10 c-wide ak-labels-overlaid ak-err-below">
+		<div id="form" class="ak-labels-overlaid ak-err-below">
 			<form action="{{ app_path }}" method="post" id="login-form" class="login-form">
 				<h5 class="form-title">{% filter ak_text:"general_log_in"|title %}Log In{% endfilter %}</h5>
 			  <div id="id_email_box">

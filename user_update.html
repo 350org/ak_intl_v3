@@ -6,9 +6,9 @@
 input, select, textarea{max-width: initial;}
 </style>
 
-<section id="action-lead" class="section donate-lead action-lead title-section width-skinny padding-normal bg-white">
+<section id="action-lead" class="section donate-lead action-lead title-section width-normal padding-normal bg-white">
 	<div class="section-inner">
-		<h2>{% block title %}Update Your Info{% endblock %}</h2>
+		<h2 id="page-title" class="title2">{% block title %}Update Your Info{% endblock %}</h2>
 		<h3 class="section-header meta margin-bottom-large">{{ user.name }}</h3>		
 		<div id="content" class="user-update">
 			{% if updated %}

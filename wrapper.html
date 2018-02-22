@@ -123,7 +123,7 @@ actionkit.forms.initForm('act');
 
 {% endif %}
 <div class="clear" /></div>
-<footer id="" class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %} width-full text-small">
+<footer id="site-footer" class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif templateset.custom_fields.site_bg_color_slug %}{{ templateset.custom_fields.site_bg_color_slug }}{% else %}white{% endif %} width-full text-small">
 	<div class="section-inner">
 
 		<nav id="footer-links" class="c6_6 ct10 cm10 c-wide">

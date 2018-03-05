@@ -26,11 +26,27 @@
 .form-style-expanded .input-ampm-event_starts_at{
   display:inline-block;
   margin-right:1%;
+  position:relative;
   vertical-align:text-top;
   width:65%;}
 .form-style-expanded .input-ampm-event_starts_at{
   margin-right:0;
   width:33%;}
+
+.js .input-date{
+  cursor:pointer;}
+.input-date::after{
+  background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDIuODYgMTEzLjEyIj48dGl0bGU+ZmYtaWNvbi1kYXRlPC90aXRsZT48cGF0aCBkPSJNODcuNSAxNC41NHYxMy4yM2gtMjQuODF2LTEzLjIzaC0yMi4zMXYxMy4yM2gtMjQuODJ2LTEzLjIzaC0xNS41NnY5OC41OGgxMDIuODZ2LTk4LjU4em04LjUgOTEuODZoLTg5LjI4di02OS4yNGg4OS4yOHptLTM1LTUwLjI5aC0xOS43M3YtMTIuNjhoMTkuNzN6bTI2LjU5IDBoLTE5LjQzdi0xMi42OGgxOS40MXptLTI2LjU5IDIxLjg5aC0xOS43M3YtMTMuMTdoMTkuNzN6bTI2LjU5IDBoLTE5LjQzdi0xMy4xN2gxOS40MXptLTUzLjUxIDIxLjIxaC0xOS41NnYtMTNoMTkuNTZ6bTI2LjkgMGgtMTkuNzF2LTEzaDE5Ljczem0tMjYuOS0yMS4yMWgtMTkuNTZ2LTEzLjE3aDE5LjU2em0xLjQtNTUuMWgtMTV2LTIyLjloMTV6bTQ3LjEzIDBoLTE1di0yMi45aDE1eiIvPjwvc3ZnPg==);
+  background-repeat:no-repeat;
+  background-size:contain;
+  bottom:1.2em;
+  content:'';
+  display:block;
+  height:1.3em;
+  opacity:0.4;
+  position:absolute;
+  right:1em;
+  width:1.3em;}
 
 .form-style-expanded .input-text.ak-input-type-event label,
 .form-style-expanded .input-textarea.ak-input-type-event label,
@@ -153,14 +169,14 @@
         <div id="id_event_is_private_row" class="input-radio ak-input-type-event id_event_is_private cb-container">
           <label>Visibility</label>
           <div id="event-is-pubic-wrapper" class="input-radio-option-group">
-            <input id="id_event_is_public" type="radio" class="radio" value="false" name="event_is_private" />
+            <input id="id_event_is_public" type="radio" class="radio" value="0" name="event_is_private" />
             <label class="radio-label" for="id_event_is_public">
               <span class="text-large text-strong">{% filter ak_text:"event_create_field_label_public" %}Public{% endfilter %}</span><br>
               <span class="text-small opacity-50">{% filter ak_text:"event_create_field_label_public_note" %}Anyone can find your event by searching the events map, and 350 will send emails inviting people in your area.{% endfilter %}</span>
             </label>
           </div>
           <div id="event-is-private-wrapper" class="input-radio-option-group">
-            <input id="id_event_is_private" type="radio" class="radio" value="true" name="event_is_private" />
+            <input id="id_event_is_private" type="radio" class="radio" value="1" name="event_is_private" />
             <label class="radio-label" for="id_event_is_private">
               <span class="text-large text-strong">{% filter ak_text:"event_create_field_label_private" %}Private{% endfilter %}</span><br>
               <span class="text-small opacity-50">{% filter ak_text:"event_create_field_label_private_note" %}Only people with the link will be able to sign up to your event. It will not appear on the map, and 350 will not invite people in your area.{% endfilter %}</span>

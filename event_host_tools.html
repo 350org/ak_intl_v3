@@ -150,6 +150,8 @@
   list-style-type:none;
   font-size:1.3rem;
   border-bottom:1px dotted rgba(21,36,43,0.5);}
+#event-host-links li.host-tool-event-unconfirmed{
+  border-bottom:0;}
 #event-host-links li .host-tool{
 	display:block;
 	padding:1.2rem 1.2em;
@@ -209,12 +211,17 @@ a.cancel-link:hover,
 		  	<ul id="event-host-links">
 	{% if user_is_manager %}
 		{% if campaign.require_email_confirmation and not event.host_is_confirmed %}
-		     		<li>
-							<a class="host-tool icon-before icon-faded" data-icon="&#xE942;" onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $(this).text('Confirmed');" href="#">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm event{% endfilter %}</a>
+		     		<li class="host-tool-event-unconfirmed margin-bottom-medium">
+							<a class="button host-tool icon-before icon-faded" data-icon="&#xE942;" onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $(this).text('Confirmed');" href="#">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm event{% endfilter %}</a>
 						</li>
+            <div id="modal-confirm" class="hidden js-modal-onload js-modal text-large" data-modal-source="#modal-confirm" data-modal-classes-inner="">
+              <h2>{% filter ak_text:"event_host_tools_confirm_event" %}Confirm Your Event{% endfilter %}</h2>
+              <p>{% filter ak_text:"event_host_tools_confirm_event_instructions" %}Once you confirm your event, it will start appearing on the map and in the event search results.{% endfilter %}</p>
+              <a class="button host-tool icon-before icon-faded" data-icon="&#xE942;" onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $(this).text('Confirmed');" href="#">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm event{% endfilter %}</a>
+            </div>
 		{% endif %}
 	{% endif %}
-		    	<li><a class="host-tool icon-before icon-faded" data-icon="&#xE913;" href="../../create/?action_id={{ action.id }}&amp;update=1&amp;want_prefill_data=1">{% filter ak_text:"event_host_tools_edit_details" %}Edit event details{% endfilter %}</a></li>
+		    	<li class="host-tool-event-confirmed"><a class="host-tool icon-before icon-faded" data-icon="&#xE913;" href="../../create/?action_id={{ action.id }}&amp;update=1&amp;want_prefill_data=1">{% filter ak_text:"event_host_tools_edit_details" %}Edit event details{% endfilter %}</a></li>
 	{% if cohosts %}
 		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE900;" id="email-cohosts-link" href="#contact-cohosts">{% filter ak_text:"event_host_tools_email_cohosts" %}Email cohosts{% endfilter %}</a></li>
 	{% endif %}

@@ -214,12 +214,12 @@ a.cancel-link:hover,
 	{% if user_is_manager %}
 		{% if campaign.require_email_confirmation and not event.host_is_confirmed %}
 		     		<li class="host-tool-event-unconfirmed margin-bottom-medium">
-							<a class="button host-tool icon-before icon-faded" data-icon="&#xE942;" onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $(this).text('Confirmed');" href="#">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm event{% endfilter %}</a>
+							<a class="button event-host-confirm host-tool icon-before icon-faded" data-icon="&#xE942;" onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $('.event-host-confirm').text('{% filter ak_text:"event_host_tools_confirm_success" %}Confirmed{% filter %}');" href="#">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm Your Event{% endfilter %}</a>
 						</li>
             <div id="modal-confirm" class="hidden js-modal-onload js-modal" data-modal-source="#modal-confirm" data-modal-classes-inner="padding-medium bg-white modal-content section-inner">
               <h2>{% filter ak_text:"event_host_tools_confirm_event" %}Confirm Your Event{% endfilter %}</h2>
               <p>{% filter ak_text:"event_host_tools_confirm_event_instructions" %}Once you confirm your event, it will start appearing on the map and in the event search results.{% endfilter %}</p>
-              <a class="button button-primary icon-before icon-faded" data-icon="&#xE942;" onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $(this).text('Confirmed');" href="#">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm event{% endfilter %}</a>
+              <a class="button button-primary icon-before icon-faded event-host-confirm" data-icon="&#xE942;" onclick="$.get('/event/{{campaign.local_name}}/{{event.id}}/modify/confirm/'); $('.event-host-confirm').text('{% filter ak_text:"event_host_tools_confirm_success" %}Confirmed{% filter %}');modalClose();" href="#">{% filter ak_text:"event_host_tools_confirm_event" %}Confirm event{% endfilter %}</a>
             </div>
 		{% endif %}
 	{% endif %}

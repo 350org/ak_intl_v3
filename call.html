@@ -87,15 +87,15 @@
 				<div id="call-submit" class="input-submit"></div>
 				<script type="text/ak-template" for="call-submit">
 				[% if (!incomplete) { %]
-					 <input type="submit" class="submit button" value="{% filter ak_text:"call-report-button-text" %}Send your Report{% endfilter %}">
+					 <input type="submit" class="submit button" value="{% filter ak_text:"call_report_button_text" %}Send your Report{% endfilter %}">
 				[% } else { %]
-					<input type="submit" class="submit button" value="{% filter ak_text:"call-lookup-button-text" %}Find Phone Number{% endfilter %}">
+					<input type="submit" class="submit button" value="{% filter ak_text:"call_lookup_button_text" %}Find Phone Number{% endfilter %}">
 				[% } %]
 				</script>
 			</div>
 			<div class="c6 ct cm10 c-wide">
 				<div class="action-call-script">
-					<h3 class="text-blue">{% filter ak_text:"call-script-heading" %}What to say:{% endfilter %}</h3>
+					<h3 class="text-blue">{% filter ak_text:"call_script_heading" %}What to say:{% endfilter %}</h3>
 					<blockquote class="text-large">{% include_tmpl form.script_text %}</blockquote>
 				</div>
 			</div>

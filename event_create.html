@@ -235,7 +235,7 @@
       		<input id="id_event_city" type="text" name="event_city" />
       	</div>
         <div class="input-text ak-input-type-event input-postal">
-      		<label for="id_event_postal">{% filter ak_text:"field_postal" %}Postal{% endfilter %}</label>
+      		<label for="id_event_postal">{% filter ak_text:"field_postal" %}Postal{% endfilter %} {% filter ak_text:"general_optional" %}(Optional){% endfilter %}</label>
       		<input id="id_event_postal" type="text" name="event_postal" />
       	</div>
         <div class="input-text ak-input-type-event input-zip">

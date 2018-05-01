@@ -82,8 +82,24 @@
 			</div>
 		</form>
 <script type="text/javascript">
-	document.getElementById("action-form").submit();
-</script>		
+	function urlParam(name){
+		var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		if (!results) { return 0; }
+		return results[1] || 0;
+	}
+
+	var akid = urlParam('akid');
+	
+	function submitCheck() {
+	    if (akid) {
+	        document.getElementById("action-form").submit();
+	    }
+	}
+	
+	submitCheck();
+</script>
+
+
 		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide text-small">
 			{% include "./recentactions.html" %}

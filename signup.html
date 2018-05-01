@@ -88,14 +88,12 @@
 		return results[1] || 0;
 	}
 	
-	var akid = urlParam('akid');
 	var email = urlParam('email');
 	
 	
 	function submitCheck() {
 
-	    if (akid) {
-		    console.log('email: '+ email);
+	    if (email) {
 		    	document.getElementById("id_email").value = email;
 	        document.getElementById("action-form").submit();
 	    }

@@ -1,5 +1,6 @@
 {% extends "./wrapper.html" %}
 {% load actionkit_tags %}
+{% block content %}
 
 <script type="text/javascript">
 	function urlParam(name){
@@ -14,8 +15,6 @@
 		$('#action-lead div').css('visibility', 'hidden');
 	}
 </script>
-
-{% block content %}
 
 <section id="action-lead" class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">

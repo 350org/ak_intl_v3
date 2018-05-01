@@ -95,7 +95,11 @@
 
 	    if (email) {
 		    	document.getElementById("id_email").value = email;
-	        document.getElementById("action-form").submit();
+		    	var email_entered = true;
+		  }
+		  
+		  if(email_entered) {
+//	        document.getElementById("action-form").submit();
 	    }
 	}
 	

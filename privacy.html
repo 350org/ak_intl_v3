@@ -1,0 +1,30 @@
+{% load actionkit_tags %}
+<div class="ak-privacy ak-errs-below">x
+    
+    {% if privacy_text.checkbox %}
+    <input type="hidden" name="required" value="privacy">
+    <div id="ak-fieldbox-privacy_checkbox">
+        <label for="privacy_checkbox">
+            <input type="checkbox" id="privacy_checkbox" name="privacy" value="{{privacy_text.checkbox_hash}}"> 
+            {{privacy_text.checkbox|safe}}
+        </label>
+    </div>
+    {% elif privacy_text.notice %}
+        <input type="hidden" name="required" value="privacy">
+        <div id="ak-fieldbox-privacy_notice">
+            <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
+            {{privacy_text.notice|safe}}
+        </div>
+    {% endif %}
+    
+    {% if page and page.list %}
+    <input type="hidden" name="require_opt_in" value="1">
+    <div id="ak-fieldbox-lists">
+        <label for="lists">
+            <input type="checkbox" id="lists" name="lists" value="{{page.list.id}}">
+            {% filter ak_text:"opt_in" %}Keep me updated with emails about this and other campaigns{% endfilter %}
+        </label>
+    </div>
+    {% endif %}
+    
+</div>

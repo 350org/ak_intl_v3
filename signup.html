@@ -89,9 +89,11 @@
 	}
 
 	var akid = urlParam('akid');
+	var email = urlParam('email');
 	
 	function submitCheck() {
 	    if (akid) {
+		    	document.getElementById("id_email").value(email);
 	        document.getElementById("action-form").submit();
 	    }
 	}

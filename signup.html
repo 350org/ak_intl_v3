@@ -1,5 +1,33 @@
 {% extends "./wrapper.html" %}
+
 {% load actionkit_tags %}
+<script type="text/javascript">
+	function urlParam(name){
+		var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		if (!results) { return 0; }
+		return results[1] || 0;
+	}
+	
+	var oneclick = urlParam('oneclick');
+	var email = urlParam('email');
+	
+	
+	function oneClickOptIn() {
+
+	    if (email) {
+		    	document.getElementById("id_email").value = decodeURIComponent(email);
+		    	var email_entered = true;
+		  }
+		  
+		  if(email_entered) {
+	        document.getElementById("action-form").submit();
+	    }
+	}
+	
+	if (oneclick){
+		oneClickOptIn();
+	}
+</script>
 
 {% block content %}
 
@@ -81,35 +109,6 @@
 				{% endif %}
 			</div>
 		</form>
-<script type="text/javascript">
-	function urlParam(name){
-		var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-		if (!results) { return 0; }
-		return results[1] || 0;
-	}
-	
-	var oneclick = urlParam('oneclick');
-	var email = urlParam('email');
-	
-	
-	function oneClickOptIn() {
-
-	    if (email) {
-		    	document.getElementById("id_email").value = decodeURIComponent(email);
-		    	var email_entered = true;
-		  }
-		  
-		  if(email_entered) {
-	        document.getElementById("action-form").submit();
-	    }
-	}
-	
-	if (oneclick){
-		oneClickOptIn();
-	}
-</script>
-
-
 		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide text-small">
 			{% include "./recentactions.html" %}

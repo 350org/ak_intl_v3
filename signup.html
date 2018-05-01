@@ -11,12 +11,11 @@
 	
 	var oneclick = urlParam('oneclick');
 	
-$( document ).ready(function() {	
-	if (oneclick){
-		console.log($('#action-lead div'));
-		$('#action-lead div').css('visibility', 'hidden');
-	}
-});
+	$( document ).ready(function() {	
+		if (oneclick){
+			$('#action-lead div').css('visibility', 'hidden');
+		}
+	});
 </script>
 
 <section id="action-lead" class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -116,7 +115,7 @@ $( document ).ready(function() {
 		  }
 		  
 		  if(email_entered) {
-//	        document.getElementById("action-form").submit();
+	        document.getElementById("action-form").submit();
 	    }
 	}
 	

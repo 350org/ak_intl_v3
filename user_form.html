@@ -87,6 +87,8 @@ $(document).ready(function(){
 $("#partner-share").addClass("appended").insertBefore("#form input.submit");
 });
 </script>
+
+{% include "./privacy.html" %}
 {% if page.custom_fields.form_opt_in %}
 <input type="hidden" name="opt_in" value="1">
 <div class="input-checkbox ak-userfield-checkbox-choice">

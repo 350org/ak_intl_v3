@@ -1,30 +1,32 @@
 {% load actionkit_tags %}
 <div class="ak-privacy ak-errs-below">
-    
     {% if privacy_text.checkbox %}
     <input type="hidden" name="required" value="privacy">
-    <div id="ak-fieldbox-privacy_checkbox">
-        <label for="privacy_checkbox">
-            <input type="checkbox" id="privacy_checkbox" name="privacy" value="{{privacy_text.checkbox_hash}}"> 
-            {{privacy_text.checkbox|safe}}
-        </label>
+    <div id="ak-fieldbox-privacy_checkbox" class="input-radio margin-bottom-normal">
+      <p class="privacy-opt_in-text text-small margin-bottom-small">{{privacy_text.checkbox|safe}}</p>
+      <input type="radio" id="privacy_checkbox" name="privacy" value="{{privacy_text.checkbox_hash}}" >
+      <label for="privacy_checkbox">{% filter ak_text:"privacy-opt_in-radio-yes" %}I'm in{% endfilter %}</label>
+      &nbsp;&nbsp;
+      <input type="radio" id="privacy_checkbox_optout" name="privacy" value="" checked="checked">
+      <label for="privacy_checkbox_optout">{% filter ak_text:"privacy-opt_in-radio-no" %}No{% endfilter %}</label>
     </div>
     {% elif privacy_text.notice %}
         <input type="hidden" name="required" value="privacy">
-        <div id="ak-fieldbox-privacy_notice">
+        <div id="ak-fieldbox-privacy_notice" class="">
             <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
             {{privacy_text.notice|safe}}
         </div>
     {% endif %}
-    
+
+    <!--
     {% if page and page.list %}
+      We have a custom page field for a "join this list" checkbox, which should we keep?
+
     <input type="hidden" name="require_opt_in" value="1">
-    <div id="ak-fieldbox-lists">
-        <label for="lists">
-            <input type="checkbox" id="lists" name="lists" value="{{page.list.id}}">
-            {% filter ak_text:"opt_in" %}Keep me updated with emails about this and other campaigns{% endfilter %}
-        </label>
+    <div id="ak-fieldbox-lists" class="input-checkbox">
+      <input type="checkbox" id="lists" name="lists" value="{{page.list.id}}">
+      <label for="lists">{% filter ak_text:"opt_in" %}Keep me updated with emails about this and other campaigns{% endfilter %}</label>
     </div>
-    {% endif %}
+    {% endif %} -->
     
 </div>

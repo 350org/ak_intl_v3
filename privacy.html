@@ -2,13 +2,17 @@
 <div class="ak-privacy ak-errs-below">
     {% if privacy_text.checkbox %}
     <!-- input type="hidden" name="required" value="privacy" -->
+
+    <!-- "privacy" can only have a value of the AK hash, not null, not anything else -->
+    <!-- we need to capture data from opt-outs, to figure out what % of people take action without joining -->
+
     <div id="ak-fieldbox-privacy_checkbox" class="input-radio margin-bottom-normal">
       <p class="privacy-opt_in-text text-small margin-bottom-small">{{privacy_text.checkbox|safe}}</p>
-      <input type="radio" id="privacy_checkbox" name="privacy" value="{{privacy_text.checkbox_hash}}" required>
+      <input type="checkbox" id="privacy_checkbox" name="privacy" value="{{privacy_text.checkbox_hash}}">
       <label for="privacy_checkbox">{% filter ak_text:"privacy-opt_in-radio-yes" %}I'm in{% endfilter %}</label>
       &nbsp;&nbsp;
-      <input type="radio" id="privacy_checkbox_optout" name="privacy" required>
-      <label for="privacy_checkbox_optout">{% filter ak_text:"privacy-opt_in-radio-no" %}No{% endfilter %}</label>
+      <!-- <input type="radio" id="privacy_checkbox_optout" name="privacy" required>
+      <label for="privacy_checkbox_optout">{% filter ak_text:"privacy-opt_in-radio-no" %}No{% endfilter %}</label> -->
     </div>
     {% elif privacy_text.notice %}
         <input type="hidden" name="required" value="privacy">
@@ -18,10 +22,12 @@
         </div>
     {% endif %}
 
-    <!--
-    {% if page and page.list %}
-      We have a custom page field for a "join this list" checkbox, which should we keep?
 
+    {% if page and page.list %}
+      {% comment %}
+      We have a custom page field for a "join this list" checkbox, which should we keep?
+      {% endcomment %}
+    <!--
     <input type="hidden" name="require_opt_in" value="1">
     <div id="ak-fieldbox-lists" class="input-checkbox">
       <input type="checkbox" id="lists" name="lists" value="{{page.list.id}}">

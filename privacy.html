@@ -7,7 +7,7 @@
       <input type="radio" id="privacy_checkbox" name="privacy" value="{{privacy_text.checkbox_hash}}" >
       <label for="privacy_checkbox">{% filter ak_text:"privacy-opt_in-radio-yes" %}I'm in{% endfilter %}</label>
       &nbsp;&nbsp;
-      <input type="radio" id="privacy_checkbox_optout" name="privacy" value="do-not-contact">
+      <input type="radio" id="privacy_checkbox_optout" name="privacy" value="">
       <label for="privacy_checkbox_optout">{% filter ak_text:"privacy-opt_in-radio-no" %}No{% endfilter %}</label>
     </div>
     {% elif privacy_text.notice %}

@@ -1,6 +1,6 @@
 {% load actionkit_tags %}
 <div class="ak-privacy ak-errs-below">
-    {% if privacy_text.checkbox %}
+    {% if privacy_text.radio %}
     <!-- input type="hidden" name="required" value="privacy" -->
 
     <!-- "privacy" can only have a value of the AK hash, not null, not anything else -->
@@ -14,7 +14,7 @@
       <!-- <input type="radio" id="privacy_checkbox_optout" name="privacy" required>
       <label for="privacy_checkbox_optout">{% filter ak_text:"privacy-opt_in-radio-no" %}No{% endfilter %}</label> -->
 
-      <input type="radio" id="privacy_yes" name="privacy" value="{{privacy_text.checkbox_hash}}"><label for="privacy_yes">{{privacy_text.checkbox|safe}}</label><br>
+      <input type="radio" id="privacy_yes" name="privacy" value="{{privacy_text.radio_hash}}"><label for="privacy_yes">{{privacy_text.radio|safe}}</label><br>
       <input type="radio" id="privacy_no" name="privacy" value="No"><label for="privacy_no">No</label>
 <!--
 

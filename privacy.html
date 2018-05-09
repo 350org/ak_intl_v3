@@ -20,7 +20,7 @@
 <script type="text/javascript">
 $( document ).ready(function() {
 	var val = $('input[name=privacy]:checked').attr('id');
-	console.log(val);
+	console.log('selected radio button' + val);
 	
 	if (val == 'privacy_yes'){
 		$('#action_opt_in').val('1');

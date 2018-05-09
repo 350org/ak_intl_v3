@@ -19,8 +19,12 @@
 <input type="hidden" id="action_opt_in" value="" />
 <script type="text/javascript">
 $( document ).ready(function() {
-	var val = $('input[name=privacy]:checked').attr('id');
-	console.log('selected radio button' + val);
+
+$('input[name=privacy]').on('change', function() {
+   var val = $('input[name=privacy]:checked').attr('id');
+   console.log('selected radio button' + val);
+});	
+	
 	
 	if (val == 'privacy_yes'){
 		$('#action_opt_in').val('1');

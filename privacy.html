@@ -20,17 +20,19 @@
 <script type="text/javascript">
 $( document ).ready(function() {
 
-$('input[name=privacy]').on('change', function() {
-   var val = $('input[name=privacy]:checked').attr('id');
-   console.log('selected radio button' + val);
-});	
-	
-	
-	if (val == 'privacy_yes'){
-		$('#action_opt_in').val('1');
-	} else {
-		$('#action_opt_in').val('0');
-	}
+	$('input[name=privacy]').on('change', function() {
+	   val = $('input[name=privacy]:checked').attr('id');
+	   console.log('selected radio button' + val);
+
+		if (val == 'privacy_yes'){
+			$('#action_opt_in').val('1');
+		} else {
+			$('#action_opt_in').val('0');
+		}
+
+
+
+	});	
 })
 </script>
 <!--

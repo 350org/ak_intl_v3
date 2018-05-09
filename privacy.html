@@ -1,6 +1,6 @@
 {% load actionkit_tags %}
 <div class="ak-privacy ak-errs-below">
-    {% if privacy_text.radio %}
+    {% if privacy_text.radio_optin %}
 
     <!-- "privacy" can only have a value of the AK hash, not null, not anything else -->
     <!-- we need to capture data from opt-outs, to figure out what % of people take action without joining -->
@@ -13,9 +13,9 @@
       <!-- <input type="radio" id="privacy_checkbox_optout" name="privacy">
       <label for="privacy_checkbox_optout">{% filter ak_text:"privacy-opt_in-radio-no" %}No{% endfilter %}</label> -->
 
-      <input type="radio" id="privacy_yes" name="privacy" value="{{privacy_text.radio_hash}}"><label for="privacy_yes">{{privacy_text.radio|safe}}</label><br>
-      <input type="radio" id="privacy_no" name="privacy" value="No"><label for="privacy_no">No</label>
-<input type="hidden" id="action_opt_in" name="action_opt_in" value="" />
+      <input type="radio" id="privacy_yes" name="privacy" value="{{privacy_text.radio_optin_hash}}"><label for="privacy_yes">{{privacy_text.radio_optin|safe}}</label><br>
+      <input type="radio" id="privacy_no" name="privacy" value="{{privacy_text.radio_optout_hash}}"><label for="privacy_no">{{privacy_text.radio_optout|safe}}</label>
+<!--<input type="hidden" id="action_opt_in" name="action_opt_in" value="" />
 <script type="text/javascript">
 $( document ).ready(function() {
 
@@ -34,6 +34,7 @@ $( document ).ready(function() {
 	});	
 })
 </script>
+-->
 <!--
 radio yes {{privacy_text.checkbox|safe}}
 if selected then also action_opt_in = 1

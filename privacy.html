@@ -45,12 +45,6 @@ if selected action_opt_in = 0
 
 
     </div>
-    {% elif privacy_text.notice %}
-        <input type="hidden" name="required" value="privacy">
-        <div id="ak-fieldbox-privacy_notice" class="">
-            <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
-            {{privacy_text.notice|safe}}
-        </div>
     {% endif %}
 
 

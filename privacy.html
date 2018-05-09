@@ -16,9 +16,20 @@
 
       <input type="radio" id="privacy_yes" name="privacy" value="{{privacy_text.radio_hash}}"><label for="privacy_yes">{{privacy_text.radio|safe}}</label><br>
       <input type="radio" id="privacy_no" name="privacy" value="No"><label for="privacy_no">No</label>
+<input type="hidden" id="action_opt_in" value="" />
+<script type="text/javascript">
+$( document ).ready(function() {
+	var val = $('input[name=privacy]:checked').attr('id');
+	console.log(val);
+	
+	if (val == 'privacy_yes'){
+		$('#action_opt_in').val('1');
+	} else {
+		$('#action_opt_in').val('0');
+	}
+})
+</script>
 <!--
-
-
 radio yes {{privacy_text.checkbox|safe}}
 if selected then also action_opt_in = 1
 

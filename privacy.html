@@ -6,12 +6,12 @@
 
 
 		{% if privacy_text.notice %}
-        <div id="ak-fieldbox-privacy_notice">
-            <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
-            {{privacy_text.notice|safe}}
-        </div>
+      <div id="ak-fieldbox-privacy_notice">
+          <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
+          {{privacy_text.notice|safe}}
+      </div>
     {% endif %}
-
+			<br><br>
     {% if privacy_text.radio_optin and privacy_text.radio_optout %}
 	    <input type="hidden" name="require_opt_in" value="1">
 	    <script>

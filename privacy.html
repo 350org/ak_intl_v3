@@ -27,9 +27,9 @@
 		    }
 	    </script>
     <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal">
-	    	<p>
-		    	{% filter ak_text:"privacy-intro" %}I agree to 350.org contacting me about important campaigns.{% endfilter %}		    	
-	    	</p>
+	    	<p><strong>
+		    	{% filter ak_text:"privacy-intro" %}I'd like to receive email updates from 350.org about ways I can make a difference.{% endfilter %}		    	
+	    	</strong></p>
         <div>
             <label for="privacy_optin">
                 <input type="radio" id="privacy_optin" name="privacy" value="{{privacy_text.radio_optin_hash}}" onclick="setOptIn(true)"> 
@@ -44,7 +44,7 @@
             </label>
         </div>
 
-        <div id="really-opt-out" class="ak-nodisplay" style="display: none;">
+        <div id="really-opt-out" class="ak-nodisplay" style="display: none; background: rgba(249, 42, 42, .8); padding: 4%; font-size: 11px;">
             {% filter ak_text:"really_optout" %}
                 Are you sure? If you do choose to keep up to date with us, we'll offer you additional activism opportunities and you can unsubscribe at any time.
             {% endfilter %}

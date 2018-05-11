@@ -1,64 +1,55 @@
 {% load actionkit_tags %}
 <div class="ak-privacy ak-errs-below">
-    {% if privacy_text.radio_optin %}
 
     <!-- "privacy" can only have a value of the AK hash, not null, not anything else -->
     <!-- we need to capture data from opt-outs, to figure out what % of people take action without joining -->
 
-    <div id="ak-fieldbox-privacy_checkbox" class="input-radio margin-bottom-normal">
-<!--      <p class="privacy-opt_in-text text-small margin-bottom-small">{{privacy_text.checkbox|safe}}</p>
-      <input type="checkbox" id="privacy_checkbox" name="privacy" value="{{privacy_text.checkbox_hash}}">
-      <label for="privacy_checkbox">{% filter ak_text:"privacy-opt_in-radio-yes" %}I'm in{% endfilter %}</label>
-      &nbsp;&nbsp;
-      <!-- <input type="radio" id="privacy_checkbox_optout" name="privacy">
-      <label for="privacy_checkbox_optout">{% filter ak_text:"privacy-opt_in-radio-no" %}No{% endfilter %}</label> -->
-			<p>{% filter ak_text:"privacy-intro" %}I agree to 350.org contacting me about important campaigns.{% endfilter %}</p>
-      <input type="radio" id="privacy_yes" name="privacy" value="{{privacy_text.radio_optin_hash}}"><label for="privacy_yes">{{privacy_text.radio_optin|safe}}</label><br>
-      <input type="radio" id="privacy_no" name="privacy" value="{{privacy_text.radio_optout_hash}}"><label for="privacy_no">{{privacy_text.radio_optout|safe}}</label>
-<!--<input type="hidden" id="action_opt_in" name="action_opt_in" value="" />
-<script type="text/javascript">
-$( document ).ready(function() {
 
-	$('input[name=privacy]').on('change', function() {
-	   val = $('input[name=privacy]:checked').attr('id');
-	   console.log('selected radio button ' + val);
-
-		if (val == 'privacy_yes'){
-			$('#action_opt_in').val('1');
-		} else {
-			$('#action_opt_in').val('0');
-		}
-
-
-
-	});	
-})
-</script>
--->
-<!--
-radio yes {{privacy_text.checkbox|safe}}
-if selected then also action_opt_in = 1
-
-radio no
-if selected action_opt_in = 0
--->
-
-
-    </div>
+		{% if privacy_text.notice %}
+        <div id="ak-fieldbox-privacy_notice">
+            <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
+            {{privacy_text.notice|safe}}
+        </div>
     {% endif %}
 
+    {% if privacy_text.radio_optin and privacy_text.radio_optout %}
+	    <input type="hidden" name="require_opt_in" value="1">
+	    <script>
+		    function setOptIn(opted_in) {
+		        if (opted_in) {
+		            actionkit.utils.appendHiddenInput('lists', '{{ page.list.id }}');
+		            $('#really-opt-out').hide();
+		        }
+		        else {
+		            $('input[name=lists]').remove()
+		            $('#really-opt-out').show();
+		        }
+		    }
+	    </script>
+    <div id="ak-fieldbox-privacy_radio" class="input-radio margin-bottom-normal">
+	    	<p>
+		    	{% filter ak_text:"privacy-intro" %}I agree to 350.org contacting me about important campaigns.{% endfilter %}		    	
+	    	</p>
+        <div>
+            <label for="privacy_optin">
+                <input type="radio" id="privacy_optin" name="privacy" value="{{privacy_text.radio_optin_hash}}" onclick="setOptIn(true)"> 
+                {{privacy_text.radio_optin|safe}}
+            </label>
+        </div>
 
-    {% if page and page.list %}
-      {% comment %}
-      We have a custom page field for a "join this list" checkbox, which should we keep?
-      {% endcomment %}
-    <!--
-    <input type="hidden" name="require_opt_in" value="1">
-    <div id="ak-fieldbox-lists" class="input-checkbox">
-      <input type="checkbox" id="lists" name="lists" value="{{page.list.id}}">
-      <label for="lists">{% filter ak_text:"opt_in" %}Keep me updated with emails about this and other campaigns{% endfilter %}</label>
+        <div>
+            <label for="privacy_optout">
+                <input type="radio" id="privacy_optout" name="privacy" value="{{privacy_text.radio_optout_hash}}" onclick="setOptIn(false)"> 
+                {{privacy_text.radio_optout|safe}}
+            </label>
+        </div>
+
+        <div id="really-opt-out" class="ak-nodisplay">
+            {% filter ak_text:"really_optout" %}
+                Are you sure? If you do choose to keep up to date with us, we'll offer you additional activism opportunities and you can unsubscribe at any time.
+            {% endfilter %}
+        </div>
     </div>
-    -->
     {% endif %}
 
 </div>

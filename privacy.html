@@ -1,5 +1,5 @@
 {% load actionkit_tags %}
-<div class="ak-privacy ak-errs-below">
+<div class="ak-privacy ak-errs-below text-small">
 
     <!-- "privacy" can only have a value of the AK hash, not null, not anything else -->
     <!-- we need to capture data from opt-outs, to figure out what % of people take action without joining -->
@@ -28,23 +28,23 @@
 	    </script>
     <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal">
 	    	<p><strong>
-		    	{% filter ak_text:"privacy_intro" %}I'd like to receive email updates from 350.org about ways I can make a difference.{% endfilter %}		    	
+		    	{% filter ak_text:"privacy_intro" %}I'd like to receive email updates from 350.org about ways I can make a difference.{% endfilter %}
 	    	</strong></p>
         <div>
             <label for="privacy_optin">
-                <input type="radio" id="privacy_optin" name="privacy" value="{{privacy_text.radio_optin_hash}}" onclick="setOptIn(true)"> 
+                <input type="radio" id="privacy_optin" name="privacy" value="{{privacy_text.radio_optin_hash}}" onclick="setOptIn(true)">
                 {{privacy_text.radio_optin|safe}}
             </label>
         </div>
 
         <div>
             <label for="privacy_optout">
-                <input type="radio" id="privacy_optout" name="privacy" value="{{privacy_text.radio_optout_hash}}" onclick="setOptIn(false)"> 
+                <input type="radio" id="privacy_optout" name="privacy" value="{{privacy_text.radio_optout_hash}}" onclick="setOptIn(false)">
                 {{privacy_text.radio_optout|safe}}
             </label>
         </div>
 
-        <div id="really-opt-out" class="ak-nodisplay" style="display: none; background: rgba(249, 42, 42, .8); padding: 4%; font-size: 11px;">
+        <div id="really-opt-out" class="ak-nodisplay padding-tiny bg-teal" style="display:none;">
             {% filter ak_text:"really_optout" %}
                 Are you sure? If you do choose to keep up to date with us, we'll offer you additional activism opportunities and you can unsubscribe at any time.
             {% endfilter %}

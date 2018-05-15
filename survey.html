@@ -51,9 +51,6 @@
 			<div class="text-large">
 			{% include "./user_form_wrapper.html" %}
 			</div>
-			<div class="input-submit">
-				<input type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"general_submit" %}Submit{% endfilter %}{% endif %}" class="submit" />
-			</div>
 {% endautoescape %}
 		</form>
 {% endif %}

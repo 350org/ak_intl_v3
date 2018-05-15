@@ -52,30 +52,28 @@
 	{% else %}
 		<form id="action-form" class="c4 ct7_5 cm10 c-wide form-style-labelabove ak-form action_form margin-top-none" name="act" method="POST" action="/act/" accept-charset="utf-8">
 		{% autoescape off %}
-		{% if page.custom_fields.form_text_above_form %}
-			{{ page.custom_fields.form_text_above_form }}
-		{% endif %}
+			{% if page.custom_fields.form_text_above_form %}
+				{{ page.custom_fields.form_text_above_form }}
+			{% endif %}
 			<div class="p">
-		{% if form.statement_leadin %}
+			{% if form.statement_leadin %}
 				<div id="action-pretitle" class="text-large text-lineheight-small strong margin-bottom-small">{% include_tmpl form.statement_leadin %}</div>
-		{% endif %}
+			{% endif %}
 			</div>
-		{% if page.custom_fields.form_text_above_form %}
+			{% if page.custom_fields.form_text_above_form %}
 			<div id="form-intro" class="p">{{ page.custom_fields.form_text_above_form }}</div>
-		{% endif %}
+			{% endif %}
 			{% include "./progress_meter.html" %}
 			<input type="hidden" name="utf8" value="&#x2714;">
 			<input type="hidden" name="page" value="{{ page.name }}" />
 			{% include "./user_form_wrapper.html" %}
-			{% endautoescape %}
+		{% endautoescape %}
 			<ul style="display:none;" id="ak-errors"><li></li></ul>
-	{% endif %}
 			<p class="no-js-hidden petition-text-link"><a href="" class="js-modal text-small icon-before icon-faded text-underline-none" data-icon="&#xe913;" data-modal-source="#petition-text">{% filter ak_text:'petition_link_text' %}View the full petition text.{% endfilter %}</a></p>
-
 		</form>
 		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide">
-			{% include "./recentactions.html" %}
+		{% include "./recentactions.html" %}
 		</div>
 	{% endif %}
 	</div>

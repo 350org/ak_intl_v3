@@ -89,20 +89,20 @@
   </div>
 {% endif %}
 
-{% if not page.type == "Call" and not page.type == "Donation" and not page.type == "Event" and not page.type == "LTE"%}
+{% if not page.type == "call" and not page.type == "donation" and not page.type == "event" and not page.type %}
 <div class="input-wrapper input-submit">
   <button type="submit" class="submit button-primary">
   {% if page.custom_fields.form_submit_button_text %}
     {{ page.custom_fields.form_submit_button_text }}
-  {% else if page.type == "Petition" %}
+  {% elseif page.type == "Petition" %}
     {% filter ak_text:'petition_submit_button' %}Sign{% endfilter %}
-  {% else if page.type == "Letter" %}
+  {% elseif page.type == "Letter" %}
     {% filter ak_text:"letter_submit_button" %}Send Your Message{% endfilter %}
-  {% else if page.type == "Signup" %}
+  {% elseif page.type == "Signup" %}
     {% filter ak_text:"signup_submit_button" %}Sign Up{% endfilter %}
-  {% else if page.type == "Survey" %}
+  {% elseif page.type == "Survey" %}
     {% filter ak_text:"general_submit" %}Submit{% endfilter %}
-  {% else if %}
+  {% elseif %}
     {% filter ak_text:'general_submit' %}Submit{% endfilter %}
   {% endif %}
   </button>

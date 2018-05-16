@@ -63,9 +63,10 @@
 {% endfilter %}
 
 {% if page.custom_fields.form_include_phone %}
-<div class="input phone">
-<label for="id_phone">{% filter ak_text:"field_phone"|capfirst %}Phone{% endfilter %}</label><input class="phone" id="id_phone" type="text" name="phone"/>
-</div>
+<!-- div class="input phone">
+  <label for="id_phone">{% filter ak_text:"field_phone"|capfirst %}Phone{% endfilter %}</label>
+  <input class="phone" id="id_phone" type="text" name="phone"/>
+</div-- >
 {% endif %}
 
 {% if page.custom_fields.form_include_college %}
@@ -89,24 +90,31 @@
   </div>
 {% endif %}
 
-{% if not page.type == "call" and not page.type == "donation" and not page.type == "event" and not page.type %}
+
+{% if page.type != "Call" %}
+  {% if page.type != "Donation" %}
+    {% if page.type != "Event" %}
+      {% if page.type != "LTE" %}
 <div class="input-wrapper input-submit">
   <button type="submit" class="submit button-primary">
   {% if page.custom_fields.form_submit_button_text %}
     {{ page.custom_fields.form_submit_button_text }}
-  {% elseif page.type == "Petition" %}
+  {% elif page.type == "Petition" %}
     {% filter ak_text:'petition_submit_button' %}Sign{% endfilter %}
-  {% elseif page.type == "Letter" %}
+  {% elif page.type == "Letter" %}
     {% filter ak_text:"letter_submit_button" %}Send Your Message{% endfilter %}
-  {% elseif page.type == "Signup" %}
+  {% elif page.type == "Signup" %}
     {% filter ak_text:"signup_submit_button" %}Sign Up{% endfilter %}
-  {% elseif page.type == "Survey" %}
+  {% elif page.type == "Survey" %}
     {% filter ak_text:"general_submit" %}Submit{% endfilter %}
-  {% elseif %}
+  {% else %}
     {% filter ak_text:'general_submit' %}Submit{% endfilter %}
   {% endif %}
   </button>
 </div>
+      {% endif %}
+    {% endif %}
+  {% endif %}
 {% endif %}
 
 

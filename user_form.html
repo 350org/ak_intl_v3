@@ -90,6 +90,7 @@
   </div>
 {% endif %}
 
+{% include "./privacy.html" %}
 
 {% if page.type != "Call" %}
   {% if page.type != "Donation" %}
@@ -117,22 +118,12 @@
   {% endif %}
 {% endif %}
 
-
-{% if page.custom_fields.form_short_toc %}
-<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
-  {% if page.custom_fields.form_short_toc %}
-    {{ page.custom_fields.form_short_toc }}
-  {% elif page.custom_fields.form_opt_in %}
-    {% filter ak_text:"general_secure_signup" %}350.org respects your privacy.{% endfilter %}
-  {% elif page.custom_fields.page_is_c4 %}
-    {% filter ak_text:"general_default_toc_c4" %}350 Action will send you updates and notifications when you can make a difference.{% endfilter %}
-  {% else %}
-    {% filter ak_text:"general_default_toc" %}350.org will send you updates and notifications when you can make a difference.{% endfilter %}
-  {% endif %}
+<div class="general-privacy-notice text-small2">
+  <p class="icon-before icon-faded" data-icon="&#xE93E;">By taking action, you agree to our <a href="/privacy">privacy policy</a>.</p>
 </div>
-{% endif %}
 
-{% include "./privacy.html" %}
+
+
 {% if page.custom_fields.form_opt_in %}
 <input type="hidden" name="opt_in" value="1">
 <div class="input-checkbox ak-userfield-checkbox-choice">

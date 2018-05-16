@@ -19,11 +19,21 @@
       }
     }
   </script>
-  <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio">
-		<input type="hidden" name="privacy" value="{% filter ak_text:'privacy_intro' %}I'd like to receive email updates from 350.org about ways I can make a difference.{% endfilter %}">
-  	<p class="text-small">
-    	{% filter ak_text:"privacy_intro" %}I'd like to receive email updates from 350.org about ways I can make a difference.{% endfilter %}
-  	</p>
+	<style>
+	#action-toc + .ak-privacy{
+	  border-top:1px dotted rgba(255,255,255,0.4);
+	  margin-top:1.1em;
+	  padding-top:1.1em;}
+	#really-opt-out{
+		transition:300ms all;}
+	</style>
+	{% if privacy_text.notice %}
+  <div id="ak-fieldbox-privacy_notice" class="text-small2 margin-bottom-small">
+    <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
+		<p>{{privacy_text.notice|safe}}</p>
+  </div>
+	{% endif %}
+  <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio text-lineheight-small">
     <div>
 			<input type="radio" id="privacy_optin" name="privacy" value="{{privacy_text.radio_optin_hash}}" onclick="setOptIn(true)">
       <label for="privacy_optin">{{privacy_text.radio_optin|safe}}</label>
@@ -32,20 +42,17 @@
 			<input type="radio" id="privacy_optout" name="privacy" value="{{privacy_text.radio_optout_hash}}" onclick="setOptIn(false)">
       <label for="privacy_optout">{{privacy_text.radio_optout|safe}}</label>
     </div>
-    <div id="really-opt-out" class="ak-nodisplay padding-tiny text-small2 bg-teal" style="display:none;">
-      {% filter ak_text:"really_optout" %}
-        Are you sure? If you do choose to keep up to date with us, we'll offer you additional activism opportunities and you can unsubscribe at any time.
-      {% endfilter %}
-    </div>
+  </div>
+  <div id="really-opt-out" class="ak-nodisplay margin-bottom-normal padding-tiny text-small bg-dkgray-trans notch" style="display:none;">
+    <p>{% filter ak_text:"really_optout" %}
+      Are you sure? Email is how the global climate movement is able to stay organised. You can always unsubscribe!
+    {% endfilter %}</p>
+		<p><label for="privacy_optin" class="button button-small button-secondary bg-teal">Yes, keep me involved</label></p>
   </div>
 
-	{% if privacy_text.notice %}
-	  <div id="ak-fieldbox-privacy_notice">
-	    <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
-	    <p class="ak-hosted-hidden">{{privacy_text.notice|safe}}</p>
-	  </div>
-	{% endif %}
-	
+
+
+
 {% endif %}
 
 </div>

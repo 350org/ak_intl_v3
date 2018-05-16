@@ -26,11 +26,15 @@
 		</div>
 	{% endif %}
 		<div id="action-description" class="text-large margin-top-none margin-bottom-huge {% if page.custom_fields.page_layout_style == 'expanded' %}c6 ct10 cm10 c-wide{% endif %}">
-			<div id="action-description-text" {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
+			<div id="action-description-text" class="margin-bottom-medium" {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
 		{% autoescape off %}
 			{% include_tmpl form.about_text %}
 		{% endautoescape %}
 			</div>
+			<p class="no-js-hidden petition-text-link text-small">
+				<a href="" class="js-modal text-small icon-before icon-faded text-underline-none" data-icon="&#xe913;" data-modal-source="#petition-text">
+					{% filter ak_text:'petition_link_text' %}View the full petition text.{% endfilter %}</a>
+			</p>
 			<div class="js-hidden box box-big text-small bg-white">
 				<div id="petition-text">
 	{% if form.statement_leadin %}
@@ -64,7 +68,6 @@
 			<div id="form-intro" class="p">{{ page.custom_fields.form_text_above_form }}</div>
 			{% endif %}
 			{% include "./progress_meter.html" %}
-			<p class="no-js-hidden petition-text-link"><a href="" class="js-modal text-small icon-before icon-faded text-underline-none" data-icon="&#xe913;" data-modal-source="#petition-text">{% filter ak_text:'petition_link_text' %}View the full petition text.{% endfilter %}</a></p>
 			<input type="hidden" name="utf8" value="&#x2714;">
 			<input type="hidden" name="page" value="{{ page.name }}" />
 			{% include "./user_form_wrapper.html" %}

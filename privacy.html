@@ -5,13 +5,6 @@
 	We need to capture data from opt-outs, to figure out what % of people take action without joining.
 {% endcomment %}
 
-{% if privacy_text.notice %}
-  <div id="ak-fieldbox-privacy_notice">
-      <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
-      <!-- {{privacy_text.notice|safe}} -->
-  </div>
-{% endif %}
-
 {% if privacy_text.radio_optin and privacy_text.radio_optout %}
   <input type="hidden" name="require_opt_in" value="1">
   <script>
@@ -35,18 +28,24 @@
 			<input type="radio" id="privacy_optin" name="privacy" value="{{privacy_text.radio_optin_hash}}" onclick="setOptIn(true)">
       <label for="privacy_optin">{{privacy_text.radio_optin|safe}}</label>
     </div>
-
     <div>
 			<input type="radio" id="privacy_optout" name="privacy" value="{{privacy_text.radio_optout_hash}}" onclick="setOptIn(false)">
       <label for="privacy_optout">{{privacy_text.radio_optout|safe}}</label>
     </div>
-
-    <div id="really-opt-out" class="ak-nodisplay padding-tiny bg-teal" style="display:none;">
+    <div id="really-opt-out" class="ak-nodisplay padding-tiny text-small2 bg-teal" style="display:none;">
       {% filter ak_text:"really_optout" %}
-          Are you sure? If you do choose to keep up to date with us, we'll offer you additional activism opportunities and you can unsubscribe at any time.
+        Are you sure? If you do choose to keep up to date with us, we'll offer you additional activism opportunities and you can unsubscribe at any time.
       {% endfilter %}
     </div>
   </div>
-  {% endif %}
+
+	{% if privacy_text.notice %}
+	  <div id="ak-fieldbox-privacy_notice">
+	    <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
+	    <p class="ak-hosted-hidden">{{privacy_text.notice|safe}}</p>
+	  </div>
+	{% endif %}
+	
+{% endif %}
 
 </div>

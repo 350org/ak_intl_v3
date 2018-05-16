@@ -64,12 +64,12 @@
 			<div id="form-intro" class="p">{{ page.custom_fields.form_text_above_form }}</div>
 			{% endif %}
 			{% include "./progress_meter.html" %}
+			<p class="no-js-hidden petition-text-link"><a href="" class="js-modal text-small icon-before icon-faded text-underline-none" data-icon="&#xe913;" data-modal-source="#petition-text">{% filter ak_text:'petition_link_text' %}View the full petition text.{% endfilter %}</a></p>
 			<input type="hidden" name="utf8" value="&#x2714;">
 			<input type="hidden" name="page" value="{{ page.name }}" />
 			{% include "./user_form_wrapper.html" %}
 		{% endautoescape %}
 			<ul style="display:none;" id="ak-errors"><li></li></ul>
-			<p class="no-js-hidden petition-text-link"><a href="" class="js-modal text-small icon-before icon-faded text-underline-none" data-icon="&#xe913;" data-modal-source="#petition-text">{% filter ak_text:'petition_link_text' %}View the full petition text.{% endfilter %}</a></p>
 		</form>
 		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide">

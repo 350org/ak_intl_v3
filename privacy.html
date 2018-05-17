@@ -18,6 +18,50 @@
         $('#really-opt-out').show();
       }
     }
+		var euCountries = ['Austria',
+'Belgium',
+'Bulgaria',
+'Czech Republic',
+'Cyprus',
+'Denmark',
+'Estonia',
+'Finland',
+'France',
+'Germany',
+'Greece',
+'Hungary',
+'Iceland',
+'Ireland',
+'Italy',
+'Latvia',
+'Liechtenstein',
+'Lithuania',
+'Luxembourg',
+'Malta',
+'Netherlands',
+'Norway',
+'Poland',
+'Portugal',
+'Romania',
+'Slovakia',
+'Slovenia',
+'Spain',
+'Sweden',
+'United Kingdom']
+
+ 	$("#country").on('change',function(){
+		var selectedCountry = $(this).val()
+		if ( euCountries.indexOf(selectedCountry) ){
+			//$(".privacy-EU").show();
+			//$(".privacy-nonEU").hide();
+			//hidePrivacy();
+			console.log('show EU privacy');
+		} else {
+			//$(".privacy-EU").hide();
+			//$(".privacy-nonEU").show();
+			console.log('show non-EU privacy');
+		}
+	});
   </script>
 	<style>
 	#action-toc + .ak-privacy{

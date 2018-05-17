@@ -51,7 +51,7 @@
 
  	$("#country").on('change',function(){
 		var selectedCountry = $(this).val()
-		if ( euCountries.indexOf(selectedCountry) === 1 ){
+		if ( euCountries.indexOf(selectedCountry) > -1 ){
 			//$(".privacy-EU").show();
 			//$(".privacy-nonEU").hide();
 			//hidePrivacy();

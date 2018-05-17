@@ -124,14 +124,6 @@ actionkit.forms.initForm('act');
 {% endif %}
 <div class="clear" /></div>
 
-{% if privacy_text.notice %}
-<div class="section width-narrow padding-large bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif templateset.custom_fields.site_bg_color_slug %}{{ templateset.custom_fields.site_bg_color_slug }}{% else %}white{% endif %}">
-	<div class="section-inner">
-    <p class="privacy-notice">{{privacy_text.notice|safe}}</p>
-	</div>
-</div>
-{% endif %}
-
 <footer id="site-footer" class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif templateset.custom_fields.site_bg_color_slug %}{{ templateset.custom_fields.site_bg_color_slug }}{% else %}white{% endif %} width-full text-small">
 	<div class="section-inner">
 

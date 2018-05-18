@@ -8,7 +8,7 @@
 {% if privacy_text.radio_optin and privacy_text.radio_optout %}
   <input type="hidden" name="require_opt_in" value="1">
   <script>
-    function setOptIn(opted_in) {
+	  window.setOptIn = function (opted_in) {
       if (opted_in) {
         actionkit.utils.appendHiddenInput('lists', '{{ page.list.id }}');
         jQuery('#really-opt-out').hide();
@@ -18,36 +18,39 @@
         jQuery('#really-opt-out').show();
       }
     }
-		var euCountries = ['Austria',
-'Belgium',
-'Bulgaria',
-'Czech Republic',
-'Cyprus',
-'Denmark',
-'Estonia',
-'Finland',
-'France',
-'Germany',
-'Greece',
-'Hungary',
-'Iceland',
-'Ireland',
-'Italy',
-'Latvia',
-'Liechtenstein',
-'Lithuania',
-'Luxembourg',
-'Malta',
-'Netherlands',
-'Norway',
-'Poland',
-'Portugal',
-'Romania',
-'Slovakia',
-'Slovenia',
-'Spain',
-'Sweden',
-'United Kingdom'];
+    
+		var euCountries = [
+			'Austria',
+			'Belgium',
+			'Bulgaria',
+			'Czech Republic',
+			'Cyprus',
+			'Denmark',
+			'Estonia',
+			'Finland',
+			'France',
+			'Germany',
+			'Greece',
+			'Hungary',
+			'Iceland',
+			'Ireland',
+			'Italy',
+			'Latvia',
+			'Liechtenstein',
+			'Lithuania',
+			'Luxembourg',
+			'Malta',
+			'Netherlands',
+			'Norway',
+			'Poland',
+			'Portugal',
+			'Romania',
+			'Slovakia',
+			'Slovenia',
+			'Spain',
+			'Sweden',
+			'United Kingdom'
+		];
 
 jQuery(document).ready(function(){
 	var countrySelect = jQuery("#country");

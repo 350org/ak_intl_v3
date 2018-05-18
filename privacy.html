@@ -11,11 +11,11 @@
     function setOptIn(opted_in) {
       if (opted_in) {
         actionkit.utils.appendHiddenInput('lists', '{{ page.list.id }}');
-        $('#really-opt-out').hide();
+        jQuery('#really-opt-out').hide();
       }
       else {
-        $('input[name=lists]').remove()
-        $('#really-opt-out').show();
+        jQuery('input[name=lists]').remove()
+        jQuery('#really-opt-out').show();
       }
     }
 		var euCountries = ['Austria',
@@ -49,17 +49,17 @@
 'Sweden',
 'United Kingdom'];
 
-$(document).ready(function(){
-	var countrySelect = $("#country");
+jQuery(document).ready(function(){
+	var countrySelect = jQuery("#country");
  	countrySelect.on('change',function(){
-		var selectedCountry = $(this).val()
+		var selectedCountry = jQuery(this).val()
 		if ( euCountries.indexOf(selectedCountry) > -1 ){
-			//$(".privacy-eu").show();
-			$(".privacy-non_eu").hide();
+			//jQuery(".privacy-eu").show();
+			jQuery(".privacy-non_eu").hide();
 			//console.log('show EU privacy');
 		} else {
-			//$(".privacy-eu").hide();
-			$(".privacy-non_eu").show();
+			//jQuery(".privacy-eu").hide();
+			jQuery(".privacy-non_eu").show();
 			//console.log('show non-EU privacy');
 		}
 	});

@@ -8,7 +8,7 @@
 {% if privacy_text.radio_optin and privacy_text.radio_optout %}
   <input type="hidden" name="require_opt_in" value="1">
   <script>
-	  window.setOptIn = function (opted_in) {
+    function setOptIn(opted_in) {
       if (opted_in) {
         actionkit.utils.appendHiddenInput('lists', '{{ page.list.id }}');
         jQuery('#really-opt-out').hide();

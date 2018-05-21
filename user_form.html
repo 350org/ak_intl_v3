@@ -66,7 +66,7 @@
 <!-- div class="input phone">
   <label for="id_phone">{% filter ak_text:"field_phone"|capfirst %}Phone{% endfilter %}</label>
   <input class="phone" id="id_phone" type="text" name="phone"/>
-</div-- >
+</div -->
 {% endif %}
 
 {% if page.custom_fields.form_include_college %}
@@ -90,7 +90,9 @@
   </div>
 {% endif %}
 
-{% include "./privacy.html" %}
+{% if page.custom_fields.form_privacy_show_optin != "do-not-show" %}
+  {% include "./privacy.html" %}
+{% endif %}
 
 {% if page.type != "Call" %}
   {% if page.type != "Donation" %}

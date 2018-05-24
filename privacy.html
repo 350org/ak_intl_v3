@@ -96,7 +96,11 @@ jQuery(document).ready(function(){
 	  padding-top:1.1em;}
 	#really-opt-out{
 		transition:300ms all;}
-		
+	
+	.privacy-eu{
+		padding: 5px;
+	}
+	
 	.privacy-ak-err{
 		background-color: #fff0d4;
 		color: initial;
@@ -146,8 +150,8 @@ jQuery(document).ready(function(){
 				<input type="radio" id="privacy_optout" name="privacy" value="{{privacy_text.radio_optout_hash}}" onclick="setOptIn(false)">
 	      <label for="privacy_optout">{{privacy_text.radio_optout|safe}}</label>
 	    </div>
-	    <ul id="privacy-error" style="display: none;"><li>Please select an option above.</li></ul>
 	  </div>
+    <ul id="privacy-error" style="display: none;"><li>Please select an option above.</li></ul>
 	  <div id="really-opt-out" class="ak-nodisplay margin-bottom-normal padding-tiny text-small bg-dkgray-trans notch" style="display:none;">
 	    <p>{% filter ak_text:"really_optout" %}
 	      Are you sure? Email is how the global climate movement is able to stay organised. You can always unsubscribe!

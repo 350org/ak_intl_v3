@@ -97,6 +97,31 @@ jQuery(document).ready(function(){
 		padding: 0.4rem 0.6rem;
 		position: relative;		
 	}
+	
+	ul#privacy-error {
+    background-color: #fff0d4;
+    color: initial;
+    margin: -1px 0 0;
+    padding: 0.4rem 0.6rem;
+    position: relative;
+	}	
+	
+	ul#privacy-error li {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    list-style-type: none;
+	}
+	
+	ul#privacy-error li::before {
+    background: #ffa902;
+    border-radius: 1em;
+    content: '';
+    display: inline-block;
+    height: 0.7em;
+    margin-right: 0.4rem;
+    width: 0.7em;
+	}
+	
 	</style>
 	<div class="privacy-eu">
 	{% if privacy_text.notice %}

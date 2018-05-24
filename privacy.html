@@ -71,9 +71,11 @@ jQuery(document).ready(function(){
 	jQuery("form").submit(function (e) {
     // If an opt-in option is not selected, prevent submit
     if (!jQuery('input[name="privacy"]').is(':checked')) {
+        jQuery('.privacy-eu').addClass('privacy-ak-err');
         jQuery('#privacy-error').show();
         e.preventDefault();
     } else {
+        jQuery('.privacy-eu').removeClass('privacy-ak-err');
         jQuery('#privacy-error').hide();
     }
   });
@@ -88,7 +90,7 @@ jQuery(document).ready(function(){
 	#really-opt-out{
 		transition:300ms all;}
 		
-	.privacy-eu{
+	.privacy-ak-err{
 		background-color: #fff0d4;
 		color: initial;
 		margin: -1px 0 0;

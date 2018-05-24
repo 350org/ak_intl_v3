@@ -74,6 +74,13 @@ jQuery(document).ready(function(){
         jQuery('.privacy-eu').addClass('privacy-ak-err');
         jQuery('#privacy-error').show();
         e.preventDefault();
+        
+        jQuery('input[name="privacy"]').click(function() {
+					if(jQuery('input[name="privacy"]').is(':checked')) {
+		        jQuery('.privacy-eu').removeClass('privacy-ak-err');
+		        jQuery('#privacy-error').hide();						
+					}
+				});
     } else {
         jQuery('.privacy-eu').removeClass('privacy-ak-err');
         jQuery('#privacy-error').hide();

@@ -151,13 +151,13 @@ jQuery(document).ready(function(){
 	      <label for="privacy_optout">{{privacy_text.radio_optout|safe}}</label>
 	    </div>
 	  </div>
-    <ul id="privacy-error" style="display: none;"><li>Please select an option above.</li></ul>
 	  <div id="really-opt-out" class="ak-nodisplay margin-bottom-normal padding-tiny text-small bg-dkgray-trans notch" style="display:none;">
 	    <p>{% filter ak_text:"really_optout" %}
 	      Are you sure? Email is how the global climate movement is able to stay organised. You can always unsubscribe!
 	    {% endfilter %}</p>
 			<p><label for="privacy_optin" class="button button-small button-secondary bg-teal">Yes, keep me involved</label></p>
 	  </div>
+    <ul id="privacy-error" style="display: none;"><li>Please select an option above.</li></ul>
 	</div>
 {% endif %}
 

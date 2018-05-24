@@ -157,7 +157,7 @@ jQuery(document).ready(function(){
 	    {% endfilter %}</p>
 			<p><label for="privacy_optin" class="button button-small button-secondary bg-teal">Yes, keep me involved</label></p>
 	  </div>
-    <ul id="privacy-error" style="display: none;"><li>Please select an option above.</li></ul>
+    <ul id="privacy-error" style="display: none;"><li>{% filter ak_text:"select_option" %}Please select an option above.{% endfilter %}</li></ul>
 	</div>
 {% endif %}
 

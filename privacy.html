@@ -72,11 +72,11 @@ jQuery(document).ready(function(){
     // If an opt-in option is not selected, prevent submit
     if (!jQuery('input[name="privacy"]').is(':checked')) {
         jQuery('.privacy-eu').addClass('ak-err');
-        jQuery('.privacy-eu ul').show();
+        jQuery('#privacy-error').show();
         e.preventDefault();
     } else {
         jQuery('.privacy-eu').removeClass('ak-err');
-        jQuery('.privacy-eu ul').hide();
+        jQuery('#privacy-error').hide();
     }
   });
 	
@@ -106,7 +106,7 @@ jQuery(document).ready(function(){
 				<input type="radio" id="privacy_optout" name="privacy" value="{{privacy_text.radio_optout_hash}}" onclick="setOptIn(false)">
 	      <label for="privacy_optout">{{privacy_text.radio_optout|safe}}</label>
 	    </div>
-	    <ul class="ak-err" style="display: none;"><li>Please select an option above.</li></ul>
+	    <ul id="privacy-error" class="ak-err" style="display: none;"><li>Please select an option above.</li></ul>
 	  </div>
 	  <div id="really-opt-out" class="ak-nodisplay margin-bottom-normal padding-tiny text-small bg-dkgray-trans notch" style="display:none;">
 	    <p>{% filter ak_text:"really_optout" %}

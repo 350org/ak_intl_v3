@@ -805,28 +805,28 @@
         }
         var speed = three_step_initialized ? 1 : 400;
         if ( current_step == "1" ) {
-            $('.ak-donate-area-step-2, .ak-donate-area-step-3').hide();
-            $('.ak-donate-area-step-1, #ak-continue-button').fadeIn( speed );
-			$('.ak-donate-step').removeClass('active-step');
-			$('.ak-donate-step-1').addClass('active-step');
+          $('.ak-donate-area-step-2, .ak-donate-area-step-3').hide();
+          $('.ak-donate-area-step-1, #ak-continue-button').fadeIn( speed );
+					$('.ak-donate-step').removeClass('active-step');
+					$('.ak-donate-step-1').addClass('active-step');
 
         } else if ( current_step == "2" ) {
-            $('.ak-donate-area-step-1, .ak-donate-area-step-3').hide();
-            /* this automatic focus on the input combines with the onblur validation to be over-aggressive
-			$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed,
-                focus_field_if_blank( $('#id_name') )
-            ); */
-			 $('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
-			$('.ak-donate-step').removeClass('active-step');
-			$('.ak-donate-step-2').addClass('active-step');
-        } else if ( current_step == "3" ) {
-            $('.ak-donate-area-step-1, .ak-donate-area-step-2, #ak-continue-button').hide();
-            /* $('.ak-donate-area-step-3').fadeIn( speed,
-                focus_field_if_blank( $('#ak-card_num') )
-            ); */
-		    $('.ak-donate-area-step-3').fadeIn( speed );
-			$('.ak-donate-step').removeClass('active-step');
-			$('.ak-donate-step-3').addClass('active-step');
+          $('.ak-donate-area-step-1, .ak-donate-area-step-3').hide();
+          /* this automatic focus on the input combines with the onblur validation to be over-aggressive
+					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed,
+              focus_field_if_blank( $('#id_name') )
+          ); */
+					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
+					$('.ak-donate-step').removeClass('active-step');
+					$('.ak-donate-step-2').addClass('active-step');
+		    } else if ( current_step == "3" ) {
+          $('.ak-donate-area-step-1, .ak-donate-area-step-2, #ak-continue-button').hide();
+          /* $('.ak-donate-area-step-3').fadeIn( speed,
+              focus_field_if_blank( $('#ak-card_num') )
+          ); */
+			    $('.ak-donate-area-step-3').fadeIn( speed );
+					$('.ak-donate-step').removeClass('active-step');
+					$('.ak-donate-step-3').addClass('active-step');
         }
     }
 
@@ -840,50 +840,51 @@
 
     var step_has_errors = false;
     function three_step_advance() {
-		console.log('three_step_advance() fired');
+				console.log('three_step_advance() fired');
+
         // trigger validation on the step we're leaving
         var current_step = $('input[name="ak-donate-step"]:checked').val();
         validate_step(current_step);
 
         if (!step_has_errors) {
-            $('input[name="ak-donate-step"]:checked')
-				.closest('label')
-				.removeClass('active-step')
-				.next('label')
-				.addClass('active-step')
-				.find('input[type="radio"]')
-				.prop('checked', true);
-            three_step_reveal();
+          $('input[name="ak-donate-step"]:checked')
+						.closest('label')
+						.removeClass('active-step')
+						.next('label')
+						.addClass('active-step')
+						.find('input[type="radio"]')
+						.prop('checked', true);
+		      three_step_reveal();
         }
     }
 
     function three_step_goto(next) {
-		console.log('three_step_goto() fired');
-        // trigger validation on the step we're leaving
-        var current_step = $('input[name="ak-donate-step"]:checked').val();
+			console.log('three_step_goto() fired');
+	    // trigger va	lidation on the step we're leaving
+	    var current_step = $('input[name="ak-donate-step"]:checked').val();
 
-        // skip validation if we're going backwards
-        if (current_step < next) {
-            validate_step(current_step);
-        }
+	    // skip validation if we're going backwards
+	    if (current_step < next) {
+	        validate_step(current_step);
+	    }
 
-        // can't skip over a step unless it's already been completed
-		console.log('three_step_goto: step_has_errors = ' + step_has_errors + ', current_step = ' + current_step + ', next = ' + next);
-        if ( (! step_has_errors) && (current_step == 1) && (next == 3) ) {
-            validate_step(2);
-            if ( step_has_errors ) {
-                $('#ak-donate-step-2').prop('checked', true);
-                three_step_reveal();
-                return;
-            }
-        }
+	    // can't skip over a step unless it's already been completed
+			console.log('three_step_goto: step_has_errors = ' + step_has_errors + ', current_step = ' + current_step + ', next = ' + next);
+	    if ( (! step_has_errors) && (current_step == 1) && (next == 3) ) {
+	      validate_step(2);
+	      if ( step_has_errors ) {
+	        $('#ak-donate-step-2').prop('checked', true);
+	        three_step_reveal();
+	        return;
+	      }
+	    }
 
-        // allow the user to go back even if there are errors
-        if (current_step > next || !step_has_errors) {
-            $('#ak-donate-step-' + next).prop('checked', true);
-            three_step_reveal();
-        }
-    }
+	    // allow the user to go back even if there are errors
+	    if (current_step > next || !step_has_errors) {
+	      $('#ak-donate-step-' + next).prop('checked', true);
+	      three_step_reveal();
+	    }
+	  }
 
     function validate_product_count ( field ) {
         var product_count = field.value;
@@ -904,101 +905,167 @@
         return true
     }
 
+		// even for recognized users we still need to require all user fields
+    actionkit.forms.alwaysRequireUserFields = true;
+
     /* used to limit AK built-in validation to particular fields by step */
     var doing_step_validation = false;
     var validate_fields = [];
     function validate_step(step) {
-        step_has_errors = false;
-        if (step == "1") {
-            validate_fields = ["amount"];
-        } else if (step == "2") {
-            validate_fields = ["address1", "address2", "city", "state", "zip",
-                               "country", "region", "postal",
-                               "shipping_address1", "shipping_address2",
-                               "shipping_city", "shipping_state",
-                               "shipping_zip", "shipping_country",
-                               "shipping_region", "shipping_postal", "email"
-                               {% if has_candidates %},"action_employer", "action_occupation"{% endif %}];
-        } else {
-            validate_fields = ["first_name", "last_name", "name", "card_num", "card_code",
-                               "exp_date_year", "exp_date_month", "exp_date"];
+      step_has_errors = false;
+      if (step == "1") {
+        validate_fields = ["amount"];
+      } else if (step == "2") {
+        validate_fields = ["email", "first_name", "last_name", "name",
+                           "address1", "address2", "city", "state", "zip",
+                           "country", "region", "postal",
+                           "shipping_address1", "shipping_address2",
+                           "shipping_city", "shipping_state",
+                           "shipping_zip", "shipping_country",
+                           "shipping_region", "shipping_postal",
+                           "privacy"
+                           {% if has_candidates %},"action_employer", "action_occupation"{% endif %}];
+      } else {
+        validate_fields = ["card_num", "card_code",
+                           "exp_date_year", "exp_date_month", "exp_date"];
+      }
+
+      doing_step_validation = true;
+      actionkit.forms.validate();
+      doing_step_validation = false;
+
+      if (step == "1") {
+        step_has_errors = step_1_validation();
+      }
+
+      if (step == "2" && !step_has_errors) {
+        step_has_errors = step_2_validation();
+      }
+
+      if (step == "3" && !step_has_errors) {
+        step_has_errors = step_3_validation();
+      }
+    }
+
+    function do_validate_credit_card() {
+      if (actionkit.donations && actionkit.donations.skip_cc_validation) {
+        return false;
+      }
+      return true;
+    }
+
+    function step_3_validation() {
+      var step_has_errors = false;
+
+      if (!do_validate_credit_card()) {
+        return step_has_errors;
+      }
+
+      if (!valid_credit_card($('#ak-card_num').val())) {
+        if (!actionkit.errors){
+          actionkit.errors = {};
+				}
+        actionkit.errors['card_num:invalid'] = actionkit.forms.errorMessage('card_num:invalid');
+        actionkit.forms.onValidationErrors(actionkit.errors);
+        step_has_errors = true;
+      }
+
+      if (!valid_credit_card_code($('#ak-card_code').val())) {
+        if (!actionkit.errors){
+          actionkit.errors = {};
+				}
+        actionkit.errors['card_code:invalid'] = actionkit.forms.errorMessage('card_code:invalid');
+        actionkit.forms.onValidationErrors(actionkit.errors);
+        step_has_errors = true;
+      }
+
+      return step_has_errors;
+    }
+
+    function step_2_validation() {
+			console.log('validating step 2');
+      var step_has_errors = false;
+      if (!valid_email( $('#id_email').val() ) ) {
+        if (!actionkit.errors)
+            actionkit.errors = {};
+        actionkit.errors['email:invalid'] = actionkit.forms.errorMessage('email:invalid');
+        actionkit.forms.onValidationErrors(actionkit.errors);
+        step_has_errors = true;
+      }
+
+	     return step_has_errors;
+    }
+
+    function step_1_validation() {
+			console.log('validating step 1.');
+      var step_has_errors = false;
+
+						/* If an opt-in option is not selected, show error */
+						/* jQuery('#ak-continue-button').on('click',function(){
+							console.log('#ak-continue-button clicked.');
+					    if (!jQuery('input[name="privacy"]').is(':checked')) {
+					        jQuery('.privacy-eu').addClass('privacy-ak-err');
+					        jQuery('#privacy-error').show();
+					        jQuery('input[name="privacy"]').click(function() {
+										if(jQuery('input[name="privacy"]').is(':checked')) {
+							        jQuery('.privacy-eu').removeClass('privacy-ak-err');
+							        jQuery('#privacy-error').hide();
+										}
+									});
+					    }
+						}); */
+
+      // look for product selections
+      var selected_products = false;
+      product_infos().forEach(function(info) {
+        if (info.quantity) {
+          selected_products = true;
         }
+      });
 
-        doing_step_validation = true;
-        actionkit.forms.validate();
-        doing_step_validation = false;
+      // look for candidate selections
+      var selected_candidates = false;
+      $('.ak_candidate_inputs').each(function(i) {
+        if ($(this).val() != ""){
+          selected_candidates = true;
+				}
+      });
 
-        if (step == "1") {
-            // look for product selections
-            var selected_products = false;
-            $('.ak_product_inputs').each(
-                function(i) {
-                    if (this.type == "checkbox") {
-                        if ($(this).is(':checked')) {
-                            selected_products = true;
-                        }
-                    } else {
-                        var product_count = $(this).val();
-                        if (product_count != "" && product_count != "0") {
-                           selected_products = true;
-                        }
-                    }
-                });
+      // there's no built-in validation for amounts, so do it here
+      if (!selected_products && !selected_candidates &&
+          !$('.ak-amount-radio-button').is(':checked') &&
+          $('#ak-other-amount-field').val() == "") {
+          if (!actionkit.errors)
+              actionkit.errors = {};
+          actionkit.errors['amount:missing'] = actionkit.forms.errorMessage('amount:missing');
+          actionkit.forms.onValidationErrors(actionkit.errors);
+          step_has_errors = true;
 
-            // look for product selections
-            var selected_candidates = false;
-            $('.ak_candidate_inputs').each(
-                function(i) {
-                    if ($(this).val() != "")
-                        selected_candidates = true;
-                });
+      } else if (($('#ak-other-amount-field').val() != "" &&
+                  $('#ak-other-amount-field').val() != undefined)  &&
+                 !/^\d*(\.\d{1,2})?$/.test($('#ak-other-amount-field').val())) {
+          if (!actionkit.errors)
+              actionkit.errors = {};
+          actionkit.errors['amount:invalid'] = actionkit.forms.errorMessage('amount:invalid');
+          actionkit.forms.onValidationErrors(actionkit.errors);
+          step_has_errors = true;
+      }
 
-            // there's no built-in validation for amounts, so do it here
-            if (!selected_products && !selected_candidates &&
-                !$('.ak-amount-radio-button').is(':checked') &&
-                $('#ak-other-amount-field').val() == "") {
-                if (!actionkit.errors)
-                    actionkit.errors = {};
-                actionkit.errors['amount:missing'] = actionkit.forms.errorMessage('amount:missing');
-                actionkit.forms.onValidationErrors(actionkit.errors);
-                step_has_errors = true;
+      {% if page.minimum_amount %}
+      var total = update_total();
+      if (!step_has_errors && total < {{ page.minimum_amount }}) {
+          if (!actionkit.errors) {
+              actionkit.errors = {};
+          }
+          err = actionkit.forms.errorMessage('amount:minimum');
+          err = err.replace("{0}", "{{ page.minimum_amount }}");
+          actionkit.errors['amount:minimum'] = err;
+          actionkit.forms.onValidationErrors(actionkit.errors);
+          step_has_errors = true;
+      }
+      {% endif %}
 
-            } else if (($('#ak-other-amount-field').val() != "" &&
-                        $('#ak-other-amount-field').val() != undefined)  &&
-                       !/^\d*(\.\d{1,2})?$/.test($('#ak-other-amount-field').val())) {
-                if (!actionkit.errors)
-                    actionkit.errors = {};
-                actionkit.errors['amount:invalid'] = actionkit.forms.errorMessage('amount:invalid');
-                actionkit.forms.onValidationErrors(actionkit.errors);
-                step_has_errors = true;
-            }
-
-            {% if page.minimum_amount %}
-            var total = update_total();
-            if (!step_has_errors && total < {{ page.minimum_amount }}) {
-                err = actionkit.forms.errorMessage('amount:minimum');
-                err = err.replace("{0}", "{{ page.minimum_amount }}");
-                actionkit.errors['amount:minimum'] = err;
-                actionkit.forms.onValidationErrors(actionkit.errors);
-                step_has_errors = true;
-            }
-            {% endif %}
-        }
-
-        if (step == "2" && !step_has_errors) {
-
-        }
-
-
-        if (step == "3" && !step_has_errors) {
-			if (!valid_email($('#id_email').val())) {
-                if (!actionkit.errors)
-                    actionkit.errors = {};
-                actionkit.errors['email:invalid'] = actionkit.forms.errorMessage('email:invalid');
-                actionkit.forms.onValidationErrors(actionkit.errors);
-                step_has_errors = true;
-            }
-        }
+      return step_has_errors;
     }
 
     function actionkitValidationErrors(errors, field) {
@@ -1078,40 +1145,61 @@
         }
     });
 
-    var product_ids = [
-        {% for product in products %}
-            {{ product.id }}{% if not forloop.last %},{% endif %}
-        {%endfor%}
-    ];
+    function product_ids() {
+        return $("[data-product]").map(function(i, el) {
+            return $(el).data("product");
+        }).toArray();
+    }
 
-    // calculate subtotals if products exist
+    function product_infos() {
+        return product_ids().map(function(id) {
+            return product_info(id);
+        });
+    }
+
+
+// calculate subtotals if products exist
     function calculate_product_subtotals() {
-        if ($('.ak-product-subtotal').length !== 0) {
-            //console.log('products exist');
-            var product_quantity;
-            for (var i = 1; i < $('#ak-product-list tr').length; i++) {
-                var id = product_ids[i-1];
-                product_amount = parseFloat($('#product_'+id+'_price').data("price"));
-                // console.log(product_amount);
-                if ($('#product_'+id).is(':checkbox')) {
-                    if ($('#product_'+id).is(':checked')) {
-                        product_quantity = 1;
-                    } else {
-                        product_quantity = 0;
-                    }
-                } else {
-                    if ($('#product_' + id).val() == "") {
-                        product_quantity = 0;
-                    } else {
-                        product_quantity = parseInt($('#product_' + id).val());
-                    }
-                }
+        var subtotal = 0;
+        product_infos().forEach(function(info) {
+            $('.ak_product_subtotal_' + info.id).text(info.subtotal.toFixed(2));
+            subtotal += info.subtotal;
+        });
+        $('#ak-donation-subtotal-amount').text(subtotal.toFixed(2));
+    }
 
-                //console.log(product_quantity);
-                var subtotal = product_amount * product_quantity;
-                $('.ak_product_subtotal_'+id).text(subtotal.toFixed(2));
-            }
+    $(function() {
+        calculate_product_subtotals();
+
+        $('.ak_product_inputs').on('change', function() {
+            calculate_product_subtotals();
+        });
+    });
+
+    // Standard luhn check to detect mistyped credit card numbers
+    // from https://gist.github.com/DiegoSalazar/4075533
+    function valid_credit_card(value) {
+        if (/[^0-9-\s]/.test(value)) {
+            return false;
         }
+        var nCheck = 0, nDigit = 0, bEven = false;
+        value = value.replace(/\D/g, "");
+
+        for (var n = value.length - 1; n >= 0; n--) {
+            var cDigit = value.charAt(n),
+            nDigit = parseInt(cDigit, 10);
+
+            if (bEven) {
+                if ((nDigit *= 2) > 9) {
+                    nDigit -= 9;
+                }
+            }
+
+            nCheck += nDigit;
+            bEven = !bEven;
+        }
+
+        return (nCheck % 10) == 0;
     }
 
     //calculate subtotals total
@@ -1132,11 +1220,8 @@
 
     $(function() {
         calculate_product_subtotals();
-        calculate_product_subtotals_total();
-
         $('.ak_product_inputs').on('change', function() {
             calculate_product_subtotals();
-            calculate_product_subtotals_total();
         });
     });
 
@@ -1188,7 +1273,7 @@
     function submit_paypal() {
         {% if page.paypal_user_requirements != "none" %}
             {% if page.paypal_user_requirements == "email" %}
-                validate_fields = ["email"];
+                validate_fields = ["email", "privacy"];
             {% else %}
                 validate_fields = [
                     "email", "first_name", "last_name", "name",
@@ -1197,10 +1282,11 @@
                     "shipping_address1", "shipping_address2",
                     "shipping_city", "shipping_state",
                     "shipping_zip", "shipping_country",
-                    "shipping_region", "shipping_postal"
+                    "shipping_region", "shipping_postal",
+										"privacy"
                     {% if has_candidates %},"action_employer", "action_occupation"{% endif %}
                ];
-           {% endif %}
+           	{% endif %}
 
            doing_step_validation = true;
            actionkit.forms.validate();
@@ -1230,20 +1316,32 @@
     function submit_cc() {
         /* clear paypal=1 hidden field, only needed if someone hit back */
         $('#ak-pay-by-paypal').val(0);
-        validate_step("3");
 
-        if (step_has_errors) {
-            return false;
-        } else {
-            return true;
+        if ( $('form.ak-donate-three-step').length > 0 ) {
+            validate_step("3");
+
+            if (step_has_errors) {
+                return false;
+            } else {
+                return true;
+            }
         }
+
+        /* not doing 3-step, so we need to do all the validation here,
+         * don't want to short-circuit and only run one step, better
+         * to run all three even if all three have errors */
+        actionkit.forms.validate();
+        results = [step_1_validation(),
+                   step_2_validation(),
+                   step_3_validation()];
+        return !(results[0] || results[1] || results[2]);
     }
 
     $( function () {
-        $('#ak-paypal-button').on('click', submit_paypal);
-        $('.ak-submit-button').on('click', submit_cc);
+      $('#ak-paypal-button').on('click', submit_paypal);
+    	$('.ak-submit-button').on('click', submit_cc);
 
-        {% if page.paypal_user_requirements == "none" %}
+      {% if page.paypal_user_requirements == "none" %}
         $('#ak-paypal-button').on('mousedown', function () {
             var form_elt = $(this).closest('form');
             var required_fields = form_elt.find('input[name="required"]');
@@ -1255,10 +1353,9 @@
                 } );
             }
         } );
-        {% endif %}
-    } );
-
-    {% endif %}
+      {% endif %}
+    });
+		{% endif %}
 
 //-->
 </script>
@@ -1300,9 +1397,7 @@
 
 
 </style>
-<script src="https://js.braintreegateway.com/web/3.26.0/js/client.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.26.0/js/hosted-fields.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.26.0/js/data-collector.min.js"></script>
+{% braintree_js_libs %}
 <script src="/resources/ak_braintree_vzero.js"></script>
 <script>
 $(function() {
@@ -1361,31 +1456,17 @@ $(function() {
 
         switch (err.code) {
             case 'HOSTED_FIELDS_FIELDS_EMPTY':
-                actionkit.errors['card_num:invalid'] = "Credit card field is empty.";
+                actionkit.errors['card_num:invalid'] = "Credit card fields are empty.";
                 break;
           case 'HOSTED_FIELDS_FIELDS_INVALID':
-									err.details.invalidFieldKeys.forEach(function(key) {
-									    switch(key) {
-									        case "number":
-									            actionkit.errors['card_num:invalid'] = "Credit card field is invalid.";
-									            break;
-									        case "cvv":
-									            actionkit.errors['card_code:invalid'] = "CVV field is invalid.";
-									            break;
-									        case "expirationDate":
-									            actionkit.errors['card_exp:invalid'] = "Expiration Date field is invalid.";
-									            break;
-									    }
-									});
-/*                err.details.invalidFieldKeys.forEach(function(key) {
+                err.details.invalidFieldKeys.forEach(function(key) {
                     var map = {
                         'number': 'card_num',
                         'cvv': 'card_code',
                         'expirationDate': 'card_exp'
                     };
-                    actionkit.errors[map[key] + ':invalid'] = key +" is invalid.";;
+                    actionkit.errors[map[key] + ':invalid'] = "This field is invalid.";;
                 });
-*/
                 break;
           case 'HOSTED_FIELDS_FAILED_TOKENIZATION':
                 actionkit.errors['card_num:invalid'] = "Please check that your credit card is valid.";

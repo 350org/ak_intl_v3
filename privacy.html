@@ -1,25 +1,9 @@
 {% load actionkit_tags %}
+{% filter collapse_spaces %}
+{% with pt=privacy_text %}
 <div class="ak-privacy ak-errs-below">
-{% comment %}
-  "privacy" can only have a value of the AK hash, not null, not anything else.
-	We need to capture data from opt-outs, to figure out what % of people take action without joining.
-{% endcomment %}
 
-{% if privacy_text.radio_optin and privacy_text.radio_optout %}
-  <input type="hidden" name="require_opt_in" value="1">
-  <script>
-	  
-    function setOptIn(opted_in) {
-      if (opted_in) {
-        actionkit.utils.appendHiddenInput('lists', '{{ page.list.id }}');
-        jQuery('#really-opt-out').hide();
-      }
-      else {
-        jQuery('input[name=lists]').remove()
-        jQuery('#really-opt-out').show();
-      }
-    }
-    
+  <script>	  
 		var euCountries = [
 			'Austria',
 			'Belgium',
@@ -67,18 +51,18 @@ jQuery(document).ready(function(){
 			//console.log('show non-EU privacy');
 		}
 	});
-	
+
 	jQuery("form").submit(function (e) {
     // If an opt-in option is not selected, prevent submit
     if (!jQuery('input[name="privacy"]').is(':checked')) {
         jQuery('.privacy-eu').addClass('privacy-ak-err');
         jQuery('#privacy-error').show();
         e.preventDefault();
-        
+
         jQuery('input[name="privacy"]').click(function() {
 					if(jQuery('input[name="privacy"]').is(':checked')) {
 		        jQuery('.privacy-eu').removeClass('privacy-ak-err');
-		        jQuery('#privacy-error').hide();						
+		        jQuery('#privacy-error').hide();
 					}
 				});
     } else {
@@ -86,7 +70,7 @@ jQuery(document).ready(function(){
         jQuery('#privacy-error').hide();
     }
   });
-	
+
 });
   </script>
 	<style>
@@ -96,33 +80,33 @@ jQuery(document).ready(function(){
 	  padding-top:1.1em;}
 	#really-opt-out{
 		transition:300ms all;}
-	
+
 	.privacy-eu{
 		padding: 5px;
 	}
-	
+
 	.privacy-ak-err{
 		background-color: #fff0d4;
 		color: initial;
 		margin: -1px 0 0;
 		padding: 0.4rem 0.6rem;
-		position: relative;		
+		position: relative;
 	}
-	
+
 	ul#privacy-error {
     background-color: #fff0d4;
     color: initial;
     margin: -1px 0 0;
     padding: 0.4rem 0rem;
     position: relative;
-	}	
-	
+	}
+
 	ul#privacy-error li {
     font-size: 0.85rem;
     line-height: 1.4;
     list-style-type: none;
 	}
-	
+
 	ul#privacy-error li::before {
     background: #ffa902;
     border-radius: 1em;
@@ -132,9 +116,56 @@ jQuery(document).ready(function(){
     margin-right: 0.4rem;
     width: 0.7em;
 	}
-	
+
 	</style>
-	<div class="privacy-eu">
+
+  {% if pt.show_if %}
+      <input type="hidden" name="privacy_show_if" value="{{ pt.show_if }}">
+  {% endif %}
+
+  {% if pt.notice %}
+      <input type="hidden" id="privacy_notice" name="privacy_hidden" value="{{pt.notice_hash}}">
+      <div id="ak-fieldbox-privacy_notice">{{pt.notice|safe}}</div>
+  {% endif %}
+
+  {% if pt.optin and pt.optout %}
+      <input type="hidden" name="required" value="privacy">
+      <input type="hidden" name="require_opt_in" value="1">
+
+      <input type="hidden" name="privacy_optin_lists" value="{{ list_id }}">
+      {% if pt.unsub_optouts %}
+          <input type="hidden" name="privacy_optout_unsub_all" value="1">
+      {% endif %}
+      {% if pt.optouts_skip_thanks %}
+          <input type="hidden" name="privacy_optout_skip_confirmation" value="1">
+      {% endif %}
+
+      <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio text-lineheight-small">
+        <div>
+          <input type="radio" name="privacy" id="privacy_optin" value="{{pt.optin_hash}}">
+          <label for="privacy_optin">{{pt.optin|safe}}</label>
+        </div>
+        <div>
+          <input type="radio" name="privacy" id="privacy_optout" value="{{pt.optout_hash}}">
+          <label for="privacy_optout">{{pt.radio_optout|safe}}</label>
+        </div>
+      </div>
+
+      {% if pt.really_optout %}
+          <div id="really-opt-out" style="display: none;">{{ pt.really_optout|safe }}</div>
+          <script>
+          (function() {
+              var reallyOptOut = $('#really-opt-out');
+              $('#privacy_optin').bind('click',  function(){ reallyOptOut.hide() })
+              $('#privacy_optout').bind('click', function(){ reallyOptOut.show() })
+          })()
+          </script>
+      {% endif %}
+  {% endif %}
+
+
+
+	<!-- <div class="privacy-eu">
 	{% if privacy_text.notice %}
 	  <div id="ak-fieldbox-privacy_notice" class="text-small2 margin-bottom-small">
 	    <input type="hidden" id="privacy_notice" name="privacy" value="{{privacy_text.notice_hash}}">
@@ -158,7 +189,9 @@ jQuery(document).ready(function(){
 			<p><label for="privacy_optin" class="button button-small button-secondary bg-teal">Yes, keep me involved</label></p>
 	  </div>
     <ul id="privacy-error" style="display: none;"><li>{% filter ak_text:"select_option" %}Please select an option above.{% endfilter %}</li></ul>
-	</div>
-{% endif %}
+	</div> -->
 
 </div>
+
+{% endwith %}
+{% endfilter %}

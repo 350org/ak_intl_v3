@@ -21,6 +21,7 @@ jQuery(document).ready(function(){
 		}
 	});
 
+/*
 	jQuery("form").submit(function (e) {
     // If an opt-in option is not selected, prevent submit
     if (!jQuery('input[name="privacy"]').is(':checked')) {
@@ -39,7 +40,7 @@ jQuery(document).ready(function(){
         jQuery('#privacy-error').hide();
     }
   });
-
+*/
 });
   </script>
 	<style>
@@ -60,6 +61,7 @@ jQuery(document).ready(function(){
 	</style>
 
     <input type="hidden" name="privacy_show_if" value="in_country">
+    <input type="hidden" name="privacy_optout_unsub_all" value="1">
 
   {% if pt.notice %}
     <input type="hidden" id="privacy_notice" name="privacy_hidden" value="{{pt.notice_hash}}">
@@ -69,13 +71,10 @@ jQuery(document).ready(function(){
   {% if pt.radio_optin and pt.radio_optout %}
     <input type="hidden" name="required" value="privacy">
     <input type="hidden" name="require_opt_in" value="1">
-
     <input type="hidden" name="privacy_optin_lists" value="{{ list_id }}">
-    {% if pt.unsub_optouts %}
-        <input type="hidden" name="privacy_optout_unsub_all" value="1">
-    {% endif %}
+
     {% if pt.optouts_skip_thanks %}
-        <input type="hidden" name="privacy_optout_skip_confirmation" value="1">
+      <input type="hidden" name="privacy_optout_skip_confirmation" value="1">
     {% endif %}
 
     <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio text-lineheight-small">

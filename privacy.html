@@ -7,40 +7,16 @@
 
 jQuery(document).ready(function(){
 	var countrySelect = jQuery("#country");
- 	$(actionkit.form).on('actionkit.privacyRequirementChanged', function(e){
-    console.log(e);
-		var privacyStatus = e;
+ 	$(actionkit.form).on('actionkit.privacyRequirementChanged', function(obj, privacyStatus){
 		if ( privacyStatus ){
-			//jQuery(".privacy-eu").show();
 			jQuery(".privacy-non_eu").hide();
 			//console.log('show EU privacy');
 		} else {
-			//jQuery(".privacy-eu").hide();
 			jQuery(".privacy-non_eu").show();
 			//console.log('show non-EU privacy');
 		}
 	});
 
-/*
-	jQuery("form").submit(function (e) {
-    // If an opt-in option is not selected, prevent submit
-    if (!jQuery('input[name="privacy"]').is(':checked')) {
-        jQuery('.privacy-eu').addClass('privacy-ak-err');
-        jQuery('#privacy-error').show();
-        e.preventDefault();
-
-        jQuery('input[name="privacy"]').click(function() {
-					if(jQuery('input[name="privacy"]').is(':checked')) {
-		        jQuery('.privacy-eu').removeClass('privacy-ak-err');
-		        jQuery('#privacy-error').hide();
-					}
-				});
-    } else {
-        jQuery('.privacy-eu').removeClass('privacy-ak-err');
-        jQuery('#privacy-error').hide();
-    }
-  });
-*/
 });
   </script>
 	<style>

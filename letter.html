@@ -64,26 +64,7 @@
 			{% include "./user_form_wrapper.html" %}
 			{% endautoescape %}
 			<ul style="display:none;" id="ak-errors"><li></li></ul>
-			{% if page.custom_fields.form_additional_fields %}
-				<div class="form-additional-html">
-					{{ page.custom_fields.form_additional_fields }}
-				</div>
-			{% endif %}
-			<div class="input-wrapper input-submit">
-				<input type="submit" class="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"letter_submit_button" %}Send Your Message{% endfilter %}{% endif %}" />
-			</div>
 
-			<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
-			{% if page.custom_fields.form_short_toc %}
-				{{ page.custom_fields.form_short_toc }}
-			{% elif page.custom_fields.form_opt_in %}
-				{% filter ak_text:"general_secure_signup" %}350.org respects your privacy.{% endfilter %}
-			{% elif page.custom_fields.page_is_c4 %}
-				{% filter ak_text:"general_default_toc_c4" %}350 Action will send you updates and notifications when you can make a difference.{% endfilter %}
-			{% else %}
-				{% filter ak_text:"general_default_toc" %}350.org will send you updates and notifications when you can make a difference.{% endfilter %}
-			{% endif %}
-			</div>
 		</form>
 		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide text-small">

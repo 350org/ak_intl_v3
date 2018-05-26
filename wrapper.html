@@ -123,6 +123,7 @@ actionkit.forms.initForm('act');
 
 {% endif %}
 <div class="clear" /></div>
+
 <footer id="site-footer" class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif templateset.custom_fields.site_bg_color_slug %}{{ templateset.custom_fields.site_bg_color_slug }}{% else %}white{% endif %} width-full text-small">
 	<div class="section-inner">
 
@@ -174,7 +175,7 @@ jQuery(document).ready(function(){
 {% endif %}
 
 {% comment %}
-	Font loading code — checks for CPF fonts, then checks for language/writing system, then checks for CTF,
+	Font loading code — checks for custom page field fonts, then checks for language/writing system, then checks for CTF,
 {% endcomment %}
 
 {% autoescape off %}

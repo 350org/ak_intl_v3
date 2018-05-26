@@ -24,8 +24,7 @@ jQuery(document).ready(function($){
 	  margin-top:1.1em;
 	  padding-top:1.1em;}
 	#really-opt-out{
-    border-radius:2px;
-		transition:300ms all;}
+    border-radius:2px;}
 
 	.privacy-ak-err{
 		background-color: #fff0d4;
@@ -72,8 +71,8 @@ jQuery(document).ready(function($){
     <script>
     (function() {
         var reallyOptOut = $('#really-opt-out');
-        $('#privacy_optin').bind('click',  function(){ reallyOptOut.hide('slow') })
-        $('#privacy_optout').bind('click', function(){ reallyOptOut.show('slow') })
+        $('#privacy_optin').bind('click',  function(){ reallyOptOut.fadeOut('slow') })
+        $('#privacy_optout').bind('click', function(){ reallyOptOut.fadeIn('slow') })
     })()
     </script>
 

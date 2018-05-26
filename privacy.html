@@ -24,6 +24,7 @@ jQuery(document).ready(function($){
 	  margin-top:1.1em;
 	  padding-top:1.1em;}
 	#really-opt-out{
+    border-radius:2px;
 		transition:300ms all;}
 
 	.privacy-ak-err{
@@ -31,8 +32,9 @@ jQuery(document).ready(function($){
 		color: initial;
 		margin: -1px 0 0;
 		padding: 0.4rem 0.6rem;
-		position: relative;
-	}
+		position: relative;}
+
+
 	</style>
 
     <input type="hidden" name="privacy_show_if" value="in_country">
@@ -63,7 +65,7 @@ jQuery(document).ready(function($){
       </div>
     </div>
 
-    <div id="really-opt-out" style="display: none;">
+    <div id="really-opt-out" class="text-small bg-dkgray-trans padding-tiny" style="display: none;">
       <p>{% filter ak_text:"really_optout" %}Are you sure? Email is how the global climate movement is able to stay organised. You can always unsubscribe.{% endfilter %}</p>
       <p><label for="privacy_optin" class="button button-small button-secondary bg-teal">{% filter ak_text:"really_optout_button" %}Yes, keep me involved{% endfilter %}</label></p>
     </div>

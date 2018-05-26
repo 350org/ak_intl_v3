@@ -63,16 +63,17 @@ jQuery(document).ready(function($){
       </div>
     </div>
 
-    {% if pt.really_optout %}
-      <div id="really-opt-out" style="display: none;">{{ pt.really_optout|safe }}</div>
-      <script>
-      (function() {
-          var reallyOptOut = $('#really-opt-out');
-          $('#privacy_optin').bind('click',  function(){ reallyOptOut.hide() })
-          $('#privacy_optout').bind('click', function(){ reallyOptOut.show() })
-      })()
-      </script>
-    {% endif %}
+    <div id="really-opt-out" style="display: none;">
+      <p>{% filter ak_text:"really_optout" %}Are you sure? Email is how the global climate movement is able to stay organised. You can always unsubscribe.{% endfilter %}</p>
+      <p><label for="privacy_optin" class="button button-small button-secondary bg-teal">{% filter ak_text:"really_optout_button" %}Yes, keep me involved{% endfilter %}</label></p>
+    </div>
+    <script>
+    (function() {
+        var reallyOptOut = $('#really-opt-out');
+        $('#privacy_optin').bind('click',  function(){ reallyOptOut.hide() })
+        $('#privacy_optout').bind('click', function(){ reallyOptOut.show() })
+    })()
+    </script>
 
   {% endif %}
 

@@ -72,8 +72,8 @@ jQuery(document).ready(function($){
     <script>
     (function() {
         var reallyOptOut = $('#really-opt-out');
-        $('#privacy_optin').bind('click',  function(){ reallyOptOut.hide() })
-        $('#privacy_optout').bind('click', function(){ reallyOptOut.show() })
+        $('#privacy_optin').bind('click',  function(){ reallyOptOut.hide('slow') })
+        $('#privacy_optout').bind('click', function(){ reallyOptOut.show('slow') })
     })()
     </script>
 

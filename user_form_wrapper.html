@@ -1,6 +1,12 @@
 {% comment %}You can optionally use this to replace known_user/unknown_user divs in your templates.{% endcomment %}
 {% load actionkit_tags %}
 
+{% if page.custom_fields.form_short_toc %}
+<div id="action-toc" class="text-small icon-before icon-faded margin-bottom-normal" data-icon="▶︎">
+  {{ page.custom_fields.form_short_toc }}
+</div>
+{% endif %}
+
 <div id="known_user">
  <div id="known_user_welcome" class="padding-small bg-white margin-bottom-none">
   <p id="known-user-greeting" class="text-large strong margin-bottom-small">{% filter ak_text:"general_recognized_user_greeting_prename" %}Hi{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"general_recognized_user_greeting_postname" %}!{% endfilter %}</p>
@@ -13,12 +19,6 @@
 </div>
 
 <div id="unknown_user" class="user-form ak-errs-below form-style-labelabove">
-  {% if page.custom_fields.form_short_toc %}
-  <div id="action-toc" class="text-small icon-before icon-faded margin-bottom-normal" data-icon="▶︎">
-    {{ page.custom_fields.form_short_toc }}
-  </div>
-  {% endif %}
-
  {% include "./user_form.html" %}
  <div style="display: none">
   <input name="user_honey">
@@ -26,10 +26,52 @@
 
 </div>
 
-{% if page.custom_fields.form_additional_fields %}
-{% autoescape off %}
-<div id="addl-fields" class="ak-labels-above">
- {{ page.custom_fields.form_additional_fields }}
+{% if page.custom_fields.form_privacy_show_optin != "do-not-show" %}
+  {% include "./privacy.html" %}
+{% endif %}
+
+{% if page.type != "Call" %}
+  {% if page.type != "Donation" %}
+    {% if page.type != "Event" %}
+      {% if page.type != "LTE" %}
+<div class="input-wrapper input-submit">
+  <button type="submit" class="submit button-primary">
+  {% if page.custom_fields.form_submit_button_text %}
+    {{ page.custom_fields.form_submit_button_text }}
+  {% elif page.type == "Petition" %}
+    {% filter ak_text:'petition_submit_button' %}Sign{% endfilter %}
+  {% elif page.type == "Letter" %}
+    {% filter ak_text:"letter_submit_button" %}Send Your Message{% endfilter %}
+  {% elif page.type == "Signup" %}
+    {% filter ak_text:"signup_submit_button" %}Sign Up{% endfilter %}
+  {% elif page.type == "Survey" %}
+    {% filter ak_text:"general_submit" %}Submit{% endfilter %}
+  {% else %}
+    {% filter ak_text:'general_submit' %}Submit{% endfilter %}
+  {% endif %}
+  </button>
 </div>
-{% endautoescape %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+<div class="general-privacy-notice text-small2">
+  <p class="icon-before icon-faded" data-icon="&#xE93E;">
+    <span style="display:none;" class="privacy-non_eu">{% filter ak_text:"general_opt_in_privacy_notice_non_eu" %}350 will send you email updates when you can make a difference.{% endfilter %}</span>
+    {% filter ak_text:"general_opt_in_privacy_notice_general" %}By taking this action, you are agreeing to our <a href="https://350.org/tos">terms of service</a> and <a href="https://350.org/privacy">privacy policy</a>. You can <a href="https://act.350.org/unsubscribe/unsubscribe/">unsubscribe</a> at any time.{% endfilter %}
+  </p>
+</div>
+
+
+
+{% if page.custom_fields.form_opt_in %}
+<input type="hidden" name="opt_in" value="1">
+<div class="input-checkbox ak-userfield-checkbox-choice">
+	<label for="lists-checkbox">
+		<input id="lists-checkbox" class="checkbox" type="checkbox" name="lists" value="{{ page.list.id }}" checked> {% filter ak_text:"general_opt_in_label" %}Stay up to date with 350.org and the climate movement.{% endfilter %}
+	</label>
+</div>
+{% else %}
+<!--<input name="lists" value="{{ page.list.id }}" type="hidden"/>-->
 {% endif %}

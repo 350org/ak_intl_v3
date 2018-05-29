@@ -70,11 +70,16 @@ jQuery(document).ready(function($){
     </div>
     <script>
     jQuery(document).ready(function($){
-      var reallyOptOut = $('#really-opt-out');
+      var reallyOptOut = jQuery('#really-opt-out');
       jQuery('#privacy_optin').bind('click',  function(){ reallyOptOut.fadeOut('slow') })
       jQuery('#privacy_optout').bind('click', function(){	reallyOptOut.fadeIn('slow') })
-// jQuery('#optout_all').value('1')
 
+      jQuery('#privacy_optin').bind('click',  function(){ jQuery('#optout_all').value('') })
+      jQuery('#privacy_optout').bind('click', function(){	jQuery('#optout_all').value('1') })
+
+
+// jQuery('#optout_all').value('1')
+/*
 			jQuery('input:radio[name=privacy]:checked').change(function () {
             if (jQuery("input[name='privacy']:checked").attr('id') == 'privacy_optin') {
                 jQuery('#optout_all').value('');
@@ -83,6 +88,7 @@ jQuery(document).ready(function($){
                 jQuery('#optout_all').value('1');
             }
         });
+*/        
     });
     </script>
 

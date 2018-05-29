@@ -53,12 +53,12 @@ jQuery(document).ready(function($){
       <input type="hidden" name="privacy_optout_skip_confirmation" value="1">
     {% endif %}
 
-    <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio text-lineheight-small">
-      <div>
+    <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio-group text-lineheight-small">
+      <div class="input-radio">
         <input type="radio" name="privacy" id="privacy_optin" value="{{pt.radio_optin_hash}}">
         <label for="privacy_optin">{{pt.radio_optin|safe}}</label>
       </div>
-      <div>
+      <div class="input-radio">
         <input type="radio" name="privacy" id="privacy_optout" value="{{pt.radio_optout_hash}}">
         <label for="privacy_optout">{{pt.radio_optout|safe}}</label>
       </div>

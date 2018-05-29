@@ -76,10 +76,10 @@ jQuery(document).ready(function($){
 // jQuery('#optout_all').value('1')
 
 			jQuery('input:radio[name=privacy]:checked').change(function () {
-            if ($("input[name='privacy']:checked").attr('id') == 'privacy_optin') {
+            if (jQuery("input[name='privacy']:checked").attr('id') == 'privacy_optin') {
                 jQuery('#optout_all').value('');
             }
-            if ($("input[name='privacy']:checked").attr('id') == 'privacy_optout') {
+            if (jQuery("input[name='privacy']:checked").attr('id') == 'privacy_optout') {
                 jQuery('#optout_all').value('1');
             }
         });

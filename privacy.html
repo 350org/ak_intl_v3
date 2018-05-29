@@ -74,6 +74,15 @@ jQuery(document).ready(function($){
       jQuery('#privacy_optin').bind('click',  function(){ reallyOptOut.fadeOut('slow') })
       jQuery('#privacy_optout').bind('click', function(){	reallyOptOut.fadeIn('slow') })
 // jQuery('#optout_all').value('1')
+
+			jQuery('input:radio[name=privacy]:checked').change(function () {
+            if ($("input[name='privacy']:checked").attr('id') == 'privacy_optin') {
+                jQuery('#optout_all').value('');
+            }
+            if ($("input[name='privacy']:checked").attr('id') == 'privacy_optout') {
+                jQuery('#optout_all').value('1');
+            }
+        });
     });
     </script>
 

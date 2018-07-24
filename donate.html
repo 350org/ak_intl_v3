@@ -646,34 +646,55 @@
         return total;
     }
 
-    $(function() {
-        $('.ak_product_inputs').on('change blur', update_total);
-        $('.ak_candidate_inputs').on('change blur', update_total);
-        $('.ak-amount-radio-button').on('change blur', update_total)
-                                .on('click', clear_other)
-                                .on('click', update_total);
-        $('#ak-other-amount-field').on('change blur', update_total)
-                                .on('click keypress', clear_radio_buttons)
-                                .on('click', update_total);
-    });
 
     /* Amount buttons */
     function highlight_selected_amount_button() {
         $('label.ak-radio-checked').removeClass('ak-radio-checked');
         $(this).closest('label').addClass('ak-radio-checked');
     }
-    $(function() {
-        $('input[name="amount"]').on(
-            'click', highlight_selected_amount_button);
-        $('input[name="amount_other"]').on(
-            'click change', highlight_selected_amount_button);
+		$(function() {
+			$('input[name="amount"]').on(
+			    'click', highlight_selected_amount_button);
+			$('input[name="amount_other"]').on(
+			    'click change', highlight_selected_amount_button);
+			$('.ak_product_inputs').on('change blur', update_total);
+			$('.ak_candidate_inputs').on('change blur', update_total);
+			$('.ak-amount-radio-button')
+				.on('change blur', update_total)
+				.on('click', clear_other)
+				.on('click', update_total);
+			$('#ak-other-amount-field')
+				.on('change blur', update_total)
+				.on('click keypress', clear_radio_buttons)
+				.on('click', update_total);
 
-        // Make sure label is highlighted if an amount is pre-selected
-        highlight_selected_amount_button.call(
-            $('input[name="amount"]:checked').get(0) //||
-            //$('input[name="amount_other"]').get(0)
-        );
-    });
+			// preselect an amount with a url parameter
+			var arg_amount_selected = false;
+			var arg_amount = {{ args.amount|default:"false" }};
+
+			$('.ak-amount-wrapper .input-radio-button').each(function(){
+				var current_amount = parseInt( $(this).text().replace(/\D/g,'') );
+				if ( arg_amount && (arg_amount == current_amount) ){
+					console.log('arg_amount == current_amount');
+					clear_radio_buttons();
+					$(this).trigger('click');
+					arg_amount_selected = true;
+				} else if (arg_amount && !arg_amount_selected){
+					// console.log('arg_amount !== current_amount');
+					if ( $(this).hasClass('input-radio-button-other') ){
+						clear_radio_buttons();
+						$('#ak-other-amount-field').val(arg_amount).trigger('click');
+					}
+				} else {
+				  // Make sure label is highlighted if an amount is pre-selected
+				  highlight_selected_amount_button.call(
+				      $('input[name="amount"]:checked').get(0) //||
+				      //$('input[name="amount_other"]').get(0)
+				  );
+				}
+			});
+
+		});
 
 /* Currency symbols */
 

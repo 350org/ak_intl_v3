@@ -62,7 +62,7 @@
 
 {% block meta_additions %}{% endblock %}
 
-	<link rel='stylesheet' id='baseline-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.css?v=201809140855' type='text/css' media='screen' />
+	<link rel='stylesheet' id='baseline-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.css?v=2018091408552' type='text/css' media='screen' />
 {% if templateset.custom_fields.site_addl_css_url %}
 	<link rel='stylesheet' id='addl-css' href='{{ templateset.custom_fields.site_addl_css_url }}' type='text/css' media='screen' />
 {% endif %}
@@ -131,13 +131,13 @@ actionkit.forms.initForm('act');
 {% filter collapse_spaces %}
 {% autoescape off %}
 	{% if templateset.custom_fields.site_logo_html %}
-			{{ templateset.custom_fields.site_logo_html }}
+			{% include_tmpl templateset.custom_fields.site_logo_html %}
 	{% else %}
 			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="https://350.org/">350.org</a></span>
 	{% endif %}
 	{% if templateset.custom_fields.site_footer_menu %}
 		<div class="footer-custom-links">
-			{{ templateset.custom_fields.site_footer_menu }}
+			{% include_tmpl templateset.custom_fields.site_footer_menu %}
 		</div>
 	{% else %}
 			 &nbsp;&nbsp; <a href="{% filter ak_text:"footer_about" %}https://350.org/how{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a

@@ -148,7 +148,7 @@
 
 		{% if campaign.show_address1 %}
 		<div id="event-attend-map" class="image-link-parent">
-				<a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" target="_blank" title='{% filter ak_text:"general_view_google_map" %}View in Google Maps{% endfilter %}"]'><img src="https://maps.google.com/maps/api/staticmap?key=AIzaSyCcPbziN0K7_AuVv4dXiA9AcSxR4GbFKqQ&sensor=false&scale=2&size=740x260&markers={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" width="800" height="260" /></a>
+				<a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" target="_blank" title='{% filter ak_text:"general_view_google_map" %}View in Google Maps{% endfilter %}"]'><img src="https://maps.google.com/maps/api/staticmap?key=AIzaSyCcPbziN0K7_AuVv4dXiA9AcSxR4GbFKqQ&sensor=false&scale=2&lang={{ page.lang.iso_code|default:'en-US' }}&size=740x260&markers={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" width="800" height="260" /></a>
 		</div>
 		<div class="text-center text-small event-attend-directions-link event-directions-link">
 			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>

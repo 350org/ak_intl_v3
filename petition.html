@@ -31,11 +31,11 @@
 			{% include_tmpl form.about_text %}
 		{% endautoescape %}
 			</div>
-			<p class="no-js-hidden petition-text-link text-small">
+			<p class="no-js-hidden nojs-hide petition-text-link text-small">
 				<a href="" class="js-modal text-small icon-before icon-faded text-underline-none" data-icon="&#xe913;" data-modal-source="#petition-text">
 					{% filter ak_text:'petition_link_text' %}View the full petition text.{% endfilter %}</a>
 			</p>
-			<div class="js-hidden box box-big text-small bg-white">
+			<div class="js-hidden js-hide box box-big text-small bg-white">
 				<div id="petition-text">
 	{% if form.statement_leadin %}
 					<div class="petition-target text-large strong p">{% include_tmpl form.statement_leadin %}</div><hr>

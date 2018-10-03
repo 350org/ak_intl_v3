@@ -126,10 +126,10 @@ actionkit.forms.initForm('act');
 
 {% comment %}
 -------------
-We're getting wild with Custom Templateset Fields and string translation in here --
+We're getting wild with Custom Templateset Fields and string translation in here.
 So that we can keep things DRY while still having translatability and the
 flexibility we need, we're using {% include_tmpl ... %} to pull in CTFs so that
-we can include {% filter ak_text:"..." %} strings inside the CTFs that will then
+we can include {% filter ak_text:"..." %} strings _inside_ the CTFs that will then
 be translated.
 -------------
 {% endcomment %}
@@ -143,14 +143,14 @@ be translated.
 	{% if templateset.custom_fields.site_logo_html %}
 			{% include_tmpl templateset.custom_fields.site_logo_html %}
 	{% else %}
-			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="https://350.org/">350.org</a></span>
+			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="{% filter ak_text:"footer_logo_url" %}https://350.org/{% endfilter %}">350.org</a></span>
 	{% endif %}
 	{% if templateset.custom_fields.site_footer_menu %}
 		<div class="footer-custom-links">
 			{% include_tmpl templateset.custom_fields.site_footer_menu %}
 		</div>
 	{% else %}
-			 &nbsp;&nbsp; <a href="{% filter ak_text:"footer_about_url" %}https://350.org/how{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a
+			 &nbsp;&nbsp; <a href="{% filter ak_text:"footer_about_url" %}https://350.org/about{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a
 	href="{% filter ak_text:"footer_donate_url" %}https://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a> / {% endifequal%}<a id="privacy-link" href="{% filter ak_text:"footer_privacy_url" %}https://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a> / <a href="{% filter ak_text:"footer_contact_url" %}https://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
 	{% endif %}
 {% endautoescape %}

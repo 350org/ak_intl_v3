@@ -496,19 +496,6 @@
 						{% autoescape off %}
 							{{ templateset.custom_fields.pre_submit_text }}
 						{% endautoescape %}
-<!--
-
-
-<div class="text-small2">In submitting this donation I certify that:<br>
-	<ul style="padding-left:2em;">
-		<li>I am a U.S. citizen or lawfully admitted permanent resident (i.e., green card holder).</li>
-		<li>This contribution is made from my own funds, and funds are not being provided to me by another person or entity for the purpose of making this contribution.</li>
-		<li>I am making this contribution with my own personal credit card and not with a corporate or business credit card or a card issued to another person.</li>
-		<li>I am at least eighteen years old.</li>
-		<li>I am not a federal contractor.</li>
-	</ul>
-</div>						
-<!-- eventually replace with this						{{ templateset.custom_fields.pre_submit_text }}-->
 					</div>
 				{% endif %}  
 
@@ -969,7 +956,7 @@
                            "shipping_zip", "shipping_country",
                            "shipping_region", "shipping_postal",
                            "privacy"
-                           {% if has_candidates %},"action_employer", "action_occupation"{% endif %}];
+                           {% if templateset.custom_fields.ask_occupation_and_employer %},"action_employer", "action_occupation"{% endif %}];
       } else {
         validate_fields = ["card_num", "card_code", "first_name", "last_name", "name",
                            "exp_date_year", "exp_date_month", "exp_date"];
@@ -1329,7 +1316,7 @@
                     "shipping_zip", "shipping_country",
                     "shipping_region", "shipping_postal",
 										"privacy"
-                    {% if has_candidates %},"action_employer", "action_occupation"{% endif %}
+                    {% if templateset.custom_fields.ask_occupation_and_employer %},"action_employer", "action_occupation"{% endif %}
                ];
            	{% endif %}
 

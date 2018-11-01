@@ -493,6 +493,12 @@
 					</div>
 					{% if templateset.custom_fields.pre_submit_text %}
 					<div class="pre-submit-text">
+						{% autoescape off %}
+							{{ templateset.custom_fields.pre_submit_text }}
+						{% endautoescape %}
+<!--
+
+
 <div class="text-small2">In submitting this donation I certify that:<br>
 	<ul style="padding-left:2em;">
 		<li>I am a U.S. citizen or lawfully admitted permanent resident (i.e., green card holder).</li>

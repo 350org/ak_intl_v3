@@ -507,6 +507,19 @@
   {% comment %}
   For pages that use CSE, the submit button will be enabled by javascript above.
   {% endcomment %}
+
+	{% if page.custom_fields.page_is_c4 %}
+		<div class="text-small">In submitting this donation I certify that:<br>
+			<ul>
+				<li>I am a U.S. citizen or lawfully admitted permanent resident (i.e., green card holder).</li>
+				<li>This contribution is made from my own funds, and funds are not being provided to me by another person or entity for the purpose of making this contribution.</li>
+				<li>I am making this contribution with my own personal credit card and not with a corporate or business credit card or a card issued to another person.</li>
+				<li>I am at least eighteen years old.</li>
+				<li>I am not a federal contractor.</li>
+			</ul>
+		</div>	
+	{% endif %}  
+  
 	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
 	        <noscript>
 	          <p><b>JavaScript is required</b> so this page can securely submit your donation.</p>

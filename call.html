@@ -92,6 +92,14 @@
 					<input type="submit" class="submit button" value="{% filter ak_text:"call_lookup_button_text" %}Find Phone Number{% endfilter %}">
 				[% } %]
 				</script>
+				<script>
+					// when user submits address search, scroll them to the results
+					function actionkitFormReady() {
+					    if (!actionkit.context.incomplete) {
+					        document.getElementById("call-info").scrollIntoView();
+					    }
+					}
+				</script>
 			</div>
 			<div class="c6 ct cm10 c-wide">
 				<div class="action-call-script">

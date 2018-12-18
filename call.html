@@ -93,11 +93,11 @@
 				[% } %]
 				</script>
 				<script>
-					// when user submits address search, scroll them to the results
+					// if the phone number is known, scroll the user directly to the results
 					function actionkitFormReady() {
-					    if (!actionkit.context.incomplete) {
-					        document.getElementById("call-info").scrollIntoView();
-					    }
+						if (!actionkit.context.incomplete) {
+							document.getElementById("call-info").scrollIntoView();
+						}
 					}
 				</script>
 			</div>

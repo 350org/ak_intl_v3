@@ -1,0 +1,82 @@
+{% comment %}
+Custom template for same-page post-AJAX submit share ask.
+{% endcomment %}
+
+{% load actionkit_tags %}
+
+{% if page.custom_fields.after_action_next_step != "page-redirect" %}
+
+<div id="afteraction-share" class="section title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}" aria-live="polite" style="display:none;"></div>
+
+<script>
+jQuery(document).ready(function($){
+	/* handle form submissison */
+	$('#action-form').submit(function (e) {
+		e.preventDefault();
+		setTimeout(function() {
+			// if no errors...
+			if( $(".ak-err li").length < 1) {
+				$.ajax({
+					method: 'POST',
+					url: $('#action-form').attr('action'),
+					data: $('#action-form').serialize()
+				})
+				.done(function(msg) {
+					ga('send', 'event', 'scrolling-signup', 'signup', window.location.pathname);
+					var shareSlide = $('#afteraction-share');
+					var shareSlideContent = $('#afteraction-share-source').html();
+					shareSlide.append( shareSlideContent );
+					shareSlide.show();
+					$('html, body').animate({
+						scrollTop: shareSlide.offset().top
+					}, 800);
+					$(document).trigger('domUpdated'); // tell other scripts to re-run
+					// fbq('track', 'CompleteRegistration');
+				})
+				.fail(function(){
+						console.log('Error: AJAX submission failed.');
+				});
+			}
+		}, 150);
+	});
+	$('#afteraction-share-button').on('click', function(e){
+		e.preventDefault();
+		ga('send', 'event', 'scrolling-signup', 'share-facebook', window.location.pathname);
+	});
+});
+</script>
+
+<div id="afteraction-share-source" aria-hidden="true" style="display:none;">
+
+	<div class="section-inner">
+		<div class="afteraction-share-intro text-style-lead3 text-large3 text-lineheight-small text-strong margin-bottom-large">
+		{% if page.custom_fields.share_slide_title %}
+			<h2>{{ page.custom_fields.share_slide_title }}</h2>
+		{% endif %}
+		{% if page.custom_fields.share_slide_body %}
+			<p>{{ page.custom_fields.share_slide_body }}</p>
+		{% else %}
+			<p>{% include_tmpl form.thank_you_text %}</p>
+		{% endif %}
+			<p>
+				<a id="afteraction-share-button" class="fb-share button button-share-facebook button-big arrow-right"  href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+			</p>
+		</div>
+
+		{% if page.followup.share_image_value %}
+		<div class="fb-preview bg-white border">
+			<div class="fb-preview-share-image image-link-parent">
+				<img src="{{ page.followup.share_image_value }}">
+			</div>
+			<div class="fb-preview-share-text- padding-tiny text-left">
+				<p class="fb-preview-share-title- strong margin-bottom-small">{{ page.followup.share_title_value }}</p>
+				<p class="fb-preview-share-description- text-small">{{ page.followup.share_description_value }}</p>
+				<p class="text-small2 text-font-secondary text-caps">350.org</p>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+
+</div>
+
+{% endif %}

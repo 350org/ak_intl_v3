@@ -76,7 +76,7 @@
 	{% endautoescape %}
 			<ul style="display:none;" id="ak-errors"><li></li></ul>
 		</form>
-		
+
 <script type="text/javascript">
 	function urlParam(name){
 		var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -105,7 +105,7 @@
 	}
 </script>
 
-		
+
 		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide text-small">
 			{% include "./recentactions.html" %}
@@ -113,4 +113,5 @@
 {% endif %}
 	</div>
 </section>
+{% include "./afteraction-share.html" %}
 {% endblock %}

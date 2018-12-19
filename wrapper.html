@@ -1,5 +1,5 @@
 {% load actionkit_tags %}<!doctype html>
-<html class="no-blend" lang="{{ page.lang.iso_code|default:"en-US" }}"{% if page.lang.is_rtl %} dir="rtl"{% endif %}>
+<html class="no-blend ak-hosted" lang="{{ page.lang.iso_code|default:"en-US" }}"{% if page.lang.is_rtl %} dir="rtl"{% endif %}>
 <head>
 	<title>{% if events|is_defined %}{{ event.title }} - {% client_name %}{% else %}{{ page.title }} - {% client_name %}{% endif %}</title>
 	<link rel="icon" type="image/png" href="{{ templateset.custom_fields.favicon_url }}" />

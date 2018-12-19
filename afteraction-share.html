@@ -10,35 +10,37 @@ Custom template for same-page post-AJAX submit share ask.
 
 <script>
 jQuery(document).ready(function($){
-	/* handle form submissison */
-	$('#action-form').submit(function (e) {
-		e.preventDefault();
-		setTimeout(function() {
-			// if no errors...
-			if( $(".ak-err li").length < 1) {
-				$.ajax({
-					method: 'POST',
-					url: $('#action-form').attr('action'),
-					data: $('#action-form').serialize()
-				})
-				.done(function(msg) {
-					ga('send', 'event', 'scrolling-signup', 'signup', window.location.pathname);
-					var shareSlide = $('#afteraction-share');
-					var shareSlideContent = $('#afteraction-share-source').html();
-					shareSlide.append( shareSlideContent );
-					shareSlide.show();
-					$('html, body').animate({
-						scrollTop: shareSlide.offset().top
-					}, 800);
-					$(document).trigger('domUpdated'); // tell other scripts to re-run
-					// fbq('track', 'CompleteRegistration');
-				})
-				.fail(function(){
-						console.log('Error: AJAX submission failed.');
-				});
-			}
-		}, 150);
-	});
+	if ( $('html').hasClass('ak-hosted') ){
+		/* handle form submissison */
+		$('#action-form').submit(function (e) {
+			e.preventDefault();
+			setTimeout(function() {
+				// if no errors...
+				if( $(".ak-err li").length < 1) {
+					$.ajax({
+						method: 'POST',
+						url: $('#action-form').attr('action'),
+						data: $('#action-form').serialize()
+					})
+					.done(function(msg) {
+						ga('send', 'event', 'scrolling-signup', 'signup', window.location.pathname);
+						var shareSlide = $('#afteraction-share');
+						var shareSlideContent = $('#afteraction-share-source').html();
+						shareSlide.append( shareSlideContent );
+						shareSlide.show();
+						$('html, body').animate({
+							scrollTop: shareSlide.offset().top
+						}, 800);
+						$(document).trigger('domUpdated'); // tell other scripts to re-run
+						// fbq('track', 'CompleteRegistration');
+					})
+					.fail(function(){
+							console.log('Error: AJAX submission failed.');
+					});
+				}
+			}, 150);
+		});
+	}
 	$('#afteraction-share-button').on('click', function(e){
 		e.preventDefault();
 		ga('send', 'event', 'scrolling-signup', 'share-facebook', window.location.pathname);

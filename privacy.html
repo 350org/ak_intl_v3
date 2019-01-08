@@ -36,7 +36,7 @@ jQuery(document).ready(function($){
 
 	</style>
 
-    <input type="hidden" name="privacy_show_if" value="in_country">
+	<input type="hidden" name="privacy_show_if" value="missing">
 
   {% if pt.notice %}
     <input type="hidden" id="privacy_notice" name="privacy_hidden" value="{{pt.notice_hash}}">
@@ -47,7 +47,7 @@ jQuery(document).ready(function($){
     <input type="hidden" name="required" value="privacy">
     <input type="hidden" name="require_opt_in" value="1">
     <input id="sub" type="hidden" name="privacy_radio_optin_lists" value="{{ list_id }}">
-		<input id="unsub_all" type="hidden" name="privacy_radio_optout_unsub_all" value="1">    
+		<input id="unsub_all" type="hidden" name="privacy_optout_unsub_all" value="1">
 
     {% if pt.optouts_skip_thanks %}
       <input type="hidden" name="privacy_optout_skip_confirmation" value="1">
@@ -71,27 +71,16 @@ jQuery(document).ready(function($){
     <script>
     jQuery(document).ready(function($){
       var reallyOptOut = jQuery('#really-opt-out');
-      jQuery('#privacy_optin').click(function(){ 
+      jQuery('#privacy_optin').click(function(){
 	      reallyOptOut.fadeOut('slow');
 	      jQuery('#unsub_all').val('');
 	      jQuery('#sub').val('{{ list_id }}');
-	    })
-      jQuery('#privacy_optout').click(function(){	
+	    });
+      jQuery('#privacy_optout').click(function(){
 	      reallyOptOut.fadeIn('slow');
 	      jQuery('#unsub_all').val('1');
 	      jQuery('#sub').val('');
-	    })
-// jQuery('#optout_all').value('1')
-/*
-			jQuery('input:radio[name=privacy]:checked').change(function () {
-            if (jQuery("input[name='privacy']:checked").attr('id') == 'privacy_optin') {
-                jQuery('#unsub_all').value('');
-            }
-            if (jQuery("input[name='privacy']:checked").attr('id') == 'privacy_optout') {
-                jQuery('#unsub_all').value('1');
-            }
-        });
-*/        
+	    });
     });
     </script>
 

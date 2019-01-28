@@ -1,5 +1,9 @@
 {% load actionkit_tags %}
 <select name="{{ input_name_prefix }}country" id="{{ input_name_prefix }}country" {% if onchange %}onchange="{{ onchange }}" onblur="{{ onchange }}"{% endif %} {% if page.custom_fields.form_preselect_country %}data-preselect="{{ page.custom_fields.form_preselect_country }}"{% endif %}>
 <option selected></option>
-{% for std_name,name in page.lang_or_en.country_names %}<option value="{{ std_name|escapeall }}">{{ name|escapeall }}</option>{% endfor %}
+{% for std_name,name in page.lang_or_en.country_names %}
+	{% if std_name == "Puerto Rico" %}{% else %}
+<option value="{{ std_name|escapeall }}">{{ name|escapeall }}</option>
+	{% endif %}
+{% endfor %}
 </select>

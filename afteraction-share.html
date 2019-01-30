@@ -33,10 +33,12 @@ jQuery(document).ready(function($){
 							scrollTop: shareSlide.offset().top
 						}, 800);
 						$(document).trigger('domUpdated'); // tell other scripts to re-run
-						// fbq('track', 'CompleteRegistration');
+						if (typeof fbq === "function") {
+							fbq('track', 'CompleteRegistration');
+						}
 					})
 					.fail(function(){
-							console.log('Error: AJAX submission failed.');
+							console.log('Error: AK AJAX submission failed.');
 					});
 				}
 			}, 150);

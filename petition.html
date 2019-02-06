@@ -7,7 +7,7 @@
 		<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c6{% endif %} ct10 cm10 c-wide">
 			<a id="jump-to-form" href="#action-form" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"petition_submit_button" %}Sign{% endfilter %}{% endif %}</a>
 	{% if page.custom_fields.page_pretitle %}
-			<p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
+			<p id="action-pretitle" class="text-font-secondary text-large"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
 	{% endif %}
 			<h2 id="action-title" class="title3">
 	{% if page.custom_fields.page_title_custom_html %}

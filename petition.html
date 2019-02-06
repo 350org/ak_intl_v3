@@ -59,11 +59,9 @@
 			{% if page.custom_fields.form_text_above_form %}
 				{{ page.custom_fields.form_text_above_form }}
 			{% endif %}
-			<div class="p">
 			{% if form.statement_leadin %}
 				<div id="action-pretitle" class="text-large text-lineheight-small strong margin-bottom-small">{% include_tmpl form.statement_leadin %}</div>
 			{% endif %}
-			</div>
 			{% if page.custom_fields.form_text_above_form %}
 			<div id="form-intro" class="p">{{ page.custom_fields.form_text_above_form }}</div>
 			{% endif %}

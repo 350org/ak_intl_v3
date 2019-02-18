@@ -109,7 +109,9 @@
 {% endif %}
 
 {% if page.custom_fields.page_custom_header_code %}
-	{{ page.custom_fields.page_custom_header_code }}
+	{% autoescape off %}
+		{{ page.custom_fields.page_custom_header_code }}
+	{% endautoescape %}
 {% endif %}
 
 </head>

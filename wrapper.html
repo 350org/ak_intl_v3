@@ -124,6 +124,20 @@
 	</div>
 </div>
 {% endif %}
+{% if request.user.is_authenticated %}
+<div id="admin-bar" class="section padding-none border-bottom bg-white width-wide">
+	<div class="section-inner">
+		<nav id="admin-menu" class="text-small2">
+			<h3 class="admin-menu-title text-small text-caps text-font-secondary margin-bottom-none">Admin Menu</h3>
+			<a class="admin-menu-edit-link" href="{% client_domain_url %}admin/core/page/{{ page.id }}"><span class="icon-before icon-faded" data-icon="&#xE913;"></span>Edit this page</a>
+	{% if request.user.username %}
+			<span class="admin-menu-name"><span class="icon-before icon-faded" data-icon="&#xE904;"></span>{{ request.user.username }}</span>
+	{% endif %}
+			<a class="admin-menu-logout" href="{% client_domain_url %}accounts/logout"><span class="icon-before icon-faded" data-icon="&#xE94E;"></span>Log out</a>
+		</nav>
+	</div>
+</div>
+{% endif %}
 {% include "./language_picker.html" %}
 <script type="text/javascript">actionkit.forms.initPage()</script>
 

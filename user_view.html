@@ -1,0 +1,81 @@
+{% extends './wrapper.html' %}
+
+{% block content %}
+<div id="content" class="one-col">
+
+
+<h1>{{ actionkit_user.name }}</h1>
+<a href="/logout/">Logout</a></p>
+
+{% if messages %}
+<ul class="messages">
+{% for message in messages %}
+<li>{{ message }}
+{% endfor %}
+</ul>
+{% endif %}
+
+<div class="section note">
+<h2>Your Information</h2>
+<p><b>{{ actionkit_user.email }}</b></p>
+
+<address>
+{{ actionkit_user.address1 }}
+{{ actionkit_user.address2 }}
+{{ actionkit_user.city }}, {{ actionkit_user.state }} {{ actionkit_user.zip }}
+{{ actionkit_user.country }}
+</address>
+
+<p><a href="update/">Update your email or address.</a></p>
+</div>
+
+<div class="section note">
+<h2>Subscription History </h2>
+
+<ul>
+{% for subscription in actionkit_user.subscription_history %}
+<li>{{ subscription.list.name }}, {{ subscription.change.name }}, at {{ subscription.created_at|date:"m/d/Y" }}
+{% endfor %}
+</ul>
+
+{% if actionkit_user.is_subscribed %}
+<p><a href="/cms/unsubscribe/unsubscribe/?akid={{ actionkit_user.token }}">Unsubscribe</a></p>
+{% endif %}
+
+</div>
+
+{% if recurring_donations %}
+<div class="section note">
+<h2> Your Recurring Donations </h2>
+<ul>
+{% for profile in recurring_donations %}
+<li>{{ profile.amt }} a {{ profile.inverse_period_display|lower }}, started on {{ profile.created_at|date:"m/d/Y" }}. 
+You've given a total of {{ profile.payment_total_amt }}. 
+{% if profile.is_active %}
+  {% if profile.order.payment_method != "paypal" %}
+    <a href="/cms/pledge/update/update/">Update your credit card</a> or <a href="/cms/pledge/cancel/monthly/">cancel at any time.</a>
+  {% else %}
+    <a href="/cms/pledge/cancel/monthly/">Cancel at any time.</a>
+  {% endif %} 
+{% else %}
+  <b>{{ profile.get_status_display }} on {{ profile.updated_at|date:"m/d/Y" }} </b>
+{% endif %}
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if donations %}
+<div class="section note">
+<h2>Donation History </h2>
+<ul>
+{% for donation in donations %}
+<li>{{ donation.amt }} on {{ donation.created_at|date:"m/d/Y" }}  {% if donation.recurring %} (Recurring) {% endif %}
+{% endfor %}
+</ul>
+
+</diV>
+{% endif %}
+
+</div>
+{% endblock %}

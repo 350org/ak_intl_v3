@@ -1,0 +1,16 @@
+Subject: Your "{{campaign_title}}" host sent you a message
+
+{% load actionkit_tags %}
+<p>Here's a message from a {{ sender_signup.role }} of your {{ campaign.local_title }} event:</p>
+
+<blockquote>
+{{ message|linebreaksbr }}
+</blockquote>
+
+<p>To cancel your RSVP or contact the event host, visit <a href="https://{% client_domain %}{{ signup.url }}">https://{% client_domain %}{{ signup.url }}</a></p>
+
+<!-- Replacement for unsubscribe. -->
+<p><small>
+    You're receiving this message because you're signed up for an event.  
+    You can use your event tools, linked above, to cancel your signup and quit receiving these messages.
+</small></p>

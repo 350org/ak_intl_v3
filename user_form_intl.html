@@ -1,0 +1,9 @@
+<!-- {% comment %} This is a sample you can copy into user_form.html {% endcomment %} -->
+<div class="gridded">
+    <p><label for="id_name">Name:</label> <input id="id_name" type="text" name="name" /></p>
+    <p><label for="id_email">Email:</label><input id="id_email" type="email" name="email" /></p>
+    <p><label for="country">Country:</label> {% include "./country_select.html" %}</p>
+    <p><label for="id_address1">Street address:</label> <input id="id_address1" type="text" name="address1" />
+    <p><label for="id_city">City:</label> <input id="id_city" type="text" name="city" /></p>
+    <p><label for="id_zip">Zip/Postcode:</label> <input id="id_postal"  type="text" name="postal" size="10"/></p>
+</div>

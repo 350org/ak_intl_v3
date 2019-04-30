@@ -1,0 +1,27 @@
+<div class="target_groups">
+
+{% for group in target_groups %}
+<h2>{{ group.name }}</h2>
+<table class="targets">
+<thead>
+<th>Name 
+<th>State
+<th>District/Seat
+<th>Calls Reported
+<th>Stance
+</thead>
+<tbody>
+    {% for target in group.targets %}
+    <tr class="target {{ target.stance.view }}">
+        <td><a href="?target={{ target.resource_uri }}&akid={{ user.token }}&source={{ args.source }}&referring_akid={{ args.referring_akid }}">{{ target.title_last }}</a>
+        <td>{{ target.state }}
+        <td>{{ target.us_district }}{{ target.seat }}
+        <td>{{ target.stance.calls }}
+        <td>
+            {% if target.stance.view %}{{ target.stance.view|title}}!{% else %} <a href="?target={{ target.resource_uri }}&akid={{ user.token }}&source={{ args.source }}&referring_akid={{ args.referring_akid }}">Unknown, call now!</a> {% endif %}
+    {% endfor %}
+</tbody>
+</table>
+{% endfor %}
+
+</div>

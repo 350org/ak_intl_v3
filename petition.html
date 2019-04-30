@@ -1,0 +1,83 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+{% block content %}
+<section id="action-lead" class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section-inner">
+
+		<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c6{% endif %} ct10 cm10 c-wide">
+			<a id="jump-to-form" href="#action-form" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"petition_submit_button" %}Sign{% endfilter %}{% endif %}</a>
+	{% if page.custom_fields.page_pretitle %}
+			<p id="action-pretitle" class="text-font-secondary text-large"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
+	{% endif %}
+			<h2 id="action-title" class="title3">
+	{% if page.custom_fields.page_title_custom_html %}
+				{% autoescape off %} {{ page.custom_fields.page_title_custom_html }} {% endautoescape %}
+	{% else %}
+				<span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
+	{% endif %}
+			</h2>
+	{% if page.custom_fields.page_author %}
+			<div class="action-author" class="p">
+				{% if page.custom_fields.page_author_image %}<span class="action-author-image"><img src="{{ page.custom_fields.page_author_image }}"></span> {% else %}&mdash; {% endif %}<span class="action-author-text meta">{% autoescape off %}{{ page.custom_fields.page_author }}{% endautoescape %}</span>
+			</div>
+	{% endif %}
+
+	{% if page.custom_fields.page_layout_style == "expanded" %}
+		</div>
+	{% endif %}
+		<div id="action-description" class="text-large margin-top-none margin-bottom-huge {% if page.custom_fields.page_layout_style == 'expanded' %}c6 ct10 cm10 c-wide{% endif %}">
+			<div id="action-description-text" class="margin-bottom-medium" {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
+		{% autoescape off %}
+			{% include_tmpl form.about_text %}
+		{% endautoescape %}
+			</div>
+			<p class="no-js-hidden nojs-hide petition-text-link text-small">
+				<a href="" class="js-modal text-small icon-before icon-faded text-underline-none" data-icon="&#xe913;" data-modal-source="#petition-text">
+					{% filter ak_text:'petition_link_text' %}View the full petition text.{% endfilter %}</a>
+			</p>
+			<div class="js-hidden js-hide box box-big text-small bg-white">
+				<div id="petition-text">
+	{% if form.statement_leadin %}
+					<div class="petition-target text-large strong p">{% include_tmpl form.statement_leadin %}</div><hr>
+	{% endif %}
+					{% include_tmpl form.statement_text %}
+				</div>
+			</div>
+		</div>
+	{% if page.custom_fields.page_layout_style == "expanded" %}{% else %}
+	</div>
+	{% endif %}
+	{% if page.custom_fields.page_is_inactive %}
+		<div id="page-inactive" class="c4 ct7_5 cm10 c-wide">
+		{% autoescape off %}
+			{{ page.custom_fields.page_is_inactive }}
+		{% endautoescape %}
+		</div>
+	{% else %}
+		<form id="action-form" class="c4 ct7_5 cm10 c-wide form-style-labelabove ak-form action_form margin-top-none" name="act" method="POST" action="/act/" accept-charset="utf-8">
+		{% autoescape off %}
+			{% if page.custom_fields.form_text_above_form %}
+				{{ page.custom_fields.form_text_above_form }}
+			{% endif %}
+			{% if form.statement_leadin %}
+				<div id="action-pretitle" class="text-large text-lineheight-small strong margin-bottom-small">{% include_tmpl form.statement_leadin %}</div>
+			{% endif %}
+			{% if page.custom_fields.form_text_above_form %}
+			<div id="form-intro" class="p">{{ page.custom_fields.form_text_above_form }}</div>
+			{% endif %}
+			{% include "./progress_meter.html" %}
+			<input type="hidden" name="utf8" value="&#x2714;">
+			<input type="hidden" name="page" value="{{ page.name }}" />
+			{% include "./user_form_wrapper.html" %}
+		{% endautoescape %}
+			<ul style="display:none;" id="ak-errors"><li></li></ul>
+		</form>
+		{% include "./social_plugins.html" %}
+		<div id="recent-actions" class="c6 ct6 cm10 c-wide">
+		{% include "./recentactions.html" %}
+		</div>
+	{% endif %}
+	</div>
+</section>
+{% include "./afteraction-share.html" %}
+{% endblock %}

@@ -1,0 +1,217 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+{% block content %}
+
+<style>
+
+#notification-bar{
+	left:0;
+	position:absolute;
+	top:0;
+	width:100%;}
+
+.section.padding-none{
+	padding:0;}
+
+#event-attend-header{
+	padding-bottom:2em;}
+
+.event-address-hidden{
+	margin-top:0.5em;}
+
+#id_act{
+	margin:0 auto;
+	max-width:30em;}
+#ak-errors{
+	margin-bottom:0;}
+
+.event-directions-link{
+	position:absolute;
+	width:100%;
+	z-index:2;}
+.event-directions-link a{
+	color:rgba(21,36,43,0.6);}
+
+/* Mobile-only */
+@media screen and (max-width:720px){
+
+	#event-attend-header{
+		padding-top:7em;}
+
+}
+/* Laptop and up */
+@media screen and (min-width:900px){
+
+
+
+}
+</style>
+
+<div id="event-attend-tools" class="bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+
+{% if signup and not event.is_inactive %}
+
+<div id="notification-bar" class="section width-medium text-center">
+	<div class="section-inner">
+		<div class="notification success notification-success">
+			<p class="text-strong">{% filter ak_text:"event_attend_tools_attending" %}You're signed up for this event.{% endfilter %}</h5>
+		</div>
+	</div>
+</div>
+
+<div id="event-attend-header" class="section width-normal padding-large">
+	<div class="section-inner">
+		<h4 class="event-campaign-title margin-bottom-medium text-center text-large meta">{{ campaign.local_title }}<h4>
+		<h1 id="page-title" class="title3 text-center">{{ event.title }}</h1>
+	{% with 1 as hide_map %}
+		{% for event in events %}
+		<div id="event-attend-info" class="event-info text-center margin-bottom-large">
+			<div class="event-time text-strong text-large3 text-style-lead3 icon-before" data-icon="&#xE915;">
+			{% if page.lang.iso_code == "en" %}
+				{{ event.starts_at }}
+			{% elif page.lang.iso_code == "fr" %}
+				{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+			{% elif page.lang.iso_code == "pt" %}
+				{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+			{% elif page.lang.iso_code == "es" %}
+				{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+			{% elif page.lang.iso_code == "de" %}
+				{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+			{% else %}
+				{{ event.obj.starts_at|date:"Y-n-d, H:i" }}
+			{% endif %}
+			</div>
+			<div class="event-location text-large3 text-style-lead3 icon-before" data-icon="&#xe907;">
+			{% if campaign.show_venue and event.venue %}
+				<span class="event-venue">{{ event.venue }}</span><br>
+			{% endif %}
+			{% if campaign.show_address1 %}
+				<span class="event-address1">{{ event.address1 }}</span><br>
+			{% endif %}
+			{% if campaign.show_city or campaign.show_state or campaign.show_zip %}
+				{% if campaign.show_zip %}
+				<span class="event-city-etc">{{ event.city_etc }}</span>
+				{% else %}
+				<span class="event-city-etc">{{ event.city_etc_no_postal }}</span>
+				{% endif %}
+			{% endif %}
+			</div>
+			{% if campaign.show_address1 %}{% else %}
+			<div class="event-address-hidden note opacity-50">{% filter ak_text:"event_search_results_address_hidden_until_rsvp" %}(We'll show you the exact address once you RSVP){% endfilter %}</div>
+			{% endif %}
+			{% if event.distance|is_nonblank %}
+			<div class="event-distance opacity-50">{{ event.distance_str }}</div>
+			{% endif %}
+		</div>
+		<div id="event-attend-tools-links" class="text-center">
+			{% if event.custom_fields.event_facebook_id and event.custom_fields.event_facebook_id != "none" %}
+			<div class="event-attend-tools-link-fbevent">
+				<a href="https://www.facebook.com/{{ event.custom_fields.event_facebook_id }}" class="button-share-medium bg-facebook-color bg-facebook-icon">{% filter ak_text:"event_attend_tools_view_facebook_link"%}View on Facebook{% endfilter %}</a>
+			</div>
+			{% endif %}
+			<div class="event-attend-tools-link-update">
+				<a href="../signup/?akid={{ args.akid }}&amp;action_id={{ action.id }}&update=1#event-attend-rsvp">Update contact info</a>
+			</div>
+			<div class="event-attend-tools-link-message">
+				<a class="js-modal" data-modal-source="#event-attend-tools-contact-host" href="#message">{% filter ak_text:"event_attend_tools_message_host" %}Send a message to the host{% endfilter %}</a>
+			</div>
+			<div class="event-attend-tools-link-cancel">
+				<a href="../cancel_signup/?akid={{ args.akid }}">{% filter ak_text:"event_attend_tools_cancel" %}Cancel your signup{% endfilter %}</a>
+			</div>
+			{{ form.tools_sidebar|safe }}
+		</div>
+
+	</div>
+</div>
+
+<div id="event-attend-details" class="section width-normal padding-none">
+	<div class="section-inner bg-white">
+
+		<div class="margin-bottom-none padding-medium">
+			{% if event.note_to_attendees %}
+			<div class="event-note-to-attendees">
+				<strong>{% filter ak_text:"event_details_host_note" %}Note from the host: {% endfilter %}</strong> {{ event.note_to_attendees }}
+			</div>
+			{% endif %}
+			{% if campaign.show_public_description %}
+				{% autoescape off %}
+			<div class="event-description">{{ event.public_description }}</div>
+				{% endautoescape %}
+			{% endif %}
+			{% if page.custom_fields.event_attend_addl_html %}
+				{% autoescape off %}
+			<hr class="margin-large">
+			<div id="event_attend_addl_content">
+				{{ page.custom_fields.event_attend_addl_html }}
+			</div>
+				{% endautoescape %}
+			{% endif %}
+		</div>
+
+			{% if campaign.show_address1 %}
+		<div id="event-attend-map" class="image-link-parent">
+			<a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank" title="View in Google Maps"><img src="https://maps.google.com/maps/api/staticmap?sensor=false&size=740x260&markers={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" width="800" height="260" /></a>
+		</div>
+		<div class="text-center text-small event-attend-directions-link event-directions-link">
+			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
+		</div>
+			{% endif %}
+
+		{% endfor %}
+	{% endwith %}
+	</div>
+</div>
+
+{% if form.ground_rules|is_nonblank and not update %}
+<div id="event-attend-rules" class="section width-normal padding-none">
+	<div class="section-inner bg-ltgray padding-medium">
+
+		<div id="id_ground_rules_text" class="nojs">
+			<h3 class="section-header meta text-center margin-bottom-medium">Rules:</h3>
+			<hr>
+			{% include_tmpl form.ground_rules %}
+		</div>
+
+	</div>
+</div>
+{% endif %}
+
+<!-- Contact form, hidden if JS+modal -->
+
+<div id="event-attendee-links" class="section width-normal bg-white js-hide js-hidden">
+	<div class="section-inner padding-medium">
+
+		<div id="event-attend-tools-contact-host" class="js-hide js-hidden">
+      {% include "./event_contact.html" %}
+    </div>
+
+	</div>
+</div>
+
+{% else %}
+
+	{% if event.is_inactive %}
+<h2>{% filter ak_text:"event_attend_error_cancelled" %}Sorry, this event has been cancelled.{% endfilter %}</h2>
+	{% endif %}
+	{% if not signup %}
+		{% if args.cancel_success %}
+<h2>{% filter ak_text:"event_attend_tools_cancel_success" %}Your signup was cancelled successfully.{% endfilter %}</h2>
+		{% else %}
+<h2>{% filter ak_text:"event_attend_tools_not_attending" %}You aren't currently signed up for this event.{% endfilter %}</h2>
+		{% endif %}
+	{% endif %}
+<p><a href="/event/{{ campaign.local_name }}/?akid={{args.akid}}&zip={{args.zip}}">{% filter ak_text:"event_attend_search_for_another" %}Search for another event{% endfilter %}</a></p>
+
+{% endif %}
+
+</div>
+{% endblock %}
+
+{% block below_form %}
+
+<script type="text/javascript">
+actionkit.forms.contextRoot = '/context/';
+actionkit.forms.initTafForm('taf');
+</script>
+
+{% endblock %}

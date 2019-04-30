@@ -1,0 +1,25 @@
+{% extends "./wrapper.html" %}
+{% block content %}
+
+<div id="event-chooser-header" class="page-header section width-normal padding-large text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+  <div class="section-inner bg-white padding-large">
+{% ifequal signups.count 0 %}
+    <h3>Oops — you can&#39;t access that page.</h3>
+    <p>It looks like you either aren&#39;t logged in, or you aren&#39;t&nbsp;signed up to host or attend any events.&nbsp;</p>
+{% else %}
+    <h2>Please choose an event below.</h2>
+    <ul>
+{% for signup in signups %}
+      <li>
+        <a href="{{ signup.url }}">{{ signup.event.title }} &mdash; {{ signup.event.get_starts_at_display }}</a>
+  {% ifequal signup.role 'host' %}
+    &nbsp;(you are hosting)
+  {% endifequal %}
+      </li>
+{% endfor %}
+    </ul>
+  </div>
+</div>
+{% endifequal %}
+
+{% endblock %}

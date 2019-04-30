@@ -1,0 +1,265 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags smartif%}
+{% block content %}
+
+<style>
+.section.padding-none{
+	padding:0;}
+
+#notification-bar{
+	left:0;
+	position:absolute;
+	top:0;
+	width:100%;}
+
+#event-attend-header{
+	padding-bottom:1em;}
+
+.event-address-hidden{
+	margin-top:0.5em;}
+
+#id_act{
+	margin:0 auto;
+	max-width:30em;}
+#ak-errors{
+	margin-bottom:0;}
+
+.event-directions-link{
+	position:absolute;
+	width:100%;
+	z-index:2;}
+.event-directions-link a{
+	color:rgba(21,36,43,0.6);}
+
+@media screen and (max-width:720px){
+
+	#event-attend-header{
+		padding-top:5em;}
+
+}
+
+</style>
+
+<div id="event-attend" class="bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+
+{% if update or args.foo or event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
+<div id="notification-bar" class="notifications section width-medium text-center">
+	<div class="section-inner">
+	{% if update %}
+		<div class="notification success notification-success">
+			<p class="text-strong">{% filter ak_text:"event_attend_tools_attending" %}You're signed up for this event.{% endfilter %}</h5>
+		</div>
+	{% else %}
+		<div class="notification alert">
+		{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
+			{% if event.is_inactive %}
+			<p>{% filter ak_text:"event_attend_error_cancelled" %}Sorry, this event was cancelled.{% endfilter %}</p>
+			{% elif event.is_full %}
+			<p>{% filter ak_text:"event_attend_error_full" %}Sorry, this event is full.{% endfilter %}</p>
+			{% elif event.is_in_past %}
+			<p>{% filter ak_text:"event_attend_error_over" %}Sorry, it's too late to sign up for this event.{% endfilter %}</p>
+			{% elif event.is_awaiting_confirmation %}
+			<p>{% filter ak_text:"event_attend_error_unconfirmed" %}Sorry, the event host has not yet confirmed this event.{% endfilter %}</p>
+			{% endif %}
+		{% else %}
+			<p>{% filter ak_text:"event_attend_error_unavailable" %}Sorry, this event isn't available for signup.{% endfilter %}</p>
+		{% endif %}
+		</div>
+	{% endif %}
+	</div>
+</div>
+{% endif %}
+
+<div id="event-attend-header" class="section width-normal padding-large">
+	<div class="section-inner">
+		<h4 class="event-campaign-title margin-bottom-medium text-center text-large meta">{{ campaign.local_title }}<h4>
+		<h1 id="page-title" class="title3 text-center">{{ event.title }}</h1>
+{% with 1 as hide_map %}
+	{% for event in events %}
+		<div id="event-attend-info" class="event-info text-center margin-bottom-large">
+			<div class="event-time text-strong text-large2 text-style-lead2 icon-before" data-icon="&#xE915;">
+		{% if page.lang.iso_code == "en" %}
+			{{ event.starts_at }}
+		{% elif page.lang.iso_code == "fr" %}
+			{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+		{% elif page.lang.iso_code == "pt" %}
+			{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+		{% elif page.lang.iso_code == "es" %}
+			{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+		{% elif page.lang.iso_code == "de" %}
+			{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+		{% else %}
+			{{ event.obj.starts_at|date:"Y-n-d, H:i" }}
+		{% endif %}
+			</div>
+			<div class="event-location text-large2 text-style-lead2 icon-before" data-icon="&#xe907;">
+		{% if campaign.show_venue and event.venue %}
+				<span class="event-venue">{{ event.venue }}</span><br>
+		{% endif %}
+		{% if campaign.show_address1 %}
+				<span class="event-address1">{{ event.address1 }}</span><br>
+		{% endif %}
+		{% if campaign.show_city or campaign.show_state or campaign.show_zip %}
+			{% if campaign.show_zip %}
+				<span class="event-city-etc">{{ event.city_etc }}</span>
+			{% else %}
+				<span class="event-city-etc">{{ event.city_etc_no_postal }}</span>
+			{% endif %}
+		{% endif %}
+			</div>
+		{% if campaign.show_address1 %}{% else %}
+			<div class="event-address-hidden note opacity-50">{% filter ak_text:"event_search_results_address_hidden_until_rsvp" %}(We'll show you the exact address once you RSVP){% endfilter %}</div>
+		{% endif %}
+		{% if event.distance|is_nonblank %}
+			<div class="event-distance opacity-50">{{ event.distance_str }}</div>
+		{% endif %}
+		</div>
+		{% if event.custom_fields.event_facebook_id and event.custom_fields.event_facebook_id != "none" %}
+		<div class="margin-bottom-large text-center">
+			<a href="https://www.facebook.com/{{ event.custom_fields.event_facebook_id }}" class="button-share-medium bg-facebook-color bg-facebook-icon">RSVP on Facebook</a>
+		</div>
+		{% else %}
+			{% if args.foo or event.is_open_for_signup or update %}
+		<div class="margin-bottom-large text-center">
+			<a id="event-attend-jump-link" href="#rsvp" class="button button-big button-primary arrow-down">{% if update %}Update Your Info{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign Up{% endfilter %}{% endif %}</a>
+		</div>
+			{% endif %}
+		{% endif %}
+	</div>
+</div>
+
+<div id="event-attend-details" class="section width-normal padding-none">
+	<div class="section-inner bg-white text-color-override">
+		<div class="padding-medium margin-bottom-none">
+		{% if campaign.show_public_description %}
+			{% autoescape off %}
+			<div class="event-description" data-read-more-after="3">{{ event.public_description }}</div>
+			{% endautoescape %}
+		{% endif %}
+		{% if page.custom_fields.event_attend_addl_html %}
+			{% autoescape off %}
+			<hr class="margin-large">
+			<div id="event_attend_addl_content">
+				{{ page.custom_fields.event_attend_addl_html }}
+			</div>
+			{% endautoescape %}
+		{% endif %}
+		</div>
+
+		{% if campaign.show_address1 %}
+		<div id="event-attend-map" class="image-link-parent">
+				<a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" target="_blank" title='{% filter ak_text:"general_view_google_map" %}View in Google Maps{% endfilter %}"]'><img src="https://maps.google.com/maps/api/staticmap?key=AIzaSyCcPbziN0K7_AuVv4dXiA9AcSxR4GbFKqQ&sensor=false&scale=2&lang={{ page.lang.iso_code|default:'en-US' }}&size=740x260&markers={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" width="800" height="260" /></a>
+		</div>
+		<div class="text-center text-small event-attend-directions-link event-directions-link">
+			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
+		</div>
+		{% endif %}
+
+	{% endfor %}
+{% endwith %}
+	</div>
+</div>
+
+{% if form.ground_rules|is_nonblank and not update %}
+<div id="event-attend-rules" class="section width-normal padding-none">
+	<div class="section-inner bg-ltgray padding-medium">
+		<div id="id_ground_rules_text" class="nojs">
+			<h3 class="section-header text-center margin-bottom-medium">Rules:</h3>
+			<hr>
+			{% include_tmpl form.ground_rules %}
+		</div>
+	</div>
+</div>
+{% endif %}
+
+<div id="event-attend-rsvp" class="section width-normal padding-none margin-bottom-large">
+	<div class="section-inner event-signup bg-white padding-medium">
+		<a id="rsvp" name="rsvp"></a>
+		<script type="text/javascript">
+			var have_events = $('#id_have_events').val();
+			if ( !have_events ) {
+				var args = actionkit.utils.getArgs();
+				actionkit.forms.eventSearch(null, {event_id: args.event_id, zip: args.zip, page: $('#id_page').val()});
+			}
+		</script>
+
+		<form id="id_act" class="ak-form form-style-labelabove text-center" name="act" method="POST" action="{% if update %}/update_action/{% else %}/act/{% endif %}" accept-charset="utf-8">
+			<div id="form">
+{% if args.foo or event.is_open_for_signup or update %}
+	{% if not update %}
+		{% if page.custom_fields.form_text_above_form %}
+				<h3>{{ page.custom_fields.form_text_above_form }}</h3>
+		{% else %}
+				<h3>{% filter ak_text:"event_attend_form_instructions" %}RSVP:{% endfilter %}</h3>
+		{% endif %}
+	{% else %}
+				<h3>{% filter ak_text:"event_attend_update_info" %}Update your information:{% endfilter %}</h3>
+	{% endif %}
+				<input type="hidden" name="utf8" value="&#x2714;">
+				<input type="hidden" name="page" id="id_page" value="{{ page.name }}">
+				<input type="hidden" name="event_id" value="{{ args.event_id }}">
+				<div id="known_user">
+	{% if not update %}
+					<div id="known_user_welcome">
+						<span id="known-user-greeting">{% filter ak_text:"user_knownuser_greeting" %}Hi{% endfilter %} <span id="known_user_name"></span>!</span>
+						<p>{% filter ak_text:"user_knownuser_instructions" %}We already have your contact info, so you can just click the button below.{% endfilter %}</p>
+					</div>
+	{% endif %}
+
+				</div>
+				<div id="" class="">
+					{% include "./user_form.html" %}
+				</div>
+
+	{% if form.ground_rules|is_nonblank and not update %}
+				<div class="input-checkbox text-center" style="display:inline-block;">
+					<input id="id_event_signup_ground_rules" type="checkbox" name="event_signup_ground_rules" />
+					<label class="cb-label highlighted" for="id_event_signup_ground_rules">
+						{% filter ak_text:"event_attend_agree_to_rules" %}I agree to the rules for this event.{% endfilter %}
+					</label>
+				</div>
+	{% else %}
+				<input type="hidden" name="event_signup_ground_rules" value="1" />
+
+	{% endif %}
+				<ul class="compact" id="ak-errors"></ul>
+				<button id="id_submit" class="submit button button-big margin-bottom-normal button-primary arrow-right" type="submit" name="submit">{% if update %}Update Your Info{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign up{% endfilter %}{% endif %}</button>
+				<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
+					{% if page.custom_fields.form_short_toc %}
+						{{ page.custom_fields.form_short_toc }}
+					{% elif page.custom_fields.form_opt_in %}
+						{% filter ak_text:"general_secure_signup" %}350.org respects your privacy.{% endfilter %}
+					{% elif page.custom_fields.page_is_c4 %}
+						{% filter ak_text:"general_default_toc_c4" %}350 Action will send you updates and notifications when you can make a difference.{% endfilter %}
+					{% else %}
+						{% filter ak_text:"general_default_toc" %}350.org will send you updates and notifications when you can make a difference.{% endfilter %}
+					{% endif %}
+				</div>
+{% else %}
+	{% if event.is_inactive or event.is_full or event.is_in_past or event.is_awaiting_confirmation %}
+				<div class="text-large3 text-strong margin-bottom-medium">
+				{% if event.is_inactive %}
+					<p>{% filter ak_text:"event_attend_error_cancelled" %}Sorry, this event was cancelled.{% endfilter %}</p>
+					{% elif event.is_full %}
+					<p>{% filter ak_text:"event_attend_error_full" %}Sorry, this event is full.{% endfilter %}</p>
+					{% elif event.is_in_past %}
+					<p>{% filter ak_text:"event_attend_error_over" %}Sorry, it's too late to sign up for this event.{% endfilter %}</p>
+					{% elif event.is_awaiting_confirmation %}
+					<p>{% filter ak_text:"event_attend_error_unconfirmed" %}Sorry, the event host has not yet confirmed this event.{% endfilter %}</p>
+				{% endif %}
+				</div>
+	{% else %}
+				<h3>{% filter ak_text:"event_attend_error_unavailable" %}Sorry, this event isn't available for signup.{% endfilter %}</h3>
+	{% endif %}
+				<p><a class="button arrow-right" href="/event/{{ campaign.local_name }}/?akid={{args.akid}}&zip={{args.zip}}">{% filter ak_text:"event_attend_search_for_another" %}Search for another event{% endfilter %}</a></p>
+{% endif %}
+			</div>
+		</form>
+	</div>
+</div>
+
+{% if args.foo or event.is_open_for_signup or update %}
+	{% include "./social_plugins.html" %}
+{% endif %}
+
+{% endblock %}

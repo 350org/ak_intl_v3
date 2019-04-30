@@ -1,0 +1,73 @@
+{% load actionkit_tags %}
+{% filter collapse_spaces %}
+
+<style type="text/css">
+	.event-over-notice { color: red; }
+	.event-url{
+		overflow:hidden;}
+</style>
+
+{% if event.is_in_past %}
+<div class="event-over-notice text-small text-strong text-caps margin-bottom-normal">{% filter ak_text:"event_details_has_ended" %}This event has ended.{% endfilter %}</div>
+{% endif %}
+
+<div class="event-title margin-bottom-normal">
+	<h4>{% if campaign.use_title %}{{ event.title }}{% else %}{{ campaign.local_title }}{% endif %}</h4>
+</div>
+
+<div class="event-details margin-bottom-small">
+{% if event.get_starts_at_display %}
+	<div class="event-time-start text-strong">
+		{{ event.get_starts_at_display }}
+	</div>
+
+{% endif %}
+	<div class="event-location">
+		{% if event.venue %}{{ event.venue }}{% endif %}
+		{{ event.address1 }}, {{ event.city_etc }}
+	</div>
+</div>
+
+{% if event.public_description %}
+	{% autoescape off %}
+<div class="event-description text-small opacity-50 margin-bottom-normal">
+	{{ event.public_description }}
+</div>
+	{% endautoescape %}
+{% endif %}
+
+<div class="event-host-edit margin-bottom-normal">
+	<a class="button button-secondary bg-teal button-small" href="../../create/?action_id={{ action.id }}&amp;update=1&amp;want_prefill_data=1">{% filter ak_text:"general_edit" %}Edit{% endfilter %}</a>
+</div>
+
+{% if event.directions %}
+<div class="event-directions">
+	<strong>{% filter ak_text:"event_details_directions" %}Directions{% endfilter %}</strong> <br/>
+	{{ event.directions }}
+</div>
+{% endif %}
+{% if event.note_to_attendees %}
+<div class="event-note-to-attendees">
+	<strong>{% filter ak_text:"event_details_note_to_attendees" %}Note to attendees:{% endfilter %}</strong><br/>
+	{{ event.note_to_attendees }}
+</div>
+{% endif %}
+<hr>
+<div class="event-signup-link margin-bottom-medium">
+{% if event.campaign.allow_private %}
+	<div class="event-privacy text-strong">
+	{% if event.is_private %}
+		{% filter ak_text:"event_is_private_label" %}This event is private.{% endfilter %}
+	{% else %}
+		{% filter ak_text:"event_is_public_label" %}This event is public.{% endfilter %}
+	{% endif %}
+	</div>
+	<hr>
+{% endif %}
+	<strong class="text-small2 text-caps opacity-50">{% filter ak_text:"event_details_signup_link" %}Event signup link:{% endfilter %} </strong><br>
+	<div class="event-url">
+		<a href="https://{% client_domain %}{{ event.public_url }}">https://{% client_domain %}{{ event.public_url }}</a>
+	</div>
+</div>
+
+{% endfilter %}

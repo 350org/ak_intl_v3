@@ -1,0 +1,27 @@
+{% comment %}
+Like user_form, but doesn't let user change e-mail; used for updating event 
+host/attendee signups.
+{% endcomment %}
+<div class="user-update">
+<div class="input text name">
+	<label for="id_name">Name:</label>
+	<input class="name text" id="id_name" type="text" name="name" />
+</div>
+<div class="input text address">
+	<label for="id_address1">Street address:</label>
+	<input class="address text" id="id_address1" type="text" name="address1" />
+</div>
+<div class="input text city">
+	<label for="id_city">City:</label>
+	<input class="city text" id="id_city" type="text" name="city" />
+</div>
+<div class="input state select">
+	<label for="id_state">State:</label>
+{% include "./state_select.html" %}
+</div>
+<div class="input text zip">
+	<label for="id_zip">ZIP:</label>
+	<input class="zip text" id="id_zip"  type="text" name="zip" size="5"/>
+</div>
+
+</div>

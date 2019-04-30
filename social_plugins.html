@@ -1,0 +1,30 @@
+{% load actionkit_tags %}
+{% if page.custom_fields.page_no_social %}{% else %}
+<div class="buttons-share-side mobile-hide">
+	<a class="button-square button-share-facebook bg-facebook-icon bg-facebook-color" href="/share/link?type=fb&amp;page_name={{ page.name }}&amp;action_id={{ action.id }}&amp;akid={{ akid }}" >{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+	<a href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}" class="button-square button-share-twitter bg-twitter-icon bg-twitter-color">{% filter ak_text:"general_tweet" %}Tweet{% endfilter %}</a>
+	<a id="button-side-share-general" href="#" data-modal-source="#general-share-modal" class="js-modal button-square button-share-general icon bg-red" data-modal-classes-inner="-" data-modal-classes-outer="" data-icon="&#xE94E;">{% filter ak_text:"general_share" %}Share{% endfilter %}</a>
+</div>
+<div id="general-share-modal" class="hidden">
+		<div class="box box-big bg-red margin-bottom-none">
+			<h2>Share<span class="text-small icon-after icon-faded" data-icon="&#xE94E;"></span></h2>
+		</div>
+		<div class="box box-big bg-white">
+			<div class="general-share-url margin-bottom-none">
+				<h4 class="meta">{% filter ak_text:"general_link" %}Link{% endfilter %}</h4>
+				<input id="page-link-url-general" type="text" class="box box-large border text-large2 margin-bottom-small bg-ltgray page-link-url js-click-to-select-text"  value="{{ page.canonical_url }}" readonly>
+				<p class="text-right text-small2"><em>(tap or click to select)</em></p>
+			</div>
+			<hr class="margin-medium">
+			<div class="general-share-email">
+				<h4 class="meta">{% filter ak_text:"general_email" %}Email{% endfilter %}</h4>
+				<p><a href="mailto:?subject={% if page.followup.taf_subject %}{{ page.followup.taf_subject|urlencode }}{% else %}{{ page.title|urlencode }}{% endif %}&amp;body={% filter referring_akid:akid|tag_links:'source=mailto'|urlencode %}{% include_tmpl page.followup.taf_body escaped %}{% endfilter %}" class="button button-secondary share-email icon-after icon-faded" data-icon="&#xe900;">Send an Email</a></p>
+				<p class="text-small">Or copy and paste the text below into an email message.</p>
+				<textarea class="js-click-to-select-text bg-ltgray margin-bottom-small" readonly>
+{{ "Subject"|ak_field_label:"subject"|capfirst }}: {% if page.followup.taf_subject %}{{ page.followup.taf_subject }}{% else %}{{ page.title }}{% endif %}
+{% filter referring_akid:akid|tag_links:"source=taf" %}{% include_tmpl page.followup.taf_body escaped %}{% endfilter %}</textarea>
+				<p class="text-right text-small2"><em>(tap or click to select)</em></p>
+			</div>
+		</div>
+	</div>
+{% endif %}

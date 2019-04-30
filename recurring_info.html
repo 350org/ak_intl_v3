@@ -1,0 +1,6 @@
+<p>Your {{ profile.get_period_display|lower }} donation of {{ profile.amt }} was created on {{ profile.created_at|date }}. 
+{% if profile.order.payment_method == "cc" %}
+It's currently using a credit card ending in {{ profile.card_num }} with an expiration date of {{ profile.display_expiration_date }}.
+{% endif %}
+</p>
+<p>Your next payment of {{ profile.amt }} will be charged on {{ profile.next_payment_date|date }}.</p>

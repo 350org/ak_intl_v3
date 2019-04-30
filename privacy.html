@@ -1,0 +1,92 @@
+{% load actionkit_tags %}
+{% filter collapse_spaces %}
+{% with pt=privacy_text %}
+<div class="ak-privacy ak-errs-below">
+
+  <script>
+
+jQuery(document).ready(function($){
+	var countrySelect = jQuery("#country");
+ 	jQuery(actionkit.form).on('actionkit.privacyRequirementChanged', function(obj, privacyStatus){
+//    console.log('privacy requirement is now: ' + privacyStatus);
+		if ( privacyStatus ){
+			jQuery(".privacy-non_eu").hide();
+		} else {
+			jQuery(".privacy-non_eu").show();
+		}
+	});
+
+});
+  </script>
+	<style>
+	#action-toc + .ak-privacy{
+	  border-top:1px dotted rgba(255,255,255,0.4);
+	  margin-top:1.1em;
+	  padding-top:1.1em;}
+	#really-opt-out{
+    border-radius:2px;}
+
+	.privacy-ak-err{
+		background-color: #fff0d4;
+		color: initial;
+		margin: -1px 0 0;
+		padding: 0.4rem 0.6rem;
+		position: relative;}
+
+
+	</style>
+
+	<input type="hidden" name="privacy_show_if" value="missing">
+
+  {% if pt.notice %}
+    <input type="hidden" id="privacy_notice" name="privacy_hidden" value="{{pt.notice_hash}}">
+    <p id="ak-fieldbox-privacy_notice" class="text-small">{{pt.notice|safe}}</p>
+  {% endif %}
+
+  {% if pt.radio_optin and pt.radio_optout %}
+    <input type="hidden" name="required" value="privacy">
+    <input type="hidden" name="require_opt_in" value="1">
+    <input id="sub" type="hidden" name="privacy_radio_optin_lists" value="{{ list_id }}">
+		<input id="unsub_all" type="hidden" name="privacy_optout_unsub_all" value="1">
+
+    {% if pt.optouts_skip_thanks %}
+      <input type="hidden" name="privacy_optout_skip_confirmation" value="1">
+    {% endif %}
+
+    <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio-group text-lineheight-small">
+      <div class="input-radio">
+        <input type="radio" name="privacy" id="privacy_optin" value="{{pt.radio_optin_hash}}">
+        <label for="privacy_optin">{{pt.radio_optin|safe}}</label>
+      </div>
+      <div class="input-radio">
+        <input type="radio" name="privacy" id="privacy_optout" value="{{pt.radio_optout_hash}}">
+        <label for="privacy_optout">{{pt.radio_optout|safe}}</label>
+      </div>
+    </div>
+
+    <div id="really-opt-out" class="text-small bg-dkgray-trans padding-tiny" style="display: none;">
+      <p>{% filter ak_text:"really_optout" %}Are you sure? Email is how the global climate movement is able to stay organised. You can always unsubscribe.{% endfilter %}</p>
+      <p><label for="privacy_optin" class="button button-small button-secondary bg-teal">{% filter ak_text:"really_optout_button" %}Yes, keep me involved{% endfilter %}</label></p>
+    </div>
+    <script>
+    jQuery(document).ready(function($){
+      var reallyOptOut = jQuery('#really-opt-out');
+      jQuery('#privacy_optin').click(function(){
+	      reallyOptOut.fadeOut('slow');
+	      jQuery('#unsub_all').val('');
+	      jQuery('#sub').val('{{ list_id }}');
+	    });
+      jQuery('#privacy_optout').click(function(){
+	      reallyOptOut.fadeIn('slow');
+	      jQuery('#unsub_all').val('1');
+	      jQuery('#sub').val('');
+	    });
+    });
+    </script>
+
+  {% endif %}
+
+</div>
+
+{% endwith %}
+{% endfilter %}

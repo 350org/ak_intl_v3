@@ -1,0 +1,75 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+
+{% block content %}
+<div id="content">
+
+
+<div class="span-9 last">
+
+<h2 class="page-title">{{ page.title }}</h2>
+
+<div>
+<p id="unknown_user"></p>
+<p id="known_user"></p>
+<p>Logged in as {{ logged_in_user.name }}. <a href="/logout/">Logout</a></p>
+</div>
+
+{% if active %}
+{% for profile in active %}
+
+{% autoescape off %}
+
+<p>{% include_tmpl form.please_stay_text %}</p>
+
+{% endautoescape %}
+
+
+<form class="action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+<input type="hidden" name="utf8" value="&#x2714;">
+
+<ul class="compact" id="ak-errors"></ul>
+
+{% include "./recurring_info.html" %}
+
+{% comment %} JavaScript needs it. {% endcomment %}
+<input type="hidden" name="akid" value="{{ logged_in_user.token }}">
+<input type="hidden" name="page" value="{{ page.name }}">
+<input type="hidden" name="profile_id" value="{{ profile.id }}">
+
+<p><input name="submit" type="submit" class="submit" value="Cancel Donation"></p>
+
+</form>
+
+{% endfor %}
+{% else %}
+
+<p>You don't have any active recurring donations.</p>
+
+{% comment %}
+We have to have a form, or the JavaScript doesn't work.
+{% endcomment %}
+<form class="action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+<input type="hidden" name="utf8" value="&#x2714;">
+<ul class="compact" id="ak-errors"></ul>
+<input type="hidden" name="page" value="{{ page.name }}">
+</form>
+
+{% endif %}
+<div id="inactive">
+</div>
+<script type="text/ak-template" for="inactive">
+[% if (inactive.length) { %]
+    <p class="large loud">Your inactive recurring donations:</p>
+    <ul>
+    [% for (var i=0; i<inactive.length; i=i+1) { %]
+    [%   recurring_order = inactive[i]; %]
+    <li>A [%= recurring_order.get_period_display.lower() %] donation for $[%= recurring_order.amount %] created on [%= recurring_order.created_at.substring(0,10) %] was [%= recurring_order.status %] on [%= recurring_order.updated_at.substring(0,10) %]
+    [% } %]
+    </ul>
+[% } %]
+</script>
+
+</div>
+</div>
+
+{% endblock %}

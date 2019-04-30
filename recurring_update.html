@@ -1,0 +1,134 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+{% load humanize %}
+
+{% block content %}
+<div id="content" class="user-update">
+
+<h2 class="page-title">{{ page.title }}</h2>
+<div>
+<p>Logged in as {{ logged_in_user.name }}. <a href="/logout/">Logout</a></p>
+</div>
+<div style="display:none">{% comment %}actionkit.js wants this, but we don't{% endcomment %}
+<p id="unknown_user"></p>
+<p id="known_user"><span id="known_user_name"></span></p>
+</div>
+
+{% if active %}
+{% autoescape off %}
+<p>{% include_tmpl form.update_card_text %}</p>
+{% endautoescape %}
+
+<script language="javascript">
+function showAmountChange(profile_id) {
+    $('#change_profile_' + profile_id + ' .action_form .card_num input').val('');
+    $('#change_profile_' + profile_id + ' .card_num').hide()
+    $('#change_profile_' + profile_id + ' .amount').show()
+    $('#change_profile_' + profile_id).show()
+    return false
+}
+
+function showCreditCardChange(profile_id) {
+    var form = $('#change_profile_' + profile_id + ' .action_form').get(0);
+    form.amount.value = form.previous_amount.value; 
+    $('#change_profile_' + profile_id + ' .amount').hide()
+    $('#change_profile_' + profile_id + ' .card_num').show()
+    $('#change_profile_' + profile_id).show()
+    return false
+}
+
+$(document).ready(function() {
+    var match = /profile_id=(\d+)/.exec(window.location.search);
+    if (match) {
+        profile_id = match[1]
+        if (/error_card_num/.test(window.location.search))
+            showCreditCardChange(profile_id) 
+        else if (/amount=/.test(window.location.search)) 
+            showAmountChange(profile_id)
+    }
+})
+</script>
+
+
+
+{% for profile in active %}
+{% include "./recurring_info.html" %}
+{% with profile.payment_processor_information as pp %}
+
+{% if pp.use_tr %}
+<script language="javascript" src="/samples/braintree.js"></script>
+{% endif %}
+{% if pp.use_cse %}
+<script language="javascript" src="/samples/ak_braintree_cse.js"></script>
+<script language="javascript" src="/media/js/braintree-cse.js"></script>
+<script type="text/javascript">
+$(function () {
+    var form = $('div#change_profile_{{ profile.id }} form')[0];
+        clientSideEncryptionKey = "{{ pp.cse_key }}";
+    braintree_cse.encryptOnSubmit(form, clientSideEncryptionKey);
+});
+</script>
+{% endif %}
+
+<ul>
+<li><a href="#" onclick="return showAmountChange('{{ profile.id }}');">Change amount</a>
+<li><a href="#" onclick="return showCreditCardChange('{{ profile.id }}');">Change credit card information</a>
+<li><a href="/me/update/">Update contact information</a>
+<li><a href="/cms/pledge/cancel/monthly/">Cancel donation</a>
+</ul>
+
+<div id="change_profile_{{ profile.id }}" style="display:none">
+
+<form class="ak-form user-update action_form{% if pp.use_tr %} braintree_form{% endif %}" name="act" method="POST" action="/act/" accept-charset="utf-8">
+<div id="form" class="userupdate">
+<input type="hidden" name="utf8" value="&#x2714;">
+
+<ul class="compact" id="ak-errors"></ul>
+
+<input type="hidden" name="page" value="{{ page.name }}">
+<input type="hidden" name="profile_id" value="{{ profile.id }}">
+{% comment %} akid is needed to tell javascript required field checking we have a user, but the view requires a user to be logged in. {% endcomment %}
+<input type="hidden" name="akid" value="{{ logged_in_user.token }}">
+
+<p class="card_num"><label for="card_num">Credit Card Number:</label><br/> 
+<input id="card_num" type="text" name="card_num" /></p>
+
+<p class="card_num"><label for="card_code">Verification Number:</label><br/> 
+<input id="card_code" type="text" name="card_code" size="4" /></p>
+
+<p class="card_num"><label for="exp_date">Expiration Date (MMYY):</label><br/> 
+<input id="exp_date" type="text" name="exp_date" size="4" /></p>
+
+<p class="amount"><label for="amount">Monthly Donation Amount:</label><br/>
+<input id="amount" type="text" name="amount" size="6" value="{{ profile.amount }}" /></p>
+
+<input id="previous_amount" type="hidden" name="previous_amount" value="{{ profile.amount }}" />
+
+<p><input name="submit_form" class="submit" type="submit" value="Save Changes"></p>
+</div>
+</form>
+
+
+{% endwith %}
+{% endfor %}
+{% else %}
+<p class="note box box-big lead"><strong>You don't have any active recurring donations to update.</p>
+{% endif %}
+
+{% comment %}
+{% if inactive %}
+
+This is an example of how to show inactive profiles.
+
+<p class="loud">Your old, inactive recurring donations</p>
+<ul>
+{% for profile in inactive %}
+<li>{{ profile.status }} on {{ profile.updated_at }}. Started on {{ profile.start }}, {% with profile.payment_count as count %} {{ count }} {{ profile.get_period_display|lower }} payment{{ count|pluralize }}{% endwith %} were made for a total of {{ profile.payment_total_amt }}.
+{% endfor %}
+</ul>
+{% endif %}
+{% endcomment %}
+</div>
+<br class="clear" />
+
+
+{% endblock %}

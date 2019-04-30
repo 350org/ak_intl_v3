@@ -1,0 +1,279 @@
+{% comment %}
+Custom template for same-page post-AJAX submit share ask.
+{% endcomment %}
+
+{% load actionkit_tags %}
+
+{% if page.custom_fields.after_action_next_step != "page-redirect" %}
+	{% if page.lang.iso_code = "en" %}
+
+<div id="afteraction-progress-meter" aria-hidden="true" class="section text-small text-strong width-wide text-center padding-tiny bg-dkgray-trans" style="display:none;position:fixed;top:0;left:0;width:100%;z-index:10;">
+	<span id="afteraction-progress-meter-step1" class="afteraction-progress-meter-step">
+		<span class="afteraction-progress-meter-dot complete icon" data-icon="&#xE942;"></span>
+		{% if page.type == "Petition" %}
+			{% filter ak_text:"afteraction_progress_step1_petition" %}Sign{% endfilter %}
+		{% elif page.type == "Signup" %}
+			{% filter ak_text:"afteraction_progress_step1_signup" %}Sign up{% endfilter %}
+		{% else %}
+			{% filter ak_text:"afteraction_progress_step1" %}Submit{% endfilter %}
+		{% endif %}
+		</span>
+	</span>
+	<span id="afteraction-progress-meter-step2" class="afteraction-progress-meter-step">
+		<span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+			{% filter ak_text:"afteraction_progress_step2" %}Share{% endfilter %}
+		</span>
+	</span>
+	<span id="afteraction-progress-meter-step3" class="afteraction-progress-meter-step">
+		<span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+			{% filter ak_text:"afteraction_progress_step3" %}Donate{% endfilter %}
+		</span>
+	</span>
+</div>
+
+<div id="afteraction">
+	<div id="afteraction-share" class="section afteraction-panel border-top title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}" aria-live="polite" style="display:none;">
+		<div id="afteraction-share-inner" class="section-inner"></div>
+	</div>
+	<div id="afteraction-donate" class="section afteraction-panel title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}-fade" aria-live="polite" style="display:none;">
+		<div id="afteraction-donate-inner" class="section-inner"></div>
+	</div>
+</div>
+
+
+<div id="afteraction-share-ask-source" aria-hidden="true" style="display:none;">
+	<div class="afteraction-share-ask-intro text-style-lead3 text-large2 text-lineheight-small text-strong margin-bottom-large">
+	{% if page.custom_fields.share_slide_title %}
+		<h2>{{ page.custom_fields.share_slide_title }}</h2>
+	{% endif %}
+	{% if page.custom_fields.share_slide_body %}
+		<p>{{ page.custom_fields.share_slide_body }}</p>
+	{% else %}
+		<p>{% include_tmpl form.thank_you_text %}</p>
+	{% endif %}
+		<p class="afteraction-share-ask-text margin-bottom-huge">
+	{% if page.custom_fields.afteraction_share_ask %}
+		{{ page.custom_fields.afteraction_share_ask }}
+	{% else %}
+		{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}
+	{% endif %}
+		</p>
+		<p>
+			<button class="afteraction-share-ask-yes button button-large margin-bottom-large">
+				{% if page.custom_fields.afteraction_share_ask_yes %}
+					{{ page.custom_fields.afteraction_share_ask_yes }}
+				{% else %}
+					{% filter ak_text:"afteraction_share_ask_yes" %}Yes, I can share this{% endfilter %}
+				{% endif %}
+			</button>
+			<button class="afteraction-share-ask-no button button-large button-alternate margin-bottom-large">
+				{% if page.custom_fields.afteraction_share_ask_no %}
+					{{ page.custom_fields.afteraction_share_ask_no }}
+				{% else %}
+					{% filter ak_text:"afteraction_share_ask_no" %}No, not now{% endfilter %}
+				{% endif %}
+			</button>
+		</p>
+	</div>
+</div>
+
+<div id="afteraction-share-source" aria-hidden="true" style="display:none;">
+	<div class="afteraction-share-intro text-style-lead3 text-large3 text-lineheight-small text-strong margin-bottom-medium">
+		<p>{% filter ak_text:"afteraction_share_instructions" %}Thank you — Click below to share:{% endfilter %}</p>
+	</div>
+
+	<div class="margin-bottom-medium">
+		<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook arrow-right"  href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+	</div>
+
+	<div class="fb-preview bg-white border margin-bottom-large">
+{% if page.followup.share_image_value %}
+		<div class="fb-preview-share-image image-link-parent">
+			<img src="{{ page.followup.share_image_value }}">
+		</div>
+{% endif %}
+		<div class="fb-preview-share-text padding-tiny text-left">
+			<p class="fb-preview-share-title- strong margin-bottom-small">{{ page.followup.share_title_value }}</p>
+			<p class="fb-preview-share-description- text-small">{{ page.followup.share_description_value }}</p>
+			<p class="text-small2 text-font-secondary text-caps">{% if page.custom_fields.page_is_c4 %}350action.org{% else %}350.org{% endif %}</p>
+		</div>
+	</div>
+</div>
+
+<div id="afteraction-donate-ask-source" aria-hidden="true" style="display:none;">
+	<p class="afteraction-donate-ask-intro text-large2 text-strong margin-bottom-huge">
+		{% if page.custom_fields.afteraction_donate_ask %}
+			{{ page.custom_fields.afteraction_donate_ask }}
+		{% else %}
+			{% filter ak_text:"afteraction_donate_ask" %}Can you chip in to help stop climate change and create a more just, prosperous world? Donate in two minutes now:{% endfilter %}
+		{% endif %}
+	</p>
+
+		{% if page.custom_fields.afteraction_donate_alternate_url %}
+	<div class="afteraction-donate-cta-container margin-bottom-large">
+		<a class="button button-large button-primary arrow-right" href="{{ page.custom_fields.afteraction_donate_alternate_url }}">
+			{% if page.custom_fields.afteraction_donate_alternate_link_text %}
+				{{ page.custom_fields.afteraction_donate_alternate_link_text }}
+			{% else %}
+				{% filter ak_text:"general_donate" %}Donate{% endfilter %}
+			{% endif %}
+		</a>
+	</div>
+		{% else %}
+	<div class="afteraction-donate-amount-container">
+		<a
+			class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
+			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=3"
+		>$3</a>
+		<a
+			class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
+			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=10"
+		>$10</a>
+		<a
+			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
+			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=35"
+		>$35</a>
+	</div>
+		{% endif %}
+	<div>
+		<a
+			class="afteraction-donate-ask-no text-small"
+			href="{% include_tmpl templateset.custom_fields.getinvolved_url|default:'https://350.org/get-involved' %}"
+		>
+			{% if page.custom_fields.afteraction_donate_ask_no %}
+				{{ page.custom_fields.afteraction_donate_ask_no }}
+			{% else %}
+				{% filter ak_text:"afteraction_donate_ask_no" %}Not ready to donate? Learn more about 350's campaigns{% endfilter %}
+			{% endif %}
+		</a>
+	</div>
+</div>
+
+<script>
+jQuery(document).ready(function($){
+	/* only run the AJAX submission if we're sure this is an AK-hosted page */
+	if ( $('html').hasClass('ak-hosted') ){
+		// set up variables
+		var afteractionProgressMeter = $("#afteraction-progress-meter");
+
+		var afteraction = $("#afteraction");
+		var afteractionShareSlide = $('#afteraction-share');
+		var afteractionShareSlideInner = $('#afteraction-share-inner');
+		var afteractionShareAskContent = $('#afteraction-share-ask-source').html();
+		var afteractionShareContent = $('#afteraction-share-source').html();
+
+		var afteractionDonateSlide = $('#afteraction-donate');
+		var afteractionDonateSlideInner = $('#afteraction-donate-inner');
+		var afteractionDonateAskContent = $('#afteraction-donate-ask-source').html();
+		var afteractionDonateContent = $('#afteraction-donate-source').html();
+
+		function afteractionShowShareAsk(){
+			if ( afteractionShareSlideInner.html() == '' ){
+				afteractionShareSlideInner.append( afteractionShareAskContent )
+				afteractionShareSlide.show();
+			}
+			$('html, body').animate({
+				scrollTop: afteractionShareSlide.offset().top
+			}, 800);
+			afteractionProgressMeter.fadeIn();
+			$(document).trigger('domUpdated'); // tell other scripts to re-run
+			$("#jump-to-form").remove();
+		}
+
+		function afteractionShowShare(){
+			afteractionShareSlideInner
+				.animate({opacity:0 }, 300, function(){
+					$(this)
+						.empty()
+						.append( afteractionShareContent )
+						.animate({opacity:1}, 300);
+					$(document).trigger('domUpdated');
+					$('html, body').animate({
+						scrollTop: afteractionShareSlide.offset().top
+					}, 800);
+				});
+		};
+
+		function afteractionShowDonate(el){
+			afteractionDonateSlide.show();
+			afteractionDonateSlideInner.animate({opacity:0 }, 300, function(){
+				$(this)
+					.empty()
+					.append( afteractionDonateAskContent )
+					.animate({opacity:1}, 300);
+					$(document).trigger('domUpdated');
+					$('html, body').animate({
+						scrollTop: afteractionDonateSlide.offset().top
+					}, 800);
+			});
+			if ( $(el).hasClass('afteraction-share-ask-no') ){
+				$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+					.removeClass('complete')
+					.addClass('declined')
+					.attr('data-icon',''); //&xE943; X
+			} else {
+				$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+					.removeClass('declined')
+					.addClass('complete')
+					.attr('data-icon',''); //&xE942; checkmark
+			}
+		};
+
+		// re-set facebook share window pop-up
+		afteraction.on('click','.button-share-facebook', function(e){
+			e.preventDefault();
+			var destination = jQuery(this).attr('href');
+			popupWidth = 520;
+			popupHeight = 350;
+			// center the pop-up on the screen
+			var winTop = (screen.height / 2) - (popupHeight / 2);
+			var winLeft = (screen.width / 2) - (popupWidth / 2);
+			window.open( destination , 'new-window-popup', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,resizable=yes,scrollbars=yes,width=' + popupWidth + ',height=' + popupHeight );
+			// send Google Analytics event
+			ga('send', 'event', 'scrolling-signup', 'share-facebook', window.location.pathname);
+		});
+
+		/* When the main form is submitted... */
+		$('#action-form').submit(function (e) {
+			// don't redirect to standard thank you page
+			e.preventDefault();
+			// wait 150ms for... some reason? idk, i forget
+			setTimeout(function() {
+				// if no errors...
+				if( $(".ak-err li").length < 1) {
+					$.ajax({
+						method: 'POST',
+						url: $('#action-form').attr('action'),
+						data: $('#action-form').serialize()
+					})
+					.done(function(msg) {
+						// send google analytics event
+						ga('send', 'event', 'scrolling-signup', 'signup', window.location.pathname);
+						// send FB tracker event
+						if (typeof fbq === "function") {
+							fbq('track', 'CompleteRegistration');
+						}
+						// show the share ask
+						afteractionShowShareAsk();
+						// if user opts to share, show share dialog
+						$('.afteraction-share-ask-yes').on('click', function(){
+							afteractionShowShare();
+						});
+						// if user opts not to share or has completed sharing, show donate ask
+						afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
+							var el = $(this);
+							afteractionShowDonate(el);
+						});
+					})
+					.fail(function(){
+							console.log('Error: AK AJAX submission failed.');
+					});
+				}
+			}, 150);
+		});
+	}
+});
+</script>
+
+	{% endif %}
+{% endif %}

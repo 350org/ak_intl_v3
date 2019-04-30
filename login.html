@@ -1,0 +1,74 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+{% block content %}
+<style>
+input, select, textarea{max-width: initial;}
+.errormsg{
+    margin-bottom: 15px !important;
+    border: rgb(255, 0, 0) 1px solid;
+    padding: 10px;
+    background: rgba(255,0,0,.2);	
+}
+#body-mobile-background{
+		background-image:url('https://cdn.350.org/wp-content/uploads/2016/12/350-bg-pcm-blur.jpg');}
+
+</style>
+
+<section class="section width-skinny padding-medium bg-blue-fade">
+	<div class="section-inner">
+		<div id="action-header">
+
+			<h2>{% filter ak_text:"general_log_in"|title %}Sign In{% endfilter %}</h2>
+			<p>{% filter ak_text:"user_login_intro" %}Sign in to your personal information and manage your donations.{% endfilter %}</p>
+
+			<div class="errors">
+        {% if error_message %}
+            <p class="errormsg">{{ error_message }}</p>
+        {% endif %}
+        {% if invalid %}
+            <p class="errormsg">Incorrect email or password.  Try again, or <a href="{% url 'user_password_forgot' %}?next={{ next }}&email={{ email }}">we can email you a link to reset your password</a>.</p>
+        {% endif %}
+
+        {% if no_password %}
+            <p>It looks like you've never logged in before. <a href="{% url 'user_password_forgot' %}?email={{ email }}">Click here to set up a password.</a>.</p>
+        {% endif %}
+        {% if wrong_account %}
+            <p>It looks like you may need another email address to view that page, or the page may no longer be accessible.</p>
+        {% endif %}
+      </div>
+		</div>
+
+		<div id="form" class="ak-labels-overlaid ak-err-below">
+			<form action="{{ app_path }}" method="post" id="login-form" class="login-form">
+			    <input type="hidden" name="this_is_the_login_form" value="1" />
+			    <input type="hidden" name="next" value="{{ next }}" />
+				
+					<div id="id_email_box" class="input-text ak-input-type-user ak-err-below">
+			    	<label for="id_email">{% filter ak_text:"field_email"|capfirst %}Email Address{% endfilter %}</label>
+						<input type="text" name="email" value="{{ email }}" id="id_email" title="{% filter ak_text:'user-login-email-instructions' %}Enter the email you signed up with here.{% endfilter %}" />
+			  	</div>
+				  <div id="id_password_box" class="input-text ak-input-type-user ak-err-below">
+				    <label for="id_password">{% filter ak_text:"general_password"|capfirst %}Password{% endfilter %}</label>
+				    <input type="password" name="password" id="id_password" />
+				  </div>
+					<br>
+				  <div class="submit-row">
+				    <input type="submit" class="submit" value="{% filter ak_text:'general_log_in' %}Sign In{% endfilter %}" />
+				  </div>
+			  
+			</form>		
+			<p style="margin-top: 5px;">
+				<a href="{% url 'user_password_forgot' %}?next={{ next }}&amp;email={{ email }}">{% filter ak_text:"user_login_forgot_password" %}Forgot your password?{% endfilter %}</a><br>
+				<a href="{% url 'user_password_forgot' %}?next={{ next }}&amp;first=1&amp;email={{ email }}">{% filter ak_text:"user_login_first_time_start" %}Never logged in before?{% endfilter %}</a>
+			</p>
+		</div>
+	</div>
+</section>		
+<script type="text/javascript">
+$(document).ready(function(){
+actionkit.forms.installOverlayLabelHandler();
+});
+
+	document.getElementById('id_{% if email %}password{% else %}email{% endif %}').focus()
+</script>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+{% block content %}
+{% autoescape off %}
+<section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section-inner">
+		<form class="ak-form dummy" name="act" method="POST" action="/act/" accept-charset="utf-8">
+		<input type="hidden" name="page" value="{{ page.name }}" />
+		{% include "./progress_meter.html" %}
+		</form>
+		<div id="thanks-message" class="bg-dkgray-trans text-large3 c10 ct10 cm10 box box-huge margin-bottom-large">
+		{% include_tmpl form.thank_you_text %}
+		</div>
+		<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">
+			<input type="hidden" name="utf8" value="&#x2714;" />
+			<input type="hidden" name="page" value="{{ page.name }}" />
+				<ul id="ak-errors" class="c10 ct10 cm10" style="display:none;"><li></li></ul>
+{%ifequal page.custom_fields.hide_share_buttons_on_thanks_page "Y" %}
+{% else %}
+				<div class="margin-bottom-medium c6 ct10 cm10">
+					<div class="share-facebook">
+						<div class="box bg-facebook-color margin-bottom-none">
+							<h4 class="icon-after icon-faded" data-icon="&#xe93F;">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</h4>
+						</div>
+						<div class="box box-big bg-white border">
+							<div class="fb-preview fb-preview-horizontal bg-white border p">
+								<div class="fb-preview-share-image image-link-parent c3_3 ct3_3 cm3_3 no-margin" style="padding-bottom:33.3%;background-image:url({{ page.followup.share_image_value }});background-size:cover;">
+								</div>
+								<div class="fb-preview-share-text box box-small no-margin-bottom c6_6 ct6_6 cm6_6 margin-bottom-medium">
+									<p class="fb-preview-share-title strong margin-bottom-small">{{ page.followup.share_title_value }}</p>
+									<p class="fb-preview-share-description text-small">{{ page.followup.share_description_value }}</p>
+									<p class="text-small2 text-font-secondary text-caps">350.org</p>
+								</div>
+								<br class="clear">
+							</div>
+
+							<a class="fb-share button-share-facebook button-share-medium bg-facebook-icon bg-facebook-color margin-bottom-none" href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+						</div>
+					</div>
+					<div class="twitter-share">
+						<div class="bg-twitter-color box margin-bottom-none">
+						<h4 class="icon-after icon-faded" data-icon="&#xE941;">{% filter ak_text:"general_tweet" %}Share on Twitter{% endfilter %}</h4>
+						</div>
+						<div class="box box-big bg-white border">
+							<textarea class="bg-ltgray border strong p" readonly>{{ page.followup.twitter_message }}</textarea>
+							<p><a class="button-share-medium button-share-twitter bg-twitter-icon bg-twitter-color no-margin-bottom"href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_tweet" %}Tweet{% endfilter %}</a></p>
+						</div>
+					</div>
+						</div>
+						<div class="share-general margin-bottom-medium c4 ct10 cm10">
+							<div class="box bg-midgray no-margin-bottom">
+								<h4 class="icon-after icon-faded" data-icon="&#xE94E;">{% filter ak_text:"general_share" %}Share{% endfilter %}</h4>
+							</div>
+							<div class="bg-ltgray box box-medium">
+								<p class="text-small"><em>{% filter ak_text:"general_share_custom_instructions" %}Copy and paste this info into whatever app you use for messaging:{% endfilter %}</em></p>
+							{% if page.custom_fields.page_is_c4 %}{% else %}
+							<div class="general-share-url">
+								<h4 class="text-small margin-bottom-none"><span class="highlight bg-midgray">{% filter ak_text:"general_share_link" %}Share Link:{% endfilter %}</span></h4>
+								<input id="page-link-url-general" type="text" class="border margin-bottom-medium bg-white page-link-url js-click-to-select-text"  value="{{ page.canonical_url }}" readonly>
+								<!-- p class="text-right text-small2"><em>(tap or click to select)</em></p -->
+							</div>
+							{% endif %}
+							<div class="general-share-description">
+								<h4 class="text-small margin-bottom-none"><span class="highlight bg-midgray">{% filter ak_text:"general_share_description" %}Share Description:{% endfilter %}</span></h4>
+								<textarea id="page-description-general" class="border text-small margin-bottom-medium bg-white js-click-to-select-text" readonly>{{ page.followup.share_description_value }}</textarea>
+								<!-- p class="text-right text-small2"><em>(tap or click to select)</em></p -->
+							</div>
+							<div class="general-share-image">
+								<h4 class="text-small margin-bottom-none"><span class="highlight bg-midgray">{% filter ak_text:"general_share_image" %}Share Image:{% endfilter %}</span></h4>
+								<input id="page-image-url-general" type="text" class="border margin-bottom-small text-small bg-white page-link-url js-click-to-select-text"  value="{{ page.followup.share_image_value }}" readonly>
+								<p class="c5 ct5 cm5 no-margin margin-none"><a href="{{ page.followup.share_image_value }}"><img class="" src="{{ page.followup.share_image_value }}"></a></p>
+								<br class="clear">
+							</div>
+						</div>
+					</div>
+					
+{% endifequal %}		
+
+<div class="taf-option taf-option-3" id="taf-email" style="display:none">
+<h4>Share via Email</h4>
+
+<div class="email">
+
+<div class="input text to email-header">
+<div class="to email-header-label">{% filter ak_text:"general_message_to" %}To:{% endfilter %}</div>
+<div class="input text to email-header-content"><label class="wide" for="id_taf_emails">Enter friends' e-mail addresses:</label><input type="text" id="id_taf_emails" name="taf_emails" title="Enter the email address of the people you're sharing this with, separated by commas. e.g. example@example.com, example2@example.com" /></div>
+</div>
+
+<div class="subject email-header">
+<div class="subject email-header-label"><label id="lbl_taf_subject" for="id_taf_subject">Subject:</label></div>
+<div class="subject email-header-content"><span class="taf_subject">{% include_tmpl page.followup.taf_subject escaped %}</span></div>
+</div>
+
+<div class="message email-header">
+<div class="message email-header-label"><label class="message" for="id_taf_body">Message:</label></div>
+<div class="message email-header-content">{% filter referring_akid:akid|tag_links:"source=taf"|linebreaksbr %}{% include_tmpl page.followup.taf_body escaped %}{% endfilter %}</div>
+</div>
+
+<div class="input textarea note email-header">
+<div class="note email-header-label">Note: (optional)</div>
+<div class="note email-header-content"><textarea id="id_taf_note" name="taf_note" title="If you'd like to add a short personalized note after the message, enter it here." style="height: 75px;"></textarea></div>
+</div>
+
+<input type="hidden" name="required" value="taf_emails">
+<div class="submit email-header">
+<div class="submit email-header-label"></div>
+<div class="submit email-header-content"><input type="submit" class="submit" value='{% filter ak_text:"general_send" %}Send{% endfilter %}' /></div>
+</div>
+</div>
+
+
+
+
+{% ifequal page.type "Petition" %}
+<div class="taf-option taf-option-4" id="taf-donate" style="display:none;">
+<h5 class="taf-heading">Donate</h5>
+<a class="thanks-donate" href="https://350.org/donate">Donate to 350</a>
+</div>
+{% else %}
+{% ifequal page.type "Call" %}
+<div class="taf-option taf-option-4" id="taf-donate">
+<h5 class="taf-heading">Donate</h5>
+<a id="thanks-donate" href="https://350.org/donate">Donate to 350</a>
+</div>
+{% endifequal %}
+{% endifequal %}
+
+</form>
+
+		</div>
+	</div>
+</section>
+
+{% if page.custom_fields.thanks_ask_for_donation %}
+<div id="thank-you-donate">
+	<a href="/donate/build?source=thanks_page"><img src="https://s3.amazonaws.com/s3.350.org/images/350-ak-thankyou-donate.jpg" alt="400,000 people in the People's Climate March - Donate to 350.org" /></a>
+</div>
+{% endif %}
+
+
+{% endautoescape %}
+
+{% endblock %}
+
+
+{% block below_form %}
+<script type="text/javascript">
+actionkit.sharing.initShareTools();
+actionkit.forms.contextRoot = '/context/';
+{% if page.followup.send_taf %}
+actionkit.forms.initTafForm('taf');
+{% else %}
+actionkit.forms.initForm('act');
+{% endif %}
+
+</script>
+{% endblock %}

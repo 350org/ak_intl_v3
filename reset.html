@@ -1,0 +1,21 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+
+{% block content %}
+
+<section class="section width-skinny padding-medium bg-white">
+	<div class="section-inner">
+		<div id="action-header">
+			<h2>Enter your desired password in the boxes below. </h2>
+				{% if message %}
+				<p class="loud large">{{ message }}</p>
+				{% endif %}
+		<form action="{{ app_path }}" method="post" id="login-form">
+		  {{ form.as_p }}
+		
+		<input type="submit" class="submit" value="Set Password" />
+		
+		</form>
+	</div>
+</section>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+{% block content %}
+
+<style type='text/css'>
+@import url('/samples/whipcount.css');
+</style>
+
+<form class="ak-form whipcount" name="act" method="POST" action="/act/" accept-charset="utf-8">
+
+{% if action %}
+<h2 class="thanks">Thanks for making a whipcount call!</h2>
+<p>We've noted that {% for contact in action.called.all %}{{ contact.target.title_last }} is {{ contact.response }}{% endfor %}!</p>
+<p>{% include_tmpl form.thank_you_text %}</p>
+{% endif %}
+
+<input type="hidden" name="utf8" value="&#x2714;">
+<input type="hidden" name="status" value="whipcount">
+<input type="hidden" name="page" value="{{ page.name }}">
+<input type="hidden" name="lists" value="{{ page.list.id }}" />
+
+<div class="span-10 border">
+
+{% if target %}
+
+<p class="large loud unspaced_lines">{{ page.title }}</p>
+
+<ul id="ak-errors"></ul>
+
+<div id="who_to_call">
+<div class="target">
+<label class="step" for="{{ target.id }}">
+Step 1. Call {{ target.title_full }} at <b class="phone">{{ target.phone }}</b>
+</label>
+</div>
+</div>
+
+<div id="what_to_say"></div>
+<script type="text/ak-template" for="what_to_say">
+{% include_tmpl form.script_text %}
+</script>
+
+<div id="response">
+<label class="step">Step 2. Report back</label>
+<p><label for="response-{{target.id}}">What is {{ target.title_full }} stance on this issue?</label></p>
+<ul>
+<li><label for="uncommitted-{{ target.id }}"><input type="radio" name="response-{{ target.id }}" value="uncommitted" id="uncommitted-{{ target.id }}">Uncommitted/Did not answer</label></li>
+<li><label for="supportive-{{ target.id }}"><input type="radio" name="response-{{ target.id }}" value="supportive" id="supportive-{{ target.id }}">Supportive of our position</label></li>
+<li><label for="opposed-{{ target.id }}"><input type="radio" name="response-{{ target.id }}" value="opposed" id="opposed-{{ target.id }}">Opposed to our position</label></li>
+<li><label for="message-{{ target.id }}"><input type="radio" name="response-{{ target.id }}" value="message" id="message-{{ target.id }}">Left a message</label></li>
+</ul>
+<input type="hidden" name="required" value="response-{{ target.id }}" />
+<input type="hidden" name="error_response-{{target.id}}:missing" value="Please let us know what {{ target.title_last }} responded!" />
+</div>
+
+<div id="unknown_user"> 
+<label class="step">Step 3. Complete the following to report your call.</label>
+{% include "./user_form.html" %} </div>
+<div id="known_user">
+<div id="logout_link">
+<p>Not <span id="known_user_name"></span>?  <a href="?" onclick="return actionkit.forms.logOut()">Click here.</a></p>
+</div>
+</div>
+
+<div id="ak-survey_question"></div>
+{% if form.survey_question_text %}
+<script type="text/ak-template" for="ak-survey_question">
+{% autoescape off %}
+{% include_tmpl form.survey_question_text %}
+{% endautoescape %}
+<textarea class="span-7" id="id_action_survey" name="action_survey" style="height: 100px"></textarea></p>
+</script>
+{% endif %}
+
+<p style="clear: both;">
+<input type="submit" value="Submit">
+</p>
+{% else %}
+{% include "./whipcount_results.html" %}
+{% endif %}
+</div>
+
+<div class="span-9 last">
+{% autoescape off %}
+{% include_tmpl form.introduction_text %}
+{% endautoescape %}
+{% include "./progress_meter.html" %}
+</div>
+
+</form>
+
+{% endblock %}

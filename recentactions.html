@@ -1,0 +1,34 @@
+{% comment %}Recent actions {% include "./recentactions.html" %} or {% extends "./recentactions.html" %}.{% endcomment %}
+{% load actionkit_tags %}
+{% if page.custom_fields.page_hide_recent_signers == "show" %}
+<div id="recent-actions-wrapper" class="text-small">
+	<h5>{% filter ak_text:"general_most_recent_signers" %}Recently signed up{% endfilter %}:</h5>
+	<ul class="recent-actions-list nobullet">
+	{% for a in page.recent_actions|slice:":30" %}
+	{% with a.user as action_user %}
+	{% if action_user.name and action_user.subscription_status == "subscribed" and not action_user.custom_fields.honey and not a.custom_fields.honey %}
+		<li class="recent-action no-margin">
+			<p class="recent-action-user">
+				<span class="recent-signer-name strong icon-before icon-faded" data-icon="&#xE904;">{{ action_user.first_name }} {{ action_user.last_name.0 }}.</span> 
+				<span class='flag flag-{{ action_user.country|lower|cut:" "|cut:","|cut:"." }} right' title="{{ action_user.country }}">{{ action_user.country }}</span>
+				<time datetime="{{ action_user.updated_at }}Z" class="recent-action-timestamp meta right"></time>
+			</p>
+		</li>
+	{% endif %}
+	{% endwith %}
+	{% endfor %}
+	</ul>
+	<!-- Defer loading the flags -->
+	<script>
+		var cb = function() {
+		var l = document.createElement('link'); l.rel = 'stylesheet';
+		l.href = 'https://dbqvwi2zcv14h.cloudfront.net/flags/svg-flags.css';
+		var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+		};
+		var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+		webkitRequestAnimationFrame || msRequestAnimationFrame;
+		if (raf) raf(cb);
+		else window.addEventListener('load', cb);
+	</script>
+</div>
+{% endif %}

@@ -1,0 +1,132 @@
+{% load actionkit_tags smartif %}
+{% filter collapse_spaces %}
+
+{% comment %}
+This file is so long because you can choose whether your campaign uses
+event titles, venues, etc., and different choices produce different HTML.
+{% endcomment %}
+
+{% if events|is_defined %}
+<input type="hidden" id="id_have_events" name="have_events" value="1">
+	{% if not events|length %}
+<div id="no-events-found">
+	<h4>{% filter ak_text:"event_search_no_events_found" %}Sorry, we didn't find any events near the location you entered. You can try searching again by using a larger nearby city, or by navigating to a nearby event using the map below.{% endfilter %}</h4>
+		{% autoescape off %}
+			{% if page.custom_fields.no_events_found_msg %}
+	<div class="notice">{{page.custom_fields.no_events_found_msg }}</div>
+			{% endif %}
+		{% endautoescape %}
+</div>
+	{% else %}
+
+		{% if campaign.show_address1 and not hide_map %}
+<!-- div id="map">
+    <img src="https://maps.google.com/maps/api/staticmap?sensor=false&size=300x300&markers={% for event in events %}{{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}{% if not forloop.last %}|{% endif %}{% endfor %}" width="300" height="300" />
+</div -->
+		{% endif %}
+<ul id="event_search_results_event_list" class="events nobullet">
+		{% comment %}
+			{% if args.zip %}
+	<h4 class="meta opacity-50 margin-bottom-medium">{% filter ak_text:"event_search_results_zip" %}Events found near:{% endfilter %} {{args.zip}}:</h5>
+			{% else %}
+	<h4 class="meta opacity-50 margin-bottom-medium">{% filter ak_text:"event_search_results_heading" %}Events:{% endfilter %}</h5>
+			{% endif
+		{% endcomment %}
+		{% for event in events %}
+	<li data-event_id="{{ event.id }}" class="event margin-bottom-large">
+		<a class="area-link event-link" href="/event/{{ campaign.local_name }}/{{event.id}}/signup/?akid={{args.akid}}&zip={{args.zip}}">
+			<div class="event-info margin-bottom-normal">
+				<p class="event-title text-style-lead3 text-large3 margin-bottom-small">
+					<span class="text-strong text-blue area-link-hover">{% if campaign.use_title and campaign.show_title %} {{ event.title }} {% else %} {{ campaign.title }} {% endif %}</span>
+				</p>
+				<div class="event-time text-strong">
+			{% if page.lang.iso_code == "en" %}
+				{{ event.starts_at }}
+			{% elif page.lang.iso_code == "fr" %}
+				{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+			{% elif page.lang.iso_code == "pt" %}
+				{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+			{% elif page.lang.iso_code == "es" %}
+				{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+			{% elif page.lang.iso_code == "de" %}
+				{{ event.obj.starts_at|date:"d-n-Y, H : i" }}
+			{% else %}
+				{{ event.obj.starts_at|date:"Y-n-d, H:i" }}
+			{% endif %}
+				</div>
+			{% if campaign.show_venue and event.venue %}
+				<div class="event-venue">{{ event.venue }}</div>
+			{% endif %}
+				<div class="event-location">
+			{% if campaign.show_address1 %}
+					<span class="event-address1">{{ event.address1 }}</span>
+			{% endif %}
+			{% if campaign.show_city or campaign.show_state or campaign.show_zip %}
+				{% if campaign.show_zip %}
+					<span class="event-city-etc">{{ event.city_etc }}</span>
+				{% else %}
+					<span class="event-city-etc">{{ event.city_etc_no_postal }}</span>
+				{% endif %}
+			{% endif %}
+				</div>
+			{% if event.custom_fields.event_facebook_id and event.custom_fields.event_facebook_id != "none" %}
+				<div><a href="https://www.facebook.com/{{ event.custom_fields.event_facebook_id }}" class="button-share-medium bg-facebook-color bg-facebook-icon">RSVP on Facebook</a></div>
+			{% endif %}
+			{% if campaign.show_address1 %}{% else %}
+				<div class="event-address-hidden note">{% filter ak_text:"event_search_results_address_hidden_until_rsvp" %}(We'll show you the exact address once you RSVP){% endfilter %}</div>
+			{% endif %}
+			{% if event.distance|is_nonblank %}
+				<div class="event-distance">{{ event.distance_str }}</div>
+			{% endif %}
+			{% if campaign.show_attendee_count %}
+				<div class="event-attendee-count">{% filter ak_text:"event_search_results_attending" %}Attending:{% endfilter %} {{ event.attendee_count }}</div>
+			{% endif %}
+			</div>
+			{% if campaign.show_public_description %}
+				{% autoescape off %}
+			<div class="event-description text-small opacity-50">{{ event.public_description }}</div>
+				{% endautoescape %}
+			{% endif %}
+			{% if campaign.show_directions %}
+			<div class="event-directions">{{ event.directions }}</div>
+			{% endif %}
+		</a>
+	</li>
+		{% endfor %}
+</ul>
+	{% endif %}
+{% endif %}
+
+{% if errors|length %}
+<ul class="compact" id="ak-errors">
+	{% for key,val in errors.items %}
+	<li>{{ val|nth:0 }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+<!-- Gets the 'source' part of the URL query and tacks it on to the end of the href attribute of event links, so partner source info gets passed to individual event pages when a partner links to the general search page -->
+
+<script type="text/javascript">
+$.urlParam = function(name){
+	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	if (!results) { return 0; }
+	return results[1] || 0;
+}
+var evSource = $.urlParam('source');
+console.log( evSource );
+
+$(document).ready(function(){
+
+	$('a.event-link').each(function(){
+		var evLinkHref = $(this).attr('href')
+		var evNewLink = ( evLinkHref + '&source=' + evSource )
+		$(this).attr('href', evNewLink );
+	});
+	$(".event-signup a.event").removeAttr('href').click(function(e){
+		e.preventDefault();
+	});
+
+});
+</script>
+{% endfilter %}

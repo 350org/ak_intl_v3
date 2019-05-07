@@ -123,15 +123,15 @@ Custom template for same-page post-AJAX submit share ask.
 	<div class="afteraction-donate-amount-container">
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
-			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=3"
+			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=3&source=aa_{{ page.id }}"
 		>$3</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
-			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=10"
+			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=10&source=aa_{{ page.id }}"
 		>$10</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
-			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=35"
+			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=35&source=aa_{{ page.id }}"
 		>$35</a>
 	</div>
 		{% endif %}

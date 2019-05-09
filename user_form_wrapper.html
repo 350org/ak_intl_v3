@@ -58,8 +58,10 @@
 
 <div class="general-privacy-notice text-small2">
   <p class="icon-before icon-faded" data-icon="&#xE93E;">
-    <span style="display:none;" class="privacy-non_eu">{% filter ak_text:"general_opt_in_privacy_notice_non_eu" %}350 will send you email updates when you can make a difference.{% endfilter %}</span>
+    <span style="display:none;" class="privacy-non_eu">
+			{% if page.custom_fields.privacy_default_notice %}{{ page.custom_fields.privacy_default_notice }} {% else %}{% filter ak_text:"general_opt_in_privacy_notice_non_eu" %}350 will send you email updates when you can make a difference.{% endfilter %}</span>
     {% filter ak_text:"general_opt_in_privacy_notice_general" %}By taking this action, you are agreeing to our <a href="https://350.org/tos">terms of service</a> and <a href="https://350.org/privacy">privacy policy</a>. You can <a href="https://act.350.org/unsubscribe/unsubscribe/">unsubscribe</a> at any time.{% endfilter %}
+			{% endif %}
   </p>
 </div>
 

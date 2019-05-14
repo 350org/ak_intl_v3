@@ -138,7 +138,7 @@ Custom template for same-page post-AJAX submit share ask.
 	<div>
 		<a
 			class="afteraction-donate-ask-no text-small"
-			href="{% include_tmpl templateset.custom_fields.getinvolved_url|default:'https://350.org/get-involved' %}"
+			href="{% if templateset.custom_fields.getinvolved_url %}{% include_tmpl templateset.custom_fields.getinvolved_url %}{% else %}https://350.org/get-involved{% endif %}"
 		>
 			{% if page.custom_fields.afteraction_donate_ask_no %}
 				{{ page.custom_fields.afteraction_donate_ask_no }}

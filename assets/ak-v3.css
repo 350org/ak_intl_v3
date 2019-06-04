@@ -1037,11 +1037,11 @@ a.bg-sina-weibo-color:hover{
 	border-radius:8px 0 8px 8px;
 	box-shadow:-1px 2px 3px rgba(0,0,0,0.2);
 	font-size:14px;
-	margin-left:50px;
-	padding:7px 70px 7px 10px;
+	margin:0 0 0 auto;
+	padding:7px 50px 7px 10px;
 	position:relative;
 	text-align:left;
-	max-width:300px;}
+	max-width:320px;}
 .whatsapp-preview-chat-bubble::before{
 	content:'12:34';
 	color:rgba(0,0,0,0.2);

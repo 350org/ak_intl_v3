@@ -82,22 +82,40 @@ Custom template for same-page post-AJAX submit share ask.
 		<p>{% filter ak_text:"afteraction_share_instructions" %}Thank you — Click below to share:{% endfilter %}</p>
 	</div>
 
-	<div class="margin-bottom-medium">
-		<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook arrow-right"  href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
-	</div>
-
-	<div class="fb-preview bg-white border margin-bottom-large">
-{% if page.followup.share_image_value %}
-		<div class="fb-preview-share-image image-link-parent">
-			<img src="{{ page.followup.share_image_value }}">
+	{% if page.custom_fields.share_whatsapp == "yes" or page.custom_fields.share_whatsapp == "mobile-only" %}
+	<div class="afteraction-share-whatsapp afteraction-share-option margin-bottom-large">
+		<div class="afteraction-share-option-intro margin-bottom-medium">
+			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="https://wa.me/?text={{ page.followup.share_description_value|urlencode }}">{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}</a>
 		</div>
-{% endif %}
-		<div class="fb-preview-share-text padding-tiny text-left">
-			<p class="fb-preview-share-title- strong margin-bottom-small">{{ page.followup.share_title_value }}</p>
-			<p class="fb-preview-share-description- text-small">{{ page.followup.share_description_value }}</p>
-			<p class="text-small2 text-font-secondary text-caps">{% if page.custom_fields.page_is_c4 %}350action.org{% else %}350.org{% endif %}</p>
+		<div class="afteraction-share-whatsapp-preview afteraction-share-option-preview ">
+			<div class="whatsapp-preview-chat-bg padding-small">
+				<p class="text-caps text-center text-strong text-small opacity-50">{% filter ak_text:"general_preview" %}Preview:{% endfilter %}</p>
+				<div class="whatsapp-preview-chat-bubble">
+					{{ page.followup.share_description_value }}
+				</div>
+			</div>
 		</div>
 	</div>
+	{% endif %}
+	{% if page.custom_fields.share_facebook == "yes" %}
+	<div class="afteraction-facebook-share afteraction-share-option margin-bottom-large">
+		<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
+			<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook"  href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+		</div>
+		<div class="fb-preview bg-white border margin-bottom-large">
+			{% if page.followup.share_image_value %}
+			<div class="fb-preview-share-image image-link-parent">
+				<img src="{{ page.followup.share_image_value }}">
+			</div>
+			{% endif %}
+			<div class="fb-preview-share-text padding-tiny text-left">
+				<p class="fb-preview-share-title- strong margin-bottom-small">{{ page.followup.share_title_value }}</p>
+				<p class="fb-preview-share-description- text-small">{{ page.followup.share_description_value }}</p>
+				<p class="text-small2 text-font-secondary text-caps">{% if page.custom_fields.page_is_c4 %}350action.org{% else %}350.org{% endif %}</p>
+			</div>
+		</div>
+	</div>
+	{% endif %}
 </div>
 
 <div id="afteraction-donate-ask-source" aria-hidden="true" style="display:none;">

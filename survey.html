@@ -57,8 +57,14 @@
 {% endif %}
 	</div>
 	<div style="display: none;" class="args">
-		{{ args.action_smiley }}  
+		{{ args.action_smiley }}
 	</div>
+	<script type="text/javascript">
+		jQuery( document ).ready(function() {
+				radiobtn = document.getElementById("{{ args.action_smiley }}");
+				radiobtn.checked = true;
+		});		
+	</script>
 </section>
 
 

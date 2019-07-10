@@ -378,14 +378,15 @@
 	jQuery.fn.truncateAndReadMore = function(){
 		// Set up translations
 		var readMoreTranslations = {
-			en: "Read&nbsp;More",
-			fr: "Lire&nbsp;la&nbsp;Suite",
 			ar: "Ø§Ù‚Ø±Ø£&nbsp;Ø£ÙƒØ«Ø±",
-			pt: "Leia&nbsp;mais",
-			es: "Leer&nbsp;más",
 			de: "Weiterlesen",
+			en: "Read&nbsp;More",
+			es: "Leer&nbsp;más",
+			fr: "Lire&nbsp;la&nbsp;Suite",
+			pl: "Czytaj dalej",
+			pt: "Leia&nbsp;mais",
 			tr: "Daha&nbsp;fazla&nbsp;oku",
-			pl: "Czytaj dalej"
+			uk: 'Детальна інформація',
 		};
 		var readMoreText = readMoreTranslations['en'];
 		// Detect language

@@ -198,7 +198,12 @@
           <label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Event description{% endfilter %}</label>
       		<textarea id="id_event_public_description" name="event_public_description">{% if page.custom_fields.event_default_description %}{% autoescape off %}{{ page.custom_fields.event_default_description }}{% endautoescape %}{% endif %}</textarea>
       	</div>
-        <p class="text-small opacity-50">{% filter ak_text:"event_create_field_label_description_help" %}Your event description will be displayed on the website, so try to write a compelling invitation that will make people want to join. You will be able to edit it later if your plans change. (5 word minimum){% endfilter %}</p>
+        <p class="text-small opacity-50">
+				{% if page.custom_fields.event_create_description_helptext %}
+					{{ page.custom_fields.event_create_description_helptext }}
+				{% else %}
+					{% filter ak_text:"event_create_field_label_description_help" %}Your event description will be displayed on the website, so try to write a compelling invitation that will make people want to join. You will be able to edit it later if your plans change. (5 word minimum){% endfilter %}</p>
+				{% endif %}
       </fieldset>
     </div>
   </div>
@@ -242,12 +247,12 @@
       		<label for="id_event_zip">{% filter ak_text:"field_postal" %}Postal/ZIP{% endfilter %}</label>
       		<input id="id_event_zip" type="text" name="event_zip" />
       	</div>
-		{% if page.custom_fields.hide_state_field %}{% else %}      	
+		{% if page.custom_fields.hide_state_field %}{% else %}
       <div class="input-select ak-input-type-event input-state">
       		<label for="id_event_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
       		{% include "./state_select.html" %}
       	</div>
-		{% endif %}      	
+		{% endif %}
 
 {% endwith %}
       </fieldset>

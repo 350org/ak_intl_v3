@@ -13,7 +13,7 @@
 {% if page.custom_fields.page_pretitle %}
 			<p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
 {% endif %}
-			<h2 id="action-title" class="title3">
+			<h2 id="action-title" class="title3 text-style-title3">
 {% if page.custom_fields.page_title_custom_html %}
 	{% autoescape off %}{{ page.custom_fields.page_title_custom_html }}{% endautoescape %}
 {% else %}
@@ -369,7 +369,7 @@
 					{% include "./privacy.html" %}
 
 {% if templateset.custom_fields.ask_occupation_and_employer %}
-          <p class="ak-label-above text-small" id="ak-occ-emp-why">         
+          <p class="ak-label-above text-small" id="ak-occ-emp-why">
               Federal law requires us to use our best efforts to collect and report the name, mailing address, occupation and name of employer of individuals whose contributions aggregate in excess of $200 in a calendar year.
           </p>
 					<div class="ak-errs-below">
@@ -497,7 +497,7 @@
 							{{ templateset.custom_fields.pre_submit_text }}
 						{% endautoescape %}
 					</div>
-				{% endif %}  
+				{% endif %}
 
         </div><!--ak-styled-fields-->
 

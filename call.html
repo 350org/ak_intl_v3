@@ -4,7 +4,7 @@
 <section id="action-lead" class="section action-lead width-narrow padding-large bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 		<div id="action-header" class="">
-			<h1 id="action-title" class="title3">{{ page.title }}</h1>
+			<h1 id="action-title" class="title3 text-style-title3">{{ page.title }}</h1>
 			<div class="" data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}">{% include_tmpl form.introduction_text %}</div>
 		</div>
 		{% include "./social_plugins.html" %}

@@ -9,7 +9,7 @@
 	{% if page.custom_fields.page_pretitle %}
 			<p id="action-pretitle" class="text-font-secondary text-large"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
 	{% endif %}
-			<h2 id="action-title" class="title3">
+			<h2 id="action-title" class="title3 text-style-title3">
 	{% if page.custom_fields.page_title_custom_html %}
 				{% autoescape off %} {{ page.custom_fields.page_title_custom_html }} {% endautoescape %}
 	{% else %}

@@ -38,11 +38,17 @@
 
 <div class="event-custom-fields margin-bottom-medium">
 	<strong class="text-small2 text-caps opacity-50">Group Name:</strong><br>
-	<div class="event-group-name">{{ event.custom_fields.group_name }}</div><br><br>
+	<div class="event-group-name">
+		{{ event.custom_fields.group_name }}
+	</div><br>
 	<strong class="text-small2 text-caps opacity-50">Facebook URL:</strong><br>
-	<div class="event-fb-url">{{ event.custom_fields.facebook_url }}</div><br><br>
+	<div class="event-fb-url">
+		<a href="{{ event.custom_fields.facebook_url }}">{{ event.custom_fields.facebook_url }}</a>
+	</div><br>
 	<strong class="text-small2 text-caps opacity-50">WhatsApp Group Join Link:</strong><br>
-	<div class="event-whatsapp-link">{{ event.custom_fields.whatsapp_group_join_link }}</div>
+	<div class="event-whatsapp-link">
+		<a href="{{ event.custom_fields.whatsapp_group_join_link }}">{{ event.custom_fields.whatsapp_group_join_link }}</a>
+	</div>
 </div>
 
 

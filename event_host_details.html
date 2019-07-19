@@ -36,6 +36,16 @@
 	{% endautoescape %}
 {% endif %}
 
+<div class="event-custom-fields margin-bottom-medium">
+	<strong class="text-small2 text-caps opacity-50">Group Name:</strong><br>
+	<div class="event-group-name">{{ event.custom_fields.group_name }}</div><br><br>
+	<strong class="text-small2 text-caps opacity-50">Facebook URL:</strong><br>
+	<div class="event-fb-url">{{ event.custom_fields.facebook_url }}</div><br><br>
+	<strong class="text-small2 text-caps opacity-50">WhatsApp Group Join Link:</strong><br>
+	<div class="event-whatsapp-link">{{ event.custom_fields.whatsapp_group_join_link }}</div>
+</div>
+
+
 <div class="event-host-edit margin-bottom-normal">
 	<a class="button button-secondary bg-teal button-small" href="../../create/?action_id={{ action.id }}&amp;update=1&amp;want_prefill_data=1">{% filter ak_text:"general_edit" %}Edit{% endfilter %}</a>
 </div>

@@ -81,7 +81,7 @@
 {% endif %}
 	<strong class="text-small2 text-caps opacity-50">{% filter ak_text:"event_details_signup_link" %}Event signup link:{% endfilter %} </strong><br>
 	<div class="event-url">
-		<a href="https://{% if templateset.custom_fields.site_url %}{{ templateset.custom_fields.site_url }}{% else %}{{ client_domain }} {% endif %}{{ event.public_url }}">https://{% client_domain %}{{ event.public_url }}</a>
+		<a href="https://{% if templateset.custom_fields.site_url %}{% include_tmpl templateset.custom_fields.site_url %}{% else %}{{ client_domain }}{% endif %}{{ event.public_url }}">https://{% client_domain %}{{ event.public_url }}</a>
 	</div>
 </div>
 

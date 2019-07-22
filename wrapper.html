@@ -109,8 +109,8 @@
 <!-- End Facebook Pixel Code -->
 {% endif %}
 
-{% if templateset.custom_fields.site_header_scripts %}
-	{{ templateset.custom_fields.site_header_scripts }}
+{% if templateset.custom_fields.site_addl_js_url %}
+	<script type="text/javascript" src="{{ templateset.custom_fields.site_addl_js_url }}"></script>
 {% endif %}
 
 {% if page.custom_fields.page_custom_header_code %}

@@ -34,7 +34,7 @@ tr:nth-child(2n - 1){
         <th class="toggle-col"><input type="checkbox" class="if-js toggle-all" /></th>
         <th class="name-col">{% filter ak_text:"field_name"%}Name{% endfilter %}</th>
         <th class="phone-col">{% filter ak_text:"field_phone"%}Phone{% endfilter %}</th>
-    	  <th class="vol-col">{% filter ak_text:"event_roster_can_volunteer" %}Can Volunteer{% endfilter %}</th>
+    	  <!--<th class="vol-col">{% filter ak_text:"event_roster_can_volunteer" %}Can Volunteer{% endfilter %}</th> -->
     {# "Notes" column is commented out for user clarity since we're not using it --> #}
         {# <!-- th class="notes-col">Notes</th --> #}
       </thead>
@@ -44,7 +44,7 @@ tr:nth-child(2n - 1){
             <td class="toggle-col"><input type="checkbox" class="toggle" name="user_id" value="{{ signup.user.id }}" /></td>
             <td class="name-col">{{ signup.user }}</td>
             <td class="phone-col">{{ signup.user.phone }}</td>
-            <td class="notes-col">{{ signup.custom_fields.can_volunteer }}</td>
+          	<!-- <td class="notes-col">{{ signup.custom_fields.can_volunteer }}</td> -->
           </tr>
         {% endfor %}
       </tbody>

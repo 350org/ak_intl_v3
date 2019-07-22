@@ -66,6 +66,9 @@
 {% if templateset.custom_fields.site_addl_css_url %}
 	<link rel='stylesheet' id='addl-css' href='{{ templateset.custom_fields.site_addl_css_url }}' type='text/css' media='screen' />
 {% endif %}
+{% if templateset.custom_fields.site_header_scripts %}
+{% endif %}
+
 {% if page.lang.is_rtl %}
 	<link rel='stylesheet' id='baseline-rtl-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3-rtl.css' type='text/css' media='all' />
 {% endif %}

@@ -17,10 +17,10 @@
     </div>
 {% endif %}
 
-    <div class="input-message-from margin-bottom-small">
+    <!-- <div class="input-message-from margin-bottom-small">
       <label class="text-blue text-small-caps text-strong">{% filter ak_text:"general_email_from" %}From{% endfilter %}</label>&nbsp;
       <span class="input-message-from-value">{{ user.name }}</span>
-    </div>
+    </div> -->
     <div class="input-message-to margin-bottom-small">
       <label class="text-blue text-small-caps text-strong">{% filter ak_text:"general_email_to" %}To{% endfilter %}</label>&nbsp;
       <span class="input-message-to-value">
@@ -33,10 +33,10 @@
       </span>
     </div>
 {% if to in 'attendees|cohosts' %}
-    <!-- <div class="input-text input-message-subject">
+    <div class="input-text input-message-subject">
       <label for="message-subject" class="text-caps text-strong text-blue">{% filter ak_text:"general_email_subject" %}Subject{% endfilter %}*</label>
       <input id="message-subject" type="text" name="subject" class="ak-full-width" style="max-width:100%;width:100%;" value="Message from your &quot;{{ event.title|default:campaign.local_title }}&quot; {% if to == 'cohosts'%}co-{% endif %}host">
-    </div> --> 
+    </div>
 {% endif %}
     <div class="input-textarea input-message-body">
       <label for="message-body" class="text-caps text-strong text-blue">{% filter ak_text:"general_message" %}Message{% endfilter %}</label>

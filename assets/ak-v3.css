@@ -2781,7 +2781,8 @@ label.ak-survey-radio-choice{
 .form-style-labelabove .input-radio label{
   font-size:0.85em;
   font-weight:bold;
-  position:relative;}
+  position:relative;
+  display: inline-block;}
 .form-style-labelabove .input-checkbox label input,
 .form-style-labelabove .input-radio label input{
   left:0;

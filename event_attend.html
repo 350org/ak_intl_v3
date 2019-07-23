@@ -210,6 +210,11 @@
 				<div id="" class="">
 					{% include "./user_form.html" %}
 				</div>
+				
+					{% if page.custom_fields.form_privacy_show_optin != "do-not-show" %}
+					  {% include "./privacy.html" %}
+					{% endif %}
+
 
 	{% if form.ground_rules|is_nonblank and not update %}
 				<div class="input-checkbox text-center" style="display:inline-block;">

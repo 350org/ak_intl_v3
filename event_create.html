@@ -291,6 +291,11 @@
           <!-- input type="hidden" name="never_recognize" value="1" / -->
       {% comment %}<!-- div class="input">
        <label for="id_phone">Phone</label><input class="phone" id="id_phone" type="text" name="phone" title="Your phone number'" /></div--> {% endcomment %}
+
+					{% if page.custom_fields.form_privacy_show_optin != "do-not-show" %}
+					  {% include "./privacy.html" %}
+					{% endif %}
+
         </fieldset>
       </div>
 

@@ -293,7 +293,9 @@
        <label for="id_phone">Phone</label><input class="phone" id="id_phone" type="text" name="phone" title="Your phone number'" /></div--> {% endcomment %}
 
 					{% if page.custom_fields.form_privacy_show_optin != "do-not-show" %}
+						<div class="form-style-labelabove">
 					  {% include "./privacy.html" %}
+						</div>
 					{% endif %}
 
         </fieldset>

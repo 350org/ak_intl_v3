@@ -92,6 +92,10 @@
 				<span class="event-city-etc">{{ event.city_etc_no_postal }}</span>
 				{% endif %}
 			{% endif %}
+		<div class="text-center text-small event-attend-directions-link event-directions-link">
+			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
+		</div>
+
 			</div>
 			<div class="event-custom-fields margin-bottom-medium margin-top-large">
 				{% if event.custom_fields.group_name %}
@@ -162,13 +166,6 @@
 			</div>
 				{% endautoescape %}
 			{% endif %}
-		</div>
-
-		<div id="event-attend-map" class="image-link-parent">
-			<a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank" title="View in Google Maps"><img src="https://maps.google.com/maps/api/staticmap?sensor=false&size=740x260&markers={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" width="800" height="260" /></a>
-		</div>
-		<div class="text-center text-small event-attend-directions-link event-directions-link">
-			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
 		</div>
 
 		{% endfor %}

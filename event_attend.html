@@ -121,7 +121,7 @@
 		{% else %}
 			{% if args.foo or event.is_open_for_signup or update %}
 		<div class="margin-bottom-large text-center">
-			<a id="event-attend-jump-link" href="#rsvp" class="button button-big button-primary arrow-down">{% if update %}Update Your Info{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign Up{% endfilter %}{% endif %}</a>
+			<a id="event-attend-jump-link" href="#rsvp" class="button button-big button-primary arrow-down">{% if update %}{% filter ak_text:"event_attend_update_info"%}Update Your Info{% endfilter %}{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign Up{% endfilter %}{% endif %}</a>
 		</div>
 			{% endif %}
 		{% endif %}
@@ -230,7 +230,7 @@
 
 	{% endif %}
 				<ul class="compact" id="ak-errors"></ul>
-				<button id="id_submit" class="submit button button-big margin-bottom-normal button-primary arrow-right" type="submit" name="submit">{% if update %}Update Your Info{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign up{% endfilter %}{% endif %}</button>
+				<button id="id_submit" class="submit button button-big margin-bottom-normal button-primary arrow-right" type="submit" name="submit">{% if update %}{% filter ak_text:"event_attend_update_info"%}Update Your Info{% endfilter %}{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign up{% endfilter %}{% endif %}</button>
 				<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
 					{% if page.custom_fields.form_short_toc %}
 						{{ page.custom_fields.form_short_toc }}

@@ -85,9 +85,9 @@
 			{% if campaign.show_venue and event.venue %}
 				<span class="event-venue">{{ event.venue }}</span><br>
 			{% endif %}
-			{% if campaign.show_address1 %}
+<!--			{% if campaign.show_address1 %} -->
 				<span class="event-address1">{{ event.address1 }}</span><br>
-			{% endif %}
+<!--			{% endif %} -->
 			{% if campaign.show_city or campaign.show_state or campaign.show_zip %}
 				{% if campaign.show_zip %}
 				<span class="event-city-etc">{{ event.city_etc }}</span>
@@ -96,10 +96,10 @@
 				{% endif %}
 			{% endif %}
 			</div>
-			{% if campaign.show_address1 %}{% else %}
+<!--			{% if campaign.show_address1 %}{% else %}
 			<div class="event-address-hidden note opacity-50">{% filter ak_text:"event_search_results_address_hidden_until_rsvp" %}(We'll show you the exact address once you RSVP){% endfilter %}</div>
 			{% endif %}
-			
+-->			
 			<div class="event-custom-fields margin-bottom-medium margin-top-large">
 				{% if event.custom_fields.group_name %}
 				<strong class="text-small2 text-caps opacity-50">{% filter ak_text:"event_details_group_name" %}Group Name{% endfilter %}:</strong><br>
@@ -171,14 +171,14 @@
 			{% endif %}
 		</div>
 
-			{% if campaign.show_address1 %}
+<!--			{% if campaign.show_address1 %} -->
 		<div id="event-attend-map" class="image-link-parent">
 			<a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank" title="View in Google Maps"><img src="https://maps.google.com/maps/api/staticmap?sensor=false&size=740x260&markers={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" width="800" height="260" /></a>
 		</div>
 		<div class="text-center text-small event-attend-directions-link event-directions-link">
 			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
 		</div>
-			{% endif %}
+<!--			{% endif %} -->
 
 		{% endfor %}
 	{% endwith %}

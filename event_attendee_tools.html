@@ -131,7 +131,7 @@
 			</div>
 			{% endif %}
 			<div class="event-attend-tools-link-update">
-				<a href="../signup/?akid={{ args.akid }}&amp;action_id={{ action.id }}&update=1#event-attend-rsvp">Update contact info</a>
+				<a href="../signup/?akid={{ args.akid }}&amp;action_id={{ action.id }}&update=1#event-attend-rsvp">{% filter ak_text:"event_attend_tools_view_update_contact_info"%}Update contact info{% endfilter %}</a>
 			</div>
 			<div class="event-attend-tools-link-message">
 				<a class="js-modal" data-modal-source="#event-attend-tools-contact-host" href="#message">{% filter ak_text:"event_attend_tools_message_host" %}Send a message to the host{% endfilter %}</a>

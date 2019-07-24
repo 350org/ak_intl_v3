@@ -186,7 +186,7 @@ a.cancel-link:hover,
   {% if campaign.use_title %}
     <h1 class="text-style-title-large title3 event-title">{{ event.title }}</h1>
   {% else %}
-    <h1 class="text-style-title-large title1">Event Tools</h1>
+    <h1 class="text-style-title-large title1">{% filter ak_text:"event_host_tools_event_tools" %}Event Tools{% endfilter %}</h1>
   {% endif %}
 	</div>
 </div>
@@ -240,13 +240,13 @@ a.cancel-link:hover,
           </li>
   {% endif %}
 	{% if event.is_in_past %}
-		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE904;"  id="add-attendees-link" href="#attendees-add">Add Attendees</a></li>
+		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE904;"  id="add-attendees-link" href="#attendees-add">{% filter ak_text:"event_host_tools_add_attendees" %}Add Attendees{% endfilter %}</a></li>
 	{% endif %}
 	{% if event.is_open_for_signup and page.pagefollowup.send_taf %}
-		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE933;" id="invite-friends-link" href="#invite-friends">Invite friends</a></li>
+		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE933;" id="invite-friends-link" href="#invite-friends">{% filter ak_text:"event_host_tools_invite_friends" %}Invite friends{% endfilter %}</a></li>
 	{% endif %}
-			    <li><a class="logout-link host-tool icon-before icon-faded" data-icon="&#xE94E;" href="/logout/">Log out</a></li>
-					<li><a class="cancel-link host-tool icon-before icon-faded" data-icon="&#xE943;" confirm-message="Really cancel event? This can't be undone." href="../cancel_event/">{% filter ak_text:"event_host_tools_cancel" %}Cancel event{% endfilter %}</a></li>
+			    <li><a class="logout-link host-tool icon-before icon-faded" data-icon="&#xE94E;" href="/logout/">{% filter ak_text:"general_log_out" %}Log out{% endfilter %}</a></li>
+					<li><a class="cancel-link host-tool icon-before icon-faded" data-icon="&#xE943;" confirm-message="{% filter ak_text:"event_host_tools_really_cancel" %}Really cancel event? This can't be undone.{% endfilter %}" href="../cancel_event/">{% filter ak_text:"event_host_tools_cancel" %}Cancel event{% endfilter %}</a></li>
 			  </ul>
 			  <!-- Message from mothership -->
 				<div class="event-host-tools-custom">
@@ -299,14 +299,14 @@ a.cancel-link:hover,
 <div class="section bg-white notch width-normal padding-medium">
   <div class="section-inner">
   {% if event.is_inactive %}
-    <h3>This event is no longer active.</h3>
+    <h3>{% filter ak_text:"event_host_tools_event_inactive" %}This event is no longer active.{% endfilter %}</h3>
   {% endif %}
   {% if not signup %}
-    <h3>Sorry, you aren't currently signed up for this event.</h3>
-    <p>If you think this is a mistake, check that you cut-and-pasted the entire link to this page.</p>
+    <h3>{% filter ak_text:"event_host_tools_not_signed_up" %}Sorry, you aren't currently signed up for this event.{% endfilter %}</h3>
+    <p>{% filter ak_text:"event_host_tools_mistake" %}If you think this is a mistake, check that you cut-and-pasted the entire link to this page.{% endfilter %}</p>
   {% endif %}
     <div>
-			<a href="/event/{{ campaign.local_name }}/?akid={{args.akid}}&amp;zip={{args.zip}}">Search for another event</a>
+			<a href="/event/{{ campaign.local_name }}/?akid={{args.akid}}&amp;zip={{args.zip}}">{% filter ak_text:"event_host_tools_search_another" %}Search for another event{% endfilter %}</a>
 		</div>
   </div>
 </div>

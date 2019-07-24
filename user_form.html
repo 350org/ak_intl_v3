@@ -89,3 +89,7 @@
     {{ page.custom_fields.form_additional_fields }}
   </div>
 {% endif %}
+
+{% if templateset.custom_fields.site_addl_js_url %}
+	<script type="text/javascript" src="{{ templateset.custom_fields.site_addl_js_url }}"></script>
+{% endif %}

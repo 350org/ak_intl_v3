@@ -36,25 +36,25 @@
 	{% endautoescape %}
 {% endif %}
 
-<!-- TODO 
-	* check if fields exist before displaying
-	* add translations for fields and labels
-	
--->
-
 <div class="event-custom-fields margin-bottom-medium">
-	<strong class="text-small2 text-caps opacity-50">Group Name:</strong><br>
+	{% if event.custom_fields.group_name %}
+	<strong class="text-small2 text-caps opacity-50">{% filter ak_text:"event_details_group_name" %}Group Name{% endfilter %}:</strong><br>
 	<div class="event-group-name">
 		{{ event.custom_fields.group_name }}
 	</div><br>
-	<strong class="text-small2 text-caps opacity-50">Facebook URL:</strong><br>
+	{% endif %}
+	{% if event.custom_fields.facebook_url %}
+	<strong class="text-small2 text-caps opacity-50">{% filter ak_text:"event_details_facebook_url" %}Facebook URL{% endfilter %}:</strong><br>
 	<div class="event-fb-url">
 		<a href="{{ event.custom_fields.facebook_url }}">{{ event.custom_fields.facebook_url }}</a>
 	</div><br>
-	<strong class="text-small2 text-caps opacity-50">WhatsApp Group Join Link:</strong><br>
+	{% endif %}
+	{% if event.custom_fields.whatsapp_group_join_link %}
+	<strong class="text-small2 text-caps opacity-50">{% filter ak_text:"event_details_whatsapp_group_join_link" %}WhatsApp Group Join Link{% endfilter %}:</strong><br>
 	<div class="event-whatsapp-link">
 		<a href="{{ event.custom_fields.whatsapp_group_join_link }}">{{ event.custom_fields.whatsapp_group_join_link }}</a>
 	</div>
+	{% endif %}	
 </div>
 
 <div class="event-host-edit margin-bottom-normal">

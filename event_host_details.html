@@ -44,13 +44,11 @@
 	</div><br>
 	{% endif %}
 	{% if event.custom_fields.facebook_url %}
-	<br>
 	<div class="event-fb-url">
 		<a class="button button-arrow-right bg-facebook-color" href="{{ event.custom_fields.facebook_url }}" rel="noopener" target="_blank">{% filter ak_text:"event_attend_tools_view_facebook_link" %}View On Facebook{% endfilter %}</a>		
 	</div><br>
 	{% endif %}
 	{% if event.custom_fields.whatsapp_group_join_link %}
-	<br>
 	<div class="event-whatsapp-link">
 		<a href="{{ event.custom_fields.whatsapp_group_join_link }}"></a>
 		<a class="button button-arrow-right bg-whatsapp-color" href="{{ event.custom_fields.whatsapp_group_join_link }}" rel="noopener" target="_blank">{% filter ak_text:"event_details_whatsapp_group_join_link" %}WhatsApp Group{% endfilter %}</a>		

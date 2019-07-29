@@ -44,9 +44,9 @@
 	</div><br>
 	{% endif %}
 	{% if event.custom_fields.facebook_url %}
-	<strong class="text-small2 text-caps opacity-50">{% filter ak_text:"event_host_tools_manage_facebook_event_url_label" %}Facebook URL{% endfilter %}:</strong><br>
+	<br>
 	<div class="event-fb-url">
-		<a href="{{ event.custom_fields.facebook_url }}">{{ event.custom_fields.facebook_url }}</a>
+		<a class="button button-arrow-right bg-facebook-color" href="{{ event.custom_fields.facebook_url }}" rel="noopener" target="_blank">{% filter ak_text:"event_attend_tools_view_facebook_link" %}View On Facebook{% endfilter %}</a>		
 	</div><br>
 	{% endif %}
 	{% if event.custom_fields.whatsapp_group_join_link %}

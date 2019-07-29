@@ -50,7 +50,6 @@
 	{% endif %}
 	{% if event.custom_fields.whatsapp_group_join_link %}
 	<div class="event-whatsapp-link">
-		<a href="{{ event.custom_fields.whatsapp_group_join_link }}"></a>
 		<a class="button button-arrow-right bg-whatsapp-color" href="{{ event.custom_fields.whatsapp_group_join_link }}" rel="noopener" target="_blank">{% filter ak_text:"event_details_whatsapp_group_join_link" %}WhatsApp Group{% endfilter %}</a>		
 
 	</div>

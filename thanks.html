@@ -130,7 +130,7 @@
 		</div>
 	</div>
 		{% if page.custom_fields.thanks_show_map %}
-		<div>{{ user.first_name|default:"Friend" }}'s Location: <span id="address-country-postal">{{ user.country }}, {{ user.postal }}</span><span id="address-latlong">({{ user.location.latitude }}, {{ user.location.longitude }}</span>)</div>
+		<div>{{ user.first_name|default:"Friend" }}'s Location: <span id="address-country-postal">{{ user.country }}, {{ user.postal }}</span> <span id="address-latlong">({{ user.location.latitude }}, {{ user.location.longitude }}</span>)</div>
 		<div id='map-embed-350org' style='height: 70vh' data-src-layers='events'></div>
 		<script src="https://feature-refactor--megamap.netlify.com/main.js"></script>
 		{% endif %}

@@ -12,7 +12,7 @@
 		{% include_tmpl form.thank_you_text %}
 		{% if page.custom_fields.thanks_show_map %}
 		<div>{{ user.first_name|default:"Friend" }}'s Location: {{ user.location.latitude }}, {{ user.location.longitude }}</div>
-		<div id='map-embed-350org' style='height: 70vh' data-src-latlong="{{ user.location.latitude }}, {{ user.location.longitude }}" data-src-zoom="4"></div>
+		<div id='map-embed-350org' style='height: 70vh' data-src-latlong='{{ user.location.latitude }}, {{ user.location.longitude }}' data-src-zoom='4' data-src-layers='events'></div>
 		<script src="https://feature-refactor--megamap.netlify.com/main.js"></script>
 		{% endif %}
 		</div>

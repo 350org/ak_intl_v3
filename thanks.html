@@ -11,12 +11,6 @@
 		<div id="thanks-message" class="bg-dkgray-trans text-large3 c10 ct10 cm10 box box-huge margin-bottom-large">
 		{% include_tmpl form.thank_you_text %}
 		</div>
-		{% if page.custom_fields.thanks_show_map %}
-		<div>{{ user.first_name|default:"Friend" }}'s Location: <span id="address-search">{{ user.country }}, {{ user.postal }}</span></div>
-		<div id='map-embed-350org' style='height: 70vh' data-src-layers='events'></div>
-		<script src="https://feature-refactor--megamap.netlify.com/main.js"></script>
-		{% endif %}
-
 		<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">
 			<input type="hidden" name="utf8" value="&#x2714;" />
 			<input type="hidden" name="page" value="{{ page.name }}" />
@@ -134,6 +128,12 @@
 </form>
 
 		</div>
+		{% if page.custom_fields.thanks_show_map %}
+		<div>{{ user.first_name|default:"Friend" }}'s Location: <span id="address-search">{{ user.country }}, {{ user.postal }}</span></div>
+		<div id='map-embed-350org' style='height: 70vh' data-src-layers='events'></div>
+		<script src="https://feature-refactor--megamap.netlify.com/main.js"></script>
+		{% endif %}
+
 	</div>
 </section>
 

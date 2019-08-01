@@ -266,7 +266,7 @@ jQuery(document).ready(function($){
 					})
 					.done(function(msg) {
 						// send google analytics event
-						ga('send', 'event', 'signup', 'signup', window.location.pathname);
+						ga('send', 'event', 'scrolling-signup', 'signup', window.location.pathname);
 						// send FB tracker event
 						if (typeof fbq === "function") {
 							fbq('track', 'CompleteRegistration');
@@ -276,10 +276,10 @@ jQuery(document).ready(function($){
 						// if user opts to share, show share dialog
 						$('.afteraction-share-ask-yes').on('click', function(){
 							afteractionShowShare();
-							ga('send', 'event', 'afteraction-share-ask-yes', 'signup', window.location.pathname);
+							ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);
 						});
 						$('.afteraction-share-ask-no').on('click', function(){
-							ga('send', 'event', 'afteraction-share-ask-no', 'signup', window.location.pathname);
+							ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-no', window.location.pathname);
 						});
 						// if user opts not to share or has completed sharing, show donate ask
 						afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
@@ -287,10 +287,10 @@ jQuery(document).ready(function($){
 							afteractionShowDonate(el);
 						});
 						$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
-							ga('send', 'event', 'afteraction-donate-yes', 'signup', window.location.pathname);
+							ga('send', 'event', 'scrolling-signup', 'afteraction-donate-yes', window.location.pathname);
 						});
 						$('.afteraction-donate-ask-no').on('click', function(){
-							ga('send', 'event', 'afteraction-donate-no', 'signup', window.location.pathname);
+							ga('send', 'event', 'scrolling-signup', 'afteraction-donate-no', window.location.pathname);
 						});
 					})
 					.fail(function(){

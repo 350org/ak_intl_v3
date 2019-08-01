@@ -10,9 +10,7 @@
 		</form>
 		<div id="thanks-message" class="bg-dkgray-trans text-large3 c10 ct10 cm10 box box-huge margin-bottom-large">
 		{% include_tmpl form.thank_you_text %}
-		{% if request.user.is_authenticated %}
 		<div style="display: none;">Location: {{ user.location.latitude }}, {{ user.location.longitude }}</div>
-		{% endif %}
 		</div>
 		<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">
 			<input type="hidden" name="utf8" value="&#x2714;" />

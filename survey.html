@@ -59,8 +59,10 @@
 	<script type="text/javascript">
 		jQuery( document ).ready(function() {
 				radiobtn = document.getElementById("{{ args.action_smiley }}");
-				radiobtn.checked = true;
-		});		
+				if (radiobtn){
+					radiobtn.checked = true;
+				}
+		});
 	</script>
 </section>
 

@@ -11,8 +11,8 @@
 		<div id="thanks-message" class="bg-dkgray-trans text-large3 c10 ct10 cm10 box box-huge margin-bottom-large">
 		{% include_tmpl form.thank_you_text %}
 		{% if page.custom_fields.thanks_show_map %}
-		<div>{{ user.first_name|default:"Friend" }}'s Location: {{ user.location.latitude }}, {{ user.location.longitude }}</div>
-		<div id='map-embed-350org' style='height: 70vh' data-src-latlong='{{ user.location.latitude }}, {{ user.location.longitude }}' data-src-zoom='4' data-src-layers='events'></div>
+		<div>{{ user.first_name|default:"Friend" }}'s Location: <span id="address-search">{{ user.country }}, {{ user.postal }}</span>span></div>
+		<div id='map-embed-350org' style='height: 70vh' data-src-layers='events'></div>
 		<script src="https://feature-refactor--megamap.netlify.com/main.js"></script>
 		{% endif %}
 		</div>

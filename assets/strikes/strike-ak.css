@@ -53,7 +53,7 @@ html,body,.text-font-body{
   background-color: #4ee58b !important;
 }
 
-h3.event-list-item-title {
+h2.h3.event-list-item-title, h3.event-list-item-title {
     font-size: calc(0.62vw + 1.3rem);
     letter-spacing: calc(0.025rem - 0.025em);
     line-height: calc(.8em + 0.85rem);

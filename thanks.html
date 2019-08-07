@@ -130,8 +130,8 @@
 		</div>
 	</div>
 		{% if page.custom_fields.thanks_show_map %}
-		<div>Is the map below showing "{{ user.country }}, {{ user.postal }}"?</div>
-		<div id='map-embed-350org' style='height: 70vh' data-src-layers='events' data-src-search="{{ user.country }}, {{ user.postal }}"></div>
+		<!-- data-src-search="{{ user.country }}, {{ user.postal }}" -->
+		<div id='map-embed-350org' style='height: 70vh' data-src-layers='events'></div>
 		<script src="https://feature-refactor--megamap.netlify.com/main.js"></script>
 		{% endif %}
 

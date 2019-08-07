@@ -49,7 +49,7 @@ html,body,.text-font-body{
 	text-shadow: none !important;
 }
 
-#map-embed-350org .event-list-item-cta a.event-list-item-cta-btn{
+#map-embed-350org .event-list-item-cta a.event-list-item-cta-btn:hover{
   background-color: #4ee58b !important;
 }
 

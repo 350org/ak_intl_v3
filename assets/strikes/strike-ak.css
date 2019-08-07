@@ -1,0 +1,38 @@
+button,
+button.submit,
+.button{
+	background-color:#4ee58b;
+	color:initial;
+	border-radius:0;
+	padding-top:1.4rem;
+	padding-bottom:1.4rem;}
+button.submit.button-primary,
+.button.button-primary{
+	background-color:#231f20;
+	border-radius:0;
+	box-shadow:0.3em 0.3em 0 #4ee58b;
+	font-family:klima-web,-apple-system,sans-serif;
+	font-size:1.3rem;
+	letter-spacing:0.05em;
+	text-transform:uppercase;}
+
+/* Custom styles for Greve display font */
+h1, h2, h3, .text-style-title0, .text-style-title1, .text-style-title2, .text-style-title3, .text-style-title4, .text-display, .text-font-display {
+	font-family:greve-web,-apple-system,sans-serif;;
+  text-transform: uppercase;
+  letter-spacing: calc(.03rem - 0.01em);
+}
+html,body,.text-font-body{
+	font-family:katwijk-mono-web,monospace;
+	font-size:16px;}
+.text-font-secondary,
+.meta,
+.text-small,
+.text-small2{
+	font-family:klima-web,-apple-system,sans-serif;}
+
+/* use border-bottom for text link styles */
+.section:not(#site-header):not(.nav) a:not(.button):not(.expando-link){
+	border-bottom:2px solid #4ee58b;
+	color:#231F20;
+	text-decoration:none;}

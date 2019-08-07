@@ -18,7 +18,7 @@ button.submit.button-primary,
 
 /* Custom styles for Greve display font */
 h1, h2, h3, .text-style-title0, .text-style-title1, .text-style-title2, .text-style-title3, .text-style-title4, .text-display, .text-font-display {
-	font-family:greve-web,-apple-system,sans-serif;;
+	font-family:greve-web,-apple-system,sans-serif;
   text-transform: uppercase;
   letter-spacing: calc(.03rem - 0.01em);
 }
@@ -36,6 +36,11 @@ html,body,.text-font-body{
 	border-bottom:2px solid #4ee58b;
 	color:#231F20;
 	text-decoration:none;}
+
+.section:not(#site-header):not(.nav) a:not(.button):not(.expando-link):hover{
+  background-color: #4ee58b;
+  color: inherit;}
+
 	
 /* Map styles */	
 #map-embed-350org .event-list-item-cta a.event-list-item-cta-btn{
@@ -45,5 +50,11 @@ html,body,.text-font-body{
 }
 
 #map-embed-350org .event-list-item-cta a.event-list-item-cta-btn{
-  background-color: #4ee58b;
+  background-color: #4ee58b !important;
+}
+
+h3.event-list-item-title {
+    font-size: calc(0.62vw + 1.3rem);
+    letter-spacing: calc(0.025rem - 0.025em);
+    line-height: calc(.8em + 0.85rem);
 }

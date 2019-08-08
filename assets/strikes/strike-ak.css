@@ -58,3 +58,15 @@ h2.event-list-item-title, h3.event-list-item-title {
     letter-spacing: calc(0.025rem - 0.025em);
     line-height: calc(.8em + 0.85rem);
 }
+
+#map-embed-350org .search-text{
+	color: #333;
+}
+
+#map-embed-350org .filter-form ul li label{
+	color: #333;	
+}
+
+#map-embed-350org .filter-form ul li input:checked + label{
+	font-weight: 600;
+}

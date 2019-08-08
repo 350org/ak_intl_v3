@@ -92,7 +92,7 @@
 <div id="event-create-header" class="page-header section width-normal padding-large text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
   <div class="section-inner">
 {% if not update %}
-    <h2 id="page-title" class="title2">{{ page.title }}</h2>
+    <h2 id="page-title" class="text-style-title2 title2">{{ page.title }}</h2>
   {% if args.embed != "y" %}
     {% if not update and form.host_text %}
     <div id="event-create-description" class="text-large text-style-lead" data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}1{% endif %}">

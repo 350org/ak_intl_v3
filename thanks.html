@@ -133,8 +133,8 @@
 		<!-- data-src-search="{{ user.country }}, {{ user.postal }}" -->
 		<div style="display: none;">{{ page.lang }}</div>
 		<script type="text/javascript">
-
-switch ({{ page.lang }}) {
+var lang = {{ page.lang }};
+switch (lang) {
   case 'English':
     code = 'en';
     break;

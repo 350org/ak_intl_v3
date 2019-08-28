@@ -138,7 +138,7 @@
 		<div id="map-embed-350org" style="height: 70vh;" 
 			data-src-layers="events" 
 			data-src-campaign-names="globalclimatestrike,globalclimatestrike-fff,us-climate-strikes"
-			data-src-search="{{ user.country }} {{ user.postal }}"
+			{% if user.country %}data-src-search="{{ user.country }} {{ user.postal }}"{% endif %}
 			data-src-lang="">
 		<script type="text/javascript">
 			var langcode = document.getElementsByTagName('html')[0].getAttribute('lang');	

@@ -150,10 +150,24 @@ switch (lang) {
   case 'Deutsch':
     code = 'de';
     break;
-
+  case '	Русский':
+    code = 'ru';
+    break;
+  case 'Türkçe':
+    code = 'tr';
+    break;
+  case 'Bahasa Indonesia':
+    code = 'id';
+    break;
+  case '日本語 (Japanese/Nihongo)':
+    code = 'ja';
+    break;
+  case 'Українська':
+    code = 'uk';
+    break;
 }
 
-console.log(code);			
+document.getElementById('map-embed-350org').setAttribute('data-src-lang', code);
 		</script>
 		<style>
 		.filter-form ul li:nth-child(2), .filter-form li:nth-child(3){

@@ -132,6 +132,29 @@
 		{% if page.custom_fields.thanks_show_map %}
 		<!-- data-src-search="{{ user.country }}, {{ user.postal }}" -->
 		<div style="display: none;">{{ page.lang }}</div>
+		<script type="text/javascript">
+
+switch ({{ page.lang }}) {
+  case 'English':
+    code = 'en';
+    break;
+  case 'Português':
+    code = 'pt';
+    break;
+  case 'Español':
+    code = 'es';
+    break;
+  case 'Français':
+    code = 'fr';
+    break;
+  case 'Deutsch':
+    code = 'de';
+    break;
+
+}
+
+console.log(code);			
+		</script>
 		<style>
 		.filter-form ul li:nth-child(2), .filter-form li:nth-child(3){
 		display:none;

@@ -132,8 +132,18 @@
 		{% if page.custom_fields.thanks_show_map %}
 		<!-- data-src-search="{{ user.country }}, {{ user.postal }}" -->
 		<div style="display: none;">{{ page.lang }}</div>
+
+		<style>
+		.filter-form ul li:nth-child(2), .filter-form li:nth-child(3){
+		display:none;
+		}
+		</style>		
+		<div id="map-embed-350org" style="height: 70vh;" 
+			data-src-layers="events" 
+			data-src-campaign-names="globalclimatestrike,globalclimatestrike-fff,us-climate-strikes"
+			data-src-search="{{ user.country }} {{ user.postal }}"
+			data-src-lang="">
 		<script type="text/javascript">
-$(function() {
 	var lang = "{{ page.lang }}";
 	switch (lang) {
 	  case 'English':
@@ -168,23 +178,9 @@ $(function() {
 	    break;
 	}
 	
-	{% with lang-code=code %}
-	
 //	document.getElementById('map-embed-350org').setAttribute('data-src-lang', code);
-});
-		</script>
-		<style>
-		.filter-form ul li:nth-child(2), .filter-form li:nth-child(3){
-		display:none;
-		}
-		</style>		
-		<div id="map-embed-350org" style="height: 70vh;" 
-			data-src-layers="events" 
-			data-src-campaign-names="globalclimatestrike,globalclimatestrike-fff,us-climate-strikes"
-			data-src-search="{{ user.country }} {{ user.postal }}"
-			data-src-lang="{{lang-code}}">
+		</script>				
 			<script src="https://feature-refactor--megamap.netlify.com/main.js"></script>
-{% endwith %}			
 		{% endif %}
 
 </section>

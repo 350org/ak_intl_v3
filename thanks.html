@@ -130,9 +130,6 @@
 		</div>
 	</div>
 		{% if page.custom_fields.thanks_show_map %}
-		<!-- data-src-search="{{ user.country }}, {{ user.postal }}" -->
-		<div style="display: none;">{{ page.lang }}</div>
-
 		<style>
 		.filter-form ul li:nth-child(2), .filter-form li:nth-child(3){
 		display:none;
@@ -144,41 +141,8 @@
 			data-src-search="{{ user.country }} {{ user.postal }}"
 			data-src-lang="">
 		<script type="text/javascript">
-	var lang = "{{ page.lang }}";
-	switch (lang) {
-	  case 'English':
-	    code = 'en';
-	    break;
-	  case 'Português':
-	    code = 'pt';
-	    break;
-	  case 'Español':
-	    code = 'es';
-	    break;
-	  case 'Français':
-	    code = 'fr';
-	    break;
-	  case 'Deutsch':
-	    code = 'de';
-	    break;
-	  case '	Русский':
-	    code = 'ru';
-	    break;
-	  case 'Türkçe':
-	    code = 'tr';
-	    break;
-	  case 'Bahasa Indonesia':
-	    code = 'id';
-	    break;
-	  case '日本語 (Japanese/Nihongo)':
-	    code = 'ja';
-	    break;
-	  case 'Українська':
-	    code = 'uk';
-	    break;
-	}
-	var langcode = document.getElementsByTagName('html')[0].getAttribute('lang');	
-	document.getElementById('map-embed-350org').setAttribute('data-src-lang', langcode);
+			var langcode = document.getElementsByTagName('html')[0].getAttribute('lang');	
+			document.getElementById('map-embed-350org').setAttribute('data-src-lang', langcode);
 		</script>				
 			<script src="https://feature-refactor--megamap.netlify.com/main.js"></script>
 		{% endif %}

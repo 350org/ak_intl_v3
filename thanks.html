@@ -133,41 +133,43 @@
 		<!-- data-src-search="{{ user.country }}, {{ user.postal }}" -->
 		<div style="display: none;">{{ page.lang }}</div>
 		<script type="text/javascript">
-var lang = "{{ page.lang }}";
-switch (lang) {
-  case 'English':
-    code = 'en';
-    break;
-  case 'Português':
-    code = 'pt';
-    break;
-  case 'Español':
-    code = 'es';
-    break;
-  case 'Français':
-    code = 'fr';
-    break;
-  case 'Deutsch':
-    code = 'de';
-    break;
-  case '	Русский':
-    code = 'ru';
-    break;
-  case 'Türkçe':
-    code = 'tr';
-    break;
-  case 'Bahasa Indonesia':
-    code = 'id';
-    break;
-  case '日本語 (Japanese/Nihongo)':
-    code = 'ja';
-    break;
-  case 'Українська':
-    code = 'uk';
-    break;
-}
-
-document.getElementById('map-embed-350org').setAttribute('data-src-lang', code);
+$(function() {
+	var lang = "{{ page.lang }}";
+	switch (lang) {
+	  case 'English':
+	    code = 'en';
+	    break;
+	  case 'Português':
+	    code = 'pt';
+	    break;
+	  case 'Español':
+	    code = 'es';
+	    break;
+	  case 'Français':
+	    code = 'fr';
+	    break;
+	  case 'Deutsch':
+	    code = 'de';
+	    break;
+	  case '	Русский':
+	    code = 'ru';
+	    break;
+	  case 'Türkçe':
+	    code = 'tr';
+	    break;
+	  case 'Bahasa Indonesia':
+	    code = 'id';
+	    break;
+	  case '日本語 (Japanese/Nihongo)':
+	    code = 'ja';
+	    break;
+	  case 'Українська':
+	    code = 'uk';
+	    break;
+	}
+	
+	document.getElementById('map-embed-350org').setAttribute('data-src-lang', code);
+});
 		</script>
 		<style>
 		.filter-form ul li:nth-child(2), .filter-form li:nth-child(3){

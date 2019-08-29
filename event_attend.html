@@ -41,6 +41,7 @@
 </style>
 <script>
 var localPageName = {{ event.local_campaign.signup_page.name|json }};
+console.log(localPageName);
 var path = window.location.pathname;
 var newPath = path.replace('/event/' + {{ event.campaign.name|json }} + '/', '/event/' + localPageName + '/');
 if (path != newPath) window.location.pathname = newPath;

@@ -40,16 +40,18 @@
 
 </style>
 <script>
+	/*
 var localPageName = {{ event.local_campaign.signup_page.name|json }};
 console.log('localPageName: ' + localPageName);
 
 var path = window.location.pathname;
 console.log('path: ' + path);
 
-var newPath = path.replace(/\/{{ event.campaign.name|json }}(_attend)*\//g, '/event/' + localPageName + '/');
+var newPath = path.replace('/event/' + {{ event.campaign.name|json }} + '/', '/event/' + localPageName + '/');
 console.log('newPath: ' + newPath);
 
 if (path != newPath) window.location.pathname = newPath;
+*/
 </script>
 
 <div id="event-attend" class="bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">

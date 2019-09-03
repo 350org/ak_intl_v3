@@ -253,7 +253,7 @@
     {% if page.custom_fields.donation_once_recurring_or_both|lower == "recurring" %}
       	<div id="ak-recurring-type"></div>
         <input type="hidden" name="donation_type" value="recurring">
-    {% elif page.custom_fields.donation_once_recurring_or_both|lower == "once" %}
+    {% elif page.custom_fields.donation_once_recurring_or_both|lower == "single" %}
         <div id="ak-recurring-type"></div>
         <input type="hidden" name="donation_type" value="single">
         {% else %}

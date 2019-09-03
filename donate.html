@@ -256,6 +256,12 @@
     {% elif page.custom_fields.donation_once_recurring_or_both|lower == "single" %}
         <div id="ak-recurring-type"></div>
         <input type="hidden" name="donation_type" value="single">
+    {% elif page.custom_fields.donation_once_recurring_or_both|lower == "both-recurring" %}
+        <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
+          <div class="input-checkbox text-strong margin-bottom-none">
+            <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="single"> <label for="id_donation_type_recurring" class="text-strong">{% filter ak_text:"donate_make_one_time" %}Make this a one-time donation.{% endfilter %}</label>
+          </div>
+        </div>
         {% else %}
         <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
           <div class="input-checkbox text-strong margin-bottom-none">

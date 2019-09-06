@@ -41,8 +41,8 @@ html,body,.text-font-body{
   background-color: #4ee58b;
   color: inherit;}
 
-	
-/* Map styles */	
+
+/* Map styles */
 #map-embed-350org .event-list-item-cta a.event-list-item-cta-btn{
 	color: #000 !important;
 	border: 2px solid #000 !important;
@@ -71,3 +71,8 @@ h2.event-list-item-title, h3.event-list-item-title {
 #map-embed-350org .filter-form ul li input:checked + label{
 	font-weight: 800 !important;
 }
+
+/* hide some specific duplicate links for A/B testing */
+.language-nav-item-join-september-climate-strike_copy,
+.language-nav-item-join-september-climate-strike_copy_copy2{
+	display:none !important;}

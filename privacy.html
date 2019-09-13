@@ -90,7 +90,7 @@
 
 	{% if page.custom_fields.form_include_partner %}
 	{% if page.custom_fields.form_include_partner_intro_text %}{{ page.custom_fields.form_include_partner_intro_text }} {% endif %}
-	<div id="partner-share-{{ page.custom_fields.form_include_partner|slugify }}" class="partner-signup margin-bottom-normal input-radio-group text-lineheight-small">
+	<div id="partner-share-{{ page.custom_fields.form_include_partner|slugify }}" class="partner-signup margin-bottom-normal input-radio-group text-small">
 	      <div class="input-radio">
 	        <input type="radio" name="partner-{{ page.custom_fields.form_include_partner|slugify }}" id="partner-{{ page.custom_fields.form_include_partner|slugify }}_optin" value="yes">
 	        <label for="partner-{{ page.custom_fields.form_include_partner|slugify }}_optin">Yes I want to receive email updates from {{ page.custom_fields.form_include_partner }}.</label>

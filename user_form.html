@@ -73,17 +73,6 @@
 	{% include "./us-colleges.html" %}
 {% endif %}
 
-{% if page.custom_fields.form_include_partner %}
-<div id="partner-share" class="input checkbox input-checkbox">
-  <input type="checkbox" name="action_share_with_partners" value="{{ page.custom_fields.form_include_partner }}" id="include-partner" {% if page.custom_fields.form_include_partner_checked %}checked="checked"{% endif %} />&nbsp;
-  <label for="include-partner">
-{% if page.custom_fields.form_include_partner_intro_text %}{{ page.custom_fields.form_include_partner_intro_text }} {% else %}
-{% filter ak_text:"general_partner_get_updates" %}Get updates from{% endfilter %} {{ page.custom_fields.form_include_partner }}
-{% endif %}
-  </label>
-</div>
-{% endif %}
-
 {% if page.custom_fields.form_additional_fields %}
   <div class="form-additional-html">
     {{ page.custom_fields.form_additional_fields }}

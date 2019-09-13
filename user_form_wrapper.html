@@ -32,8 +32,7 @@
 
 {% if page.custom_fields.form_include_partner %}
 {% if page.custom_fields.form_include_partner_intro_text %}{{ page.custom_fields.form_include_partner_intro_text }} {% endif %}
-<div id="partner-share-{{ page.custom_fields.form_include_partner }}" class="input checkbox input-checkbox">
-    <div id="partner_radio" class="margin-bottom-normal input-radio-group text-lineheight-small">
+<div id="partner-share-{{ page.custom_fields.form_include_partner }}" class="margin-bottom-normal input-radio-group text-lineheight-small">
       <div class="input-radio">
         <input type="radio" name="partner-{{ page.custom_fields.form_include_partner }}" id="partner-{{ page.custom_fields.form_include_partner }}_optin" value="yes">
         <label for="partner-{{ page.custom_fields.form_include_partner }}_optin">Yes I want to receive email updates from {{ page.custom_fields.form_include_partner_full_name }}.</label>
@@ -42,7 +41,6 @@
         <input type="radio" name="partner-{{ page.custom_fields.form_include_partner }}" id="partner-{{ page.custom_fields.form_include_partner }}_optout" value="no">
         <label for="partner-{{ page.custom_fields.form_include_partner }}_optout">No, I do not want emails from {{ page.custom_fields.form_include_partner_full_name }}.</label>
       </div>
-    </div>
 </div>
 {% endif %}
 

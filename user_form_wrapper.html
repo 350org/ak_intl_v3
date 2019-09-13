@@ -30,21 +30,6 @@
   {% include "./privacy.html" %}
 {% endif %}
 
-{% if page.custom_fields.form_include_partner %}
-{% if page.custom_fields.form_include_partner_intro_text %}{{ page.custom_fields.form_include_partner_intro_text }} {% endif %}
-<div id="partner-share-{{ page.custom_fields.form_include_partner|slugify }}" class="margin-bottom-normal input-radio-group text-lineheight-small">
-      <div class="input-radio">
-        <input type="radio" name="partner-{{ page.custom_fields.form_include_partner|slugify }}" id="partner-{{ page.custom_fields.form_include_partner|slugify }}_optin" value="yes">
-        <label for="partner-{{ page.custom_fields.form_include_partner|slugify }}_optin">Yes I want to receive email updates from {{ page.custom_fields.form_include_partner }}.</label>
-      </div>
-      <div class="input-radio">
-        <input type="radio" name="partner-{{ page.custom_fields.form_include_partner|slugify }}" id="partner-{{ page.custom_fields.form_include_partner|slugify }}_optout" value="no">
-        <label for="partner-{{ page.custom_fields.form_include_partner|slugify }}_optout">No, I do not want emails from {{ page.custom_fields.form_include_partner }}.</label>
-      </div>
-</div>
-{% endif %}
-
-
 {% if page.type != "Call" %}
   {% if page.type != "Donation" %}
     {% if page.type != "Event" %}

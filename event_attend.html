@@ -161,10 +161,12 @@ if (path != newPath) window.location.pathname = newPath;
 		</div>
 
 		{% if campaign.show_address1 %}
+		{% comment %}
 		<div id="event-attend-map" class="image-link-parent">
 				<a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" target="_blank" title='{% filter ak_text:"general_view_google_map" %}View in Google Maps{% endfilter %}"]'><img src="https://maps.google.com/maps/api/staticmap?key=AIzaSyDSPPfImwbfKuuDQpjNeidHbUuo1ThHbqE&sensor=false&scale=2&lang={{ page.lang.iso_code|default:'en-US' }}&size=740x260&markers={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" width="800" height="260" /></a>
 		</div>
-		<div class="text-center text-small event-attend-directions-link event-directions-link">
+		{% endcomment %}
+		<div class="text-center text-large event-attend-directions-link event-directions-link">
 			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
 		</div>
 		{% endif %}
@@ -224,7 +226,7 @@ if (path != newPath) window.location.pathname = newPath;
 				<div id="" class="">
 					{% include "./user_form.html" %}
 				</div>
-				
+
 					{% if page.custom_fields.form_privacy_show_optin != "do-not-show" %}
 						<div class="form-style-labelabove">
 					  {% include "./privacy.html" %}

@@ -383,6 +383,7 @@
 			en: "Read&nbsp;More",
 			es: "Leer&nbsp;más",
 			fr: "Lire&nbsp;la&nbsp;Suite",
+			ja: "続きを読む",
 			pl: "Czytaj dalej",
 			pt: "Leia&nbsp;mais",
 			tr: "Daha&nbsp;fazla&nbsp;oku",

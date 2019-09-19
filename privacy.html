@@ -5,18 +5,20 @@
 
   <script>
 
-jQuery(document).ready(function($){
-	var countrySelect = jQuery("#country");
- 	jQuery(actionkit.form).on('actionkit.privacyRequirementChanged', function(obj, privacyStatus){
-//    console.log('privacy requirement is now: ' + privacyStatus);
-		if ( privacyStatus ){
-			jQuery(".privacy-non_eu").hide();
-		} else {
-			jQuery(".privacy-non_eu").show();
-		}
-	});
+		jQuery(document).ready(function($){
+			var countrySelect = jQuery("#country");
+		 	jQuery(actionkit.form).on('actionkit.privacyRequirementChanged', function(obj, privacyStatus){
+		//    console.log('privacy requirement is now: ' + privacyStatus);
+				if ( privacyStatus ){
+					jQuery(".privacy-non_eu").hide();
+					jQuery(".partner-signup").show();			
+				} else {
+					jQuery(".privacy-non_eu").show();
+					jQuery(".partner-signup").show();
+				}
+			});
+		});
 
-});
   </script>
 	<style>
 	#action-toc + .ak-privacy{
@@ -53,7 +55,7 @@ jQuery(document).ready(function($){
       <input type="hidden" name="privacy_optout_skip_confirmation" value="1">
     {% endif %}
 
-    <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio-group text-lineheight-small">
+    <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio-group text-lineheight-small text-small">
       <div class="input-radio">
         <input type="radio" name="privacy" id="privacy_optin" value="{{pt.radio_optin_hash}}">
         <label for="privacy_optin">{{pt.radio_optin|safe}}</label>
@@ -85,6 +87,20 @@ jQuery(document).ready(function($){
     </script>
 
   {% endif %}
+
+	{% if page.custom_fields.form_include_partner %}
+	{% if page.custom_fields.form_include_partner_intro_text %}<p id="ak-fieldbox-privacy_notice" class="text-small">{{ page.custom_fields.form_include_partner_intro_text }}</p>{% endif %}
+	<div id="partner-share-{{ page.custom_fields.form_include_partner|slugify }}" class="partner-signup margin-bottom-normal input-radio-group text-small required">
+	      <div class="input-radio">
+	        <input type="radio" name="partner-{{ page.custom_fields.form_include_partner|slugify }}" id="partner-{{ page.custom_fields.form_include_partner|slugify }}_optin" value="yes">
+	        <label for="partner-{{ page.custom_fields.form_include_partner|slugify }}_optin">Yes I want to receive email updates from {{ page.custom_fields.form_include_partner }}.</label>
+	      </div>
+	      <div class="input-radio">
+	        <input type="radio" name="partner-{{ page.custom_fields.form_include_partner|slugify }}" id="partner-{{ page.custom_fields.form_include_partner|slugify }}_optout" value="no">
+	        <label for="partner-{{ page.custom_fields.form_include_partner|slugify }}_optout">No, I do not want emails from {{ page.custom_fields.form_include_partner }}.</label>
+	      </div>
+	</div>
+	{% endif %}
 
 </div>
 

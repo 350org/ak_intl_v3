@@ -240,7 +240,7 @@ a.cancel-link:hover,
           </li>
   {% endif %}
 	{% if event.is_in_past %}
-		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE904;"  id="add-attendees-link" href="#attendees-add">{% filter ak_text:"event_host_tools_add_attendees" %}Add Attendees{% endfilter %}</a></li>
+<!--		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE904;"  id="add-attendees-link" href="#attendees-add">{% filter ak_text:"event_host_tools_add_attendees" %}Add Attendees{% endfilter %}</a></li>-->
 	{% endif %}
 	{% if event.is_open_for_signup and page.pagefollowup.send_taf %}
 		    	<li class="if-js"><a class="jump-link host-tool icon-before icon-faded" data-icon="&#xE933;" id="invite-friends-link" href="#invite-friends">{% filter ak_text:"event_host_tools_invite_friends" %}Invite friends{% endfilter %}</a></li>

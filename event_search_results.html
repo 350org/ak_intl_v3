@@ -32,6 +32,7 @@ event titles, venues, etc., and different choices produce different HTML.
 	<h4 class="meta opacity-50 margin-bottom-medium">{% filter ak_text:"event_search_results_heading" %}Events:{% endfilter %}</h5>
 			{% endif
 		{% endcomment %}
+		{% comment %}
 		{% for event in events %}
 	<li data-event_id="{{ event.id }}" class="event margin-bottom-large">
 		<a class="area-link event-link" href="/event/{{ campaign.local_name }}/{{event.id}}/signup/?akid={{args.akid}}&zip={{args.zip}}">
@@ -93,6 +94,7 @@ event titles, venues, etc., and different choices produce different HTML.
 		</a>
 	</li>
 		{% endfor %}
+		{% endcomment %}
 </ul>
 	{% endif %}
 {% endif %}

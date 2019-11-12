@@ -5,6 +5,13 @@
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
+{% if page.custom_fields.page_is_inactive %}
+		<div id="page-inactive" class="c4 ct7_5 cm10 c-wide">
+	{% autoescape off %}
+			{{ page.custom_fields.page_is_inactive }}
+	{% endautoescape %}
+		</div>
+{% else %}
 		<form id="act" name="act" class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} " method="POST" action="/act/" accept-charset="utf-8">
       <a id="jump-to-form" href="#donate" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a>
   		<input type="hidden" name="page" value="{{ page.name }}">
@@ -545,9 +552,8 @@
 			<span style="display:none;" class="privacy-non_eu">{% filter ak_text:"general_opt_in_privacy_notice_non_eu" %}350 will send you email updates when you can make a difference.{% endfilter %}</span>
 		</div>
 	</div>
-
-
 		</form>
+{% endif %}		
 	</div>
 </section>
 

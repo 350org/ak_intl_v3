@@ -2,9 +2,6 @@
 {% load actionkit_tags %}
 
 {% block content %}
-
-<section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
-	<div class="section-inner">
 {% if page.custom_fields.page_is_inactive %}
 		<div id="page-inactive" class="c4 ct7_5 cm10 c-wide">
 	{% autoescape off %}
@@ -12,6 +9,9 @@
 	{% endautoescape %}
 		</div>
 {% else %}
+
+<section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section-inner">
 		<form id="act" name="act" class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} " method="POST" action="/act/" accept-charset="utf-8">
       <a id="jump-to-form" href="#donate" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a>
   		<input type="hidden" name="page" value="{{ page.name }}">
@@ -553,10 +553,10 @@
 		</div>
 	</div>
 		</form>
-{% endif %}		
+
 	</div>
 </section>
-
+{% endif %}
 <div id="donation-other" class="section padding-medium width-normal bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}">
 	<div class="section-inner">
 {% if templateset.custom_fields.donate_footer_text %}

@@ -12,7 +12,7 @@
 	{% endautoescape %}
 		</div>
 {% else %}
-		<form id="act" name="act" class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} " method="POST" action="/act/" accept-charset="utf-8">
+		<form id="act" name="act" class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} " method="POST" action="https://350.actionkit.com/act/" accept-charset="utf-8">
       <a id="jump-to-form" href="#donate" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a>
   		<input type="hidden" name="page" value="{{ page.name }}">
   		<input type="hidden" name="orig_akid" value="{{ akid }}">

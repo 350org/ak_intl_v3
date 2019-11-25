@@ -271,9 +271,10 @@
         </div>
         {% else %}
         <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
-          <div class="input-checkbox text-strong margin-bottom-none">
-            <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="recurring"> <label for="id_donation_type_recurring" class="text-strong">{% filter ak_text:"donate_make_recurring" %}Make this a monthly donation.{% endfilter %}</label>
-          </div>
+          <label class="input-checkbox text-strong margin-bottom-none">
+            <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="recurring">
+            <span class="toggle-donation-type"></span>
+          </label>
         </div>
 		{% endif %}
 	{% else %}
@@ -553,7 +554,7 @@
 		</div>
 	</div>
 		</form>
-{% endif %}		
+{% endif %}
 	</div>
 </section>
 

@@ -356,7 +356,7 @@
             <label for="id_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
             <input id="id_city" type="text" name="city">
           </div>
-					<div class="ak-us-billing-fields input-select ak-input-type-user">
+					<div class="ak-us-billing-fields input-select input-text ak-input-type-user">
 						<input type="hidden" name="required" value="state">
 						<label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
 						{% include "./state_select.html" %}

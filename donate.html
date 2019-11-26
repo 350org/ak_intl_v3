@@ -271,10 +271,13 @@
         </div>
         {% else %}
         <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
-          <label class="input-checkbox text-strong margin-bottom-none">
-            <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="recurring">
-            <span class="toggle-donation-type"></span>
-          </label>
+          <div class="input-checkbox text-strong margin-bottom-none">
+            <input type="checkbox" hidden name="donation_type" id="id_donation_type_recurring" value="recurring">
+            <span class="toggle-donation-type">
+              <span class="toggle-once">Donate once</span>
+              <span class="toggle-monthly">Donate monthly</span>
+            </span>
+          </div>
         </div>
 		{% endif %}
 	{% else %}

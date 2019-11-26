@@ -4867,65 +4867,58 @@ label.ak-radio-checked {
   width: 39%;
 }
 
-#ak-recurring-type .input-checkbox input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
+/* Checkbox to toggle button styles */
 .toggle-donation-type {
   cursor: pointer;
   display: flex;
   margin: 0 auto;
-  justify-content: center;
-  align-items: center;
   text-align: center;
-  width: 80%;
+  width: 100%;
+  font-size: 90%;
+  max-width: 300px;
   -webkit-transition: .3s;
   transition: .3s;
 }
 
-.toggle-donation-type:before {
+.toggle-once {
   content: "Donate once";
-  padding: 15px 0;
-  flex: 1;
   background-color: #0f81e8;
   color: #fff;
-  -webkit-transition: .3s;
-  transition: .3s;
-  border: #dae6f2 solid 1px;
   border-radius: 5px 0 0 5px;
 }
 
-.toggle-donation-type:after {
+.toggle-monthly {
   content: "Donate monthly";
-  padding: 15px 0;
-  flex: 1;
   background-color: #e1eaf2;
   color: #0f81e8;
-  -webkit-transition: .3s;
-  transition: .3s;
-  border: #dae6f2 solid 1px;
   border-radius: 0 5px 5px 0;
 }
 
-input:checked+.toggle-donation-type:before {
+.toggle-once,
+.toggle-monthly {
+  padding: 8px 0;
+  flex: 1;
+  -webkit-transition: .3s;
+  transition: .3s;
+  border: #DEE5EA solid 1px;
+  font-weight: 400;
+}
+
+input:checked+.toggle-donation-type .toggle-once {
   background-color: #e1eaf2;
   color: #0f81e8;
 }
 
-input:checked+.toggle-donation-type:after {
+input:checked+.toggle-donation-type .toggle-monthly {
   background-color: #0f81e8;
   color: #fff;
 }
-
 
 @media screen and (max-width:720px) {
 
   #action-after-header {
     padding: 4rem;
   }
-
 
 }
 

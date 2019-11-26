@@ -362,24 +362,24 @@
 							<label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
 							{% include "./state_select.html" %}
 						</div>
+						{% if page.allow_international %}
+						<div class="input-text ak-input-type-user ak-intl-billing-fields">
+							<label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
+							<input id="id_region" type="text" name="region" size="20">
+						</div>
+						{% endif %}						
 						<div class="ak-us-billing-fields input-text ak-input-type-user">
 							<input type="hidden" name="required" value="zip">
 							<label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
 							<input id="id_zip" type="text" name="zip" maxlength="5" size="5">
 						</div>
 					</div>
-{% if page.allow_international %}
-					<div>
-						<div class="input-text ak-input-type-user ak-intl-billing-fields">
-							<label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
-							<input id="id_postal" type="text" name="postal" size="10">
-						</div>
-							<div class="input-text ak-input-type-user ak-intl-billing-fields">
-								<label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
-								<input id="id_region" type="text" name="region" size="20">
-							</div>
-						</div>
-{% endif %}
+					{% if page.allow_international %}
+					<div class="input-text ak-input-type-user ak-intl-billing-fields">
+						<label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
+						<input id="id_postal" type="text" name="postal" size="10">
+					</div>
+					{% endif %}
 						<div class="input-text ak-input-type-user">
 							<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
 							<input id="id_email" class="" type="text" name="email">

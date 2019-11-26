@@ -747,19 +747,19 @@ jQuery(document).ready(function($){
       $(".js-sticky, .sticky").sticky({zIndex:100});
   }
 
-  // Add recurring donation toggle functionality
+  // Add recurring donation toggle functionality. Only works with Vanilla JS
 
-  var once = $('.toggle-once');
-  var monthly = $('.toggle-monthly');
-  var checkbox = $('.input-checkbox input');
+  var once = document.querySelector('.toggle-once');
+  var monthly = document.querySelector('.toggle-monthly');
+  var checkbox = document.querySelector('.input-checkbox input');
 
-  once.on('click', function () {
+  once.addEventListener('click', function () {
     console.log('once clicked')
     checkbox.checked = false;
     console.log(checkbox.checked);
   })
 
-  monthly.on('click', function () {
+  monthly.addEventListener('click', function () {
     console.log('monthly clicked')
     checkbox.checked = true;
     console.log(checkbox.checked);

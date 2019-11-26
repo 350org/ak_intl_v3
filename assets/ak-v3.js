@@ -753,12 +753,14 @@ jQuery(document).ready(function($){
   var monthly = document.querySelector('.toggle-monthly');
   var checkbox = document.querySelector('.input-checkbox input');
 
-  once.addEventListener('click', function () {
+  once.addEventListener('click', function (e) {
     if (checkbox.checked) checkbox.checked = false;
+    else e.preventDefault();
   })
 
-  monthly.addEventListener('click', function () {
+  monthly.addEventListener('click', function (e) {
     if (!checkbox.checked) checkbox.checked = true;
+    else e.preventDefault();
   })
 
 });

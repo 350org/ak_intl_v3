@@ -957,8 +957,7 @@
       if (step == "1") {
         validate_fields = ["amount"];
       } else if (step == "2") {
-        validate_fields = ["email",
-                           "address1", "address2", "city", "state", "zip",
+        validate_fields = ["address1", "address2", "city", "state", "zip",
                            "country", "region", "postal",
                            "shipping_address1", "shipping_address2",
                            "shipping_city", "shipping_state",
@@ -967,7 +966,7 @@
                            "privacy"
                            {% if templateset.custom_fields.ask_occupation_and_employer %},"action_employer", "action_occupation"{% endif %}];
       } else {
-        validate_fields = ["card_num", "card_code", "first_name", "last_name", "name",
+        validate_fields = ["email","card_num", "card_code", "first_name", "last_name", "name",
                            "exp_date_year", "exp_date_month", "exp_date"];
       }
 

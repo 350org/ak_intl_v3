@@ -4231,7 +4231,6 @@ label.ak-survey-radio-choice {
 }
 
 .input-cc-expiration label,
-/* .input-cvv label, */
 #ak-fieldbox-exp_date label,
 #ak-fieldbox-card_code label {
   padding-right: 0;

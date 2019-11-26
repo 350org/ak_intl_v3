@@ -649,7 +649,7 @@ jQuery(document).ready(function($){
   $('.input-text.ak-input-type-action').findAdjacentSibsAndWrap('.input-text.ak-input-type-action', 'fieldset', 'input-group');
   $('.input-textarea.ak-input-type-action').findAdjacentSibsAndWrap('.input-textarea.ak-input-type-action', 'fieldset', 'input-group');
  */
-  $('.input-field-group').findAdjacentSibsAndWrap('input-field-group', 'fieldset', 'input-group');
+  $('.input-field-group').findAdjacentSibsAndWrap('.input-field-group', 'fieldset', 'input-group');
    
 
 	// On load, trigger "jump to form" check

@@ -329,6 +329,14 @@
         <div id="unknown_user"></div>
         <h5 class="margin-bottom-normal">{% filter ak_text:"donate_billing_information" %}Billing Information{% endfilter %}</h5>
         <div class="">
+{% if page.allow_international %}
+            <div class="input-select input-country ak-input-type-user">
+              <label for="country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
+              {% include "./country_select.html" %}
+            </div>
+{% else %}
+    				<input type="hidden" name="country" value="United States">
+{% endif %}	        
           {% if has_shippable_products %}
           <div class="input-text ak-input-type-user">
             <label for="id_address1">Billing address line 1</label>
@@ -371,12 +379,6 @@
 								<input id="id_region" type="text" name="region" size="20">
 							</div>
 						</div>
-            <div class="input-select input-country ak-input-type-user">
-              <label for="country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
-              {% include "./country_select.html" %}
-            </div>
-{% else %}
-    				<input type="hidden" name="country" value="United States">
 {% endif %}
 						<div class="input-text ak-input-type-user">
 							<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>

@@ -4869,6 +4869,14 @@ label.ak-radio-checked {
 }
 
 /* Checkbox to toggle button styles */
+#ak-recurring-type .input-checkbox {
+  padding-left: 0;
+}
+
+#ak-recurring-type .input-checkbox input {
+  opacity: 0;
+}
+
 .toggle-donation-type {
   cursor: pointer;
   display: flex;

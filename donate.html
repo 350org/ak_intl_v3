@@ -356,16 +356,16 @@
             <label for="id_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
             <input id="id_city" type="text" name="city">
           </div>
-					<div>
-						<div class="ak-us-billing-fields input-text ak-input-type-user">
-							<input type="hidden" name="required" value="zip">
-							<label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
-							<input id="id_zip" type="text" name="zip" maxlength="5" size="5">
-						</div>
+					<div class="ak-us-state-and-zip">
 						<div class="ak-us-billing-fields input-select ak-input-type-user">
 							<input type="hidden" name="required" value="state">
 							<label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
 							{% include "./state_select.html" %}
+						</div>
+						<div class="ak-us-billing-fields input-text ak-input-type-user">
+							<input type="hidden" name="required" value="zip">
+							<label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
+							<input id="id_zip" type="text" name="zip" maxlength="5" size="5">
 						</div>
 					</div>
 {% if page.allow_international %}

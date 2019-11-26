@@ -859,10 +859,12 @@
 					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed,
               focus_field_if_blank( $('#id_name') )
           ); */
-					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
+					// $('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
+					$('.ak-donate-area-step-2').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
 					$('.ak-donate-step-2').addClass('active-step');
 		    } else if ( current_step == "3" ) {
+          // $('.ak-donate-area-step-1, .ak-donate-area-step-2, #ak-continue-button').hide();
           $('.ak-donate-area-step-1, .ak-donate-area-step-2, #ak-continue-button').hide();
           /* $('.ak-donate-area-step-3').fadeIn( speed,
               focus_field_if_blank( $('#ak-card_num') )

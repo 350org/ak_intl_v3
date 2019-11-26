@@ -754,11 +754,11 @@ jQuery(document).ready(function($){
   var checkbox = document.querySelector('.input-checkbox input');
 
   once.addEventListener('click', function () {
-    checkbox.checked = false;
+    if (checkbox.checked) checkbox.checked = false;
   })
 
   monthly.addEventListener('click', function () {
-    checkbox.checked = true;
+    if (!checkbox.checked) checkbox.checked = true;
   })
 
 });

@@ -1001,6 +1001,13 @@
     }
 
     function step_3_validation() {
+      console.log('validating step 3');
+      var step_has_errors = false;
+
+      return step_has_errors;
+    }
+
+    function step_2_validation() {
       var step_has_errors = false;
 
       if (!valid_email( $('#id_email').val() ) ) {
@@ -1010,7 +1017,6 @@
         actionkit.forms.onValidationErrors(actionkit.errors);
         step_has_errors = true;
       }
-
 
       if (!do_validate_credit_card()) {
         return step_has_errors;
@@ -1035,13 +1041,6 @@
       }
 
       return step_has_errors;
-    }
-
-    function step_2_validation() {
-			console.log('validating step 2');
-      var step_has_errors = false;
-
-	     return step_has_errors;
     }
 
     function step_1_validation() {

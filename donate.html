@@ -997,6 +997,15 @@
     function step_3_validation() {
       var step_has_errors = false;
 
+      if (!valid_email( $('#id_email').val() ) ) {
+        if (!actionkit.errors)
+            actionkit.errors = {};
+        actionkit.errors['email:invalid'] = actionkit.forms.errorMessage('email:invalid');
+        actionkit.forms.onValidationErrors(actionkit.errors);
+        step_has_errors = true;
+      }
+
+
       if (!do_validate_credit_card()) {
         return step_has_errors;
       }
@@ -1025,13 +1034,6 @@
     function step_2_validation() {
 			console.log('validating step 2');
       var step_has_errors = false;
-      if (!valid_email( $('#id_email').val() ) ) {
-        if (!actionkit.errors)
-            actionkit.errors = {};
-        actionkit.errors['email:invalid'] = actionkit.forms.errorMessage('email:invalid');
-        actionkit.forms.onValidationErrors(actionkit.errors);
-        step_has_errors = true;
-      }
 
 	     return step_has_errors;
     }

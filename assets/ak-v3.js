@@ -741,11 +741,29 @@ jQuery(document).ready(function($){
   $('[data-read-more-after]').truncateAndReadMore();
 
   var initialWidth = $(window).width();
-  console.log('intialWidth = ' + initialWidth);
+  console.log('initialWidth = ' + initialWidth);
   // Initialize "sticky" js only for large screens
   if ( initialWidth > 900 ){
       $(".js-sticky, .sticky").sticky({zIndex:100});
   }
+
+  // Add recurring donation toggle functionality
+
+  var once = $('.toggle-once');
+  var monthly = $('.toggle-monthly');
+  var checkbox = $('.input-checkbox input');
+
+  once.on('click', function () {
+    console.log('once clicked')
+    checkbox.checked = false;
+    console.log(checkbox.checked);
+  })
+
+  monthly.on('click', function () {
+    console.log('monthly clicked')
+    checkbox.checked = true;
+    console.log(checkbox.checked);
+  })
 
 
 });

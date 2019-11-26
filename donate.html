@@ -861,7 +861,7 @@
 					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed,
               focus_field_if_blank( $('#id_name') )
           ); */
-					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
+          $('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
 					// $('.ak-donate-area-step-2').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
 					$('.ak-donate-step-2').addClass('active-step');
@@ -871,6 +871,7 @@
           /* $('.ak-donate-area-step-3').fadeIn( speed,
               focus_field_if_blank( $('#ak-card_num') )
           ); */
+
 			    $('.ak-donate-area-step-3').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
 					$('.ak-donate-step-3').addClass('active-step');
@@ -1365,7 +1366,7 @@
         $('#ak-pay-by-paypal').val(0);
 
         if ( $('form.ak-donate-three-step').length > 0 ) {
-            validate_step("3");
+            validate_step("2");
 
             if (step_has_errors) {
                 return false;

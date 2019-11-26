@@ -467,7 +467,7 @@
 					</div>
 					<div class="cc-fields">
 	          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
+					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Card Number{% endfilter %}</label>
 					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
 					    <div id="ak-card_num-hosted" class="hosted-field"></div>
 					    <input id="ak-card_num" type="text" name="card_num">
@@ -522,6 +522,8 @@
 {% endautoescape %}
 
 				<div class="text-center">
+
+
 	        <button class="ak-styled-submit-button button ak-donate-three-step-visible" id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue &rarr;{% endfilter %}</button>
 
 				{% if page.payment_processor_information.use_cse %}
@@ -529,12 +531,12 @@
 				  For pages that use CSE, the submit button will be enabled by javascript above.
 				  {% endcomment %}
 
-	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-2 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
+	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span> now</button>
 	        <noscript>
 	          <p><b>JavaScript is required</b> so this page can securely submit your donation.</p>
 	      	</noscript>
 				{% else %}
-        	<button type="submit" class="ak-submit-button button ak-donate-area-step-2 margin-bottom-normal">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
+        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span> now</button>
 				{% endif %}
 
 				{% if show_paypal %}
@@ -854,13 +856,13 @@
 					$('.ak-donate-step-1').addClass('active-step');
 
         } else if ( current_step == "2" ) {
-          $('.ak-donate-area-step-1, .ak-donate-area-step-3, #ak-continue-button').hide();
+          $('.ak-donate-area-step-1, .ak-donate-area-step-3').hide();
           /* this automatic focus on the input combines with the onblur validation to be over-aggressive
 					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed,
               focus_field_if_blank( $('#id_name') )
           ); */
-					// $('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
-					$('.ak-donate-area-step-2').fadeIn( speed );
+					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
+					// $('.ak-donate-area-step-2').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
 					$('.ak-donate-step-2').addClass('active-step');
 		    } else if ( current_step == "3" ) {

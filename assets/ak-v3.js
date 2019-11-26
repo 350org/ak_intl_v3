@@ -755,12 +755,10 @@ jQuery(document).ready(function($){
 
   once.addEventListener('click', function (e) {
     if (checkbox.checked) checkbox.checked = false;
-    else e.preventDefault();
   })
 
   monthly.addEventListener('click', function (e) {
     if (!checkbox.checked) checkbox.checked = true;
-    else e.preventDefault();
   })
 
 });

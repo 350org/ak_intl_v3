@@ -330,7 +330,7 @@
         <h5 class="margin-bottom-normal">{% filter ak_text:"donate_billing_information" %}Billing Information{% endfilter %}</h5>
         <div class="">
 					{% if page.allow_international %}
-          <div class="input-select input-country ak-input-type-user">
+          <div class="input-select input-country input-text ak-input-type-user">
             <label for="country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
             {% include "./country_select.html" %}
           </div>

@@ -964,13 +964,13 @@
           .removeClass('hidden');
       }
         // change amount label if step 1 is complete
-        // if (current_step === 1) {
-        //   $('input[name="ak-donate-step"]:checked')
-        //     .closest('label')
-        //     .find('span.ak-amount-label')
-        //     .html('<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span>')
-        //     .css({"text-decoration": "underline"});
-        // }
+        if (current_step == 1) {
+          $('input[name="ak-donate-step"]:checked')
+            .closest('label')
+            .find('span.ak-amount-label')
+            .html('<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span>')
+            .css({"text-decoration": "underline"});
+        }
     }
 
     var step_has_errors = false;
@@ -1541,8 +1541,8 @@
 							{{ templateset.custom_fields.pre_submit_text }}
 						{% endautoescape %}
 					</div>
-        {% endif %}  
-        </div> 
+        {% endif %}
+        </div>
               `,
               PAYPAL: `<div class="paypal-fields">
                   <div class="input-text ak-input-type-user">
@@ -1553,15 +1553,15 @@
                 <label class="required" for="id_email">Email Address</label>
                 <input id="id_email" class="" type="text" name="email">
               </div>
-                  
+
                   </div>`
       }
-  
+
     const paymentsCtn = $(".payments-container");
     const paymentsTitles = $(".payments-title");
     const paymentsDetailsContent = $("#payments-details-content");
     const continueButton = $("#ak-continue-button");
-  
+
     paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
@@ -1570,7 +1570,7 @@
       });
     };
 
-    
+
 
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);

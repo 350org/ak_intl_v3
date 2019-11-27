@@ -1538,12 +1538,10 @@
           titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
       });
     };
-    console.log(paymentsDetailsContent, "Payments Details");
-    paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
-    console.log("Got here, ", PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD )
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);
       titleCtn.click(e=>{
+        console.log("Clicked here?")
           const clicked = $(e.target);
           if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
           removeActivePaymentsClass()

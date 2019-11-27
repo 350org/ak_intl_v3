@@ -758,6 +758,7 @@ jQuery(document).ready(function($){
 
   once.addEventListener('click', function (e) {
     if (checkbox.checked) checkbox.checked = false;
+    $('.ak-donation-monthly').hide();    
   })
 
   monthly.addEventListener('click', function (e) {

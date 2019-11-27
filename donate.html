@@ -71,11 +71,11 @@
             <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1" checked="checked">
         </label>
         <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
-            <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>&nbsp;<span>{% filter ak_text:"donate_step_2_payment" %}Payment{% endfilter %}</span>
+            <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
             <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
         </label>
         <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
-            <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>&nbsp;<span>{% filter ak_text:"donate_step_3_info" %}Info{% endfilter %}</span>
+            <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
             <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
         </label>
     </div>
@@ -320,8 +320,8 @@
       </fieldset>
 {% endif %}
 
-<!-- Info Section -->
-      <div id="ak-donation-contact" class="ak-donate-area-step-3 ak-err-below form-style-labelabove">
+
+      <div id="ak-donation-contact" class="ak-donate-area-step-2 ak-err-below form-style-labelabove">
         <ul id="ak-errors"></ul>
         <div style="display: none"><div id="known_user">
             Not <span id="known_user_name"></span>?  <a href="?" onclick="return actionkit.forms.logOut()">Click here.</a>
@@ -454,8 +454,7 @@
 {% endif %}
 				</div> <!-- donation contact -->
 
-        <!-- Payment section -->
-        <div class="ak-donate-area-step-2 form-style-labelabove ak-errs-below">
+        <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
 					<h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5>
 					<div class="input-text ak-input-type-user input-field-group">
 						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
@@ -467,7 +466,7 @@
 					</div>
 					<div class="cc-fields">
 	          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Card Number{% endfilter %}</label>
+					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
 					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
 					    <div id="ak-card_num-hosted" class="hosted-field"></div>
 					    <input id="ak-card_num" type="text" name="card_num">
@@ -522,8 +521,6 @@
 {% endautoescape %}
 
 				<div class="text-center">
-
-
 	        <button class="ak-styled-submit-button button ak-donate-three-step-visible" id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue &rarr;{% endfilter %}</button>
 
 				{% if page.payment_processor_information.use_cse %}
@@ -531,16 +528,16 @@
 				  For pages that use CSE, the submit button will be enabled by javascript above.
 				  {% endcomment %}
 
-	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span> now</button>
+	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
 	        <noscript>
 	          <p><b>JavaScript is required</b> so this page can securely submit your donation.</p>
 	      	</noscript>
 				{% else %}
-        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span> now</button>
+        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
 				{% endif %}
 
 				{% if show_paypal %}
-	        <div class="ak-payment-options text-center ak-donate-area-step-2">
+	        <div class="ak-payment-options text-center ak-donate-area-step-3">
 	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
 						<p class="margin-bottom-small text-small"><em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em> <button type="submit" id="ak-paypal-button" class="button bg-ltgray button-small"><img src="/media/modern/paypal-logo-1.svg" style="position:relative;top:3px;"></button></p>
 	        </div>
@@ -862,11 +859,9 @@
               focus_field_if_blank( $('#id_name') )
           ); */
 					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
-					// $('.ak-donate-area-step-2').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
 					$('.ak-donate-step-2').addClass('active-step');
 		    } else if ( current_step == "3" ) {
-          // $('.ak-donate-area-step-1, .ak-donate-area-step-2, #ak-continue-button').hide();
           $('.ak-donate-area-step-1, .ak-donate-area-step-2, #ak-continue-button').hide();
           /* $('.ak-donate-area-step-3').fadeIn( speed,
               focus_field_if_blank( $('#ak-card_num') )
@@ -962,7 +957,7 @@
       step_has_errors = false;
       if (step == "1") {
         validate_fields = ["amount"];
-      } else if (step == "3") {
+      } else if (step == "2") {
         validate_fields = ["address1", "address2", "city", "state", "zip",
                            "country", "region", "postal",
                            "shipping_address1", "shipping_address2",
@@ -1001,13 +996,6 @@
     }
 
     function step_3_validation() {
-      console.log('validating step 3');
-      var step_has_errors = false;
-
-      return step_has_errors;
-    }
-
-    function step_2_validation() {
       var step_has_errors = false;
 
       if (!valid_email( $('#id_email').val() ) ) {
@@ -1017,6 +1005,7 @@
         actionkit.forms.onValidationErrors(actionkit.errors);
         step_has_errors = true;
       }
+
 
       if (!do_validate_credit_card()) {
         return step_has_errors;
@@ -1041,6 +1030,13 @@
       }
 
       return step_has_errors;
+    }
+
+    function step_2_validation() {
+			console.log('validating step 2');
+      var step_has_errors = false;
+
+	     return step_has_errors;
     }
 
     function step_1_validation() {

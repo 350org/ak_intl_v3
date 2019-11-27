@@ -650,7 +650,7 @@ jQuery(document).ready(function($){
   $('.input-textarea.ak-input-type-action').findAdjacentSibsAndWrap('.input-textarea.ak-input-type-action', 'fieldset', 'input-group');
  */
   $('.input-field-group').findAdjacentSibsAndWrap('.input-field-group', 'fieldset', 'input-group');
-   
+
 
 	// On load, trigger "jump to form" check
 	showHideJumpToForm();
@@ -755,14 +755,30 @@ jQuery(document).ready(function($){
   var once = document.querySelector('.toggle-once');
   var monthly = document.querySelector('.toggle-monthly');
   var checkbox = document.querySelector('.input-checkbox input');
+  var onceItems = document.querySelectorAll('.once-chosen');
+  var monthlyItems = document.querySelectorAll('.monthly-chosen');
 
-  once.addEventListener('click', function (e) {
-    if (checkbox.checked) checkbox.checked = false;
+  once.addEventListener('click', function () {
+    if (checkbox.checked) {
+      checkbox.checked = false;
+      $('.ak-donation-monthly').hide();
+      toggleHidden(onceItems);
+      toggleHidden(monthlyItems);
+    }
   })
 
-  monthly.addEventListener('click', function (e) {
-    if (!checkbox.checked) checkbox.checked = true;
-    $('.ak-donation-monthly').show();
+  monthly.addEventListener('click', function () {
+    if (!checkbox.checked) {
+      checkbox.checked = true;
+      toggleHidden(onceItems);
+      toggleHidden(monthlyItems);
+    }
   })
+
+function toggleHidden(nodes) {
+  for (var node of nodes) {
+    node.classList.toggle('hidden')
+  }
+}
 
 });

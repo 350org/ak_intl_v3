@@ -314,6 +314,17 @@
               <span class="toggle-monthly">Donate monthly</span>
             </span>
           </div>
+          <div id="donation-toggle-bubble">
+            <img id="monthly-heart" class="monthly-chosen hidden"
+              src="https://dbqvwi2zcv14h.cloudfront.net/ak-dev/monthly-heart">
+            <div id="bubble-text">
+              <div class="once-chosen"><strong>Make it monthly?</strong> Sustaining donations help us plan and focus on the
+                future.</div>
+              <div class='monthly-chosen hidden'><strong>Thank you for choosing a monthly donation!</strong><br>
+                Giving monthly helps us plan for big, bold actions and fight back against the fossil fuel industry at key moments
+                around the world. Thank you.</div>
+            </div>
+          </div>
         </div>
 		{% endif %}
 	{% else %}
@@ -493,16 +504,16 @@
         <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
           <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5>
           <div class="payments-container">
-              <div class="payments-titles"> 
+              <div class="payments-titles">
                 <div class="payments-title payments-title-active card-title">
                     <span>Card</span>
-                     <svg width="75" height="40" class="payments-title-active">       
-                         <image xlink:href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="75" height="40"/>    
+                     <svg width="75" height="40" class="payments-title-active">
+                         <image xlink:href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="75" height="40"/>
                  </svg>
                 </div>
                 <div class="payments-title paypal-title">
-                 <svg width="75" height="40">       
-                     <image xlink:href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75" height="40"/>    
+                 <svg width="75" height="40">
+                     <image xlink:href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75" height="40"/>
                 </svg>
                 </div>
               </div>
@@ -1503,7 +1514,7 @@
           PAYPAL_TARGET_CLASS: "paypal-title"
       };
       const PAYMENTS_DETAILS_CONTENTS = {
-          CREDIT_CARD: `<div>  
+          CREDIT_CARD: `<div>
             <div class="input-text ak-input-type-user">
               <label for="id_name">Name</label>
               <input id="id_name" class="ak-input-type-user" type="text" name="name">
@@ -1514,7 +1525,7 @@
               <div id="ak-card_num-hosted" class="hosted-field"></div>
               <input id="ak-card_num" type="text" name="card_num">
             </div>
-  
+
             <div class="ak-err-below">
               <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c10 margin-top-none">
                 <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
@@ -1538,49 +1549,49 @@
                 <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
                 <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
                   <option value="">YYYY</option>
-  
+
                   <option value="19">2019</option>
-  
+
                   <option value="20">2020</option>
-  
+
                   <option value="21">2021</option>
-  
+
                   <option value="22">2022</option>
-  
+
                   <option value="23">2023</option>
-  
+
                   <option value="24">2024</option>
-  
+
                   <option value="25">2025</option>
-  
+
                   <option value="26">2026</option>
-  
+
                   <option value="27">2027</option>
-  
+
                   <option value="28">2028</option>
-  
+
                   <option value="29">2029</option>
-  
+
                   <option value="30">2030</option>
-  
+
                   <option value="31">2031</option>
-  
+
                   <option value="32">2032</option>
-  
+
                   <option value="33">2033</option>
-  
+
                   <option value="34">2034</option>
-  
+
                   <option value="35">2035</option>
-  
+
                   <option value="36">2036</option>
-  
+
                   <option value="37">2037</option>
-  
+
                   <option value="38">2038</option>
-  
+
                   <option value="39">2039</option>
-  
+
                 </select>
                 <div class="clear"></div>
               </div>
@@ -1595,22 +1606,22 @@
                 <label class="required" for="id_email">Email Address</label>
                 <input id="id_email" class="" type="text" name="email">
               </div>
-                  
+
                   </div>`
       }
     const paymentsCtn = $(".payments-container");
     const paymentsTitles = $(".payments-title");
     const paymentsDetailsContent = $("#payments-details-content");
     const continueButton = $("#ak-continue-button");
-  
-  
+
+
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
           const titleCtn = $(title);
           titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
       });
     };
-  
+
     paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);
@@ -1619,7 +1630,7 @@
           if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
           removeActivePaymentsClass()
           clicked.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
-  
+
           // Update Content
           if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
               paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
@@ -1640,7 +1651,7 @@ $(function() {
           PAYPAL_TARGET_CLASS: "paypal-title"
       };
       const PAYMENTS_DETAILS_CONTENTS = {
-          CREDIT_CARD: `<div>  
+          CREDIT_CARD: `<div>
             <div class="input-text ak-input-type-user">
               <label for="id_name">Name</label>
               <input id="id_name" class="ak-input-type-user" type="text" name="name">
@@ -1651,7 +1662,7 @@ $(function() {
               <div id="ak-card_num-hosted" class="hosted-field"></div>
               <input id="ak-card_num" type="text" name="card_num">
             </div>
-  
+
             <div class="ak-err-below">
               <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c10 margin-top-none">
                 <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
@@ -1675,49 +1686,49 @@ $(function() {
                 <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
                 <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
                   <option value="">YYYY</option>
-  
+
                   <option value="19">2019</option>
-  
+
                   <option value="20">2020</option>
-  
+
                   <option value="21">2021</option>
-  
+
                   <option value="22">2022</option>
-  
+
                   <option value="23">2023</option>
-  
+
                   <option value="24">2024</option>
-  
+
                   <option value="25">2025</option>
-  
+
                   <option value="26">2026</option>
-  
+
                   <option value="27">2027</option>
-  
+
                   <option value="28">2028</option>
-  
+
                   <option value="29">2029</option>
-  
+
                   <option value="30">2030</option>
-  
+
                   <option value="31">2031</option>
-  
+
                   <option value="32">2032</option>
-  
+
                   <option value="33">2033</option>
-  
+
                   <option value="34">2034</option>
-  
+
                   <option value="35">2035</option>
-  
+
                   <option value="36">2036</option>
-  
+
                   <option value="37">2037</option>
-  
+
                   <option value="38">2038</option>
-  
+
                   <option value="39">2039</option>
-  
+
                 </select>
                 <div class="clear"></div>
               </div>
@@ -1732,22 +1743,22 @@ $(function() {
                 <label class="required" for="id_email">Email Address</label>
                 <input id="id_email" class="" type="text" name="email">
               </div>
-                  
+
                   </div>`
       }
     const paymentsCtn = $(".payments-container");
     const paymentsTitles = $(".payments-title");
     const paymentsDetailsContent = $("#payments-details-content");
     const continueButton = $("#ak-continue-button");
-  
-  
+
+
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
           const titleCtn = $(title);
           titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
       });
     };
-  
+
     paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);
@@ -1756,7 +1767,7 @@ $(function() {
           if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
           removeActivePaymentsClass()
           clicked.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
-  
+
           // Update Content
           if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
               paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);

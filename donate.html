@@ -1651,7 +1651,7 @@
           ACTIVE_PAYMENTS_CLASS: "payments-title-active",
           PAYPAL_TARGET_CLASS: "paypal-title"
       };
-      const PAYMENTS_DETAILS_CONTENTS = {
+  const PAYMENTS_DETAILS_CONTENTS = {
           CREDIT_CARD: `
           <div class="input-text ak-input-type-user">
 					<div class="input-text ak-input-type-user input-field-group">
@@ -1721,38 +1721,40 @@
                   
                   </div>`
       }
-    const paymentsCtn = $(".payments-container");
-    const paymentsTitles = $(".payments-title");
-    const paymentsDetailsContent = $("#payments-details-content");
-    const continueButton = $("#ak-continue-button");
+  
+  const paymentsCtn = $(".payments-container");
+  const paymentsTitles = $(".payments-title");
+  const paymentsDetailsContent = $("#payments-details-content");
+  const continueButton = $("#ak-continue-button");
   
   
-    const removeActivePaymentsClass = () => {
-      $.each(paymentsTitles, (index, title)=>{
-          const titleCtn = $(title);
-          titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
-      });
-    };
-  
-    paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+  const removeActivePaymentsClass = () => {
     $.each(paymentsTitles, (index, title)=>{
-      const titleCtn = $(title);
-      titleCtn.click(e=>{
-          const clicked = $(e.target);
-          if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
-          removeActivePaymentsClass()
-          clicked.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
+        const titleCtn = $(title);
+        titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
+    });
+  };
   
-          // Update Content
-          if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
-              continueButton.text('Continue to PayPal')
-          } else {
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
-              continueButton.text('Continue')
-          }
-      });
-    })
+  paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+  console.log("Got here, ", PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD )
+  $.each(paymentsTitles, (index, title)=>{
+    const titleCtn = $(title);
+    titleCtn.click(e=>{
+        const clicked = $(e.target);
+        if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
+        removeActivePaymentsClass()
+        clicked.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
+
+        // Update Content
+        if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
+            paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
+            continueButton.text('Continue to PayPal')
+        } else {
+            paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+            continueButton.text('Continue')
+        }
+    });
+  })
 </script>
 {% endif %}
 {% endwith %}

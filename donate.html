@@ -1537,6 +1537,7 @@
     const continueButton = $("#ak-continue-button");
   
     console.log(paymentsDetailsContent, "Payments DET CONT")
+    paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
           const titleCtn = $(title);

@@ -762,6 +762,7 @@ jQuery(document).ready(function($){
 
   monthly.addEventListener('click', function (e) {
     if (!checkbox.checked) checkbox.checked = true;
+    $('.ak-donation-monthly').show();
   })
 
 });

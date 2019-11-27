@@ -1448,7 +1448,8 @@
     }
 
     // Tab Creation Code
-    console.log('In the tag setup section?');
+    $ (function(){
+      console.log('In the tag setup section?');
     const CONSTANTS = {
             ACTIVE_PAYMENTS_CLASS: "payments-title-active",
             PAYPAL_TARGET_CLASS: "paypal-title"
@@ -1538,6 +1539,7 @@
           titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
       });
     };
+
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);
       titleCtn.click(e=>{
@@ -1557,7 +1559,7 @@
           }
       });
     })
-
+   });
     // Tab Creation Code End
 
     $( function () {

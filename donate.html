@@ -965,7 +965,7 @@
       }
         // change amount label if step 1 is complete
         if (current_step == 1) {
-          var amount = {{ page.currency_sym }};
+          var amount = $('li.ak-amount-container label.ak-radio-checked').find('span.ak-currency-sym').text();
           amount += $('li.ak-amount-container label.ak-radio-checked').find('span.ak-amount-button-amount').text();
 
           $('input[name="ak-donate-step"]:checked')

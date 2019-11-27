@@ -965,10 +965,13 @@
       }
         // change amount label if step 1 is complete
         if (current_step == 1) {
+          var amount = {{ page.currency_sym }};
+          amount += $('li.ak-amount-container label.ak-radio-checked').find('span.ak-amount-button-amount').text();
+
           $('input[name="ak-donate-step"]:checked')
             .closest('label')
             .find('span.ak-amount-label')
-            .html('<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span>')
+            .html(amount+'<span class="ak-donation-monthly" style="display: none;">/mo</span>')
             .css({"text-decoration": "underline"});
         }
     }

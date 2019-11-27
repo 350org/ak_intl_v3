@@ -271,10 +271,13 @@
         </div>
         {% else %}
         <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
-          <label class="input-checkbox text-strong margin-bottom-none">
-            <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="recurring">
-            <span class="toggle-donation-type"></span>
-          </label>
+          <div class="input-checkbox text-strong margin-bottom-none">
+            <input type="checkbox" hidden name="donation_type" id="id_donation_type_recurring" value="recurring">
+            <span class="toggle-donation-type">
+              <span class="toggle-once">Donate once</span>
+              <span class="toggle-monthly">Donate monthly</span>
+            </span>
+          </div>
         </div>
 		{% endif %}
 	{% else %}
@@ -326,59 +329,55 @@
         <div id="unknown_user"></div>
         <h5 class="margin-bottom-normal">{% filter ak_text:"donate_billing_information" %}Billing Information{% endfilter %}</h5>
         <div class="">
+					{% if page.allow_international %}
+          <div class="input-select input-country ak-input-type-user input-field-group">
+            <label for="country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
+            {% include "./country_select.html" %}
+          </div>
+					{% else %}
+  				<input type="hidden" name="country" value="United States">
+					{% endif %}
           {% if has_shippable_products %}
-          <div class="input-text ak-input-type-user">
+          <div class="input-text ak-input-type-user input-field-group">
             <label for="id_address1">Billing address line 1</label>
             <input id="id_address1" class="" type="text" name="address1">
           </div>
-          <div class="input-text ak-input-type-user">
+          <div class="input-text ak-input-type-user input-field-group">
             <label for="id_address2">Billing address line 2 (optional)</label>
             <input id="id_address2" class="" type="text" name="address2">
           </div>
           {% else %}
-          <div class="input-text ak-input-type-user">
+          <div class="input-text ak-input-type-user input-field-group">
             <label for="id_address1">{% filter ak_text:"field_billing_address" %}Billing address{% endfilter %}</label>
             <input id="id_address1" class="" type="text" name="address1">
           </div>
           {% endif %}
-          <div class="input-text ak-input-type-user">
+          <div class="input-text ak-input-type-user input-field-group">
             <label for="id_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
             <input id="id_city" type="text" name="city">
           </div>
-					<div>
-						<div class="ak-us-billing-fields input-text ak-input-type-user">
-							<input type="hidden" name="required" value="zip">
-							<label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
-							<input id="id_zip" type="text" name="zip" maxlength="5" size="5">
-						</div>
-						<div class="ak-us-billing-fields input-select ak-input-type-user">
-							<input type="hidden" name="required" value="state">
-							<label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
-							{% include "./state_select.html" %}
-						</div>
+					<div class="ak-us-billing-fields input-select ak-input-type-user input-field-group">
+						<input type="hidden" name="required" value="state">
+						<label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
+						{% include "./state_select.html" %}
 					</div>
-{% if page.allow_international %}
-					<div>
-						<div class="input-text ak-input-type-user ak-intl-billing-fields">
-							<label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
-							<input id="id_postal" type="text" name="postal" size="10">
-						</div>
-							<div class="input-text ak-input-type-user ak-intl-billing-fields">
-								<label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
-								<input id="id_region" type="text" name="region" size="20">
-							</div>
-						</div>
-            <div class="input-select input-country ak-input-type-user">
-              <label for="country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
-              {% include "./country_select.html" %}
-            </div>
-{% else %}
-    				<input type="hidden" name="country" value="United States">
-{% endif %}
-						<div class="input-text ak-input-type-user">
-							<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
-							<input id="id_email" class="" type="text" name="email">
-						</div>
+					{% if page.allow_international %}
+					<div class="ak-intl-billing-fields input-text ak-input-type-user input-field-group">
+						<label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
+						<input id="id_region" type="text" name="region" size="20">
+					</div>
+					{% endif %}
+					<div class="ak-us-billing-fields input-text ak-input-type-user input-field-group">
+						<input type="hidden" name="required" value="zip">
+						<label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
+						<input id="id_zip" type="text" name="zip" maxlength="5" size="5">
+					</div>
+					{% if page.allow_international %}
+					<div class="ak-intl-billing-fields input-text ak-input-type-user input-field-group">
+						<label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
+						<input id="id_postal" type="text" name="postal" size="10">
+					</div>
+					{% endif %}
           </div>
 					{% include "./privacy.html" %}
 
@@ -387,12 +386,12 @@
               Federal law requires us to use our best efforts to collect and report the name, mailing address, occupation and name of employer of individuals whose contributions aggregate in excess of $200 in a calendar year.
           </p>
 					<div class="ak-errs-below">
-            <div class="input-text ak-input-type-action">
+            <div class="input-text ak-input-type-action input-field-group">
               <label for="action_employer">Employer</label>
               <input id="action_employer" class="" type="text" name="action_employer" size="20">
               <input type="hidden" name="required" value="action_employer">
             </div>
-            <div class="input-text ak-input-type-action">
+            <div class="input-text ak-input-type-action input-field-group">
               <label for="action_occupation">Occupation</label>
               <input id="action_occupation" type="text" name="action_occupation" size="20">
               <input type="hidden" name="required" value="action_occupation">
@@ -457,46 +456,52 @@
 
         <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
 					<h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5>
-					<div class="input-text ak-input-type-user">
+					<div class="input-text ak-input-type-user input-field-group">
 						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
 						<input id="id_name" class="ak-input-type-user" type="text" name="name">
 					</div>
-          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-				    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
-				    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-				    <div id="ak-card_num-hosted" class="hosted-field"></div>
-				    <input id="ak-card_num" type="text" name="card_num">
+					<div class="input-text ak-input-type-user input-field-group">
+						<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
+						<input id="id_email" class="" type="text" name="email">
 					</div>
-
-					<div class="ak-err-below">
-						<div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c5 ct5 margin-top-none">
-			        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-			        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
-			        <div id="ak-exp_date-hosted" class="hosted-field"></div>
-			        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-		            <option value="">MM</option>
-		            <option value="01">01</option>
-		            <option value="02">02</option>
-		            <option value="03">03</option>
-		            <option value="04">04</option>
-		            <option value="05">05</option>
-		            <option value="06">06</option>
-		            <option value="07">07</option>
-		            <option value="08">08</option>
-		            <option value="09">09</option>
-		            <option value="10">10</option>
-		            <option value="11">11</option>
-		            <option value="12">12</option>
-							</select>
-			        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-			        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
-		            <option value="">YYYY</option>
-{% for year in exp_years %}
-		            <option value="{{ year.two }}">{{ year.four }}</option>
-{% endfor %}
-			        </select>
-							<div class="clear"></div>
+					<div class="cc-fields">
+	          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
+					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
+					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
+					    <div id="ak-card_num-hosted" class="hosted-field"></div>
+					    <input id="ak-card_num" type="text" name="card_num">
 						</div>
+						<div class="ak-err-below">
+							<div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c5 ct5 margin-top-none">
+				        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
+				        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
+				        <div id="ak-exp_date-hosted" class="hosted-field"></div>
+				        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
+			            <option value="">MM</option>
+			            <option value="01">01</option>
+			            <option value="02">02</option>
+			            <option value="03">03</option>
+			            <option value="04">04</option>
+			            <option value="05">05</option>
+			            <option value="06">06</option>
+			            <option value="07">07</option>
+			            <option value="08">08</option>
+			            <option value="09">09</option>
+			            <option value="10">10</option>
+			            <option value="11">11</option>
+			            <option value="12">12</option>
+								</select>
+				        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
+				        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
+			            <option value="">YYYY</option>
+	{% for year in exp_years %}
+			            <option value="{{ year.two }}">{{ year.four }}</option>
+	{% endfor %}
+				        </select>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="clear"></div>
 					</div>
 					{% if templateset.custom_fields.pre_submit_text %}
 					<div class="pre-submit-text">
@@ -524,12 +529,12 @@
 				  For pages that use CSE, the submit button will be enabled by javascript above.
 				  {% endcomment %}
 
-	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
+	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span></button>
 	        <noscript>
 	          <p><b>JavaScript is required</b> so this page can securely submit your donation.</p>
 	      	</noscript>
 				{% else %}
-        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button>
+        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span></button>
 				{% endif %}
 
 				{% if show_paypal %}
@@ -655,7 +660,7 @@
                 total += parseFloat(other);
         }
 
-        var new_total = total == 0 ? "" : "" + total.toFixed(2);
+        var new_total = total == 0 ? "" : "" + total.toFixed(0);
         if (new_total != $('#total').html() ) {
             $('.ak-donation-total-amount').html(new_total);
         }
@@ -954,8 +959,7 @@
       if (step == "1") {
         validate_fields = ["amount"];
       } else if (step == "2") {
-        validate_fields = ["email",
-                           "address1", "address2", "city", "state", "zip",
+        validate_fields = ["address1", "address2", "city", "state", "zip",
                            "country", "region", "postal",
                            "shipping_address1", "shipping_address2",
                            "shipping_city", "shipping_state",
@@ -964,7 +968,7 @@
                            "privacy"
                            {% if templateset.custom_fields.ask_occupation_and_employer %},"action_employer", "action_occupation"{% endif %}];
       } else {
-        validate_fields = ["card_num", "card_code", "first_name", "last_name", "name",
+        validate_fields = ["email","card_num", "card_code", "first_name", "last_name", "name",
                            "exp_date_year", "exp_date_month", "exp_date"];
       }
 
@@ -995,6 +999,15 @@
     function step_3_validation() {
       var step_has_errors = false;
 
+      if (!valid_email( $('#id_email').val() ) ) {
+        if (!actionkit.errors)
+            actionkit.errors = {};
+        actionkit.errors['email:invalid'] = actionkit.forms.errorMessage('email:invalid');
+        actionkit.forms.onValidationErrors(actionkit.errors);
+        step_has_errors = true;
+      }
+
+
       if (!do_validate_credit_card()) {
         return step_has_errors;
       }
@@ -1023,13 +1036,6 @@
     function step_2_validation() {
 			console.log('validating step 2');
       var step_has_errors = false;
-      if (!valid_email( $('#id_email').val() ) ) {
-        if (!actionkit.errors)
-            actionkit.errors = {};
-        actionkit.errors['email:invalid'] = actionkit.forms.errorMessage('email:invalid');
-        actionkit.forms.onValidationErrors(actionkit.errors);
-        step_has_errors = true;
-      }
 
 	     return step_has_errors;
     }

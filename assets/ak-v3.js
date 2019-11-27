@@ -645,9 +645,12 @@ jQuery(document).ready(function($){
   $('.js-modal').modal();
   $('.js-modal-onload').trigger('click');
 	// wrap <fieldset> around input groups
-	$('.input-text.ak-input-type-user').findAdjacentSibsAndWrap('.input-text.ak-input-type-user', 'fieldset', 'input-group');
+/*	$('.input-text.ak-input-type-user').findAdjacentSibsAndWrap('.input-text.ak-input-type-user', 'fieldset', 'input-group');
   $('.input-text.ak-input-type-action').findAdjacentSibsAndWrap('.input-text.ak-input-type-action', 'fieldset', 'input-group');
   $('.input-textarea.ak-input-type-action').findAdjacentSibsAndWrap('.input-textarea.ak-input-type-action', 'fieldset', 'input-group');
+ */
+  $('.input-field-group').findAdjacentSibsAndWrap('.input-field-group', 'fieldset', 'input-group');
+   
 
 	// On load, trigger "jump to form" check
 	showHideJumpToForm();
@@ -741,11 +744,25 @@ jQuery(document).ready(function($){
   $('[data-read-more-after]').truncateAndReadMore();
 
   var initialWidth = $(window).width();
-  console.log('intialWidth = ' + initialWidth);
+  console.log('initialWidth = ' + initialWidth);
   // Initialize "sticky" js only for large screens
   if ( initialWidth > 900 ){
       $(".js-sticky, .sticky").sticky({zIndex:100});
   }
 
+  // Add recurring donation toggle functionality. Only works with Vanilla JS
+
+  var once = document.querySelector('.toggle-once');
+  var monthly = document.querySelector('.toggle-monthly');
+  var checkbox = document.querySelector('.input-checkbox input');
+
+  once.addEventListener('click', function (e) {
+    if (checkbox.checked) checkbox.checked = false;
+  })
+
+  monthly.addEventListener('click', function (e) {
+    if (!checkbox.checked) checkbox.checked = true;
+    $('.ak-donation-monthly').show();
+  })
 
 });

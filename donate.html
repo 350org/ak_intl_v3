@@ -1539,25 +1539,60 @@
     };
 
     $.each(paymentsTitles, (index, title)=>{
-      const titleCtn = $(title);
-      titleCtn.click(e=>{
-        console.log("Clicked here?")
-          const clicked = $(e.target);
-          if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
-          removeActivePaymentsClass()
-          clicked.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
+    const titleCtn = $(title);
+    titleCtn.click(e=>{
+        const clicked = $(e.target);
+        const parentHasClass = clicked.parents(`.${CONSTANTS.ACTIVE_PAYMENTS_CLASS}`).length > 0;
+        if(parentHasClass) return;
+        else {
+            const closestDiv = clicked.closest('.payments-title');
+      
+            if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
+                paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
+                continueButton.text('Continue to PayPal')
+            } else {
+                paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+                continueButton.text('Continue')
+            }
+            removeActivePaymentsClass();
+            closestDiv.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
+            return;
+        }
 
-          // Update Content
-          if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
-              continueButton.text('Continue to PayPal')
-          } else {
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
-              continueButton.text('Continue')
-          }
-      });
-    })
-   });
+        if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
+        // removeActivePaymentsClass()
+        clicked.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
+        // Update Content
+        if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
+            paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
+            continueButton.text('Continue to PayPal')
+        } else {
+            paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+            continueButton.text('Continue')
+        }
+    });
+  });
+
+  //   $.each(paymentsTitles, (index, title)=>{
+  //     const titleCtn = $(title);
+  //     titleCtn.click(e=>{
+  //       console.log("Clicked here?")
+  //         const clicked = $(e.target);
+  //         if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
+  //         removeActivePaymentsClass()
+  //         clicked.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
+
+  //         // Update Content
+  //         if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
+  //             paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
+  //             continueButton.text('Continue to PayPal')
+  //         } else {
+  //             paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+  //             continueButton.text('Continue')
+  //         }
+  //     });
+  //   })
+  //  });
     // Tab Creation Code End
 
     $( function () {

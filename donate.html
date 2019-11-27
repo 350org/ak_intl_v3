@@ -103,15 +103,18 @@
     <!--Add .ak-donate-three-step for three-step-->
     <div class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
         <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
-            <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>&nbsp;<span>{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
+            <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>
+            <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">&#10004;</span>&nbsp;<span class="ak-amount-label">{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
             <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1" checked="checked">
         </label>
         <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
-            <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
+            <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>
+            <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">&#10004;</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
             <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
         </label>
         <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
-            <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
+            <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>
+            <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">&#10004;</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
             <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
         </label>
     </div>
@@ -956,13 +959,36 @@
         validate_step(current_step);
 
         if (!step_has_errors) {
+          // hide current step number
+           $('input[name="ak-donate-step"]:checked')
+            .closest('label')
+            .find('span.ak-step-number')
+            .addClass('hidden');
+
+          // show complete tick
+            $('input[name="ak-donate-step"]:checked')
+            .closest('label')
+            .find('span.ak-step-complete')
+            .removeClass('hidden');
+
+          // change amount label if step 1 is complete
+          if (current_step === 1) {
+            $('input[name="ak-donate-step"]:checked')
+              .closest('label')
+              .find('span.ak-amount-label')
+              .html('<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span>')
+              .css({"text-decoration": "underline"});
+          }
+
+          // check radio button in next step
           $('input[name="ak-donate-step"]:checked')
 						.closest('label')
 						.removeClass('active-step')
 						.next('label')
 						.addClass('active-step')
 						.find('input[type="radio"]')
-						.prop('checked', true);
+            .prop('checked', true);
+
 		      three_step_reveal();
         }
     }

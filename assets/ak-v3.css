@@ -4714,6 +4714,11 @@ label.ak-survey-radio-choice {
   max-width: 100%;
 }
 
+/* Complete tick for donate step complete */
+.ak-step-complete {
+  font-size: 0.62em;
+}
+
 /* Donate */
 
 

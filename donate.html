@@ -1449,11 +1449,6 @@
 
     // Tab Creation Code
     $(function(){
-   //code in here
-   console.log("GETS HERE OR NOT??")
-    });
-    $(function(){
-      console.log('In the tag setup section?');
     const CONSTANTS = {
             ACTIVE_PAYMENTS_CLASS: "payments-title-active",
             PAYPAL_TARGET_CLASS: "paypal-title"
@@ -1536,7 +1531,6 @@
     const paymentsDetailsContent = $("#payments-details-content");
     const continueButton = $("#ak-continue-button");
   
-    console.log(paymentsDetailsContent, "Payments DET CONT")
     paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{

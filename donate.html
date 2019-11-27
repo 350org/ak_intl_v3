@@ -950,6 +950,28 @@
         } )
     }
 
+    function mark_prev_step_complete() {
+      $('input[name="ak-donate-step"]:checked')
+        .closest('label')
+        .find('span.ak-step-number')
+        .addClass('hidden');
+
+      // show complete tick
+      $('input[name="ak-donate-step"]:checked')
+        .closest('label')
+        .find('span.ak-step-complete')
+        .removeClass('hidden');
+
+        // change amount label if step 1 is complete
+        // if (current_step === 1) {
+        //   $('input[name="ak-donate-step"]:checked')
+        //     .closest('label')
+        //     .find('span.ak-amount-label')
+        //     .html('<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span>')
+        //     .css({"text-decoration": "underline"});
+        // }
+    }
+
     var step_has_errors = false;
     function three_step_advance() {
 				console.log('three_step_advance() fired');
@@ -972,13 +994,13 @@
             .removeClass('hidden');
 
           // change amount label if step 1 is complete
-          if (current_step === 1) {
-            $('input[name="ak-donate-step"]:checked')
-              .closest('label')
-              .find('span.ak-amount-label')
-              .html('<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span>')
-              .css({"text-decoration": "underline"});
-          }
+          // if (current_step === 1) {
+          //   $('input[name="ak-donate-step"]:checked')
+          //     .closest('label')
+          //     .find('span.ak-amount-label')
+          //     .html('<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span>')
+          //     .css({"text-decoration": "underline"});
+          // }
 
           // check radio button in next step
           $('input[name="ak-donate-step"]:checked')
@@ -995,7 +1017,7 @@
 
     function three_step_goto(next) {
 			console.log('three_step_goto() fired');
-	    // trigger va	lidation on the step we're leaving
+	    // trigger validation on the step we're leaving
 	    var current_step = $('input[name="ak-donate-step"]:checked').val();
 
 	    // skip validation if we're going backwards
@@ -1008,7 +1030,8 @@
 	    if ( (! step_has_errors) && (current_step == 1) && (next == 3) ) {
 	      validate_step(2);
 	      if ( step_has_errors ) {
-	        $('#ak-donate-step-2').prop('checked', true);
+          mark_prev_step_complete();
+          $('#ak-donate-step-2').prop('checked', true);
 	        three_step_reveal();
 	        return;
 	      }
@@ -1016,7 +1039,8 @@
 
 	    // allow the user to go back even if there are errors
 	    if (current_step > next || !step_has_errors) {
-	      $('#ak-donate-step-' + next).prop('checked', true);
+        mark_prev_step_complete();
+        $('#ak-donate-step-' + next).prop('checked', true);
 	      three_step_reveal();
 	    }
 	  }

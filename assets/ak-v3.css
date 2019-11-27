@@ -4922,6 +4922,60 @@ input:checked+.toggle-donation-type .toggle-monthly {
   color: #fff;
 }
 
+/* Monthly donation bubble */
+#donation-toggle-bubble {
+  position: relative;
+  background-color: #F7F7F7;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  border: #DEE5EA solid 1px;
+  font-size: 75%;
+}
+
+#donation-toggle-bubble:before,
+#donation-toggle-bubble:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-width: 10px;
+  left: calc(50% - 10px + 75px);
+  width: 0;
+  height: 0;
+}
+
+@media screen and (max-width:400px) {
+
+  #donation-toggle-bubble:before,
+  #donation-toggle-bubble:after {
+    left: calc(75% - 10px);
+  }
+
+}
+
+#donation-toggle-bubble:before {
+  border-color: transparent transparent #F7F7F7 transparent;
+  z-index: 2;
+  top: -20px;
+
+}
+
+#donation-toggle-bubble:after {
+  border-color: transparent transparent #DEE5EA transparent;
+  z-index: 0;
+  top: -21px;
+}
+
+#monthly-heart {
+  margin-right: 7%;
+}
+
+#bubble-text {
+  flex: 1;
+}
+
 @media screen and (max-width:720px) {
 
   #action-after-header {

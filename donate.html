@@ -1508,142 +1508,6 @@
 
 </style>
 {% braintree_js_libs %}
-<!-- <script type="text/javascript">
-  (function(){
-      const CONSTANTS = {
-          ACTIVE_PAYMENTS_CLASS: "payments-title-active",
-          PAYPAL_TARGET_CLASS: "paypal-title"
-      };
-      const PAYMENTS_DETAILS_CONTENTS = {
-          CREDIT_CARD: `<div>
-            <div class="input-text ak-input-type-user">
-              <label for="id_name">Name</label>
-              <input id="id_name" class="ak-input-type-user" type="text" name="name">
-            </div>
-            <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-              <label for="ak-card_num">Credit Card #</label>
-              <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-              <div id="ak-card_num-hosted" class="hosted-field"></div>
-              <input id="ak-card_num" type="text" name="card_num">
-            </div>
-
-            <div class="ak-err-below">
-              <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c10 margin-top-none">
-                <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-                <label for="ak-exp_date_month">Expiration Date</label>
-                <div id="ak-exp_date-hosted" class="hosted-field"></div>
-                <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-                  <option value="">MM</option>
-                  <option value="01">01</option>
-                  <option value="02">02</option>
-                  <option value="03">03</option>
-                  <option value="04">04</option>
-                  <option value="05">05</option>
-                  <option value="06">06</option>
-                  <option value="07">07</option>
-                  <option value="08">08</option>
-                  <option value="09">09</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                </select>
-                <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-                <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
-                  <option value="">YYYY</option>
-
-                  <option value="19">2019</option>
-
-                  <option value="20">2020</option>
-
-                  <option value="21">2021</option>
-
-                  <option value="22">2022</option>
-
-                  <option value="23">2023</option>
-
-                  <option value="24">2024</option>
-
-                  <option value="25">2025</option>
-
-                  <option value="26">2026</option>
-
-                  <option value="27">2027</option>
-
-                  <option value="28">2028</option>
-
-                  <option value="29">2029</option>
-
-                  <option value="30">2030</option>
-
-                  <option value="31">2031</option>
-
-                  <option value="32">2032</option>
-
-                  <option value="33">2033</option>
-
-                  <option value="34">2034</option>
-
-                  <option value="35">2035</option>
-
-                  <option value="36">2036</option>
-
-                  <option value="37">2037</option>
-
-                  <option value="38">2038</option>
-
-                  <option value="39">2039</option>
-
-                </select>
-                <div class="clear"></div>
-              </div>
-            </div>
-              </div>`,
-              PAYPAL: `<div class="paypal-fields">
-                  <div class="input-text ak-input-type-user">
-                <label class="required" for="id_email">Name</label>
-                <input id="id_email" class="" type="text" name="email">
-              </div>
-                  <div class="input-text ak-input-type-user">
-                <label class="required" for="id_email">Email Address</label>
-                <input id="id_email" class="" type="text" name="email">
-              </div>
-
-                  </div>`
-      }
-    const paymentsCtn = $(".payments-container");
-    const paymentsTitles = $(".payments-title");
-    const paymentsDetailsContent = $("#payments-details-content");
-    const continueButton = $("#ak-continue-button");
-
-
-    const removeActivePaymentsClass = () => {
-      $.each(paymentsTitles, (index, title)=>{
-          const titleCtn = $(title);
-          titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
-      });
-    };
-
-    paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
-    $.each(paymentsTitles, (index, title)=>{
-      const titleCtn = $(title);
-      titleCtn.click(e=>{
-          const clicked = $(e.target);
-          if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
-          removeActivePaymentsClass()
-          clicked.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
-
-          // Update Content
-          if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
-              continueButton.text('Continue to PayPal')
-          } else {
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
-              continueButton.text('Continue')
-          }
-      });
-    })
-  })();
-  </script> -->
 <script src="/resources/ak_braintree_vzero.js"></script>
 <script>
   console.log('In the tag setup section?');
@@ -1653,6 +1517,7 @@
       };
   const PAYMENTS_DETAILS_CONTENTS = {
           CREDIT_CARD: `
+          <div>
           <div class="input-text ak-input-type-user">
 					<div class="input-text ak-input-type-user input-field-group">
 						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
@@ -1707,7 +1572,8 @@
 							{{ templateset.custom_fields.pre_submit_text }}
 						{% endautoescape %}
 					</div>
-				{% endif %}   
+        {% endif %}  
+        </div> 
               `,
               PAYPAL: `<div class="paypal-fields">
                   <div class="input-text ak-input-type-user">
@@ -1734,7 +1600,7 @@
         titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
     });
   };
-  
+  console.log(paymentsDetailsContent, "Payments Details");
   paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
   console.log("Got here, ", PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD )
   $.each(paymentsTitles, (index, title)=>{

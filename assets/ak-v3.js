@@ -770,6 +770,7 @@ jQuery(document).ready(function($){
   monthly.addEventListener('click', function () {
     if (!checkbox.checked) {
       checkbox.checked = true;
+      $('.ak-donation-monthly').show();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
     }

@@ -950,7 +950,7 @@
         } )
     }
 
-    function mark_prev_step_complete() {
+    function mark_step_complete(current_step) {
       if (current_step != 3) {
         $('input[name="ak-donate-step"]:checked')
           .closest('label')
@@ -982,7 +982,7 @@
         validate_step(current_step);
 
         if (!step_has_errors) {
-          mark_prev_step_complete();
+          mark_step_complete(current_step);
 
           // check radio button in next step
           $('input[name="ak-donate-step"]:checked')
@@ -1012,7 +1012,7 @@
 	    if ( (! step_has_errors) && (current_step == 1) && (next == 3) ) {
 	      validate_step(2);
 	      if ( step_has_errors ) {
-          mark_prev_step_complete();
+          mark_step_complete(current_step);
           $('#ak-donate-step-2').prop('checked', true);
 	        three_step_reveal();
 	        return;
@@ -1021,7 +1021,7 @@
 
 	    // allow the user to go back even if there are errors
 	    if (current_step > next || !step_has_errors) {
-        mark_prev_step_complete();
+        mark_step_complete(current_step);
         $('#ak-donate-step-' + next).prop('checked', true);
 	      three_step_reveal();
 	    }

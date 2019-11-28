@@ -1123,12 +1123,15 @@
         step_has_errors = true;
       }
 
-      console.log("Before check do valid credit card.")
+      console.log("====>Before check do valid credit card.")
       if (!do_validate_credit_card()) {
         console.log("Gets to do validate_credit_card", step_has_errors);
         return step_has_errors; // Leaves this function?
       }
 
+      console.log("Checking credit card valididity...");
+      console.log(valid_credit_card($('#ak-card_num').val()), "<---")
+      console.log("Done Checking CC valid")
       if (!valid_credit_card($('#ak-card_num').val())) {
         if (!actionkit.errors) actionkit.errors = {}
         actionkit.errors['card_num:invalid'] = actionkit.forms.errorMessage('card_num:invalid');
@@ -1338,29 +1341,30 @@
 
     // Standard luhn check to detect mistyped credit card numbers
     // from https://gist.github.com/DiegoSalazar/4075533
-    function valid_credit_card(value) {
-        if (/[^0-9-\s]/.test(value)) {
-            return false;
-        }
-        var nCheck = 0, nDigit = 0, bEven = false;
-        value = value.replace(/\D/g, "");
 
-        for (var n = value.length - 1; n >= 0; n--) {
-            var cDigit = value.charAt(n),
-            nDigit = parseInt(cDigit, 10);
+    // function valid_credit_card(value) {
+    //     if (/[^0-9-\s]/.test(value)) {
+    //         return false;
+    //     }
+    //     var nCheck = 0, nDigit = 0, bEven = false;
+    //     value = value.replace(/\D/g, "");
 
-            if (bEven) {
-                if ((nDigit *= 2) > 9) {
-                    nDigit -= 9;
-                }
-            }
+    //     for (var n = value.length - 1; n >= 0; n--) {
+    //         var cDigit = value.charAt(n),
+    //         nDigit = parseInt(cDigit, 10);
 
-            nCheck += nDigit;
-            bEven = !bEven;
-        }
+    //         if (bEven) {
+    //             if ((nDigit *= 2) > 9) {
+    //                 nDigit -= 9;
+    //             }
+    //         }
 
-        return (nCheck % 10) == 0;
-    }
+    //         nCheck += nDigit;
+    //         bEven = !bEven;
+    //     }
+
+    //     return (nCheck % 10) == 0;
+    // }
 
     //calculate subtotals total
     function calculate_product_subtotals_total() {

@@ -507,7 +507,7 @@
 
         <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
           <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5>
-          <div class="payments-container">
+          <!-- <div class="payments-container">
               <div class="payments-titles">
                 <div class="payments-title payments-title-active card-title">
                     <span>Card</span>
@@ -524,7 +524,7 @@
                 <div id="payments-details-content">
 
                 </div>
-           </div>
+           </div> -->
 
           <!--Name-->
             <div class="input-text ak-input-type-user cc-fields">	
@@ -1655,6 +1655,8 @@
         $('#ak-paypal-button').on('mousedown', function () {
             var form_elt = $(this).closest('form');
             var required_fields = form_elt.find('input[name="required"]');
+            console.log(required_fields, "required fields");
+            console.log(form_elt, "required fields");
             if ( required_fields.length ) {
                 required_fields.remove();
                 $('body').on('mouseup', function ( event ) {

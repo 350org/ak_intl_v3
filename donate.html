@@ -916,9 +916,14 @@
           var amount = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
           var button_amount = amount_container.find('span.ak-amount-button-amount').text();
           var custom_amount = document.querySelector('#ak-other-amount-field').value;
-          var final_amount = '';
           if (!custom_amount) amount += button_amount;
           else amount += custom_amount;
+          if ($('#id_donation_type_recurring').is(':checked')) {
+            amount += '/mo';
+          }
+          else {
+            amount.replace('/mo','');
+          }
           console.log('button amount',button_amount, 'custom amount', custom_amount, 'amount', amount);
           $('input[name="ak-donate-step"]:checked')
             .closest('label')

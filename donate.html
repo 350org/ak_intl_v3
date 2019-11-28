@@ -1093,6 +1093,7 @@
 
       if (step == "3" && !step_has_errors) {
         step_has_errors = step_3_validation();
+        console.log(step_has_errors, "Step Has Errors")
       }
     }
 
@@ -1471,6 +1472,7 @@
         $('#ak-pay-by-paypal').val(0);
 
         if ( $('form.ak-donate-three-step').length > 0 ) {
+          console.log($('form.ak-donate-three-step'), "Here we are")
             validate_step("3");
 
             if (step_has_errors) {

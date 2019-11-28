@@ -1110,7 +1110,8 @@
     }
 
     function step_3_validation() {
-      let step_has_errors = false;
+      console.log('validating step 3');
+      var step_has_errors = false;
 
       if (!valid_email( $('#id_email').val() ) ) {
         if (!actionkit.errors) actionkit.errors = {};
@@ -1119,7 +1120,7 @@
         step_has_errors = true;
       }
 
-
+      console.log("Before check do valid credit card.")
       if (!do_validate_credit_card()) {
         console.log("Gets to do validate_credit_card", step_has_errors);
         return step_has_errors; // Leaves this function?

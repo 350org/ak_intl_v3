@@ -522,63 +522,9 @@
                 </div>
               </div>
                 <div id="payments-details-content">
+
                 </div>
            </div>
-          <!-- <div class="input-text ak-input-type-user">
-					<div class="input-text ak-input-type-user input-field-group">
-						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
-						<input id="id_name" class="ak-input-type-user" type="text" name="name">
-					</div>
-					<div class="input-text ak-input-type-user input-field-group">
-						<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
-						<input id="id_email" class="" type="text" name="email">
-					</div>
-					<div class="cc-fields">
-	          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
-					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-					    <div id="ak-card_num-hosted" class="hosted-field"></div>
-					    <input id="ak-card_num" type="text" name="card_num">
-						</div>
-						<div class="ak-err-below">
-							<div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c5 ct5 margin-top-none">
-				        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-				        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
-				        <div id="ak-exp_date-hosted" class="hosted-field"></div>
-				        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-			            <option value="">MM</option>
-			            <option value="01">01</option>
-			            <option value="02">02</option>
-			            <option value="03">03</option>
-			            <option value="04">04</option>
-			            <option value="05">05</option>
-			            <option value="06">06</option>
-			            <option value="07">07</option>
-			            <option value="08">08</option>
-			            <option value="09">09</option>
-			            <option value="10">10</option>
-			            <option value="11">11</option>
-			            <option value="12">12</option>
-								</select>
-				        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-				        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
-			            <option value="">YYYY</option>
-	{% for year in exp_years %}
-			            <option value="{{ year.two }}">{{ year.four }}</option>
-	{% endfor %}
-				        </select>
-								<div class="clear"></div>
-							</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					{% if templateset.custom_fields.pre_submit_text %}
-					<div class="pre-submit-text">
-						{% autoescape off %}
-							{{ templateset.custom_fields.pre_submit_text }}
-						{% endautoescape %}
-					</div>
-				{% endif %} -->
 
         </div><!--ak-styled-fields-->
 
@@ -675,6 +621,7 @@
 
 <script language="javascript">
 //<!--
+  console.log(actionkit, "Action kit is here?>>")
     function clear_radio_buttons() {
         $('input.ak-amount-radio-button').prop('checked', false);
     }
@@ -987,7 +934,7 @@
         }
     }
 
-    var step_has_errors = false;
+    let step_has_errors = false;
     function three_step_advance() {
 				console.log('three_step_advance() fired');
 
@@ -1066,54 +1013,86 @@
     /* used to limit AK built-in validation to particular fields by step */
     var doing_step_validation = false;
     var validate_fields = [];
+
+    /**
+    * Function Step 
+    */
+
     function validate_step(step) {
       step_has_errors = false;
-      if (step == "1") {
-        validate_fields = ["amount"];
-      } else if (step == "2") {
-        validate_fields = ["address1", "address2", "city", "state", "zip",
+      switch(step){
+        case "1":
+          validate_fields = ["amount"];
+          break;
+        case "2":
+          validate_fields = ["address1", "address2", "city", "state", "zip",
                            "country", "region", "postal",
                            "shipping_address1", "shipping_address2",
                            "shipping_city", "shipping_state",
                            "shipping_zip", "shipping_country",
                            "shipping_region", "shipping_postal",
-                           "privacy"
-                           {% if templateset.custom_fields.ask_occupation_and_employer %},"action_employer", "action_occupation"{% endif %}];
-      } else {
-        validate_fields = ["email","card_num", "card_code", "first_name", "last_name", "name",
-                           "exp_date_year", "exp_date_month", "exp_date"];
+                           "privacy"];
+                             
+          {% if templateset.custom_fields.ask_occupation_and_employer %}
+          validate_fields = validate_fields.concat("action_employer", "action_occupation");
+          {% endif %};
+          
+          break;
+        case "3":
+          validate_fields = ["email","card_num", "first_name", "last_name", "name", "exp_date_year", "exp_date_month", "exp_date"];
+          break;
+        default:
+          validate_fields = ["amount"]; 
       }
+      // if (step === "1") {
+      //   validate_fields = ["amount"];
+      // } else if (step == "2") {
+      //   validate_fields = ["address1", "address2", "city", "state", "zip",
+      //                      "country", "region", "postal",
+      //                      "shipping_address1", "shipping_address2",
+      //                      "shipping_city", "shipping_state",
+      //                      "shipping_zip", "shipping_country",
+      //                      "shipping_region", "shipping_postal",
+      //                      "privacy"
+      //                      {% if templateset.custom_fields.ask_occupation_and_employer %},"action_employer", "action_occupation"{% endif %}];
+      // } else {
+      //   validate_fields = ["email","card_num", "first_name", "last_name", "name",
+      //                      "exp_date_year", "exp_date_month", "exp_date"];
+      // }
 
       doing_step_validation = true;
       actionkit.forms.validate();
       doing_step_validation = false;
 
-      if (step == "1") {
+      if (step === "1") {
         step_has_errors = step_1_validation();
       }
 
-      if (step == "2" && !step_has_errors) {
+      if (step === "2" && !step_has_errors) {
         step_has_errors = step_2_validation();
       }
 
-      if (step == "3" && !step_has_errors) {
+      if (step === "3" && !step_has_errors) {
         step_has_errors = step_3_validation();
+        console.log(step_has_errors, "In the validate step function")
       }
+      // What do we do with this step_has_errors
     }
 
     function do_validate_credit_card() {
+      // Check if we need to validate the CC
       if (actionkit.donations && actionkit.donations.skip_cc_validation) {
+        // Don't validate CC.
         return false;
       }
       return true;
     }
 
     function step_3_validation() {
-      var step_has_errors = false;
+      let step_has_errors = false;
 
       if (!valid_email( $('#id_email').val() ) ) {
-        if (!actionkit.errors)
-            actionkit.errors = {};
+        if (!actionkit.errors) actionkit.errors = {};
         actionkit.errors['email:invalid'] = actionkit.forms.errorMessage('email:invalid');
         actionkit.forms.onValidationErrors(actionkit.errors);
         step_has_errors = true;
@@ -1121,27 +1100,27 @@
 
 
       if (!do_validate_credit_card()) {
-        return step_has_errors;
+        console.log("Gets to do validate_credit_card", step_has_errors);
+        return step_has_errors; // Leaves this function?
       }
 
       if (!valid_credit_card($('#ak-card_num').val())) {
-        if (!actionkit.errors){
-          actionkit.errors = {};
-				}
+        if (!actionkit.errors) actionkit.errors = {}
         actionkit.errors['card_num:invalid'] = actionkit.forms.errorMessage('card_num:invalid');
         actionkit.forms.onValidationErrors(actionkit.errors);
         step_has_errors = true;
       }
 
-      if (!valid_credit_card_code($('#ak-card_code').val())) {
-        if (!actionkit.errors){
-          actionkit.errors = {};
-				}
-        actionkit.errors['card_code:invalid'] = actionkit.forms.errorMessage('card_code:invalid');
-        actionkit.forms.onValidationErrors(actionkit.errors);
-        step_has_errors = true;
-      }
+      // if (!valid_credit_card_code($('#ak-card_code').val())) {
+      //   if (!actionkit.errors){
+      //     actionkit.errors = {};
+			// 	}
+      //   actionkit.errors['card_code:invalid'] = actionkit.forms.errorMessage('card_code:invalid');
+      //   actionkit.forms.onValidationErrors(actionkit.errors);
+      //   step_has_errors = true;
+      // }
 
+      console.log(step_has_errors, "Step Has Errors end of step 3?")
       return step_has_errors;
     }
 
@@ -1457,11 +1436,11 @@
 
         /* clear out CC info if entered */
         $('#ak-card_num').val('');
-        $('#ak-card_code').val('');
+        // $('#ak-card_code').val('');
 
         /* disable CC requirements */
         $('#ak-card_num-required').remove();
-        $('#ak-card_code-required').remove();
+        // $('#ak-card_code-required').remove();
         $('#ak-exp_date_month-required').remove();
         $('#ak-exp_date_year-required').remove();
 
@@ -1498,10 +1477,10 @@
     const CONSTANTS = {
             ACTIVE_PAYMENTS_CLASS: "payments-title-active",
             PAYPAL_TARGET_CLASS: "paypal-title"
-        };
+    };
+
     const PAYMENTS_DETAILS_CONTENTS = {
           CREDIT_CARD: `
-          <div>
 					<div class="input-text ak-input-type-user input-field-group">
 						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
 						<input id="id_name" class="ak-input-type-user" type="text" name="name">
@@ -1556,7 +1535,6 @@
 						{% endautoescape %}
 					</div>
         {% endif %}
-        </div>
               `,
               PAYPAL: `<div class="paypal-fields">
                   <div class="input-text ak-input-type-user">
@@ -1576,7 +1554,7 @@
     const paymentsDetailsContent = $("#payments-details-content");
     const continueButton = $("#ak-continue-button");
 
-    paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+    paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD); // Insert HTML using JS.
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
           const titleCtn = $(title);
@@ -1589,13 +1567,11 @@
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);
       titleCtn.click(e=>{
-        console.log("Clicked here?")
           const clicked = $(e.target);
           const parentHasClass = clicked.parents(`.${CONSTANTS.ACTIVE_PAYMENTS_CLASS}`).length > 0;
           if(parentHasClass) return;
             else {
             const closestDiv = clicked.closest('.payments-title');
-            console.log(closestDiv, "hapaz")
 
             if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
                 paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
@@ -1688,6 +1664,85 @@
 </style>
 {% braintree_js_libs %}
 <script src="/resources/ak_braintree_vzero.js"></script>
+<script>	
+    $(function() {	
+        var form = document.querySelector("#act"),	
+            options = {	
+                form: form,	
+                fields: {	
+                    number: {	
+                        selector: '#ak-card_num-hosted'	
+                    },	
+                    expirationDate: {	
+                        selector: '#ak-exp_date-hosted',	
+                        placeholder: 'MM / YYYY'	
+                    }	
+                },	
+                styles: {	
+                    'input': {	
+                        'font-family': '{{ templateset.custom_fields.font_family|default:"sans-serif"|safe }}',	
+                        'font-size': '1.1rem',	
+                        'font-weight': 'bold',	
+                        'color': '#17292e',	
+                        'padding': '0.6em'	
+                    },	
+                    'input.invalid': {	
+                        'color': '{{templateset.custom_fields.color_error }}',	
+                        'background-color': '#fff0d4'	
+                    },	
+                    'input.valid': {	
+                    }	
+                },	
+                submitOnEmpty: function() {	
+                    return $('#ak-pay-by-paypal').val() == 1;	
+                },	
+                submit: form.querySelector(".ak-submit-button")	
+            },	
+            toRemove = ["#ak-card_num", "#ak-exp_date_month",	
+                        "#ak-exp_date_year", "#ak-card_num-required",	
+                         "#ak-exp_date_month-required",	
+                        "#ak-exp_date_year-required"];	
+        toRemove.forEach(function(el) {	
+            $(el).remove();	
+        });	
+        actionkit.donations.handleError = function(err) {	
+            if (window.console) {	
+                window.console.log(err);	
+            }	
+            if (!actionkit.errors) {	
+                actionkit.errors = {};	
+            }	
+            switch (err.code) {	
+                case 'HOSTED_FIELDS_FIELDS_EMPTY':	
+                    actionkit.errors['card_num:invalid'] = "Credit card fields are empty.";	
+                    break;	
+              case 'HOSTED_FIELDS_FIELDS_INVALID':	
+                    err.details.invalidFieldKeys.forEach(function(key) {	
+                        var map = {	
+                            'number': 'card_num',	
+                            'expirationDate': 'card_exp'	
+                        };	
+                        actionkit.errors[map[key] + ':invalid'] = "This field is invalid.";;	
+                    });	
+                    break;	
+              case 'HOSTED_FIELDS_FAILED_TOKENIZATION':	
+                    actionkit.errors['card_num:invalid'] = "Please check that your credit card is valid.";	
+                    break;	
+              case 'HOSTED_FIELDS_TOKENIZATION_NETWORK_ERROR':	
+                    actionkit.errors['card_num:invalid'] = "Network error.";	
+                    break;	
+              default:	
+                    actionkit.errors['card_num:invalid'] = "An error occurred: " + err.message;	
+            }	
+            actionkit.forms.onValidationErrors(actionkit.errors);	
+        };	
+        actionkit.donations.initClient('{{ pp.client_token }}', options);	
+        // read by 3-step validation	
+        actionkit.donations.skip_cc_validation = true;	
+        actionkit.donations.vzero = true;	
+      $(".hosted-field.braintree-hosted-fields-invalid").prev().css("background-color", "#fff0d4")	
+    });	
+    </script>
 {% endif %}
 {% endwith %}
 

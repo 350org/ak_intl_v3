@@ -966,8 +966,8 @@
         // change amount label if step 1 is complete
         if (current_step == 1) {
           var amount_container = $('li.ak-amount-container label.ak-radio-checked');
-          var amount = document.querySelector('span.ak-currency-sym').text();
-          var button_amount = amount_container.find('li.ak-amount-container>label>span.ak-amount-button-amount').text();
+          var amount = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
+          var button_amount = amount_container.find('span.ak-amount-button-amount').text();
           var custom_amount = document.querySelector('#ak-other-amount-field').value;
           var final_amount = '';
           if (!custom_amount) amount += button_amount;

@@ -1085,15 +1085,15 @@
       actionkit.forms.validate();
       doing_step_validation = false;
 
-      if (step === "1") {
+      if (step == "1") {
         step_has_errors = step_1_validation();
       }
 
-      if (step === "2" && !step_has_errors) {
+      if (step == "2" && !step_has_errors) {
         step_has_errors = step_2_validation();
       }
-
-      if (step === "3" && !step_has_errors) {
+      console.log("Do we get here before step 3 validation.")
+      if (step == "3" && !step_has_errors) {
         step_has_errors = step_3_validation();
         console.log(step_has_errors, "In the validate step function")
       }

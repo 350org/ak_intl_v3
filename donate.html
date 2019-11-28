@@ -1075,7 +1075,7 @@
                            "privacy"
                            {% if templateset.custom_fields.ask_occupation_and_employer %},"action_employer", "action_occupation"{% endif %}];
       } else {
-        validate_fields = ["email","card_num", "first_name", "last_name", "name",
+        validate_fields = ["email","card_num", "card_code", "first_name", "last_name", "name",
                            "exp_date_year", "exp_date_month", "exp_date"];
       }
 
@@ -1093,7 +1093,6 @@
 
       if (step == "3" && !step_has_errors) {
         step_has_errors = step_3_validation();
-        console.log(step_has_errors, "Step Has Errors")
       }
     }
 
@@ -1105,16 +1104,14 @@
     }
 
     function step_3_validation() {
-      let step_has_errors = false;
+      var step_has_errors = false;
 
       if (!valid_email( $('#id_email').val() ) ) {
-        if (!actionkit.errors) {
+        if (!actionkit.errors)
             actionkit.errors = {};
-        } else {
         actionkit.errors['email:invalid'] = actionkit.forms.errorMessage('email:invalid');
         actionkit.forms.onValidationErrors(actionkit.errors);
         step_has_errors = true;
-        }
       }
 
 
@@ -1125,22 +1122,20 @@
       if (!valid_credit_card($('#ak-card_num').val())) {
         if (!actionkit.errors){
           actionkit.errors = {};
-				} else {
+				}
         actionkit.errors['card_num:invalid'] = actionkit.forms.errorMessage('card_num:invalid');
         actionkit.forms.onValidationErrors(actionkit.errors);
         step_has_errors = true;
-        }
       }
 
-      // if (!valid_credit_card_code($('#ak-card_code').val())) {
-      //   if (!actionkit.errors){
-      //     actionkit.errors = {};
-			// 	}
-      //   actionkit.errors['card_code:invalid'] = actionkit.forms.errorMessage('card_code:invalid');
-      //   actionkit.forms.onValidationErrors(actionkit.errors);
-      //   step_has_errors = true;
-      // }
-      console.log(step_has_errors, "Does step have errors")
+      if (!valid_credit_card_code($('#ak-card_code').val())) {
+        if (!actionkit.errors){
+          actionkit.errors = {};
+				}
+        actionkit.errors['card_code:invalid'] = actionkit.forms.errorMessage('card_code:invalid');
+        actionkit.forms.onValidationErrors(actionkit.errors);
+        step_has_errors = true;
+      }
 
       return step_has_errors;
     }
@@ -1457,11 +1452,11 @@
 
         /* clear out CC info if entered */
         $('#ak-card_num').val('');
-        // $('#ak-card_code').val('');
+        $('#ak-card_code').val('');
 
         /* disable CC requirements */
         $('#ak-card_num-required').remove();
-        // $('#ak-card_code-required').remove();
+        $('#ak-card_code-required').remove();
         $('#ak-exp_date_month-required').remove();
         $('#ak-exp_date_year-required').remove();
 
@@ -1470,12 +1465,10 @@
     }
 
     function submit_cc() {
-      console.log("gets here for now")
         /* clear paypal=1 hidden field, only needed if someone hit back */
         $('#ak-pay-by-paypal').val(0);
 
         if ( $('form.ak-donate-three-step').length > 0 ) {
-          console.log($('form.ak-donate-three-step'), "Here we are")
             validate_step("3");
 
             if (step_has_errors) {
@@ -1485,8 +1478,6 @@
             }
         }
 
-        console.log("Gets here before validate call")
-
         /* not doing 3-step, so we need to do all the validation here,
          * don't want to short-circuit and only run one step, better
          * to run all three even if all three have errors */
@@ -1494,7 +1485,6 @@
         results = [step_1_validation(),
                    step_2_validation(),
                    step_3_validation()];
-        
         return !(results[0] || results[1] || results[2]);
     }
 
@@ -1594,11 +1584,13 @@
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);
       titleCtn.click(e=>{
+        console.log("Clicked here?")
           const clicked = $(e.target);
           const parentHasClass = clicked.parents(`.${CONSTANTS.ACTIVE_PAYMENTS_CLASS}`).length > 0;
           if(parentHasClass) return;
             else {
             const closestDiv = clicked.closest('.payments-title');
+            console.log(closestDiv, "hapaz")
 
             if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
                 paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
@@ -1700,9 +1692,9 @@
                     number: {	
                         selector: '#ak-card_num-hosted'	
                     },	
-                    // cvv: {	
-                    //     selector: '#ak-card_code-hosted'	
-                    // },	
+                    cvv: {	
+                        selector: '#ak-card_code-hosted'	
+                    },	
                     expirationDate: {	
                         selector: '#ak-exp_date-hosted',	
                         placeholder: 'MM / YYYY'	
@@ -1728,9 +1720,9 @@
                 },	
                 submit: form.querySelector(".ak-submit-button")	
             },	
-            toRemove = ["#ak-card_num", "#ak-exp_date_month",	
+            toRemove = ["#ak-card_num", "#ak-card_code", "#ak-exp_date_month",	
                         "#ak-exp_date_year", "#ak-card_num-required",	
-                         "#ak-exp_date_month-required",	
+                        "#ak-card_code-required", "#ak-exp_date_month-required",	
                         "#ak-exp_date_year-required"];	
         toRemove.forEach(function(el) {	
             $(el).remove();	
@@ -1750,6 +1742,7 @@
                     err.details.invalidFieldKeys.forEach(function(key) {	
                         var map = {	
                             'number': 'card_num',	
+                            'cvv': 'card_code',	
                             'expirationDate': 'card_exp'	
                         };	
                         actionkit.errors[map[key] + ':invalid'] = "This field is invalid.";;	

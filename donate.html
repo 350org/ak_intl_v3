@@ -972,6 +972,7 @@
           var final_amount = '';
           if (!custom_amount) amount += button_amount;
           else amount += custom_amount;
+          console.table([['button amount',button_amount], ['custom amount', custom_amount], ['amount', amount]]);
           $('input[name="ak-donate-step"]:checked')
             .closest('label')
             .find('span.ak-amount-label')

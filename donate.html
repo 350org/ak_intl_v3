@@ -982,7 +982,8 @@
 
 	    // allow the user to go back even if there are errors
 	    if (current_step > next || !step_has_errors) {
-        mark_step_complete(current_step);
+        // only mark current step as complete if it has no errors
+        if(!step_has_errors) mark_step_complete(current_step);
         $('#ak-donate-step-' + next).prop('checked', true);
 	      three_step_reveal();
 	    }

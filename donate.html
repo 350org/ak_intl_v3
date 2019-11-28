@@ -1095,6 +1095,7 @@
       console.log("Do we get here before step 3 validation.")
       console.log("any errors before step 3 validation", step_has_errors)
       console.log("We are currently at step -->", step)
+      console.log(actionkit.errors, "What are the errors?")
       if (step == "3" && !step_has_errors) {
         console.log(step_has_errors, "In the validate step function before")
         step_has_errors = step_3_validation();

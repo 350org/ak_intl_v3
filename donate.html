@@ -566,133 +566,20 @@
                           {% endautoescape %}
                         </div>
                       {% endif %}
-              
-                      </div><!--ak-styled-fields-->
-                      <div id="paypal-fields">
-                          <div class="input-text ak-input-type-user">
-                        <label class="required" for="id_email">Name</label>
-                        <input id="id_email" class="" type="text" name="email">
-                      </div>
-                          <div class="input-text ak-input-type-user">
-                        <label class="required" for="id_email">Email Address</label>
-                        <input id="id_email" class="" type="text" name="email">
-                      </div>
+                          
+                    </div>
+                    <div id="paypal-fields">
+                        <div class="input-text ak-input-type-user">
+                      <label class="required" for="id_email">Name</label>
+                      <input id="id_email" class="" type="text" name="email">
+                    </div>
+                        <div class="input-text ak-input-type-user">
+                      <label class="required" for="id_email">Email Address</label>
+                      <input id="id_email" class="" type="text" name="email">
+                    </div>
                   </div>
                   </div>
-                            <!-- <div class="input-text ak-input-type-user">
-					<div class="input-text ak-input-type-user input-field-group">
-						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
-						<input id="id_name" class="ak-input-type-user" type="text" name="name">
-					</div>
-					<div class="input-text ak-input-type-user input-field-group">
-						<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
-						<input id="id_email" class="" type="text" name="email">
-					</div>
-					<div class="cc-fields">
-	          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
-					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-					    <div id="ak-card_num-hosted" class="hosted-field"></div>
-					    <input id="ak-card_num" type="text" name="card_num">
-						</div>
-						<div class="ak-err-below">
-							<div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c5 ct5 margin-top-none">
-				        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-				        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
-				        <div id="ak-exp_date-hosted" class="hosted-field"></div>
-				        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-			            <option value="">MM</option>
-			            <option value="01">01</option>
-			            <option value="02">02</option>
-			            <option value="03">03</option>
-			            <option value="04">04</option>
-			            <option value="05">05</option>
-			            <option value="06">06</option>
-			            <option value="07">07</option>
-			            <option value="08">08</option>
-			            <option value="09">09</option>
-			            <option value="10">10</option>
-			            <option value="11">11</option>
-			            <option value="12">12</option>
-								</select>
-				        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-				        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
-			            <option value="">YYYY</option>
-	{% for year in exp_years %}
-			            <option value="{{ year.two }}">{{ year.four }}</option>
-	{% endfor %}
-				        </select>
-								<div class="clear"></div>
-							</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					{% if templateset.custom_fields.pre_submit_text %}
-					<div class="pre-submit-text">
-						{% autoescape off %}
-							{{ templateset.custom_fields.pre_submit_text }}
-						{% endautoescape %}
-					</div>
-				{% endif %} -->
-                </div>
-           </div>
-          <!-- <div class="input-text ak-input-type-user">
-					<div class="input-text ak-input-type-user input-field-group">
-						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
-						<input id="id_name" class="ak-input-type-user" type="text" name="name">
-					</div>
-					<div class="input-text ak-input-type-user input-field-group">
-						<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
-						<input id="id_email" class="" type="text" name="email">
-					</div>
-					<div class="cc-fields">
-	          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
-					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-					    <div id="ak-card_num-hosted" class="hosted-field"></div>
-					    <input id="ak-card_num" type="text" name="card_num">
-						</div>
-						<div class="ak-err-below">
-							<div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c5 ct5 margin-top-none">
-				        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-				        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
-				        <div id="ak-exp_date-hosted" class="hosted-field"></div>
-				        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-			            <option value="">MM</option>
-			            <option value="01">01</option>
-			            <option value="02">02</option>
-			            <option value="03">03</option>
-			            <option value="04">04</option>
-			            <option value="05">05</option>
-			            <option value="06">06</option>
-			            <option value="07">07</option>
-			            <option value="08">08</option>
-			            <option value="09">09</option>
-			            <option value="10">10</option>
-			            <option value="11">11</option>
-			            <option value="12">12</option>
-								</select>
-				        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-				        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
-			            <option value="">YYYY</option>
-	{% for year in exp_years %}
-			            <option value="{{ year.two }}">{{ year.four }}</option>
-	{% endfor %}
-				        </select>
-								<div class="clear"></div>
-							</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					{% if templateset.custom_fields.pre_submit_text %}
-					<div class="pre-submit-text">
-						{% autoescape off %}
-							{{ templateset.custom_fields.pre_submit_text }}
-						{% endautoescape %}
-					</div>
-				{% endif %} -->
-
-        </div><!--ak-styled-fields-->
+                </div><!--ak-styled-fields-->
 
 {% autoescape off %}
 	{% if page.custom_fields.form_additional_fields %}

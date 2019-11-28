@@ -763,8 +763,8 @@ jQuery(document).ready(function($){
   once.addEventListener('click', function () {
     if (checkbox.checked) {
       checkbox.checked = false;
-      // $('.ak-donation-monthly').hide();
-      $('.ak-donation-monthly').addClass('hidden');
+      $('.ak-donation-monthly').hide();
+      // $('.ak-donation-monthly').addClass('hidden');
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
       // if (stepOneLabel.find('span.ak-step-number.hidden')) {
@@ -779,8 +779,8 @@ jQuery(document).ready(function($){
   monthly.addEventListener('click', function () {
     if (!checkbox.checked) {
       checkbox.checked = true;
-      // $('.ak-donation-monthly').show();
-      $('.ak-donation-monthly').removeClass('hidden');
+      $('.ak-donation-monthly').show();
+      // $('.ak-donation-monthly').removeClass('hidden');
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
       // if (stepOneLabel.find('span.ak-step-number.hidden')) {

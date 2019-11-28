@@ -1098,7 +1098,6 @@
     }
 
     function do_validate_credit_card() {
-      console.log(actionkit, "action Kit")
       if (actionkit.donations && actionkit.donations.skip_cc_validation) {
         return false;
       }
@@ -1106,14 +1105,16 @@
     }
 
     function step_3_validation() {
-      var step_has_errors = false;
+      let step_has_errors = false;
 
       if (!valid_email( $('#id_email').val() ) ) {
-        if (!actionkit.errors)
+        if (!actionkit.errors) {
             actionkit.errors = {};
+        } else {
         actionkit.errors['email:invalid'] = actionkit.forms.errorMessage('email:invalid');
         actionkit.forms.onValidationErrors(actionkit.errors);
         step_has_errors = true;
+        }
       }
 
 
@@ -1124,10 +1125,11 @@
       if (!valid_credit_card($('#ak-card_num').val())) {
         if (!actionkit.errors){
           actionkit.errors = {};
-				}
+				} else {
         actionkit.errors['card_num:invalid'] = actionkit.forms.errorMessage('card_num:invalid');
         actionkit.forms.onValidationErrors(actionkit.errors);
         step_has_errors = true;
+        }
       }
 
       // if (!valid_credit_card_code($('#ak-card_code').val())) {
@@ -1138,6 +1140,7 @@
       //   actionkit.forms.onValidationErrors(actionkit.errors);
       //   step_has_errors = true;
       // }
+      console.log(step_has_errors, "Does step have errors")
 
       return step_has_errors;
     }

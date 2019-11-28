@@ -1065,45 +1065,21 @@
 
     function validate_step(step) {
       step_has_errors = false;
-      switch(step){
-        case "1":
-          validate_fields = ["amount"];
-          break;
-        case "2":
-          validate_fields = ["address1", "address2", "city", "state", "zip",
+      if (step === "1") {
+        validate_fields = ["amount"];
+      } else if (step == "2") {
+        validate_fields = ["address1", "address2", "city", "state", "zip",
                            "country", "region", "postal",
                            "shipping_address1", "shipping_address2",
                            "shipping_city", "shipping_state",
                            "shipping_zip", "shipping_country",
                            "shipping_region", "shipping_postal",
-                           "privacy"];
-                             
-          {% if templateset.custom_fields.ask_occupation_and_employer %}
-          validate_fields = validate_fields.concat("action_employer", "action_occupation");
-          {% endif %};
-          
-          break;
-        case "3":
-          validate_fields = ["email","card_num", "first_name", "last_name", "name", "exp_date_year", "exp_date_month", "exp_date"];
-          break;
-        default:
-          validate_fields = ["amount"]; 
+                           "privacy"
+                           {% if templateset.custom_fields.ask_occupation_and_employer %},"action_employer", "action_occupation"{% endif %}];
+      } else {
+        validate_fields = ["email","card_num", "first_name", "last_name", "name",
+                           "exp_date_year", "exp_date_month", "exp_date"];
       }
-      // if (step === "1") {
-      //   validate_fields = ["amount"];
-      // } else if (step == "2") {
-      //   validate_fields = ["address1", "address2", "city", "state", "zip",
-      //                      "country", "region", "postal",
-      //                      "shipping_address1", "shipping_address2",
-      //                      "shipping_city", "shipping_state",
-      //                      "shipping_zip", "shipping_country",
-      //                      "shipping_region", "shipping_postal",
-      //                      "privacy"
-      //                      {% if templateset.custom_fields.ask_occupation_and_employer %},"action_employer", "action_occupation"{% endif %}];
-      // } else {
-      //   validate_fields = ["email","card_num", "first_name", "last_name", "name",
-      //                      "exp_date_year", "exp_date_month", "exp_date"];
-      // }
 
       doing_step_validation = true;
       actionkit.forms.validate();

@@ -598,7 +598,7 @@
 				  For pages that use CSE, the submit button will be enabled by javascript above.
 				  {% endcomment %}
 
-	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="display: none;">/mo</span></button>
+	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly hidden">/mo</span></button>
 	        <noscript>
 	          <p><b>JavaScript is required</b> so this page can securely submit your donation.</p>
 	      	</noscript>
@@ -972,11 +972,11 @@
           var final_amount = '';
           if (!custom_amount) amount += button_amount;
           else amount += custom_amount;
-          console.table([['button amount',button_amount], ['custom amount', custom_amount], ['amount', amount]]);
+          // console.table([['button amount',button_amount], ['custom amount', custom_amount], ['amount', amount]]);
           $('input[name="ak-donate-step"]:checked')
             .closest('label')
             .find('span.ak-amount-label')
-            // .html(amount+'<span class="ak-donation-monthly" style="display: none;">/mo</span>')
+            .html(amount+'<span class="ak-donation-monthly hidden">/mo</span>')
             .css({"text-decoration": "underline"});
         }
     }

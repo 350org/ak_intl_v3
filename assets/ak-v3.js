@@ -758,32 +758,35 @@ jQuery(document).ready(function($){
   var onceItems = document.querySelectorAll('.once-chosen');
   var monthlyItems = document.querySelectorAll('.monthly-chosen');
 
-  var stepOneLabel = $('label.ak-donate-step-1');
+  // var stepOneLabel = $('label.ak-donate-step-1');
 
   once.addEventListener('click', function () {
     if (checkbox.checked) {
       checkbox.checked = false;
-      $('.ak-donation-monthly').hide();
+      // $('.ak-donation-monthly').hide();
+      $('.ak-donation-monthly').addClass('hidden');
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
-      if (stepOneLabel.find('span.ak-step-number.hidden')) {
-        var text = stepOneLabel.find('span.ak-amount-label').text();
-        text = text.replace('/mo','')
-        stepOneLabel.find('span.ak-amount-label').text(text);
-      }
+      // if (stepOneLabel.find('span.ak-step-number.hidden')) {
+      //   console.log('once clicked')
+      //   var text = stepOneLabel.find('span.ak-amount-label').text();
+      //   text = text.replace('/mo','')
+      //   stepOneLabel.find('span.ak-amount-label').text(text);
+      // }
     }
   })
 
   monthly.addEventListener('click', function () {
     if (!checkbox.checked) {
       checkbox.checked = true;
-      $('.ak-donation-monthly').show();
+      // $('.ak-donation-monthly').show();
+      $('.ak-donation-monthly').removeClass('hidden');
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
-      if (stepOneLabel.find('span.ak-step-number.hidden')) {
-        var text = stepOneLabel.find('span.ak-amount-label').text();
-        stepOneLabel.find('span.ak-amount-label').text(text+'/mo');
-      }
+      // if (stepOneLabel.find('span.ak-step-number.hidden')) {
+      //   var text = stepOneLabel.find('span.ak-amount-label').text();
+      //   stepOneLabel.find('span.ak-amount-label').text(text+'/mo');
+      // }
     }
   })
 

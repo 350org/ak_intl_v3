@@ -918,12 +918,12 @@
           var custom_amount = document.querySelector('#ak-other-amount-field').value;
           if (!custom_amount) amount += button_amount;
           else amount += custom_amount;
-          // if ($('#id_donation_type_recurring').is(':checked')) {
-          //   amount += '/mo';
-          // }
-          // else {
-          //   amount.replace('/mo','');
-          // }
+          if ($('#id_donation_type_recurring').is(':checked')) {
+            amount += '/mo';
+          }
+          else {
+            amount.replace('/mo','');
+          }
           console.log('button amount',button_amount, 'custom amount', custom_amount, 'amount', amount);
           $('input[name="ak-donate-step"]:checked')
             .closest('label')
@@ -971,7 +971,7 @@
 	    // can't skip over a step unless it's already been completed
 			console.log('three_step_goto: step_has_errors = ' + step_has_errors + ', current_step = ' + current_step + ', next = ' + next);
 	    if ( (! step_has_errors) && (current_step == 1) && (next == 3) ) {
-	      validate_step(2);
+	      validate_step("2");
 	      if ( step_has_errors ) {
           mark_step_complete(current_step);
           $('#ak-donate-step-2').prop('checked', true);

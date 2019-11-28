@@ -1466,6 +1466,7 @@
     }
 
     function submit_cc() {
+      console.log("gets here for now")
         /* clear paypal=1 hidden field, only needed if someone hit back */
         $('#ak-pay-by-paypal').val(0);
 
@@ -1478,6 +1479,8 @@
                 return true;
             }
         }
+
+        console.log("Gets here before validate call")
 
         /* not doing 3-step, so we need to do all the validation here,
          * don't want to short-circuit and only run one step, better
@@ -1586,13 +1589,11 @@
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);
       titleCtn.click(e=>{
-        console.log("Clicked here?")
           const clicked = $(e.target);
           const parentHasClass = clicked.parents(`.${CONSTANTS.ACTIVE_PAYMENTS_CLASS}`).length > 0;
           if(parentHasClass) return;
             else {
             const closestDiv = clicked.closest('.payments-title');
-            console.log(closestDiv, "hapaz")
 
             if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
                 paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);

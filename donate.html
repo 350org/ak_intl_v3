@@ -1097,6 +1097,7 @@
     }
 
     function do_validate_credit_card() {
+      console.log(actionkit, "action Kit")
       if (actionkit.donations && actionkit.donations.skip_cc_validation) {
         return false;
       }
@@ -1485,6 +1486,7 @@
         results = [step_1_validation(),
                    step_2_validation(),
                    step_3_validation()];
+        
         return !(results[0] || results[1] || results[2]);
     }
 

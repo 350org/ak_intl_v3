@@ -1520,8 +1520,6 @@
       });
     };
 
-
-
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);
       titleCtn.click(e=>{
@@ -1548,9 +1546,11 @@
 
           // Update Content
           if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
-            paymentsDetailsContent.html(CARD_HTML.PAYPAL_HTML);
+              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
+              // continueButton.text('Continue to PayPal')
           } else {
-            paymentsDetailsContent.html(CARD_HTML.CREDIT_CARD_HTML);
+              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+              // continueButton.text('Continue')
           }
       });
     })

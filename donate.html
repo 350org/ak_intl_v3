@@ -568,13 +568,6 @@
                 </select>	
                 <div class="clear"></div>	
               </div>	
-              <div id="ak-fieldbox-card_code" class="input-text input-cvv ak-input-type-user c5 ct5 margin-top-none">	
-                <input type="hidden" name="required" value="card_code" id="ak-card_code-required">	
-                <label for="ak-card_code" title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>	
-                <div id="ak-card_code-hosted" class="hosted-field"></div>	
-                <input id="ak-card_code" type="text" name="card_code" size="4">	
-              </div>	
-              <div class="clear"></div>	
             </div>	
             {% if templateset.custom_fields.pre_submit_text %}	
             <div class="pre-submit-text">	

@@ -968,7 +968,7 @@
           var amount_container = $('li.ak-amount-container label.ak-radio-checked');
           var amount = amount_container.find('span.ak-currency-sym').text();
           var button_amount = amount_container.find('span.ak-amount-button-amount').text();
-          var custom_amount = $('input#ak-other-amount-field').val();
+          var custom_amount = document.querySelector('#ak-other-amount-field').value;
           var final_amount = '';
           if (!custom_amount) amount += button_amount;
           else amount += custom_amount;

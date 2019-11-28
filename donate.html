@@ -33,10 +33,6 @@
     font-size: small;
 }
 
-#ak-continue-button {
-    width: 100%;
-}
-
 </style>
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -510,77 +506,20 @@
           <div class="payments-container">
               <div class="payments-titles">
                 <div class="payments-title payments-title-active card-title">
-                    <span>Card</span>
                      <svg width="75" height="40" class="payments-title-active">
-                         <image xlink:href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="75" height="40"/>
+                         <image href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="75" height="40"/>
                  </svg>
                 </div>
                 <div class="payments-title paypal-title">
                  <svg width="75" height="40">
-                     <image xlink:href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75" height="40"/>
+                     <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75" height="40"/>
                 </svg>
                 </div>
               </div>
-                <div id="payments-details-content">
-                </div>
-           </div>
-          <!-- <div class="input-text ak-input-type-user">
-					<div class="input-text ak-input-type-user input-field-group">
-						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
-						<input id="id_name" class="ak-input-type-user" type="text" name="name">
-					</div>
-					<div class="input-text ak-input-type-user input-field-group">
-						<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
-						<input id="id_email" class="" type="text" name="email">
-					</div>
-					<div class="cc-fields">
-	          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
-					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-					    <div id="ak-card_num-hosted" class="hosted-field"></div>
-					    <input id="ak-card_num" type="text" name="card_num">
-						</div>
-						<div class="ak-err-below">
-							<div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c5 ct5 margin-top-none">
-				        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-				        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
-				        <div id="ak-exp_date-hosted" class="hosted-field"></div>
-				        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-			            <option value="">MM</option>
-			            <option value="01">01</option>
-			            <option value="02">02</option>
-			            <option value="03">03</option>
-			            <option value="04">04</option>
-			            <option value="05">05</option>
-			            <option value="06">06</option>
-			            <option value="07">07</option>
-			            <option value="08">08</option>
-			            <option value="09">09</option>
-			            <option value="10">10</option>
-			            <option value="11">11</option>
-			            <option value="12">12</option>
-								</select>
-				        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-				        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
-			            <option value="">YYYY</option>
-	{% for year in exp_years %}
-			            <option value="{{ year.two }}">{{ year.four }}</option>
-	{% endfor %}
-				        </select>
-								<div class="clear"></div>
-							</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					{% if templateset.custom_fields.pre_submit_text %}
-					<div class="pre-submit-text">
-						{% autoescape off %}
-							{{ templateset.custom_fields.pre_submit_text }}
-						{% endautoescape %}
-					</div>
-				{% endif %} -->
-
-        </div><!--ak-styled-fields-->
+              <div id="payments-details-content">
+              </div>
+            </div>
+          </div><!--ak-styled-fields-->
 
 {% autoescape off %}
 	{% if page.custom_fields.form_additional_fields %}
@@ -1093,6 +1032,7 @@
 
       if (step == "3" && !step_has_errors) {
         step_has_errors = step_3_validation();
+        console.log(step_has_errors, "Step Errors")
       }
     }
 
@@ -1485,6 +1425,7 @@
         results = [step_1_validation(),
                    step_2_validation(),
                    step_3_validation()];
+        
         return !(results[0] || results[1] || results[2]);
     }
 
@@ -1493,85 +1434,85 @@
     const CONSTANTS = {
             ACTIVE_PAYMENTS_CLASS: "payments-title-active",
             PAYPAL_TARGET_CLASS: "paypal-title"
-        };
-    const PAYMENTS_DETAILS_CONTENTS = {
-          CREDIT_CARD: `
-          <div>
-					<div class="input-text ak-input-type-user input-field-group">
-						<label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
-						<input id="id_name" class="ak-input-type-user" type="text" name="name">
-					</div>
-					<div class="input-text ak-input-type-user input-field-group">
-						<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
-						<input id="id_email" class="" type="text" name="email">
-					</div>
-					<div class="cc-fields">
-	          <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
-					    <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
-					    <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-					    <div id="ak-card_num-hosted" class="hosted-field"></div>
-					    <input id="ak-card_num" type="text" name="card_num">
-						</div>
-						<div class="ak-err-below">
-							<div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c10 margin-top-none">
-				        <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-				        <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
-				        <div id="ak-exp_date-hosted" class="hosted-field"></div>
-				        <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-			            <option value="">MM</option>
-			            <option value="01">01</option>
-			            <option value="02">02</option>
-			            <option value="03">03</option>
-			            <option value="04">04</option>
-			            <option value="05">05</option>
-			            <option value="06">06</option>
-			            <option value="07">07</option>
-			            <option value="08">08</option>
-			            <option value="09">09</option>
-			            <option value="10">10</option>
-			            <option value="11">11</option>
-			            <option value="12">12</option>
-								</select>
-				        <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-				        <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
-			            <option value="">YYYY</option>
-	{% for year in exp_years %}
-			            <option value="{{ year.two }}">{{ year.four }}</option>
-	{% endfor %}
-				        </select>
-								<div class="clear"></div>
-							</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					{% if templateset.custom_fields.pre_submit_text %}
-					<div class="pre-submit-text">
-						{% autoescape off %}
-							{{ templateset.custom_fields.pre_submit_text }}
-						{% endautoescape %}
-					</div>
-        {% endif %}
-        </div>
-              `,
-              PAYPAL: `<div class="paypal-fields">
-                  <div class="input-text ak-input-type-user">
-                <label class="required" for="id_email">Name</label>
-                <input id="id_email" class="" type="text" name="email">
-              </div>
-                  <div class="input-text ak-input-type-user">
-                <label class="required" for="id_email">Email Address</label>
-                <input id="id_email" class="" type="text" name="email">
-              </div>
+    };
 
-                  </div>`
-      }
+    const CARD_HTML = {
+      CREDIT_CARD_HTML: `
+      <div id="credit-card-fields">
+                      <div class="input-text ak-input-type-user">
+                          <label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
+                          <input id="id_name" class="ak-input-type-user" type="text" name="name">
+                        </div>
+                        <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user">
+                          <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
+                          <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
+                          <div id="ak-card_num-hosted" class="hosted-field"></div>
+                          <input id="ak-card_num" type="text" name="card_num">
+                        </div>
+              
+                        <div class="ak-err-below">
+                          <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user c10 margin-top-none">
+                            <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
+                            <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
+                            <div id="ak-exp_date-hosted" class="hosted-field"></div>
+                            <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
+                              <option value="">MM</option>
+                              <option value="01">01</option>
+                              <option value="02">02</option>
+                              <option value="03">03</option>
+                              <option value="04">04</option>
+                              <option value="05">05</option>
+                              <option value="06">06</option>
+                              <option value="07">07</option>
+                              <option value="08">08</option>
+                              <option value="09">09</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                              <option value="12">12</option>
+                            </select>
+                            <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
+                            <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin" name="exp_date_year">
+                              <option value="">YYYY</option>
+              {% for year in exp_years %}
+                              <option value="{{ year.two }}">{{ year.four }}</option>
+              {% endfor %}
+                            </select>
+                            <div class="clear"></div>
+                          </div>
+                        </div>
+                        {% if templateset.custom_fields.pre_submit_text %}
+                        <div class="pre-submit-text">
+                          {% autoescape off %}
+                            {{ templateset.custom_fields.pre_submit_text }}
+                          {% endautoescape %}
+                        </div>
+                      {% endif %}
+                          
+                    </div>
+      `,
+      PAYPAL_HTML: 
+      `
+      <div id="paypal-fields">
+                        <div class="input-text ak-input-type-user">
+                      <label class="required" for="id_email">Name</label>
+                      <input id="id_email" class="" type="text" name="email">
+                    </div>
+                        <div class="input-text ak-input-type-user">
+                      <label class="required" for="id_email">Email Address</label>
+                      <input id="id_email" class="" type="text" name="email">
+                    </div>
+                  </div>
+      `
+    };
 
     const paymentsCtn = $(".payments-container");
     const paymentsTitles = $(".payments-title");
     const paymentsDetailsContent = $("#payments-details-content");
     const continueButton = $("#ak-continue-button");
+    const paypalFields = $('#paypal-fields');
+    const creditCardFields = $('#credit-card-fields');
 
-    paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+    paymentsDetailsContent.html(CARD_HTML.CREDIT_CARD_HTML);
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
           const titleCtn = $(title);
@@ -1582,20 +1523,17 @@
     $.each(paymentsTitles, (index, title)=>{
       const titleCtn = $(title);
       titleCtn.click(e=>{
-        console.log("Clicked here?")
           const clicked = $(e.target);
           const parentHasClass = clicked.parents(`.${CONSTANTS.ACTIVE_PAYMENTS_CLASS}`).length > 0;
           if(parentHasClass) return;
             else {
             const closestDiv = clicked.closest('.payments-title');
-            console.log(closestDiv, "hapaz")
+
 
             if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
-                paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
-                continueButton.text('Continue to PayPal')
+              paymentsDetailsContent.html(CARD_HTML.PAYPAL_HTML);
             } else {
-                paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
-                continueButton.text('Continue')
+              paymentsDetailsContent.html(CARD_HTML.CREDIT_CARD_HTML);
             }
             removeActivePaymentsClass();
             closestDiv.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
@@ -1603,7 +1541,7 @@
           }
 
           if(clicked.hasClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS)) return;
-          // removeActivePaymentsClass()
+   
           clicked.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
 
           // Update Content
@@ -1690,9 +1628,6 @@
                     number: {	
                         selector: '#ak-card_num-hosted'	
                     },	
-                    // cvv: {	
-                    //     selector: '#ak-card_code-hosted'	
-                    // },	
                     expirationDate: {	
                         selector: '#ak-exp_date-hosted',	
                         placeholder: 'MM / YYYY'	

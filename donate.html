@@ -992,7 +992,7 @@
 				console.log('three_step_advance() fired');
 
         // trigger validation on the step we're leaving
-        var current_step = $('input[name="ak-donate-step"]:checked').val() || '1';
+        var current_step = $('input[name="ak-donate-step"]:checked').val();
         validate_step(current_step);
 
         if (!step_has_errors) {
@@ -1014,7 +1014,7 @@
     function three_step_goto(next) {
 			console.log('three_step_goto() fired');
 	    // trigger validation on the step we're leaving
-	    var current_step = $('input[name="ak-donate-step"]:checked').val() || '1';
+	    var current_step = $('input[name="ak-donate-step"]:checked').val();
 
 	    // skip validation if we're going backwards
 	    if (current_step < next) {

@@ -1096,8 +1096,9 @@
       console.log("any errors before step 3 validation", step_has_errors)
       console.log("We are currently at step -->", step)
       if (step == "3" && !step_has_errors) {
+        console.log(step_has_errors, "In the validate step function before")
         step_has_errors = step_3_validation();
-        console.log(step_has_errors, "In the validate step function")
+        console.log(step_has_errors, "In the validate step function after")
       }
       // What do we do with this step_has_errors
     }

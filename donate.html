@@ -1692,9 +1692,9 @@
                     number: {	
                         selector: '#ak-card_num-hosted'	
                     },	
-                    cvv: {	
-                        selector: '#ak-card_code-hosted'	
-                    },	
+                    // cvv: {	
+                    //     selector: '#ak-card_code-hosted'	
+                    // },	
                     expirationDate: {	
                         selector: '#ak-exp_date-hosted',	
                         placeholder: 'MM / YYYY'	
@@ -1742,7 +1742,6 @@
                     err.details.invalidFieldKeys.forEach(function(key) {	
                         var map = {	
                             'number': 'card_num',	
-                            'cvv': 'card_code',	
                             'expirationDate': 'card_exp'	
                         };	
                         actionkit.errors[map[key] + ':invalid'] = "This field is invalid.";;	

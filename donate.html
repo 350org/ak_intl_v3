@@ -965,13 +965,17 @@
       }
         // change amount label if step 1 is complete
         if (current_step == 1) {
-          var amount = $('li.ak-amount-container label.ak-radio-checked').find('span.ak-currency-sym').text();
-          amount += $('li.ak-amount-container label.ak-radio-checked').find('span.ak-amount-button-amount').text();
-
+          var amount_container = $('li.ak-amount-container label.ak-radio-checked');
+          var amount = amount_container.find('span.ak-currency-sym').text();
+          var button_amount = amount_container.find('span.ak-amount-button-amount').text();
+          var custom_amount = amount_container.find('input#ak-other-amount-field').val();
+          var final_amount = '';
+          if (!custom_amount) amount += button_amount;
+          else amount += custom_amount;
           $('input[name="ak-donate-step"]:checked')
             .closest('label')
             .find('span.ak-amount-label')
-            .html(amount+'<span class="ak-donation-monthly" style="display: none;">/mo</span>')
+            // .html(amount+'<span class="ak-donation-monthly" style="display: none;">/mo</span>')
             .css({"text-decoration": "underline"});
         }
     }

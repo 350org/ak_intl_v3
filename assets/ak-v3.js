@@ -758,12 +758,19 @@ jQuery(document).ready(function($){
   var onceItems = document.querySelectorAll('.once-chosen');
   var monthlyItems = document.querySelectorAll('.monthly-chosen');
 
+  var stepOneLabel = $('label.ak-donate-step-1');
+
   once.addEventListener('click', function () {
     if (checkbox.checked) {
       checkbox.checked = false;
       $('.ak-donation-monthly').hide();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
+      if (stepOneLabel.find('span.ak-step-number.hidden')) {
+        var text = stepOneLabel.find('span.ak-amount-label').text();
+        text = text.replace('/mo','')
+        stepOneLabel.find('span.ak-amount-label').text(text);
+      }
     }
   })
 
@@ -773,6 +780,10 @@ jQuery(document).ready(function($){
       $('.ak-donation-monthly').show();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
+      if (stepOneLabel.find('span.ak-step-number.hidden')) {
+        var text = stepOneLabel.find('span.ak-amount-label').text();
+        stepOneLabel.find('span.ak-amount-label').text(text+'/mo');
+      }
     }
   })
 

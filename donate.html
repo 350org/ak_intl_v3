@@ -1130,14 +1130,14 @@
         step_has_errors = true;
       }
 
-      if (!valid_credit_card_code($('#ak-card_code').val())) {
-        if (!actionkit.errors){
-          actionkit.errors = {};
-				}
-        actionkit.errors['card_code:invalid'] = actionkit.forms.errorMessage('card_code:invalid');
-        actionkit.forms.onValidationErrors(actionkit.errors);
-        step_has_errors = true;
-      }
+      // if (!valid_credit_card_code($('#ak-card_code').val())) {
+      //   if (!actionkit.errors){
+      //     actionkit.errors = {};
+			// 	}
+      //   actionkit.errors['card_code:invalid'] = actionkit.forms.errorMessage('card_code:invalid');
+      //   actionkit.forms.onValidationErrors(actionkit.errors);
+      //   step_has_errors = true;
+      // }
 
       return step_has_errors;
     }
@@ -1454,11 +1454,11 @@
 
         /* clear out CC info if entered */
         $('#ak-card_num').val('');
-        $('#ak-card_code').val('');
+        // $('#ak-card_code').val('');
 
         /* disable CC requirements */
         $('#ak-card_num-required').remove();
-        $('#ak-card_code-required').remove();
+        // $('#ak-card_code-required').remove();
         $('#ak-exp_date_month-required').remove();
         $('#ak-exp_date_year-required').remove();
 
@@ -1725,9 +1725,9 @@
                 },	
                 submit: form.querySelector(".ak-submit-button")	
             },	
-            toRemove = ["#ak-card_num", "#ak-card_code", "#ak-exp_date_month",	
+            toRemove = ["#ak-card_num", "#ak-exp_date_month",	
                         "#ak-exp_date_year", "#ak-card_num-required",	
-                        "#ak-card_code-required", "#ak-exp_date_month-required",	
+                         "#ak-exp_date_month-required",	
                         "#ak-exp_date_year-required"];	
         toRemove.forEach(function(el) {	
             $(el).remove();	

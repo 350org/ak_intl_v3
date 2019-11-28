@@ -1512,7 +1512,7 @@
     const paypalFields = $('#paypal-fields');
     const creditCardFields = $('#credit-card-fields');
 
-    paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+    paymentsDetailsContent.html(CARD_HTML.CREDIT_CARD_HTML);
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
           const titleCtn = $(title);
@@ -1533,9 +1533,9 @@
 
 
             if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL_HTML);
+              paymentsDetailsContent.html(CARD_HTML.PAYPAL_HTML);
             } else {
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+              paymentsDetailsContent.html(CARD_HTML.CREDIT_CARD_HTML);
             }
             removeActivePaymentsClass();
             closestDiv.addClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
@@ -1548,9 +1548,9 @@
 
           // Update Content
           if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
-            paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL_HTML);
+            paymentsDetailsContent.html(CARD_HTML.PAYPAL_HTML);
           } else {
-            paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+            paymentsDetailsContent.html(CARD_HTML.CREDIT_CARD_HTML);
           }
       });
     })

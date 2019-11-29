@@ -1516,6 +1516,10 @@
             PAYPAL_TARGET_CLASS: "paypal-title"
     };
 
+    const paypalButton = $('#ak-paypal-button');
+    // Initially hide the ^^ button
+    paypalButton.css({display: 'none'});
+
     // const paymentsCtn = $(".payments-container");
     const paymentsTitles = $(".payments-title");
     // const paymentsDetailsContent = $("#payments-details-content");
@@ -1555,9 +1559,11 @@
             if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
                 toggleShowFields(paypalFields, true);
                 toggleShowFields(ccFields, false);
+                paypalButton.css({display: 'inline-block'});
             } else {
                 toggleShowFields(ccFields, true);
                 toggleShowFields(paypalFields, false);
+                paypalButton.css({display: 'none'});
    
             }
             removeActivePaymentsClass();
@@ -1573,9 +1579,11 @@
           if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
               toggleShowFields(paypalFields, true);
               toggleShowFields(ccFields, false);
+              paypalButton.css({display: 'inline-block'});
           } else {
               toggleShowFields(ccFields, true);
               toggleShowFields(paypalFields, false);
+              paypalButton.css({display: 'none'});
     
           }
       });

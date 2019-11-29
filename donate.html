@@ -584,9 +584,11 @@
           {% if show_paypal %}
 	        <div class="ak-payment-options text-center ak-donate-area-step-3">
 	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
-						<p class="margin-bottom-small text-small"><em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em> <button type="submit" id="ak-paypal-button" class="button bg-ltgray button-small">Continue with PayPal</button></p>
+            <p class="margin-bottom-small text-small">
+              <!-- <em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em>  -->
+              <button type="submit" id="ak-paypal-button" class="ak-styled-submit-button">Continue with PayPal</button></p>
 	        </div>
-				{% endif %}
+				  {% endif %}
           </div><!--ak-styled-fields-->
 
 {% autoescape off %}

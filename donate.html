@@ -1623,10 +1623,10 @@
             const closestDiv = clicked.closest('.payments-title');
 
             if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
-                paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
+                // paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
                 hideFields(ccFields);
             } else {
-                paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+                // paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
                 hideFields(paypalFields);
    
             }
@@ -1641,10 +1641,10 @@
 
           // Update Content
           if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
+              // paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.PAYPAL);
               hideFields(ccFields);
           } else {
-              paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
+              // paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD);
               hideFields(paypalFields);
     
           }

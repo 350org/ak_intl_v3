@@ -983,7 +983,7 @@
         }
       }
 
-      function change_step_one_label() {
+      function change_step_one_label(current_step) {
         // change amount label if step 1 is complete
         if (current_step === "1") {
           var amount_container = $('li.ak-amount-container label.ak-radio-checked');
@@ -1018,7 +1018,7 @@
 
         if (!step_has_errors) {
           show_tick(current_step);
-          change_step_one_label();
+          change_step_one_label(current_step);
           // check radio button in next step
           $('input[name="ak-donate-step"]:checked')
             .closest('label')
@@ -1043,7 +1043,7 @@
 
           if (!step_has_errors) {
             show_tick(current_step);
-            change_step_one_label();
+            change_step_one_label(current_step);
           } else {
             hide_tick(current_step);
           }

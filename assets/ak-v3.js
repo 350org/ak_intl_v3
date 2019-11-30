@@ -760,7 +760,6 @@ jQuery(document).ready(function($){
 
   // Initialises hiding of /mo in submit button
   if ($('input[name="donation_type"][type="hidden"]').val() === 'single' || $('input[name="donation_type"][type="checkbox"]').val() === 'recurring') {
-    console.log('hiding /mo in submit!');
     $('.ak-donation-monthly').hide();
   }
 

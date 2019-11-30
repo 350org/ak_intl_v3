@@ -759,11 +759,13 @@ jQuery(document).ready(function($){
   var monthlyItems = document.querySelectorAll('.monthly-chosen');
 
   // Initialises hiding of /mo in submit button
-  if ($('input[name="donation_type"][type="hidden]"').val() === 'single' || $('input[name="donation_type"][type="checkbox"]').val() === 'recurring') {
+  if ($('input[name="donation_type"][type="hidden"]').val() === 'single' || $('input[name="donation_type"][type="checkbox"]').val() === 'recurring') {
     console.log('hiding /mo in submit!');
     $('.ak-donation-monthly').hide();
   }
 
+// Only works if toggle button exists
+if (toggle_option_one && toggle_option_two) {
   toggle_option_one.addEventListener('click', function () {
     if (checkbox.checked) {
       checkbox.checked = false;
@@ -784,9 +786,10 @@ jQuery(document).ready(function($){
     }
   })
 
-function toggleHidden(nodes) {
-  for (var node of nodes) {
-    node.classList.toggle('hidden')
+  function toggleHidden(nodes) {
+    for (var node of nodes) {
+      node.classList.toggle('hidden')
+    }
   }
 }
 

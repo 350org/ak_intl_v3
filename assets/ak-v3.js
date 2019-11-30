@@ -758,6 +758,13 @@ jQuery(document).ready(function($){
   var onceItems = document.querySelectorAll('.once-chosen');
   var monthlyItems = document.querySelectorAll('.monthly-chosen');
 
+  var donation_type = window.actionkit.context.page.custom_fields.donation_once_recurring_or_both;
+
+  // Initialises hiding of /mo in submit button
+  if (donation_type === "single" || "both" || undefined ) {
+    $('.ak-donation-monthly').hide();
+  }
+
   toggle_option_one.addEventListener('click', function () {
     if (checkbox.checked) {
       checkbox.checked = false;

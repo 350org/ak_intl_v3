@@ -761,8 +761,8 @@ jQuery(document).ready(function($){
   toggle_option_one.addEventListener('click', function () {
     if (checkbox.checked) {
       checkbox.checked = false;
-      if ($('input[name="donation_type]').val() === "recurring") $('.ak-donation-monthly').hide();
-      else if ($('input[name="donation_type]').val() === "single") $('.ak-donation-monthly').show();
+      if (toggle_option_one.hasClass('toggle-once')) $('.ak-donation-monthly').hide();
+      else $('.ak-donation-monthly').show();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
     }
@@ -771,8 +771,8 @@ jQuery(document).ready(function($){
   toggle_option_two.addEventListener('click', function () {
     if (!checkbox.checked) {
       checkbox.checked = true;
-      if ($('input[name="donation_type]').val() === "recurring")$('.ak-donation-monthly').show();
-      else if ($('input[name="donation_type]').val() === "single")$('.ak-donation-monthly').hide();
+      if (toggle_option_two.hasClass('toggle-once')) $('.ak-donation-monthly').hide();
+      else $('.ak-donation-monthly').show();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
     }

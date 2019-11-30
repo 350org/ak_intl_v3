@@ -758,12 +758,11 @@ jQuery(document).ready(function($){
   var onceItems = document.querySelectorAll('.once-chosen');
   var monthlyItems = document.querySelectorAll('.monthly-chosen');
 
-  // var stepOneLabel = $('label.ak-donate-step-1');
-
   toggle_option_one.addEventListener('click', function () {
     if (checkbox.checked) {
       checkbox.checked = false;
-      $('.ak-donation-monthly').hide();
+      if ($('input[name="donation_type]').val() === "recurring") $('.ak-donation-monthly').hide();
+      else if ($('input[name="donation_type]').val() === "single") $('.ak-donation-monthly').show();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
     }
@@ -772,7 +771,8 @@ jQuery(document).ready(function($){
   toggle_option_two.addEventListener('click', function () {
     if (!checkbox.checked) {
       checkbox.checked = true;
-      $('.ak-donation-monthly').show();
+      if ($('input[name="donation_type]').val() === "recurring")$('.ak-donation-monthly').show();
+      else if ($('input[name="donation_type]').val() === "single")$('.ak-donation-monthly').hide();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
     }

@@ -604,7 +604,7 @@
 	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
             <p class="margin-bottom-small text-small">
               <!-- <em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em>  -->
-              <button type="submit" id="ak-paypal-button" class="button paypal-fields">{% filter ak_text:"donate_pay_with_paypal" %}Pay with PayPal{% endfilter %}</button></p>
+              <button type="submit" id="ak-paypal-button" class="button paypal-fields">{% filter ak_text:"donate_pay_with_paypal" %}Pay with PayPal{% endfilter %} - <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span></button></p>
 	        </div>
 				  {% endif %}
           </div><!--ak-styled-fields-->

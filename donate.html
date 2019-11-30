@@ -1015,7 +1015,6 @@
           else amount += custom_amount;
 
           //Toggle - once default case
-          // if ($('input[name="donation_type"][type="hidden"]').val() === 'single' || $('input[name="donation_type"][type="checkbox"]').val() === 'recurring') {
           if ($('input[name="donation_type"][type="checkbox"]').val() === 'recurring') {
             if ($('#id_donation_type_recurring').is(':checked')) {
               amount += '/mo';

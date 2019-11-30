@@ -39,17 +39,6 @@
 
 </style>
 
-{% if page.custom_fields.donation_once_recurring_or_both|lower == "single" or page.custom_fields.donation_once_recurring_or_both|lower == "both" %}
-<style>
-
-  .ak-submit-button {
-    display: none;
-  }
-</style>
-
-{% endif %}
-
-
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 {% if page.custom_fields.page_is_inactive %}
@@ -636,12 +625,12 @@
 				  For pages that use CSE, the submit button will be enabled by javascript above.
 				  {% endcomment %}
 
-	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal cc-fields">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly">/mo</span></button>
+	        <button disabled="true" type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal cc-fields">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="{% if page.custom_fields.donation_once_recurring_or_both|lower == 'single' or page.custom_fields.donation_once_recurring_or_both|lower == 'both' %} display: none; {% endif %}">/mo</span></button>
 	        <noscript>
 	          <p><b>JavaScript is required</b> so this page can securely submit your donation.</p>
 	      	</noscript>
 				{% else %}
-        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal cc-fields">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly">/mo</span></button>
+        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal cc-fields">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span><span class="ak-donation-monthly" style="{% if page.custom_fields.donation_once_recurring_or_both|lower == 'single' or page.custom_fields.donation_once_recurring_or_both|lower == 'both' %} display: none; {% endif %}">/mo</span></button>
         {% endif %}
 
 

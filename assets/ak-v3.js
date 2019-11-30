@@ -761,7 +761,7 @@ jQuery(document).ready(function($){
   var donation_type = window.actionkit.context.page.custom_fields.donation_once_recurring_or_both;
 
   // Initialises hiding of /mo in submit button
-  if (donation_type === "single" || "both" || undefined ) {
+  if (donation_type === "single" || donation_type === "both" || donation_type === undefined ) {
     $('.ak-donation-monthly').hide();
   }
 

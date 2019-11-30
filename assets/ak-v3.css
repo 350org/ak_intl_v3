@@ -4895,14 +4895,12 @@ label.ak-radio-checked {
 }
 
 .toggle-option-1 {
-  content: "Donate once";
   background-color: #0f81e8;
   color: #fff;
   border-radius: 5px 0 0 5px;
 }
 
 .toggle-option-2 {
-  content: "Donate monthly";
   background-color: #e1eaf2;
   color: #0f81e8;
   border-radius: 0 5px 5px 0;

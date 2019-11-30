@@ -759,7 +759,7 @@ jQuery(document).ready(function($){
   var monthlyItems = document.querySelectorAll('.monthly-chosen');
 
   // Initialises hiding of /mo in submit button
-  if ($('input[name="donation_type"[type="hidden"').val() === 'single' || $('input[name="donation_type"[type="checkbox"').val() === 'recurring') {
+  if ($('input[name="donation_type"][type="hidden]"').val() === 'single' || $('input[name="donation_type"][type="checkbox"]').val() === 'recurring') {
     $('.ak-donation-monthly').hide();
   }
 

@@ -4894,22 +4894,22 @@ label.ak-radio-checked {
   transition: .3s;
 }
 
-.toggle-once {
+.toggle-option-1 {
   content: "Donate once";
   background-color: #0f81e8;
   color: #fff;
   border-radius: 5px 0 0 5px;
 }
 
-.toggle-monthly {
+.toggle-option-2 {
   content: "Donate monthly";
   background-color: #e1eaf2;
   color: #0f81e8;
   border-radius: 0 5px 5px 0;
 }
 
-.toggle-once,
-.toggle-monthly {
+.toggle-option-1,
+.toggle-option-2 {
   padding: 8px 0;
   flex: 1;
   -webkit-transition: .3s;
@@ -4918,12 +4918,12 @@ label.ak-radio-checked {
   font-weight: 400;
 }
 
-input:checked+.toggle-donation-type .toggle-once {
+input:checked+.toggle-donation-type .toggle-option-1 {
   background-color: #e1eaf2;
   color: #0f81e8;
 }
 
-input:checked+.toggle-donation-type .toggle-monthly {
+input:checked+.toggle-donation-type .toggle-option-2 {
   background-color: #0f81e8;
   color: #fff;
 }

@@ -761,7 +761,7 @@ jQuery(document).ready(function($){
   toggle_option_one.addEventListener('click', function () {
     if (checkbox.checked) {
       checkbox.checked = false;
-      if (toggle_option_one.hasClass('toggle-once')) $('.ak-donation-monthly').hide();
+      if (toggle_option_one.classList.contains('toggle-once')) $('.ak-donation-monthly').hide();
       else $('.ak-donation-monthly').show();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
@@ -771,7 +771,7 @@ jQuery(document).ready(function($){
   toggle_option_two.addEventListener('click', function () {
     if (!checkbox.checked) {
       checkbox.checked = true;
-      if (toggle_option_two.hasClass('toggle-once')) $('.ak-donation-monthly').hide();
+      if (toggle_option_two.classList.contains('toggle-once')) $('.ak-donation-monthly').hide();
       else $('.ak-donation-monthly').show();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);

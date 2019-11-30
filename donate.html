@@ -630,7 +630,7 @@
 	          <p><b>JavaScript is required</b> so this page can securely submit your donation.</p>
 	      	</noscript>
 				{% else %}
-        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal cc-fields">Donate <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span>&nbsp;<span class="ak-donation-monthly">{% filter ak_text:"donate_monthly" %}monthly{% endfilter %}</span></button>
+        	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal cc-fields">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span>&nbsp;<span class="ak-donation-monthly">{% filter ak_text:"donate_monthly" %}monthly{% endfilter %}</span></button>
         {% endif %}
 
 

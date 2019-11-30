@@ -37,17 +37,9 @@
     width: 100%;
 }
 
-{% if page.custom_fields.donation_once_recurring_or_both|lower == "single" or page.custom_fields.donation_once_recurring_or_both|lower == "both" %}
-
-  .ak-submit-button {
-    display: none;
-  }
-
-{% endif }
-
 </style>
 
-{% comment %} {% if page.custom_fields.donation_once_recurring_or_both|lower == "single" or page.custom_fields.donation_once_recurring_or_both|lower == "both" %}
+{% if page.custom_fields.donation_once_recurring_or_both|lower == "single" or page.custom_fields.donation_once_recurring_or_both|lower == "both" %}
 <style>
 
   .ak-submit-button {
@@ -55,7 +47,7 @@
   }
 </style>
 
-{% endif } {% endcomment %}
+{% endif }
 
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">

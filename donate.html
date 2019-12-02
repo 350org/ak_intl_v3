@@ -698,18 +698,6 @@
 //<!--
     let paypalFieldOptionSelectedStepThree = false;
 
-    // Get CC & PayPal Fields
-    const ccFields = $(".cc-fields");
-    const paypalFields = $("paypal-fields");
-
-    // Use this to hide fields as appropriately
-    const toggleShowFields = (fields, show) => {
-      $.each(fields, (index, field)=>{
-        const fieldCtn = $(field);
-        fieldCtn.css({'display': show ? 'block': 'none'});
-      });
-    };
-
     function clear_radio_buttons() {
         $('input.ak-amount-radio-button').prop('checked', false);
     }
@@ -976,13 +964,12 @@
           $('.ak-donate-step-3').addClass('active-step');
           console.log("-==============================>")
           console.log("Got here?", paypalFieldOptionSelectedStepThree)
+          console.log("")
           console.log("-==============================>")
           if(paypalFieldOptionSelectedStepThree){
-            toggleShowFields(paypalFields, true);
-            toggleShowFields(ccFields, false);
+            $('.ak-submit-button').css({display: 'none'})
           } else {
-            toggleShowFields(ccFields, true);
-            toggleShowFields(paypalFields, false);
+            $("#ak-paypal-button").css({display: 'none'})
           }
         }
     }
@@ -1617,9 +1604,9 @@
     // const paymentsDetailsContent = $("#payments-details-content");
     // const continueButton = $("#ak-continue-button");
 
-    // // Get CC & PayPal Fields
-    // const ccFields = $(".cc-fields");
-    // const paypalFields = $("paypal-fields");
+    // Get CC & PayPal Fields
+    const ccFields = $(".cc-fields");
+    const paypalFields = $("paypal-fields");
 
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
@@ -1631,12 +1618,12 @@
     };
 
     // Use this to hide fields as appropriately
-    // const toggleShowFields = (fields, show) => {
-    //   $.each(fields, (index, field)=>{
-    //     const fieldCtn = $(field);
-    //     fieldCtn.css({'display': show ? 'block': 'none'});
-    //   });
-    // };
+    const toggleShowFields = (fields, show) => {
+      $.each(fields, (index, field)=>{
+        const fieldCtn = $(field);
+        fieldCtn.css({'display': show ? 'block': 'none'});
+      });
+    };
 
 
     $.each(paymentsTitles, (index, title)=>{

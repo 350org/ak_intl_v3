@@ -976,6 +976,9 @@
 			    $('.ak-donate-area-step-3').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
           $('.ak-donate-step-3').addClass('active-step');
+          console.log("-==============================>")
+          console.log("Got here?", paypalFieldSelectedStepThree)
+          console.log("-==============================>")
           if(paypalFieldSelectedStepThree){
             toggleShowFields(paypalFields, true);
             toggleShowFields(ccFields, false);

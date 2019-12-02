@@ -603,7 +603,7 @@
 	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
             <p class="margin-bottom-small text-small">
               <!-- <em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em>  -->
-              <button type="submit" id="ak-paypal-button" class="button paypal-fields">{% filter ak_text:"continue_to_paypal" %} Continue To PayPal {% endfilter %}</button></p>
+              <button type="submit" id="ak-paypal-button" class="button paypal-fields">{% filter ak_text:"continue_to_paypal" %} Continue to PayPal {% endfilter %}</button></p>
 	        </div>
 				  {% endif %}
           </div><!--ak-styled-fields-->
@@ -1624,6 +1624,8 @@
       $.each(paymentsTitles, (index, title)=>{
           const titleCtn = $(title);
           titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
+          paypalFieldSelectedStepThree = falsgse;
+          ccFieldsSelectedStepThree = true;
       });
     };
 

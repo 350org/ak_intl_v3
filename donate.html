@@ -696,6 +696,8 @@
 
 <script language="javascript">
 //<!--
+    let paypalFieldOptionSelectedStepThree = false;
+
     function clear_radio_buttons() {
         $('input.ak-amount-radio-button').prop('checked', false);
     }
@@ -961,7 +963,7 @@
 					$('.ak-donate-step').removeClass('active-step');
           $('.ak-donate-step-3').addClass('active-step');
           console.log("-==============================>")
-          console.log("Got here?")
+          console.log("Got here?", paypalFieldOptionSelectedStepThree)
           console.log("-==============================>")
         }
     }
@@ -1630,10 +1632,12 @@
             if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
                 toggleShowFields(paypalFields, true);
                 toggleShowFields(ccFields, false);
+                paypalFieldOptionSelectedStepThree = true;
                 paypalButton.css({display: 'inline-block'});
             } else {
                 toggleShowFields(ccFields, true);
                 toggleShowFields(paypalFields, false);
+                paypalFieldOptionSelectedStepThree = false;
                 paypalButton.css({display: 'none'});
 
             }
@@ -1650,8 +1654,10 @@
           if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
               toggleShowFields(paypalFields, true);
               toggleShowFields(ccFields, false);
+              paypalFieldOptionSelectedStepThree = true;
               paypalButton.css({display: 'inline-block'});
           } else {
+              paypalFieldOptionSelectedStepThree = false;
               toggleShowFields(ccFields, true);
               toggleShowFields(paypalFields, false);
               paypalButton.css({display: 'none'});

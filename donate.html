@@ -952,23 +952,17 @@
 
         } else if ( current_step == "2" ) {
           $('.ak-donate-area-step-1, .ak-donate-area-step-3').hide();
-          /* this automatic focus on the input combines with the onblur validation to be over-aggressive
-					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed,
-              focus_field_if_blank( $('#id_name') )
-          ); */
+  
 					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
 					$('.ak-donate-step-2').addClass('active-step');
 		    } else if ( current_step == "3" ) {
           $('.ak-donate-area-step-1, .ak-donate-area-step-2, #ak-continue-button').hide();
-          /* $('.ak-donate-area-step-3').fadeIn( speed,
-              focus_field_if_blank( $('#ak-card_num') )
-          ); */
+
 			    $('.ak-donate-area-step-3').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
           $('.ak-donate-step-3').addClass('active-step');
-          console.log("==============================>")
-          console.log("==============================>")
+
           if(paypalFieldOptionSelectedStepThree){
             $('.ak-submit-button').css({display: 'none'})
           } else {
@@ -1229,15 +1223,6 @@
         step_has_errors = true;
       }
 
-      // if (!valid_credit_card_code($('#ak-card_code').val())) {
-      //   if (!actionkit.errors){
-      //     actionkit.errors = {};
-			// 	}
-      //   actionkit.errors['card_code:invalid'] = actionkit.forms.errorMessage('card_code:invalid');
-      //   actionkit.forms.onValidationErrors(actionkit.errors);
-      //   step_has_errors = true;
-      // }
-
       console.log(step_has_errors, "Step Has Errors end of step 3?")
       return step_has_errors;
     }
@@ -1252,21 +1237,6 @@
     function step_1_validation() {
 			console.log('validating step 1.');
       var step_has_errors = false;
-
-						/* If an opt-in option is not selected, show error */
-						/* jQuery('#ak-continue-button').on('click',function(){
-							console.log('#ak-continue-button clicked.');
-					    if (!jQuery('input[name="privacy"]').is(':checked')) {
-					        jQuery('.privacy-eu').addClass('privacy-ak-err');
-					        jQuery('#privacy-error').show();
-					        jQuery('input[name="privacy"]').click(function() {
-										if(jQuery('input[name="privacy"]').is(':checked')) {
-							        jQuery('.privacy-eu').removeClass('privacy-ak-err');
-							        jQuery('#privacy-error').hide();
-										}
-									});
-					    }
-						}); */
 
       // look for product selections
       var selected_products = false;
@@ -1377,7 +1347,6 @@
             $('.ak-donate-three-step-hidden').hide();
             three_step_reveal();
             window.actionkitFormReady = three_step_initialize;
-            // $('.ak-donate-menu input[type="radio"]').on('change', three_step_reveal);
             $('#ak-continue-button').on('click', function (evt) {
                 // letting this event go will trigger our onsubmit and lead to validation woe
                 evt.preventDefault();
@@ -1429,46 +1398,14 @@
         });
     });
 
-    // Standard luhn check to detect mistyped credit card numbers
-    // from https://gist.github.com/DiegoSalazar/4075533
-
-    // function valid_credit_card(value) {
-    //     if (/[^0-9-\s]/.test(value)) {
-    //         return false;
-    //     }
-    //     var nCheck = 0, nDigit = 0, bEven = false;
-    //     value = value.replace(/\D/g, "");
-
-    //     for (var n = value.length - 1; n >= 0; n--) {
-    //         var cDigit = value.charAt(n),
-    //         nDigit = parseInt(cDigit, 10);
-
-    //         if (bEven) {
-    //             if ((nDigit *= 2) > 9) {
-    //                 nDigit -= 9;
-    //             }
-    //         }
-
-    //         nCheck += nDigit;
-    //         bEven = !bEven;
-    //     }
-
-    //     return (nCheck % 10) == 0;
-    // }
-
     //calculate subtotals total
     function calculate_product_subtotals_total() {
         var amounts = [];
         for (var i = 1; i < $('#ak-product-list tr').length; i++) {
             var id = product_ids[i-1];
             amounts.push(parseFloat($('.ak_product_subtotal_'+id).text()));
-            console.log(amounts);
-            //subtotal =+ parseFloat($('.ak_product_subtotal_'+i).text());
-            //console.log(subtotal+'is' + i);
         }
-        // console.log(amounts);
         var subtotal = amounts.reduce(function (a, b) {return a + b;}, 0);
-        // console.log(subtotal);
         $('#ak-donation-subtotal-amount').text(subtotal.toFixed(2));
     }
 
@@ -1602,10 +1539,7 @@
     // Initially hide the ^^ button
     paypalButton.css({display: 'none'});
 
-    // const paymentsCtn = $(".payments-container");
     const paymentsTitles = $(".payments-title");
-    // const paymentsDetailsContent = $("#payments-details-content");
-    // const continueButton = $("#ak-continue-button");
 
     // Get CC & PayPal Fields
     const ccFields = $(".cc-fields");

@@ -697,11 +697,11 @@
 <script language="javascript">
 //<!--
     // GLOBALS. This definitely needs to change once the setup is improved.
-    let paypalFieldSelectedStepThree = false;
-    let ccFieldsSelectedStepThree = true;
+    var paypalFieldSelectedStepThree = false;
+    var ccFieldsSelectedStepThree = true;
 
     // Use this to hide fields as appropriately
-    const toggleShowFields = (fields, show) => {
+    function toggleShowFields(fields, show) {
       $.each(fields, (index, field)=>{
         const fieldCtn = $(field);
         fieldCtn.css({'display': show ? 'block': 'none'});
@@ -709,8 +709,8 @@
     };
 
     // Get CC & PayPal Fields
-    const ccFields = $(".cc-fields");
-    const paypalFields = $("paypal-fields");
+    var ccFields = $(".cc-fields");
+    var paypalFields = $("paypal-fields");
 
     function clear_radio_buttons() {
         $('input.ak-amount-radio-button').prop('checked', false);

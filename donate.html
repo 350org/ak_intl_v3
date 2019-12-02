@@ -696,6 +696,7 @@
 
 <script language="javascript">
 //<!--
+    // TODO: Commented out code needs to go.
     let paypalFieldOptionSelectedStepThree = false;
 
     function clear_radio_buttons() {
@@ -962,12 +963,9 @@
 			    $('.ak-donate-area-step-3').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
           $('.ak-donate-step-3').addClass('active-step');
-          console.log("-==============================>")
-          console.log("Got here?", paypalFieldOptionSelectedStepThree)
-          console.log($("#ak-paypal-button"),">>>?")
-          console.log("-==============================>")
+          console.log("==============================>")
+          console.log("==============================>")
           if(paypalFieldOptionSelectedStepThree){
-            console.log("We should be here", $('.ak-submit-button'), "PAYPAL");
             $('.ak-submit-button').css({display: 'none'})
           } else {
             $("#ak-paypal-button").css({display: 'none'})

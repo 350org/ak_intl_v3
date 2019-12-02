@@ -586,7 +586,7 @@
 	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
             <p class="margin-bottom-small text-small">
               <!-- <em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em>  -->
-              <button type="submit" id="ak-paypal-button" class="button paypal-fields">Continue with PayPal</button></p>
+              <button type="submit" id="ak-paypal-button" class="button paypal-fields">{% filter ak_text:"continue_to_paypal" %} Continue To PayPal {% endfilter %}</button></p>
 	        </div>
 				  {% endif %}
           </div><!--ak-styled-fields-->
@@ -1525,11 +1525,10 @@
     // const paymentsDetailsContent = $("#payments-details-content");
     // const continueButton = $("#ak-continue-button");
 
-    // Get CC Fields
+    // Get CC & PayPal Fields
     const ccFields = $(".cc-fields");
     const paypalFields = $("paypal-fields");
 
-    // paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD); // Insert HTML using JS. // Commented Out for Attempt #1
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
           const titleCtn = $(title);

@@ -752,47 +752,43 @@ jQuery(document).ready(function($){
 
   // Add recurring donation toggle functionality. Only works with Vanilla JS
 
-  var once = document.querySelector('.toggle-once');
-  var monthly = document.querySelector('.toggle-monthly');
+  var toggle_option_one = document.querySelector('.toggle-option-1');
+  var toggle_option_two = document.querySelector('.toggle-option-2');
   var checkbox = document.querySelector('.input-checkbox input');
   var onceItems = document.querySelectorAll('.once-chosen');
   var monthlyItems = document.querySelectorAll('.monthly-chosen');
 
-  // var stepOneLabel = $('label.ak-donate-step-1');
+  // Initialises hiding of /mo in submit button
+  if ($('input[name="donation_type"][type="hidden"]').val() === 'single' || $('input[name="donation_type"][type="checkbox"]').val() === 'recurring') {
+    $('.ak-donation-monthly').hide();
+  }
 
-  once.addEventListener('click', function () {
+// Only works if toggle button exists
+if (toggle_option_one && toggle_option_two) {
+  toggle_option_one.addEventListener('click', function () {
     if (checkbox.checked) {
       checkbox.checked = false;
-      $('.ak-donation-monthly').hide();
-      // $('.ak-donation-monthly').addClass('hidden');
+      if (toggle_option_one.classList.contains('toggle-once')) $('.ak-donation-monthly').hide();
+      else $('.ak-donation-monthly').show();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
-      // if (stepOneLabel.find('span.ak-step-number.hidden')) {
-      //   console.log('once clicked')
-      //   var text = stepOneLabel.find('span.ak-amount-label').text();
-      //   text = text.replace('/mo','')
-      //   stepOneLabel.find('span.ak-amount-label').text(text);
-      // }
     }
   })
 
-  monthly.addEventListener('click', function () {
+  toggle_option_two.addEventListener('click', function () {
     if (!checkbox.checked) {
       checkbox.checked = true;
-      $('.ak-donation-monthly').show();
-      // $('.ak-donation-monthly').removeClass('hidden');
+      if (toggle_option_two.classList.contains('toggle-once')) $('.ak-donation-monthly').hide();
+      else $('.ak-donation-monthly').show();
       toggleHidden(onceItems);
       toggleHidden(monthlyItems);
-      // if (stepOneLabel.find('span.ak-step-number.hidden')) {
-      //   var text = stepOneLabel.find('span.ak-amount-label').text();
-      //   stepOneLabel.find('span.ak-amount-label').text(text+'/mo');
-      // }
     }
   })
 
-function toggleHidden(nodes) {
-  for (var node of nodes) {
-    node.classList.toggle('hidden')
+  function toggleHidden(nodes) {
+    for (var node of nodes) {
+      node.classList.toggle('hidden')
+    }
   }
 }
 

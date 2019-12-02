@@ -4894,36 +4894,37 @@ label.ak-radio-checked {
   transition: .3s;
 }
 
-.toggle-once {
-  content: "Donate once";
+.toggle-option-1 {
   background-color: #0f81e8;
   color: #fff;
   border-radius: 5px 0 0 5px;
 }
 
-.toggle-monthly {
-  content: "Donate monthly";
+.toggle-option-2 {
   background-color: #e1eaf2;
   color: #0f81e8;
   border-radius: 0 5px 5px 0;
 }
 
-.toggle-once,
-.toggle-monthly {
+.toggle-option-1,
+.toggle-option-2 {
   padding: 8px 0;
   flex: 1;
   -webkit-transition: .3s;
   transition: .3s;
   border: #DEE5EA solid 1px;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-input:checked+.toggle-donation-type .toggle-once {
+input:checked+.toggle-donation-type .toggle-option-1 {
   background-color: #e1eaf2;
   color: #0f81e8;
 }
 
-input:checked+.toggle-donation-type .toggle-monthly {
+input:checked+.toggle-donation-type .toggle-option-2 {
   background-color: #0f81e8;
   color: #fff;
 }
@@ -4941,8 +4942,9 @@ input:checked+.toggle-donation-type .toggle-monthly {
   font-size: 75%;
 }
 
-#donation-toggle-bubble:before,
-#donation-toggle-bubble:after {
+/* Once default styles for bubble arrow */
+#donation-toggle-bubble.default-once:before,
+#donation-toggle-bubble.default-once:after {
   content: "";
   position: absolute;
   border-style: solid;
@@ -4954,13 +4956,35 @@ input:checked+.toggle-donation-type .toggle-monthly {
 
 @media screen and (max-width:400px) {
 
-  #donation-toggle-bubble:before,
-  #donation-toggle-bubble:after {
+  #donation-toggle-bubble.default-once:before,
+  #donation-toggle-bubble.default-once:after {
     left: calc(75% - 10px);
   }
 
 }
 
+/* Monthly default styles for bubble arrow */
+#donation-toggle-bubble.default-monthly:before,
+#donation-toggle-bubble.default-monthly:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-width: 10px;
+  left: calc(50% - 10px - 75px);
+  width: 0;
+  height: 0;
+}
+
+@media screen and (max-width:400px) {
+
+  #donation-toggle-bubble.default-monthly:before,
+  #donation-toggle-bubble.default-monthly:after {
+    left: calc(25% - 10px);
+  }
+
+}
+
+/* Common styles for bubble arrow */
 #donation-toggle-bubble:before {
   border-color: transparent transparent #F7F7F7 transparent;
   z-index: 2;

@@ -964,9 +964,10 @@
           $('.ak-donate-step-3').addClass('active-step');
           console.log("-==============================>")
           console.log("Got here?", paypalFieldOptionSelectedStepThree)
-          console.log("")
+          console.log($("#ak-paypal-button"),">>>?")
           console.log("-==============================>")
           if(paypalFieldOptionSelectedStepThree){
+            console.log("We should be here", $('.ak-submit-button'), "PAYPAL");
             $('.ak-submit-button').css({display: 'none'})
           } else {
             $("#ak-paypal-button").css({display: 'none'})

@@ -965,6 +965,13 @@
           console.log("-==============================>")
           console.log("Got here?", paypalFieldOptionSelectedStepThree)
           console.log("-==============================>")
+          if(paypalFieldOptionSelectedStepThree){
+            toggleShowFields(ccFields, false);
+            toggleShowFields(ccFields, true);
+          } else {
+            toggleShowFields(ccFields, true);
+            toggleShowFields(ccFields, false);
+          }
         }
     }
 

@@ -603,7 +603,7 @@
 	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
             <p class="margin-bottom-small text-small">
               <!-- <em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em>  -->
-              <button type="submit" id="ak-paypal-button" class="button paypal-fields">{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}&nbsp;<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span>&nbsp;<span class="ak-donation-monthly">{% filter ak_text:"donate_monthly" %}monthly{% endfilter %}</span>&nbsp;{% filter ak_text:"donate_with_paypal" %}with PayPal{% endfilter %}</button></p>
+              <button type="submit" id="ak-paypal-button" class="button paypal-fields">{% filter ak_text:"continue_to_paypal" %} Continue To PayPal {% endfilter %}</button></p>
 	        </div>
 				  {% endif %}
           </div><!--ak-styled-fields-->
@@ -696,6 +696,22 @@
 
 <script language="javascript">
 //<!--
+    // GLOBALS. This definitely needs to change once the setup is improved.
+    let paypalFieldSelectedStepThree = false;
+    let ccFieldsSelectedStepThree = true;
+
+    // Use this to hide fields as appropriately
+    const toggleShowFields = (fields, show) => {
+      $.each(fields, (index, field)=>{
+        const fieldCtn = $(field);
+        fieldCtn.css({'display': show ? 'block': 'none'});
+      });
+    };
+
+    // Get CC & PayPal Fields
+    const ccFields = $(".cc-fields");
+    const paypalFields = $("paypal-fields");
+
     function clear_radio_buttons() {
         $('input.ak-amount-radio-button').prop('checked', false);
     }
@@ -959,7 +975,14 @@
           ); */
 			    $('.ak-donate-area-step-3').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
-					$('.ak-donate-step-3').addClass('active-step');
+          $('.ak-donate-step-3').addClass('active-step');
+          if(paypalFieldSelectedStepThree){
+            toggleShowFields(paypalFields, true);
+            toggleShowFields(ccFields, false);
+          } else {
+            toggleShowFields(paypalFields, false);
+            toggleShowFields(ccFields, true);
+          }
         }
     }
 
@@ -1593,11 +1616,10 @@
     // const paymentsDetailsContent = $("#payments-details-content");
     // const continueButton = $("#ak-continue-button");
 
-    // Get CC Fields
-    const ccFields = $(".cc-fields");
-    const paypalFields = $("paypal-fields");
+    // // Get CC & PayPal Fields
+    // const ccFields = $(".cc-fields");
+    // const paypalFields = $("paypal-fields");
 
-    // paymentsDetailsContent.html(PAYMENTS_DETAILS_CONTENTS.CREDIT_CARD); // Insert HTML using JS. // Commented Out for Attempt #1
     const removeActivePaymentsClass = () => {
       $.each(paymentsTitles, (index, title)=>{
           const titleCtn = $(title);
@@ -1605,14 +1627,13 @@
       });
     };
 
-    // Use this to hide fields as appropriately
-    const toggleShowFields = (fields, show) => {
-      $.each(fields, (index, field)=>{
-        const fieldCtn = $(field);
-        fieldCtn.css({'display': show ? 'block': 'none'});
-      });
-    };
-
+    // // Use this to hide fields as appropriately
+    // const toggleShowFields = (fields, show) => {
+    //   $.each(fields, (index, field)=>{
+    //     const fieldCtn = $(field);
+    //     fieldCtn.css({'display': show ? 'block': 'none'});
+    //   });
+    // };
 
 
     $.each(paymentsTitles, (index, title)=>{
@@ -1626,10 +1647,14 @@
 
             if(closestDiv.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
                 toggleShowFields(paypalFields, true);
+                paypalFieldSelectedStepThree = true;
+                ccFieldsSelectedStepThree = false;
                 toggleShowFields(ccFields, false);
                 paypalButton.css({display: 'inline-block'});
             } else {
                 toggleShowFields(ccFields, true);
+                paypalFieldSelectedStepThree = false;
+                ccFieldsSelectedStepThree = true;
                 toggleShowFields(paypalFields, false);
                 paypalButton.css({display: 'none'});
 
@@ -1647,10 +1672,15 @@
           if(clicked.hasClass(CONSTANTS.PAYPAL_TARGET_CLASS)){
               toggleShowFields(paypalFields, true);
               toggleShowFields(ccFields, false);
+
+              paypalFieldSelectedStepThree = true;
+              ccFieldsSelectedStepThree = false;
               paypalButton.css({display: 'inline-block'});
           } else {
               toggleShowFields(ccFields, true);
               toggleShowFields(paypalFields, false);
+              paypalFieldSelectedStepThree = false;
+              ccFieldsSelectedStepThree = true;
               paypalButton.css({display: 'none'});
 
           }

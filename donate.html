@@ -978,11 +978,11 @@
           console.log("Got here?", paypalFieldOptionSelectedStepThree)
           console.log("-==============================>")
           if(paypalFieldOptionSelectedStepThree){
+            toggleShowFields(paypalFields, true);
             toggleShowFields(ccFields, false);
-            toggleShowFields(ccFields, true);
           } else {
             toggleShowFields(ccFields, true);
-            toggleShowFields(ccFields, false);
+            toggleShowFields(paypalFields, false);
           }
         }
     }

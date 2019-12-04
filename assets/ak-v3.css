@@ -928,7 +928,7 @@ a.area-link:hover .area-link-hover {
 }
 
 .margin-top-small {
-  margin-top: 0.4rem;
+  margin-top: 0.4rem !important;
 }
 
 .margin-top-normal {
@@ -4889,7 +4889,6 @@ label.ak-radio-checked {
   text-align: center;
   width: 100%;
   font-size: 90%;
-  max-width: 300px;
   -webkit-transition: .3s;
   transition: .3s;
 }
@@ -4902,7 +4901,6 @@ label.ak-radio-checked {
 
 .toggle-option-2 {
   background-color: #e1eaf2;
-  color: #0f81e8;
   border-radius: 0 5px 5px 0;
 }
 
@@ -4921,7 +4919,7 @@ label.ak-radio-checked {
 
 input:checked+.toggle-donation-type .toggle-option-1 {
   background-color: #e1eaf2;
-  color: #0f81e8;
+  color: #17292E;
 }
 
 input:checked+.toggle-donation-type .toggle-option-2 {

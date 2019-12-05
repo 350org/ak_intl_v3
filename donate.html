@@ -572,7 +572,7 @@
 
             {% comment %} Show the Credit Card Expiration Field Field only when the custom field for donation_only_paypal is {% endcomment %}
             <!--Error & Expiration Date-->
-            {% comment %} {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %} {% endcomment %}
+            {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
               <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user cc-fields ak-err-below">
                 <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
                 <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
@@ -601,7 +601,7 @@
                 </select>
                 <div class="clear"></div>
               </div>
-            {% comment %} {% endif %} {% endcomment %}
+            {% endif %}
             {% if templateset.custom_fields.pre_submit_text %}
             <div class="pre-submit-text">
               {% autoescape off %}

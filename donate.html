@@ -560,7 +560,7 @@
                 <input id="id_email" class="" type="text" name="email">
               </div>
             <!--Credit Card-->
-            {% comment %} Show the Credit Card Number Field only when the custom field for donation_only_paypal is 
+            {% comment %} Show the Credit Card Number Field only when the custom field for donation_only_paypal is {% endcomment %}
             {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
             <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user cc-fields">
               <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
@@ -570,7 +570,7 @@
             </div>
             {% endif %}
 
-            {% comment %} Show the Credit Card Expiration Field Field only when the custom field for donation_only_paypal is 
+            {% comment %} Show the Credit Card Expiration Field Field only when the custom field for donation_only_paypal is {% endcomment %}
             {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
             <!--Error & Expiration Date-->
               <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user cc-fields ak-err-below">

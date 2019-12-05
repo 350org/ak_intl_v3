@@ -398,7 +398,9 @@
             Not <span id="known_user_name"></span>?  <a href="?" onclick="return actionkit.forms.logOut()">Click here.</a>
         </div></div>
         <div id="unknown_user"></div>
+        <!--
         <h5 class="margin-bottom-normal">{% filter ak_text:"donate_billing_information" %}Billing Information{% endfilter %}</h5>
+        -->
         <div class="">
 					{% if page.allow_international %}
           <div class="input-select input-country ak-input-type-user input-field-group ak-err-below">
@@ -526,7 +528,7 @@
 				</div> <!-- donation contact -->
 
         <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
-          <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5>
+          <!-- <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5> -->
           <div class="payments-container">
               <div class="payments-titles">
                 <div class="payments-title payments-title-active card-title">
@@ -619,7 +621,7 @@
 {% endautoescape %}
 
 				<div class="text-center">
-	        <button class="ak-styled-submit-button button ak-donate-three-step-visible" id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue &rarr;{% endfilter %}</button>
+	        <button class="ak-styled-submit-button arrow-right button ak-donate-three-step-visible" id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue  &rarr;{% endfilter %}</button>
 
 				{% if page.payment_processor_information.use_cse %}
 				  {% comment %}

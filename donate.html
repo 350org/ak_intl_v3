@@ -571,8 +571,8 @@
             {% endif %}
 
             {% comment %} Show the Credit Card Expiration Field Field only when the custom field for donation_only_paypal is {% endcomment %}
-            {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
             <!--Error & Expiration Date-->
+            {% comment %} {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %} {% endcomment %}
               <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user cc-fields ak-err-below">
                 <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
                 <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
@@ -595,13 +595,13 @@
                 <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
                 <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin cc-fields" name="exp_date_year">
                   <option value="">YYYY</option>
-  {% for year in exp_years %}
+                  {% for year in exp_years %}
                   <option value="{{ year.two }}">{{ year.four }}</option>
-  {% endfor %}
+                  {% endfor %}
                 </select>
                 <div class="clear"></div>
               </div>
-              {% endif %}
+            {% comment %} {% endif %} {% endcomment %}
             {% if templateset.custom_fields.pre_submit_text %}
             <div class="pre-submit-text">
               {% autoescape off %}
@@ -609,6 +609,7 @@
               {% endautoescape %}
             </div>
           {% endif %}
+
           {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' %}
 	        <div class="ak-payment-options text-center ak-donate-area-step-3 paypal-fields">
 	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">

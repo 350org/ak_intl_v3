@@ -531,11 +531,13 @@
           <!-- <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5> -->
           <div class="payments-container">
               <div class="payments-titles">
+                {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
                 <div class="payments-title payments-title-active card-title">
                      <svg width="150" height="40" class="payments-title-active">
                          <image href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="150" height="40"/>
                  </svg>
                 </div>
+                {% endif %}
                 <div class="payments-title paypal-title">
                  <svg width="75" height="40">
                      <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75" height="40"/>
@@ -558,13 +560,19 @@
                 <input id="id_email" class="" type="text" name="email">
               </div>
             <!--Credit Card-->
+            {% comment %} Show the Credit Card Number Field only when the custom field for donation_only_paypal is 
+            {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
             <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user cc-fields">
               <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
               <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
               <div id="ak-card_num-hosted" class="hosted-field"></div>
               <input id="ak-card_num" type="text" name="card_num">
             </div>
-            <!--Error-->
+            {% endif %}
+
+            {% comment %} Show the Credit Card Expiration Field Field only when the custom field for donation_only_paypal is 
+            {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
+            <!--Error & Expiration Date-->
               <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user cc-fields ak-err-below">
                 <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
                 <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
@@ -593,6 +601,7 @@
                 </select>
                 <div class="clear"></div>
               </div>
+              {% endif %}
             {% if templateset.custom_fields.pre_submit_text %}
             <div class="pre-submit-text">
               {% autoescape off %}
@@ -600,11 +609,10 @@
               {% endautoescape %}
             </div>
           {% endif %}
-          {% if show_paypal %}
+          {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' %}
 	        <div class="ak-payment-options text-center ak-donate-area-step-3 paypal-fields">
 	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
             <p class="margin-bottom-small text-small">
-              <!-- <em>{% filter ak_text:"donate_or_check_out_with" %}or check out with{% endfilter %} </em>  -->
               <button type="submit" id="ak-paypal-button" class="button paypal-fields">
                 {% filter ak_text:"continue_with_paypal" %} Continue with PayPal {% endfilter %}              
               </button></p>

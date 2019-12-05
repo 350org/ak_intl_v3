@@ -37,6 +37,10 @@
     width: 100%;
 }
 
+.paypal-only {
+  border-bottom: none;
+}
+
 </style>
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -530,24 +534,33 @@
         <div class="ak-donate-area-step-3 form-style-labelabove ak-errs-below">
           <!-- <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5> -->
           <div class="payments-container">
-              <div class="payments-titles">
-                {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
-                <div class="payments-title payments-title-active card-title">
-                     <svg width="150" height="40" class="payments-title-active">
-                         <image href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="150" height="40"/>
-                 </svg>
-                </div>
-                {% endif %}
-                <div class="payments-title paypal-title">
-                 <svg width="75" height="40">
-                     <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75" height="40"/>
-                </svg>
-                </div>
-              </div>
-                <div id="payments-details-content">
+            <div class="payments-titles">
+              {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
 
-                </div>
-           </div>
+              <div class="payments-title payments-title-active card-title">
+                <svg width="150" height="40" class="payments-title-active">
+                  <image href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="150" height="40"/>
+                </svg>
+              </div>
+
+              <div class="payments-title paypal-title">
+                <svg width="75" height="40">
+                  <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75" height="40"/>
+                </svg>
+              </div>
+              {% endif %}
+              {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'  %}
+              <div class="payments-title payments-title-active paypal-title paypal-only">
+                <svg width="75" height="40">
+                  <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75" height="40" />
+                </svg>
+              </div>
+              {% endif %}
+            </div>
+            <div id="payments-details-content">
+
+            </div>
+          </div>
 
             <!--Name-->
             <div class="input-text ak-input-type-user">
@@ -615,7 +628,7 @@
 	        	<input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
             <p class="margin-bottom-small text-small">
               <button type="submit" id="ak-paypal-button" class="button paypal-fields">
-                {% filter ak_text:"continue_with_paypal" %} Continue with PayPal {% endfilter %}              
+                {% filter ak_text:"continue_with_paypal" %} Continue with PayPal {% endfilter %}
               </button></p>
 	        </div>
 				  {% endif %}
@@ -961,7 +974,7 @@
 
         } else if ( current_step == "2" ) {
           $('.ak-donate-area-step-1, .ak-donate-area-step-3').hide();
-  
+
 					$('.ak-donate-area-step-2, #ak-continue-button').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
 					$('.ak-donate-step-2').addClass('active-step');
@@ -1468,7 +1481,7 @@
         return email_regExp.test(email);
     }
 
-    {% if show_paypal %}
+    {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip | lower == 'y' %}
 
     function submit_paypal() {
         {% if page.paypal_user_requirements != "none" %}

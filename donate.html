@@ -37,6 +37,14 @@
     width: 100%;
 }
 
+<<<<<<< Updated upstream
+=======
+.paypal-only {
+  border-bottom: none;
+  cursor: auto;
+}
+
+>>>>>>> Stashed changes
 </style>
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -1617,6 +1625,14 @@
           }
       });
     })
+
+    {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' %}
+          toggleShowFields(paypalFields, true);
+          toggleShowFields(ccFields, false);
+          paypalFieldOptionSelectedStepThree = true;
+          paypalButton.css({display: 'inline-block'});
+          
+    {% endif %}
    });
     // Tab Creation Code End
 

@@ -1708,6 +1708,7 @@
 <script src="/resources/ak_braintree_vzero.js"></script>
 <script>
     $(function() {
+      {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y' %}
         var form = document.querySelector("#act"),
             options = {
                 form: form,
@@ -1747,6 +1748,7 @@
         toRemove.forEach(function(el) {
             $(el).remove();
         });
+
         actionkit.donations.handleError = function(err) {
             if (window.console) {
                 window.console.log(err);
@@ -1782,7 +1784,8 @@
         // read by 3-step validation
         actionkit.donations.skip_cc_validation = true;
         actionkit.donations.vzero = true;
-      $(".hosted-field.braintree-hosted-fields-invalid").prev().css("background-color", "#fff0d4")
+      $(".hosted-field.braintree-hosted-fields-invalid").prev().css("background-color", "#fff0d4");
+      {% endif %}
     });
     </script>
 {% endif %}

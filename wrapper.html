@@ -150,6 +150,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-MNNGDHL');</script>
 <!-- End Google Tag Manager -->
 
+<!-- Gogle Optimise Anti-flicker snippet -->
+<script>
+	dataLayer = [];
+</script>
+<!-- Anti-flicker snippet (recommended)  -->
+<style>.async-hide { opacity: 0 !important} </style>
+<script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+(a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+})(window,document.documentElement,'async-hide','dataLayer',4000,
+{'GTM-MNNGDHL':true});</script>
+
 </head>
 
 <body class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.iso_code|default:'en-US'}} page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %} {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js ">

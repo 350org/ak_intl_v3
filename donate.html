@@ -647,6 +647,16 @@
                 {% filter ak_text:"continue_with_paypal" %} Continue with PayPal {% endfilter %}
               </button></p>
 	        </div>
+	        
+            {% if page.custom_fields.post_submit_text %}
+            <div class="post-submit-text">
+              {% autoescape off %}
+                {{ page.custom_fields.post_submit_text }}
+              {% endautoescape %}
+            </div>
+						{% endif %}
+	        
+	        
 				  {% endif %}
 
           </div><!--ak-styled-fields-->
@@ -667,17 +677,6 @@
 				{% else %}
         	<button type="submit" class="ak-submit-button button ak-donate-area-step-3 margin-bottom-normal cc-fields">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}	<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-total-amount"></span>&nbsp;<span class="ak-donation-monthly">{% filter ak_text:"donate_monthly" %}monthly{% endfilter %}</span></button>
         {% endif %}
-
-            {% if page.custom_fields.post_submit_text %}
-            <div class="post-submit-text">
-              {% autoescape off %}
-                {{ page.custom_fields.post_submit_text }}
-              {% endautoescape %}
-            </div>
-						{% endif %}
-
-
-
 				</div>
 			</div>
 		</div>

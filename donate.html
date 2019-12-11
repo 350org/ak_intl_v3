@@ -637,15 +637,18 @@
               </button></p>
 	        </div>
 				  {% endif %}
+
+					{% autoescape off %}
+						{% if page.custom_fields.form_additional_fields %}
+									<div class="addl-html">
+										{{ page.custom_fields.form_additional_fields }}
+									</div>
+						{% endif %}
+					{% endautoescape %}
+
+
           </div><!--ak-styled-fields-->
 
-{% autoescape off %}
-	{% if page.custom_fields.form_additional_fields %}
-				<div class="addl-html">
-					{{ page.custom_fields.form_additional_fields }}
-				</div>
-	{% endif %}
-{% endautoescape %}
 
 				<div class="text-center">
 	        <button class="ak-styled-submit-button arrow-right button ak-donate-three-step-visible" id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue  &rarr;{% endfilter %}</button>

@@ -697,6 +697,10 @@
 	{% autoescape off %}
 		{{ templateset.custom_fields.donate_footer_text }}
 	{% endautoescape %}
+{% elif page.custom_fields.donate_footer_text %}
+	{% autoescape off %}
+		{{ page.custom_fields.donate_footer_text }}
+	{% endautoescape %}
 {% else %}
 	{% if page.custom_fields.page_is_c4 %}
 		<p class="strong">Contributions or gifts to 350 Action are not deductible as charitable contributions for Federal income tax purposes.</p>

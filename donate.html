@@ -681,7 +681,12 @@
 			</div>
 		</div>
 		<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
-			<strong>{% filter ak_text:"donate_secure_donation" %}Secure donation{% endfilter %}.</strong> {% if page.custom_fields.form_short_toc %}{{ page.custom_fields.form_short_toc }}{% else %}Your contribution will support 350.org groups all over the world working to build a better, climate-safe future.{% endif %}
+			<strong>{% filter ak_text:"donate_secure_donation" %}Secure donation{% endfilter %}.</strong>
+				{% if page.custom_fields.form_short_toc %}
+						{% autoescape off %}{{ page.custom_fields.form_short_toc }}{% endautoescape %}
+					{% else %}
+						Your contribution will support 350.org groups all over the world working to build a better, climate-safe future.
+					{% endif %}
 			<span style="display:none;" class="privacy-non_eu">{% filter ak_text:"general_opt_in_privacy_notice_non_eu" %}350 will send you email updates when you can make a difference.{% endfilter %}</span>
 		</div>
 	</div>

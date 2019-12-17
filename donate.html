@@ -326,9 +326,16 @@
             <image href="https://dbqvwi2zcv14h.cloudfront.net/ak-dev/monthly-heart.svg" width="50" height="50"></image>
           </svg>
           <div id="bubble-text">
-            <div class="once-chosen hidden">{% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining
-              donations help us plan and focus on the
-              future.{% endfilter %}</div>
+            <div class="once-chosen hidden">
+								{% if page.custom_fields.donate_monthly_upsell_bubble %}
+									{% autoescape off %}								
+										{{ page.custom_fields.donate_monthly_upsell_bubble }}
+									{% endautoescape %}
+								{% else %}											
+		              {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining donations help us plan and focus on the
+                future.{% endfilter %}
+								{% endif %}              
+            </div>
             <div class='monthly-chosen'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank you for choosing a
                 monthly donation!</strong><br>
               Giving monthly helps us plan for big, bold actions to fight back against the fossil fuel industry at key
@@ -352,8 +359,16 @@
               <image href="https://dbqvwi2zcv14h.cloudfront.net/ak-dev/monthly-heart.svg" width="50" height="50"></image>
             </svg>
             <div id="bubble-text">
-              <div class="once-chosen">{% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining donations help us plan and focus on the
-                future.{% endfilter %}</div>
+              <div class="once-chosen">
+								{% if page.custom_fields.donate_monthly_upsell_bubble %}
+									{% autoescape off %}								
+										{{ page.custom_fields.donate_monthly_upsell_bubble }}
+									{% endautoescape %}
+								{% else %}											
+		              {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining donations help us plan and focus on the
+                future.{% endfilter %}
+								{% endif %}              
+               </div>
               <div class='monthly-chosen hidden'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank you for choosing a monthly donation!</strong><br>
                 Giving monthly helps us plan for big, bold actions to fight back against the fossil fuel industry at key moments
                 around the world. Thank you.{% endfilter %}</div>

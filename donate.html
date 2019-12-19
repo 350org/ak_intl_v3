@@ -328,13 +328,13 @@
           <div id="bubble-text">
             <div class="once-chosen hidden">
 								{% if page.custom_fields.donate_monthly_upsell_bubble %}
-									{% autoescape off %}								
+									{% autoescape off %}
 										{{ page.custom_fields.donate_monthly_upsell_bubble }}
 									{% endautoescape %}
-								{% else %}											
+								{% else %}
 		              {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining donations help us plan and focus on the
                 future.{% endfilter %}
-								{% endif %}              
+								{% endif %}
             </div>
             <div class='monthly-chosen'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank you for choosing a
                 monthly donation!</strong><br>
@@ -361,13 +361,13 @@
             <div id="bubble-text">
               <div class="once-chosen">
 								{% if page.custom_fields.donate_monthly_upsell_bubble %}
-									{% autoescape off %}								
+									{% autoescape off %}
 										{{ page.custom_fields.donate_monthly_upsell_bubble }}
 									{% endautoescape %}
-								{% else %}											
+								{% else %}
 		              {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining donations help us plan and focus on the
                 future.{% endfilter %}
-								{% endif %}              
+								{% endif %}
                </div>
               <div class='monthly-chosen hidden'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank you for choosing a monthly donation!</strong><br>
                 Giving monthly helps us plan for big, bold actions to fight back against the fossil fuel industry at key moments
@@ -635,8 +635,8 @@
                 <div class="clear"></div>
               </div>
             {% endif %}
-            
-            
+
+
 					{% autoescape off %}
 						{% if page.custom_fields.form_additional_fields %}
 									<div class="addl-html text-small">
@@ -644,8 +644,8 @@
 									</div>
 						{% endif %}
 					{% endautoescape %}
-            
-            
+
+
             {% if templateset.custom_fields.pre_submit_text %}
             <div class="pre-submit-text">
               {% autoescape off %}
@@ -662,7 +662,7 @@
                 {% filter ak_text:"continue_with_paypal" %} Continue with PayPal {% endfilter %}
               </button></p>
 	        </div>
-	        
+
             {% if page.custom_fields.post_submit_text %}
             <div class="post-submit-text">
               {% autoescape off %}
@@ -670,8 +670,8 @@
               {% endautoescape %}
             </div>
 						{% endif %}
-	        
-	        
+
+
 				  {% endif %}
 
           </div><!--ak-styled-fields-->
@@ -999,6 +999,11 @@
 
     var three_step_initialized = 0;
     function three_step_reveal() {
+
+        //Gets top of three step box
+        var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').offset().top;
+        console.log(top_of_three_step_box);
+
         var current_step = $('input[name="ak-donate-step"]:checked').val();
         if ( current_step != "2" && current_step != "3" ) {
             current_step = "1"
@@ -1674,7 +1679,7 @@
           toggleShowFields(ccFields, false);
           paypalFieldOptionSelectedStepThree = true;
           paypalButton.css({display: 'inline-block'});
-          
+
     {% endif %}
    });
     // Tab Creation Code End

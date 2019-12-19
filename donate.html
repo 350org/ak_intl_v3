@@ -1004,7 +1004,7 @@
         var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').offset().top;
         console.log('top of three step box: ', top_of_three_step_box);
 
-        $(window).scrollTop(top_of_three_step_box);
+
 
         var current_step = $('input[name="ak-donate-step"]:checked').val();
         if ( current_step != "2" && current_step != "3" ) {
@@ -1029,6 +1029,8 @@
 			    $('.ak-donate-area-step-3').fadeIn( speed );
 					$('.ak-donate-step').removeClass('active-step');
           $('.ak-donate-step-3').addClass('active-step');
+
+          $(window).scrollTop(top_of_three_step_box);
 
           if(paypalFieldOptionSelectedStepThree){
             $('.ak-submit-button').css({display: 'none'})

@@ -1030,14 +1030,13 @@
 					$('.ak-donate-step').removeClass('active-step');
           $('.ak-donate-step-3').addClass('active-step');
 
-          $(window).scrollTop(top_of_three_step_box);
-
           if(paypalFieldOptionSelectedStepThree){
             $('.ak-submit-button').css({display: 'none'})
           } else {
             $("#ak-paypal-button").css({display: 'none'})
           }
         }
+        $(window).scrollTop(top_of_three_step_box);
     }
 
     function focus_field_if_blank ( field_elt ) {

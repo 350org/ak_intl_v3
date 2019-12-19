@@ -1001,7 +1001,7 @@
     function three_step_reveal() {
 
         //Gets top of three step box
-        var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').scrollTop();
+        var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').offset().top;
         console.log('top of three step box: ', top_of_three_step_box);
 
 

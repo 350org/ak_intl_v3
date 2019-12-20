@@ -997,15 +997,15 @@
             '#id_region, #id_postal').on('change blur', sync_to_shipping);
     } );
 
+    function scroll_to_top_of_box() {
+      //Gets top of three step box
+      var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').offset().top;
+      console.log('top of three step box: ', top_of_three_step_box);
+      $('html,body').animate({scrollTop: top_of_three_step_box}, 'fast' );
+    }
+
     var three_step_initialized = 0;
     function three_step_reveal() {
-
-        //Gets top of three step box
-        var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').offset().top;
-        console.log('top of three step box: ', top_of_three_step_box);
-
-
-
         var current_step = $('input[name="ak-donate-step"]:checked').val();
         if ( current_step != "2" && current_step != "3" ) {
             current_step = "1"
@@ -1036,7 +1036,6 @@
             $("#ak-paypal-button").css({display: 'none'})
           }
         }
-        $(window).scrollTop(top_of_three_step_box);
     }
 
     function focus_field_if_blank ( field_elt ) {
@@ -1143,6 +1142,7 @@
             .prop('checked', true);
 
           three_step_reveal();
+          scroll_to_top_of_box();
         } else {
           hide_tick(current_step);
         }
@@ -1181,6 +1181,7 @@
           // only mark current step as complete if it has no errors
           $('#ak-donate-step-' + next).prop('checked', true);
           three_step_reveal();
+          scroll_to_top_of_box();
         }
       }
 

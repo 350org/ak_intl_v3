@@ -4162,6 +4162,16 @@ label.ak-survey-radio-choice {
   left: 0;
 }
 
+#id_lang_box{
+   border: none;
+   background: transparent;
+   margin: 0;
+}
+
+#lang{
+padding-top: 15px;
+}
+
 
 
 /* errors */

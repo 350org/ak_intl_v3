@@ -645,11 +645,11 @@ jQuery(document).ready(function($){
   $('.js-modal').modal();
   $('.js-modal-onload').trigger('click');
 	// wrap <fieldset> around input groups
-/*	$('.input-text.ak-input-type-user').findAdjacentSibsAndWrap('.input-text.ak-input-type-user', 'fieldset', 'input-group');
+	$('.input-text.ak-input-type-user').findAdjacentSibsAndWrap('.input-text.ak-input-type-user', 'fieldset', 'input-group');
   $('.input-text.ak-input-type-action').findAdjacentSibsAndWrap('.input-text.ak-input-type-action', 'fieldset', 'input-group');
   $('.input-textarea.ak-input-type-action').findAdjacentSibsAndWrap('.input-textarea.ak-input-type-action', 'fieldset', 'input-group');
- */
-  $('.input-field-group').findAdjacentSibsAndWrap('.input-field-group', 'fieldset', 'input-group');
+
+  // $('.input-field-group').findAdjacentSibsAndWrap('.input-field-group', 'fieldset', 'input-group');
 
 
 	// On load, trigger "jump to form" check

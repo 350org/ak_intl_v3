@@ -830,6 +830,7 @@
         $('label.ak-radio-checked').removeClass('ak-radio-checked');
         $(this).closest('label').addClass('ak-radio-checked');
     }
+
 		$(function() {
 			$('input[name="amount"]').on(
 			    'click', highlight_selected_amount_button);
@@ -884,6 +885,9 @@
 			"GBP": "£",
 			"USD": "$",
 		}
+
+    // Sherezz and Kimani Did this. Blame them
+    actionkit.utils.ensureVisible = () => {console.log("Hi. ensurevisible is now an anonymous function.")};
 
     function redraw_currency_symbol() {
         var id = $('input[id^=id_currency_]:checked, option[id^=id_currency_]:selected').attr('id');
@@ -1000,11 +1004,9 @@
     function scroll_to_top_of_box() {
       //Gets top of three step box
       console.log("Scroll to top of box is called")
-      /*
       var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').offset().top;
       console.log('top of three step box: ', top_of_three_step_box);
-      $('html,body').animate({scrollTop: top_of_three_step_box}, 'fast' );
-      */
+      $('html,body').animate({scrollTop: top_of_three_step_box}, 'fast')
     }
 
     var three_step_initialized = 0;

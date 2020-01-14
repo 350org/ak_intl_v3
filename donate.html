@@ -328,13 +328,13 @@
           <div id="bubble-text">
             <div class="once-chosen hidden">
 								{% if page.custom_fields.donate_monthly_upsell_bubble %}
-									{% autoescape off %}								
+									{% autoescape off %}
 										{{ page.custom_fields.donate_monthly_upsell_bubble }}
 									{% endautoescape %}
-								{% else %}											
+								{% else %}
 		              {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining donations help us plan and focus on the
                 future.{% endfilter %}
-								{% endif %}              
+								{% endif %}
             </div>
             <div class='monthly-chosen'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank you for choosing a
                 monthly donation!</strong><br>
@@ -361,13 +361,13 @@
             <div id="bubble-text">
               <div class="once-chosen">
 								{% if page.custom_fields.donate_monthly_upsell_bubble %}
-									{% autoescape off %}								
+									{% autoescape off %}
 										{{ page.custom_fields.donate_monthly_upsell_bubble }}
 									{% endautoescape %}
-								{% else %}											
+								{% else %}
 		              {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining donations help us plan and focus on the
                 future.{% endfilter %}
-								{% endif %}              
+								{% endif %}
                </div>
               <div class='monthly-chosen hidden'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank you for choosing a monthly donation!</strong><br>
                 Giving monthly helps us plan for big, bold actions to fight back against the fossil fuel industry at key moments
@@ -635,8 +635,8 @@
                 <div class="clear"></div>
               </div>
             {% endif %}
-            
-            
+
+
 					{% autoescape off %}
 						{% if page.custom_fields.form_additional_fields %}
 									<div class="addl-html text-small">
@@ -644,8 +644,8 @@
 									</div>
 						{% endif %}
 					{% endautoescape %}
-            
-            
+
+
             {% if templateset.custom_fields.pre_submit_text %}
             <div class="pre-submit-text">
               {% autoescape off %}
@@ -662,7 +662,7 @@
                 {% filter ak_text:"continue_with_paypal" %} Continue with PayPal {% endfilter %}
               </button></p>
 	        </div>
-	        
+
             {% if page.custom_fields.post_submit_text %}
             <div class="post-submit-text">
               {% autoescape off %}
@@ -670,8 +670,8 @@
               {% endautoescape %}
             </div>
 						{% endif %}
-	        
-	        
+
+
 				  {% endif %}
 
           </div><!--ak-styled-fields-->
@@ -830,6 +830,7 @@
         $('label.ak-radio-checked').removeClass('ak-radio-checked');
         $(this).closest('label').addClass('ak-radio-checked');
     }
+
 		$(function() {
 			$('input[name="amount"]').on(
 			    'click', highlight_selected_amount_button);
@@ -884,6 +885,9 @@
 			"GBP": "£",
 			"USD": "$",
 		}
+
+    // Sherezz and Kimani Did this. Blame them
+    actionkit.utils.ensureVisible = () => {console.log("Hi. ensurevisible is now an anonymous function.")};
 
     function redraw_currency_symbol() {
         var id = $('input[id^=id_currency_]:checked, option[id^=id_currency_]:selected').attr('id');
@@ -996,6 +1000,14 @@
         $('#id_address1, #id_address2, #id_city, #id_state, #id_zip, ' +
             '#id_region, #id_postal').on('change blur', sync_to_shipping);
     } );
+
+    function scroll_to_top_of_box() {
+      //Gets top of three step box
+      console.log("Scroll to top of box is called")
+      var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').offset().top;
+      console.log('top of three step box: ', top_of_three_step_box);
+      $('html,body').animate({scrollTop: top_of_three_step_box}, 'fast')
+    }
 
     var three_step_initialized = 0;
     function three_step_reveal() {
@@ -1135,6 +1147,7 @@
             .prop('checked', true);
 
           three_step_reveal();
+          scroll_to_top_of_box();
         } else {
           hide_tick(current_step);
         }
@@ -1173,6 +1186,7 @@
           // only mark current step as complete if it has no errors
           $('#ak-donate-step-' + next).prop('checked', true);
           three_step_reveal();
+          scroll_to_top_of_box();
         }
       }
 
@@ -1674,7 +1688,7 @@
           toggleShowFields(ccFields, false);
           paypalFieldOptionSelectedStepThree = true;
           paypalButton.css({display: 'inline-block'});
-          
+
     {% endif %}
    });
     // Tab Creation Code End

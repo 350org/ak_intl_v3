@@ -49,7 +49,7 @@
 	<!-- End Google Tag Manager -->
 
 
-	{% if event.custom_fields.url and ('attend/'+str(event.id)) in request.path %}
+	{% if event.custom_fields.url and 'attend/'|add:str(event.id) in request.path %}
 	<meta http-equiv="refresh" content="0;url={{ event.custom_fields.url }}" />
 	<style>
 		#redirect-overlay {

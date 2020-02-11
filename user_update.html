@@ -23,7 +23,7 @@
 
 		<form name="accountupdate" method="POST" class="ak-form user-update">
 			<div id="form" class="user-update">
-				{% for field in form.visible_fields %}
+				{{ form.as_p }}
 				<input type="submit" class="submit" value="Update My Info" />
 			</div>
 		</form>

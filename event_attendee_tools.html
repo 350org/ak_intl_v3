@@ -116,10 +116,10 @@
 				<div class="event-whatsapp-link">
 					<a href="{{ event.custom_fields.whatsapp_group_join_link }}">{{ event.custom_fields.whatsapp_group_join_link }}</a>
 				</div>
-				{% endif %}	
+				{% endif %}
 			</div>
-			
-			
+
+
 			{% if event.distance|is_nonblank %}
 			<div class="event-distance opacity-50">{{ event.distance_str }}</div>
 			{% endif %}
@@ -130,6 +130,9 @@
 				<a href="https://www.facebook.com/{{ event.custom_fields.event_facebook_id }}" class="button-share-medium bg-facebook-color bg-facebook-icon">{% filter ak_text:"event_attend_tools_view_facebook_link"%}View on Facebook{% endfilter %}</a>
 			</div>
 			{% endif %}
+			<p class="text-large2 text-strong" style="padding-top: 0.8em;">
+				{% filter ak_text:"event_roster_attendee_status"%}So far, {{ signups|length }} people are joining this event.{% endfilter %}
+			</p>
 			<div class="event-attend-tools-link-update">
 				<a href="../signup/?akid={{ args.akid }}&amp;action_id={{ action.id }}&update=1#event-attend-rsvp">{% filter ak_text:"event_attend_update_info"%}Update your information{% endfilter %}</a>
 			</div>

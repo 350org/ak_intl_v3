@@ -12,6 +12,9 @@
   "call.html": {
     "filename": "call.html"
   },
+  "cjam.html": {
+    "filename": "cjam.html"
+  },
   "country_select.html": {
     "filename": "country_select.html"
   },
@@ -43,8 +46,57 @@
     "allow_monthly": true
   },
   "event_attend.html": {
-    "filename": "event_attend.html"
-  },
+    "filename": "event_attend.html",
+    "campaign": {
+        "local_title": "Campaign Title",
+        "local_name": "fakecampaign_attend",
+        "use_title": true,
+        "show_venue": true,
+        "show_title": true,
+        "show_address1": true,
+        "show_city": true,
+        "show_zip": true,
+        "show_public_description": true
+    },
+    "form": {
+        "signup_text": "<p>Signup text.</p>",
+        "ground_rules": "<p>Please follow these guidelines to ensure a good event:</p><ul><li>By RSVPing you agree to act non-violently and in accordance with the law.</li><li>Contact your host through this site to confirm the details of the event before you go.</li><li>Check this website if you have any questions.</li><li>If you've agreed to help the host, contact them through this site to coordinate with them.</li><li><em>Important Legal Note</em>:&nbsp;MoveOn.org Civic Action is an advocacy organization exempt from federal taxation under section 501(c)(4) of the Internal Revenue Code.</li></ul> "
+    },
+    "context": {
+        "required": "email"
+    },
+    "page": {
+        "title": "Event Attend (standard)",
+        "type": "Event",
+        "name": "fakecampaign_attend"
+    },
+    "logged_in_user": {
+        "name": "Current user",
+        "phone": "123-456-7890"
+    },
+    "user_fields": [
+      {"field_name": "name",
+       "label_text": "Name",
+       "input_tag": "<input id='id_name' type='text' class='form-control mo-userfield-input ak-has-overlay' name='name' />"
+   },
+      {"field_name": "email",
+       "label_text": "Email Address",
+       "input_tag": "<input id='id_email' type='text' class='form-control mo-userfield-input ak-has-overlay'  name='email' />"
+   },
+      {"field_name": "address1",
+       "label_text": "Street Address",
+       "input_tag": "<input id='id_address1' type='text' class='form-control mo-userfield-input ak-has-overlay' />"
+   },
+      {"field_name": "zip",
+       "label_text": "ZIP Code",
+       "input_tag": "<input id='id_zip' type='text' class='form-control mo-userfield-input ak-has-overlay' name='zip' />"
+   },
+      {"field_name": "phone",
+       "label_text": "Phone",
+       "input_tag": "<input id='id_phone' type='text' class='form-control mo-userfield-input ak-has-overlay' name='phone' />"
+   }
+  ]
+},
   "event_attendee_details.html": {
     "filename": "event_attendee_details.html"
   },

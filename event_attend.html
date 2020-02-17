@@ -158,7 +158,6 @@
 		<script>
 
 			const eventMapDataSet = document.getElementById("event-attend-map");
-			const eventDesciption = document.getElementsByClassName("event-description");
 			const [lat, lng] = eventMapDataSet.dataset.srcLatlong.split(",");
 			const centerLocation = [lng, lat];
 			mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhldzM1MCIsImEiOiJaTVFMUkUwIn0.wcM3Xc8BGC6PM-Oyrwjnhg';
@@ -170,13 +169,8 @@
 				zoom: 6
 			});
 
-			// create the popup
-			const popup = new mapboxgl.Popup()
-			.setHTML(`<p>${eventDesciption[0].innerText || ""}</p>`);
-
 			new mapboxgl.Marker()
 			.setLngLat(centerLocation)
-			.setPopup(popup)
 			.addTo(eventMap);
 
         </script>

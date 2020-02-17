@@ -1,0 +1,9 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags smartif%}
+{% block content %}
+<div id='map-embed-350org' style='height: 50vh'>
+{{events}}
+<script src="https://350map.org/main.js"></script>
+</div>
+
+{% endblock %}

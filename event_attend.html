@@ -31,6 +31,10 @@
 .event-directions-link a{
 	color:rgba(21,36,43,0.6);}
 
+.mapboxgl-popup {
+	max-width: 500px !important
+}
+
 @media screen and (max-width:720px){
 
 	#event-attend-header{
@@ -40,18 +44,6 @@
 
 </style>
 <script>
-	/*
-var localPageName = {{ event.local_campaign.signup_page.name|json }};
-console.log('localPageName: ' + localPageName);
-
-var path = window.location.pathname;
-console.log('path: ' + path);
-
-var newPath = path.replace('/event/' + {{ event.campaign.name|json }} + '/', '/event/' + localPageName + '/');
-console.log('newPath: ' + newPath);
-
-if (path != newPath) window.location.pathname = newPath;
-*/
 </script>
 
 <div id="event-attend" class="bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -161,8 +153,35 @@ if (path != newPath) window.location.pathname = newPath;
 		</div>
 
 		{% if campaign.show_address1 %}
-		<div id="event-attend-map" class="image-link-parent">
-				<a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" target="_blank" title='{% filter ak_text:"general_view_google_map" %}View in Google Maps{% endfilter %}"]'><img src="https://maps.google.com/maps/api/staticmap?key=AIzaSyDSPPfImwbfKuuDQpjNeidHbUuo1ThHbqE&sensor=false&scale=2&lang={{ page.lang.iso_code|default:'en-US' }}&size=740x260&markers={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" width="800" height="260" /></a>
+
+		<div id="event-attend-map" style="width:800px;height:460px" data-src-latlong={{event.latitude}},{{event.longitude}}>
+		<script>
+
+			const eventMapDataSet = document.getElementById("event-attend-map");
+			const eventDesciption = document.getElementsByClassName("event-description");
+			const [lat, lng] = eventMapDataSet.dataset.srcLatlong.split(",");
+			const centerLocation = [lng, lat];
+			mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhldzM1MCIsImEiOiJaTVFMUkUwIn0.wcM3Xc8BGC6PM-Oyrwjnhg';
+
+			const eventMap = new mapboxgl.Map({
+				container: 'event-attend-map',
+				style: 'mapbox://styles/matthew350/cja41tijk27d62rqod7g0lx4b',
+				center: centerLocation,
+				zoom: 6
+			});
+
+			// create the popup
+			const popup = new mapboxgl.Popup()
+			.setHTML(`<p>${eventDesciption[0].innerText || ""}</p>`);
+
+			new mapboxgl.Marker()
+			.setLngLat(centerLocation)
+			.setPopup(popup)
+			.addTo(eventMap);
+
+        </script>
+		</div> 
+			{% comment %} <a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" target="_blank" title='{% filter ak_text:"general_view_google_map" %}View in Google Maps{% endfilter %}"]'><img src="https://maps.google.com/maps/api/staticmap?key=AIzaSyBz0JLljX7OrsksyT0KBwi_N5n1NzTm608&sensor=false&scale=2&lang={{ page.lang.iso_code|default:'en-US' }}&size=740x260&markers={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" width="800" height="260" /></a> {% endcomment %}
 		</div>
 		<div class="text-center text-small event-attend-directions-link event-directions-link">
 			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>

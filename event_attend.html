@@ -154,7 +154,7 @@
 
 		{% if campaign.show_address1 %}
 
-		<div id="event-attend-map" style="width:800px;height:460px" data-src-latlong={{event.latitude}},{{event.longitude}}>
+		<div id="event-attend-map" style="max-width:750px;height:460px" data-src-latlong={{event.latitude}},{{event.longitude}}>
 		<script>
 
 			const eventMapDataSet = document.getElementById("event-attend-map");
@@ -166,7 +166,7 @@
 				container: 'event-attend-map',
 				style: 'mapbox://styles/matthew350/cja41tijk27d62rqod7g0lx4b',
 				center: centerLocation,
-				zoom: 6
+				zoom: 10
 			});
 
 			new mapboxgl.Marker()

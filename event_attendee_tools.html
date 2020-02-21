@@ -94,6 +94,8 @@
 			{% endif %}
 			</div>
 
+			
+		<div id="event-attend-map" style="max-width:750px;height:460px" data-src-latlong={{event.latitude}},{{event.longitude}}></div>
 		<div class="text-center text-small event-attend-directions-link event-directions-link">
 			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
 		</div>
@@ -228,5 +230,23 @@
 actionkit.forms.contextRoot = '/context/';
 actionkit.forms.initTafForm('taf');
 </script>
+
+		<script>
+			const eventMapDataSet = document.getElementById("event-attend-map");
+			const [lat, lng] = eventMapDataSet.dataset.srcLatlong.split(",");
+			const centerLocation = [lng, lat];
+			mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhldzM1MCIsImEiOiJaTVFMUkUwIn0.wcM3Xc8BGC6PM-Oyrwjnhg';
+			const eventMap = new mapboxgl.Map({
+				container: 'event-attend-map',
+				style: 'mapbox://styles/matthew350/cja41tijk27d62rqod7g0lx4b',
+				center: centerLocation,
+				zoom: 10
+			});
+
+			new mapboxgl.Marker()
+			.setLngLat(centerLocation)
+			.addTo(eventMap);
+
+        </script>
 
 {% endblock %}

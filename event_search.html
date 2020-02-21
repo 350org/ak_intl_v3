@@ -107,48 +107,10 @@ a.area-link.event-link:hover {
   </div>
 </div>
 
-
-<div id="event-list" class="section bg-white notch width-full padding-none">
-  <div class="section-inner">
-    <div id="event-search-results-wrapper" class="c6 ct10 cm10 no-margin margin-none padding-medium">
-{% if page.custom_fields.form_text_above_form %}
-  {{ page.custom_fields.form_text_above_form }}
-{% else %}
-      <h3 class="meta margin-bottom-normal opacity-50">{% filter ak_text:"event_search_form_instructions" %}Find an event near you:{% endfilter %}</h3>
-{% endif %}
-      <div id="event-search-box" class="bg-ltgray margin-bottom-large">
-        <form name="act" id="event-search-form" class="ak-form" method="GET" action="" accept-charset="utf-8" onsubmit="actionkit.forms.eventSearch(this); return false;">
-          <input type="hidden" name="page" value="{{ page.name }}">
-          <input type="hidden" name="template" value="event_search.html">
-          <input type="hidden" name="akid" value="{{ args.akid }}">
-          <input type="hidden" name="distance" value="100">
-          <input type="hidden" name="limit" value="10">
-          <input type="hidden" name="event_search_on_load" value="1">
-          <div id="event-search-postal-wrapper" class="input-wrapper input-text">
-            <label for="id_place" class="text-caps text-strong text-blue">{% filter ak_text:"event_search_label_search" %}City/Postal{% endfilter %}</label>
-            <input id="id_place" class="" type="text" name="place" value="{% if args.place %}{{args.place}}{% else %}{{args.zip}}{% endif %}" placeholder="{% filter ak_text:'event_search_form_placeholder' %}Search by city name{% endfilter %}">
-          </div>
-      {% if form.templateset.is_intl %}
-          <div id="event-search-country-wrapper" class="input-wrapper input-select input-country">
-            <label for="id_country" class="text-caps text-strong text-blue">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
-            {% include "./country_select.html" %}
-          </div>
-      {% endif %}
-          <button type="submit" id="event-search-submit" class="ak-event-search text-caps button bg-teal">{% filter ak_text:'event_search_label_submit' %}Search{% endfilter %}</button>
-          <ul class="compact hidden" id="ak-errors"></ul>
-        </form>
-      </div>
-
-      <div class="event-search-results">
-{% if args.page %}
-    {% include "./event_search_results.html" %}
-{% endif %}
-      </div>
-    </div>
-    <div id="event-map" class="c4 ct10 cm10 margin-none no-margin js-sticky">
-      <div id="map_canvas"></div>
-    </div>
-  </div>
+<div class="section bg-white notch width-full padding-none">
+<div id='map-embed-350org' 
+class="padding-medium" 
+data-src-latlong={% if page.custom_fields.event_search_map_center %}{{ page.custom_fields.event_search_map_center }}{% else %}13.076647312917522, 28.828125{% endif %}} style='height: 80vh' data-src-layers="events" data-src-zoom=3></div>
 </div>
 {% include "./social_plugins.html" %}
 {% endblock %}
@@ -162,132 +124,13 @@ a.area-link.event-link:hover {
       RAH.event_locations = [];
       RAH.map_center = {};
 </script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc65HgY18lHPM_vjvZS-jgkqpZPwaCDc&sensor=false"></script>
 <script type="text/javascript" src="https://s3.amazonaws.com/s3.350.org/js/map/markerclusterer.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
-$.urlParam = function(name){
-	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-	if (!results) { return 0; }
-	return results[1] || 0;
-}
-var evMapSource = $.urlParam('source');
-
-var myOptions = {
-    zoom: {% if page.custom_fields.event_search_map_zoom %}{{ page.custom_fields.event_search_map_zoom }}{% else %}1{% endif %},
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    mapTypeControl: false,
-    streetViewControl: false,
-    zoomControlOptions: {style: google.maps.ZoomControlStyle.SMALL},
-    panControl: true,
-    scrollwheel: true,
-    center: new google.maps.LatLng({% if page.custom_fields.event_search_map_center %}{{ page.custom_fields.event_search_map_center }}{% else %}13.076647312917522, 28.828125{% endif %})
-};
-
-var gmap = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-var infowindow = new google.maps.InfoWindow({ content: "" });
-
-var geocoder = new google.maps.Geocoder();
-function loadMap(events) {
-    window.events = events;
-    var d_names = new Array("Sunday", "Monday", "Tuesday",
-"Wednesday", "Thursday", "Friday", "Saturday");
-    for( var i = 0; i < events.length; ++i ) {
-        var event = events[i];
-        var nowRaw = new Date();
-        var now = moment(nowRaw);
-		var dt;
-		if( event.starts_at ) {
-          dt = moment(event.starts_at, moment.ISO_8601);
-		} else {
-		  dt = moment(event.event_date + " " + event.start_time, "YYYY-MM-DD HH:mm:ss");
-		}
-
-if ( moment(dt).isAfter(now) ) {
-// if event is hasn't already happened
-
-
-
-
-        var formattedTime = {% if campaign.name == "changes-everything-screening" %}moment(dt).format("dddd, MMMM D YYYY"){% else %}moment(dt).format("dddd, MMMM D YYYY, h:mma"){% endif %};
-	    var info;
-	    if( event.rsvp_url && event.rsvp_url.match(/^https:\/\/secure.avaaz.org\//) ) {
-          info = "<div class='map-event-info-metadata'><b><a target='_blank' href='" + event.rsvp_url + "'>" + event.name + "</a></b><br/>" + event.venue + "<br/><span class='start-time'>" + formattedTime + "</span></div>";
-		} else {
-		  var rsvp_url = event.rsvp_url || "https://act.350.org/event/{{ campaign.local_name }}/" + event.event_id + "/";
-          info = "<div class='map-event-info-metadata'><b><a target='_blank' href='"+rsvp_url+"'>" + event.title + "</a></b><br/>" + event.venue + "<br/>{% if campaign.name != "commbank-under-new-management" and campaign.name != "CBA_Week_of_Action" %}<span class='start-time'>" + formattedTime + "</span>{% endif %}";
-			if (event.facebook_id) {
-				info += '<a style="float: right; display: block; text-transform: none; border: none" href="https://www.facebook.com/' + event.facebook_id + '"><img src="https://s3.amazonaws.com/s3.350.org/images/tiny-fb-event-button.png" width="20" style="border: 1px solid #40579A; margin-left: 5px; margin-top: -5px"></a></div>';
-			} else {
-			    info += "</div>";
-			}
-		}
-
-        if( 0 && event.public_description ) {
-            info += "<p>" + event.public_description + "</p>";
-        }
-        RAH.event_locations.push({
-                lat: event.latitude,
-                lon: event.longitude,
-                info: info,
-				data: event
-            });
-    }
-}
-
-    var markers = window.map_markers = [];
-    var latlngs = {};
-    for (var i = RAH.event_locations.length - 1; i >= 0; i = i - 1) {
-        var latlng = [RAH.event_locations[i].lat, RAH.event_locations[i].lon];
-        if( latlngs[latlng] ) {
-            var marker = latlngs[latlng];
-            marker.info += "<hr/>" + RAH.event_locations[i].info;
-            marker.setIcon(RAH.multiple_sprite_url);
-	} else {
-            var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(RAH.event_locations[i].lat,
-                                                     RAH.event_locations[i].lon),
-                    map: gmap,
-                    icon: RAH.sprite_url,
-                    info: RAH.event_locations[i].info,
-					data: RAH.event_locations[i]
-		});
-	}
-
-        latlngs[latlng] = marker;
-        markers.push(marker);
-    }
-    for( var i = RAH.event_locations.length - 1; i >= 0; i = i - 1 ) {
-        var marker = markers[i];
-        google.maps.event.addListener(marker, 'click', function () {
-                infowindow.setContent(this.info);
-                infowindow.open(gmap, this);
-            });
-    }
-    delete latlngs;
-    var style = [{
-            url: RAH.multiple_sprite_url,
-            height: 53,
-            width: 53,
-            textColor: '#FFFFFF',
-            textSize: 12,
-        }];
-    var markerCluster = new MarkerClusterer(gmap, markers, {
-            gridSize: {{ page.custom_fields.event_search_map_cluster_grid_size|default:20 }},
-            styles: style
-        });
-}
-function codeAddress(address) {
-    geocoder.geocode( { 'address': address}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                gmap.setCenter(results[0].geometry.location);
-                gmap.fitBounds(results[0].geometry.viewport);
-            }
-        });
-}
 </script>
 <script type="text/javascript">
+/**
 window.mapEvents = [
 {% for event in campaign.event_set.all.select_related %}
 {% if not event.is_private %}{% if event.host_is_confirmed and event.status == "active" %}{% if event.is_approved or not campaign.require_staff_approval %}
@@ -366,6 +209,7 @@ actionkit.forms.onEventSearchResults = function(html) {
 $(window).load(function() {
 	initData([], []);
 });
+**/
 </script>
 
 {% endblock %}

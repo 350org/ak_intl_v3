@@ -155,27 +155,7 @@
 		{% if campaign.show_address1 %}
 
 		<div id="event-attend-map" style="max-width:750px;height:460px" data-src-latlong={{event.latitude}},{{event.longitude}}>
-		<script>
-
-			const eventMapDataSet = document.getElementById("event-attend-map");
-			const [lat, lng] = eventMapDataSet.dataset.srcLatlong.split(",");
-			const centerLocation = [lng, lat];
-			mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhldzM1MCIsImEiOiJaTVFMUkUwIn0.wcM3Xc8BGC6PM-Oyrwjnhg';
-
-			const eventMap = new mapboxgl.Map({
-				container: 'event-attend-map',
-				style: 'mapbox://styles/matthew350/cja41tijk27d62rqod7g0lx4b',
-				center: centerLocation,
-				zoom: 10
-			});
-
-			new mapboxgl.Marker()
-			.setLngLat(centerLocation)
-			.addTo(eventMap);
-
-        </script>
 		</div> 
-			{% comment %} <a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" target="_blank" title='{% filter ak_text:"general_view_google_map" %}View in Google Maps{% endfilter %}"]'><img src="https://maps.google.com/maps/api/staticmap?key=AIzaSyBz0JLljX7OrsksyT0KBwi_N5n1NzTm608&sensor=false&scale=2&lang={{ page.lang.iso_code|default:'en-US' }}&size=740x260&markers={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" width="800" height="260" /></a> {% endcomment %}
 		</div>
 		<div class="text-center text-small event-attend-directions-link event-directions-link">
 			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
@@ -295,5 +275,23 @@
 {% if args.foo or event.is_open_for_signup or update %}
 	{% include "./social_plugins.html" %}
 {% endif %}
+
+		<script>
+			const eventMapDataSet = document.getElementById("event-attend-map");
+			const [lat, lng] = eventMapDataSet.dataset.srcLatlong.split(",");
+			const centerLocation = [lng, lat];
+			mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhldzM1MCIsImEiOiJaTVFMUkUwIn0.wcM3Xc8BGC6PM-Oyrwjnhg';
+			const eventMap = new mapboxgl.Map({
+				container: 'event-attend-map',
+				style: 'mapbox://styles/matthew350/cja41tijk27d62rqod7g0lx4b',
+				center: centerLocation,
+				zoom: 10
+			});
+
+			new mapboxgl.Marker()
+			.setLngLat(centerLocation)
+			.addTo(eventMap);
+
+        </script>
 
 {% endblock %}

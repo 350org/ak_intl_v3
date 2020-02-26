@@ -13,6 +13,22 @@ tr:nth-child(2n - 1){
   background:rgba(21,36,42,0.1);}
 </style>
 
+{% ifequal signups.role 'attendee' %}
+  <div class="text-large2 text-strong" style="margin-top: 0.8em;">{% filter ak_text:"event_roster_attendees_total"%}Total attendees:{% endfilter %}
+    {{ signups|length|add:event.custom_fields.external_signups }}
+  </div>
+  <form id="add-external-attendees" class="ak-form ak-errs-below" name="add-external-attendees" style="display: flex; align-items: center; "
+    method="POST" action="/update_action/" accept-charset="utf-8">
+    <div class="input-text ak-input-type-event">
+      <label for="id_action_external_signups">How many confirmed attendees do you have from other sources, eg. a Facebook event?</lab>
+      <input type="text" name="action_external_signups" id="id_action_external_signups" style="width: 100px; margin: 0 0.8em;"
+        value="{{ event.custom_fields.external_signups }}">
+    </div>
+    <button type="submit"
+      class="ak-submit-button button">Update count</button>
+  </form>
+  {% endifequal %}
+
 <form id="manage-{{signups.role}}" onvalidate="return validateRoster(this)" onconfirm="return confirmRoster(this)" name="manage-{{signups.role}}" method="post" action="/event/{{campaign.local_name}}/{{event.id}}/manage_signups" accept-charset="utf-8">
   <ul class="compact" id="ak-errors"></ul>
 
@@ -24,8 +40,10 @@ tr:nth-child(2n - 1){
   <input type="hidden" name="action" value="">
   <input type="hidden" name="form_name" value="manage-{{signups.role}}">
 
+
+
   <fieldset class="signup-list {{signups.role}}-list">
-    <div class="text-large2 text-strong">{% ifequal signups.role 'host' %}{% filter ak_text:"event_roster_cohosts"%}Co-hosts:{% endfilter %}{% else %}{% filter ak_text:"event_roster_attendees"%}Attendees:{% endfilter %}{% endifequal %} {{ signups|length }}
+    <div class="text-large2 text-strong" style="margin-top: 0.8em;">{% ifequal signups.role 'host' %}{% filter ak_text:"event_roster_cohosts"%}Co-hosts:{% endfilter %}{% else %}{% filter ak_text:"event_roster_attendees"%}Mailable sign-ups:{% endfilter %}{% endifequal %} {{ signups|length }}
     </div>
     <ul class="ak-confirmation"></ul>
 

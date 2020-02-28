@@ -28,14 +28,17 @@ tr:nth-child(2n - 1){
 
   <fieldset class="signup-list {{signups.role}}-list">
     {% ifequal signups.role 'attendee' %}
-    <div class="text-large2 text-strong" style="margin-top: 0.8em;">{% filter ak_text:"event_roster_attendees_total"%}Total attendees:{% endfilter %}
-      {% if event.custom_fields.external_signups %}
-    {{ signups|length|add:event.custom_fields.external_signups }}
-    {% else %}
-    {{ signups|length }}
-    {% endif %}
-</div>
-  {% endifequal %}
+      <div class="text-large2 text-strong" style="margin-top: 0.8em;">{% filter ak_text:"event_roster_attendees_total"%}Total attendees:{% endfilter %}
+        {% if event.custom_fields.external_signups %}
+          {{ signups|length|add:event.custom_fields.external_signups }}
+        {% else %}
+          {{ signups|length }}
+        {% endif %}
+      </div>
+      <p class="text-small opacity-50">
+        {% filter ak_text:"event_host_tools_total_attendees_help" %}<strong>Tip:</strong> you can add/update the number of confirmed attendees from other sources for this event in <a class="host-tool icon-faded" href="../../create/?action_id={{ action.id }}&amp;update=1&amp;want_prefill_data=1">Edit event details</a>.{% endfilter %}
+      </p>
+    {% endifequal %}
     <div class="text-large2 text-strong" style="margin-top: 0.8em;">{% ifequal signups.role 'host' %}{% filter ak_text:"event_roster_cohosts"%}Co-hosts:{% endfilter %}{% else %}{% filter ak_text:"event_roster_attendees"%}Mailable sign-ups:{% endfilter %}{% endifequal %} {{ signups|length }}
     </div>
     <ul class="ak-confirmation"></ul>

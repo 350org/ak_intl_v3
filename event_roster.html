@@ -29,8 +29,8 @@ tr:nth-child(2n - 1){
   <fieldset class="signup-list {{signups.role}}-list">
     {% ifequal signups.role 'attendee' %}
     <div class="text-large2 text-strong" style="margin-top: 0.8em;">{% filter ak_text:"event_roster_attendees_total"%}Total attendees:{% endfilter %}
-      {% if eventfield.external_signups %}
-    {{ signups|length|add:eventfield.external_signups }}
+      {% if core_actionfield.external_signups %}
+    {{ signups|length|add:core_actionfield.external_signups }}
     {% else %}
     {{ signups|length }}
     {% endif %}

@@ -209,15 +209,10 @@
   <div class="input-text ak-input-type-event">
     <label class="hasTooltip"
       data-tooltip="We will add this number to the total number of attendees shown on the signup page."
-      data-hasqtip="1" aria-describedby="qtip-1"for="id_event_external_signups">How many confirmed attendees do you have from other sources, eg. a Facebook event?</lab>
-    <input type="number" name="event_external_signups" id="id_event_external_signups" style="width: 100px; margin: 0 0.8em;"
-      value="{{ event.custom_fields.external_signups }}">
+      data-hasqtip="1" aria-describedby="qtip-1"for="id_action_external_signups">How many confirmed attendees do you have from other sources, eg. a Facebook action?</label>
+    <input type="number" name="action_external_signups" id="id_action_external_signups" style="width: 100px;" value="{%if events_eventfield.external_signups%}{{events_eventfield.external_signups}} {% else %} 0 {% endif %}">
       <p class="text-small opacity-50">
-				{% if page.custom_fields.event_add_external_signups_helptext %}
-					{{ page.custom_fields.event_add_external_signups_helptext }}
-				{% else %}
 					{% filter ak_text:"event_create_field_label_add_external_signups_help" %}We will add this number to the total number of attendees shown on the signup page.{% endfilter %}
-				{% endif %}
         </p>
   </div>
   {% endif%}

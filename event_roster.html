@@ -29,7 +29,11 @@ tr:nth-child(2n - 1){
   <fieldset class="signup-list {{signups.role}}-list">
     {% ifequal signups.role 'attendee' %}
     <div class="text-large2 text-strong" style="margin-top: 0.8em;">{% filter ak_text:"event_roster_attendees_total"%}Total attendees:{% endfilter %}
-    {{ signups|length|add:event.custom_fields.external_signups }}
+      {% if events_eventfield.external_signups %}
+    {{ signups|length|add:events_eventfield.external_signups }}
+    {% else %}
+    {{ signups|length }}
+    {% endif %}
 </div>
   {% endifequal %}
     <div class="text-large2 text-strong" style="margin-top: 0.8em;">{% ifequal signups.role 'host' %}{% filter ak_text:"event_roster_cohosts"%}Co-hosts:{% endfilter %}{% else %}{% filter ak_text:"event_roster_attendees"%}Mailable sign-ups:{% endfilter %}{% endifequal %} {{ signups|length }}

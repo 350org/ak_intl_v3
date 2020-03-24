@@ -94,7 +94,7 @@
 			{% endif %}
 			</div>
 
-
+			
 		<div id="event-attend-map" style="max-width:750px;height:460px" data-src-latlong={{event.latitude}},{{event.longitude}}></div>
 		<div class="text-center text-small event-attend-directions-link event-directions-link">
 			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>

@@ -845,17 +845,19 @@
     } );
 
     // Change donation type value if custom field is set to both-recurring
-    console.log('hello there, this is a test');
-    $('#id_donation_type_toggle').click(function () {
-      console.log('toggle clicked')
+    $( function () {
+      $('#id_donation_type_toggle').click(function () {
+        console.log('toggle clicked');
         if ($(this).prop('checked')) {
-          $('#donation_type').val("single")
-          console.log('One-time donation option set')
+          $('#donation_type').val("single");
+          console.log('One-time donation option set');
         } else {
-          $('#donation_type').val("recurring")
-          console.log('Monthly donation option set')
+          $('#donation_type').val("recurring");
+          console.log('Monthly donation option set');
         }
       })
+    });
+
 
     var three_step_initialized = 0;
     function three_step_reveal() {

@@ -264,12 +264,15 @@
         <div id="ak-recurring-type"></div>
         <input type="hidden" name="donation_type" value="single">
     {% elif page.custom_fields.donation_once_recurring_or_both|lower == "both-recurring" %}
+    <!-- Set to 'recurring' by default, clicking checkbox changes value to 'single' -->
         <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
           <div class="input-checkbox text-strong margin-bottom-none">
-            <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="single"> <label for="id_donation_type_recurring" class="text-strong">{% filter ak_text:"donate_make_one_time" %}Make this a one-time donation.{% endfilter %}</label>
+            <input type="hidden" name="donation_type" id="donation_type" value="recurring">
+            <input type="checkbox" name="donation_type_toggle" id="id_donation_type_toggle" value=""> <label for="id_donation_type_toggle" class="text-strong">{% filter ak_text:"donate_make_one_time" %}Make this a one-time donation.{% endfilter %}</label>
           </div>
         </div>
         {% else %}
+        <!-- Set to 'single' by default, clicking checkbox changes value to 'recurring' -->
         <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
           <div class="input-checkbox text-strong margin-bottom-none">
             <input type="checkbox" name="donation_type" id="id_donation_type_recurring" value="recurring"> <label for="id_donation_type_recurring" class="text-strong">{% filter ak_text:"donate_make_recurring" %}Make this a monthly donation.{% endfilter %}</label>
@@ -840,6 +843,17 @@
         $('#id_address1, #id_address2, #id_city, #id_state, #id_zip, ' +
             '#id_region, #id_postal').on('change blur', sync_to_shipping);
     } );
+
+    // Change donation type value if custom field is set to both-recurring
+    $('#id_donation_type_toggle').click(function () {
+        if ($(this).prop('checked')) {
+          $('#donation_type').val("single")
+          console.log('One-time donation option set')
+        } else {
+          $('#donation_type').val("recurring")
+          console.log('Monthly donation option set')
+        }
+      })
 
     var three_step_initialized = 0;
     function three_step_reveal() {

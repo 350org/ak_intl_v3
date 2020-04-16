@@ -754,7 +754,7 @@ jQuery(document).ready(function($){
 
   var toggle_option_one = document.querySelector('.toggle-option-1');
   var toggle_option_two = document.querySelector('.toggle-option-2');
-  var checkbox = document.querySelector('.input-checkbox input');
+  var checkbox = document.querySelector('#id_donation_type_toggle');
   var onceItems = document.querySelectorAll('.once-chosen');
   var monthlyItems = document.querySelectorAll('.monthly-chosen');
 

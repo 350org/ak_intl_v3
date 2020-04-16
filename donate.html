@@ -349,7 +349,7 @@
         <!-- Toggle button, donate once default -->
         <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
           <div class="input-checkbox text-strong margin-bottom-none">
-            <input type="checkbox" hidden name="donation_type" id="id_donation_type_recurring" value="recurring">
+            <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle" value="recurring">
             <span class="toggle-donation-type">
               <span class="toggle-option-1 toggle-once">{% filter ak_text:"donate_once" %}Donate once{% endfilter %}</span>
               <span class="toggle-option-2 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}</span>
@@ -1002,6 +1002,19 @@
             '#id_region, #id_postal').on('change blur', sync_to_shipping);
     } );
 
+    // Change donation type value if custom field is set to both-recurring
+      $(function () {
+        $('#id_donation_type_toggle').click(function () {
+          if ($(this).prop('checked')) {
+            $('#donation_type').val("single");
+            console.log('One-time donation option set');
+          } else {
+            $('#donation_type').val("recurring");
+            console.log('Monthly donation option set');
+          }
+        })
+      });
+
     function scroll_to_top_of_box() {
       //Gets top of three step box
       console.log("Scroll to top of box is called")
@@ -1009,19 +1022,6 @@
       console.log('top of three step box: ', top_of_three_step_box);
       $('html,body').animate({scrollTop: top_of_three_step_box}, 'fast')
     }
-
-    // Change donation type value if custom field is set to both-recurring
-    $(function () {
-      $('#id_donation_type_toggle').click(function () {
-        if ($(this).prop('checked')) {
-          $('#donation_type').val("single");
-          console.log('One-time donation option set');
-        } else {
-          $('#donation_type').val("recurring");
-          console.log('Monthly donation option set');
-        }
-      })
-    });
 
     var three_step_initialized = 0;
     function three_step_reveal() {

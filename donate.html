@@ -316,7 +316,7 @@
       <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
         <div class="input-checkbox text-strong margin-bottom-none">
           <input type="hidden" name="donation_type" id="donation_type" value="recurring">
-          <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle" value="single">
+          <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle" value="">
           <span class="toggle-donation-type">
             <span class="toggle-option-1 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}</span>
             <span class="toggle-option-2 toggle-once">{% filter ak_text:"donate_once" %}Donate once{% endfilter %}</span>
@@ -1004,8 +1004,8 @@
 
     // Change donation type value if custom field is set to both-recurring
       $(function () {
-        $('#id_donation_type_toggle').click(function () {
-          if ($(this).prop('checked')) {
+        $('.toggle-donation-type').click(function () {
+          if ($('#id_donation_type_toggle').prop('checked')) {
             $('#donation_type').val("single");
             console.log('One-time donation option set');
           } else {

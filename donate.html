@@ -1107,37 +1107,20 @@
           if (!custom_amount) amount += button_amount;
           else amount += custom_amount;
 
-          //Toggle - once default case
-          if ($('input[name="donation_type"][type="checkbox"]').val() === 'recurring') {
-            if ($('#id_donation_type_recurring').is(':checked')) {
-              amount += '/mo';
-            }
-            else {
-              amount.replace('/mo', '');
-            }
-          }
-          //Toggle - monthly default case
-          else if ($('input[name="donation_type"][type="checkbox"]').val() === 'single') {
-            if ($('#id_donation_type_recurring').is(':checked')) {
-              amount.replace('/mo', '');
-            }
-            else {
-              amount += '/mo';
-            }
-          }
-          //No toggle - monthly default case
-          else if ($('input[name="donation_type"][type="hidden"]').val() === 'recurring') {
+          if ($('input[name="donation_type"][type="hidden"]').val() === 'recurring') {
             amount += '/mo';
+          } else {
+            amount.replace('/mo', '');
           }
-
-          // console.log('button amount', button_amount, 'custom amount', custom_amount, 'amount', amount);
-          $('input[name="ak-donate-step"]:checked')
-            .closest('label')
-            .find('span.ak-amount-label')
-            // .html(amount+'<span class="ak-donation-monthly">/mo</span>')
-            .html(amount)
-            .css({ "text-decoration": "underline" });
         }
+
+        // console.log('button amount', button_amount, 'custom amount', custom_amount, 'amount', amount);
+        $('input[name="ak-donate-step"]:checked')
+          .closest('label')
+          .find('span.ak-amount-label')
+          // .html(amount+'<span class="ak-donation-monthly">/mo</span>')
+          .html(amount)
+          .css({ "text-decoration": "underline" });
       }
 
       let step_has_errors = false;

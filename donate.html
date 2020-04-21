@@ -316,7 +316,7 @@
       <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
         <div class="input-checkbox text-strong margin-bottom-none">
           <input type="hidden" name="donation_type" id="donation_type" value="recurring">
-          <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle" value="">
+          <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle" data-donation-type="both-recurring" value="">
           <span class="toggle-donation-type">
             <span class="toggle-option-1 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}</span>
             <span class="toggle-option-2 toggle-once">{% filter ak_text:"donate_once" %}Donate once{% endfilter %}</span>
@@ -349,7 +349,8 @@
         <!-- Toggle button, donate once default -->
         <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
           <div class="input-checkbox text-strong margin-bottom-none">
-            <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle" value="recurring">
+            <input type="hidden" name="donation_type" id="donation_type" value="single">
+            <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle" data-donation-type="both" value="">
             <span class="toggle-donation-type">
               <span class="toggle-option-1 toggle-once">{% filter ak_text:"donate_once" %}Donate once{% endfilter %}</span>
               <span class="toggle-option-2 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}</span>
@@ -1002,15 +1003,25 @@
             '#id_region, #id_postal').on('change blur', sync_to_shipping);
     } );
 
-    // Change donation type value if custom field is set to both-recurring
+    // Change donation type value whether custom field is set to both-recurring or both
       $(function () {
         $('.toggle-donation-type').click(function () {
-          if ($('#id_donation_type_toggle').prop('checked')) {
-            $('#donation_type').val("single");
-            console.log('One-time donation option set');
+          if ($('#id_donation_type_toggle').data('donation-type') === 'both-recurring') {
+            if ($('#id_donation_type_toggle').prop('checked')) {
+              $('#donation_type').val("single");
+              console.log('One-time donation option set');
+            } else {
+              $('#donation_type').val("recurring");
+              console.log('Monthly donation option set');
+            }
           } else {
-            $('#donation_type').val("recurring");
-            console.log('Monthly donation option set');
+            if ($('#id_donation_type_toggle').prop('checked')) {
+              $('#donation_type').val("recurring");
+              console.log('Monthly donation option set');
+            } else {
+              $('#donation_type').val("single");
+              console.log('One-time donation option set');
+            }
           }
         })
       });

@@ -315,7 +315,8 @@
     <!-- Toggle button, donate monthly default -->
       <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
         <div class="input-checkbox text-strong margin-bottom-none">
-          <input type="checkbox" hidden name="donation_type" id="id_donation_type_recurring" value="single">
+          <input type="hidden" name="donation_type" id="donation_type" value="recurring">
+          <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle" data-donation-type="both-recurring" value="">
           <span class="toggle-donation-type">
             <span class="toggle-option-1 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}</span>
             <span class="toggle-option-2 toggle-once">{% filter ak_text:"donate_once" %}Donate once{% endfilter %}</span>
@@ -348,7 +349,8 @@
         <!-- Toggle button, donate once default -->
         <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
           <div class="input-checkbox text-strong margin-bottom-none">
-            <input type="checkbox" hidden name="donation_type" id="id_donation_type_recurring" value="recurring">
+            <input type="hidden" name="donation_type" id="donation_type" value="single">
+            <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle" data-donation-type="both" value="">
             <span class="toggle-donation-type">
               <span class="toggle-option-1 toggle-once">{% filter ak_text:"donate_once" %}Donate once{% endfilter %}</span>
               <span class="toggle-option-2 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}</span>
@@ -1001,6 +1003,29 @@
             '#id_region, #id_postal').on('change blur', sync_to_shipping);
     } );
 
+    // Change donation type value whether custom field is set to both-recurring or both
+      $(function () {
+        $('.toggle-donation-type').click(function () {
+          if ($('#id_donation_type_toggle').data('donation-type') === 'both-recurring') {
+            if ($('#id_donation_type_toggle').prop('checked')) {
+              $('#donation_type').val("single");
+              // console.log('One-time donation option set');
+            } else {
+              $('#donation_type').val("recurring");
+              // console.log('Monthly donation option set');
+            }
+          } else {
+            if ($('#id_donation_type_toggle').prop('checked')) {
+              $('#donation_type').val("recurring");
+              // console.log('Monthly donation option set');
+            } else {
+              $('#donation_type').val("single");
+              // console.log('One-time donation option set');
+            }
+          }
+        })
+      });
+
     function scroll_to_top_of_box() {
       //Gets top of three step box
       console.log("Scroll to top of box is called")
@@ -1093,37 +1118,20 @@
           if (!custom_amount) amount += button_amount;
           else amount += custom_amount;
 
-          //Toggle - once default case
-          if ($('input[name="donation_type"][type="checkbox"]').val() === 'recurring') {
-            if ($('#id_donation_type_recurring').is(':checked')) {
-              amount += '/mo';
-            }
-            else {
-              amount.replace('/mo', '');
-            }
-          }
-          //Toggle - monthly default case
-          else if ($('input[name="donation_type"][type="checkbox"]').val() === 'single') {
-            if ($('#id_donation_type_recurring').is(':checked')) {
-              amount.replace('/mo', '');
-            }
-            else {
-              amount += '/mo';
-            }
-          }
-          //No toggle - monthly default case
-          else if ($('input[name="donation_type"][type="hidden"]').val() === 'recurring') {
+          if ($('input[name="donation_type"][type="hidden"]').val() === 'recurring') {
             amount += '/mo';
+          } else {
+            amount.replace('/mo', '');
           }
-
-          // console.log('button amount', button_amount, 'custom amount', custom_amount, 'amount', amount);
-          $('input[name="ak-donate-step"]:checked')
-            .closest('label')
-            .find('span.ak-amount-label')
-            // .html(amount+'<span class="ak-donation-monthly">/mo</span>')
-            .html(amount)
-            .css({ "text-decoration": "underline" });
         }
+
+        // console.log('button amount', button_amount, 'custom amount', custom_amount, 'amount', amount);
+        $('input[name="ak-donate-step"]:checked')
+          .closest('label')
+          .find('span.ak-amount-label')
+          // .html(amount+'<span class="ak-donation-monthly">/mo</span>')
+          .html(amount)
+          .css({ "text-decoration": "underline" });
       }
 
       let step_has_errors = false;

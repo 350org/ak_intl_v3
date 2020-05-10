@@ -1,0 +1,87 @@
+{% load actionkit_tags smartif %}
+
+<div class="section bg-white form-style-expanded width-normal padding-medium">
+    <div class="section-inner">
+    <h3 class="section-header meta margin-bottom-large">{% filter ak_text:"event_create_section_location" %}Webinar Information{% endfilter %}</h3>
+    <button class='zoom-webinar-btn' id="create-webinar">Make it a Zoom Webinar</button>
+    {{event}}
+    </div>
+    <div id="zoom-details"></div>
+</div>
+{%if page.custom_fields.is_webinar%}
+<script>
+    // We only expect two errors
+    // event_address1:missing: "Event address is required.",
+    // event_venue:missing: "Event venue is required."
+    function actionkitValidationErrors(errors, field){
+        const errorKeys = Object.keys(errors);
+        const hasAddress1Missing = errorKeys.includes("event_address1:missing");
+        const hasEventVenueMissing = errorKeys.includes("event_venue:missing");
+        if(errorKeys.length === 2 && hasAddress1Missing && hasEventVenueMissing){
+            // Disable
+            // https://roboticdogs.actionkit.com/docs/manual/developer/customizing_pages.html#templates-required-fields
+            return false
+        }
+        return true;
+    }
+
+    function actionKitBeforeSubmit(ar){
+        console.log(ar)
+    }
+</script>
+
+{% endif %}
+<script>
+    // Use get token and store it in local storage instead of this 
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIalhsTENlN1R0LXlScGVSekJQd01RIiwiZXhwIjoxNTg4OTUzOTE5MjUwLCJpYXQiOjE1ODg5NTM4Njl9.QJZkxxvzrGcYEFlY6SkaHuvD8r0sjEHdt2dech6BGxQ"
+    $('#create-webinar').click(event, ()=>{
+        event.preventDefault();
+        const body = {
+            "topic": "Demo During Checkout",
+            "type": 5,
+            "start_time": "2020-09-20T06:59:00Z",
+            "duration": "60",
+            "timezone": "America/Los_Angeles",
+            "password": "pass123",
+            "agenda": "Zaki Testing API Format 2"
+        };
+        // Options Payload
+        const options = {
+                method: 'POST',
+                headers: {
+                    'User-Agent': 'Zoom-Jwt-Request',
+                    'Content-Type': 'application/json',
+                    'Authorization' : `Bearer ${token}`
+                },
+                body: JSON.stringify(body),
+                json: true
+        };
+        fetch(`https://zaki-server.herokuapp.com/api/v1/webinars`, options).then(function (response) {
+            response.json().then(d=>{
+                console.log(d, "data?")
+                const zoomDetails =  $('#zoom-details');
+                zoomDetails.append(
+                    `
+                    <div class="webinar-details section-inner">
+                    <p>Follow <a href=${d.data.join_url}>this</a> link to go to the webinar.</p>
+                    <br/>
+                    Alternatively, copy this information and share:
+                    <br/>
+                    Join : ${d.data.join_url}
+                    <br/>
+                    Password: ${d.data.password}
+                    </div>
+                    `
+                )
+
+            })
+        // The API call was successful!
+        console.log('success!');
+        }).catch(function (err) {
+        console.log("gets here?? 2")
+            // There was an error
+            console.warn('Something went wrong.', err);
+        });
+    })
+    // act: R15o7-M4RO6l3yNf2Jp0rw 
+</script>

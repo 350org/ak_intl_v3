@@ -1,0 +1,50 @@
+  <div id="event-create-event-location" class="section bg-white form-style-expanded width-normal padding-medium">
+    <div class="section-inner">
+
+      <fieldset id="event-location">
+      	<h3 class="section-header meta margin-bottom-large">{% filter ak_text:"event_create_section_location" %}Event Location{% endfilter %}</h3>
+{% with "event_" as input_name_prefix %}
+  {% if campaign.show_address1 %}
+        <p class="opacity-50 text-strong">{% filter ak_text:"event_create_address_privacy_note" %}NOTE: Unless you're hosting a private event, event addresses will be listed publicly.{% endfilter %}</p>
+  {% else %}
+        <p class="text-small opacity-50">{% filter ak_text:"event_create_address_hidden_privacy_note" %}NOTE: The exact address will be hidden until people sign up to attend your event.{% endfilter %}</p>
+  {% endif %}
+        <div class="input-text ak-input-type-event input-venue">
+      		<label for="id_event_venue">{% filter ak_text:"event_create_label_venue" %}Venue (i.e. "My Living Room" or "North Side Park"){% endfilter %}</label>
+          <input id="id_event_venue" type="text" if-at-my-house="Home" name="event_venue" />
+      	</div>
+  {% if not campaign.show_address1 %}
+        <p class="text-small opacity-50">{% filter ak_text:"event_create_location_hidden_bigcity_note" %}If your event is in a large city, you might want to include the neighborhood or district in the venue name.{% endfilter %}</p>
+  {% endif %}
+        <div class="input-select ak-input-type-event input-country">
+      		<label for="event_country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
+      		{% include "./country_select.html" %}
+      	</div>
+        <div class="input-text ak-input-type-event input-address">
+      		<label for="id_event_address1">{% filter ak_text:"field_address1"|capfirst %}Street address{% endfilter %}</label>
+      		<input id="id_event_address1" type="text" name="event_address1"/>
+      	</div>
+
+        <div class="input-text ak-input-type-event input-city">
+      		<label for="id_event_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
+      		<input id="id_event_city" type="text" name="event_city" />
+      	</div>
+        <div class="input-text ak-input-type-event input-postal">
+      		<label for="id_event_postal">{% filter ak_text:"field_postal" %}Postal{% endfilter %} {% filter ak_text:"general_optional" %}(Optional){% endfilter %}</label>
+      		<input id="id_event_postal" type="text" name="event_postal" />
+      	</div>
+        <div class="input-text ak-input-type-event input-zip">
+      		<label for="id_event_zip">{% filter ak_text:"field_postal" %}Postal/ZIP{% endfilter %}</label>
+      		<input id="id_event_zip" type="text" name="event_zip" />
+      	</div>
+		{% if page.custom_fields.hide_state_field %}{% else %}
+      <div class="input-select ak-input-type-event input-state">
+      		<label for="id_event_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
+      		{% include "./state_select.html" %}
+      	</div>
+		{% endif %}
+
+{% endwith %}
+      </fieldset>
+    </div>
+  </div>

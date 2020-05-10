@@ -140,6 +140,14 @@
 	<link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
 	<!-- End -->
 
+	<!--JQuery UI CSS-->
+	<link href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css' rel='stylesheet' />
+	<!--End-->
+
+	<!--TimePicker CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+	<!--End-->
+
 	<link rel='stylesheet' id='baseline-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.css?v=2018091408552'
 		type='text/css' media='screen' />
 	{% if templateset.custom_fields.site_addl_css_url %}
@@ -175,7 +183,13 @@
 
 	{% block css_additions %}{% endblock %}
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
 	<script type="text/javascript" src="https://act.350.org/resources/actionkit.js"></script>
+	<!--Timepicker JS here-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 	<!--[if lte IE 9]>
 	<link href="https://dbqvwi2zcv14h.cloudfront.net/images/ak-v3-ie9.css" rel="stylesheet" type="text/css">
 	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>

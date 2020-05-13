@@ -115,7 +115,7 @@
       "title": "Event Creation - 350 April ",
       "canonical_url": "http://example.com/",
       "custom_fields": {
-        "is_webinar": true
+        "iswebinar": "Yes"
       }
       },    
       "form": {
@@ -347,5 +347,16 @@
     },
     "wrapper.html": {
       "filename": "wrapper.html"
+    },
+    "zoom_webinar_list.html": {
+      "filename": "zoom_webinar_list.html"
     }
 }
+
+// Pull in data from all other sources.
+//
+1. Move up
+2. Timezone
+3. Look into getting in data from other sources other than Zoom
+4. Prefill
+5. Labels

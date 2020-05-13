@@ -4,84 +4,123 @@
     <div class="section-inner">
     <h3 class="section-header meta margin-bottom-large">{% filter ak_text:"event_create_section_location" %}Webinar Information{% endfilter %}</h3>
     <button class='zoom-webinar-btn' id="create-webinar">Make it a Zoom Webinar</button>
-    {{event}}
     </div>
-    <div id="zoom-details"></div>
+    <div id="zoom-details">
+            <div class="section-inner">
+        <fieldset id="webinar-details">
+            <div class="input-text ak-input-type-event input-address">
+                <label for="id_webinar_password">{% filter ak_text:"webinar_password"|capfirst %}Webinar Password{% endfilter %}</label>
+                <input id="id_webinar_password" type="password" name="webinar_password"/>
+            </div>
+
+            <div class="input-text ak-input-type-event input-address">
+                <label for="id_webinar_confirm_password">{% filter ak_text:"webinar_confirm_password"|capfirst %}Webinar Confirm Password{% endfilter %}</label>
+                <input id="id_webinar_confirm_password" type="password" name="webinar_confirm_password"/>
+            </div>
+            <div class="input-text ak-input-type-event input-address">
+                <label for="id_webinar_duration">{% filter ak_text:"webinar_duration"|capfirst %}Webinar Duration{% endfilter %}</label>
+                <input id="id_webinar_duration" type="number" min="30" max="120" name="webinar_duration"/>
+            </div>
+            {% comment %} <div class="input-text ak-input-type-event input-address">
+                <label for="id_webinar_timezone">{% filter ak_text:"webinar_timezone"|capfirst %}Webinar Timezone{% endfilter %}</label>
+                <input id="id_webinar_timezone" type="number" min="30" max="120" name="webinar_timezone"/>
+            </div> {% endcomment %}
+            <button class="zoom-webinar-btn" id="submit-webinar-details">Get Webinar Link</button>
+            <div id="webinar-errors"></div>
+        </fieldset>
+        </div>
+    </div>
+    <div class="section-inner">
+        <div id="zoom-success">
+
+        </div>
+    </div>
 </div>
-{%if page.custom_fields.is_webinar%}
-<script>
-    // We only expect two errors
-    // event_address1:missing: "Event address is required.",
-    // event_venue:missing: "Event venue is required."
-    function actionkitValidationErrors(errors, field){
-        const errorKeys = Object.keys(errors);
-        const hasAddress1Missing = errorKeys.includes("event_address1:missing");
-        const hasEventVenueMissing = errorKeys.includes("event_venue:missing");
-        if(errorKeys.length === 2 && hasAddress1Missing && hasEventVenueMissing){
-            // Disable
-            // https://roboticdogs.actionkit.com/docs/manual/developer/customizing_pages.html#templates-required-fields
-            return false
-        }
-        return true;
-    }
-
-    function actionKitBeforeSubmit(ar){
-        console.log(ar)
-    }
-</script>
-
-{% endif %}
 <script>
     // Use get token and store it in local storage instead of this 
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIalhsTENlN1R0LXlScGVSekJQd01RIiwiZXhwIjoxNTg4OTUzOTE5MjUwLCJpYXQiOjE1ODg5NTM4Njl9.QJZkxxvzrGcYEFlY6SkaHuvD8r0sjEHdt2dech6BGxQ"
-    $('#create-webinar').click(event, ()=>{
-        event.preventDefault();
-        const body = {
-            "topic": "Demo During Checkout",
-            "type": 5,
-            "start_time": "2020-09-20T06:59:00Z",
-            "duration": "60",
-            "timezone": "America/Los_Angeles",
-            "password": "pass123",
-            "agenda": "Zaki Testing API Format 2"
+    $(document).ready(function($){
+    const zoomSuccess = $("#zoom-success");
+    // API CALL
+    function makeAPICall(payload){
+        const token = localStorage.getItem("token");
+        if(!token){
+            console.log("No JWT toke found")
+            return
         };
-        // Options Payload
         const options = {
                 method: 'POST',
                 headers: {
                     'User-Agent': 'Zoom-Jwt-Request',
                     'Content-Type': 'application/json',
-                    'Authorization' : `Bearer ${token}`
+                    'Authorization' : token
                 },
-                body: JSON.stringify(body),
-                json: true
+        body: JSON.stringify(payload),
+        json: true
         };
-        fetch(`https://zaki-server.herokuapp.com/api/v1/webinars`, options).then(function (response) {
-            response.json().then(d=>{
-                console.log(d, "data?")
-                const zoomDetails =  $('#zoom-details');
-                zoomDetails.append(
-                    `
-                    <div class="webinar-details section-inner">
-                    <p>Follow <a href=${d.data.join_url}>this</a> link to go to the webinar.</p>
-                    <br/>
+
+        // console.log(options, "Here???")
+        fetch(`https://zaki-server.herokuapp.com/api/v1/webinars`, options)
+        .then(response=>{
+            if(response.ok){
+                webinarErrors.hide();
+                zoomDetails.hide();
+                response.json().then(data=>{ 
+                    console.log(data, "fdsa")
+                    zoomSuccess.append(`<div class="webinar-details section-inner">
+                    <p>Follow <a href=${data.data.join_url}>this</a> link to go to the webinar.</p>
                     Alternatively, copy this information and share:
                     <br/>
-                    Join : ${d.data.join_url}
+                    Join : ${data.data.join_url}
                     <br/>
-                    Password: ${d.data.password}
-                    </div>
-                    `
-                )
-
-            })
-        // The API call was successful!
-        console.log('success!');
-        }).catch(function (err) {
-        console.log("gets here?? 2")
-            // There was an error
-            console.warn('Something went wrong.', err);
-        });
+                    Password: ${data.data.password || ""}
+                    </div>`
+                    )
+                })
+            } else {
+                throw Error("Creation of webinar failed")
+            }
+        })
+        .catch(e=>{
+            console.log("Error"+ e);
+        })
+    }
+    // API CALL
+    const dayjs = window.dayjs;
+    const zoomDetails = $("#zoom-details");
+    const webinarErrors = $("#webinar-errors");
+    webinarErrors.hide();
+    zoomDetails.hide();
+    $('#create-webinar').one("click", (event)=>{
+        $('#create-webinar').hide();
+        zoomDetails.show();
+        event.preventDefault();
     })
-    // act: R15o7-M4RO6l3yNf2Jp0rw 
+
+    let errors = [];
+    $('#submit-webinar-details').on("click", event=>{
+        event.preventDefault();
+        const timezone = $("#id_webinar_password").val();
+        const password = $("#id_webinar_password").val();
+        const duration = $("#id_webinar_duration").val();
+        const agenda = $("#id_event_public_description").val();
+        const confirmPassword = $("#id_webinar_confirm_password").val();
+        const topic = $("#id_event_title").val().trim();
+        const date = $("#id_event_starts_at_date").val();
+        const time = $("#id_event_starts_at_time").val();
+        const dateFormat = dayjs(date).format("YYYY-MM-DD");
+        const start_time = `${dateFormat}T${time}:00`;
+        const payload = {
+            topic,
+            type: 5,
+            start_time,
+            duration: Number(duration),
+            timezone: "America/Los_Angeles",
+            password,
+            agenda
+        };
+        makeAPICall(payload);
+    });
+    // act: R15o7-M4RO6l3yNf2Jp0rw
+
+    })
 </script>

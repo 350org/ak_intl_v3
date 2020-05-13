@@ -1,0 +1,49 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+{% block content %}
+<div class="section bg-white form-style-expanded width-normal padding-medium">
+    <div class="section-inner">
+    <h3 class="section-header meta margin-bottom-large">{% filter ak_text:"event_create_section_location" %}350 Webinars{% endfilter %}</h3>
+    <ul id="zoom-webinar-list"></ul>
+    </div>
+</div>
+<script type="text/javascript">
+      $(document).ready(function() {
+        // Get token and set it in local storage
+        const token = localStorage.getItem("token");
+        const listCtn = $("#zoom-webinar-list")
+        if(!token){
+            console.log("ZAKI access token missing.")
+            return;
+        } 
+        fetch(`https://zaki-server.herokuapp.com/api/v1/webinars`, {
+            headers: {
+                authorization: token
+            }
+        })
+        .then(function (response) {
+          if(response.ok){
+            response.json()
+            .then(data=>{
+                for(let i = 0 ; i < data.data.webinars.length; i++){
+                    const webinar = data.data.webinars[i];
+                  $("#zoom-webinar-list").append(`<li>
+                    <span>${webinar.topic}</span>
+                    <br/>
+                    <span>${webinar.agenda || "No agenda set yet for this webinar"}</span>
+                    <br/>
+                    <span>${webinar.start_time}</span>
+                  </li>`) 
+                }
+            })
+          } else {
+            throw new Error("Failed to get token.")
+          }
+        })
+        .catch(error=>{
+          console.log(error, "ZAKI Server Error")
+        })
+        
+      })
+</script>
+{% endblock %}

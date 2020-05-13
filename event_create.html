@@ -201,6 +201,11 @@
         </div>
 {% endif %}
 
+        <!--<div class="input-text ak-input-type-event id_event_max_attendees">
+      		<label for="id_event_max_attendees">{% filter ak_text:"event_create_field_label_max_attendees" %}Maximum Number of Attendees {% endfilter %}</label>
+      		<input id="id_event_max_attendees" type="text" name="event_max_attendees" value="{{ campaign.default_event_size|default:"" }}" size="8" />
+      	</div>-->
+
         {% include_tmpl form.custom_field_html %}
         <div class="input-textarea ak-input-type-event id_event_public_description margin-bottom-none">
           <label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Event description{% endfilter %}</label>
@@ -225,14 +230,11 @@
       </fieldset>
     </div>
   </div>
-
   <!--Event create fields-->
-  {% if page.custom_fields.is_webinar %}
+  {% if page.custom_fields.iswebinar == 'Yes' %}
    {% include "./zoom_webinar.html" with event=campaign %}
-  {%else %}
-  {{page}}
-   {% include "./event_create_field_set.html" %}
   {% endif%}
+  {% include "./event_create_field_set.html" %}
   <!--Event create fields end-->
   <div id="event-create-host-info" class="section bg-ltgray form-style-expanded width-normal padding-medium">
     <div class="section-inner">
@@ -435,6 +437,24 @@
     <script type="text/javascript">
     $( function() {
         $('#user-info input[name=email]').attr('disabled','disabled')
+    } );
+    </script>
+{% endif %}
+
+{% if page.custom_fields.iswebinar == 'Yes'  %}
+    <script type="text/javascript">
+    $( function() {
+        fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
+          if(response.ok){
+            response.json().then(data=>{
+              localStorage.setItem("token", data.token);
+            })
+          } else {
+            throw new Error("Response not ok.")
+          }
+        }).catch(e=>{
+          console.log(`Auth error: ${e.message}.`)
+        })
     } );
     </script>
 {% endif %}

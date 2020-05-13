@@ -24,7 +24,7 @@
       		<label for="id_event_address1">{% filter ak_text:"field_address1"|capfirst %}Street address{% endfilter %}</label>
       		<input id="id_event_address1" type="text" name="event_address1"/>
       	</div>
-
+		{% if page.custom_fields.iswebinar == "Yes" %}{% else %}
         <div class="input-text ak-input-type-event input-city">
       		<label for="id_event_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
       		<input id="id_event_city" type="text" name="event_city" />
@@ -37,7 +37,9 @@
       		<label for="id_event_zip">{% filter ak_text:"field_postal" %}Postal/ZIP{% endfilter %}</label>
       		<input id="id_event_zip" type="text" name="event_zip" />
       	</div>
-		{% if page.custom_fields.hide_state_field %}{% else %}
+		{% endif %}
+
+		{% if page.custom_fields.hide_state_field or page.custom_fields.iswebinar == "Yes" %}{% else %}
       <div class="input-select ak-input-type-event input-state">
       		<label for="id_event_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
       		{% include "./state_select.html" %}

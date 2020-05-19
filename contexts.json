@@ -352,11 +352,3 @@
       "filename": "zoom_webinar_list.html"
     }
 }
-
-// Pull in data from all other sources.
-//
-1. Move up
-2. Timezone
-3. Look into getting in data from other sources other than Zoom
-4. Prefill
-5. Labels

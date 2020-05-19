@@ -102,6 +102,22 @@
 .zoom-webinar-btn:focus{
   outline: none;
 }
+
+#id_webinar_timezone-menu {
+    height: 200px;
+    width: 100%;
+    overflow: scroll;
+}
+
+.full-length {
+  display: flex;
+  justify-content: space-between;
+}
+
+.half-full {
+  width: 45%;
+}
+
 </style>
 
 <div id="event-create-header" class="page-header section width-normal padding-large text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -200,7 +216,6 @@
           </div>
         </div>
 {% endif %}
-
         <!--<div class="input-text ak-input-type-event id_event_max_attendees">
       		<label for="id_event_max_attendees">{% filter ak_text:"event_create_field_label_max_attendees" %}Maximum Number of Attendees {% endfilter %}</label>
       		<input id="id_event_max_attendees" type="text" name="event_max_attendees" value="{{ campaign.default_event_size|default:"" }}" size="8" />
@@ -218,6 +233,11 @@
 					{% filter ak_text:"event_create_field_label_description_help" %}Your event description will be displayed on the website, so try to write a compelling invitation that will make people want to join. You will be able to edit it later if your plans change. (5 word minimum){% endfilter %}
 				{% endif %}
         </p>
+
+        {% if page.custom_fields.iswebinar == 'Yes' %}
+        {% include "./zoom_webinar_create.html" %}
+        {% endif%}
+
         {% if update %}
   <div class="input-text ak-input-type-event">
     <label for="id_action_external_signups">How many confirmed attendees do you have from other sources, eg. a Facebook event?</label>
@@ -231,9 +251,6 @@
     </div>
   </div>
   <!--Event create fields-->
-  {% if page.custom_fields.iswebinar == 'Yes' %}
-   {% include "./zoom_webinar.html" with event=campaign %}
-  {% endif%}
   {% include "./event_create_field_set.html" %}
   <!--Event create fields end-->
   <div id="event-create-host-info" class="section bg-ltgray form-style-expanded width-normal padding-medium">
@@ -441,23 +458,6 @@
     </script>
 {% endif %}
 
-{% if page.custom_fields.iswebinar == 'Yes'  %}
-    <script type="text/javascript">
-    $( function() {
-        fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
-          if(response.ok){
-            response.json().then(data=>{
-              localStorage.setItem("token", data.token);
-            })
-          } else {
-            throw new Error("Response not ok.")
-          }
-        }).catch(e=>{
-          console.log(`Auth error: ${e.message}.`)
-        })
-    } );
-    </script>
-{% endif %}
 
 <script type="text/javascript">
 var address_fields = [

@@ -1,0 +1,192 @@
+<!--Zoom Webinar Section -->
+<div class="input-textarea ak-input-type-event id_event_public_description margin-bottom-none">
+<label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Webinar Details{% endfilter %}</label>
+    <p class="text-small opacity-50">
+        This webinar link will be prefilled into the venue section and be used to access the event.
+    </p>
+<fieldset id="webinar-details">
+    <div class="full-length">
+    <div class="input-text ak-input-type-event input-address half-full">
+        <label for="id_webinar_duration">{% filter ak_text:"webinar_duration"|capfirst %}Webinar Duration (In Minutes){% endfilter %}</label>
+        <select id="id_webinar_duration" type="number" min="30" max="120" name="webinar_duration">
+        </select>
+    </div>
+    <div class="input-text ak-input-type-event input-address half-full">
+        <label for="id_webinar_timezone">{% filter ak_text:"webinar_timezone"|capfirst %}Webinar Timezone{% endfilter %}</label>
+        <select id="id_webinar_timezone" type="text" min="30" max="120" name="webinar_timezone">
+
+        </select>
+    </div>
+    </div>
+    <button class="zoom-webinar-btn" id="add-webinar-link">Add Webinar Link</button>
+    <div id="webinar-errors"></div>
+</fieldset>
+    <div class="section-inner">
+        <div id="zoom-success">
+
+        </div>
+    </div>
+</div>
+<!--Zoom Webinar Section -->
+
+{% block scripts %}
+    <!-- block.super will get the content of the block from the parent template -->
+    <script>
+        $(function() {
+        // Get token
+        fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
+          if(response.ok){
+            response.json().then(data=>{
+              localStorage.setItem("token", data.token);
+            })
+          } else {
+            throw new Error("Response not ok.")
+          }
+        }).catch(e=>{
+          console.log(`Auth error: ${e.message}.`)
+        });
+        // API CALL
+        const zoomDetails = $("#webinar-details");
+        const webinarErrors = $("#webinar-errors");
+        const zoomSuccess = $("#zoom-success");
+        function makeAPICall(payload){
+            const token = localStorage.getItem("token");
+            if(!token){
+                console.log("No JWT toke found")
+                return
+            };
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'User-Agent': 'Zoom-Jwt-Request',
+                    'Content-Type': 'application/json',
+                    'Authorization' : token
+                },
+                body: JSON.stringify(payload)
+            };
+
+            fetch(`https://zaki-server.herokuapp.com/api/v1/webinars`, options)
+            .then(response=>{
+                if(response.ok){
+                    webinarErrors.hide();
+                    zoomDetails.hide();
+                    response.json().then(data=>{ 
+                        // add the url to the address
+                        console.log(data, "data")
+                        $("#id_event_venue").val(`Link: ${data.data.join_url} , Password: ${data.data.password || ""}`);
+                        zoomSuccess.append(`<div class="webinar-details">
+                        <p>Follow <a href=${data.data.join_url}>this</a> link to go to the webinar.</p>
+                        Alternatively, copy this information and share:
+                        <br/>
+                        Join : ${data.data.join_url}
+                        <br/>
+                        Password: ${data.data.password || ""}
+                        </div>`
+                        )
+                    })
+                } else {
+                    throw Error("Creation of webinar failed")
+                }
+            })
+            .catch(e=>{
+                console.log("Error"+ e);
+            })
+        }
+        // API CALL
+        // simple cache
+        let timezonesList = [];
+
+        function addTimezonesOptions(list){
+          list.forEach(timezone =>{
+            $("#id_webinar_timezone").append(`<option value=${timezone}>${timezone}</option>`);
+          });
+
+          // Dropdown
+          $( "#id_webinar_timezone" ).selectmenu();
+        };
+
+        function generateZoomWebinarPassword(length) {
+            let result  = '';
+            let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let charactersLength = characters.length;
+            for ( let i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        };
+    
+        if(timezonesList.length){
+           addTimezonesOptions(timezonesList);
+        } else {
+          fetch(`https://zaki-server.herokuapp.com/api/v1/timezones`)
+          .then(response=>{
+              if(!response.ok) throw new Error("Response not ok.")
+              // store in cache timezoneslist
+              response.json()
+              .then(data=>{
+                timezonesList = data.data;
+                addTimezonesOptions(timezonesList);
+              });
+          })
+          .catch(error=>{
+              console.log(`Auth error: ${e.message}.`)
+          });
+        };
+      
+
+        const durationList = [
+          {
+            displayText: "30 minutes",
+            value: "30"
+          },
+          {
+            displayText: "1 hour",
+            value: "60"
+          },
+          {
+            displayText: "1hour 30 minutes",
+            value: "90"
+          },
+          {
+            displayText: "2hours",
+            value: "120"
+          }
+        ];
+
+        // Menu for duration
+        durationList.forEach(duration=>{
+           $("#id_webinar_duration").append(
+            `<option value=${duration.value}>${duration.displayText}</option>`
+           )
+        });
+
+        $( "#id_webinar_duration" ).selectmenu();
+
+        // Add Webinar Link
+        $("#add-webinar-link").on("click", event=>{
+            event.preventDefault();
+            const timezone = $("#id_webinar_timezone").val();
+            const duration = $("#id_webinar_duration").val();
+            const agenda = $("#id_event_public_description").val();
+            const topic = $("#id_event_title").val().trim();
+            const date = $("#id_event_starts_at_date").val();
+            const time = $("#id_event_starts_at_time").val();
+            const dateFormat = dayjs(date).format("YYYY-MM-DD");
+            const start_time = `${dateFormat}T${time}:00`;
+            if(!topic || !agenda) return;
+    
+            const payload = {
+                topic,
+                type: 5, // Zoom Docs req.
+                start_time,
+                duration,
+                timezone,
+                password: generateZoomWebinarPassword(4),
+                agenda
+            }; 
+            makeAPICall(payload);
+        });
+    });
+    </script>
+{% endblock %}

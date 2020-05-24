@@ -77,12 +77,7 @@
                         $("#id_event_venue").val(`Link: ${data.data.join_url} , Password: ${data.data.password || ""}`);
                         zoomSuccess.append(`<div class="webinar-details">
                         <p>Follow <a href=${data.data.join_url}>this</a> link to go to the webinar.</p>
-                        Alternatively, copy this information and share:
-                        <br/>
-                        Join : ${data.data.join_url}
-                        <br/>
-                        Password: ${data.data.password || ""}
-                        </div>`
+                        `
                         )
                     })
                 } else {

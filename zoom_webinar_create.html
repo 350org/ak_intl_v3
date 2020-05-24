@@ -73,8 +73,7 @@
                     zoomDetails.hide();
                     response.json().then(data=>{ 
                         // add the url to the address
-                        console.log(data, "data")
-                        $("#id_event_venue").val(`Link: ${data.data.join_url} , Password: ${data.data.password || ""}`);
+                        $("#id_event_address1").val(`Link: ${data.data.join_url} , Password: ${data.data.password || ""}`);
                         zoomSuccess.append(`<div class="webinar-details">
                         <p>Follow <a href=${data.data.join_url}>this</a> link to go to the webinar.</p>
                         `

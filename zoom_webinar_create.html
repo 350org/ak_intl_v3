@@ -19,7 +19,7 @@
     </div>
     </div>
     <button class="zoom-webinar-btn" id="add-webinar-link">Add Webinar Link</button>
-    <div id="webinar-errors"></div>
+    <div id="webinar-errors">Oops! An error occurred when generating the link for your webinar. Please try again later. If this persists contact: web@350.org</div>
 </fieldset>
     <div class="section-inner">
         <div id="zoom-success">
@@ -33,6 +33,8 @@
     <!-- block.super will get the content of the block from the parent template -->
     <script>
         $(function() {
+        // Hide any errors first
+        $("#webinar-errors").hide();
         // Get token
         fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
           if(response.ok){
@@ -52,7 +54,7 @@
         function makeAPICall(payload){
             const token = localStorage.getItem("token");
             if(!token){
-                console.log("No JWT toke found")
+                console.log("No JWT token found")
                 return
             };
 
@@ -76,16 +78,18 @@
                         $("#id_event_address1").val(`Link: ${data.data.join_url} , Password: ${data.data.password || ""}`);
                         $("#id_event_venue").val("Via Zoom Webinar");
                         zoomSuccess.append(`<div class="webinar-details">
-                        <p>Follow <a href=${data.data.join_url}>this</a> link to go to the webinar.</p>
+                        <p>Your webinar has been created! The zoom link is pre-filled below, and will be visible to attendees after they sign up.</p>
                         `
                         )
                     })
                 } else {
                     throw Error("Creation of webinar failed")
+                    $("#webinar-errors").show();
                 }
             })
             .catch(e=>{
                 console.log("Error"+ e);
+
             })
         }
         // API CALL

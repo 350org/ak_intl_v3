@@ -1,49 +1,130 @@
 {% extends "./wrapper.html" %}
 {% load actionkit_tags %}
 {% block content %}
+<style>
+.single-webinar-item-ctn{
+    display: flex;
+    width: 100%;
+    max-height: 200px;
+    padding: 1.5em;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.single-webinar-item-ctn .left {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    padding: 1em;
+    margin: 0 1em 0 0;
+    min-width: 5em;
+}
+
+.single-webinar-item-ctn .left .webinar-date{
+  font-size: xx-large;
+}
+.single-webinar-item-ctn .left .webinar-day{
+  text-transform: uppercase;
+}
+
+.webinar-day, .webinar-date {
+  color: rgba(0,0,0,0.5);
+}
+
+</style>
 <div class="section bg-white form-style-expanded width-normal padding-medium">
     <div class="section-inner">
     <h3 class="section-header meta margin-bottom-large">{% filter ak_text:"event_create_section_location" %}350 Webinars{% endfilter %}</h3>
-    <ul id="zoom-webinar-list"></ul>
+    {% comment %} <ul id="zoom-webinar-list"></ul> {% endcomment %}
+    <input type="search" id="search-webinars" name="s" class="search-form-field c7" value="" placeholder="Search webinars by topic...">
+    <ul id="ak-campaign-list">
+    <div id="loading-text">Loading webinars...</div>
+    </ul>
     </div>
 </div>
 <script type="text/javascript">
       $(document).ready(function() {
+        // Cache the campaign events here.
+        let campaignEvents = [];
+        let campaignDetails = {};
         // Get token and set it in local storage
         const token = localStorage.getItem("token");
+        $("#search-webinars").hide();
         const listCtn = $("#zoom-webinar-list")
         if(!token){
             console.log("ZAKI access token missing.")
             return;
-        } 
-        fetch(`https://zaki-server.herokuapp.com/api/v1/webinars`, {
-            headers: {
-                authorization: token
-            }
-        })
-        .then(function (response) {
-          if(response.ok){
-            response.json()
-            .then(data=>{
-                for(let i = 0 ; i < data.data.webinars.length; i++){
-                    const webinar = data.data.webinars[i];
-                  $("#zoom-webinar-list").append(`<li>
-                    <span>${webinar.topic}</span>
-                    <br/>
-                    <span>${webinar.agenda || "No agenda set yet for this webinar"}</span>
-                    <br/>
-                    <span>${webinar.start_time}</span>
-                  </li>`) 
-                }
+        }
+        const username = "kimani"
+        const password = "royal94kimani";
+        const headers = new Headers();
+        // headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
+        fetch("https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns", {
+          headers: {
+            username,
+            password,
+            authorization: token
+          }
+        }, ()=>{
+
+        }).then(data=>{
+          if(data.ok){
+            data.json().then(response=>{
+              campaignEvents = response.data.campaignEvents;
+              campaignDetails = response.data.campaignDetails;
+              $("#search-webinars").show();
+              showCampaignEvents(campaignEvents, campaignDetails);
             })
-          } else {
-            throw new Error("Failed to get token.")
           }
         })
-        .catch(error=>{
-          console.log(error, "ZAKI Server Error")
-        })
+        .catch(e=>{
+          console.log(e, "Error")
+        });
+        // Grab the campaign events.
+        // Function
+        const showCampaignEvents = (campaignEvents, campaignDetails) => {
+          // Sort the list in descending order here.
+          campaignEvents.objects.sort((a, b)=>( moment(a.starts_at).valueOf() < moment(b.starts_at).valueOf())? 1 : -1);
+          for(let i = 0 ; i < campaignEvents.objects.length ; i ++){
+            const webinarAk = campaignEvents.objects[i];
+              $("#loading-text").hide();
+              $("#ak-campaign-list").append(`<li class="single-webinar-item-ctn">
+                <div class='left'>
+                <span class='webinar-day'>${window.moment(webinarAk.starts_at).format("ddd")}</span>
+                <span class='webinar-date'>${window.moment(webinarAk.starts_at).format("D")}</span>
+                </div>
+                <div class='right'>
+                <h4>${webinarAk.title}</h4>
+                <p>${window.moment(webinarAk.starts_at).format("ddd D MMM YYYY - HH:mm a ZZ")}</p>
+                <p>${webinarAk.public_description || "No agenda set yet for this webinar."}</p>
+                <p>
+                <a class="join-btn button button-primary" target="__blank" href="https://act.350.org/event/${campaignDetails.name}_attend/${webinarAk.id}"> Join Webinar </a>
+                </p>
+                </div>
+              </li>`) 
+          }
+        };
+
+        console.log(campaignEvents, "campaign events???")
+
+        // 
         
+        // Grab the search input section
+        if(campaignEvents.objects.length){
+        $("#search-webinars").on('input', (event)=>{
+          console.log(event.target.value, "here")
+          const searchTerm = event.target.value;
+          let filtertedList = []
+          if(searchTerm){
+            console.log(campaignEvents.objects, "filter here??")
+            campaignEvents = campaignEvents.objects.filter(event=>{
+              event.title.indexOf(searchTerm.toLowerCase()) > -1
+            });
+          }
+        }) 
+        }
       })
 </script>
 {% endblock %}

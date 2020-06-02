@@ -103,6 +103,13 @@
   outline: none;
 }
 
+#webinar-errors {
+  background: rgba(255, 0, 0, 0.4);
+    border: 2px solid red;
+    margin-top: 1em;
+    padding: 0.5em;
+}
+
 #id_webinar_timezone-menu {
     height: 200px;
     width: 100%;
@@ -159,7 +166,7 @@
         <script>
           // Replace animation w/instant show, because anim breaks
           // tabbing quickly past the date field.
-          jQuery.fn.showFast = function(speed, callback) {
+          jQuery.fn.sfuphowFast = function(speed, callback) {
             this.show()
             callback()
           }
@@ -234,7 +241,7 @@
 				{% endif %}
         </p>
 
-        {% if page.custom_fields.iswebinar == 'Yes' %}
+        {% if page.custom_fields.iswebinar == 'Yes' and not update %}
         {% include "./zoom_webinar_create.html" %}
         {% endif%}
 

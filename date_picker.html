@@ -12,7 +12,7 @@
     {% else %}
 	<div class="input-text input-date input-date-{{ date_field.name }}">
     <label for="id_{{ date_field.name }}_date">{% filter ak_text:"field_event_starts_at_date"|capfirst %}Date{% endfilter %}</label>
-    <input type="text" size=10 name="{{ date_field.name }}_date" class="date text" id="id_{{ date_field.name }}_date" value="{{ date_field.default_date }}" format="date" placeholder="MM/DD/YYYY"/>
+    <input type="text" size=10 name="{{ date_field.name }}_date" class="date text datepicker" id="id_{{ date_field.name }}_date" value="{{ date_field.default_date }}" format="date" placeholder="MM/DD/YYYY"/>
 	</div>
     {% endif %}
   {% else %}
@@ -43,3 +43,10 @@
   <input type="hidden" name="{{ date_field.name }}_time" id="id_{{ date_field.name }}_time" value="{{ date_field.default_time }}" />
 {% endif %}
 </div>
+{% if date_field.name %}
+<script>
+  $( function() {
+    $( "#id_event_starts_at_date" ).datepicker();
+  } );
+</script>
+{% endif %}

@@ -19,7 +19,7 @@
     </div>
     </div>
     <button class="zoom-webinar-btn" id="add-webinar-link">Add Webinar Link</button>
-    <div id="webinar-errors">Oops! An error occurred when generating the link for your webinar. Please try again later. If this persists contact: web@350.org</div>
+    <ul id="webinar-errors"></ul>
 </fieldset>
     <div class="section-inner">
         <div id="zoom-success">
@@ -84,12 +84,11 @@
                     })
                 } else {
                     throw Error("Creation of webinar failed")
-                    $("#webinar-errors").show();
                 }
             })
             .catch(e=>{
-                console.log("Error"+ e);
-
+                $("#webinar-errors").show()
+                $("#webinar-errors").append('<li>Oops! An error occurred when generating the link for your webinar. Please try again later. If this persists contact: web@350.org</li>');
             })
         }
         // API CALL
@@ -97,8 +96,11 @@
         let timezonesList = [];
 
         function addTimezonesOptions(list){
+          list.sort((a,b)=>{
+            return a.name > b.name? 1: -1
+          });
           list.forEach(timezone =>{
-            $("#id_webinar_timezone").append(`<option value=${timezone}>${timezone}</option>`);
+            $("#id_webinar_timezone").append(`<option value=${timezone.id}>${timezone.name}</option>`);
           });
 
           // Dropdown
@@ -125,6 +127,7 @@
               response.json()
               .then(data=>{
                 timezonesList = data.data;
+                console.log(timezonesList, "timezones")
                 addTimezonesOptions(timezonesList);
               });
           })
@@ -153,6 +156,26 @@
           }
         ];
 
+
+        const errorKeys = [
+          {
+            key: 1,
+            value: "Event name is required.",
+          },
+          {
+            key: 2,
+            value: "Event date is required.",
+          },
+          {
+            key: 3,
+            value: "Event start time is required.",
+          },
+          {
+            key: 4,
+            value: "Event date is required.",
+          },
+        ]
+
         // Menu for duration
         durationList.forEach(duration=>{
            $("#id_webinar_duration").append(
@@ -162,8 +185,49 @@
 
         $( "#id_webinar_duration" ).selectmenu();
 
+        let errors = [];
+        const resetErrors = () => {
+          return errors = [];
+        }
+
+        const showWebinarErrors = () => {
+           errors = Array.from(errors);
+           if(errors.length){
+             $("#webinar-errors").show()
+             errors.forEach(error=>{
+               $("#webinar-errors").append(`<li>${errorKeys[error].value}</li>`);
+             });
+           } else {
+             errors = []
+             $("#webinar-errors").hide()
+           }
+        }
+        const validateZoomPayload = (topic, agenda, time, date) => {
+            console.log(errors, "before valdate")
+            errors = new Set(errors)
+            if(topic.length === 0 ){
+              errors.add(errorKeys[0].key)
+            }
+
+            if(agenda.length === 0){
+              errors.add(errorKeys[1].key)
+            };
+
+            if(!time){
+              errors.add(errorKeys[2].key)
+            }
+            if(!date) {
+              errors.add(errorKeys[3].key)
+            }
+
+            return errors;
+        }
+
+   
         // Add Webinar Link
         $("#add-webinar-link").on("click", event=>{
+            console.log("clicked")
+            resetErrors();
             event.preventDefault();
             const timezone = $("#id_webinar_timezone").val();
             const duration = $("#id_webinar_duration").val();
@@ -171,20 +235,31 @@
             const topic = $("#id_event_title").val().trim();
             const date = $("#id_event_starts_at_date").val();
             const time = $("#id_event_starts_at_time").val();
-            const dateFormat = dayjs(date).format("YYYY-MM-DD");
-            const start_time = `${dateFormat}T${time}:00`;
-            if(!topic || !agenda) return;
+            const amPm = $("#id_event_starts_at_ampm").val();
+            const dateFormat = moment(date, "MM-D-YYYY").format("YYYY-MM-DD");
+            const start_time = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('HH:mm:ss');
+            const start_date = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('YYYY-MM-DD');
+            const zoomStartTime = `${start_date}T${start_time}`;
+            // let errors = []
+            errors = validateZoomPayload(topic, agenda, time, date);
+            console.log(errors, "Er")
+            if(errors.size){
+               showWebinarErrors();
+            } else {
+              errors = new Set([])
+              showWebinarErrors()
+              const payload = {
+                  topic,
+                  type: 5, // Zoom Docs req.
+                  start_time: zoomStartTime,
+                  duration,
+                  timezone,
+                  password: generateZoomWebinarPassword(4),
+                  agenda
+              }; 
+              console.log(payload, "paylaod")
+            }
     
-            const payload = {
-                topic,
-                type: 5, // Zoom Docs req.
-                start_time,
-                duration,
-                timezone,
-                password: generateZoomWebinarPassword(4),
-                agenda
-            }; 
-            makeAPICall(payload);
         });
     });
     </script>

@@ -128,6 +128,7 @@ a.area-link.event-link:hover {
 <div id='map-embed-350org' data-src-zoom=6 class="section bg-white notch width-full padding-none" style='height: 70vh' data-src-latlong="{% if page.custom_fields.event_search_map_center %}{{ page.custom_fields.event_search_map_center }}{% else %}1.2921, 36.8219{% endif %}">
 <script src="https://350map.org/main.js"></script>
 </div>
+{% include "./zoom_webinar_list.html" %}
 {% include "./social_plugins.html" %}
 {% endblock %}
 

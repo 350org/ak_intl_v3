@@ -164,7 +164,7 @@
           },
           {
             key: 2,
-            value: "Event date is required.",
+            value: "Event description is required.",
           },
           {
             key: 3,
@@ -242,12 +242,11 @@
             const zoomStartTime = `${start_date}T${start_time}`;
             // let errors = []
             errors = validateZoomPayload(topic, agenda, time, date);
-            console.log(errors, "Er")
             if(errors.size){
                showWebinarErrors();
             } else {
               errors = new Set([])
-              showWebinarErrors()
+              showWebinarErrors
               const payload = {
                   topic,
                   type: 5, // Zoom Docs req.
@@ -257,7 +256,7 @@
                   password: generateZoomWebinarPassword(4),
                   agenda
               }; 
-              console.log(payload, "paylaod")
+              makeAPICall(payload);
             }
     
         });

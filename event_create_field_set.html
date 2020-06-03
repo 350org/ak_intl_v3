@@ -11,7 +11,7 @@
   {% endif %}
         <div class="input-text ak-input-type-event input-venue">
       		<label for="id_event_venue">{% filter ak_text:"event_create_label_venue" %}Venue (i.e. "My Living Room" or "North Side Park"){% endfilter %}</label>
-          <input id="id_event_venue" type="text" if-at-my-house="Home" name="event_venue" />
+          <input autocomplete='off' id="id_event_venue" type="text" if-at-my-house="Home" name="event_venue" />
       	</div>
   {% if not campaign.show_address1 %}
         <p class="text-small opacity-50">{% filter ak_text:"event_create_location_hidden_bigcity_note" %}If your event is in a large city, you might want to include the neighborhood or district in the venue name.{% endfilter %}</p>
@@ -22,20 +22,20 @@
       	</div>
         <div class="input-text ak-input-type-event input-address">
       		<label for="id_event_address1">{% filter ak_text:"field_address1"|capfirst %}Street address{% endfilter %}</label>
-      		<input id="id_event_address1" type="text" name="event_address1"/>
+      		<input autocomplete='off' id="id_event_address1" type="text" name="event_address1"/>
       	</div>
 	
         <div class="input-text ak-input-type-event input-city">
       		<label for="id_event_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
-      		<input id="id_event_city" type="text" name="event_city" />
+      		<input autocomplete='off' id="id_event_city" type="text" name="event_city" />
       	</div>
         <div class="input-text ak-input-type-event input-postal">
       		<label for="id_event_postal">{% filter ak_text:"field_postal" %}Postal{% endfilter %} {% filter ak_text:"general_optional" %}(Optional){% endfilter %}</label>
-      		<input id="id_event_postal" type="text" name="event_postal" />
+      		<input autocomplete='off' id="id_event_postal" type="text" name="event_postal" />
       	</div>
         <div class="input-text ak-input-type-event input-zip">
       		<label for="id_event_zip">{% filter ak_text:"field_postal" %}Postal/ZIP{% endfilter %}</label>
-      		<input id="id_event_zip" type="text" name="event_zip" />
+      		<input autocomplete='off' id="id_event_zip" type="text" name="event_zip" />
       	</div>
 
 

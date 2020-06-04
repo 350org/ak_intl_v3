@@ -21,7 +21,10 @@
       		{% include "./country_select.html" %}
       	</div>
         <div class="input-text ak-input-type-event input-address">
-      		<label for="id_event_address1">{% filter ak_text:"field_address1"|capfirst %}Street address{% endfilter %}</label>
+      		{% if page.custom_fields.events_custom_address_field %}{{page.custom_fields.events_custom_address_field}}
+{% else %}
+{% filter ak_text:"field_address1"|capfirst %}Street address{% endfilter %}
+{% endif %}	
       		<input autocomplete='off' id="id_event_address1" type="text" name="event_address1"/>
       	</div>
 	

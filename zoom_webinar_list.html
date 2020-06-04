@@ -42,16 +42,20 @@
     <ul id="ak-campaign-list">
     <div id="loading-text">Loading webinars...</div>
     </ul>
+    <br/>
     </div>
+    <div id="no-webinars" class="section-inner">No webinars found!😞</div>
 </div>
 <script type="text/javascript">
       $(document).ready(function() {
         // Cache the campaign events here.
         let campaignEvents = [];
         let campaignDetails = {};
+        let filteredCampaignEvents = [];
         // Get token and set it in local storage
         const token = localStorage.getItem("token");
         $("#search-webinars").hide();
+        $("#no-webinars").hide();
         const listCtn = $("#zoom-webinar-list")
         if(!token){
             console.log("ZAKI access token missing.")
@@ -87,6 +91,11 @@
         const showCampaignEvents = (campaignEvents, campaignDetails) => {
           // Sort the list in descending order here.
           campaignEvents.objects.sort((a, b)=>( moment(a.starts_at).valueOf() < moment(b.starts_at).valueOf())? 1 : -1);
+          if(campaignEvents.objects.length === 0){
+              $("#no-webinars").show();
+              return;
+          }
+          $("#no-webinars").hide();
           for(let i = 0 ; i < campaignEvents.objects.length ; i ++){
             const webinarAk = campaignEvents.objects[i];
               $("#loading-text").hide();
@@ -107,24 +116,25 @@
           }
         };
 
-        console.log(campaignEvents, "campaign events???")
 
-        // 
-        
-        // Grab the search input section
-        if(campaignEvents.objects.length){
+        // search section
         $("#search-webinars").on('input', (event)=>{
-          console.log(event.target.value, "here")
           const searchTerm = event.target.value;
-          let filtertedList = []
-          if(searchTerm){
-            console.log(campaignEvents.objects, "filter here??")
-            campaignEvents = campaignEvents.objects.filter(event=>{
-              event.title.indexOf(searchTerm.toLowerCase()) > -1
+          if(searchTerm.length > 0){
+          const filteredObjects = campaignEvents.objects.filter(event=>{
+              return event.title.toLowerCase().replace(/ /g,"").trim().indexOf(searchTerm.toLowerCase().replace(/ /g,"").trim()) > -1
             });
+          filteredCampaignEvents = {
+            objects: filteredObjects
           }
-        }) 
-        }
+          $("#ak-campaign-list").empty()
+          showCampaignEvents(filteredCampaignEvents, campaignDetails)
+          } else {
+          $("#ak-campaign-list").empty()
+          showCampaignEvents(campaignEvents, campaignDetails)
+
+          }
+        })
       })
 </script>
 {% endblock %}

@@ -13,9 +13,7 @@
     </div>
     <div class="input-text ak-input-type-event input-address half-full">
         <label for="id_webinar_timezone">{% filter ak_text:"webinar_timezone"|capfirst %}Webinar Timezone{% endfilter %}</label>
-        <select id="id_webinar_timezone" type="text" min="30" max="120" name="webinar_timezone">
-
-        </select>
+        <input id="id_webinar_timezone" placeholder="Select timezone here..." type="text" min="30" max="120" name="webinar_timezone"/>
     </div>
     </div>
     <button class="zoom-webinar-btn" id="add-webinar-link">Add Webinar Link</button>
@@ -75,10 +73,14 @@
                     zoomDetails.hide();
                     response.json().then(data=>{ 
                         // add the url to the address
+                        resetErrors();
                         $("#id_event_address1").val(`Link: ${data.data.join_url} , Password: ${data.data.password || ""}`);
                         $("#id_event_venue").val("Via Zoom Webinar");
                         zoomSuccess.append(`<div class="webinar-details">
                         <p>Your webinar has been created! The zoom link is pre-filled below, and will be visible to attendees after they sign up.</p>
+                        <br>
+                        (If it is not prefilled, please copy this <a href=${data.data.join_url}>link address</a> and paste it in the link section.)
+                        </div>
                         `
                         )
                     })
@@ -96,15 +98,11 @@
         let timezonesList = [];
 
         function addTimezonesOptions(list){
-          list.sort((a,b)=>{
-            return a.name > b.name? 1: -1
+          const availableTags = list.map(t=> t.name);
+          $("#id_webinar_timezone").autocomplete({
+            source: availableTags.sort((a, b)=> a>b? 1: -1),
+            minLength: 2
           });
-          list.forEach(timezone =>{
-            $("#id_webinar_timezone").append(`<option value=${timezone.id}>${timezone.name}</option>`);
-          });
-
-          // Dropdown
-          $( "#id_webinar_timezone" ).selectmenu();
         };
 
         function generateZoomWebinarPassword(length) {
@@ -174,6 +172,14 @@
             key: 4,
             value: "Event date is required.",
           },
+          {
+            key: 5,
+            value: "Webinar timezone is required.",
+          },
+          {
+            key: 6,
+            value: "Please enter a valid timezone.",
+          },
         ]
 
         // Menu for duration
@@ -190,34 +196,38 @@
           return errors = [];
         }
 
-        const showWebinarErrors = () => {
-           errors = Array.from(errors);
-           if(errors.length){
-             $("#webinar-errors").show()
-             errors.forEach(error=>{
-               $("#webinar-errors").append(`<li>${errorKeys[error].value}</li>`);
-             });
-           } else {
-             errors = []
-             $("#webinar-errors").hide()
-           }
-        }
-        const validateZoomPayload = (topic, agenda, time, date) => {
-            console.log(errors, "before valdate")
-            errors = new Set(errors)
+        const showWebinarErrors = (errored) => {
+          $("#webinar-errors").show()
+          errored.forEach(error=>{
+            $("#webinar-errors").html(`<li>${errorKeys[error - 1].value}</li>`);
+          });
+        };
+
+        const validateZoomPayload = (topic, agenda, time, date, timezone) => {
             if(topic.length === 0 ){
-              errors.add(errorKeys[0].key)
+              errors = [...errors, errorKeys[0].key]
             }
 
             if(agenda.length === 0){
-              errors.add(errorKeys[1].key)
+              errors = [...errors, errorKeys[1].key]
             };
 
             if(!time){
-              errors.add(errorKeys[2].key)
+             errors = [...errors, errorKeys[2].key]
             }
             if(!date) {
-              errors.add(errorKeys[3].key)
+              errors = [...errors, errorKeys[3].key]
+            }
+
+            if(!timezone || timezone && timezone.length === 0){
+              errors = [...errors, errorKeys[4].key]
+            }
+            
+            if(timezone && timezone.length){
+              const [isTimezoneValueInList] = timezonesList.filter(t=> t.name === timezone);
+              if(!isTimezoneValueInList){
+                errors = [...errors, errorKeys[5].key]
+              }
             }
 
             return errors;
@@ -226,8 +236,6 @@
    
         // Add Webinar Link
         $("#add-webinar-link").on("click", event=>{
-            console.log("clicked")
-            resetErrors();
             event.preventDefault();
             const timezone = $("#id_webinar_timezone").val();
             const duration = $("#id_webinar_duration").val();
@@ -240,25 +248,27 @@
             const start_time = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('HH:mm:ss');
             const start_date = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('YYYY-MM-DD');
             const zoomStartTime = `${start_date}T${start_time}`;
-            // let errors = []
-            errors = validateZoomPayload(topic, agenda, time, date);
-            if(errors.size){
-               showWebinarErrors();
+            // Check errors
+            let hasErrors = errors.length > 0;
+            if(hasErrors){
+              resetErrors()
+            }
+            errors = validateZoomPayload(topic, agenda, time, date, timezone);
+            if(errors.length){
+              showWebinarErrors(errors);
             } else {
-              errors = new Set([])
-              showWebinarErrors
+              $("#webinar-errors").hide()
               const payload = {
                   topic,
                   type: 5, // Zoom Docs req.
                   start_time: zoomStartTime,
                   duration,
-                  timezone,
+                  timezone: timezonesList.filter(t=>t.name === timezone)[0].id,
                   password: generateZoomWebinarPassword(4),
                   agenda
               }; 
               makeAPICall(payload);
-            }
-    
+            }  
         });
     });
     </script>

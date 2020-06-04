@@ -110,9 +110,9 @@
     padding: 0.5em;
 }
 
-#id_webinar_timezone-menu {
-    height: 200px;
-    width: 100%;
+#id_webinar_timezone-menu, .ui-menu {
+    max-height: 200px;
+    height:auto;
     overflow: scroll;
 }
 
@@ -123,6 +123,10 @@
 
 .half-full {
   width: 45%;
+}
+
+#id_webinar_timezone{
+  padding: 0.4em 0.5em
 }
 
 </style>
@@ -507,6 +511,7 @@ $( function () {
         }
     }
 });
+
 </script>
 
 {% endblock %}

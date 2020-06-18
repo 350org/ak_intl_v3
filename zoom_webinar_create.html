@@ -33,18 +33,6 @@
         $(function() {
         // Hide any errors first
         $("#webinar-errors").hide();
-        // Get token
-        fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
-          if(response.ok){
-            response.json().then(data=>{
-              localStorage.setItem("token", data.token);
-            })
-          } else {
-            throw new Error("Response not ok.")
-          }
-        }).catch(e=>{
-          console.log(`Auth error: ${e.message}.`)
-        });
         // API CALL
         const zoomDetails = $("#webinar-details");
         const webinarErrors = $("#webinar-errors");
@@ -261,7 +249,7 @@
               const payload = {
                   topic,
                   type: 5, // Zoom Docs req.
-                  start_time: zoomStartTime,
+                  stcoart_time: zoomStartTime,
                   duration,
                   timezone: timezonesList.filter(t=>t.name === timezone)[0].id,
                   password: generateZoomWebinarPassword(4),

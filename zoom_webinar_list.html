@@ -105,7 +105,7 @@
 
 .date-filters {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     border-bottom: 1px solid rgba(0,0,0,0.1);
     font-weight: bold;
     font-size: small;
@@ -114,6 +114,10 @@
 .date-filters span {
   padding: 1em;
   transition: 0.1s all ease-in-out;
+}
+
+.active {
+  background: rgb(15,129,233, 0.1);
 }
 
 .date-filters span:hover {
@@ -235,16 +239,16 @@
     <h4>350 Webinars</h4>
     <div class='search-ctn'>
     <input type="search" id="search-webinars" name="s" class="search-form-field c7" value="" placeholder="Search webinars by topic...">
-    <button class='button button-primary'>SEARCH</button>
+    <button id="search-webinars-btn" class='button button-primary'>SEARCH</button>
     </div>
 
     </div>
     <div class="section-inner">
     <div class="date-filters">
-      <span>Filter ALL</span>
-      <span>TODAY</span>
-      <span>THIS WEEK</span>
-      <span>THIS MONTH</span>
+      <span id="all" class="webinar-date-filter active">Filter ALL</span>
+      <span id="today" class="webinar-date-filter">TODAY</span>
+      <span id="week" class="webinar-date-filter">THIS WEEK</span>
+      <span id="month" class="webinar-date-filter">THIS MONTH</span>
     </div>
     <ul id="ak-campaign-list">
     <div id="loading-text">
@@ -287,9 +291,8 @@
             return;
         }
         const username = "kimani"
-        const password = "royal94kimani";
+        const password = "royal94kimani"; // PLEASE REMOVE THIS K
         const headers = new Headers();
-        // headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
         fetch("https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns", {
           headers: {
             username,
@@ -342,10 +345,7 @@
           }
         };
 
-
-        // search section
-        $("#search-webinars").on('input', (event)=>{
-          const searchTerm = event.target.value;
+        const filterBySearchTerm = searchTerm => {
           if(searchTerm.length > 0){
           const filteredObjects = campaignEvents.objects.filter(event=>{
               return event.title.toLowerCase().replace(/ /g,"").trim().indexOf(searchTerm.toLowerCase().replace(/ /g,"").trim()) > -1
@@ -359,7 +359,66 @@
           $("#ak-campaign-list").empty()
           showCampaignEvents(campaignEvents, campaignDetails)
           }
-        })
+        };
+
+        // search section
+        $("#search-webinars").on('input', (event)=>{
+          const searchTerm = event.target.value;
+          filterBySearchTerm(searchTerm);
+        });
+
+        // search section
+        // Adding this for the sake.
+        $("#search-webinars-btn").on('click', ()=>{
+          const searchTerm = $("#search-webinars").val();
+          filterBySearchTerm(searchTerm);
+        });
+
+        const removeActiveOnDateFilters = () => {
+          $( ".webinar-date-filter" ).each(function() {
+              $( this ).removeClass( "active" );
+          });
+        };
+
+        const isBetween = (date, start, end) => {
+            return date.isBetween(start, end)
+        };
+
+        const filterByDate = period => {
+          removeActiveOnDateFilters();
+          $(`#${period}`).addClass( "active" );
+          if(campaignEvents && campaignEvents.objects && campaignEvents.objects.length){
+            const filteredObjects = campaignEvents.objects.filter(event=>{
+              return isBetween(moment(event.starts_at_utc), moment().utc().startOf(period), moment().utc().endOf(period))
+            });
+          filteredCampaignEvents = {
+            objects: filteredObjects
+          }
+          $("#ak-campaign-list").empty()
+          showCampaignEvents(filteredCampaignEvents, campaignDetails)
+          }
+        };
+
+        
+
+        $("#all").on("click", event=>{
+          removeActiveOnDateFilters();
+          $("#all").addClass( "active" );
+          $("#ak-campaign-list").empty()
+          showCampaignEvents(campaignEvents, campaignDetails)
+        });
+
+        $("#today").on("click", event=>{
+          filterByDate("today");
+        });
+
+        $("#week").on("click", event=>{
+          filterByDate("week");
+        });
+
+        $("#month").on("click", event=>{
+          filterByDate("month");
+        });
       })
 </script>
 {% endblock %}

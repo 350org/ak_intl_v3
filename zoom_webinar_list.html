@@ -17,8 +17,8 @@
 }
 
 .single-webinar-item-ctn .middle {
-  min-width: 70%;
-  max-width: 70%;
+  min-width: 80%;
+  max-width: 80%;
 }
 
 
@@ -102,6 +102,30 @@
     height: 100%;
     width: 100%;
 }
+
+.date-filters {
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    font-weight: bold;
+    font-size: small;
+    margin-bottom: 2em;
+}
+.date-filters span {
+  padding: 1em;
+  transition: 0.1s all ease-in-out;
+}
+
+.date-filters span:hover {
+  background: rgb(15,129,233, 0.1);
+  cursor: pointer;
+}
+
+#no-webinars {
+  text-align: center;
+}
+
+#simple embed process
 
         .lds-default {
             display: inline-block;
@@ -216,6 +240,12 @@
 
     </div>
     <div class="section-inner">
+    <div class="date-filters">
+      <span>Filter ALL</span>
+      <span>TODAY</span>
+      <span>THIS WEEK</span>
+      <span>THIS MONTH</span>
+    </div>
     <ul id="ak-campaign-list">
     <div id="loading-text">
               <div class="lds-default">
@@ -231,12 +261,15 @@
                 <div></div>
                 <div></div>
                 <div></div>
-            </div>
+    </div>
     </div>
     </ul>
     <br/>
     </div>
-    <div id="no-webinars" class="section-inner">No webinars found!😞</div>
+    <div id="no-webinars" class="section-inner">
+    <h5>No webinars found</h5>
+    <p>We can't find any webinars based on your filter.</p>
+    </div>
 </div>
 <script type="text/javascript">
       $(document).ready(function() {
@@ -282,7 +315,7 @@
         // Function
         const showCampaignEvents = (campaignEvents, campaignDetails) => {
           // Sort the list in descending order here.
-          campaignEvents.objects.sort((a, b)=>( moment(a.starts_at).valueOf() < moment(b.starts_at).valueOf())? 1 : -1);
+          campaignEvents.objects.sort((a, b)=>( moment(a.starts_at).valueOf() > moment(b.starts_at).valueOf())? 1 : -1);
           if(campaignEvents.objects.length === 0){
               $("#no-webinars").show();
               return;
@@ -325,7 +358,6 @@
           } else {
           $("#ak-campaign-list").empty()
           showCampaignEvents(campaignEvents, campaignDetails)
-
           }
         })
       })

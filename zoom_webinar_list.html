@@ -342,7 +342,9 @@
 
         const filterBySearchTerm = searchTerm => {
           if(searchTerm.length > 0){
-          const filteredObjects = campaignEvents.objects.filter(event=>{
+          const isFiltered = $('#today').hasClass('active') || $('#week').hasClass('active') || $('#month').hasClass('active');
+          const campaignList = isFiltered ? filteredCampaignEvents : campaignEvents;
+          const filteredObjects = campaignList.objects.filter(event=>{
               return event.title.toLowerCase().replace(/ /g,"").trim().indexOf(searchTerm.toLowerCase().replace(/ /g,"").trim()) > -1
             });
           filteredCampaignEvents = {
@@ -351,8 +353,10 @@
           $("#ak-campaign-list").empty()
           showCampaignEvents(filteredCampaignEvents, campaignDetails)
           } else {
+          const isFiltered = $('#today').hasClass('active') || $('#week').hasClass('active') || $('#month').hasClass('active');
+          const campaignList = isFiltered ? filteredCampaignEvents : campaignEvents;
           $("#ak-campaign-list").empty()
-          showCampaignEvents(campaignEvents, campaignDetails)
+          showCampaignEvents(campaignList, campaignDetails)
           }
         };
 

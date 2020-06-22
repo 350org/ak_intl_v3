@@ -1,3 +1,4 @@
+{% load actionkit_tags %}
 <!--Zoom Webinar Section -->
 <div class="input-textarea ak-input-type-event id_event_public_description margin-bottom-none">
 <label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Webinar Details{% endfilter %}</label>
@@ -16,7 +17,9 @@
         <input id="id_webinar_timezone" placeholder="Select timezone here..." type="text" min="30" max="120" name="webinar_timezone"/>
     </div>
     </div>
+    {% if not update %}
     <button class="zoom-webinar-btn" id="add-webinar-link">Add Webinar Link</button>
+    {% endif %}
     <ul id="webinar-errors"></ul>
 </fieldset>
     <div class="section-inner">

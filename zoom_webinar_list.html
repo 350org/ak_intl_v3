@@ -290,13 +290,8 @@
             console.log("ZAKI access token missing.")
             return;
         }
-        const username = "kimani"
-        const password = "royal94kimani"; // PLEASE REMOVE THIS K
-        const headers = new Headers();
         fetch("https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns", {
           headers: {
-            username,
-            password,
             authorization: token
           }
         }, ()=>{

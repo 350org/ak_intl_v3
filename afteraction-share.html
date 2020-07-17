@@ -2,7 +2,6 @@
 Custom template for same-page post-AJAX submit share ask.
 {% endcomment %}
 
-{{page}}
 {% load actionkit_tags %}
 
 {% if page.custom_fields.after_action_next_step != "page-redirect" %}
@@ -175,23 +174,23 @@ jQuery(document).ready(function($){
 		let initDonateAmounts = [];
 		let userCountry;
 		let exchangeRateData = {};
-		let exchangeApiUrl = 'https://api.exchangeratesapi.io/latest?base=USD';
+		const exchangeApiUrl = 'https://api.exchangeratesapi.io/latest?base=USD';
 		$.get(exchangeApiUrl, function (data, status) {
 			exchangeRateData = data.rates;
 		});
-		// set up variables
-		var afteractionProgressMeter = $("#afteraction-progress-meter");
 
-		var afteraction = $("#afteraction");
-		var afteractionShareSlide = $('#afteraction-share');
-		var afteractionShareSlideInner = $('#afteraction-share-inner');
-		var afteractionShareAskContent = $('#afteraction-share-ask-source').html();
-		var afteractionShareContent = $('#afteraction-share-source').html();
+		const afteractionProgressMeter = $("#afteraction-progress-meter");
 
-		var afteractionDonateSlide = $('#afteraction-donate');
-		var afteractionDonateSlideInner = $('#afteraction-donate-inner');
-		var afteractionDonateAskContent = $('#afteraction-donate-ask-source').html();
-		var afteractionDonateContent = $('#afteraction-donate-source').html();
+		const afteraction = $("#afteraction");
+		const afteractionShareSlide = $('#afteraction-share');
+		const afteractionShareSlideInner = $('#afteraction-share-inner');
+		const afteractionShareAskContent = $('#afteraction-share-ask-source').html();
+		const afteractionShareContent = $('#afteraction-share-source').html();
+
+		const afteractionDonateSlide = $('#afteraction-donate');
+		const afteractionDonateSlideInner = $('#afteraction-donate-inner');
+		const afteractionDonateAskContent = $('#afteraction-donate-ask-source').html();
+		const afteractionDonateContent = $('#afteraction-donate-source').html();
 
 		const euroCountries = ['Austria', 'Belgium', 'Cyprus', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Portugal', 'Slovakia', 'Slovenia', 'Spain'];
 

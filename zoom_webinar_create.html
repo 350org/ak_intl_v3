@@ -252,12 +252,12 @@
               const payload = {
                   topic,
                   type: 5, // Zoom Docs req.
-                  stcoart_time: zoomStartTime,
+                  start_time: zoomStartTime,
                   duration,
                   timezone: timezonesList.filter(t=>t.name === timezone)[0].id,
                   password: generateZoomWebinarPassword(4),
                   agenda
-              }; 
+              };
               makeAPICall(payload);
             }  
         });

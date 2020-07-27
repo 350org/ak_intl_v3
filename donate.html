@@ -749,6 +749,7 @@
 			  var arg_currency = '{{ args.currency|default:"false" }}';
         if (arg_currency && typeof actionkit.utils.currencySymbols[arg_currency] !== 'undefined') {
           $('#id_currency_' + arg_currency).prop('selected', true);
+          redraw_currency_symbol();
         }
     });
 

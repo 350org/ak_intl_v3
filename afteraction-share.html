@@ -2,6 +2,7 @@
 Custom template for same-page post-AJAX submit share ask.
 {% endcomment %}
 
+{{page}}
 {% load actionkit_tags %}
 
 {% if page.custom_fields.after_action_next_step != "page-redirect" %}
@@ -171,6 +172,13 @@ Custom template for same-page post-AJAX submit share ask.
 jQuery(document).ready(function($){
 	/* only run the AJAX submission if we're sure this is an AK-hosted page */
 	if ( $('html').hasClass('ak-hosted') ){
+		let initDonateAmounts = [];
+		let userCountry;
+		let exchangeRateData = {};
+		let exchangeApiUrl = 'https://api.exchangeratesapi.io/latest?base=USD';
+		$.get(exchangeApiUrl, function (data, status) {
+			exchangeRateData = data.rates;
+		});
 		// set up variables
 		var afteractionProgressMeter = $("#afteraction-progress-meter");
 
@@ -184,6 +192,60 @@ jQuery(document).ready(function($){
 		var afteractionDonateSlideInner = $('#afteraction-donate-inner');
 		var afteractionDonateAskContent = $('#afteraction-donate-ask-source').html();
 		var afteractionDonateContent = $('#afteraction-donate-source').html();
+
+		const euroCountries = ['Austria', 'Belgium', 'Cyprus', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Portugal', 'Slovakia', 'Slovenia', 'Spain'];
+
+		function updateDonateCurrency(userLocation){
+			if (euroCountries.includes(userLocation)) {
+				userLocation = 'Europe';
+			}
+			var currencyData = {
+				/* uses API exchange data, with hardcoded (out of date) exchange rate as fallback */
+				'Canada': {
+					currencySymbol: '$',
+					currency: 'CAD',
+					exchangeRate: exchangeRateData['CAD'] || 1.45
+				},
+				'Australia': {
+					currencySymbol: '$',
+					currency: 'AUD',
+					exchangeRate:  exchangeRateData['AUD']  || 1.68
+				},
+				'New Zealand': {
+					currencySymbol: '$',
+					currency: 'NZD',
+					exchangeRate:  exchangeRateData['NZD'] || 1.72
+				},
+				'United Kingdom': {
+					currencySymbol: '£',
+					currency: 'GBP',
+					exchangeRate: exchangeRateData['GBP'] || 0.85
+				},
+				'Europe': {
+					currencySymbol: '€',
+					currency: 'EUR',
+					exchangeRate: exchangeRateData['EUR'] || 0.92
+				},
+				'Brazil': {
+					currencySymbol: 'R$',
+					currency: 'BRL',
+					exchangeRate: exchangeRateData['BRL'] || 5.07
+				}
+			};
+			if (currencyData[userLocation]) {
+				$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(i){
+					// replace amount and add currency param in donate button urls
+					var $this = $(this);
+					var originalAmt = initDonateAmounts[i];
+					var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
+					var url = $(this).attr('href');
+                    var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
+                    $this.attr('href', newUrl);
+					// change button label
+                    $this.html(currencyData[userLocation].currencySymbol + convertedAmt);
+				});
+			}
+		}
 
 		function afteractionShowShareAsk(){
 			if ( afteractionShareSlideInner.html() == '' ){
@@ -219,6 +281,11 @@ jQuery(document).ready(function($){
 					.empty()
 					.append( afteractionDonateAskContent )
 					.animate({opacity:1}, 300);
+					// save initial donate amounts to be converted for each currency
+					$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(){
+						initDonateAmounts.push(parseInt($(this).html().substring(1)));
+					});
+					updateDonateCurrency(userCountry);
 					$(document).trigger('domUpdated');
 					$('html, body').animate({
 						scrollTop: afteractionDonateSlide.offset().top
@@ -271,6 +338,8 @@ jQuery(document).ready(function($){
 						if (typeof fbq === "function") {
 							fbq('track', 'CompleteRegistration');
 						}
+						// save country for currency feature (needed for country prefill issue - FA)
+						userCountry = $('#country').val();
 						// show the share ask
 						afteractionShowShareAsk();
 						// if user opts to share, show share dialog

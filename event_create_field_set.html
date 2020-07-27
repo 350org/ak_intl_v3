@@ -42,10 +42,12 @@
       	</div>
 
 
+		{% if page.custom_fields.hide_state_field %}{% else %}
       <div class="input-select ak-input-type-event input-state">
       		<label for="id_event_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
       		{% include "./state_select.html" %}
       	</div>
+		{% endif %}
 
 {% endwith %}
       </fieldset>

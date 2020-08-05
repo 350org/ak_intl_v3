@@ -233,17 +233,25 @@ jQuery(document).ready(function($){
 				}
 			};
 			if (currencyData[userLocation]) {
-				$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(i){
-					// replace amount and add currency param in donate button urls
-					var $this = $(this);
-					var originalAmt = initDonateAmounts[i];
-					var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
-					var url = $(this).attr('href');
-                    var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
-                    $this.attr('href', newUrl);
-					// change button label
-                    $this.html(currencyData[userLocation].currencySymbol + convertedAmt);
-				});
+				if ($('#afteraction-donate-inner .afteraction-donate-cta-container a').length) {
+					// update alternate donate url
+					let altDonateUrl = $('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href');
+					altDonateUrl.indexOf('?') > -1 ?  altDonateUrl += '&currency=' : altDonateUrl += '?currency=';
+					altDonateUrl += currencyData[userLocation].currency;
+					$('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href', altDonateUrl);
+				} else {
+					// update default donate buttons url
+					$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(i){
+						var $this = $(this);
+						var originalAmt = initDonateAmounts[i];
+						var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
+						var url = $(this).attr('href');
+						var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
+						$this.attr('href', newUrl);
+						// change button label
+						$this.html(currencyData[userLocation].currencySymbol + convertedAmt);
+					});
+				}
 			}
 		}
 

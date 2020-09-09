@@ -1,8 +1,12 @@
-{% extends "./wrapper.html" %}
-{% load actionkit_tags %}
-{% block content %}
-<style>
 
+{% load actionkit_tags %}
+<style>
+#section-webinars {
+  background-position: center center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
 .single-webinar-item-ctn{
     display: flex;
     width: 100%;
@@ -234,7 +238,7 @@
       }
 
 </style>
-<div class="section bg-white form-style-expanded width-normal padding-medium">
+<div id="section-webinars" class="bg-white form-style-expanded width-normal">
     <div class="section search-section">
     <h4>350 Webinars</h4>
     <div class='search-ctn'>
@@ -420,4 +424,3 @@
         });
       })
 </script>
-{% endblock %}

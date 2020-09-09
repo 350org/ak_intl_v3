@@ -102,34 +102,23 @@ a.area-link.event-link:hover {
 
 }
 </style>
-<div id="page-header" class="section width-normal padding-large text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
-  <div class="section-inner">
-{% if page.custom_fields.page_pretitle %}
-    <p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
-{% endif %}
-    <h2 id="action-title" class="text-style-title-large title3">
-{% if page.custom_fields.page_title_custom_html %}
-  {% autoescape off %} {{ page.custom_fields.page_title_custom_html }} {% endautoescape %}
-{% else %}
-      <span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
-{% endif %}
-    </h2>
-    <div class="text-style-lead2 text-large2 margin-bottom-huge" data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}1{% endif %}">
-      {{ form.search_page_text|safe }}
-    </div>
+{% comment %} <div id="page-header" class="section width-normal padding-large text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}"> {% endcomment %}
+  {% comment %} <div class="section-inner"> {% endcomment %}
+{% include "./zoom_webinar_list.html" %}
+{% include "./social_plugins.html" %} 
 
-  </div>
-</div>
-{% if page.custom_fields.form_text_above_form %}
+  {% comment %} </div> {% endcomment %}
+{% comment %} </div> {% endcomment %}
+{% comment %} {% if page.custom_fields.form_text_above_form %}
   {{ page.custom_fields.form_text_above_form }}
 {% else %}
       <h3 class="meta margin-bottom-normal opacity-50">{% filter ak_text:"event_search_form_instructions" %}Find an event near you{% endfilter %}</h3>
-{% endif %}
-<div id='map-embed-350org' data-src-zoom=6 class="section bg-white notch width-full padding-none" style='height: 70vh' data-src-latlong="{% if page.custom_fields.event_search_map_center %}{{ page.custom_fields.event_search_map_center }}{% else %}1.2921, 36.8219{% endif %}">
+{% endif %} {% endcomment %}
+{% comment %} <div id='map-embed-350org' data-src-zoom=6 class="section bg-white notch width-full padding-none" style='height: 70vh' data-src-latlong="{% if page.custom_fields.event_search_map_center %}{{ page.custom_fields.event_search_map_center }}{% else %}1.2921, 36.8219{% endif %}">
 <script src="https://350map.org/main.js"></script>
-</div>
-{% include "./zoom_webinar_list.html" %}
-{% include "./social_plugins.html" %}
+</div> {% endcomment %}
+{% comment %} {% include "./zoom_webinar_list.html" %}
+{% include "./social_plugins.html" %} {% endcomment %}
 {% endblock %}
 
 {% block tail_js %}

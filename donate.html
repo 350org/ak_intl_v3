@@ -1546,6 +1546,8 @@ $(function() {
           default:
                 actionkit.errors['card_num:invalid'] = "An error occurred: " + err.message;
         }
+        console.log(err.code, "Error code is here");
+        console.log(err, "Error is here");
         actionkit.forms.onValidationErrors(actionkit.errors);
     };
 

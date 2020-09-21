@@ -752,6 +752,7 @@
 			  var arg_currency = '{{ args.currency|default:"false" }}';
         if (arg_currency && typeof actionkit.utils.currencySymbols[arg_currency] !== 'undefined') {
           $('#id_currency_' + arg_currency).prop('selected', true);
+          redraw_currency_symbol();
         }
     });
 
@@ -853,13 +854,13 @@
     // Change donation type value if custom field is set to both-recurring
     $( function () {
       $('#id_donation_type_toggle').click(function () {
-        console.log('toggle clicked');
+        // console.log('toggle clicked');
         if ($(this).prop('checked')) {
           $('#donation_type').val("single");
-          console.log('One-time donation option set');
+          // console.log('One-time donation option set');
         } else {
           $('#donation_type').val("recurring");
-          console.log('Monthly donation option set');
+          // console.log('Monthly donation option set');
         }
       })
     });

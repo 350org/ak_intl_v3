@@ -2,7 +2,7 @@
 Custom template for same-page post-AJAX submit share ask.
 {% endcomment %}
 
-{{page}}
+<!-- {{page}} -->
 {% load actionkit_tags %}
 
 {% if page.custom_fields.after_action_next_step != "page-redirect" %}
@@ -86,7 +86,7 @@ Custom template for same-page post-AJAX submit share ask.
 	{% if page.custom_fields.share_whatsapp == "yes" %}
 	<div class="afteraction-share-whatsapp afteraction-share-option margin-bottom-large">
 		<div class="afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="https://wa.me/?text={% if page.custom_fields.share_whatsapp_message %}{{ page.custom_fields.share_whatsapp_message }}{% else %}{{ page.followup.share_description_value|urlencode }}{% endif %}">{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}</a>
+			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="https://api.whatsapp.com/send?text={% if page.custom_fields.share_whatsapp_message %}{{ page.custom_fields.share_whatsapp_message }}{% else %}{{ page.followup.share_description_value|urlencode }}{% endif %}">{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}</a>
 		</div>
 		<div class="afteraction-share-whatsapp-preview afteraction-share-option-preview ">
 			<div class="whatsapp-preview-chat-bg padding-small">
@@ -233,17 +233,25 @@ jQuery(document).ready(function($){
 				}
 			};
 			if (currencyData[userLocation]) {
-				$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(i){
-					// replace amount and add currency param in donate button urls
-					var $this = $(this);
-					var originalAmt = initDonateAmounts[i];
-					var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
-					var url = $(this).attr('href');
-                    var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
-                    $this.attr('href', newUrl);
-					// change button label
-                    $this.html(currencyData[userLocation].currencySymbol + convertedAmt);
-				});
+				if ($('#afteraction-donate-inner .afteraction-donate-cta-container a').length) {
+					// update alternate donate url
+					let altDonateUrl = $('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href');
+					altDonateUrl.indexOf('?') > -1 ?  altDonateUrl += '&currency=' : altDonateUrl += '?currency=';
+					altDonateUrl += currencyData[userLocation].currency;
+					$('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href', altDonateUrl);
+				} else {
+					// update default donate buttons url
+					$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(i){
+						var $this = $(this);
+						var originalAmt = initDonateAmounts[i];
+						var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
+						var url = $(this).attr('href');
+						var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
+						$this.attr('href', newUrl);
+						// change button label
+						$this.html(currencyData[userLocation].currencySymbol + convertedAmt);
+					});
+				}
 			}
 		}
 

@@ -311,7 +311,7 @@
             const start_time = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('HH:mm:ss');
             const start_date = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('YYYY-MM-DD');
             const zoomStartTime = `${start_date}T${start_time}`;
-            // Check errors
+            // Check errors and throw
             let hasErrors = errors.length > 0;
             if(hasErrors){
               resetErrors()

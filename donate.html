@@ -557,6 +557,11 @@
           <!-- <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5> -->
           <div class="payments-container">
             <div class="payments-titles">
+              {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}
+                BUTTON APPEARANCE
+              {% else %}
+                Normal appearance
+              {% endif %}
               {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
 
               <div class="payments-title payments-title-active card-title">

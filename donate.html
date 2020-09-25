@@ -3,7 +3,7 @@
 
 {% block content %}
 <style>
-              .payments-titles {
+.payments-titles {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -44,6 +44,25 @@
 
 .button:focus {
   outline: none;
+}
+
+.payment-title-button {
+  border: 2px solid #798890;
+  border-radius: 6px;
+  margin-right: 12px;
+  margin: 0 6px;
+  padding: 3px 0;
+}
+
+.payment-title-button:first-of-type {
+  margin-left: 0;
+}
+.payment-title-button:last-of-type {
+  margin-right: 0;
+}
+
+.payment-title-button.payments-title-active {
+  border-color: #0f81e8;;
 }
 
 </style>
@@ -557,20 +576,16 @@
           <!-- <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5> -->
           <div class="payments-container">
             <div class="payments-titles">
-              {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}
-                BUTTON APPEARANCE
-              {% else %}
-                Normal appearance
-              {% endif %}
+              
               {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
 
-              <div class="payments-title payments-title-active card-title">
+              <div class="payments-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %} payments-title-active card-title ">
                 <svg width="150" height="40" class="payments-title-active">
                   <image href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="150" height="40"/>
                 </svg>
               </div>
 
-              <div class="payments-title paypal-title">
+              <div class="payments-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %} paypal-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %}">
                 <svg width="75" height="40">
                   <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75" height="40"/>
                 </svg>

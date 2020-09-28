@@ -912,7 +912,7 @@
 		}
 
     // Sherezz and Kimani Did this. Blame them
-    actionkit.utils.ensureVisible = () => {console.log("Hi. ensurevisible is now an anonymous function.")};
+    actionkit.utils.ensureVisible = function () { console.log("Hi. ensurevisible is now an anonymous function.") };
 
     function redraw_currency_symbol() {
         var id = $('input[id^=id_currency_]:checked, option[id^=id_currency_]:selected').attr('id');
@@ -1650,8 +1650,8 @@
     const ccFields = $(".cc-fields");
     const paypalFields = $("paypal-fields");
 
-    const removeActivePaymentsClass = () => {
-      $.each(paymentsTitles, (index, title)=>{
+    const removeActivePaymentsClass = function () {
+      $.each(paymentsTitles, function (index, title) {
           const titleCtn = $(title);
           titleCtn.removeClass(CONSTANTS.ACTIVE_PAYMENTS_CLASS);
           paypalFieldSelectedStepThree = false;
@@ -1660,17 +1660,17 @@
     };
 
     // Use this to hide fields as appropriately
-    const toggleShowFields = (fields, show) => {
-      $.each(fields, (index, field)=>{
+    const toggleShowFields = function (fields, show) {
+      $.each(fields, function (index, field) {
         const fieldCtn = $(field);
         fieldCtn.css({'display': show ? 'block': 'none'});
       });
     };
 
 
-    $.each(paymentsTitles, (index, title)=>{
+    $.each(paymentsTitles, function (index, title) {
       const titleCtn = $(title);
-      titleCtn.click(e=>{
+      titleCtn.click(function (e) {
           const clicked = $(e.target);
           const parentHasClass = clicked.parents(`.${CONSTANTS.ACTIVE_PAYMENTS_CLASS}`).length > 0;
           if(parentHasClass) return;

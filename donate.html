@@ -68,6 +68,7 @@
   border-color: #0f81e8;;
 }
 
+/* IE Fixes */
 .title-section-60, .title-section {
   display: -webkit-box;
   display: -webkit-flex;
@@ -75,6 +76,20 @@
   display: flex;
   flex-direction: column
 }
+
+/* IE fixes for footer */
+iframe[width="1"][height="1"] {
+  width: 0;
+  height: 0;
+  display: block;
+}
+
+#site-footer {
+  top: 0;
+  position: relative;
+  margin-top: 25px;
+}
+
 </style>
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">

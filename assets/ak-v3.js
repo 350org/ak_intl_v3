@@ -385,7 +385,7 @@
 			fr: "Lire&nbsp;la&nbsp;Suite",
 			id: "Baca lebih lajut",
       ja: "続きを読む",
-      nl: "Meer&nbsp;lezen",
+      nl: "Lees&nbsp;meer",
 			pl: "Czytaj dalej",
 			pt: "Leia&nbsp;mais",
 			tr: "Daha&nbsp;fazla&nbsp;oku",

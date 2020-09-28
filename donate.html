@@ -1672,7 +1672,7 @@
       const titleCtn = $(title);
       titleCtn.click(function (e) {
           const clicked = $(e.target);
-          const parentHasClass = clicked.parents(`.${CONSTANTS.ACTIVE_PAYMENTS_CLASS}`).length > 0;
+          const parentHasClass = clicked.parents('.' + CONSTANTS.ACTIVE_PAYMENTS_CLASS).length > 0;
           if(parentHasClass) return;
             else {
             const closestDiv = clicked.closest('.payments-title');

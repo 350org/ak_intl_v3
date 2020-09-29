@@ -98,11 +98,6 @@ iframe[width="1"][height="1"] {
     display: none;
 }
 
-/* fix cut off on some browsers on hosted fields */
-.hosted-field {
-  height: 55px;
-}
-
 /* inline fields for expiry and cvv */
 
 .inline_fields {
@@ -1815,10 +1810,10 @@ iframe[width="1"][height="1"] {
 {% if pp.use_vzero %}
 <style type="text/css">
 .hosted-field {
-  height: 50px;
+  height: 67px;
   padding: 0px 7px;
   padding-top: 2em;
-  margin-bottom:0.7em;
+  padding-bottom: 0.7em;
 }
 .hosted-field.braintree-hosted-fields-invalid {
   border-color: {{ templateset.custom_fields.color_error }};

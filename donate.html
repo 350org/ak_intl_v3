@@ -102,6 +102,20 @@ iframe[width="1"][height="1"] {
 .hosted-field {
   height: 55px;
 }
+
+/* inline fields for expiry and cvv */
+
+.inline_fields {
+  display: flex;
+}
+.inline_fields>div:first-of-type {
+  border-top: 1px solid rgba(21, 36, 43, 0.3) !important;
+  width: 50% !important;
+}
+.inline_fields>div:last-of-type {
+  width: 50% !important;
+  margin: 0 !important;
+}
 </style>
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -652,47 +666,54 @@ iframe[width="1"][height="1"] {
                 <input id="id_email" class="" type="text" name="email">
               </div>
             <!--Credit Card-->
-            {% comment %} Show the Credit Card Number Field only when the custom field for donation_only_paypal is {% endcomment %}
+            {% comment %} Show the Credit Card Fields only when the custom field for donation_only_paypal is {% endcomment %}
             {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
-            <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user cc-fields">
-              <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
-              <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-              <div id="ak-card_num-hosted" class="hosted-field"></div>
-              <input id="ak-card_num" type="text" name="card_num">
-            </div>
-            {% endif %}
-
-            {% comment %} Show the Credit Card Expiration Field Field only when the custom field for donation_only_paypal is {% endcomment %}
-            <!--Error & Expiration Date-->
-            {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
-              <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user cc-fields ak-err-below">
-                <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-                <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
-                <div id="ak-exp_date-hosted" class="hosted-field"></div>
-                <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
-                  <option value="">MM</option>
-                  <option value="01">01</option>
-                  <option value="02">02</option>
-                  <option value="03">03</option>
-                  <option value="04">04</option>
-                  <option value="05">05</option>
-                  <option value="06">06</option>
-                  <option value="07">07</option>
-                  <option value="08">08</option>
-                  <option value="09">09</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                </select>
-                <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-                <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin cc-fields" name="exp_date_year">
-                  <option value="">YYYY</option>
-                  {% for year in exp_years %}
-                  <option value="{{ year.two }}">{{ year.four }}</option>
-                  {% endfor %}
-                </select>
-                <div class="clear"></div>
+            <fieldset class="input-group cc-fields">
+              <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user cc-fields">
+                <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card #{% endfilter %}</label>
+                <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
+                <div id="ak-card_num-hosted" class="hosted-field"></div>
+                <input id="ak-card_num" type="text" name="card_num">
               </div>
+              <div class="inline_fields">
+                <div id="ak-fieldbox-exp_date" class="input-select input-cc-expiration ak-input-type-user cc-fields ak-err-below">
+                  <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
+                  <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration Date{% endfilter %}</label>
+                  <div id="ak-exp_date-hosted" class="hosted-field"></div>
+                  <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin" type="text" name="exp_date_month">
+                    <option value="">MM</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                  <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
+                  <select id="ak-exp_date_year" type="text" class="input-cc-expiration-year c6 ct6 cm6 no-margin cc-fields" name="exp_date_year">
+                    <option value="">YYYY</option>
+                    {% for year in exp_years %}
+                    <option value="{{ year.two }}">{{ year.four }}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="clear"></div>
+                </div>
+
+                <div id="ak-fieldbox-card_code" class="input-text input-cvv ak-input-type-user cc-fields c5 ct5 margin-top-none">
+                  <input type="hidden" name="required" value="card_code" id="ak-card_code-required">
+                  <label for="ak-card_code" title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>
+                  <div id="ak-card_code-hosted" class="hosted-field"></div>
+                  <input id="ak-card_code" type="text" name="card_code" size="4">
+                  <div class="clear"></div>
+                </div>
+              </div>
+            </fieldset>              
             {% endif %}
 
 
@@ -1362,6 +1383,13 @@ iframe[width="1"][height="1"] {
         step_has_errors = true;
       }
 
+      if (!valid_credit_card_code($('#ak-card_code').val())) {
+        if (!actionkit.errors) actionkit.errors = {}
+        actionkit.errors['card_code:invalid'] = actionkit.forms.errorMessage('card_code:invalid');
+        actionkit.forms.onValidationErrors(actionkit.errors);
+        step_has_errors = true;
+      }
+
       console.log(step_has_errors, "Step Has Errors end of step 3?")
       return step_has_errors;
     }
@@ -1631,11 +1659,11 @@ iframe[width="1"][height="1"] {
 
         /* clear out CC info if entered */
         $('#ak-card_num').val('');
-        // $('#ak-card_code').val('');
+        $('#ak-card_code').val('');
 
         /* disable CC requirements */
         $('#ak-card_num-required').remove();
-        // $('#ak-card_code-required').remove();
+        $('#ak-card_code-required').remove();
         $('#ak-exp_date_month-required').remove();
         $('#ak-exp_date_year-required').remove();
 
@@ -1832,6 +1860,9 @@ iframe[width="1"][height="1"] {
                     number: {
                         selector: '#ak-card_num-hosted'
                     },
+                    cvv: {
+                        selector: '#ak-card_code-hosted'
+                    },
                     expirationDate: {
                         selector: '#ak-exp_date-hosted',
                         placeholder: 'MM / YYYY'
@@ -1857,10 +1888,10 @@ iframe[width="1"][height="1"] {
                 },
                 submit: form.querySelector(".ak-submit-button")
             },
-            toRemove = ["#ak-card_num", "#ak-exp_date_month",
+            toRemove = ["#ak-card_num", "#ak-card_code", "#ak-exp_date_month",
                         "#ak-exp_date_year", "#ak-card_num-required",
                          "#ak-exp_date_month-required",
-                        "#ak-exp_date_year-required"];
+                        "#ak-exp_date_year-required", "#ak-card_code-required"];
         toRemove.forEach(function(el) {
             $(el).remove();
         });
@@ -1880,6 +1911,7 @@ iframe[width="1"][height="1"] {
                     err.details.invalidFieldKeys.forEach(function(key) {
                         var map = {
                             'number': 'card_num',
+                            'cvv': 'card_code',
                             'expirationDate': 'card_exp'
                         };
                         actionkit.errors[map[key] + ':invalid'] = "This field is invalid.";;

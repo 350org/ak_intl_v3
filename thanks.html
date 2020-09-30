@@ -6,7 +6,7 @@
 	.upsell_wrap {
 		display: flex;
 		justify-content: center;
-		max-width: 600px;
+		max-width: 680px;
  	 	margin: 0 auto;
 	}
 	#suggestions {
@@ -37,6 +37,15 @@
 		margin-bottom: 0;
 		border-radius: 1.4em 0 0 1.4em;
 		padding-left: 32px;
+		min-width: 130px;
+	}
+	.upsell_other_amt input.CAD,
+	.upsell_other_amt input.NZD {
+		padding-left: 65px;
+	}
+	.upsell_other_amt input.BRL,
+	.upsell_other_amt input.AUD {
+		padding-left: 48px;
 	}
 	.upsell_other_amt button {
 		width: 40%;
@@ -54,17 +63,18 @@
 		</form>
 		<div id="thanks-message" class="bg-dkgray-trans text-large3 c10 ct10 cm10 box box-huge margin-bottom-large">
 		{% include_tmpl form.thank_you_text %}
-
-		{% if page.custom_fields.thank_you_page_show_upsell == 'Y' %}
+		
+		{% if page.custom_fields.thank_you_page_show_upsell == 'Y' and not action.orderrecurring %}
 			<script>
 				$(function() {
-					var currency = 'CAD';
+					var currency = 'USD';
 					var total = '10';
 					var maxDonation = 500;
 					var currencySymbols = {
 						"AUD": "$",
 						"BRL": "R$",
-						"CAD": "$",
+						"CAD": "CA$",
+						"NZD": "NZ$",
 						"EUR": "€",
 						"GBP": "£",
 						"USD": "$",
@@ -115,6 +125,7 @@
 					});
 
 					$('#other_symbol').html(currencySymbols[currency])
+					$('#other_amt').addClass(currency)
 					 
 					// used to test
 					// $('#test_no').val(total)

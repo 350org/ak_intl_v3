@@ -126,7 +126,9 @@
 {% endifequal %}
 
 </form>
-
+{% if page.custom_fields.thank_you_page_show_upsell == 'Y' %}
+SHOW UPSELL
+{% endif %}
 		</div>
 	</div>
 		{% if page.custom_fields.thanks_show_map %}

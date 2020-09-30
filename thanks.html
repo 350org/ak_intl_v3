@@ -20,12 +20,23 @@
 	.upsell_other_amt {
 		display: flex;
 		margin: 10px;
+		position: relative;
+	}
+	.upsell_other_amt label {
+		position: absolute;
+		color: #989898;
+		top: 50%;
+		transform: translateY(-50%);
+		left: 15px;
+		font-size: 1.4rem;
+		pointer-events: none;
 	}
 	.upsell_other_amt input {
 		width: 60%;
 		font-size: 1.4rem;
 		margin-bottom: 0;
 		border-radius: 1.4em 0 0 1.4em;
+		padding-left: 32px;
 	}
 	.upsell_other_amt button {
 		width: 40%;

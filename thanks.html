@@ -16,6 +16,7 @@
 				$(function() {
 					var currency = 'USD';
 					var total = '10';
+					var maxDonation = 500;
 					
 					{% if action.order.currency %}
 					currency = '{{action.order.currency}}';
@@ -32,23 +33,23 @@
 						$('#suggestions').append('<button class="upsell_btn button" data-amt="'+parseInt(amount)+'">'+getCurrency(amount)+'/mo</button>')	
 					}
 					
-					var url = 'https://act.350.org/donate/fa-test_recurring/?source=build-donate-ty&utm_source=build-donate-ty'
+					var url = 'https://act.350.org/donate/fa-test_recurring/?source=build-donate-ty&utm_source=build-donate-ty&currency='+currency
 					
 					var setupButtons = function() {
 						if (total) {
 							var lowerCalc = (total / 5) * 4
 
-							if (parseInt(lowerCalc) != parseInt(total) && parseInt(lowerCalc) != 0 && parseInt(lowerCalc) <= 500) {
+							if (parseInt(lowerCalc) != parseInt(total) && parseInt(lowerCalc) != 0 && parseInt(lowerCalc) <= maxDonation) {
 								makeButton(lowerCalc)
-							} else if(parseInt(total - 1) != parseInt(total) && parseInt(total - 1) != 0 && parseInt(total - 1) <= 500) {
+							} else if(parseInt(total - 1) != parseInt(total) && parseInt(total - 1) != 0 && parseInt(total - 1) <= maxDonation) {
 								makeButton(total - 1)
-							} else if (parseInt(total) > 500) {
-								makeButton((500 / 5) * 4)
+							} else if (parseInt(total) > maxDonation) {
+								makeButton((maxDonation / 5) * 4)
 							}
-							if (total < 500) {
+							if (total < maxDonation) {
 								makeButton(total)	
 							} else {
-								makeButton(500)
+								makeButton(maxDonation)
 							}
 						}
 					}

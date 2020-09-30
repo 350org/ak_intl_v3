@@ -10,6 +10,12 @@
 		</form>
 		<div id="thanks-message" class="bg-dkgray-trans text-large3 c10 ct10 cm10 box box-huge margin-bottom-large">
 		{% include_tmpl form.thank_you_text %}
+
+		{% if page.custom_fields.thank_you_page_show_upsell == 'Y' %}
+		{{ action.order.amt }} total in local currency <br>
+		{{ action.order.currency }} currency used, like "USD" <br>
+		{{ action.order.total_converted }} rough USD equivalent of the donation <br>
+		{% endif %}
 		</div>
 		<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">
 			<input type="hidden" name="utf8" value="&#x2714;" />
@@ -126,9 +132,7 @@
 {% endifequal %}
 
 </form>
-{% if page.custom_fields.thank_you_page_show_upsell == 'Y' %}
-SHOW UPSELL
-{% endif %}
+
 		</div>
 	</div>
 		{% if page.custom_fields.thanks_show_map %}

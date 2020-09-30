@@ -2,6 +2,35 @@
 {% load actionkit_tags %}
 {% block content %}
 {% autoescape off %}
+<style>
+	.upsell_wrap {
+		display: flex;
+		justify-content: center;
+		max-width: 600px;
+ 	 	margin: 0 auto;
+	}
+	#suggestions {
+		display: flex;
+	}
+	#suggestions button {
+		margin: 10px;
+		padding: 0.6em 1.2em;
+		font-size: 1.4rem;
+	}
+	.upsell_other_amt {
+		display: flex;
+	}
+	.upsell_other_amt input {
+		width: 60%;
+		font-size: 1.4rem;
+		margin-bottom: 0;
+		border-radius: 1.4em 0 0 1.4em;
+	}
+	.upsell_other_amt button {
+		width: 40%;
+  	border-radius: 0 1.4em 1.4em 0;
+	}
+</style>
 <section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 		<form class="ak-form dummy" name="act" method="POST" action="/act/" accept-charset="utf-8">
@@ -62,30 +91,33 @@
 						window.location.href = url + '&amount='+$('#other_amt').val()
 					});
 					 
-				    $('#test_no').val(total)
+					// used to test
+					// $('#test_no').val(total)
 					 
-					$('#test_no').on('input', function(e){
-						total = parseFloat($(this).val())
-						$('#suggestions').empty()
-					    setupButtons();
-					});
+					// $('#test_no').on('input', function(e){
+					// 	total = parseFloat($(this).val())
+					// 	$('#suggestions').empty()
+					//     setupButtons();
+					// });
 					 
 					 setupButtons();
 				});
 			</script>
 
-			<div class="test_wrap" style="margin-bottom:35px;">
+			<!-- used to test -->
+			<!-- <div class="test_wrap" style="margin-bottom:35px;">
 				<label>Test donation amount</label>
 				<input type="number" id="test_no">
 			</div>
-			
-			<h3>Can you donate monthly?</h3>
-			<div id="suggestions"></div>
-			<div class="other_amt">
-				<label>Other Amount</label>
-				<input type="text" id="other_amt">
-				<button id="other_amt_btn" class="button">Give Monthly</button>
-			</div>
+			 -->
+			 <div class="upsell_wrap">
+					<div id="suggestions"></div>
+					<div class="upsell_other_amt">
+						<input type="number" id="other_amt">
+						<button id="other_amt_btn" class="button">Give Monthly</button>
+					</div>
+			 </div>
+
 			{% endif %}
 		</div>
 		<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">

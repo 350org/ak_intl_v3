@@ -15,6 +15,13 @@
 		{{ action.order.amt }} total in local currency <br>
 		{{ action.order.currency }} currency used, like "USD" <br>
 		{{ action.order.total_converted }} rough USD equivalent of the donation <br>
+
+		{% remember 10 as amt %}
+
+		Suggestions: <br>
+		{% (amt / 3)|floatformat %}
+		{% ((amt / 3) * 2)|floatformat %}
+		{% amt %}
 		{% endif %}
 		</div>
 		<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">

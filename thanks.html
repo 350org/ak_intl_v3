@@ -71,6 +71,23 @@
 			width: 100%;
 		}
 	}
+	@media only screen and (max-width: 448px) {
+		.upsell_other_amt {
+			flex-wrap: wrap;
+		}
+		.upsell_other_amt label {
+			transform: none;
+  		top: 14px;
+		}
+		.upsell_other_amt input {
+			width: 100%;
+			border-radius: 1.4em 1.4em 0 0;
+		}
+		.upsell_other_amt button {
+			width: 100%;
+			border-radius: 0 0 1.4em 1.4em;
+		}
+	}
 </style>
 <section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">

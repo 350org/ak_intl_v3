@@ -117,6 +117,10 @@ iframe[width="1"][height="1"] {
   margin-top: -0.8em;
   margin-bottom: 1.4em;
 }
+/* make sure the select fills the page width on mobile */
+#ak-currency-switcher {
+  max-width: initial;
+}
 </style>
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">

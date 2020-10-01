@@ -111,6 +111,12 @@ iframe[width="1"][height="1"] {
   width: 50% !important;
   margin: 0 !important;
 }
+
+/* style for when the payment type above amounts custom field is set to Y */
+.paymenttype-above {
+  margin-top: -0.8em;
+  margin-bottom: 1.4em;
+}
 </style>
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -367,7 +373,7 @@ iframe[width="1"][height="1"] {
           	setTimeout(update_total, 0);
           %]
       	</script>
-
+        
 {% if not has_products %}
   {% if allow_monthly %}
     {% if page.custom_fields.donation_once_recurring_or_both|lower == "recurring" %}
@@ -1963,5 +1969,14 @@ iframe[width="1"][height="1"] {
     </script>
 {% endif %}
 {% endwith %}
+
+{% if page.custom_fields.donate_payment_frequency_above_amounts == 'Y' %}
+<script>
+  $(function() {
+    $('#ak-recurring-type').insertBefore('#ak-amount-list');
+    $('#ak-recurring-type').addClass('paymenttype-above');
+  });
+</script>
+{% endif %}
 
 {% endblock %}

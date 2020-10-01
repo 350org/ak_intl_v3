@@ -1390,10 +1390,17 @@ iframe[width="1"][height="1"] {
     }
 
     function step_2_validation() {
-			console.log('validating step 2');
+      console.log('validating step 2');
       var step_has_errors = false;
 
-	     return step_has_errors;
+      if (document.getElementById("country").value === "United States" && document.getElementById("id_state").value === "") {
+        if (!actionkit.errors) actionkit.errors = {};
+        actionkit.errors['state:missing'] = actionkit.forms.errorMessage('state:missing');
+        actionkit.forms.onValidationErrors(actionkit.errors);
+        step_has_errors = true;
+      }
+
+      return step_has_errors;
     }
 
     function step_1_validation() {

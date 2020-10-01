@@ -54,6 +54,23 @@
 		padding-left: 10px;
 		padding-right: 10px;
 	}
+	
+	@media only screen and (max-width: 900px) {
+		.upsell_wrap {
+			width: 100%;
+			flex-wrap: wrap;	
+		}
+		#suggestions {
+			width: 100%;
+			flex-wrap: wrap;	
+		}
+		#suggestions button {
+			width: 100%;
+		}
+		.upsell_other_amt {
+			width: 100%;
+		}
+	}
 </style>
 <section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">

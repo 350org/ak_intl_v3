@@ -115,7 +115,8 @@
       "title": "Event Creation - 350 April ",
       "canonical_url": "http://example.com/",
       "custom_fields": {
-        "iswebinar": "Yes"
+        "iswebinar": "Yes",
+        "regionalEmail": ""
       }
       },    
       "form": {

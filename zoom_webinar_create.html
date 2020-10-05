@@ -3,7 +3,11 @@
 <div class="input-textarea ak-input-type-event id_event_public_description margin-bottom-none">
 <label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Virtual Event Details{% endfilter %}</label>
     <p class="text-small opacity-50">
-        This zoom virtual event link will be prefilled into the venue section and be used to access the event.
+        This zoom virtual event link will be prefilled into the venue section and be used to access the event. <br/>
+        This virtual event will be registered under:<span class="highlight">{% if page.custom_fields.regionalEmail%}{{page.custom_fields.regionalEmail}} {% else %} webinars@350.org{% endif %}</span>
+
+
+        
     </p>
 <fieldset id="webinar-details">
     <div class="full-length">
@@ -16,6 +20,11 @@
         <label for="id_webinar_timezone">{% filter ak_text:"webinar_timezone"|capfirst %}Timezone{% endfilter %}</label>
         <input id="id_webinar_timezone" placeholder="Select timezone here..." type="text" min="30" max="120" name="webinar_timezone"/>
     </div>
+
+    {% comment %} <div class="input-text ak-input-type-event input-address third-full">
+        <label for="id_webinar_region">{% filter ak_text:"webinar_region"|capfirst %}Re{% endfilter %}</label>
+        <select id="id_webinar_region" placeholder="Select region here..." type="text" name="webinar_region"></select>
+    </div> {% endcomment %}
     </div>
     {% if not update %}
     <button class="zoom-btn" id="add-webinar-link">Add Webinar Link</button>
@@ -176,6 +185,25 @@
           }
         ];
 
+        const regionList = [
+          {
+            displayText: "Canada",
+            value: 1
+          },
+          {
+            displayText: "Africa",
+            value: 2
+          },
+          {
+            displayText: "Asia",
+            value: 3
+          },
+          {
+            displayText: "Pacific",
+            value: 4
+          },
+        ];
+
 
         const errorKeys = [
           {
@@ -212,6 +240,15 @@
         });
 
         $( "#id_webinar_duration" ).selectmenu();
+
+        // Menu for region
+        regionList.forEach(region=>{
+           $("#id_webinar_region").append(
+            `<option value=${region.value}>${region.displayText}</option>`
+           )
+        });
+
+        $( "#id_webinar_region" ).selectmenu();
 
         let errors = [];
         const resetErrors = () => {

@@ -848,6 +848,15 @@ iframe[width="1"][height="1"] {
     // TODO: Commented out code needs to go.
     let paypalFieldOptionSelectedStepThree = false;
 
+    // Prevent keypress interaction
+    // Using key code also for functionality in IE
+    $(document).keydown(function(e){
+      const which = e.which;
+      if(which === 13){
+        e.preventDefault();
+      }
+    });
+
     function clear_radio_buttons() {
         $('input.ak-amount-radio-button').prop('checked', false);
     }

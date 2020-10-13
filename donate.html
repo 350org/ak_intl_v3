@@ -1929,6 +1929,7 @@ iframe[width="1"][height="1"] {
         };
         actionkit.donations.initClient('{{ pp.client_token }}', options);
         // read by 3-step validation
+        console.log(err, "Error is here")
         actionkit.donations.skip_cc_validation = true;
         actionkit.donations.vzero = true;
       $(".hosted-field.braintree-hosted-fields-invalid").prev().css("background-color", "#fff0d4");

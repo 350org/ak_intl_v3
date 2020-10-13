@@ -20,11 +20,20 @@
         <label for="id_webinar_timezone">{% filter ak_text:"webinar_timezone"|capfirst %}Timezone{% endfilter %}</label>
         <input id="id_webinar_timezone" placeholder="Select timezone here..." type="text" min="30" max="120" name="webinar_timezone"/>
     </div>
-
-    {% comment %} <div class="input-text ak-input-type-event input-address third-full">
-        <label for="id_webinar_region">{% filter ak_text:"webinar_region"|capfirst %}Re{% endfilter %}</label>
-        <select id="id_webinar_region" placeholder="Select region here..." type="text" name="webinar_region"></select>
-    </div> {% endcomment %}
+    </div>
+    <div class="full-length">
+     <div class="input-text ak-input-type-event input-address third-full">
+        <label for="id_webinar_region">{% filter ak_text:"webinar_region"|capfirst %}Region{% endfilter %}</label>
+        <select name="action_webinar_region" id="id_webinar_region" placeholder="Select region here..." type="text"></select>
+    </div>
+    <div class="input-text third-full">
+        <label for="id_webinar_email">{% filter ak_text:"webinar_email"|capfirst %}Email{% endfilter %}</label>
+        <input name="action_webinar_email" id="id_webinar_email" type="email"  value="" />
+    </div>
+         <div class="input-text ak-input-type-event input-address third-full">
+        <label for="id_webinar_country">{% filter ak_text:"webinar_country"|capfirst %}Country (optional){% endfilter %}</label>
+        <select name="action_webinar_country" id="id_webinar_country" placeholder="Select country here..." type="text"></select>
+    </div>
     </div>
     {% if not update %}
     <button class="zoom-btn" id="add-webinar-link">Add Webinar Link</button>
@@ -127,6 +136,7 @@
         // API CALL
         // simple cache
         let timezonesList = [];
+        let countriesList = [];
 
         function addTimezonesOptions(list){
           const availableTags = list.map(t=> t.name);
@@ -135,6 +145,16 @@
             minLength: 2
           });
         };
+
+        function addCountriesOptions(list){
+          $( "#id_webinar_country" ).selectmenu();
+          list.forEach(country=>{
+              $("#id_webinar_country").append(
+                `<option value=${country}>${country}</option>`
+              )
+          });
+        };
+
 
         function generateZoomWebinarPassword(length) {
             let result  = '';
@@ -156,11 +176,34 @@
               response.json()
               .then(data=>{
                 timezonesList = data.data;
-                console.log(timezonesList, "timezones")
                 addTimezonesOptions(timezonesList);
               });
           })
           .catch(error=>{
+              console.log(`Auth error: ${e.message}.`)
+          });
+        };
+
+        console.log('here? countries')
+      if(countriesList.length){
+        console.log('here?')
+           addCountriesOptions(countriesList);
+        } else {
+          
+        console.log('here? no length')
+          fetch(`https://zaki-server.herokuapp.com/api/v1/countries`)
+          .then(response=>{
+              if(!response.ok) throw new Error("Response not ok.")
+              console.log("RES")
+              response.json()
+              .then(data=>{
+                countriesList = data.data;
+              console.log(countriesList,"RES")
+                addCountriesOptions(countriesList);
+              });
+          })
+          .catch(error=>{
+            console.log(error)
               console.log(`Auth error: ${e.message}.`)
           });
         };

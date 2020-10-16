@@ -1,205 +1,288 @@
-{% load actionkit_tags %}<!doctype html>
-<html class="no-blend ak-hosted" lang="{{ page.lang.iso_code|default:"en-US" }}"{% if page.lang.is_rtl %} dir="rtl"{% endif %}>
+{% load actionkit_tags %}
+<!doctype html>
+<html class="no-blend ak-hosted" lang="{{ page.lang.iso_code|default:"en-US" }}" {% if page.lang.is_rtl %} dir="rtl"
+	{% endif %}>
+
 <head>
 
-<!-- Gogle Optimise Anti-flicker snippet -->
-<script>
-	dataLayer = [];
-</script>
-<!-- Anti-flicker snippet (recommended)  -->
-<style>.async-hide { opacity: 0 !important} </style>
-<script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-(a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-})(window,document.documentElement,'async-hide','dataLayer',6000,
-{'GTM-MNNGDHL':true});</script>
+	<!-- Google Optimise Anti-flicker snippet -->
+	<script>
+		dataLayer = [];
+	</script>
+	<!-- Anti-flicker snippet (recommended)  -->
+	<style>
+		.async-hide {
+			opacity: 0 !important
+		}
+	</style>
+	<script>
+		(function (a, s, y, n, c, h, i, d, e) {
+			s.className += ' ' + y;
+			h.start = 1 * new Date;
+			h.end = i = function () {
+				s.className = s.className.replace(RegExp(' ?' + y), '')
+			};
+			(a[n] = a[n] || []).hide = h;
+			setTimeout(function () {
+				i();
+				h.end = null
+			}, c);
+			h.timeout = c;
+		})(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {
+			'GTM-MNNGDHL': true
+		});
+	</script>
 
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MNNGDHL');</script>
-<!-- End Google Tag Manager -->
+	<!-- Google Tag Manager -->
+	<script>
+		(function (w, d, s, l, i) {
+			w[l] = w[l] || [];
+			w[l].push({
+				'gtm.start': new Date().getTime(),
+				event: 'gtm.js'
+			});
+			var f = d.getElementsByTagName(s)[0],
+				j = d.createElement(s),
+				dl = l != 'dataLayer' ? '&l=' + l : '';
+			j.async = true;
+			j.src =
+				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			f.parentNode.insertBefore(j, f);
+		})(window, document, 'script', 'dataLayer', 'GTM-MNNGDHL');
+	</script>
+	<!-- End Google Tag Manager -->
 
-	{% if event.custom_fields.url %}
-		<meta http-equiv="refresh" content="0;url={{ event.custom_fields.url }}" />
-		<style>
-			#redirect-overlay{
-				background: white;
-				width: 100vw;
-				height: 100vh;
-				position: absolute;
-				z-index: 9999;
-			}
-		</style>
-	{% endif %}	
-	<title>{% if events|is_defined %}{{ event.title }} - {% client_name %}{% else %}{{ page.title }} - {% client_name %}{% endif %}</title>
+
+	{% if event.custom_fields.url and page.type == 'EventSignup' %}
+	<meta http-equiv="refresh" content="0;url={{ event.custom_fields.url }}" />
+	<style>
+		#redirect-overlay {
+			background: white;
+			width: 100vw;
+			height: 100vh;
+			position: absolute;
+			z-index: 9999;
+		}
+	</style>
+	{% endif %}
+	<title>{% if events|is_defined %}{{ event.title }} - {% client_name %}{% else %}{{ page.title }} -
+		{% client_name %}{% endif %}</title>
 	<link rel="icon" type="image/png" href="{{ templateset.custom_fields.favicon_url }}" />
 	<meta charset="utf-8" />
 	<meta name="google-site-verification" content="xBbyZ3PFWhcaCUUS4MfP-1L-BCB1CgGiUzcpOzbk6pM" />
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-{% if page.custom_fields.page_hide_from_search_engines %}
+	{% if page.custom_fields.page_hide_from_search_engines %}
 	<meta name="robots" content="noindex">
-{% endif %}
+	{% endif %}
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta property="og:type" content="website" />
 
 	<meta property="fb:app_id" content="{{ templateset.custom_fields.fb_app_id }}" />
 
-{% if page.lang.iso_code == 'en' %}
+	{% if page.lang.iso_code == 'en' %}
 	<meta property="og:locale" content="{{page.lang.iso_code|default:'en' }}_US" />
-{% else %}
-	<meta property="og:locale" content="{{ page.lang.iso_code|default:'en' }}_{{ page.lang.iso_code|default:'US'|upper }}" />
-{% endif %}
+	{% else %}
+	<meta property="og:locale"
+		content="{{ page.lang.iso_code|default:'en' }}_{{ page.lang.iso_code|default:'US'|upper }}" />
+	{% endif %}
 
 	{{ page.followup.share_image_tag }}
-{% if page.custom_fields.fb_pic_url %}
+	{% if page.custom_fields.fb_pic_url %}
 	<meta property="og:image" content="{{ page.custom_fields.fb_pic_url }}" />
-{% endif %}
-{% if events|length %}
+	{% endif %}
+	{% if events|length %}
 	<meta property="og:url" content="https://act.350.org{{ event.public_url }}" />
-	<meta property="og:title" content="{% if event.title %}{{ event.title }} – {{ campaign.local_title }}{% else %}{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}{% endif %}" />
+	<meta property="og:title"
+		content="{% if event.title %}{{ event.title }} – {{ campaign.local_title }}{% else %}{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}{% endif %}" />
 	{% if page.custom_fields.fb_description %}
 	<meta property="og:description" content="{{ page.custom_fields.fb_description }}" />
 	{% else %}
 	<meta property="og:description" content="{{ event.public_description|striptags }}" />
 	{% endif %}
-{% else %}
+	{% else %}
 	{% if page.followup.share_title_tag %}
 	{{ page.followup.share_title_tag }}
 	{% else %}
-	<meta property="og:title" content="{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}" />
+	<meta property="og:title"
+		content="{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}" />
 	{% endif %}
 	{% if page.followup.share_url_tag %}
 	{{ page.followup.share_url_tag }}
 	{% else %}
-	<meta property="og:url" content="{% if page.custom_fields.fb_share_url %}{{ page.custom_fields.fb_share_url }}{% else %}{{ page.followup.share_url_value }}{% endif %}" />
+	<meta property="og:url"
+		content="{% if page.custom_fields.fb_share_url %}{{ page.custom_fields.fb_share_url }}{% else %}{{ page.followup.share_url_value }}{% endif %}" />
 	{% endif %}
 	{% if form.id %}
-	<meta name="description" property="og:description" content="{% block description %}{{ page.followup.share_description_value }}{% endblock %}">
+	<meta name="description" property="og:description"
+		content="{% block description %}{{ page.followup.share_description_value }}{% endblock %}">
 	{% endif %}
 	{% if page.custom_fields.fb_description %}
 	<meta property="og:description" content="{{ page.custom_fields.fb_description }}" />
 	{% endif %}
-{% endif %}
-	<meta name="twitter:url" content="{% if page.custom_fields.fb_share_url %}{{ page.custom_fields.fb_share_url }}{% else %}{{ page.canonical_url }}{% endif %}" />
-	<meta name="twitter:title" content="{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}" />
-	<meta name="twitter:description" content="{% if page.custom_fields.fb_description %}{{ page.custom_fields.fb_description }}{% else %}{{ page.followup.share_description_value }}{% endif %}" />
-{% if page.custom_fields.fb_pic_url %}
+	{% endif %}
+	<meta name="twitter:url"
+		content="{% if page.custom_fields.fb_share_url %}{{ page.custom_fields.fb_share_url }}{% else %}{{ page.canonical_url }}{% endif %}" />
+	<meta name="twitter:title"
+		content="{% if page.custom_fields.fb_title %}{{ page.custom_fields.fb_title|escape }}{% else %}{{page.title|escape}}{% endif %}" />
+	<meta name="twitter:description"
+		content="{% if page.custom_fields.fb_description %}{{ page.custom_fields.fb_description }}{% else %}{{ page.followup.share_description_value }}{% endif %}" />
+	{% if page.custom_fields.fb_pic_url %}
 	<meta name="twitter:image" content="{{ page.custom_fields.fb_pic_url }}" />
-{% endif %}
+	{% endif %}
 
 	<meta name="twitter:site" content="{{ templateset.custom_fields.site_twitter }}" />
 	<meta name="twitter:site:id" content="{{ templateset.custom_fields.site_url }}" />
 
-{% block meta_additions %}{% endblock %}
+	{% block meta_additions %}{% endblock %}
+	<!-- Mapbox GL Source -->
+	<script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
+	<!-- End -->
 
-	<link rel='stylesheet' id='baseline-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak-dev/ak-v3.css' type='text/css' media='screen' />
-{% if templateset.custom_fields.site_addl_css_url %}
-	<link rel='stylesheet' id='addl-css' href='{{ templateset.custom_fields.site_addl_css_url }}' type='text/css' media='screen' />
-{% endif %}
+	<link rel='stylesheet' id='baseline-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.css?v=2018091408552'
+		type='text/css' media='screen' />
+	{% if templateset.custom_fields.site_addl_css_url %}
+	<link rel='stylesheet' id='addl-css' href='{{ templateset.custom_fields.site_addl_css_url }}' type='text/css'
+		media='screen' />
+	{% endif %}
 
-{% if page.lang.is_rtl %}
-	<link rel='stylesheet' id='baseline-rtl-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3-rtl.css' type='text/css' media='all' />
-{% endif %}
+	{% if page.lang.is_rtl %}
+	<link rel='stylesheet' id='baseline-rtl-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3-rtl.css'
+		type='text/css' media='all' />
+	{% endif %}
 
 	<style>
-{% if page.custom_fields.page_background_image %}
-		#body-mobile-background{
-			background-color:{{ templateset.custom_fields.color_page }};
-			background-image:url({{ page.custom_fields.page_background_image }});}
-{% endif %}
+		{
+			% if page.custom_fields.page_background_image %
+		}
+
+		#body-mobile-background {
+			background-color: {
+					{
+					templateset.custom_fields.color_page
+				}
+			}
+
+			;
+			background-image:url({{ page.custom_fields.page_background_image }});
+		}
+
+			{
+			% endif %
+		}
 	</style>
 
-{% block css_additions %}{% endblock %}
+	{% block css_additions %}{% endblock %}
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script type="text/javascript" src="/resources/actionkit.js"></script>
-<!--[if lte IE 9]>
+	<script type="text/javascript" src="https://act.350.org/resources/actionkit.js"></script>
+	<!--[if lte IE 9]>
 	<link href="https://dbqvwi2zcv14h.cloudfront.net/images/ak-v3-ie9.css" rel="stylesheet" type="text/css">
 	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
 	<script src="https://dbqvwi2zcv14h.cloudfront.net/images/respond.js"></script>
 <![endif]-->
-{% block script_additions %}{% endblock %}
+	{% block script_additions %}{% endblock %}
 
-{% if page.custom_fields.page_fb_pixel == "yes" %}
-<!-- Facebook Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '147925275930541');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=147925275930541&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
-{% endif %}
-<!-- Hotjar Tracking Code -->
-<script>
-   (function(h,o,t,j,a,r){
-       h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-       h._hjSettings={hjid:1573381,hjsv:6};
-       a=o.getElementsByTagName('head')[0];
-       r=o.createElement('script');r.async=1;
-       r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-       a.appendChild(r);
-   })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
+	{% if page.custom_fields.page_fb_pixel == "yes" %}
+	<!-- Facebook Pixel Code -->
+	<script>
+		! function (f, b, e, v, n, t, s) {
+			if (f.fbq) return;
+			n = f.fbq = function () {
+				n.callMethod ?
+					n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+			};
+			if (!f._fbq) f._fbq = n;
+			n.push = n;
+			n.loaded = !0;
+			n.version = '2.0';
+			n.queue = [];
+			t = b.createElement(e);
+			t.async = !0;
+			t.src = v;
+			s = b.getElementsByTagName(e)[0];
+			s.parentNode.insertBefore(t, s)
+		}(window, document, 'script',
+			'https://connect.facebook.net/en_US/fbevents.js');
+		fbq('init', '147925275930541');
+		fbq('track', 'PageView');
+	</script>
+	<noscript><img height="1" width="1" style="display:none"
+			src="https://www.facebook.com/tr?id=147925275930541&ev=PageView&noscript=1" /></noscript>
+	<!-- End Facebook Pixel Code -->
+	{% endif %}
+	<!-- Hotjar Tracking Code -->
+	<script>
+		(function (h, o, t, j, a, r) {
+			h.hj = h.hj || function () {
+				(h.hj.q = h.hj.q || []).push(arguments)
+			};
+			h._hjSettings = {
+				hjid: 1573381,
+				hjsv: 6
+			};
+			a = o.getElementsByTagName('head')[0];
+			r = o.createElement('script');
+			r.async = 1;
+			r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+			a.appendChild(r);
+		})(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+	</script>
 
-{% if templateset.custom_fields.site_addl_js_url %}
+	{% if templateset.custom_fields.site_addl_js_url %}
 	<script type="text/javascript" src="{{ templateset.custom_fields.site_addl_js_url }}"></script>
-{% endif %}
+	{% endif %}
 
-{% if page.custom_fields.page_custom_header_code %}
+	{% if page.custom_fields.page_custom_header_code %}
 	{% autoescape off %}
-		{{ page.custom_fields.page_custom_header_code }}
+	{{ page.custom_fields.page_custom_header_code }}
 	{% endautoescape %}
-{% endif %}
+	{% endif %}
 
 </head>
 
-<body class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.iso_code|default:'en-US'}} page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %} {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js ">
-	
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNNGDHL"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-	
-{% if page.custom_fields.page_hide_from_search_engines %}
-<div id="hidden-from-search-engines-bar" class="section bg-teal text-center text-small padding-tiny width-wide">
-	<div class="section-inner">
-		<p>This page is currently being hidden from search engines.</p>
+<body
+	class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.iso_code|default:'en-US'}} page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %} {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js ">
+
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNNGDHL" height="0" width="0"
+			style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+
+	{% if page.custom_fields.page_hide_from_search_engines %}
+	<div id="hidden-from-search-engines-bar" class="section bg-teal text-center text-small padding-tiny width-wide">
+		<div class="section-inner">
+			<p>This page is currently being hidden from search engines.</p>
+		</div>
 	</div>
-</div>
-{% endif %}
-{% if event.custom_fields.url %}
+	{% endif %}
+	{% if event.custom_fields.url %}
 	<div id="redirect-overlay">
 	</div>
-{% endif %}	
+	{% endif %}
 
-{% if request.user.is_authenticated %}
-<div id="admin-bar" class="section padding-none border-bottom bg-white width-wide">
-	<div class="section-inner">
-		<nav id="admin-menu" class="text-small2">
-			<h3 class="admin-menu-title text-small text-caps text-font-secondary margin-bottom-none">Admin Menu</h3>
-	{% if page.id %}
-			<a class="admin-menu-edit-link" href="{% client_domain_url %}admin/core/page/{{ page.id }}"><span class="icon-before icon-faded" data-icon="&#xE913;"></span>Edit this page</a>
-	{% else %}
-			<a class="admin-menu-edit-link opacity-50" style="color:inherit !important;" title="This page is not editable."><span class="icon-before icon-faded" data-icon="&#xE913;"></span><strike>Edit this page</strike> &nbsp;<em class="text-small2">(this page is not editable)</em></a>
-	{% endif %}
-	{% if request.user.username %}
-			<span class="admin-menu-name"><span class="icon-before icon-faded" data-icon="&#xE904;"></span>{{ request.user.username }}</span>
-	{% endif %}
-			<a class="admin-menu-logout" href="{% client_domain_url %}accounts/logout"><span class="icon-before icon-faded" data-icon="&#xE94E;"></span>Log out</a>
-		</nav>
+	{% if request.user.is_authenticated %}
+	<div id="admin-bar" class="section padding-none border-bottom bg-white width-wide">
+		<div class="section-inner">
+			<nav id="admin-menu" class="text-small2">
+				<h3 class="admin-menu-title text-small text-caps text-font-secondary margin-bottom-none">Admin Menu</h3>
+				{% if page.id %}
+				<a class="admin-menu-edit-link" href="{% client_domain_url %}admin/core/page/{{ page.id }}"><span
+						class="icon-before icon-faded" data-icon="&#xE913;"></span>Edit this page</a>
+				{% else %}
+				<a class="admin-menu-edit-link opacity-50" style="color:inherit !important;"
+					title="This page is not editable."><span class="icon-before icon-faded"
+						data-icon="&#xE913;"></span><strike>Edit this page</strike> &nbsp;<em class="text-small2">(this page is not
+						editable)</em></a>
+				{% endif %}
+				{% if request.user.username %}
+				<span class="admin-menu-name"><span class="icon-before icon-faded"
+						data-icon="&#xE904;"></span>{{ request.user.username }}</span>
+				{% endif %}
+				<a class="admin-menu-logout" href="{% client_domain_url %}accounts/logout"><span class="icon-before icon-faded"
+						data-icon="&#xE94E;"></span>Log out</a>
+			</nav>
+		</div>
 	</div>
 </div>
 {% endif %}
@@ -226,54 +309,81 @@ actionkit.forms.initForm('act');
   ga('create', '{{ analytics_key }}', 'auto');
   ga('send', 'pageview');
 */
-</script>
+	</script>
 
-{% endif %}
-<div class="clear" /></div>
-
-{% comment %}
--------------
-We're getting wild with Custom Templateset Fields and string translation in here.
-So that we can keep things DRY while still having translatability and the
-flexibility we need, we're using {% include_tmpl ... %} to pull in CTFs so that
-we can include {% filter ak_text:"..." %} strings _inside_ the CTFs that will then
-be translated.
--------------
-{% endcomment %}
-
-<footer id="site-footer" class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif templateset.custom_fields.site_bg_color_slug %}{{ templateset.custom_fields.site_bg_color_slug }}{% else %}white{% endif %} width-full text-small">
-	<div class="section-inner">
-
-		<nav id="footer-links" class="c6_6 ct10 cm10 c-wide">
-{% filter collapse_spaces %}
-{% autoescape off %}
-	{% if templateset.custom_fields.site_logo_html %}
-			{% include_tmpl templateset.custom_fields.site_logo_html %}
-	{% else %}
-			<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3" href="{% filter ak_text:"footer_logo_url" %}https://350.org/{% endfilter %}">350.org</a></span>
 	{% endif %}
-	{% if templateset.custom_fields.site_footer_menu %}
-		<div class="footer-custom-links">
-			{% include_tmpl templateset.custom_fields.site_footer_menu %}
-		</div>
-	{% else %}
-			 &nbsp;&nbsp; <a href="{% filter ak_text:"footer_about_url" %}https://350.org/about{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a> /{% ifequal page.type "Donation" %} {% else %} <a
-	href="{% filter ak_text:"footer_donate_url" %}https://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a> / {% endifequal%}<a id="privacy-link" href="{% filter ak_text:"footer_privacy_url" %}https://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a> / <a href="{% filter ak_text:"footer_contact_url" %}https://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
-	{% endif %}
-{% endautoescape %}
-{% endfilter %}
-		</nav>
+	<div class="clear" />
+	</div>
 
-{% if page.custom_fields.page_background_image %}
-	{% autoescape off %}
-		<div class="c3_3 ct4 cm10 right text-right">
-		{% if page.custom_fields.page_background_image_credit %}
-			<span class="mobile-hide page-bg-img-credit icon-before icon-faded text-underline-none" data-icon="&#xE90A;" href="">{{ page.custom_fields.page_background_image_credit }}</span>
-		{% else %}
-			<a class="page-bg-img-credit mobile-hide icon-before icon-faded text-underline-none" data-icon="&#xE90A;" href="{{ page.custom_fields.page_background_image }}">{% filter ak_text:"general_view_bg" %}View Background Image{% endfilter %}</a>
-		{% endif %}
+	{% comment %}
+	-------------
+	We're getting wild with Custom Templateset Fields and string translation in here.
+	So that we can keep things DRY while still having translatability and the
+	flexibility we need, we're using {% include_tmpl ... %} to pull in CTFs so that
+	we can include {% filter ak_text:"..." %} strings _inside_ the CTFs that will then
+	be translated.
+	-------------
+	{% endcomment %}
+
+	<footer id="site-footer"
+		class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif templateset.custom_fields.site_bg_color_slug %}{{ templateset.custom_fields.site_bg_color_slug }}{% else %}white{% endif %} width-full text-small">
+		<div class="section-inner">
+
+			<nav id="footer-links" class="c6_6 ct10 cm10 c-wide">
+				{% filter collapse_spaces %}
+				{% autoescape off %}
+				{% if templateset.custom_fields.site_logo_html %}
+				{% include_tmpl templateset.custom_fields.site_logo_html %}
+				{% else %}
+				<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3"
+						href="{% filter ak_text:"footer_logo_url" %}https://350.org/{% endfilter %}">350.org</a></span>
+				{% endif %}
+				{% if templateset.custom_fields.site_footer_menu %}
+				<div class="footer-custom-links">
+					{% include_tmpl templateset.custom_fields.site_footer_menu %}
+				</div>
+				{% else %}
+				&nbsp;&nbsp; <a
+					href="{% filter ak_text:"footer_about_url" %}https://350.org/about{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a>
+				/{% ifequal page.type "Donation" %} {% else %} <a
+					href="{% filter ak_text:"footer_donate_url" %}https://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a>
+				/ {% endifequal%}<a id="privacy-link"
+					href="{% filter ak_text:"footer_privacy_url" %}https://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a>
+				/ <a
+					href="{% filter ak_text:"footer_contact_url" %}https://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
+				{% endif %}
+				{% endautoescape %}
+				{% endfilter %}
+			</nav>
+
+			{% if page.custom_fields.page_background_image %}
+			{% autoescape off %}
+			<div class="c3_3 ct4 cm10 right text-right">
+				{% if page.custom_fields.page_background_image_credit %}
+				<span class="mobile-hide page-bg-img-credit icon-before icon-faded text-underline-none" data-icon="&#xE90A;"
+					href="">{{ page.custom_fields.page_background_image_credit }}</span>
+				{% else %}
+				<a class="page-bg-img-credit mobile-hide icon-before icon-faded text-underline-none" data-icon="&#xE90A;"
+					href="{{ page.custom_fields.page_background_image }}">{% filter ak_text:"general_view_bg" %}View Background
+					Image{% endfilter %}</a>
+				{% endif %}
+			</div>
+			{% endautoescape %}
+			{% endif %}
+
 		</div>
-	{% endautoescape %}
+	</footer>
+
+	<script src="https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.js"></script>
+	{% if page.custom_fields.form_include_college %}
+	{% comment %} Select menu plugin for huge select menus: https://harvesthq.github.com/chosen/ {% endcomment %}
+	<link rel="stylesheet" type="text/css" href="//dbqvwi2zcv14h.cloudfront.net/images/chosen.css" />
+	<script type="text/javascript" src="//dbqvwi2zcv14h.cloudfront.net/images/chosen.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			jQuery("#user_campus").chosen();
+		});
+	</script>
 	{% endif %}
 
 	</div>
@@ -293,103 +403,118 @@ jQuery(document).ready(function(){
 
 {% comment %}
 	Font loading code — checks for custom page field fonts, then checks for language/writing system, then checks for CTF,
-{% endcomment %}
+	{% endcomment %}
 
-{% autoescape off %}
-{% if page.custom_fields.page_custom_webfonts %}
+	{% autoescape off %}
+	{% if page.custom_fields.page_custom_webfonts %}
 	{{ page.custom_fields.page_custom_webfonts }}
-{% else %}
-	{% if page.lang.iso_code == "ar" %}
-		{% if templateset.custom_fields.font_loading_code_arabic %}
-			{{ templateset.custom_fields.font_loading_code_arabic }}
-		{% else %}
-<style>
-@import url(https://fonts.googleapis.com/earlyaccess/notokufiarabic.css);
-@import url(https://fonts.googleapis.com/earlyaccess/notonaskharabic.css);
-
-	h1,h2,h3,
-	.title1,.title2,.title3,.title4,
-	.text-font-display{
-		font-family:"Noto Kufi Arabic",-apple-system,BlinkMacSystemFont,Arial,sans-serif;}
-	body,
-	button, input, select, textarea,
-	.text-font-body{
-		font-family:"Noto Naskh Arabic",-apple-system,BlinkMacSystemFont,Arial,sans-serif;}
-</style>
-<script>
-	WebFontConfig = {
-		custom: {
-			families: ['tf-icons:n7'],
-			urls: ['https://dbqvwi2zcv14h.cloudfront.net/fonts/ak-fonts.css'],
-			testStrings: {
-				'tf-icons': '\u0020\uE900',
-			}
-		},
-		active: function() {
-			sessionStorage.fonts = true;
-		}
-	};
-	(function() {
-		var wf = document.createElement('script');
-		wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-		'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-		wf.type = 'text/javascript';
-		wf.async = 'true';
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(wf, s);
-	})();
-</script>
-		{% endif %}
-	{% elif page.lang.iso_code == "ja" or page.lang.iso_code == "zh" or page.lang.iso_code == "kr" %}
-		{% if templateset.custom_fields.font_loading_code_cjk %}
-			{{ templateset.custom_fields.font_loading_code_cjk }}
-		{% else %}
-		{% endif %}
 	{% else %}
-		{% if templateset.custom_fields.font_loading_code_roman %}
-			{{ templateset.custom_fields.font_loading_code_roman }}
-		{% else %}
-<script>
-	WebFontConfig = {
-		custom: {
-			families: ['GraphCondensedWeb:n7', 'KlimaWeb:n9', 'tf-icons:n7'],
-			urls: ['https://dbqvwi2zcv14h.cloudfront.net/fonts/ak-fonts.css'],
-			testStrings: {
-				'tf-icons': '\u0020\uE900',
-			}
-		},
-		active: function() {
-			sessionStorage.fonts = true;
+	{% if page.lang.iso_code == "ar" %}
+	{% if templateset.custom_fields.font_loading_code_arabic %}
+	{{ templateset.custom_fields.font_loading_code_arabic }}
+	{% else %}
+	<style>
+		@import url(https://fonts.googleapis.com/earlyaccess/notokufiarabic.css);
+		@import url(https://fonts.googleapis.com/earlyaccess/notonaskharabic.css);
+
+		h1,
+		h2,
+		h3,
+		.title1,
+		.title2,
+		.title3,
+		.title4,
+		.text-font-display {
+			font-family: "Noto Kufi Arabic", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 		}
-	};
-	(function() {
-		var wf = document.createElement('script');
-		wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-		'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-		wf.type = 'text/javascript';
-		wf.async = 'true';
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(wf, s);
-	})();
-</script>
-<script>startTime=new Date()</script>
-		{% endif %}
+
+		body,
+		button,
+		input,
+		select,
+		textarea,
+		.text-font-body {
+			font-family: "Noto Naskh Arabic", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+		}
+	</style>
+	<script>
+		WebFontConfig = {
+			custom: {
+				families: ['tf-icons:n7'],
+				urls: ['https://dbqvwi2zcv14h.cloudfront.net/fonts/ak-fonts.css'],
+				testStrings: {
+					'tf-icons': '\u0020\uE900',
+				}
+			},
+			active: function () {
+				sessionStorage.fonts = true;
+			}
+		};
+		(function () {
+			var wf = document.createElement('script');
+			wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+				'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+			wf.type = 'text/javascript';
+			wf.async = 'true';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(wf, s);
+		})();
+	</script>
 	{% endif %}
-{% endif %}
-{% endautoescape %}
+	{% elif page.lang.iso_code == "ja" or page.lang.iso_code == "zh" or page.lang.iso_code == "kr" %}
+	{% if templateset.custom_fields.font_loading_code_cjk %}
+	{{ templateset.custom_fields.font_loading_code_cjk }}
+	{% else %}
+	{% endif %}
+	{% else %}
+	{% if templateset.custom_fields.font_loading_code_roman %}
+	{{ templateset.custom_fields.font_loading_code_roman }}
+	{% else %}
+	<script>
+		WebFontConfig = {
+			custom: {
+				families: ['GraphCondensedWeb:n7', 'KlimaWeb:n9', 'tf-icons:n7'],
+				urls: ['https://dbqvwi2zcv14h.cloudfront.net/fonts/ak-fonts.css'],
+				testStrings: {
+					'tf-icons': '\u0020\uE900',
+				}
+			},
+			active: function () {
+				sessionStorage.fonts = true;
+			}
+		};
+		(function () {
+			var wf = document.createElement('script');
+			wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+				'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+			wf.type = 'text/javascript';
+			wf.async = 'true';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(wf, s);
+		})();
+	</script>
+	<script>
+		startTime = new Date()
+	</script>
+	<script src="https://350map.org/main.js"></script>
+	{% endif %}
+	{% endif %}
+	{% endif %}
+	{% endautoescape %}
 
-{% ifequal page.type "EventCreate" %}
-<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
-{% endifequal %}
+	{% ifequal page.type "EventCreate" %}
+	<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+	{% endifequal %}
 
-{% block tail_js %}{% endblock %}
+	{% block tail_js %}{% endblock %}
 
-<script type="text/javascript">
-	if ('parentIFrame' in window) {
-	  parentIFrame.sendMessage(window.location.href, "*");
-	}
-</script>
+	<script type="text/javascript">
+		if ('parentIFrame' in window) {
+			parentIFrame.sendMessage(window.location.href, "*");
+		}
+	</script>
 
-<div id="body-mobile-background"></div>
+	<div id="body-mobile-background"></div>
 </body>
-</html><!-- testing again -->
+
+</html><!-- one more test for cache awesomeness -->

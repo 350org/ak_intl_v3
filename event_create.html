@@ -204,7 +204,16 @@
 				{% else %}
 					{% filter ak_text:"event_create_field_label_description_help" %}Your event description will be displayed on the website, so try to write a compelling invitation that will make people want to join. You will be able to edit it later if your plans change. (5 word minimum){% endfilter %}
 				{% endif %}
-				</p>
+        </p>
+        {% if update %}
+  <div class="input-text ak-input-type-event">
+    <label for="id_action_external_signups">How many confirmed attendees do you have from other sources, eg. a Facebook event?</label>
+    <input type="number" name="action_external_signups" id="id_action_external_signups" style="width: 100px;" value="{%if events_eventfield.external_signups%}{{events_eventfield.external_signups}} {% else %} 0 {% endif %}">
+      <p class="text-small opacity-50">
+					{% filter ak_text:"event_create_field_label_add_external_signups_help" %}We will add this number to the total number of attendees shown on the signup page.{% endfilter %}
+        </p>
+  </div>
+  {% endif%}
       </fieldset>
     </div>
   </div>

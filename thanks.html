@@ -139,8 +139,9 @@
 					}
 					
 					var makeButton = function(amount) {
-						$('#suggestions').append('<button class="upsell_btn button" data-amt="'+parseInt(amount)+'">'+getCurrency(amount)+'/mo</button>')	
+						$('#suggestions').append('<button class="upsell_btn button" data-amt="'+parseInt(amount)+'">'+getCurrency(amount)+'{% filter ak_text:"donate_monthly_upsell_button_suffix" %}/mo{% endfilter %}</button>')	
 					}
+					
 
 					var pageLanguage = "{{page.lang.iso_code}}";
 
@@ -207,7 +208,7 @@
 					<div class="upsell_other_amt">
 						<label id="other_symbol">$</label>
 						<input type="number" id="other_amt">
-						<button id="other_amt_btn" class="button">Give Monthly</button>
+						<button id="other_amt_btn" class="button">{% filter ak_text:"donate_monthly_upsell_other_button" %}Give Monthly{% endfilter %}</button>
 					</div>
 			 </div>
 

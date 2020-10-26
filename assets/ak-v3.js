@@ -787,7 +787,7 @@ if (toggle_option_one && toggle_option_two) {
 
   function toggleHidden(nodes) {
     for (var node of nodes) {
-      node.classList.toggle('hidden')
+      node.classList.toggle('hidden');
     }
   }
 }

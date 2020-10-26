@@ -172,7 +172,9 @@ iframe[width="1"][height="1"] {
     <button class="arrow-right margin-top-large close-donation-splash-modal" id="donation-splash-skip">Continue to 350.org</button>
     <style>
       .ak-donate-three-step,
-      #action-toc {
+      #action-toc,
+      #donation-other,
+      #site-footer {
         display: none;
       }
       #donation-splash-skip {
@@ -181,6 +183,12 @@ iframe[width="1"][height="1"] {
         color: white;
         font-size: 1.25rem;
         display: block;
+      }
+      @media screen and (min-width:720px) {
+        #action-lead.bg-blue-fade {
+          background-color: transparent;
+          background-image: linear-gradient(to left, rgba(15, 129, 232, 0.5) 0%, rgba(15, 129, 232, 0.95) 500px, rgba(15, 129, 232, 0.95) 100%);
+        }
       }
     </style>
     <script>

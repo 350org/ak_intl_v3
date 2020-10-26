@@ -175,6 +175,19 @@
 			 </div>
 
 			{% endif %}
+
+			{% if page.custom_fields.donation_splash_page == 'Y' %}
+			<button class="arrow-right margin-top-large close-donation-splash-modal" id="donation-splash-skip">Continue to 350.org</button>
+			<style>
+				#donation-splash-skip {
+					background: none;
+					border: none;
+					color: white;
+					font-size: 1.25rem;
+					display: block;
+				}
+			</style>
+			{% endif %}
 		</div>
 		<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">
 			<input type="hidden" name="utf8" value="&#x2714;" />

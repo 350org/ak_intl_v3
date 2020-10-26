@@ -165,7 +165,21 @@ iframe[width="1"][height="1"] {
 		<div {% if page.custom_fields.page_layout_style == "expanded" %}{% else %}data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}2{% endif %}"{% endif %}>
 			{% include_tmpl form.ask_text %}
 		</div>
-	</div>
+  </div>
+  {% if page.custom_fields.donation_splash_page == 'Y' %}
+    <button class="button-primary button-big arrow-right" id="donation-splash-next">Donate Now</button>
+    <p style="max-width: 200px;text-align:center;" class="margin-top-large">Or</p>
+    <button class="arrow-right margin-top-large close-donation-splash-modal" id="donation-splash-skip">Continue to 350.org</button>
+    <style>
+      #donation-splash-skip {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.25rem;
+        display: block;
+      }
+    </style>
+  {% endif %}
 
 {% comment %}If "layout" is *not* set to "expanded", end the title <div> here, after the description <div>.{% endcomment %}
 {% if page.custom_fields.page_layout_style != 'expanded' %}

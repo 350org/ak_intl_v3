@@ -177,16 +177,17 @@
 			{% endif %}
 
 			{% if page.custom_fields.donation_splash_page == 'Y' %}
-			<button class="arrow-right margin-top-large close-donation-splash-modal" id="donation-splash-skip">Continue to 350.org</button>
-			<style>
-				#donation-splash-skip {
-					background: none;
-					border: none;
-					color: white;
-					font-size: 1.25rem;
-					display: block;
-				}
-			</style>
+			<button style="display:block; margin-left: auto; margin-right:auto;" class="button button-primary arrow-right margin-top-large close-donation-splash-modal">Continue to 350.org</button>
+			<script>
+				$(function(){
+					$('.close-donation-splash-modal').on('click', function(){
+						// send close modal post message
+						window.parent.postMessage({
+							'type': 'close-splash-modal'
+						}, '*');
+					});
+				});
+			</script>
 			{% endif %}
 		</div>
 		<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">

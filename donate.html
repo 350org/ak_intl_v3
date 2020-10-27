@@ -195,7 +195,7 @@ iframe[width="1"][height="1"] {
       }
     </style>
     <script>
-      $(function(){
+      (function() {
         function sendResizeEvent() {
           var pageHeight = $('body').height();
           window.parent.postMessage({
@@ -203,24 +203,25 @@ iframe[width="1"][height="1"] {
             'pageHeight': pageHeight
           }, '*');
         }
-
-        $('#donation-splash-next').on('click', function(){
-          $('.ak-donate-three-step, #action-toc').show();
+        $(function(){
+          $('#donation-splash-next').on('click', function(){
+            $('.ak-donate-three-step, #action-toc').show();
+            sendResizeEvent();
+          });
+          $('.close-donation-splash-modal').on('click', function(){
+            // send close modal post message
+            window.parent.postMessage({
+              'type': 'close-splash-modal'
+            }, '*');
+          });
+          $(window).resize(function() {
+            sendResizeEvent();
+          });
+        });
+        $(window).load(function(){
           sendResizeEvent();
         });
-        $('.close-donation-splash-modal').on('click', function(){
-          // send close modal post message
-          window.parent.postMessage({
-            'type': 'close-splash-modal'
-          }, '*');
-        });
-        $(window).resize(function() {
-          sendResizeEvent();
-        });
-      });
-      $(window).load(function(){
-        sendResizeEvent();
-      });
+      })();
     </script>
   {% endif %}
 

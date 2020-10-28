@@ -167,9 +167,11 @@ iframe[width="1"][height="1"] {
 		</div>
   </div>
   {% if page.custom_fields.donation_splash_page == 'Y' %}
-    <button class="button button-primary button-big arrow-right" id="donation-splash-next">Donate Now</button>
-    <p style="max-width: 200px;text-align:center;" class="margin-top-large">Or</p>
-    <button class="arrow-right margin-top-large close-donation-splash-modal" id="donation-splash-skip">Continue to 350.org</button>
+    <div class="splash-buttons">
+      <button class="button button-primary button-big arrow-right" id="donation-splash-next">Donate Now</button>
+      <p style="max-width: 200px;text-align:center;" class="margin-top-large">Or</p>
+      <button class="arrow-right margin-top-large close-donation-splash-modal" id="donation-splash-skip">Continue to 350.org</button>
+    </div>
     <style>
       .ak-donate-three-step,
       #action-toc,
@@ -208,7 +210,7 @@ iframe[width="1"][height="1"] {
         }
         $(function(){
           $('#donation-splash-next').on('click', function(){
-            $('#donation-splash-next, .close-donation-splash-modal').hide();
+            $('.splash-buttons').hide();
             $('.ak-donate-three-step, #action-toc').show();
             sendResizeEvent();
           });

@@ -187,29 +187,13 @@
 				}
 			</style>
 			<script>
-				(function() {
-					function sendResizeEvent() {
-						var pageHeight = $('body').height();
-						window.parent.postMessage({
-							'type': 'splash-modal-resize',
-							'pageHeight': pageHeight
-						}, '*');
-					}
-					$(function(){
-						$('.close-donation-splash-modal').on('click', function(){
-							// send close modal post message
-							window.parent.postMessage({
-								'type': 'close-splash-modal'
-							}, '*');
-						});
-						$(window).resize(function() {
-            				sendResizeEvent();
-          				});
-					});
-					$(window).load(function(){
-						sendResizeEvent();
-					});
-				})();
+			$(function(){
+				$('.close-donation-splash-modal').on('click', function(){
+					window.parent.postMessage({
+						'type': 'close-splash-modal'
+					}, '*');
+				});
+			});
 			</script>
 			{% endif %}
 		</div>

@@ -169,7 +169,7 @@ iframe[width="1"][height="1"] {
   {% if page.custom_fields.donation_splash_page == 'Y' %}
     <div class="splash-buttons">
       <button class="button button-primary button-big arrow-right" id="donation-splash-next">Donate Now</button>
-      <p style="max-width: 200px;text-align:center;" class="margin-top-large">Or</p>
+      <p style="max-width: 179px;text-align:center;" class="margin-top-large">Or</p>
       <button class="arrow-right margin-top-large close-donation-splash-modal" id="donation-splash-skip">Continue to 350.org</button>
     </div>
     <style>
@@ -201,37 +201,21 @@ iframe[width="1"][height="1"] {
     </style>
     <script>
       (function() {
-        function sendResizeEvent() {
-          
-          var pageHeight = $('html').height();
-          console.log('iframe resizing: ' + pageHeight);
-          window.parent.postMessage({
-            'type': 'splash-modal-resize',
-            'pageHeight': pageHeight
-          }, '*');
-        }
         $(function(){
           $('#donation-splash-next').on('click', function(){
             $('.splash-buttons').hide();
             $('.ak-donate-three-step, #action-toc').show();
-            sendResizeEvent();
           });
           $('.close-donation-splash-modal').on('click', function(){
-            // send close modal post message
             window.parent.postMessage({
               'type': 'close-splash-modal'
             }, '*');
-          });
-          $(window).resize(function() {
-            
-            sendResizeEvent();
           });
         });
         $(window).load(function(){
           window.parent.postMessage({
             'type': 'splash-modal-ready'
           }, '*');
-          sendResizeEvent();
         });
       })();
     </script>

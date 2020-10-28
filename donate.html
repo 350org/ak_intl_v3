@@ -202,7 +202,7 @@ iframe[width="1"][height="1"] {
         function sendResizeEvent() {
           //var pageHeight = $('body').height();
           var contentHeight = $('#action-lead').height();
-          console.log('page height - ' + pageHeight);
+          //console.log('page height - ' + pageHeight);
           window.parent.postMessage({
             'type': 'splash-modal-resize',
             'pageHeight': contentHeight

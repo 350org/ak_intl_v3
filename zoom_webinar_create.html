@@ -229,29 +229,7 @@
           }
         ];
 
-        const regionList = [
-          {
-            displayText: "Asia",
-            value: 1
-          },
-          {
-            displayText: "Africa",
-            value: 2
-          },
-          {
-            displayText: "Europe",
-            value: 3
-          },
-          {
-            displayText: "Latin America",
-            value: 4
-          },
-          {
-            displayText: "Global",
-            value: 5
-          },
-          
-        ];
+        const regionList = ["Asia", "Africa", "Europe", "Latin America", "Global"];
 
 
         const errorKeys = [
@@ -293,7 +271,7 @@
         // Menu for region
         regionList.forEach(region=>{
            $("#id_webinar_region").append(
-            `<option value=${region.value}>${region.displayText}</option>`
+            `<option value=${region}>${region}</option>`
            )
         });
 

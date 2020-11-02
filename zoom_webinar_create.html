@@ -32,7 +32,9 @@
     </div>
          <div class="input-text ak-input-type-event input-address third-full">
         <label for="id_webinar_country">{% filter ak_text:"webinar_country"|capfirst %}Country (optional){% endfilter %}</label>
-        <select name="action_webinar_country" id="id_webinar_country" placeholder="Select country here..." type="text"></select>
+        <select name="action_webinar_country" id="id_webinar_country" placeholder="Select country here..." type="text">
+          <option value="" selected disabled hidden>--</option>
+        </select>
     </div>
     </div>
     {% if not update %}
@@ -112,6 +114,7 @@
                     webinarErrors.hide();
                     zoomDetails.hide();
                     response.json().then(data=>{ 
+                      console.log(data, "datea")
                         // add the url to the address
                         resetErrors();
                         $("#id_event_address1").val(`Link: ${data.data.join_url} , Password: ${data.data.password || ""}`);
@@ -129,12 +132,14 @@
                 }
             })
             .catch(e=>{
+              console.log(e, "e")
                 $("#webinar-errors").show()
                 $("#webinar-errors").append('<li>Oops! An error occurred when generating the link for your webinar. Please try again later. If this persists contact: web@350.org</li>');
             })
         }
         // API CALL
         // simple cache
+        // Zoom account email
         let timezonesList = [];
         let countriesList = [];
 
@@ -184,13 +189,9 @@
           });
         };
 
-        console.log('here? countries')
       if(countriesList.length){
-        console.log('here?')
            addCountriesOptions(countriesList);
         } else {
-          
-        console.log('here? no length')
           fetch(`https://zaki-server.herokuapp.com/api/v1/countries`)
           .then(response=>{
               if(!response.ok) throw new Error("Response not ok.")
@@ -207,7 +208,7 @@
               console.log(`Auth error: ${e.message}.`)
           });
         };
-      
+    
 
         const durationList = [
           {
@@ -230,7 +231,7 @@
 
         const regionList = [
           {
-            displayText: "Canada",
+            displayText: "Asia",
             value: 1
           },
           {
@@ -238,13 +239,18 @@
             value: 2
           },
           {
-            displayText: "Asia",
+            displayText: "Europe",
             value: 3
           },
           {
-            displayText: "Pacific",
+            displayText: "Latin America",
             value: 4
           },
+          {
+            displayText: "Global",
+            value: 5
+          },
+          
         ];
 
 
@@ -346,6 +352,7 @@
             const date = $("#id_event_starts_at_date").val();
             const time = $("#id_event_starts_at_time").val();
             const amPm = $("#id_event_starts_at_ampm").val();
+            const email = $("#id_webinar_email").val();
             const dateFormat = moment(date, "MM-D-YYYY").format("YYYY-MM-DD");
             const start_time = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('HH:mm:ss');
             const start_date = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('YYYY-MM-DD');
@@ -367,11 +374,16 @@
                   duration,
                   timezone: timezonesList.filter(t=>t.name === timezone)[0].id,
                   password: generateZoomWebinarPassword(4),
-                  agenda
+                  agenda,
+                  settings: {
+                    alternative_hosts: email
+                  }
               };
+              console.log(payload,"here")
               makeAPICall(payload);
             }  
         });
+        
         // Add Meeting Link
         $("#add-meeting-link").on("click", event=>{
             event.preventDefault();
@@ -403,7 +415,7 @@
                   duration,
                   timezone: timezonesList.filter(t=>t.name === timezone)[0].id,
                   password: generateZoomWebinarPassword(4),
-                  agenda
+                  agenda,
               };
               makeAPICall(payload, true);
             }  

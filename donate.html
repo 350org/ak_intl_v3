@@ -181,6 +181,7 @@ iframe[width="1"][height="1"] {
       }
       #action-lead {
         display: block; /* stop header and paragraph from jumping when showing donate page */
+        padding: 16vw 12vw;
       }
       section.section:only-of-type {
         min-height: 100vh;
@@ -211,6 +212,14 @@ iframe[width="1"][height="1"] {
         #action-lead.bg-blue-fade {
           background-color: transparent;
           background-image: linear-gradient(270.76deg, rgba(15, 129, 233, 0) 26.32%, rgba(15, 129, 233, 0.54) 48.94%, #0D6AC0 74.65%, #0B5AA3 99.33%);
+        }
+        #action-lead {
+          padding: 17vh 16vw;
+        }
+      }
+      @media only screen and (min-width:900px) {
+        #action-lead {
+          padding: calc(12 * (1vw + 1vh - 1vmin));
         }
       }
     </style>

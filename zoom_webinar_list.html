@@ -1,5 +1,6 @@
-
+{% extends "./wrapper.html" %}
 {% load actionkit_tags %}
+{% block content %}
 <style>
 #section-webinars {
   background-position: center center;
@@ -10,7 +11,7 @@
 .single-webinar-item-ctn{
     display: flex;
     width: 100%;
-    max-height: 200px;
+    max-height: auto;
     padding: 1.5em;
     align-items: center;
     border-bottom: 1px solid rgba(0,0,0,0.1);
@@ -279,8 +280,16 @@
     <p>We can't find any webinars based on your filter.</p>
     </div>
 </div>
+{% endblock %}
+
+{% block script_additions %}
 <script type="text/javascript">
       $(document).ready(function() {
+        // Embed functionality is here
+        console.log(window.location, "ref")
+        const url = new URL(window.location);
+        console.log(url.searchParams.get('region'), "here???")
+        // Embed functionality ends here
         // Cache the campaign events here.
         let campaignEvents = [];
         let campaignDetails = {};
@@ -294,7 +303,7 @@
             console.log("ZAKI access token missing.")
             return;
         }
-        fetch("https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns", {
+        fetch("https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns?campaignId=187", {
           headers: {
             authorization: token
           }
@@ -323,8 +332,10 @@
               return;
           }
           $("#no-webinars").hide();
+          console.log(campaignEvents, "here")
           for(let i = 0 ; i < campaignEvents.objects.length ; i ++){
             const webinarAk = campaignEvents.objects[i];
+            console.log(webinarAk, "here we goes")
               $("#loading-text").hide();
               $("#ak-campaign-list").append(`<li class="single-webinar-item-ctn">
                 <div class='left'>
@@ -424,3 +435,4 @@
         });
       })
 </script>
+{% endblock %}

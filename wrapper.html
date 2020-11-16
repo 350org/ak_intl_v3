@@ -11,7 +11,7 @@
 <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
 h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
 (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-})(window,document.documentElement,'async-hide','dataLayer',4000,
+})(window,document.documentElement,'async-hide','dataLayer',6000,
 {'GTM-MNNGDHL':true});</script>
 
 <!-- ActionKit.js   -->
@@ -26,7 +26,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-MNNGDHL');</script>
 <!-- End Google Tag Manager -->
-
 
 	{% if event.custom_fields.url %}
 		<meta http-equiv="refresh" content="0;url={{ event.custom_fields.url }}" />
@@ -222,7 +221,7 @@ actionkit.forms.initForm('act');
 
 {% if analytics_key %}
 <script>
-	/*
+/*	
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -234,7 +233,7 @@ actionkit.forms.initForm('act');
 </script>
 
 {% endif %}
-<div class="clear" /></div>
+<div class="clear" ></div>
 
 {% comment %}
 -------------
@@ -397,4 +396,4 @@ jQuery(document).ready(function(){
 
 <div id="body-mobile-background"></div>
 </body>
-</html><!-- one more test for cache awesomeness -->
+</html><!-- testing again -->

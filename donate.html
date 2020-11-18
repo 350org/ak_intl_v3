@@ -181,7 +181,7 @@ iframe[width="1"][height="1"] {
       }
       #action-lead {
         display: block; /* stop header and paragraph from jumping when showing donate page */
-        padding: 16vw 12vw;
+        padding: 16vw 15px;
       }
       section.section:only-of-type {
         min-height: 100vh;
@@ -207,6 +207,11 @@ iframe[width="1"][height="1"] {
       }
       #jump-to-form {
         display: none;
+      }
+      @media screen and (min-width:373px) {
+        #action-lead {
+          padding: 16vw 12vw;
+        }
       }
       @media screen and (min-width:720px) {
         #action-lead.bg-blue-fade {

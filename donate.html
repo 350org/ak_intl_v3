@@ -169,7 +169,6 @@ iframe[width="1"][height="1"] {
   {% if page.custom_fields.donation_splash_page == 'Y' %}
     <div class="splash-buttons">
       <button class="button button-primary arrow-right" id="donation-splash-next">{% filter ak_text:"donate_splash_next_button" %}Donate Now{% endfilter %}</button>
-      <p class="margin-top-large">{% filter ak_text:"donate_splash_button_separator" %}or{% endfilter %}</p>
       <button class="arrow-right margin-top-large close-donation-splash-modal" id="donation-splash-skip">{% filter ak_text:"donate_splash_skip_button" %}Continue to 350.org{% endfilter %}</button>
     </div>
     <style>
@@ -190,10 +189,24 @@ iframe[width="1"][height="1"] {
         background: none;
         border: none;
         color: white;
-        display: block;
         padding: 0;
         text-decoration: underline;
         font-size: 15px;
+      }
+      @media screen and (max-width:474px) {
+        #donation-splash-skip {
+          margin-left: 15px;
+        }
+      }
+      @media screen and (max-width:900px) {
+        #donation-splash-skip {
+          margin-left: 0;
+        }
+      }
+      @media screen and (max-width:1060px) {
+        #donation-splash-skip {
+          margin-left: 15px;
+        }
       }
       .splash-buttons p {
         max-width: 179px;

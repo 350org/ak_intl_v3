@@ -97,6 +97,49 @@
 </style>
 <section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
+		{% if page.custom_fields.donation_splash_page == 'Y' %}
+		<button id="ty-splash-close" class="button arrow-right margin-bottom-small close-donation-splash-modal button-alternate">{% filter ak_text:"donate_splash_ty_close_button" %}Continue to 350.org{% endfilter %}</button>
+		<style>
+			#site-footer {
+				display: none;
+			}
+			section.section:only-of-type {
+				min-height: 100vh;
+			}
+			#ty-splash-close {
+				margin-left: auto;
+				display: block;
+			}
+			#ty-splash-close {
+				margin-right: 1%;
+			}
+			
+			@media only screen and (max-width:719px) {
+				#ty-splash-close {
+					width: 98%;
+				}
+			}
+			@media only screen and (min-width:720px) and (max-width:900px) {
+				#ty-splash-close {
+					margin-right: 2%;
+				}
+			}
+			@media screen and (min-width: 900px) {
+				#ty-splash-close {
+					margin-right: 1%;
+				}
+			}
+		</style>
+		<script>
+		$(function(){
+			$('.close-donation-splash-modal').on('click', function(){
+				window.parent.postMessage({
+					'type': 'close-splash-modal'
+				}, '*');
+			});
+		});
+		</script>
+		{% endif %}
 		<form class="ak-form dummy" name="act" method="POST" action="/act/" accept-charset="utf-8">
 		<input type="hidden" name="page" value="{{ page.name }}" />
 		{% include "./progress_meter.html" %}

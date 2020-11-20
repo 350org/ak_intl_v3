@@ -244,6 +244,9 @@ iframe[width="1"][height="1"] {
     <script>
       (function() {
         $(function(){
+          // fix to stop donation errors getting redirected to the error page
+          actionkit.utils.appendHiddenInput('referer_from_url', '1');
+
           $('#donation-splash-next').on('click', function(){
             $('.splash-buttons').hide();
             $('.ak-donate-three-step, #action-toc').show();

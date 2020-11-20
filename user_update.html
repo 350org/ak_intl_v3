@@ -1,33 +1,67 @@
 {% extends "./wrapper.html" %}
 {% load actionkit_tags %}
+{% load actionkit_tags switchcase %}
 
 {% block content %}
 <style>
-input, select, textarea{max-width: initial;}
+	input,
+	select,
+	textarea {
+		max-width: initial;
+	}
 </style>
 
 <section id="action-lead" class="section donate-lead action-lead title-section width-skinny padding-normal bg-white">
 	<div class="section-inner">
 		<h2>{% block title %}Update Your Info{% endblock %}</h2>
-		<h3 class="section-header meta margin-bottom-large">{{ user.name }}</h3>		
+		<h3 class="section-header meta margin-bottom-large">{{ user.name }}</h3>
 		<div id="content" class="user-update">
 			{% if updated %}
-				<p>Thanks! Your information has been updated. <a href="/logout">Click here to log out.</a></p><br>
+			<p>Thanks! Your information has been updated. <a href="/logout">Click here to log out.</a></p><br>
 			{% endif %}
-<!--			<p class="lead">Update your information:</p>-->
+			<!--			<p class="lead">Update your information:</p>-->
 		</div>
-		
+
 		<form name="accountupdate" method="POST" class="ak-form user-update">
-			<div id="form" class="user-update">			
-				{{ form.as_p }}			
+			<div id="form" class="user-update">
+				{% for field in form.visible_fields %}
+				<div class="ak-labels-before" style="margin-bottom: 0.8em;">
+					<label for="{{ field.id_for_label }}">
+						{{ field.label }}
+					</label>
+
+					{% switch field.name %}
+					{% case 'country' %}
+					<select name="{{ input_name_prefix }}country" id="id_{{ input_name_prefix }}country"
+						{% if onchange %}onchange="{{ onchange }}" onblur="{{ onchange }}" {% endif %}>
+						<option selected="{{ field.value }}">{{ field.value }}</option>
+						{% for std_name,name in templateset.lang.country_names_us_first %}
+						<option value="{{ std_name|escapeall }}">{{ name|escapeall }}</option>
+						{% endfor %}
+					</select>
+					{% case 'state' %}
+					<script>
+						$(function () { //Make sure the current State value is selected
+							let selectedState = "{{ field.value }}";
+							$('#id_state > option[value=' + selectedState + ']').prop('selected', true);
+						})
+					</script>
+					{% include "./state_select.html" %}
+
+					{% else %}
+					{{ field }}
+					{% endswitch %}
+					{{ field.errors }}
+				</div>
+				{% endfor %}
 				<input type="submit" class="submit" value="Update My Info" />
 			</div>
 		</form>
 	</div>
 </section>
 <script type="text/javascript">
-$(document).ready(function(){
-actionkit.forms.installOverlayLabelHandler();
-});
+	$(document).ready(function () {
+		actionkit.forms.installOverlayLabelHandler();
+	});
 </script>
 {% endblock content %}

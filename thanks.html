@@ -12,10 +12,16 @@
 	#suggestions {
 		display: flex;
 	}
+	#suggestions button,
+	.upsell_other_amt button {
+		font-size: 1.8rem;
+		font-family: GraphCondensedWeb, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+		background: #0f81e8;
+		text-shadow: none;
+	}
 	#suggestions button {
 		margin: 10px;
 		padding: 0.6em 1.2em;
-		font-size: 1.4rem;
 	}
 	.upsell_other_amt {
 		display: flex;
@@ -144,6 +150,13 @@
 		{% if page.custom_fields.thank_you_page_show_upsell == 'Y' and not action.orderrecurring %}
 			<script>
 				$(function() {
+					function urlParam(name){
+						var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+						if (!results) { return 0; }
+						return results[1] || 0;
+					}
+					var utmSource = urlParam('utm_source');
+					var source = urlParam('source');
 					var currency = 'USD';
 					var total = '10';
 					var maxDonation = 500;
@@ -169,10 +182,35 @@
 					}
 					
 					var makeButton = function(amount) {
-						$('#suggestions').append('<button class="upsell_btn button" data-amt="'+parseInt(amount)+'">'+getCurrency(amount)+'/mo</button>')	
+						$('#suggestions').append('<button class="upsell_btn button" data-amt="'+parseInt(amount)+'">'+getCurrency(amount)+'{% filter ak_text:"donate_monthly_upsell_button_suffix" %}/mo{% endfilter %}</button>')	
 					}
 					
-					var url = 'https://act.350.org/donate/fa-test_recurring/?source=build-donate-ty&utm_source=build-donate-ty&currency='+currency
+
+					var pageLanguage = "{{page.lang.iso_code}}";
+
+					/** 
+					Add monthly donate page urls to the object below, using the iso-2 as the index and the URL as the value.
+					If a specific url for the page language isn't included, will default to english URL.
+					**/
+					var multilingualMonthlyDonateUrls = {
+						en: 'https://act.350.org/donate/make_it_monthly',
+						fr: 'https://act.350.org/donate/make_it_monthly_fr',
+						de: 'https://act.350.org/donate/make_it_monthly_de'
+					};
+
+					var baseUrl;
+
+					if (typeof multilingualMonthlyDonateUrls[pageLanguage] !== 'undefined') {
+						baseUrl = multilingualMonthlyDonateUrls[pageLanguage];
+					} else {
+						baseUrl = multilingualMonthlyDonateUrls.en;
+					}
+					
+					var url = baseUrl + '?source=';
+					if (source) url+= source;
+					url += '&utm_source=';
+					if (utmSource) url+= utmSource;
+					url += '&currency=' + currency;
 					
 					var setupButtons = function() {
 						if (total) {
@@ -213,7 +251,7 @@
 					<div class="upsell_other_amt">
 						<label id="other_symbol">$</label>
 						<input type="number" id="other_amt">
-						<button id="other_amt_btn" class="button">Give Monthly</button>
+						<button id="other_amt_btn" class="button">{% filter ak_text:"donate_monthly_upsell_other_button" %}Give Monthly{% endfilter %}</button>
 					</div>
 			 </div>
 

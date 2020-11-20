@@ -87,7 +87,6 @@ iframe[width="1"][height="1"] {
 #site-footer {
   top: 0;
   position: relative;
-  margin-top: 25px;
 }
 
 #site-footer nav {
@@ -940,6 +939,7 @@ iframe[width="1"][height="1"] {
 {% block script_additions %}
 
 <script language="javascript">
+
 //<!--
     // TODO: Commented out code needs to go.
     let paypalFieldOptionSelectedStepThree = false;
@@ -1064,6 +1064,8 @@ iframe[width="1"][height="1"] {
 			});
 
 		});
+    // Fix to stop donation errors gettin redirected from the error page
+    actionkit.utils.appendHiddenInput('referer_from_url', '1');
 
 /* Currency symbols */
 
@@ -1094,6 +1096,13 @@ iframe[width="1"][height="1"] {
     $(function() {
         $('input[id^=id_currency_], select[name="currency"], select[name="payment_account"]').on('change', redraw_currency_symbol);
         redraw_currency_symbol();
+
+        // preselect a currency with a url parameter
+			  var arg_currency = '{{ args.currency|default:"false" }}';
+        if (arg_currency && typeof actionkit.utils.currencySymbols[arg_currency] !== 'undefined') {
+          $('#id_currency_' + arg_currency).prop('selected', true);
+          redraw_currency_symbol();
+        }
     });
 
 

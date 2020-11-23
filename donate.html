@@ -1946,9 +1946,9 @@ iframe[width="1"][height="1"] {
             $(el).remove();
         });
 
+        // Fix to stop donation errors gettin redirected from the error page
+        actionkit.utils.appendHiddenInput('referer_from_url', '1');
         actionkit.donations.handleError = function(err) {
-            // Fix to stop donation errors gettin redirected from the error page
-            actionkit.utils.appendHiddenInput('referer_from_url', '1');
             if (window.console) {
                 window.console.log(err);
             }

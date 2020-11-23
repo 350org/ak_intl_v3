@@ -243,13 +243,21 @@ iframe[width="1"][height="1"] {
     </style>
     <script>
       (function() {
+
+        function goToDonateForm() {
+          $('.splash-buttons').hide();
+          $('.ak-donate-three-step, #action-toc').show();
+        }
         $(function(){
           // fix to stop donation errors getting redirected to the error page
           actionkit.utils.appendHiddenInput('referer_from_url', '1');
 
+          if ($('form.ak-donate-three-step').hasClass('contains-errors')) {
+            goToDonateForm();
+          }
+
           $('#donation-splash-next').on('click', function(){
-            $('.splash-buttons').hide();
-            $('.ak-donate-three-step, #action-toc').show();
+            goToDonateForm();
           });
           $('.close-donation-splash-modal').on('click', function(){
             window.parent.postMessage({

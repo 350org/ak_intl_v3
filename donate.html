@@ -167,7 +167,7 @@ iframe[width="1"][height="1"] {
   </div>
   {% if page.custom_fields.donation_splash_page == 'Y' %}
     <div class="splash-buttons">
-      <button type="button" class="button button-primary arrow-right" id="donation-splash-next">{% filter ak_text:"donate_splash_next_button" %}Donate Now{% endfilter %}</button>
+      <button class="button button-primary arrow-right" id="donation-splash-next">{% filter ak_text:"donate_splash_next_button" %}Donate Now{% endfilter %}</button>
       <button type="button" class="arrow-right margin-top-large close-donation-splash-modal" id="donation-splash-skip">{% filter ak_text:"donate_splash_skip_button" %}Continue to 350.org{% endfilter %}</button>
     </div>
     <style>
@@ -1613,11 +1613,10 @@ iframe[width="1"][height="1"] {
     function three_step_initialize() {
         {% if page.custom_fields.donation_splash_page == 'Y' %}
         if ($('form.ak-donate-three-step').hasClass('contains-errors')) {
-            /**
-            setTimeout(function(){
-                $('#donation-splash-next').click();
-            }, 1000); // test to see if err message shows after delay
-            **/
+            
+            $('#donation-splash-next').click();
+            $('#donation-splash-next').remove();
+            
         }
         {% endif %}
 		console.log('three_step_initialize() fired');

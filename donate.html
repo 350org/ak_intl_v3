@@ -2105,8 +2105,8 @@ iframe[width="1"][height="1"] {
 <script>
   $(function(){
     console.log('form errs:');
-    console.log($('form.ak-donate-three-step').hasClass('contains-errors'));  
-    if ($('form.ak-donate-three-step').hasClass('contains-errors')) {
+    console.log(actionkit.errors);
+    if (actionkit.errors) {
       $('.splash-buttons').hide();
       $('.ak-donate-three-step, #action-toc').show();
     }

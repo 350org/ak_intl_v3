@@ -180,6 +180,8 @@ iframe[width="1"][height="1"] {
         opacity:0;
         height: 0;
         width: 0;
+        position: absolute;
+        top: -99999999px;
       }
       #action-lead {
         display: block; /* stop header and paragraph from jumping when showing donate page */
@@ -256,7 +258,9 @@ iframe[width="1"][height="1"] {
             $('.ak-field-box.ak-donate-three-step, #action-toc').css({
                 height: 'auto',
                 width: 'auto',
-                opacity: '1'
+                opacity: '1',
+                position: 'relative',
+                top: '0'
             });
           });
           $('.close-donation-splash-modal').on('click', function(){
@@ -1626,7 +1630,9 @@ iframe[width="1"][height="1"] {
             $('.ak-field-box.ak-donate-three-step, #action-toc').css({
                 height: 'auto',
                 width: 'auto',
-                opacity: '1'
+                opacity: '1',
+                position: 'relative',
+                top: '0'
             });
             
         }

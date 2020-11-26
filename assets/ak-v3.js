@@ -650,6 +650,9 @@ jQuery(document).ready(function($){
   $('.input-text.ak-input-type-action').findAdjacentSibsAndWrap('.input-text.ak-input-type-action', 'fieldset', 'input-group');
   $('.input-textarea.ak-input-type-action').findAdjacentSibsAndWrap('.input-textarea.ak-input-type-action', 'fieldset', 'input-group');
 
+  // $('.input-field-group').findAdjacentSibsAndWrap('.input-field-group', 'fieldset', 'input-group');
+
+
 	// On load, trigger "jump to form" check
 	showHideJumpToForm();
 	// On scroll, trigger jump to form" check
@@ -742,11 +745,52 @@ jQuery(document).ready(function($){
   $('[data-read-more-after]').truncateAndReadMore();
 
   var initialWidth = $(window).width();
-  console.log('intialWidth = ' + initialWidth);
+  console.log('initialWidth = ' + initialWidth);
   // Initialize "sticky" js only for large screens
   if ( initialWidth > 900 ){
       $(".js-sticky, .sticky").sticky({zIndex:100});
   }
 
+  // Add recurring donation toggle functionality. Only works with Vanilla JS
+
+  var toggle_option_one = document.querySelector('.toggle-option-1');
+  var toggle_option_two = document.querySelector('.toggle-option-2');
+  var checkbox = document.querySelector('#id_donation_type_toggle');
+  var onceItems = document.querySelectorAll('.once-chosen');
+  var monthlyItems = document.querySelectorAll('.monthly-chosen');
+
+  // Initialises hiding of /mo in submit button for single only or single default modes
+  if ($('input[name="donation_type"][type="hidden"]').val() === 'single' || $('input[name="donation_type_toggle"][type="checkbox"]').val() === 'recurring') {
+    $('.ak-donation-monthly').hide();
+  }
+
+// Only works if toggle button exists
+if (toggle_option_one && toggle_option_two) {
+  toggle_option_one.addEventListener('click', function () {
+    if (checkbox.checked) {
+      checkbox.checked = false;
+      if (toggle_option_one.classList.contains('toggle-once')) $('.ak-donation-monthly').hide();
+      else $('.ak-donation-monthly').show();
+      toggleHidden(onceItems);
+      toggleHidden(monthlyItems);
+    }
+  })
+
+  toggle_option_two.addEventListener('click', function () {
+    if (!checkbox.checked) {
+      checkbox.checked = true;
+      if (toggle_option_two.classList.contains('toggle-once')) $('.ak-donation-monthly').hide();
+      else $('.ak-donation-monthly').show();
+      toggleHidden(onceItems);
+      toggleHidden(monthlyItems);
+    }
+  })
+
+  function toggleHidden(nodes) {
+    for (var node of nodes) {
+      node.classList.toggle('hidden');
+    }
+  }
+}
 
 });

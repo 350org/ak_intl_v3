@@ -291,7 +291,8 @@
 
         const url = new URL(window.location);
         const region = url.searchParams.get('region');
-        console.log(region, "here???")
+        const virtualEventType = url.searchParams.get('virtualEventType');
+        console.log(region,virtualEventType, "here???")
         // Embed functionality ends here
         // Cache the campaign events here.
         let campaignEvents = [];
@@ -306,7 +307,7 @@
             console.log("ZAKI access token missing.")
             return;
         }
-        fetch(`https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns?campaignId=187&region=${region}&meetings=true`, {
+        fetch(`https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns?campaignId=187&region=${region}&virtualEventType=${virtualEventType}`, {
           headers: {
             authorization: token
           }

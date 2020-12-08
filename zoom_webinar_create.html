@@ -4,10 +4,6 @@
 <label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Virtual Event Details{% endfilter %}</label>
     <p class="text-small opacity-50">
         This zoom virtual event link will be prefilled into the venue section and be used to access the event. <br/>
-        This virtual event will be registered under:<span class="highlight">{% if page.custom_fields.regionalEmail%}{{page.custom_fields.regionalEmail}} {% else %} webinars@350.org{% endif %}</span>
-
-
-        
     </p>
 <fieldset id="webinar-details">
     <div class="full-length">
@@ -273,7 +269,7 @@
           },
           {
             key: 7,
-            value: "Email address is not a valid paid account at 350.org.",
+            value: "This zoom account needs to be added to our allowed list. Please contact the Product team for this.",
           },
         ]
 

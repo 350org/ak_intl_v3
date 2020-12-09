@@ -86,286 +86,42 @@ a.area-link.event-link:hover {
   .is-sticky #event-map{
     width:40% !important;}
 
+  #map-embed-350org .event-list-item-cta a.event-list-item-cta-btn {
+    background-color: rgb(15,129,233) !important;
+    border-color: inherit;
+    border-width: 2px;
+    border-style: solid;
+    color: inherit;
+    text-decoration: none;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
 }
 </style>
-<div id="page-header" class="section width-normal padding-large text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
-  <div class="section-inner">
-{% if page.custom_fields.page_pretitle %}
-    <p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
-{% endif %}
-    <h2 id="action-title" class="text-style-title-large title3">
-{% if page.custom_fields.page_title_custom_html %}
-  {% autoescape off %} {{ page.custom_fields.page_title_custom_html }} {% endautoescape %}
-{% else %}
-      <span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
-{% endif %}
-    </h2>
-    <div class="text-style-lead2 text-large2 margin-bottom-huge" data-read-more-after="{% if page.custom_fields.page_description_readmore %}{{ page.custom_fields.page_description_readmore }}{% else %}1{% endif %}">
-      {{ form.search_page_text|safe }}
-    </div>
+{% comment %} <div id="page-header" class="section width-normal padding-large text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}"> {% endcomment %}
+  {% comment %} <div class="section-inner"> {% endcomment %}
+{% include "./zoom_webinar_list.html" %}
+{% include "./social_plugins.html" %} 
 
-  </div>
-</div>
-
-
-<div id="event-list" class="section bg-white notch width-full padding-none">
-  <div class="section-inner">
-    <div id="event-search-results-wrapper" class="c6 ct10 cm10 no-margin margin-none padding-medium">
-{% if page.custom_fields.form_text_above_form %}
+  {% comment %} </div> {% endcomment %}
+{% comment %} </div> {% endcomment %}
+{% comment %} {% if page.custom_fields.form_text_above_form %}
   {{ page.custom_fields.form_text_above_form }}
 {% else %}
-      <h3 class="meta margin-bottom-normal opacity-50">{% filter ak_text:"event_search_form_instructions" %}Find an event near you:{% endfilter %}</h3>
-{% endif %}
-      <div id="event-search-box" class="bg-ltgray margin-bottom-large">
-        <form name="act" id="event-search-form" class="ak-form" method="GET" action="" accept-charset="utf-8" onsubmit="actionkit.forms.eventSearch(this); return false;">
-          <input type="hidden" name="page" value="{{ page.name }}">
-          <input type="hidden" name="template" value="event_search.html">
-          <input type="hidden" name="akid" value="{{ args.akid }}">
-          <input type="hidden" name="distance" value="100">
-          <input type="hidden" name="limit" value="10">
-          <input type="hidden" name="event_search_on_load" value="1">
-          <div id="event-search-postal-wrapper" class="input-wrapper input-text">
-            <label for="id_place" class="text-caps text-strong text-blue">{% filter ak_text:"event_search_label_search" %}City/Postal{% endfilter %}</label>
-            <input id="id_place" class="" type="text" name="place" value="{% if args.place %}{{args.place}}{% else %}{{args.zip}}{% endif %}" placeholder="{% filter ak_text:'event_search_form_placeholder' %}Search by city name{% endfilter %}">
-          </div>
-      {% if form.templateset.is_intl %}
-          <div id="event-search-country-wrapper" class="input-wrapper input-select input-country">
-            <label for="id_country" class="text-caps text-strong text-blue">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
-            {% include "./country_select.html" %}
-          </div>
-      {% endif %}
-          <button type="submit" id="event-search-submit" class="ak-event-search text-caps button bg-teal">{% filter ak_text:'event_search_label_submit' %}Search{% endfilter %}</button>
-          <ul class="compact hidden" id="ak-errors"></ul>
-        </form>
-      </div>
-
-      <div class="event-search-results">
-{% if args.page %}
-    {% include "./event_search_results.html" %}
-{% endif %}
-      </div>
-    </div>
-    <div id="event-map" class="c4 ct10 cm10 margin-none no-margin js-sticky">
-      <div id="map_canvas"></div>
-    </div>
-  </div>
-</div>
-{% include "./social_plugins.html" %}
+      <h3 class="meta margin-bottom-normal opacity-50">{% filter ak_text:"event_search_form_instructions" %}Find an event near you{% endfilter %}</h3>
+{% endif %} {% endcomment %}
+{% comment %} <div id='map-embed-350org' data-src-zoom=6 class="section bg-white notch width-full padding-none" style='height: 70vh' data-src-latlong="{% if page.custom_fields.event_search_map_center %}{{ page.custom_fields.event_search_map_center }}{% else %}1.2921, 36.8219{% endif %}">
+<script src="https://350map.org/main.js"></script>
+</div> {% endcomment %}
+{% comment %} {% include "./zoom_webinar_list.html" %}
+{% include "./social_plugins.html" %} {% endcomment %}
 {% endblock %}
 
 {% block tail_js %}
-<script type="text/javascript">
-      RAH = {};
-      RAH.sprite_url = "https://350-ak-map-assets.netlify.com/images/marker-single.png";
-      RAH.multiple_sprite_url = "https://350-ak-map-assets.netlify.com/images/marker-cluster.png";
-      // Add locations for plotting on the map
-      RAH.event_locations = [];
-      RAH.map_center = {};
-</script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc65HgY18lHPM_vjvZS-jgkqpZPwaCDc&sensor=false"></script>
 <script type="text/javascript" src="https://s3.amazonaws.com/s3.350.org/js/map/markerclusterer.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-
-$.urlParam = function(name){
-	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-	if (!results) { return 0; }
-	return results[1] || 0;
-}
-var evMapSource = $.urlParam('source');
-
-var myOptions = {
-    zoom: {% if page.custom_fields.event_search_map_zoom %}{{ page.custom_fields.event_search_map_zoom }}{% else %}1{% endif %},
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    mapTypeControl: false,
-    streetViewControl: false,
-    zoomControlOptions: {style: google.maps.ZoomControlStyle.SMALL},
-    panControl: true,
-    scrollwheel: true,
-    center: new google.maps.LatLng({% if page.custom_fields.event_search_map_center %}{{ page.custom_fields.event_search_map_center }}{% else %}13.076647312917522, 28.828125{% endif %})
-};
-
-var gmap = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-var infowindow = new google.maps.InfoWindow({ content: "" });
-
-var geocoder = new google.maps.Geocoder();
-function loadMap(events) {
-    window.events = events;
-    var d_names = new Array("Sunday", "Monday", "Tuesday",
-"Wednesday", "Thursday", "Friday", "Saturday");
-    for( var i = 0; i < events.length; ++i ) {
-        var event = events[i];
-        var nowRaw = new Date();
-        var now = moment(nowRaw);
-		var dt;
-		if( event.starts_at ) {
-          dt = moment(event.starts_at, moment.ISO_8601);
-		} else {
-		  dt = moment(event.event_date + " " + event.start_time, "YYYY-MM-DD HH:mm:ss");
-		}
-
-if ( moment(dt).isAfter(now) ) {
-// if event is hasn't already happened
-
-
-
-
-        var formattedTime = {% if campaign.name == "changes-everything-screening" %}moment(dt).format("dddd, MMMM D YYYY"){% else %}moment(dt).format("dddd, MMMM D YYYY, h:mma"){% endif %};
-	    var info;
-	    if( event.rsvp_url && event.rsvp_url.match(/^https:\/\/secure.avaaz.org\//) ) {
-          info = "<div class='map-event-info-metadata'><b><a target='_blank' href='" + event.rsvp_url + "'>" + event.name + "</a></b><br/>" + event.venue + "<br/><span class='start-time'>" + formattedTime + "</span></div>";
-		} else {
-		  var rsvp_url = event.rsvp_url || "https://act.350.org/event/{{ campaign.local_name }}/" + event.event_id + "/";
-          info = "<div class='map-event-info-metadata'><b><a target='_blank' href='"+rsvp_url+"'>" + event.title + "</a></b><br/>" + event.venue + "<br/>{% if campaign.name != "commbank-under-new-management" and campaign.name != "CBA_Week_of_Action" %}<span class='start-time'>" + formattedTime + "</span>{% endif %}";
-			if (event.facebook_id) {
-				info += '<a style="float: right; display: block; text-transform: none; border: none" href="https://www.facebook.com/' + event.facebook_id + '"><img src="https://s3.amazonaws.com/s3.350.org/images/tiny-fb-event-button.png" width="20" style="border: 1px solid #40579A; margin-left: 5px; margin-top: -5px"></a></div>';
-			} else {
-			    info += "</div>";
-			}
-		}
-
-        if( 0 && event.public_description ) {
-            info += "<p>" + event.public_description + "</p>";
-        }
-        RAH.event_locations.push({
-                lat: event.latitude,
-                lon: event.longitude,
-                info: info,
-				data: event
-            });
-    }
-}
-
-    var markers = window.map_markers = [];
-    var latlngs = {};
-    for (var i = RAH.event_locations.length - 1; i >= 0; i = i - 1) {
-        var latlng = [RAH.event_locations[i].lat, RAH.event_locations[i].lon];
-        if( latlngs[latlng] ) {
-            var marker = latlngs[latlng];
-            marker.info += "<hr/>" + RAH.event_locations[i].info;
-            marker.setIcon(RAH.multiple_sprite_url);
-	} else {
-            var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(RAH.event_locations[i].lat,
-                                                     RAH.event_locations[i].lon),
-                    map: gmap,
-                    icon: RAH.sprite_url,
-                    info: RAH.event_locations[i].info,
-					data: RAH.event_locations[i]
-		});
-	}
-
-        latlngs[latlng] = marker;
-        markers.push(marker);
-    }
-    for( var i = RAH.event_locations.length - 1; i >= 0; i = i - 1 ) {
-        var marker = markers[i];
-        google.maps.event.addListener(marker, 'click', function () {
-                infowindow.setContent(this.info);
-                infowindow.open(gmap, this);
-            });
-    }
-    delete latlngs;
-    var style = [{
-            url: RAH.multiple_sprite_url,
-            height: 53,
-            width: 53,
-            textColor: '#FFFFFF',
-            textSize: 12,
-        }];
-    var markerCluster = new MarkerClusterer(gmap, markers, {
-            gridSize: {{ page.custom_fields.event_search_map_cluster_grid_size|default:20 }},
-            styles: style
-        });
-}
-function codeAddress(address) {
-    geocoder.geocode( { 'address': address}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                gmap.setCenter(results[0].geometry.location);
-                gmap.fitBounds(results[0].geometry.viewport);
-            }
-        });
-}
-</script>
-<script type="text/javascript">
-window.mapEvents = [
-{% for event in campaign.event_set.all.select_related %}
-{% if not event.is_private %}{% if event.host_is_confirmed and event.status == "active" %}{% if event.is_approved or not campaign.require_staff_approval %}
-{
-"event_id": "{{ event.id }}", "created_at": "{{ event.created_at }}", "updated_at": "{{ event.updated_at }}", "address1": "{{ event.address1 }}", "address2": "{{ event.address2 }}", "city": "{{ event.city }}", "state": "{{ event.state }}", "region": "{{ event.region }}", "postal": "{{ event.postal }}", "zip": "{{ event.zip }}", "plus4": "{{ event.plus4 }}",
-"country": "{{ event.country }}", "longitude": {% if event.custom_fields.geocoded_longitude %}{{ event.custom_fields.geocoded_longitude }} {% else %}{{ event.longitude }}{% endif %}, "latitude": {% if event.custom_fields.geocoded_latitude %}{{ event.custom_fields.geocoded_latitude }} {% else %}{{ event.latitude }}{% endif %}, "campaign_id": "{{ event.campaign_id }}", "title": "{{ event.title }}", "creator_id": "{{ event.creator_id }}", "starts_at": "{{ event.starts_at|date:'c' }}", "ends_at": "{{ event.ends_at|date:'c' }}", "status": "{{ event.status }}", "host_is_confirmed": "{{ event.host_is_confirmed }}", "is_private": "{{ event.is_private }}", "is_approved": "{{ event.is_approved }}", 
-"attendee_count": "{{ event.attendee_count }}", "max_attendees": "{{ event.max_attendees }}", "venue": "{{ event.venue }}", 
-"public_description": "{{ event.public_description|linebreaksbr|escapejs }}",
-"directions": "{{ event.directions|linebreaksbr|escapejs }}",
-"note_to_attendees": "{{ event.note_to_attendees|linebreaksbr|escapejs }}",
-{% if event.custom_fields.event_facebook_id and event.custom_fields.event_facebook_id != "none" %}"facebook_id": "{{ event.custom_fields.event_facebook_id }}",{% endif %}
-"notes": "{{ event.notes|linebreaksbr|escapejs }}"
-},
-{% endif %}{% endif %}{% endif %}
-{% endfor %}
-0
-];
-window.mapEvents = window.mapEvents.slice(0, -1);
-
-function initData(geocoded_events, offsite_events) {
-  if( offsite_events.length ) {
-    window.mapEvents.push.apply(window.mapEvents, offsite_events);
-  }
-
-  for( var i=0; i<window.mapEvents.length; ++i ) {
-    var event_id = window.mapEvents[i].event_id;
-    if( geocoded_events[event_id] ) {
-      window.mapEvents[i].latitude = geocoded_events[event_id].latitude;
-      window.mapEvents[i].longitude = geocoded_events[event_id].longitude;
-    }
-  }
-  loadMap(window.mapEvents);
-console.log('initData called.');
-};
-
-var $sel = function(selector) {
-    if ( actionkit.multiForms && actionkit.form )
-        return $(actionkit.form).find(selector);
-    return $(selector);
-};
-
-var featured_events = [], featured_events_ready = false, featured_events_highlighted = false;
-
-function fitMapToEvents(el) {
-  var events = el.find("li[data-event_id]");
-  if( !events || !events.length ) {
-    gmap.setZoom(myOptions.zoom);
-    gmap.setCenter(myOptions.center);
-    return;
-  }
-  var fitBounds = new google.maps.LatLngBounds();
-  for( var i=events.length-1; i>=0; --i ) {
-    var event = events[i];
-    var arrayPosition = $.inArray($(event).data("event_id"), $.map(mapEvents, function(el){ return parseInt(el.event_id); }));
-    if( arrayPosition != -1 ) {
-      var entry = mapEvents[arrayPosition];
-      fitBounds.extend(new google.maps.LatLng(entry.latitude, entry.longitude));
-    }
-  }
-  gmap.fitBounds(fitBounds);
-  if( gmap.getZoom() > 17 ) { gmap.setZoom(17); }
-}
-
-actionkit.forms.onEventSearchResults = function(html) {
-  try {
-    var el = $("<div>").html(html);
-    if( featured_events_ready ) {
-      highlightFeaturedEvents(el);
-    }
-    fitMapToEvents(el);
-    html = el.html();
-  } finally {
-    $sel('#event-search-results, .event-search-results').html(html);
-  }
-};
-$(window).load(function() {
-	initData([], []);
-});
-</script>
-
 {% endblock %}

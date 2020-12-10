@@ -159,46 +159,6 @@
           {% else %}
           <span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
           {% endif %}
-<<<<<<< HEAD
-          <div class="input-text ak-input-type-user">
-            <label for="id_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
-            <input id="id_city" type="text" name="city">
-          </div>
-					<div>
-						<div class="ak-us-billing-fields input-text ak-input-type-user">
-							<input type="hidden" name="required" value="zip">
-							<label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
-							<input id="id_zip" type="text" name="zip" maxlength="5" size="5">
-						</div>
-						<div class="ak-us-billing-fields input-select ak-input-type-user">
-							<input type="hidden" name="required" value="state">
-							<label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
-							{% include "./state_select.html" %}
-						</div>
-					</div>
-{% if page.allow_international %}
-					<div>
-						<div class="input-text ak-input-type-user ak-intl-billing-fields">
-							<label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code {% endfilter %}</label>
-							<input id="id_postal" type="text" name="postal" size="10">
-						</div>
-							<div class="input-text ak-input-type-user ak-intl-billing-fields">
-								<label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
-								<input id="id_region" type="text" name="region" size="20">
-							</div>
-						</div>
-            <div class="input-select input-country ak-input-type-user">
-              <label for="country">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
-              {% include "./country_select.html" %}
-            </div>
-{% else %}
-    				<input type="hidden" name="country" value="United States">
-{% endif %}
-						<div class="input-text ak-input-type-user">
-							<label class="required" for="id_email">{% filter ak_text:"field_email" %}Email{% endfilter %}</label>
-							<input id="id_email" class="" type="text" name="email">
-						</div>
-=======
         </h2>
         {% if page.custom_fields.page_author %}
         <div class="action-author" class="margin-bottom-normal">
@@ -211,7 +171,6 @@
         {% comment %}If "layout" is set to "expanded", end the full-width title <div> and start a half-width description
           <div>.{% endcomment %}
             {% if page.custom_fields.page_layout_style == 'expanded' %}
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
           </div>
           {% endif %}
 

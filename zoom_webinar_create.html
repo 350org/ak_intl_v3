@@ -1,7 +1,6 @@
 {% load actionkit_tags %}
 <!--Zoom Webinar Section -->
 <div class="input-textarea ak-input-type-event id_event_public_description margin-bottom-none">
-<<<<<<< HEAD
 <label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Virtual Event Details{% endfilter %}</label>
     <p class="text-small opacity-50">
         This zoom virtual event link will be prefilled into the venue section and be used to access the event. <br/>
@@ -37,76 +36,22 @@
         <input name="action_webinar_email" id="id_webinar_email" type="email"  value="" />
         <p class="text-small opacity-50">Must be the login email for a paid @350.org zoom account</p>
     </div>
-=======
-  <label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Virtual Event
-    Details{% endfilter %}</label>
-  <p class="text-small opacity-50">
-    This zoom virtual event link will be prefilled into the venue section and be used to access the event. <br />
-  </p>
-  <fieldset id="webinar-details">
-    <div class="full-length">
-      <div class="input-text ak-input-type-event input-address half-full">
-        <label for="id_webinar_duration">{% filter ak_text:"webinar_duration"|capfirst %}Duration (In
-          Minutes){% endfilter %}</label>
-        <select id="id_webinar_duration" type="number" min="30" max="120" name="webinar_duration">
-        </select>
-      </div>
-      <div class="input-text ak-input-type-event input-address half-full">
-        <label for="id_webinar_timezone">{% filter ak_text:"webinar_timezone"|capfirst %}Timezone{% endfilter %}</label>
-        <input id="id_webinar_timezone" placeholder="Select timezone here..." type="text" min="30" max="120"
-          name="webinar_timezone" />
-      </div>
-    </div>
-    <div class="full-length">
-      <div class="input-text ak-input-type-event input-address half-full">
-        <label for="id_webinar_region">{% filter ak_text:"webinar_region"|capfirst %}Region{% endfilter %}</label>
-        <select name="action_webinar_region" id="id_webinar_region" placeholder="Select region here..."
-          type="text"></select>
-      </div>
-      <div class="input-text ak-input-type-event input-address half-full">
-        <label for="id_webinar_country">{% filter ak_text:"webinar_country"|capfirst %}Country
-          (optional){% endfilter %}</label>
-        <select name="action_webinar_country" id="id_webinar_country" placeholder="Select country here..." type="text">
-          <option value="" selected disabled hidden>--</option>
-        </select>
-      </div>
-
-    </div>
-    <div class="full-length">
-      <div class="input-text">
-        <label for="id_webinar_email">{% filter ak_text:"webinar_email"|capfirst %}Zoom host email
-          address{% endfilter %}</label>
-        <input name="action_webinar_email" id="id_webinar_email" type="email" value="" />
-        <p class="text-small opacity-50">Must be the login email for a paid @350.org zoom account</p>
-      </div>
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
     </div>
     <!--This is a hack. Do not remove for now. -->
     <div class="full-length">
       <div class="input-text">
         <label for="id_virtual_event_type">Virtual Event Type</label>
-<<<<<<< HEAD
         <select name="action_virtual_event_type" id="id_virtual_event_type" placeholder="Select region here..." type="text"></select>
     </div>
-=======
-        <select name="action_virtual_event_type" id="id_virtual_event_type" placeholder="Select region here..."
-          type="text"></select>
-      </div>
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
     </div>
     <!---->
     {% if not update %}
     <div>
-<<<<<<< HEAD
     <button class="zoom-btn" id="add-virtual-event-link">Add Zoom Link</button>
-=======
-      <button class="zoom-btn" id="add-virtual-event-link">Add Zoom Link</button>
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
     </div>
 
     {% endif %}
     <ul id="webinar-errors"></ul>
-<<<<<<< HEAD
 </fieldset>
 </div>
     <div class="section-inner">
@@ -114,20 +59,10 @@
 
         </div>
     </div>
-=======
-  </fieldset>
-</div>
-<div class="section-inner">
-  <div id="zoom-success">
-
-  </div>
-</div>
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
 </div>
 <!--Zoom Webinar Section -->
 
 {% block scripts %}
-<<<<<<< HEAD
     <!-- block.super will get the content of the block from the parent template -->
     <script>
         $(function() {
@@ -183,70 +118,11 @@
                         $("#id_event_address1").val(`Link: ${data.data.join_url} , Password: ${data.data.password || ""}`);
                         $("#id_event_venue").val("Via Zoom");
                         zoomSuccess.append(`<div class="webinar-details">
-=======
-<!-- block.super will get the content of the block from the parent template -->
-<script>
-  $(function () {
-
-    // valid zoom accounts
-    const validZoomAccounts = [
-      'webinars@350.org',
-      'zoom@350.org',
-      'web@350.org',
-      'oc-tools@350.org',
-      '350africa@350.org',
-      'europe-admin@350.org',
-      'toni@350.org'
-    ];
-
-    const isEmailPaidAccount = (email) => {
-      return validZoomAccounts.includes(email.trim().replace(/\s/g, ''));
-    };
-
-    // Hide any errors first
-    $("#webinar-errors").hide();
-    // API CALL
-    const zoomDetails = $("#webinar-details");
-    const webinarErrors = $("#webinar-errors");
-    const zoomSuccess = $("#zoom-success");
-    function makeAPICall(payload, isMeeting = false) {
-      const baseURL = 'https://zaki-server.herokuapp.com/api/v1/';
-      let fetchURL = isMeeting ? 'meetings' : 'webinars';
-      fetchURL = `${baseURL}${fetchURL}`;
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.log("No JWT token found")
-        return
-      };
-
-      const options = {
-        method: 'POST',
-        headers: {
-          'User-Agent': 'Zoom-Jwt-Request',
-          'Content-Type': 'application/json',
-          'Authorization': token
-        },
-        body: JSON.stringify(payload)
-      };
-      // https://zaki-server.herokuapp.com/api/v1/webinars
-      fetch(fetchURL, options)
-        .then(response => {
-          if (response.ok) {
-            webinarErrors.hide();
-            zoomDetails.hide();
-            response.json().then(data => {
-              // add the url to the address
-              resetErrors();
-              $("#id_event_address1").val(`Link: ${data.data.join_url} , Password: ${data.data.password || ""}`);
-              $("#id_event_venue").val("Via Zoom");
-              zoomSuccess.append(`<div class="webinar-details">
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
                         <p>Your webinar has been created! The zoom link is pre-filled below, and will be visible to attendees after they sign up.</p>
                         <br>
                         (If it is not prefilled, please copy this <a href=${data.data.join_url}>link address</a> and paste it in the link section.)
                         </div>
                         `
-<<<<<<< HEAD
                         )
                     })
                 } else {
@@ -507,265 +383,3 @@
     });
     </script>
 {% endblock %}
-=======
-              )
-            })
-          } else {
-            throw Error("Creation of webinar failed")
-          }
-        })
-        .catch(e => {
-          console.log(e, "e")
-          $("#webinar-errors").show()
-          $("#webinar-errors").append('<li>Oops! An error occurred when generating the link for your webinar. Please try again later. If this persists contact: web@350.org</li>');
-        })
-    }
-    // API CALL
-    // simple cache
-    // Zoom account email
-    let timezonesList = [];
-    let countriesList = [];
-
-    function addTimezonesOptions(list) {
-      const availableTags = list.map(t => t.name);
-      $("#id_webinar_timezone").autocomplete({
-        source: availableTags.sort((a, b) => a > b ? 1 : -1),
-        minLength: 2
-      });
-    };
-
-    function addCountriesOptions(list) {
-      $("#id_webinar_country").selectmenu();
-      list.forEach(country => {
-        $("#id_webinar_country").append(
-          `<option value=${country}>${country}</option>`
-        )
-      });
-    };
-
-
-    function generateZoomWebinarPassword(length) {
-      let result = '';
-      let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      let charactersLength = characters.length;
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-      return result;
-    };
-
-    if (timezonesList.length) {
-      addTimezonesOptions(timezonesList);
-    } else {
-      fetch(`https://zaki-server.herokuapp.com/api/v1/timezones`)
-        .then(response => {
-          if (!response.ok) throw new Error("Response not ok.")
-          // store in cache timezoneslist
-          response.json()
-            .then(data => {
-              timezonesList = data.data;
-              addTimezonesOptions(timezonesList);
-            });
-        })
-        .catch(error => {
-          console.log(`Auth error: ${e.message}.`)
-        });
-    };
-
-    if (countriesList.length) {
-      addCountriesOptions(countriesList);
-    } else {
-      fetch(`https://zaki-server.herokuapp.com/api/v1/countries`)
-        .then(response => {
-          if (!response.ok) throw new Error("Response not ok.")
-          response.json()
-            .then(data => {
-              countriesList = data.data;
-              addCountriesOptions(countriesList);
-            });
-        })
-        .catch(error => {
-          console.log(error)
-          console.log(`Auth error: ${e.message}.`)
-        });
-    };
-
-
-    const durationList = [
-      {
-        displayText: "30 minutes",
-        value: "30"
-      },
-      {
-        displayText: "1 hour",
-        value: "60"
-      },
-      {
-        displayText: "1hour 30 minutes",
-        value: "90"
-      },
-      {
-        displayText: "2hours",
-        value: "120"
-      }
-    ];
-
-    const regionList = ["Asia", "Africa", "Europe", "Latin America", "Global", "North America", "Australasia",
-      "Pacific"];
-    const virtualEventList = ["Webinar", "Meeting"];
-
-
-    const errorKeys = [
-      {
-        key: 1,
-        value: "Event name is required.",
-      },
-      {
-        key: 2,
-        value: "Event description is required.",
-      },
-      {
-        key: 3,
-        value: "Event start time is required.",
-      },
-      {
-        key: 4,
-        value: "Event date is required.",
-      },
-      {
-        key: 5,
-        value: "Webinar timezone is required.",
-      },
-      {
-        key: 6,
-        value: "Please enter a valid timezone.",
-      },
-      {
-        key: 7,
-        value: "This zoom account needs to be added to our allowed list. Please contact the Product team for this.",
-      },
-    ]
-
-    // Menu for duration
-    durationList.forEach(duration => {
-      $("#id_webinar_duration").append(
-        `<option value=${duration.value}>${duration.displayText}</option>`
-      )
-    });
-
-    $("#id_webinar_duration").selectmenu();
-
-    // Menu for region
-    regionList.forEach(region => {
-      $("#id_webinar_region").append(
-        `<option value=${region}>${region}</option>`
-      )
-    });
-
-    $("#id_webinar_region").selectmenu();
-
-    // Menu for virtual event type
-
-    virtualEventList.forEach(event => {
-      $("#id_virtual_event_type").append(
-        `<option value=${event}>${event}</option>`
-      )
-    });
-
-    $("#id_virtual_event_type").selectmenu();
-
-
-
-    let errors = [];
-    const resetErrors = () => {
-      return errors = [];
-    }
-
-    const showWebinarErrors = (errored) => {
-      $("#webinar-errors").show()
-      errored.forEach(error => {
-        $("#webinar-errors").html(`<li>${errorKeys[error - 1].value}</li>`);
-      });
-    };
-
-    const validateZoomPayload = (topic, agenda, time, date, timezone, email) => {
-      if (topic.length === 0) {
-        errors = [...errors, errorKeys[0].key]
-      }
-
-      if (agenda.length === 0) {
-        errors = [...errors, errorKeys[1].key]
-      };
-
-      if (!time) {
-        errors = [...errors, errorKeys[2].key]
-      }
-      if (!date) {
-        errors = [...errors, errorKeys[3].key]
-      }
-
-      if (!timezone || timezone && timezone.length === 0) {
-        errors = [...errors, errorKeys[4].key]
-      }
-
-      if (timezone && timezone.length) {
-        const [isTimezoneValueInList] = timezonesList.filter(t => t.name === timezone);
-        if (!isTimezoneValueInList) {
-          errors = [...errors, errorKeys[5].key]
-        }
-      }
-
-      if (email.length && !isEmailPaidAccount(email)) {
-        errors = [...errors, errorKeys[6].key];
-      }
-
-      return errors;
-    }
-
-    $("#add-virtual-event-link").on("click", event => {
-      event.preventDefault();
-      // Check event type
-      const type = $("#id_virtual_event_type").val();
-      // Get other fields in the meeting/webinar flow
-      const timezone = $("#id_webinar_timezone").val();
-      const duration = $("#id_webinar_duration").val();
-      const agenda = $("#id_event_public_description").val();
-      const topic = $("#id_event_title").val().trim();
-      const date = $("#id_event_starts_at_date").val();
-      const time = $("#id_event_starts_at_time").val();
-      const amPm = $("#id_event_starts_at_ampm").val();
-      const email = $("#id_webinar_email").val();
-      const dateFormat = moment(date, "MM-D-YYYY").format("YYYY-MM-DD");
-      const start_time = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('HH:mm:ss');
-      const start_date = moment(`${dateFormat} ${time}:00 ${amPm}`, 'YYYY-MM-DD hh:mm:ss A').format('YYYY-MM-DD');
-      const zoomStartTime = `${start_date}T${start_time}`;
-
-      // Check errors
-      let hasErrors = errors.length > 0;
-      if (hasErrors) {
-        resetErrors()
-      }
-      errors = validateZoomPayload(topic, agenda, time, date, timezone, email);
-
-      if (errors.length) {
-        showWebinarErrors(errors);
-      } else {
-        $("#webinar-errors").hide()
-        const isMeeting = type === 'Meeting';
-        const payload = {
-          topic,
-          type: isMeeting ? 2 : 5, // Zoom Docs req.
-          start_time: zoomStartTime,
-          duration,
-          timezone: timezonesList.filter(t => t.name === timezone)[0].id,
-          password: generateZoomWebinarPassword(4),
-          agenda,
-          email
-        };
-        makeAPICall(payload, isMeeting);
-      }
-    });
-  });
-</script>
-{% endblock %}
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8

@@ -3,7 +3,6 @@
 {% block content %}
 
 <style>
-<<<<<<< HEAD
 .en .text-style-parenthesis::before,
 .es .text-style-parenthesis::before,
 .fr .text-style-parenthesis::before,
@@ -80,39 +79,6 @@
   .ak-datetime-field{
     font-size:0;}
   .form-style-expanded .input-date-event_starts_at,
-=======
-  .en .text-style-parenthesis::before,
-  .es .text-style-parenthesis::before,
-  .fr .text-style-parenthesis::before,
-  .de .text-style-parenthesis::before {
-    content: '(';
-  }
-
-  .en .text-style-parenthesis::after,
-  .es .text-style-parenthesis::after,
-  .fr .text-style-parenthesis::after,
-  .de .text-style-parenthesis::after {
-    content: ')';
-  }
-
-  .ak-err {
-    color: #dd8902;
-  }
-
-  .highlight {
-    color: #4285f4;
-    font-weight: bold;
-
-  }
-
-  .section-header {
-    border-bottom: 1px dotted;
-    color: rgba(21, 36, 43, 0.5);
-    padding-bottom: 1em;
-    text-align: center;
-  }
-
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
   .form-style-expanded .input-time-event_starts_at,
   .form-style-expanded .input-ampm-event_starts_aft {
     display: inline-block;
@@ -178,7 +144,6 @@
       font-size: 0;
     }
 
-<<<<<<< HEAD
 .zoom-btn {
   background: #4285f4;
   color: white;
@@ -242,7 +207,6 @@
   display: inline-block;
 }
 
-=======
     .form-style-expanded .input-date-event_starts_at,
     .form-style-expanded .input-time-event_starts_at,
     .form-style-expanded .input-ampm-event_starts_at {
@@ -312,8 +276,7 @@
     padding: 5px
   }
 
-
-
+}
   /*
 === THis is for the underline section. move this to a constants file
 */
@@ -323,7 +286,6 @@
     margin: 10px 0;
     display: inline-block;
   }
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
 </style>
 
 <div id="event-create-header"
@@ -372,19 +334,11 @@
         <script>
           // Replace animation w/instant show, because anim breaks
           // tabbing quickly past the date field.
-<<<<<<< HEAD
-          jQuery.fn.sfuphowFast = function(speed, callback) {
-            this.show()
-            callback()
-          }
-          jQuery(document).ready(function($){
-=======
           jQuery.fn.sfuphowFast = function (speed, callback) {
             this.show()
             callback()
           }
           jQuery(document).ready(function ($) {
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
             // $("#id_event_starts_at_date").datepicker({minDate: 0, showAnim: 'showFast' });
           });
 
@@ -443,11 +397,7 @@
             </label>
           </div>
         </div>
-<<<<<<< HEAD
-{% endif %}
-=======
         {% endif %}
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
         <!--<div class="input-text ak-input-type-event id_event_max_attendees">
       		<label for="id_event_max_attendees">{% filter ak_text:"event_create_field_label_max_attendees" %}Maximum Number of Attendees {% endfilter %}</label>
       		<input id="id_event_max_attendees" type="text" name="event_max_attendees" value="{{ campaign.default_event_size|default:"" }}" size="8" />
@@ -461,16 +411,6 @@
             name="event_public_description">{% if page.custom_fields.event_default_description %}{% autoescape off %}{{ page.custom_fields.event_default_description }}{% endautoescape %}{% endif %}</textarea>
         </div>
         <p class="text-small opacity-50">
-<<<<<<< HEAD
-				{% if page.custom_fields.event_create_description_helptext %}
-					{{ page.custom_fields.event_create_description_helptext }}
-				{% else %}
-					{% filter ak_text:"event_create_field_label_description_help" %}Your event description will be displayed on the website, so try to write a compelling invitation that will make people want to join. You will be able to edit it later if your plans change. (5 word minimum){% endfilter %}
-				{% endif %}
-        </p>
-
-        {% if page.custom_fields.iswebinar == 'Yes' and not update %}
-=======
           {% if page.custom_fields.event_create_description_helptext %}
           {{ page.custom_fields.event_create_description_helptext }}
           {% else %}
@@ -481,21 +421,10 @@
         </p>
 
         {% if page.custom_fields.events_webinar == 'Yes' and not update %}
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
         {% include "./zoom_webinar_create.html" %}
         {% endif%}
 
         {% if update %}
-<<<<<<< HEAD
-  <div class="input-text ak-input-type-event">
-    <label for="id_action_external_signups">How many confirmed attendees do you have from other sources, eg. a Facebook event?</label>
-    <input type="number" name="action_external_signups" id="id_action_external_signups" style="width: 100px;" value="{%if events_eventfield.external_signups%}{{events_eventfield.external_signups}} {% else %} 0 {% endif %}">
-      <p class="text-small opacity-50">
-					{% filter ak_text:"event_create_field_label_add_external_signups_help" %}We will add this number to the total number of attendees shown on the signup page.{% endfilter %}
-        </p>
-  </div>
-  {% endif%}
-=======
         <div class="input-text ak-input-type-event">
           <label for="id_action_external_signups">How many confirmed attendees do you have from other sources, eg. a
             Facebook event?</label>
@@ -507,7 +436,6 @@
           </p>
         </div>
         {% endif%}
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
       </fieldset>
     </div>
   </div>
@@ -776,11 +704,7 @@
         break;
       }
     }
-<<<<<<< HEAD
-});
-=======
   });
->>>>>>> 852d59458d38f751a964f167becb9cfd7e4513c8
 
 </script>
 

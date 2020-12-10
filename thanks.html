@@ -2,6 +2,99 @@
 {% load actionkit_tags %}
 {% block content %}
 {% autoescape off %}
+<style>
+	.upsell_wrap {
+		display: flex;
+		justify-content: center;
+		max-width: 680px;
+ 	 	margin: 0 auto;
+	}
+	#suggestions {
+		display: flex;
+	}
+	#suggestions button,
+	.upsell_other_amt button {
+		font-size: 1.8rem;
+		font-family: GraphCondensedWeb, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+		background: #0f81e8;
+		text-shadow: none;
+	}
+	#suggestions button {
+		margin: 10px;
+		padding: 0.6em 1.2em;
+	}
+	.upsell_other_amt {
+		display: flex;
+		margin: 10px;
+		position: relative;
+	}
+	.upsell_other_amt label {
+		position: absolute;
+		color: #989898;
+		top: 50%;
+		transform: translateY(-50%);
+		left: 15px;
+		font-size: 1.4rem;
+		pointer-events: none;
+	}
+	.upsell_other_amt input {
+		width: 60%;
+		font-size: 1.4rem;
+		margin-bottom: 0;
+		border-radius: 1.4em 0 0 1.4em;
+		padding-left: 32px;
+		min-width: 130px;
+	}
+	.upsell_other_amt input.CAD,
+	.upsell_other_amt input.NZD {
+		padding-left: 65px;
+	}
+	.upsell_other_amt input.BRL,
+	.upsell_other_amt input.AUD {
+		padding-left: 48px;
+	}
+	.upsell_other_amt button {
+		width: 40%;
+		border-radius: 0 1.4em 1.4em 0;
+		min-width: 155px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	@media only screen and (max-width: 900px) {
+		.upsell_wrap {
+			width: 100%;
+			flex-wrap: wrap;	
+		}
+		#suggestions {
+			width: 100%;
+			flex-wrap: wrap;	
+		}
+		#suggestions button {
+			width: 100%;
+		}
+		.upsell_other_amt {
+			width: 100%;
+		}
+	}
+	@media only screen and (max-width: 448px) {
+		.upsell_other_amt {
+			flex-wrap: wrap;
+		}
+		.upsell_other_amt label {
+			transform: none;
+  		top: 14px;
+		}
+		.upsell_other_amt input {
+			width: 100%;
+			border-radius: 1.4em 1.4em 0 0;
+		}
+		.upsell_other_amt button {
+			width: 100%;
+			border-radius: 0 0 1.4em 1.4em;
+		}
+	}
+</style>
 <section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 		<form class="ak-form dummy" name="act" method="POST" action="/act/" accept-charset="utf-8">
@@ -10,6 +103,116 @@
 		</form>
 		<div id="thanks-message" class="bg-dkgray-trans text-large3 c10 ct10 cm10 box box-huge margin-bottom-large">
 		{% include_tmpl form.thank_you_text %}
+		
+		{% if page.custom_fields.thank_you_page_show_upsell == 'Y' and not action.orderrecurring %}
+			<script>
+				$(function() {
+					function urlParam(name){
+						var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+						if (!results) { return 0; }
+						return results[1] || 0;
+					}
+					var utmSource = urlParam('utm_source');
+					var source = urlParam('source');
+					var currency = 'USD';
+					var total = '10';
+					var maxDonation = 500;
+					var currencySymbols = {
+						"AUD": "$",
+						"BRL": "R$",
+						"CAD": "CA$",
+						"NZD": "NZ$",
+						"EUR": "€",
+						"GBP": "£",
+						"USD": "$",
+					}
+					
+					{% if action.order.currency %}
+					currency = '{{action.order.currency}}';
+					{% endif %}
+					{% if action.order.total %}
+					total = '{{action.order.total}}';
+					{% endif %}
+					
+					var getCurrency = function(amount) {
+						return parseInt(amount).toLocaleString('en-US', { style: 'currency', currency: currency, minimumFractionDigits: 0, maximumFractionDigits: 0 });
+					}
+					
+					var makeButton = function(amount) {
+						$('#suggestions').append('<button class="upsell_btn button" data-amt="'+parseInt(amount)+'">'+getCurrency(amount)+'{% filter ak_text:"donate_monthly_upsell_button_suffix" %}/mo{% endfilter %}</button>')	
+					}
+					
+
+					var pageLanguage = "{{page.lang.iso_code}}";
+
+					/** 
+					Add monthly donate page urls to the object below, using the iso-2 as the index and the URL as the value.
+					If a specific url for the page language isn't included, will default to english URL.
+					**/
+					var multilingualMonthlyDonateUrls = {
+						en: 'https://act.350.org/donate/make_it_monthly',
+						fr: 'https://act.350.org/donate/make_it_monthly_fr',
+						de: 'https://act.350.org/donate/make_it_monthly_de'
+					};
+
+					var baseUrl;
+
+					if (typeof multilingualMonthlyDonateUrls[pageLanguage] !== 'undefined') {
+						baseUrl = multilingualMonthlyDonateUrls[pageLanguage];
+					} else {
+						baseUrl = multilingualMonthlyDonateUrls.en;
+					}
+					
+					var url = baseUrl + '?source=';
+					if (source) url+= source;
+					url += '&utm_source=';
+					if (utmSource) url+= utmSource;
+					url += '&currency=' + currency;
+					
+					var setupButtons = function() {
+						if (total) {
+							var lowerCalc = (total / 5) * 4
+
+							if (parseInt(lowerCalc) != parseInt(total) && parseInt(lowerCalc) != 0 && parseInt(lowerCalc) <= maxDonation) {
+								makeButton(lowerCalc)
+							} else if(parseInt(total - 1) != parseInt(total) && parseInt(total - 1) != 0 && parseInt(total - 1) <= maxDonation) {
+								makeButton(total - 1)
+							} else if (parseInt(total) > maxDonation) {
+								makeButton((maxDonation / 5) * 4)
+							}
+							if (total < maxDonation) {
+								makeButton(total)	
+							} else {
+								makeButton(maxDonation)
+							}
+						}
+					}
+					
+					$('body').on('click', '.upsell_btn', function(e){
+						window.location.href = url + '&amount='+$(this).data('amt')
+					});
+					
+					$('body').on('click', '#other_amt_btn', function(e){
+						window.location.href = url + '&amount='+$('#other_amt').val()
+					});
+
+					$('#other_symbol').html(currencySymbols[currency])
+					$('#other_amt').addClass(currency)
+					 					 
+					setupButtons();
+				});
+			</script>
+
+			 <div class="upsell_wrap">
+					<div id="suggestions"></div>
+					<div class="upsell_other_amt">
+						<label id="other_symbol">$</label>
+						<input type="number" id="other_amt">
+						<button id="other_amt_btn" class="button">{% filter ak_text:"donate_monthly_upsell_other_button" %}Give Monthly{% endfilter %}</button>
+					</div>
+			 </div>
+
+			{% endif %}
 		</div>
 		<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">
 			<input type="hidden" name="utf8" value="&#x2714;" />

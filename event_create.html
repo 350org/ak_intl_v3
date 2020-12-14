@@ -3,37 +3,82 @@
 {% block content %}
 
 <style>
-  .en .text-style-parenthesis::before,
-  .es .text-style-parenthesis::before,
-  .fr .text-style-parenthesis::before,
-  .de .text-style-parenthesis::before {
-    content: '(';
-  }
+.en .text-style-parenthesis::before,
+.es .text-style-parenthesis::before,
+.fr .text-style-parenthesis::before,
+.de .text-style-parenthesis::before{
+  content:'(';}
+.en .text-style-parenthesis::after,
+.es .text-style-parenthesis::after,
+.fr .text-style-parenthesis::after,
+.de .text-style-parenthesis::after{
+  content:')';}
 
-  .en .text-style-parenthesis::after,
-  .es .text-style-parenthesis::after,
-  .fr .text-style-parenthesis::after,
-  .de .text-style-parenthesis::after {
-    content: ')';
-  }
+.ak-err{
+  color:#dd8902;}
+.highlight{
+  color: #4285f4;
+  font-weight: bold;
 
-  .ak-err {
-    color: #dd8902;
-  }
+}
+.section-header{
+  border-bottom:1px dotted;
+  color:rgba(21,36,43,0.5);
+  padding-bottom:1em;
+  text-align:center;}
+.form-style-expanded .input-time-event_starts_at,
+.form-style-expanded .input-ampm-event_starts_aft{
+  display:inline-block;
+  margin-right:1%;
+  vertical-align:text-top;
+  width:65%;}
+.form-style-expanded .input-ampm-event_starts_at{
+  margin-right:0;
+  width:33%;}
 
-  .highlight {
-    color: #4285f4;
-    font-weight: bold;
+.js .input-date{
+  position:relative;}
+.js .input-date,
+.js .input-date label,
+.js .hasDatepicker{
+  cursor:pointer;}
+.js .input-date::after{
+  background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDIuODYgMTEzLjEyIj48dGl0bGU+ZmYtaWNvbi1kYXRlPC90aXRsZT48cGF0aCBkPSJNODcuNSAxNC41NHYxMy4yM2gtMjQuODF2LTEzLjIzaC0yMi4zMXYxMy4yM2gtMjQuODJ2LTEzLjIzaC0xNS41NnY5OC41OGgxMDIuODZ2LTk4LjU4em04LjUgOTEuODZoLTg5LjI4di02OS4yNGg4OS4yOHptLTM1LTUwLjI5aC0xOS43M3YtMTIuNjhoMTkuNzN6bTI2LjU5IDBoLTE5LjQzdi0xMi42OGgxOS40MXptLTI2LjU5IDIxLjg5aC0xOS43M3YtMTMuMTdoMTkuNzN6bTI2LjU5IDBoLTE5LjQzdi0xMy4xN2gxOS40MXptLTUzLjUxIDIxLjIxaC0xOS41NnYtMTNoMTkuNTZ6bTI2LjkgMGgtMTkuNzF2LTEzaDE5Ljczem0tMjYuOS0yMS4yMWgtMTkuNTZ2LTEzLjE3aDE5LjU2em0xLjQtNTUuMWgtMTV2LTIyLjloMTV6bTQ3LjEzIDBoLTE1di0yMi45aDE1eiIvPjwvc3ZnPg==);
+  background-repeat:no-repeat;
+  background-size:contain;
+  bottom:1.2em;
+  content:'';
+  display:block;
+  height:1.3em;
+  opacity:0.4;
+  position:absolute;
+  right:1em;
+  width:1.3em;}
 
-  }
+.form-style-expanded .input-text.ak-input-type-event label,
+.form-style-expanded .input-textarea.ak-input-type-event label,
+.form-style-expanded .input-select.ak-input-type-event label,
+.form-style-expanded .input-date.ak-input-type-event label,
+.form-style-expanded .input-radio.ak-input-type-event > label{
+  display:block;
+  font-weight:bold;
+  font-size:1rem;
+  padding:0.4em 0 0;
+  opacity:0.6;
+  letter-spacing:0.05em;
+  text-transform: uppercase;}
 
-  .section-header {
-    border-bottom: 1px dotted;
-    color: rgba(21, 36, 43, 0.5);
-    padding-bottom: 1em;
-    text-align: center;
-  }
+#id_event_public_description{
+  min-height:200px;}
 
+#ak-errors{
+	margin-bottom:0;}
+
+@media screen and (min-width:900px){
+
+  .ak-datetime-field{
+    font-size:0;}
+  .form-style-expanded .input-date-event_starts_at,
   .form-style-expanded .input-time-event_starts_at,
   .form-style-expanded .input-ampm-event_starts_aft {
     display: inline-block;
@@ -98,6 +143,69 @@
     .ak-datetime-field {
       font-size: 0;
     }
+
+.zoom-btn {
+  background: #4285f4;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .25px;
+  line-height: 36px;
+  text-decoration: none;
+  text-transform: none;
+  border: none;
+}
+
+.zoom-btn:focus{
+  outline: none;
+}
+
+#webinar-errors {
+  background: rgba(255, 0, 0, 0.4);
+    border: 2px solid red;
+    margin-top: 1em;
+    padding: 0.5em;
+}
+
+#id_webinar_timezone-menu, .ui-menu {
+    max-height: 200px;
+    height:auto;
+    overflow: scroll;
+}
+
+.full-length {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.half-full {
+  width: 45%;
+}
+
+.third-full {
+  width: 30%;
+}
+
+#id_webinar_timezone{
+  padding: 0.4em 0.5em
+}
+
+#id_webinar_email{
+  padding: 5px
+}
+
+
+
+/*
+=== THis is for the underline section. move this to a constants file
+*/
+.underline {
+  text-decoration: underline;
+  cursor: pointer;
+  margin: 10px 0;
+  display: inline-block;
+}
 
     .form-style-expanded .input-date-event_starts_at,
     .form-style-expanded .input-time-event_starts_at,
@@ -168,8 +276,7 @@
     padding: 5px
   }
 
-
-
+}
   /*
 === THis is for the underline section. move this to a constants file
 */

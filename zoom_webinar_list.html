@@ -11,7 +11,7 @@
 .single-webinar-item-ctn{
     display: flex;
     width: 100%;
-    max-height: auto;
+    max-height: 100%;
     padding: 1.5em;
     align-items: center;
     border-bottom: 1px solid rgba(0,0,0,0.1);
@@ -73,6 +73,13 @@
     padding: 0 10px;
 }
 
+@media screen and (max-width: 1024px) {
+  .search-ctn {
+      width: 80%;
+  }
+}
+
+
 .search-ctn input {
   border: none;
 }
@@ -116,6 +123,7 @@
     font-size: small;
     margin-bottom: 2em;
 }
+
 .date-filters span {
   padding: 1em;
   transition: 0.1s all ease-in-out;
@@ -241,7 +249,6 @@
 </style>
 <div id="section-webinars" class="bg-white form-style-expanded width-normal">
     <div class="section search-section">
-    <h4>350 Webinars</h4>
     <div class='search-ctn'>
     <input type="search" id="search-webinars" name="s" class="search-form-field c7" value="" placeholder="Search webinars by topic...">
     <button id="search-webinars-btn" class='button button-primary'>SEARCH</button>

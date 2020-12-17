@@ -99,14 +99,14 @@
 		{% endif %}
 			</div>
 			<div class="event-location text-large2 text-style-lead2 icon-before" data-icon="&#xe907;">
-		{% if campaign.show_venue and event.venue and page.custom_fields.events_webinar!= 'Yes' %}
+		{% if campaign.show_venue and event.venue and page.custom_fields.events_webinar != 'Yes' %}
 				<span class="event-venue">{{ event.venue }}</span><br>
 		{% endif %}
-		{% if campaign.show_address1 and page.custom_fields.events_webinar!= 'Yes'   %}
+		{% if campaign.show_address1 and page.custom_fields.events_webinar != 'Yes'   %}
 				<span class="event-address1">{{ event.address1 }}</span><br>
 		{% endif %}
-		{{page.custom_fields.events_webinar!= 'Yes' }}
-		{% if campaign.show_city or campaign.show_state or campaign.show_zip and page.custom_fields.events_webinar!= 'Yes'  %}
+		{{page.custom_fields.events_webinar != 'Yes' }}
+		{% if campaign.show_city or campaign.show_state or campaign.show_zip and page.custom_fields.events_webinar != 'Yes'  %}
 			{% if campaign.show_zip %}
 				<span class="event-city-etc">{{ event.city_etc }}</span>
 			{% else %}

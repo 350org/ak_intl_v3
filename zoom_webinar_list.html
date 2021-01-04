@@ -297,9 +297,9 @@
         console.log(window.location, "ref")
 
         const url = new URL(window.location);
-        const region = url.searchParams.get('region');
+        const region = url.searchParams.get('region')
         const virtualEventType = url.searchParams.get('virtualEventType');
-        console.log(region,virtualEventType, "here???")
+        const campaign = url.searchParams.get('campaign');
         // Embed functionality ends here
         // Cache the campaign events here.
         let campaignEvents = [];
@@ -313,8 +313,22 @@
         if(!token){
             console.log("ZAKI access token missing.")
             return;
+        };
+        let EVENTS_URL = `https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns`;
+
+        if(region) {
+          EVENTS_URL = `${EVENTS_URL}&region=${region}`;
+        };
+
+        if(virtualEventType){
+          EVENTS_URL = `${EVENTS_URL}&virtualEventType=${virtualEventType}`;
+        };
+
+        if(campaign){
+           EVENTS_URL = `${EVENTS_URL}&campaign=${Number(campaign)}`;
         }
-        fetch(`https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns?campaignId=187&region=${region}&virtualEventType=${virtualEventType}`, {
+
+        fetch(EVENTS_URL, {
           headers: {
             authorization: token
           }
@@ -325,6 +339,7 @@
             data.json().then(response=>{
               campaignEvents = response.data.campaignEvents;
               campaignDetails = response.data.campaignDetails;
+              console.log(response, "resp")
               $("#search-webinars").show();
               showCampaignEvents(campaignEvents, campaignDetails);
             })

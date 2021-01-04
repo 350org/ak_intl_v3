@@ -104,7 +104,9 @@ a.area-link.event-link:hover {
 </style>
 {% comment %} <div id="page-header" class="section width-normal padding-large text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}"> {% endcomment %}
   {% comment %} <div class="section-inner"> {% endcomment %}
+{% if page.custom_fields.events_webinar == 'Yes' %}
 {% include "./zoom_webinar_list.html" %}
+{% endif %}
 
   {% comment %} </div> {% endcomment %}
 {% comment %} </div> {% endcomment %}

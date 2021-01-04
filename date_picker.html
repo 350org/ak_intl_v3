@@ -29,7 +29,7 @@
   {% else %}
 	<div class="input-text input-time input-time-{{ date_field.name }}">
     <label for="id_{{ date_field.name }}_time">{% filter ak_text:"field_event_starts_at_time"|capfirst %}Start Time (When people should show up in your local time, e.g. 2:00, 7:30){% endfilter %}</label>
-    <input type="text" size=8 name="{{ date_field.name }}_time" id="id_{{ date_field.name }}_time" value="{{ date_field.default_time }}" class="time text timepicker" format="time" />
+    <input type="text" size=8 name="{{ date_field.name }}_time" id="id_{{ date_field.name }}_time" value="{{ date_field.default_time }}" class="time text timepicker" format="time" placeholder="00:00"/>
 	</div>
    <div class="input-select input-ampm input-ampm-{{ date_field.name }}">
     <label for="id_{{ date_field.name }}_ampm">{% filter ak_text:"general_am_pm" %}AM/PM{% endfilter %}</label>

@@ -213,7 +213,12 @@
       "filename": "event_roster.html"
     },
     "event_search.html": {
-      "filename": "event_search.html"
+      "filename": "event_search.html",
+      "page": {
+        "custom_fields": {
+          "events_webinar": "Yes"
+        }
+      }
     },
     "event_search_results.html": {
       "filename": "event_search_results.html"

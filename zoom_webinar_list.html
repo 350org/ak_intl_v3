@@ -293,9 +293,6 @@
 {% block script_additions %}
 <script type="text/javascript">
       $(document).ready(function() {
-        // Embed functionality is here
-        console.log(window.location, "ref")
-
         const url = new URL(window.location);
         const region = url.searchParams.get('region')
         const virtualEventType = url.searchParams.get('virtualEventType');
@@ -326,7 +323,7 @@
 
         if(campaign){
            EVENTS_URL = `${EVENTS_URL}&campaign=${Number(campaign)}`;
-        }
+        };
 
         fetch(EVENTS_URL, {
           headers: {

@@ -984,9 +984,6 @@
 {% block script_additions %}
 
 <script language="javascript">
-
-  //<!--
-  // TODO: Commented out code needs to go.
   let paypalFieldOptionSelectedStepThree = false;
 
   // Prevent keypress interaction
@@ -1084,33 +1081,31 @@
 
     // preselect an amount with a url parameter
     var arg_amount_selected = false;
-    var arg_amount = {{ args.amount|default: "false"
-  }};
+    var arg_amount = {{ args.amount|default:"false" }};
 
-  $('.ak-amount-wrapper .input-radio-button').each(function () {
-    var current_amount = parseInt($(this).text().replace(/\D/g, ''));
-    if (arg_amount && (arg_amount == current_amount)) {
-      console.log('arg_amount == current_amount');
-      clear_radio_buttons();
-      $(this).trigger('click');
-      arg_amount_selected = true;
-    } else if (arg_amount && !arg_amount_selected) {
-      // console.log('arg_amount !== current_amount');
-      if ($(this).hasClass('input-radio-button-other')) {
+    $('.ak-amount-wrapper .input-radio-button').each(function () {
+      var current_amount = parseInt($(this).text().replace(/\D/g, ''));
+      if (arg_amount && (arg_amount == current_amount)) {
+        console.log('arg_amount == current_amount');
         clear_radio_buttons();
-        $('#ak-other-amount-field').val(arg_amount).trigger('click');
+        $(this).trigger('click');
+        arg_amount_selected = true;
+      } else if (arg_amount && !arg_amount_selected) {
+        // console.log('arg_amount !== current_amount');
+        if ($(this).hasClass('input-radio-button-other')) {
+          clear_radio_buttons();
+          $('#ak-other-amount-field').val(arg_amount).trigger('click');
+        }
+      } else {
+        // Make sure label is highlighted if an amount is pre-selected
+        highlight_selected_amount_button.call(
+          $('input[name="amount"]:checked').get(0) //||
+          //$('input[name="amount_other"]').get(0)
+        );
       }
-    } else {
-      // Make sure label is highlighted if an amount is pre-selected
-      highlight_selected_amount_button.call(
-        $('input[name="amount"]:checked').get(0) //||
-        //$('input[name="amount_other"]').get(0)
-      );
-    }
-  });
-
-		});
-
+    });
+    });
+  
   /* Currency symbols */
 
   actionkit.utils.currencySymbols = {
@@ -1156,35 +1151,35 @@
     ];
 
   {% if page.allow_international %}
-  function country_change() {
-    if ($('#country').val() == 'United States') {
-      $('.ak-us-billing-fields').show().each(function () {
-        $(this).children('input').prop('disabled', false);
-      });
-      $('.ak-intl-billing-fields').hide();
-    } else {
-      $('.ak-us-billing-fields').hide();
-      $('.ak-intl-billing-fields').show().each(function () {
-        $(this).children('input').prop('disabled', false);
-      });
+    function country_change() {
+      if ($('#country').val() == 'United States') {
+        $('.ak-us-billing-fields').show().each(function () {
+          $(this).children('input').prop('disabled', false);
+        });
+        $('.ak-intl-billing-fields').hide();
+      } else {
+        $('.ak-us-billing-fields').hide();
+        $('.ak-intl-billing-fields').show().each(function () {
+          $(this).children('input').prop('disabled', false);
+        });
+      }
+      sync_to_shipping();
     }
-    sync_to_shipping();
-  }
-  function shipping_country_change() {
-    if ($('#shipping_country').val() == 'United States') {
-      $('.ak-us-shipping-fields').show();
-      $('.ak-intl-shipping-fields').hide();
-    } else {
-      $('.ak-us-shipping-fields').hide();
-      $('.ak-intl-shipping-fields').show();
+    function shipping_country_change() {
+      if ($('#shipping_country').val() == 'United States') {
+        $('.ak-us-shipping-fields').show();
+        $('.ak-intl-shipping-fields').hide();
+      } else {
+        $('.ak-us-shipping-fields').hide();
+        $('.ak-intl-shipping-fields').show();
+      }
     }
-  }
-  $(function () {
-    $('#country').on('change blur', country_change);
-    $('#id_shipping_country').on('change blur', shipping_country_change);
-    country_change();
-    shipping_country_change();
-  });
+    $(function () {
+      $('#country').on('change blur', country_change);
+      $('#id_shipping_country').on('change blur', shipping_country_change);
+      country_change();
+      shipping_country_change();
+    });
   {% endif %}
 
 
@@ -1482,33 +1477,33 @@
         "shipping_region", "shipping_postal",
         "privacy"
                            {% if templateset.custom_fields.ask_occupation_and_employer %}, "action_employer", "action_occupation"{% endif %}];
-  } else {
-    validate_fields = ["email", "card_num", "first_name", "last_name", "name",
-      "exp_date_year", "exp_date_month", "exp_date"];
-  }
-
-  doing_step_validation = true;
-  actionkit.forms.validate();
-  doing_step_validation = false;
-
-  if (step == "1") {
-    step_has_errors = step_1_validation();
-  }
-
-  if (step == "2" && !step_has_errors) {
-    step_has_errors = step_2_validation();
-  }
-  console.log("Do we get here before step 3 validation.")
-  console.log("any errors before step 3 validation", step_has_errors)
-  console.log("We are currently at step -->", step)
-  console.log(actionkit.errors, "What are the errors?")
-  if (step == "3" && !step_has_errors) {
-    console.log(step_has_errors, "In the validate step function before")
-    step_has_errors = step_3_validation();
-    console.log(step_has_errors, "In the validate step function after")
-  }
-      // What do we do with this step_has_errors
+    } else {
+      validate_fields = ["email", "card_num", "first_name", "last_name", "name",
+        "exp_date_year", "exp_date_month", "exp_date"];
     }
+
+    doing_step_validation = true;
+    actionkit.forms.validate();
+    doing_step_validation = false;
+
+    if (step == "1") {
+      step_has_errors = step_1_validation();
+    }
+
+    if (step == "2" && !step_has_errors) {
+      step_has_errors = step_2_validation();
+    }
+    console.log("Do we get here before step 3 validation.")
+    console.log("any errors before step 3 validation", step_has_errors)
+    console.log("We are currently at step -->", step)
+    console.log(actionkit.errors, "What are the errors?")
+    if (step == "3" && !step_has_errors) {
+      console.log(step_has_errors, "In the validate step function before")
+      step_has_errors = step_3_validation();
+      console.log(step_has_errors, "In the validate step function after")
+    }
+      // What do we do with this step_has_errors
+  }
 
   function do_validate_credit_card() {
     // Check if we need to validate the CC
@@ -1613,20 +1608,19 @@
 
     {% if page.minimum_amount %}
     var total = update_total();
-    if (!step_has_errors && total < {{ page.minimum_amount }
-  }) {
-    if (!actionkit.errors) {
-      actionkit.errors = {};
+    if (!step_has_errors && total < {{ page.minimum_amount }}) {
+      if (!actionkit.errors) {
+        actionkit.errors = {};
+      }
+      err = actionkit.forms.errorMessage('amount:minimum');
+      err = err.replace("{0}", "{{ page.minimum_amount }}");
+      actionkit.errors['amount:minimum'] = err;
+      actionkit.forms.onValidationErrors(actionkit.errors);
+      step_has_errors = true;
     }
-    err = actionkit.forms.errorMessage('amount:minimum');
-    err = err.replace("{0}", "{{ page.minimum_amount }}");
-    actionkit.errors['amount:minimum'] = err;
-    actionkit.forms.onValidationErrors(actionkit.errors);
-    step_has_errors = true;
-  }
-  {% endif %}
+    {% endif %}
 
-  return step_has_errors;
+    return step_has_errors;
     }
 
   function actionkitValidationErrors(errors, field) {
@@ -1678,6 +1672,7 @@
   }
 
   $(function () {
+    console.log("here????")
     // three-step vs. one-step UI
     if ($('form.ak-donate-three-step').length == 0) {
       $('.ak-donate-three-step-visible').hide();
@@ -1815,31 +1810,31 @@
       "privacy"
                     {% if templateset.custom_fields.ask_occupation_and_employer %}, "action_employer", "action_occupation"{% endif %}
                ];
-  {% endif %}
+    {% endif %}
 
-  doing_step_validation = true;
-  actionkit.forms.validate();
-  doing_step_validation = false;
-  if (!$.isEmptyObject(actionkit.errors)) {
-    return false;
-  }
-  {% endif %}
+    doing_step_validation = true;
+    actionkit.forms.validate();
+    doing_step_validation = false;
+    if (!$.isEmptyObject(actionkit.errors)) {
+      return false;
+    }
+    {% endif %}
 
-  /* set the paypal=1 hidden field */
-  $('#ak-pay-by-paypal').val(1);
+    /* set the paypal=1 hidden field */
+    $('#ak-pay-by-paypal').val(1);
 
-  /* clear out CC info if entered */
-  $('#ak-card_num').val('');
-  $('#ak-card_code').val('');
+    /* clear out CC info if entered */
+    $('#ak-card_num').val('');
+    $('#ak-card_code').val('');
 
-  /* disable CC requirements */
-  $('#ak-card_num-required').remove();
-  $('#ak-card_code-required').remove();
-  $('#ak-exp_date_month-required').remove();
-  $('#ak-exp_date_year-required').remove();
+    /* disable CC requirements */
+    $('#ak-card_num-required').remove();
+    $('#ak-card_code-required').remove();
+    $('#ak-exp_date_month-required').remove();
+    $('#ak-exp_date_year-required').remove();
 
-  /* and keep submitting */
-  return true;
+    /* and keep submitting */
+    return true;
     }
 
   function submit_cc() {
@@ -1995,13 +1990,8 @@
       }
     }
   };
-  $(function () {
-    if (getUrlParameter('currency')) {
-      $('#id_currency_' + getUrlParameter('currency')).attr('selected', true)
-      $('#ak-currency-switcher').trigger('change')
-    }
-  });
-//-->
+
+
 </script>
 
 {% with page.payment_processor_information as pp %}

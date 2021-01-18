@@ -247,7 +247,7 @@
       }
 
 </style>
-<div id="section-webinars" class="bg-white form-style-expanded width-normal">
+<div id="section-webinars" class="bg-white form-style-expanded width-normal w-screen">
     <div class="section search-section">
     <div class='search-ctn'>
     <input type="search" id="search-webinars" name="s" class="search-form-field c7" value="" placeholder="Search webinars by topic...">
@@ -360,8 +360,8 @@
             const webinarAk = campaignEvents.objects[i];
             console.log(webinarAk, "here we goes")
               $("#loading-text").hide();
-              $("#ak-campaign-list").append(`<li class="single-webinar-item-ctn">
-                <div class='left'>
+              $("#ak-campaign-list").append(`<li class="single-webinar-item-ctn flex flex-col">
+                <div class="flex md:flex-col h-full p-1 mr-2 w-12 font-700 bg-red">
                 <span class='webinar-day'>${window.moment(webinarAk.starts_at).format("ddd")}</span>
                 <span class='webinar-date'>${window.moment(webinarAk.starts_at).format("D")}</span>
                 <span class='webinar-day'>${window.moment(webinarAk.starts_at).format("MMM")}</span>
@@ -369,7 +369,7 @@
                 <div class='middle'>
                 <h4>${webinarAk.title}</h4>
                 <p>${window.moment(webinarAk.starts_at).format("ddd D MMM YYYY - HH:mm a ZZ")}</p>
-                <p>${webinarAk.public_description || "No agenda set yet for this webinar."}</p>
+                <p class="">${webinarAk.public_description || "No agenda set yet for this webinar."}</p>
                 </div>
                 <p class='right'>
                 <a class="join-btn rsvp-webinar" target="__blank" href="https://act.350.org/event/${campaignDetails.name}_attend/${webinarAk.id}"> RSVP </a>

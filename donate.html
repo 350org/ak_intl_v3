@@ -1797,7 +1797,7 @@
     return email_regExp.test(email);
   }
 
-  {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip | lower == 'y' %}
+  {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' %}
 
   function submit_paypal() {
     {% if page.paypal_user_requirements != "none" %}
@@ -1947,7 +1947,7 @@
       });
     })
 
-    {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip | lower == 'y' %}
+    {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' %}
     toggleShowFields(paypalFields, true);
     toggleShowFields(ccFields, false);
     paypalFieldOptionSelectedStepThree = true;
@@ -2051,7 +2051,7 @@
 <script src="/resources/ak_braintree_vzero.js"></script>
 <script>
   $(function () {
-    {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip | lower != 'y' %}
+    {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y' %}
     var form = document.querySelector("#act"),
       options = {
         form: form,

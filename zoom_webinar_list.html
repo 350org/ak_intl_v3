@@ -291,14 +291,13 @@
 {% endblock %}
 
 {% block script_additions %}
+<script src="https://s3.amazonaws.com/s3.350.org/scripts/truncate.min.js"></script>
 <script type="text/javascript">
       $(document).ready(function() {
         const url = new URL(window.location);
         const region = url.searchParams.get('region')
         const virtualEventType = url.searchParams.get('virtualEventType');
         const campaign = url.searchParams.get('campaign');
-        // Embed functionality ends here
-        // Cache the campaign events here.
         let campaignEvents = [];
         let campaignDetails = {};
         let filteredCampaignEvents = [];
@@ -311,6 +310,7 @@
             console.log("ZAKI access token missing.")
             return;
         };
+
         let EVENTS_URL = `https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns`;
 
         if(region) {
@@ -325,6 +325,13 @@
            EVENTS_URL = `${EVENTS_URL}&campaign=${Number(campaign)}`;
         };
 
+        function getSubstring(text){
+          if(text && text.length >= 200){
+            return `${text.substr(0, 200)}...`;
+          };
+          return text || null;
+        }
+
         fetch(EVENTS_URL, {
           headers: {
             authorization: token
@@ -336,7 +343,6 @@
             data.json().then(response=>{
               campaignEvents = response.data.campaignEvents;
               campaignDetails = response.data.campaignDetails;
-              console.log(response, "resp")
               $("#search-webinars").show();
               showCampaignEvents(campaignEvents, campaignDetails);
             })
@@ -355,13 +361,11 @@
               return;
           }
           $("#no-webinars").hide();
-          console.log(campaignEvents, "here")
           for(let i = 0 ; i < campaignEvents.objects.length ; i ++){
             const webinarAk = campaignEvents.objects[i];
-            console.log(webinarAk, "here we goes")
               $("#loading-text").hide();
-              $("#ak-campaign-list").append(`<li class="single-webinar-item-ctn flex flex-col">
-                <div class="flex md:flex-col h-full p-1 mr-2 w-12 font-700 bg-red">
+              $("#ak-campaign-list").append(`<li class="single-webinar-item-ctn flex flex-col md:flex-row max-h-56">
+                <div class="flex border-b-2 md:border-b-0 border-gray border-r-0  md:border-r-2 justify-center text-center h-full p-1 mr-2 font-bold text-xl md:text-3xl flex-row md:flex-col md:font-normal md:mr-4 md:px-4">
                 <span class='webinar-day'>${window.moment(webinarAk.starts_at).format("ddd")}</span>
                 <span class='webinar-date'>${window.moment(webinarAk.starts_at).format("D")}</span>
                 <span class='webinar-day'>${window.moment(webinarAk.starts_at).format("MMM")}</span>
@@ -369,14 +373,15 @@
                 <div class='middle'>
                 <h4>${webinarAk.title}</h4>
                 <p>${window.moment(webinarAk.starts_at).format("ddd D MMM YYYY - HH:mm a ZZ")}</p>
-                <p class="">${webinarAk.public_description || "No agenda set yet for this webinar."}</p>
+                <p class="md:hidden block webinar-description">${getSubstring(webinarAk.public_description) || "No agenda set yet for this webinar."}</p>
                 </div>
-                <p class='right'>
+                <p class='right mt-4'>
                 <a class="join-btn rsvp-webinar" target="__blank" href="https://act.350.org/event/${campaignDetails.name}_attend/${webinarAk.id}"> RSVP </a>
                 </p>
               </li>`) 
           }
         };
+
 
         const filterBySearchTerm = searchTerm => {
           if(searchTerm.length > 0){

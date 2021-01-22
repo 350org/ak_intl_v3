@@ -154,6 +154,8 @@
 	<!--End-->
 
 
+
+
 	<link rel='stylesheet' id='baseline-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.css?v=2018091408552'
 		type='text/css' media='screen' />
 	<link rel='stylesheet' href='https://dbqvwi2zcv14h.cloudfront.net/ak/custom.css' type='text/css' media='screen' />
@@ -283,7 +285,7 @@
 	</div>
 	{% endif %}
 
-	{% if request.user.is_authenticated %}
+	{% if request.user.is_authenticated and page.custom_fields.events_webinar != 'Yes' %}
 	<div id="admin-bar" class="section padding-none border-bottom bg-white width-wide">
 		<div class="section-inner">
 			<nav id="admin-menu" class="text-small2">
@@ -348,6 +350,8 @@
 	-------------
 	{% endcomment %}
 
+
+	{% if page.custom_fields.events_webinar != 'Yes' %}
 	<footer id="site-footer"
 		class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif templateset.custom_fields.site_bg_color_slug %}{{ templateset.custom_fields.site_bg_color_slug }}{% else %}white{% endif %} width-full text-small">
 		<div class="section-inner">
@@ -396,6 +400,7 @@
 
 		</div>
 	</footer>
+	{% endif %}
 
 	<script src="https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.js"></script>
 	{% if page.custom_fields.form_include_college %}

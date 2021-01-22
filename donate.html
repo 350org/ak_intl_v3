@@ -720,8 +720,11 @@
 
                         <div
                           class="payments-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %} payments-title-active card-title ">
-                          <svg width="150" height="40" class="payments-title-active">
+                          <svg width="150" height="40" class="payments-title-active cards-us">
                             <image href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="150" height="40" />
+                          </svg>
+                          <svg width="75" height="40" class="payments-title-active cards-non-us" style="display:none;">
+                            <image href="https://dbqvwi2zcv14h.cloudfront.net/images/cards-visa-mc.svg" width="75" height="40" />
                           </svg>
                         </div>
 
@@ -1151,19 +1154,21 @@
     ];
 
   {% if page.allow_international %}
-    function country_change() {
-      if ($('#country').val() == 'United States') {
-        $('.ak-us-billing-fields').show().each(function () {
-          $(this).children('input').prop('disabled', false);
-        });
-        $('.ak-intl-billing-fields').hide();
-      } else {
-        $('.ak-us-billing-fields').hide();
-        $('.ak-intl-billing-fields').show().each(function () {
-          $(this).children('input').prop('disabled', false);
-        });
-      }
-      sync_to_shipping();
+  function country_change() {
+    if ($('#country').val() == 'United States') {
+      $('.ak-us-billing-fields').show().each(function () {
+        $(this).children('input').prop('disabled', false);
+      });
+      $('.ak-intl-billing-fields').hide();
+      $('.cards-non-us').hide();
+      $('.cards-us').show();
+    } else {
+      $('.ak-us-billing-fields').hide();
+      $('.ak-intl-billing-fields').show().each(function () {
+        $(this).children('input').prop('disabled', false);
+      });
+      $('.cards-non-us').show();
+      $('.cards-us').hide();
     }
     function shipping_country_change() {
       if ($('#shipping_country').val() == 'United States') {

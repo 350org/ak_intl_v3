@@ -5746,3 +5746,9 @@ a.bg-midgray:hover {
 
 /* Webkit-only biz (mostly fiddly typography bits) */
 @media screen and (-webkit-min-device-pixel-ratio:0) {}
+
+
+/*Custom Test*/
+#id_action_ca_ourtime_2019_optin_box{
+  color: white;
+}

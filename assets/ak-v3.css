@@ -3902,6 +3902,7 @@ input[type="submit"] {
   display: block;
   margin-bottom: 0.2em;
   padding-left: 23px;
+  color:white;
 }
 
 .ak-userfield-radio-choice input,

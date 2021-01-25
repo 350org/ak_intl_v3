@@ -27,7 +27,10 @@
 </div>
 
 {% if page.custom_fields.form_privacy_show_optin != "do-not-show" %}
+<div class="text-white">
+
   {% include "./privacy.html" %}
+</div>
 {% endif %}
 
 {% if page.type != "Call" %}

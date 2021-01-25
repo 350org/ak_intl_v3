@@ -71,7 +71,7 @@
 
 {% if page.custom_fields.form_opt_in %}
 <input type="hidden" name="opt_in" value="1">
-<div class="input-checkbox ak-userfield-checkbox-choice">
+<div class="input-checkbox ak-userfield-checkbox-choice text-white">
 	<label for="lists-checkbox">
 		<input id="lists-checkbox" class="checkbox" type="checkbox" name="lists" value="{{ page.list.id }}" checked> {% filter ak_text:"general_opt_in_label" %}Stay up to date with 350.org and the climate movement.{% endfilter %}
 	</label>

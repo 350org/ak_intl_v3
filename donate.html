@@ -1151,40 +1151,37 @@
         {% if page.allow_international %}, 'postal', 'region', 'country'{% endif %}
     ];
 
-  {% if page.allow_international %}
-  function country_change() {
-    if ($('#country').val() == 'United States') {
-      $('.ak-us-billing-fields').show().each(function () {
-        $(this).children('input').prop('disabled', false);
-      });
-      $('.ak-intl-billing-fields').hide();
-      $('.cards-non-us').hide();
-      $('.cards-us').show();
-    } else {
-      $('.ak-us-billing-fields').hide();
-      $('.ak-intl-billing-fields').show().each(function () {
-        $(this).children('input').prop('disabled', false);
-      });
-      $('.cards-non-us').show();
-      $('.cards-us').hide();
+    {% if page.allow_international %}
+    function country_change() {
+        if ( $('#country').val() == 'United States' ) {
+            $('.ak-us-billing-fields').show().each(function(){
+				$(this).children('input').prop('disabled', false);
+			});
+            $('.ak-intl-billing-fields').hide();
+        } else {
+            $('.ak-us-billing-fields').hide();
+            $('.ak-intl-billing-fields').show().each(function(){
+				$(this).children('input').prop('disabled', false);
+			});
+        }
+        sync_to_shipping();
     }
     function shipping_country_change() {
-      if ($('#shipping_country').val() == 'United States') {
-        $('.ak-us-shipping-fields').show();
-        $('.ak-intl-shipping-fields').hide();
-      } else {
-        $('.ak-us-shipping-fields').hide();
-        $('.ak-intl-shipping-fields').show();
-      }
+        if ( $('#shipping_country').val() == 'United States' ) {
+            $('.ak-us-shipping-fields').show();
+            $('.ak-intl-shipping-fields').hide();
+        } else {
+            $('.ak-us-shipping-fields').hide();
+            $('.ak-intl-shipping-fields').show();
+        }
     }
-    $(function () {
-      $('#country').on('change blur', country_change);
-      $('#id_shipping_country').on('change blur', shipping_country_change);
-      country_change();
-      shipping_country_change();
-    });
-  }
-  {% endif %}
+    $( function () {
+        $('#country').on('change blur', country_change);
+        $('#id_shipping_country').on('change blur', shipping_country_change);
+        country_change();
+        shipping_country_change();
+    } );
+    {% endif %}
 
 
   function toggle_shipping() {

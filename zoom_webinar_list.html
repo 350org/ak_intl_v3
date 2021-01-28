@@ -305,11 +305,6 @@
         // $("#search-webinars").hide();
         $("#no-webinars").hide();
         const listCtn = $("#zoom-webinar-list")
-        if(!token){
-            console.log("ZAKI access token missing.", token)
-            return;
-        };
-
         let EVENTS_URL = `https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns`;
 
         if(region) {
@@ -332,9 +327,6 @@
         }
 
         fetch(EVENTS_URL, {
-          headers: {
-            authorization: token
-          }
         }, ()=>{
 
         }).then(data=>{

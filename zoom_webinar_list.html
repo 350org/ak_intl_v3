@@ -301,12 +301,24 @@
         let campaignDetails = {};
         let filteredCampaignEvents = [];
         // Get token and set it in local storage
-        const token = localStorage.getItem("token");
+        let token = localStorage.getItem("token");
         // $("#search-webinars").hide();
         $("#no-webinars").hide();
         const listCtn = $("#zoom-webinar-list")
         if(!token){
             console.log("ZAKI access token missing.", token)
+            fetch(`https://zaki-server.herokuapp.com/api/v1/auth`)
+            .then(response=>{
+              if(response.ok){
+                response.json().then(data=>{
+                  console.log("Missing token fetched")
+                  token = data.token;
+                });
+              }
+            })
+            .catch(e=>{
+              console.log("Error fetching token",e)
+            })
             return;
         };
 

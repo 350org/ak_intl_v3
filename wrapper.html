@@ -308,6 +308,7 @@
 			</nav>
 		</div>
 	</div>
+	
 	{% endif %}
 	{% include "./language_picker.html" %}
 	<script type="text/javascript">
@@ -401,6 +402,23 @@
 		</div>
 	</footer>
 	{% endif %}
+		<script>
+	$(document).ready(function() {
+        // Get token
+        fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
+          if(response.ok){
+			console.log("response", response);
+            response.json().then(data=>{
+              localStorage.setItem("token", data.token);
+            })
+          } else {
+            throw new Error("Response not ok.")
+          }
+        }).catch(e=>{
+          console.log(`Auth error: ${e.message}.`)
+        });
+	});
+	</script>
 
 	<script src="https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.js"></script>
 	{% if page.custom_fields.form_include_college %}
@@ -529,7 +547,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.26/dayjs.min.js"></script>
 	<div id="body-mobile-background"></div>
 	{% block scripts %}
-	<script>
+	{% comment %} <script>
 	$(document).ready(function() {
         // Get token
         fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
@@ -545,7 +563,7 @@
           console.log(`Auth error: ${e.message}.`)
         });
 	});
-	</script>
+	</script> {% endcomment %}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 	
 	<!-- scripts to all be moved here. -->

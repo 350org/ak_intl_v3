@@ -93,7 +93,7 @@
             const baseURL = 'https://zaki-server.herokuapp.com/api/v1/';
             let fetchURL = isMeeting ? 'meetings' : 'webinars';
             fetchURL = `${baseURL}${fetchURL}`;
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("auth-token");
             if(!token){
                 console.log("No JWT token found")
                 return

@@ -410,7 +410,7 @@
 			console.log("response", response);
             response.json().then(data=>{
 			console.log("data", data.token)
-              localStorage.setItem("token", data.token);
+              localStorage.setItem("auth-token", data.token);
             })
           } else {
             throw new Error("Response not ok.")

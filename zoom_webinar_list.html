@@ -301,13 +301,12 @@
         let campaignDetails = {};
         let filteredCampaignEvents = [];
         // Get token and set it in local storage
-        let token = localStorage.getItem("token");
+        let token = localStorage.getItem("auth-token");
         // $("#search-webinars").hide();
         $("#no-webinars").hide();
         const listCtn = $("#zoom-webinar-list")
         if(!token){
             console.log("ZAKI access token missing.", token)
-            location.reload();
             return;
         };
 
@@ -376,7 +375,7 @@
                 <p class="md:hidden block webinar-description">${getSubstring(webinarAk.public_description) || "No agenda set yet for this webinar."}</p>
                 </div>
                 <p class='right mt-4'>
-                <a class="join-btn rsvp-webinar" target="__blank" href="https://act.350.org/event/${campaignDetails.name}_attend/${webinarAk.id}"> Read More </a>
+                <a class="join-btn rsvp-webinar" target="__blank" href="https://act.350.org/event/${campaignDetails.name}_attend/${webinarAk.id}"> RSVP </a>
                 </p>
               </li>`) 
           }

@@ -294,8 +294,9 @@
 <script type="text/javascript">
       $(document).ready(function() {
         // Set token
-                // Get token
+        console.log("Before set token")
         fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
+          console.log(response, "respoonse")
           if(response.ok){
             response.json().then(data=>{
               console.log("Token gotten and set")

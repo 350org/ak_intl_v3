@@ -294,6 +294,20 @@
 <script src="https://s3.amazonaws.com/s3.350.org/scripts/truncate.min.js"></script>
 <script type="text/javascript">
       $(document).ready(function() {
+        // Set token
+                // Get token
+        fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
+          if(response.ok){
+            response.json().then(data=>{
+              localStorage.setItem("token", data.token);
+            })
+          } else {
+            throw new Error("Response not ok.")
+          }
+        }).catch(e=>{
+          console.log(`Auth error: ${e.message}.`)
+        });
+        
         const url = new URL(window.location);
         const region = url.searchParams.get('region')
         const virtualEventType = url.searchParams.get('virtualEventType');
@@ -307,7 +321,7 @@
         $("#no-webinars").hide();
         const listCtn = $("#zoom-webinar-list")
         if(!token){
-            console.log("ZAKI access token missing.")
+            console.log("ZAKI access token missing.", token)
             return;
         };
 

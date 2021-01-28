@@ -534,6 +534,7 @@
         // Get token
         fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
           if(response.ok){
+			console.log("response", response);
             response.json().then(data=>{
               localStorage.setItem("token", data.token);
             })

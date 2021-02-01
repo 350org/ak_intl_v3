@@ -297,12 +297,20 @@
         const region = url.searchParams.get('region')
         const virtualEventType = url.searchParams.get('virtualEventType');
         const campaign = url.searchParams.get('campaign');
-        const campaignShortName = url.searchParams.get('campaignShortName');
+        let campaignShortName = url.searchParams.get('campaignShortName');
         let campaignEvents = [];
         let campaignDetails = {};
         let filteredCampaignEvents = [];
+        const currentURL = window.location.href;
+        const urlItems = window.location.href.split("/");
+        if(urlItems.includes("event")){
+          console.log("here")
+          const eventPosition = urlItems.index("event");
+          campaignShortName = urlItems[eventPosition + 1];
+          console.log(campaignShortName, "here we goes campaign short")
+        }
+        console.log(urlItems, "x is here")
         // Get token and set it in local storage
-        console.log(campaignShortName, "here w are")
         let token = localStorage.getItem("auth-token");
         // $("#search-webinars").hide();
         $("#no-webinars").hide();

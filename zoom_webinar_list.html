@@ -305,7 +305,7 @@
         const urlItems = window.location.href.split("/");
         if(urlItems.includes("event")){
           console.log("here")
-          const eventPosition = urlItems.index("event");
+          const eventPosition = urlItems.indexOf("event");
           campaignShortName = urlItems[eventPosition + 1];
           console.log(campaignShortName, "here we goes campaign short")
         }

@@ -306,7 +306,9 @@
         if(urlItems.includes("event")){
           console.log("here")
           const eventPosition = urlItems.indexOf("event");
-          campaignShortName = urlItems[eventPosition + 1];
+          const shortNameIndex = eventPosition + 1;
+          if(!shortNameIndex) console.log("Campaign short name index does not exist");
+          campaignShortName = urlItems[shortNameIndex];
           console.log(campaignShortName, "here we goes campaign short")
         }
         // Get token and set it in local storage

@@ -250,7 +250,7 @@
 <div id="section-webinars" class="bg-white form-style-expanded width-normal w-screen">
     <div class="section search-section">
     <div class='search-ctn'>
-    <input type="search" id="search-webinars" name="s" class="search-form-field c7" value="" placeholder="Search webinars by topic...">
+    <input type="search" id="search-webinars" name="s" class="search-form-field c7" value="" placeholder="Search by topic...">
     <button id="search-webinars-btn" class='button button-primary'>SEARCH</button>
     </div>
 
@@ -297,6 +297,7 @@
         const region = url.searchParams.get('region')
         const virtualEventType = url.searchParams.get('virtualEventType');
         const campaign = url.searchParams.get('campaign');
+        const campaignShortName = url.searchParams.get('campaignShortName');
         let campaignEvents = [];
         let campaignDetails = {};
         let filteredCampaignEvents = [];
@@ -305,7 +306,7 @@
         // $("#search-webinars").hide();
         $("#no-webinars").hide();
         const listCtn = $("#zoom-webinar-list")
-        let EVENTS_URL = `https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns`;
+        let EVENTS_URL = `https://zaki-server.herokuapp.com/api/v1/ak-webinar-campaigns?campaignShortName=${campaignShortName}`;
 
         if(region) {
           EVENTS_URL = `${EVENTS_URL}&region=${region}`;
@@ -356,9 +357,9 @@
             const webinarAk = campaignEvents.objects[i];
               $("#loading-text").hide();
               $("#ak-campaign-list").append(`<li class="single-webinar-item-ctn flex flex-col md:flex-row max-h-56">
-                <div class="flex border-b-2 md:border-b-0 border-gray border-r-0  md:border-r-2 justify-center text-center h-full p-1 mr-2 font-bold text-xl md:text-3xl flex-row md:flex-col md:font-normal md:mr-4 md:px-4">
-                <span class='webinar-day'>${window.moment(webinarAk.starts_at).format("ddd")}</span>
-                <span class='webinar-date'>${window.moment(webinarAk.starts_at).format("D")}</span>
+                <div class="flex border-b-2 md:border-b-0 border-gray border-r-0 mb-4 md:border-r-2 justify-center text-center h-full p-1 mr-2 font-bold text-xl md:text-3xl flex-row md:flex-col md:font-normal md:mr-4 md:px-4">
+                <span class='webinar-day mr-1'>${window.moment(webinarAk.starts_at).format("ddd")}</span>
+                <span class='webinar-date mr-1'>${window.moment(webinarAk.starts_at).format("D")}</span>
                 <span class='webinar-day'>${window.moment(webinarAk.starts_at).format("MMM")}</span>
                 </div>
                 <div class='middle'>

@@ -1,6 +1,10 @@
 {% extends "./wrapper.html" %}
 {% load actionkit_tags %}
 {% block content %}
+	<!-- Tailwind -->
+	<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"/>
+
+	<!--End-->
 <style>
 #section-webinars {
   background-position: center center;
@@ -291,6 +295,7 @@
 {% endblock %}
 
 {% block script_additions %}
+
 <script type="text/javascript">
       $(document).ready(function() {
         const url = new URL(window.location);
@@ -373,7 +378,7 @@
                 <span class='webinar-day'>${window.moment(webinarAk.starts_at).format("MMM")}</span>
                 </div>
                 <div class='middle'>
-                <h4>${webinarAk.title}</h4>
+                <h4 class='text-2xl font-bold'>${webinarAk.title}</h4>
                 <p>${window.moment(webinarAk.starts_at).format("ddd D MMM YYYY - HH:mm a ZZ")}</p>
                 <p class="md:hidden block webinar-description">${getSubstring(webinarAk.public_description) || "No agenda set yet for this webinar."}</p>
                 </div>

@@ -1,0 +1,30 @@
+<div id="id_gjrg_partner_group" style="display: none;">
+  {% filter ak_text:"gjrg_partner_span" %}
+  <span id="gjrg_partner_question">Would you like to receive email updates from <span class="gjrg_partner_name"></span>, a Global Just Recovery Gathering partner?</span>
+  {% endfilter %}
+  <br>
+  <input id="id_user_gjrg_partner_optin" name="user_gjrg_partner_optin" type="radio" value="Y">
+  {% filter ak_text:"gjrg_partner_label" %}
+  <label for="id_gjrg_partner_optin_radio">Yes, I'd like to receive emails from <span class="gjrg_partner_name"></span></label>
+  {% endfilter %}
+
+</div>
+
+<script>
+// Pull in partners object from additional html
+// Pull in query key from URL
+  console.log('partners', window.gjrgPartners);
+  const urlParams = new URLSearchParams(window.location.search);
+  const partners = window.gjrgPartners ? window.gjrgPartners : null;
+  const partnerParam = urlParams.get('source') ? urlParams.get('source').split('.')[1] : "";
+  const partnerInput = document.querySelector('#id_gjrg_partner_group');
+  const partnerInputLabel = document.querySelector('#id_gjrg_partner_group label');
+  const partnerSpanNames = document.querySelectorAll('.gjrg_partner_name')
+  const isPartner = partners[partnerParam];
+
+  console.log('partner is', partnerParam);
+  // console.log(partnerInput);
+  partnerSpanNames.forEach((name => name.innerHTML = isPartner ? partners[partnerParam].name : ''));
+  partnerInput.style.display = isPartner ? "block" : "none";
+
+</script>

@@ -12,32 +12,24 @@
       {% endfilter %}
     </label>
   </span>
-
 </div>
 
 <script>
-// Pull in partners object from additional html
-// Pull in query key from URL
-  // console.log('partners', window.gjrgPartners);
   const urlParams = new URLSearchParams(window.location.search);
   const partners = window.gjrgPartners ? window.gjrgPartners : null;
   const partnerParam = urlParams.get('source') ? urlParams.get('source').split('.')[1] : "";
-  const partnerOptIn = document.querySelector('#id_action_gjrg_partner_box');
-  const partnerInputLabel = document.querySelector('#id_action_gjrg_partner_box label');
-  const partnerPrivacy = document.querySelector('#gjrg_partner_privacy_link');
-  const partnerInput = document.querySelector('#id_action_gjrg_partner_optin');
-  const partnerSpanNames = document.querySelectorAll('.gjrg_partner_name');
+  const partnerOptIn = $('#id_action_gjrg_partner_box');
+  const partnerInputLabel = $('#id_action_gjrg_partner_box label');
+  const partnerPrivacy = $('#gjrg_partner_privacy_link');
+  const partnerInput = $('#id_action_gjrg_partner_optin');
+  const partnerSpanNames = $('.gjrg_partner_name');
   const isPartner = partners.hasOwnProperty(partnerParam);
 
-  console.log('partner is', partnerParam);
   if (isPartner) {
-    console.log('partner recognised');
-    partnerSpanNames.forEach((name => name.innerHTML = partners[partnerParam].name));
-    // in value of radio input, add on ', [partner name]'
-    partnerInput.value += `, ${partners[partnerParam].name}`;
-    // add privacy policy to link
-    partnerPrivacy.href=partners[partnerParam].privacyURL;
-    partnerOptIn.style.display = "block";
+    partnerSpanNames.each(((i , name) => name.innerHTML = partners[partnerParam].name));
+    partnerInput.val(`Y, ${partners[partnerParam].name}`);
+    partnerPrivacy.attr('href', partners[partnerParam].privacyURL);
+    partnerOptIn.css('display', 'block');
   }
 
 </script>

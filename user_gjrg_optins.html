@@ -1,30 +1,43 @@
-<div id="id_gjrg_partner_group" style="display: none;">
-  {% filter ak_text:"gjrg_partner_span" %}
-  <span id="gjrg_partner_question">Would you like to receive email updates from <span class="gjrg_partner_name"></span>, a Global Just Recovery Gathering partner?</span>
+<div id="id_action_gjrg_partner_box" class="input-radio ak-input-type-action text-white" style="display: none;">
+  <label id="gjrg_partner_question" for="id_action_gjrg_partner_optin"><br>
+  {% filter ak_text:"gjrg_partner_question" %}
+    Would you like to receive email updates from <span class="gjrg_partner_name"></span>, a Global Just Recovery Gathering partner? <a id="gjrg_partner_privacy_link" target="_blank" href="">(Privacy Policy)</a>
   {% endfilter %}
-  <br>
-  <input id="id_user_gjrg_partner_optin" name="user_gjrg_partner_optin" type="radio" value="Y">
-  {% filter ak_text:"gjrg_partner_label" %}
-  <label for="id_gjrg_partner_optin_radio">Yes, I'd like to receive emails from <span class="gjrg_partner_name"></span></label>
-  {% endfilter %}
+  </label>
+  <span class="ak-userfield-radio-set">
+    <label class="ak-userfield-radio-choice" data-children-count="1">
+      <input id="id_action_gjrg_partner_optin" name="action_gjrg_partner_optin" type="radio" value="Y">
+      {% filter ak_text:"gjrg_partner_radio_label" %}
+        Yes, <span class="gjrg_partner_name"></span> can keep me updated
+      {% endfilter %}
+    </label>
+  </span>
 
 </div>
 
 <script>
 // Pull in partners object from additional html
 // Pull in query key from URL
-  console.log('partners', window.gjrgPartners);
+  // console.log('partners', window.gjrgPartners);
   const urlParams = new URLSearchParams(window.location.search);
   const partners = window.gjrgPartners ? window.gjrgPartners : null;
   const partnerParam = urlParams.get('source') ? urlParams.get('source').split('.')[1] : "";
-  const partnerInput = document.querySelector('#id_gjrg_partner_group');
-  const partnerInputLabel = document.querySelector('#id_gjrg_partner_group label');
-  const partnerSpanNames = document.querySelectorAll('.gjrg_partner_name')
-  const isPartner = partners[partnerParam];
+  const partnerOptIn = document.querySelector('#id_action_gjrg_partner_box');
+  const partnerInputLabel = document.querySelector('#id_action_gjrg_partner_box label');
+  const partnerPrivacy = document.querySelector('#gjrg_partner_privacy_link');
+  const partnerInput = document.querySelector('#id_action_gjrg_partner_optin');
+  const partnerSpanNames = document.querySelectorAll('.gjrg_partner_name');
+  const isPartner = partners.hasOwnProperty(partnerParam);
 
   console.log('partner is', partnerParam);
-  // console.log(partnerInput);
-  partnerSpanNames.forEach((name => name.innerHTML = isPartner ? partners[partnerParam].name : ''));
-  partnerInput.style.display = isPartner ? "block" : "none";
+  if (isPartner) {
+    console.log('partner recognised');
+    partnerSpanNames.forEach((name => name.innerHTML = partners[partnerParam].name));
+    // in value of radio input, add on ', [partner name]'
+    partnerInput.value += `, ${partners[partnerParam].name}`;
+    // add privacy policy to link
+    partnerPrivacy.href=partners[partnerParam].privacyURL;
+    partnerOptIn.style.display = "block";
+  }
 
 </script>

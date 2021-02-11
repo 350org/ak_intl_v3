@@ -1,0 +1,35 @@
+<div id="id_action_gjrg_partner_box" class="input-radio ak-input-type-action text-white" style="display: none;">
+  <label id="gjrg_partner_question" for="id_action_gjrg_partner_optin"><br>
+  {% filter ak_text:"gjrg_partner_question" %}
+    Would you like to receive email updates from <span class="gjrg_partner_name"></span>, a Global Just Recovery Gathering partner? <a id="gjrg_partner_privacy_link" target="_blank" href="">(Privacy Policy)</a>
+  {% endfilter %}
+  </label>
+  <span class="ak-userfield-radio-set">
+    <label class="ak-userfield-radio-choice" data-children-count="1">
+      <input id="id_action_gjrg_partner_optin" name="action_gjrg_partner_optin" type="radio" value="Y">
+      {% filter ak_text:"gjrg_partner_radio_label" %}
+        Yes, <span class="gjrg_partner_name"></span> can keep me updated
+      {% endfilter %}
+    </label>
+  </span>
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const partners = window.gjrgPartners ? window.gjrgPartners : null;
+  const partnerParam = urlParams.get('source') ? urlParams.get('source').split('.')[1] : "";
+  const partnerOptIn = $('#id_action_gjrg_partner_box');
+  const partnerInputLabel = $('#id_action_gjrg_partner_box label');
+  const partnerPrivacy = $('#gjrg_partner_privacy_link');
+  const partnerInput = $('#id_action_gjrg_partner_optin');
+  const partnerSpanNames = $('.gjrg_partner_name');
+  const isPartner = partners.hasOwnProperty(partnerParam);
+
+  if (isPartner) {
+    partnerSpanNames.each(((i , name) => name.innerHTML = partners[partnerParam].name));
+    partnerInput.val(`Y, ${partners[partnerParam].name}`);
+    partnerPrivacy.attr('href', partners[partnerParam].privacyURL);
+    partnerOptIn.css('display', 'block');
+  }
+
+</script>

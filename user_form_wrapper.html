@@ -20,11 +20,16 @@
 
 <div id="unknown_user" class="user-form ak-errs-below form-style-labelabove text-black">
  {% include "./user_form.html" %}
+{% if page.custom_fields.form_show_gjrg_optins == "Y" %}
+  {% include "./user_gjrg_optins.html" %}
+{% endif %}
  <div style="display: none">
   <input name="user_honey">
  </div>
 
 </div>
+
+
 
 {% if page.custom_fields.form_privacy_show_optin != "do-not-show" %}
 

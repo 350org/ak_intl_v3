@@ -78,6 +78,10 @@
 		</div>
 	{% endif %}
 	</div>
+<script>
+// JS variable used by crossdomain script to determain folloup url for embedded ak forms
+var akFollowupPage = "{{ page.followup.url }}";
+</script>
 </section>
 {% include "./afteraction-share.html" %}
 {% endblock %}

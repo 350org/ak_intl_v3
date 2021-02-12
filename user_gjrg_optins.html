@@ -1,3 +1,25 @@
+<div id="id_action_gjrg_350_optin_box" class="input-radio ak-input-type-action text-white" style="display: none;">
+  <label id="gjrg_350_optin_question" for="id_action_gjrg_350_optin_optin"><br>
+    {% filter ak_text:"gjrg_350_optin_question" %}
+    You are signing up to receive email updates about the Global Just Recovery Gathering. Would you Like to hear about other ways you can get involved with 350.org?
+    {% endfilter %}
+  </label>
+  <span class="ak-userfield-radio-set">
+    <label class="ak-userfield-radio-choice" data-children-count="1">
+      <input id="id_action_gjrg_350_optin_yes" name="action_gjrg_350_optin" type="radio" value="Y">
+      {% filter ak_text:"gjrg_350_optin_radio_label_yes" %}
+      Yes, keep me updated by email
+      {% endfilter %}
+    </label>
+    <label class="ak-userfield-radio-choice" data-children-count="1">
+      <input id="id_action_gjrg_350_optin_no" name="action_gjrg_350_optin" type="radio" value="N">
+      {% filter ak_text:"gjrg_350_optin_radio_label_no" %}
+      No, I only want updates about the gathering
+      {% endfilter %}
+    </label>
+  </span>
+</div>
+
 <div id="id_action_gjrg_partner_box" class="input-radio ak-input-type-action text-white" style="display: none;">
   <label id="gjrg_partner_question" for="id_action_gjrg_partner_optin"><br>
   {% filter ak_text:"gjrg_partner_question" %}
@@ -15,6 +37,26 @@
 </div>
 
 <script>
+
+  // 350 Opt In
+  // only show if person selects country in Europe
+ let country = "";
+  // add list of Europe countries
+  const euroCountries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czechia', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United Kingdom'];
+
+  const mailingOptIn = $('#id_action_gjrg_350_optin_box');
+
+  const countrySelect = $('#country');
+  $(countrySelect).change(() => {
+    country = ($(countrySelect).val());
+    if(euroCountries.includes(country)) $(mailingOptIn).show();
+    else $(mailingOptIn).hide();
+  });
+
+  // Record their Y or N in a custom field, maybe set in a hidden field
+  // Append partner name in response (nice to have)
+
+  // Partner Opt In
   const urlParams = new URLSearchParams(window.location.search);
   const partners = window.gjrgPartners ? window.gjrgPartners : null;
   const partnerParam = urlParams.get('source') ? urlParams.get('source').split('.')[1] : "";

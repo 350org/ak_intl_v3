@@ -1,3 +1,31 @@
+<style>
+  .ak-userfield-radio-choice {
+    display: inline-block;
+  }
+</style>
+
+<div id="id_action_gjrg_350_optin_box" class="input-radio ak-input-type-action text-white" style="display: none;">
+  <label id="gjrg_350_optin_question" for="id_action_gjrg_350_optin_optin"><br>
+    {% filter ak_text:"gjrg_350_optin_question" %}
+    You are signing up to receive email updates about the Global Just Recovery Gathering. Would you Like to hear about other ways you can get involved with 350.org?
+    {% endfilter %}
+  </label>
+  <span class="ak-userfield-radio-set">
+    <label class="ak-userfield-radio-choice" data-children-count="1">
+      <input id="id_action_gjrg_350_optin_yes" name="action_gjrg_350_optin" type="radio" value="Y">
+      {% filter ak_text:"gjrg_350_optin_radio_label_yes" %}
+      Yes, keep me updated by email
+      {% endfilter %}
+    </label>
+    <label class="ak-userfield-radio-choice" data-children-count="1">
+      <input id="id_action_gjrg_350_optin_no" name="action_gjrg_350_optin" type="radio" value="N">
+      {% filter ak_text:"gjrg_350_optin_radio_label_no" %}
+      No, I only want updates about the gathering
+      {% endfilter %}
+    </label>
+  </span>
+</div>
+
 <div id="id_action_gjrg_partner_box" class="input-radio ak-input-type-action text-white" style="display: none;">
   <label id="gjrg_partner_question" for="id_action_gjrg_partner_optin"><br>
   {% filter ak_text:"gjrg_partner_question" %}
@@ -15,21 +43,37 @@
 </div>
 
 <script>
+
+  // TODO: 350 Optin Append partner name in response (nice to have)
+
+  // 350 Opt in
+  let country = "";
+  const euroCountries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czechia', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United Kingdom'];
+  const mailingOptIn = document.querySelector('#id_action_gjrg_350_optin_box');
+  const countrySelect = document.querySelector('#country');
+
+  (countrySelect).addEventListener('change',() => {
+    country = countrySelect.value;
+    if (euroCountries.includes(country)) mailingOptIn.style.display = 'block';
+    else mailingOptIn.style.display = 'none';
+  });
+
+  // Partner Opt In
   const urlParams = new URLSearchParams(window.location.search);
   const partners = window.gjrgPartners ? window.gjrgPartners : null;
   const partnerParam = urlParams.get('source') ? urlParams.get('source').split('.')[1] : "";
-  const partnerOptIn = $('#id_action_gjrg_partner_box');
-  const partnerInputLabel = $('#id_action_gjrg_partner_box label');
-  const partnerPrivacy = $('#gjrg_partner_privacy_link');
-  const partnerInput = $('#id_action_gjrg_partner_optin');
-  const partnerSpanNames = $('.gjrg_partner_name');
+  const partnerOptIn = document.querySelector('#id_action_gjrg_partner_box');
+  const partnerInputLabel = document.querySelector('#id_action_gjrg_partner_box label');
+  const partnerPrivacy = document.querySelector('#gjrg_partner_privacy_link');
+  const partnerInput = document.querySelector('#id_action_gjrg_partner_optin');
+  const partnerSpanNames = document.querySelectorAll('.gjrg_partner_name');
   const isPartner = partners.hasOwnProperty(partnerParam);
 
   if (isPartner) {
-    partnerSpanNames.each(((i , name) => name.innerHTML = partners[partnerParam].name));
-    partnerInput.val(`Y, ${partners[partnerParam].name}`);
-    partnerPrivacy.attr('href', partners[partnerParam].privacyURL);
-    partnerOptIn.css('display', 'block');
+    partnerSpanNames.forEach((name => name.innerHTML = partners[partnerParam].name));
+    partnerInput.value = `Y, ${partners[partnerParam].name}`;
+    partnerPrivacy.href = partners[partnerParam].privacyURL;
+    partnerOptIn.style.display = 'block';
   }
 
 </script>

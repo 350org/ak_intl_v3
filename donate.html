@@ -1151,20 +1151,22 @@
         {% if page.allow_international %}, 'postal', 'region', 'country'{% endif %}
     ];
 
-    {% if page.allow_international %}
-    function country_change() {
-        if ( $('#country').val() == 'United States' ) {
-            $('.ak-us-billing-fields').show().each(function(){
-				$(this).children('input').prop('disabled', false);
-			});
-            $('.ak-intl-billing-fields').hide();
-        } else {
-            $('.ak-us-billing-fields').hide();
-            $('.ak-intl-billing-fields').show().each(function(){
-				$(this).children('input').prop('disabled', false);
-			});
-        }
-        sync_to_shipping();
+  {% if page.allow_international %}
+  function country_change() {
+    if ($('#country').val() == 'United States') {
+      $('.ak-us-billing-fields').show().each(function () {
+        $(this).children('input').prop('disabled', false);
+      });
+      $('.ak-intl-billing-fields').hide();
+      $('.cards-non-us').hide();
+      $('.cards-us').show();
+    } else {
+      $('.ak-us-billing-fields').hide();
+      $('.ak-intl-billing-fields').show().each(function () {
+        $(this).children('input').prop('disabled', false);
+      });
+      $('.cards-non-us').show();
+      $('.cards-us').hide();
     }
     function shipping_country_change() {
         if ( $('#shipping_country').val() == 'United States' ) {

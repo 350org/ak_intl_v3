@@ -989,8 +989,6 @@
 <script language="javascript">
   let paypalFieldOptionSelectedStepThree = false;
 
-  // Prevent keypress interaction
-  // Using key code also for functionality in IE
   $(document).keydown(function (e) {
     const which = e.which;
     if (which === 13) {
@@ -1171,21 +1169,21 @@
       $('.cards-us').hide();
     }
     function shipping_country_change() {
-      if ($('#shipping_country').val() == 'United States') {
-        $('.ak-us-shipping-fields').show();
-        $('.ak-intl-shipping-fields').hide();
-      } else {
-        $('.ak-us-shipping-fields').hide();
-        $('.ak-intl-shipping-fields').show();
-      }
+        if ( $('#shipping_country').val() == 'United States' ) {
+            $('.ak-us-shipping-fields').show();
+            $('.ak-intl-shipping-fields').hide();
+        } else {
+            $('.ak-us-shipping-fields').hide();
+            $('.ak-intl-shipping-fields').show();
+        }
     }
-    $(function () {
-      $('#country').on('change blur', country_change);
-      $('#id_shipping_country').on('change blur', shipping_country_change);
-      country_change();
-      shipping_country_change();
-    });
-  {% endif %}
+    $( function () {
+        $('#country').on('change blur', country_change);
+        $('#id_shipping_country').on('change blur', shipping_country_change);
+        country_change();
+        shipping_country_change();
+    } );
+    {% endif %}
 
 
   function toggle_shipping() {

@@ -148,10 +148,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css"/>
 	<!--End-->
 
-	<!-- Tailwind -->
-	<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"/>
 
-	<!--End-->
+
 
 
 	<link rel='stylesheet' id='baseline-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.css?v=2018091408552'
@@ -283,7 +281,7 @@
 	</div>
 	{% endif %}
 
-	{% if request.user.is_authenticated %}
+	{% if request.user.is_authenticated and page.custom_fields.events_webinar != 'Yes' %}
 	<div id="admin-bar" class="section padding-none border-bottom bg-white width-wide">
 		<div class="section-inner">
 			<nav id="admin-menu" class="text-small2">
@@ -306,6 +304,7 @@
 			</nav>
 		</div>
 	</div>
+	
 	{% endif %}
 	{% include "./language_picker.html" %}
 	<script type="text/javascript">
@@ -348,6 +347,8 @@
 	-------------
 	{% endcomment %}
 
+
+	{% if page.custom_fields.events_webinar != 'Yes' %}
 	<footer id="site-footer"
 		class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif templateset.custom_fields.site_bg_color_slug %}{{ templateset.custom_fields.site_bg_color_slug }}{% else %}white{% endif %} width-full text-small">
 		<div class="section-inner">
@@ -396,6 +397,23 @@
 
 		</div>
 	</footer>
+	{% endif %}
+		<script>
+	$(document).ready(function() {
+        // Get token
+        fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
+          if(response.ok){
+            response.json().then(data=>{
+              localStorage.setItem("auth-token", data.token);
+            })
+          } else {
+            throw new Error("Response not ok.")
+          }
+        }).catch(e=>{
+          console.log(`Auth error: ${e.message}.`)
+        });
+	});
+	</script>
 
 	<script src="https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.js"></script>
 	{% if page.custom_fields.form_include_college %}
@@ -524,22 +542,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.26/dayjs.min.js"></script>
 	<div id="body-mobile-background"></div>
 	{% block scripts %}
-	<script>
-	$(document).ready(function() {
-        // Get token
-        fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
-          if(response.ok){
-            response.json().then(data=>{
-              localStorage.setItem("token", data.token);
-            })
-          } else {
-            throw new Error("Response not ok.")
-          }
-        }).catch(e=>{
-          console.log(`Auth error: ${e.message}.`)
-        });
-	});
-	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 	
 	<!-- scripts to all be moved here. -->

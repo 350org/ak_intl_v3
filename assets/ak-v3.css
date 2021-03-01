@@ -3902,6 +3902,7 @@ input[type="submit"] {
   display: block;
   margin-bottom: 0.2em;
   padding-left: 23px;
+  color:white;
 }
 
 .ak-userfield-radio-choice input,
@@ -4135,7 +4136,7 @@ label.ak-survey-radio-choice {
 
 .form-style-labelabove .input-radio.ak-input-type-action>label:first-child,
 .form-style-labelabove .input-checkbox.ak-input-type-action>label:first-child {
-  color: inherit;
+  color: white;
   cursor: default;
   display: block;
   font-size: 0.85em;
@@ -5745,3 +5746,9 @@ a.bg-midgray:hover {
 
 /* Webkit-only biz (mostly fiddly typography bits) */
 @media screen and (-webkit-min-device-pixel-ratio:0) {}
+
+
+/*Custom Test*/
+#id_action_ca_ourtime_2019_optin_box{
+  color: white;
+}

@@ -60,9 +60,9 @@
 	{% endautoescape %}
 		</div>
 {% else %}
-		<form id="action-form" class="c4 ct7_5 cm10 c-wide form-changeorg form-style-labelabove ak-form action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+		<form id="action-form" class="c4 ct7_5 cm10 c-wide form-changeorg form-style-labelabove ak-form action_form text-black" name="act" method="POST" action="/act/" accept-charset="utf-8">
 	{% autoescape off %}
-			<div id="form-intro" class="p text-large text-lineheight-small strong">
+			<div id="t" class="p text-large text-lineheight-small strong text-white">
 		{% if page.custom_fields.form_text_above_form %}
 				{{ page.custom_fields.form_text_above_form }}
 		{% else %}
@@ -78,7 +78,7 @@
 		</form>
 
 <script type="text/javascript">
-jQuery( document ).ready(function() {	
+jQuery( document ).ready(function() {
 	function urlParam(name){
 		var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		if (!results) { return 0; }
@@ -104,7 +104,7 @@ jQuery( document ).ready(function() {
 	if (oneclick){
 		oneClickOptIn();
 	}
-});	
+});
 </script>
 
 
@@ -114,6 +114,10 @@ jQuery( document ).ready(function() {
 		</div>
 {% endif %}
 	</div>
+<script>
+// JS variable used by crossdomain script to determain folloup url for embedded ak forms
+var akFollowupPage = "{{ page.followup.url }}";
+</script>
 </section>
 {% include "./afteraction-share.html" %}
 {% endblock %}

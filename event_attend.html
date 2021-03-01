@@ -31,6 +31,10 @@
 .event-directions-link a{
 	color:rgba(21,36,43,0.6);}
 
+.mapboxgl-popup {
+	max-width: 500px !important
+}
+
 @media screen and (max-width:720px){
 
 	#event-attend-header{
@@ -40,18 +44,6 @@
 
 </style>
 <script>
-	/*
-var localPageName = {{ event.local_campaign.signup_page.name|json }};
-console.log('localPageName: ' + localPageName);
-
-var path = window.location.pathname;
-console.log('path: ' + path);
-
-var newPath = path.replace('/event/' + {{ event.campaign.name|json }} + '/', '/event/' + localPageName + '/');
-console.log('newPath: ' + newPath);
-
-if (path != newPath) window.location.pathname = newPath;
-*/
 </script>
 
 <div id="event-attend" class="bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -107,13 +99,14 @@ if (path != newPath) window.location.pathname = newPath;
 		{% endif %}
 			</div>
 			<div class="event-location text-large2 text-style-lead2 icon-before" data-icon="&#xe907;">
-		{% if campaign.show_venue and event.venue %}
+		{% if campaign.show_venue and event.venue and page.custom_fields.events_webinar != 'Yes' %}
 				<span class="event-venue">{{ event.venue }}</span><br>
 		{% endif %}
-		{% if campaign.show_address1 %}
+		{% if campaign.show_address1 and page.custom_fields.events_webinar != 'Yes'   %}
 				<span class="event-address1">{{ event.address1 }}</span><br>
 		{% endif %}
-		{% if campaign.show_city or campaign.show_state or campaign.show_zip %}
+		{{page.custom_fields.events_webinar != 'Yes' }}
+		{% if campaign.show_city or campaign.show_state or campaign.show_zip and page.custom_fields.events_webinar != 'Yes'  %}
 			{% if campaign.show_zip %}
 				<span class="event-city-etc">{{ event.city_etc }}</span>
 			{% else %}
@@ -161,8 +154,9 @@ if (path != newPath) window.location.pathname = newPath;
 		</div>
 
 		{% if campaign.show_address1 %}
-		<div id="event-attend-map" class="image-link-parent">
-				<a href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" target="_blank" title='{% filter ak_text:"general_view_google_map" %}View in Google Maps{% endfilter %}"]'><img src="https://maps.google.com/maps/api/staticmap?key=AIzaSyDSPPfImwbfKuuDQpjNeidHbUuo1ThHbqE&sensor=false&scale=2&lang={{ page.lang.iso_code|default:'en-US' }}&size=740x260&markers={{ event.address1|urlencode }},{{ event.city_etc|urlencode }}" width="800" height="260" /></a>
+
+		<div id="event-attend-map" style="max-width:750px;height:460px" data-src-latlong={{event.latitude}},{{event.longitude}}>
+		</div> 
 		</div>
 		<div class="text-center text-small event-attend-directions-link event-directions-link">
 			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
@@ -185,7 +179,6 @@ if (path != newPath) window.location.pathname = newPath;
 	</div>
 </div>
 {% endif %}
-
 <div id="event-attend-rsvp" class="section width-normal padding-none margin-bottom-large">
 	<div class="section-inner event-signup bg-white padding-medium">
 		<a id="rsvp" name="rsvp"></a>
@@ -244,7 +237,7 @@ if (path != newPath) window.location.pathname = newPath;
 
 	{% endif %}
 				<ul class="compact" id="ak-errors"></ul>
-				<button id="id_submit" class="submit button button-big margin-bottom-normal button-primary arrow-right" type="submit" name="submit">{% if update %}{% filter ak_text:"event_attend_update_info"%}Update Your Info{% endfilter %}{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign up{% endfilter %}{% endif %}</button>
+				<button id="id_submit" class="submit button button-big margin-bottom-normal add-registrant button-primary arrow-right" type="submit" name="submit">{% if update %}{% filter ak_text:"event_attend_update_info"%}Update Your Info{% endfilter %}{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign up{% endfilter %}{% endif %}</button>
 				<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
 					{% if page.custom_fields.form_short_toc %}
 						{{ page.custom_fields.form_short_toc }}
@@ -282,5 +275,25 @@ if (path != newPath) window.location.pathname = newPath;
 {% if args.foo or event.is_open_for_signup or update %}
 	{% include "./social_plugins.html" %}
 {% endif %}
+
+		<script>
+			const eventMapDataSet = document.getElementById("event-attend-map");
+			const [lat, lng] = eventMapDataSet.dataset.srcLatlong.split(",");
+			const centerLocation = [lng, lat];
+			mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhldzM1MCIsImEiOiJaTVFMUkUwIn0.wcM3Xc8BGC6PM-Oyrwjnhg';
+			const eventMap = new mapboxgl.Map({
+				container: 'event-attend-map',
+				style: 'mapbox://styles/matthew350/cja41tijk27d62rqod7g0lx4b',
+				center: centerLocation,
+				zoom: 10
+			});
+
+			new mapboxgl.Marker()
+			.setLngLat(centerLocation)
+			.addTo(eventMap);
+
+		
+
+        </script>
 
 {% endblock %}

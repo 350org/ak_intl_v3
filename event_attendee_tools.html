@@ -94,6 +94,8 @@
 			{% endif %}
 			</div>
 
+			
+		<div id="event-attend-map" style="max-width:750px;height:460px" data-src-latlong={{event.latitude}},{{event.longitude}}></div>
 		<div class="text-center text-small event-attend-directions-link event-directions-link">
 			<a class="text-blue text-underline-none opacity-50" href="https://maps.google.com/maps?daddr={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}" target="_blank">{% filter ak_text:"event_attend_directions_label" %}Get directions to this event.{% endfilter %}</a>
 		</div>
@@ -116,10 +118,10 @@
 				<div class="event-whatsapp-link">
 					<a href="{{ event.custom_fields.whatsapp_group_join_link }}">{{ event.custom_fields.whatsapp_group_join_link }}</a>
 				</div>
-				{% endif %}	
+				{% endif %}
 			</div>
-			
-			
+
+
 			{% if event.distance|is_nonblank %}
 			<div class="event-distance opacity-50">{{ event.distance_str }}</div>
 			{% endif %}
@@ -130,6 +132,15 @@
 				<a href="https://www.facebook.com/{{ event.custom_fields.event_facebook_id }}" class="button-share-medium bg-facebook-color bg-facebook-icon">{% filter ak_text:"event_attend_tools_view_facebook_link"%}View on Facebook{% endfilter %}</a>
 			</div>
 			{% endif %}
+			<p class="text-large2 text-strong" style="padding-top: 0.8em;">
+				{% filter ak_text:"event_roster_attendee_status_start"%}So far,{% endfilter %}
+				{% if event.custom_fields.external_signups %}
+          {{ event.attendee_count|add:event.custom_fields.external_signups }}
+        {% else %}
+          {{ event.attendee_count }}
+				{% endif %}
+				{% filter ak_text:"event_roster_attendee_status_end"%}people are joining this event.{% endfilter %}
+			</p>
 			<div class="event-attend-tools-link-update">
 				<a href="../signup/?akid={{ args.akid }}&amp;action_id={{ action.id }}&update=1#event-attend-rsvp">{% filter ak_text:"event_attend_update_info"%}Update your information{% endfilter %}</a>
 			</div>
@@ -225,5 +236,23 @@
 actionkit.forms.contextRoot = '/context/';
 actionkit.forms.initTafForm('taf');
 </script>
+
+		<script>
+			const eventMapDataSet = document.getElementById("event-attend-map");
+			const [lat, lng] = eventMapDataSet.dataset.srcLatlong.split(",");
+			const centerLocation = [lng, lat];
+			mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhldzM1MCIsImEiOiJaTVFMUkUwIn0.wcM3Xc8BGC6PM-Oyrwjnhg';
+			const eventMap = new mapboxgl.Map({
+				container: 'event-attend-map',
+				style: 'mapbox://styles/matthew350/cja41tijk27d62rqod7g0lx4b',
+				center: centerLocation,
+				zoom: 10
+			});
+
+			new mapboxgl.Marker()
+			.setLngLat(centerLocation)
+			.addTo(eventMap);
+
+        </script>
 
 {% endblock %}

@@ -58,7 +58,7 @@
 			{% include "./progress_meter.html" %}
 			<div class="input-textarea form-user-comment input-letter margin-bottom-none">
 				<label for="letter-content" class="hidden">Your message (editable)</label>
-				<textarea class="letter-text" id="letter-content" name="action_comment">{% include_tmpl form.letter_text  %}</textarea>
+				<textarea class="letter-text text-black" id="letter-content" name="action_comment">{% include_tmpl form.letter_text  %}</textarea>
 			</div>
 			<p class="text-right text-small2 margin-top-small margin-bottom-normal"><em>{% filter ak_text:"letter_edit_instructions" %}You can edit this text to make it personal to you.{% endfilter %}</em></p>
 			{% include "./user_form_wrapper.html" %}

@@ -5,7 +5,7 @@
 	<div class="section-inner">
 
 		<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c6{% endif %} ct10 cm10 c-wide">
-			<a id="jump-to-form" data-callback="gotCaptcha" href="#action-form" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"petition_submit_button" %}Sign{% endfilter %}{% endif %}</a>
+			<a id="jump-to-form" href="#action-form" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"petition_submit_button" %}Sign{% endfilter %}{% endif %}</a>
 	{% if page.custom_fields.page_pretitle %}
 			<p id="action-pretitle" class="text-font-secondary text-large"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
 	{% endif %}
@@ -71,8 +71,6 @@
 			{% include "./user_form_wrapper.html" %}
 		{% endautoescape %}
 			<ul style="display:none;" id="ak-errors"><li></li></ul>
-			 <div class="g-recaptcha"
-    			data-sitekey="6LetQiEUAAAAAC5mkK_YsHGJjLE7vxjMTIaNn3MA"></div>
 		</form>
 		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide">
@@ -83,12 +81,6 @@
 <script>
 // JS variable used by crossdomain script to determain folloup url for embedded ak forms
 var akFollowupPage = "{{ page.followup.url }}";
-
-//
-    function gotCaptcha() {
-		console.log("Inside bere")
-      document.getElementById("action-form").submit();
-    }
 </script>
 </section>
 {% include "./afteraction-share.html" %}

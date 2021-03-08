@@ -71,8 +71,13 @@
 			{% include "./user_form_wrapper.html" %}
 		{% endautoescape %}
 			<ul style="display:none;" id="ak-errors"><li></li></ul>
-			 <div class="g-recaptcha"
-    			data-sitekey="6LetQiEUAAAAAC5mkK_YsHGJjLE7vxjMTIaNn3MA"></div>
+	    <script>
+        function gotCaptcha() {
+          document.getElementById("action-form").submit();
+        }
+        </script>
+        <button class="g-recaptcha" data-callback="gotCaptcha"
+        data-sitekey="6LetQiEUAAAAAC5mkK_YsHGJjLE7vxjMTIaNn3MA">Submit</button>
 		</form>
 		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide">
@@ -83,12 +88,6 @@
 <script>
 // JS variable used by crossdomain script to determain folloup url for embedded ak forms
 var akFollowupPage = "{{ page.followup.url }}";
-
-//
-    function gotCaptcha() {
-		console.log("Inside bere")
-      document.getElementById("action-form").submit();
-    }
 </script>
 </section>
 {% include "./afteraction-share.html" %}

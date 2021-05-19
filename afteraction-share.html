@@ -177,7 +177,7 @@ jQuery(document).ready(function($){
 		let exchangeRateData = {};
 		let exchangeApiUrl = 'https://api.exchangeratesapi.io/latest?base=USD';
 		$.get(exchangeApiUrl, function (data, status) {
-			exchangeRateData = data.rates;
+			if (data.rates) exchangeRateData = data.rates;
 		});
 		// set up variables
 		var afteractionProgressMeter = $("#afteraction-progress-meter");

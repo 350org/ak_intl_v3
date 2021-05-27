@@ -80,7 +80,7 @@
 var akFollowupPage = "{{ page.followup.url }}";
 </script>
 </section>
-{% if page.custom_fields.form_include_mobile_optin == 'Y' %}
+{% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
 <script>
 jQuery(function(){
   function showMobileFields() {

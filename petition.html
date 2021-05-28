@@ -33,7 +33,12 @@
 			</div>
 			<p class="no-js-hidden nojs-hide petition-text-link text-small">
 				<a href="" class="js-modal text-small icon-before icon-faded text-underline-none" data-icon="&#xe913;" data-modal-source="#petition-text">
-					{% filter ak_text:'petition_link_text' %}View the full petition text.{% endfilter %}</a>
+					{% if page.custom_fields.page_petition_label_viewfulltext %}
+						{{ page.custom_fields.page_petition_label_viewfulltext }}
+					{% else %}
+						{% filter ak_text:'petition_link_text' %}View the full petition text.{% endfilter %}
+					{% endif %} 
+				</a>
 			</p>
 			<div class="js-hidden js-hide box box-big text-small bg-white">
 				<div id="petition-text">

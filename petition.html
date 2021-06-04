@@ -194,6 +194,12 @@ jQuery(function(){
 
 {% if page.custom_fields.form_bigger_radio_buttons == 'Y' %}
 <style>
+	.input-radio.large-radios,
+	.input-radio.large-radios .ak-userfield-radio-choice,
+	.input-checkbox.large-checkboxes,
+	.input-checkbox.large-checkboxes .ak-userfield-checkbox-choice {
+		display: block;
+	}
   .ak-privacy.large-radios .input-radio-group .input-radio,
 	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-choice,
 	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-choice {
@@ -220,7 +226,7 @@ jQuery(function(){
 	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label,
 	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label {
 	  padding-left: 35px;
-	  font-size: 1.175em !important;
+		margin-left: 0;
 		font-weight: bold;
 	}
 	.ak-privacy.large-radios .input-radio-group input[type="radio"] + label {
@@ -258,12 +264,17 @@ jQuery(function(){
 	.ak-privacy.large-radios .input-radio-group label {
 	  font-size: 1.175em;
 	}
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label,
+	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label {
+		font-size: 15.98px;
+	}
   .ak-privacy.large-radios #ak-fieldbox-privacy_notice,
 	.input-radio.ak-input-type-action.large-radios > label,
 	.input-checkbox.ak-input-type-action.large-checkboxes > label
 	 {
     font-size: 0.99875em !important;
 		font-weight: normal !important;
+		margin-left: 0;
   }
 
 	.large-checkboxes.input-checkbox {
@@ -331,12 +342,14 @@ jQuery(function(){
 			height: 8px;
 		}
 
-    .ak-privacy.large-radios .input-radio-group label,
-    .ak-privacy.large-radios .input-radio-group input[type="radio"] + label,
-		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label
-		.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label {
-      font-size: 1.1em !important;
+    .ak-privacy.large-radios .input-radio-group input[type="radio"] + label{
+      font-size: 1.1em;
     }
+		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label,
+		.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label {
+			font-size: 14.96px;
+			padding-left: 28px;
+		}
     .ak-privacy.large-radios #ak-fieldbox-privacy_notice,
 		.input-radio.ak-input-type-action.large-radios > label,
 		.input-checkbox.ak-input-type-action.large-checkboxes > label {
@@ -356,7 +369,7 @@ jQuery(function(){
 		jQuery('.large-radios .ak-userfield-radio-choice.ak-userfield-radio-choice').each(function(i, v) {
 			jQuery(v).contents().eq(1).wrap('<span class="larger-radios-choice-label"/>');
 		});
-		jQuery('#unknown_user .large-checkboxes.input-checkbox .ak-userfield-checkbox-choice').append($('<span class="checkmark"/>'));
+		jQuery('#unknown_user .large-checkboxes.input-checkbox .ak-userfield-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
 	});
 </script>
 {% endif %}

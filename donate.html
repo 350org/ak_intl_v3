@@ -130,7 +130,7 @@
   }
 
 </style>
-{% if templateset.custom_fields.donate_hide_paypal === "Y" %}
+{% if templateset.custom_fields.donate_hide_paypal.strip|lower == 'y' %}
 <style>
   .paypal-title{ display: none;}
 </style>

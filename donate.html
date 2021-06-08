@@ -130,7 +130,7 @@
   }
 
 </style>
-{% if templateset.custom_fields.donate_hide_paypal === "Y" %}
+{% if templateset.custom_fields.donate_hide_paypal.strip|lower == 'y' %}
 <style>
   .paypal-title{ display: none;}
 </style>
@@ -843,8 +843,12 @@
                       {% endautoescape %}
                     </div>
                     {% endif %}
+<<<<<<< HEAD
                     {{page.hide_paypal}} HEre??
                     {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' or not page.custom_fields.hide_paypal %}
+=======
+                    {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'%}
+>>>>>>> 67656ff1af91160925dee264e66cc40231033bec
                     <div class="ak-payment-options text-center ak-donate-area-step-3 paypal-fields">
                       <input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
                       <p class="margin-bottom-small text-small">

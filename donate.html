@@ -843,8 +843,7 @@
                       {% endautoescape %}
                     </div>
                     {% endif %}
-                    {{page.hide_paypal}} HEre??
-                    {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' or not page.custom_fields.hide_paypal %}
+                    {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'%}
                     <div class="ak-payment-options text-center ak-donate-area-step-3 paypal-fields">
                       <input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
                       <p class="margin-bottom-small text-small">

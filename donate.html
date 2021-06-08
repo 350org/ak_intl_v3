@@ -128,7 +128,13 @@
   #ak-currency-switcher {
     max-width: initial;
   }
+
 </style>
+{% if templateset.custom_fields.donate_hide_paypal === "Y" %}
+<style>
+  .paypal-title{ display: none;}
+</style>
+{% endif %}
 
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -837,8 +843,8 @@
                       {% endautoescape %}
                     </div>
                     {% endif %}
-
-                    {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' %}
+                    {{page.hide_paypal}} HEre??
+                    {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' or not page.custom_fields.hide_paypal %}
                     <div class="ak-payment-options text-center ak-donate-area-step-3 paypal-fields">
                       <input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
                       <p class="margin-bottom-small text-small">
@@ -1105,7 +1111,7 @@
         );
       }
     });
-    });
+  });
   
   /* Currency symbols */
 
@@ -1168,6 +1174,7 @@
       $('.cards-non-us').show();
       $('.cards-us').hide();
     }
+  }
     function shipping_country_change() {
         if ( $('#shipping_country').val() == 'United States' ) {
             $('.ak-us-shipping-fields').show();
@@ -1348,7 +1355,7 @@
   }
 
   function change_step_one_label(current_step) {
-    // change amount label if step 1 is complete
+    {% comment %} // change amount label if step 1 is complete
     if (current_step === "1") {
       var amount_container = $('li.ak-amount-container label.ak-radio-checked');
       var amount = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
@@ -1370,7 +1377,7 @@
       .find('span.ak-amount-label')
       // .html(amount+'<span class="ak-donation-monthly">/mo</span>')
       .html(amount)
-      .css({ "text-decoration": "underline" });
+      .css({ "text-decoration": "underline" }); {% endcomment %}
   }
 
   let step_has_errors = false;
@@ -2124,7 +2131,6 @@
     };
     actionkit.donations.initClient('{{ pp.client_token }}', options);
     // read by 3-step validation
-    // console.log(err, "Error is here")
     actionkit.donations.skip_cc_validation = true;
     actionkit.donations.vzero = true;
     $(".hosted-field.braintree-hosted-fields-invalid").prev().css("background-color", "#fff0d4");

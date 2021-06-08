@@ -56,9 +56,6 @@
 	{% else %}
 		<form id="action-form" class="c4 ct7_5 cm10 c-wide form-style-labelabove ak-form action_form margin-top-none text-black" name="act" method="POST" action="/act/" accept-charset="utf-8">
 		{% autoescape off %}
-			{% if page.custom_fields.form_text_above_form %}
-				{{ page.custom_fields.form_text_above_form }}
-			{% endif %}
 			{% if form.statement_leadin %}
 				<div id="action-pretitle" class="text-large text-lineheight-small strong margin-bottom-small">{% include_tmpl form.statement_leadin %}</div>
 			{% endif %}

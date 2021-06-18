@@ -86,6 +86,7 @@ var akFollowupPage = "{{ page.followup.url }}";
 </script>
 </section>
 
+
 {% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
 
 <script>
@@ -107,6 +108,7 @@ jQuery(function(){
 				smsOptInLanguage = '{{ page.custom_fields.form_label_text_sms_optin }}'
 			}
       jQuery('#id_mobile_phone_box').after(jQuery('<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom  ak-err-below"><span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice"><input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
+
       jQuery('#id_user_mobile_subscriber_true').on('change', function(){
         // if subscriber opt in checkbox is checked, and country is US, include mobile subscriber number in submission
         // otherwise, exclude mobile subscriber number from submission
@@ -179,7 +181,6 @@ jQuery(function(){
   var $smsPrivacyNotice = jQuery('<div class="sms-privacy-notice text-small2 margin-top-normal" style="display:none;"><p>{% filter ak_text:"sms_privacy_notice" %}By providing your mobile number you consent to receive automated recurring text messages from 350.org. Msg&data rates may apply. Text HELP for info or STOP to opt out to 83224. 350.org/mobile-tos{% endfilter %}</p></div>');
   jQuery('.general-privacy-notice').after($smsPrivacyNotice);
 
-
   var selectedCountry = jQuery('#country').val();
   ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
   ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
@@ -248,6 +249,7 @@ jQuery(function(){
 	  display: block;
 	  left:0;
 	}
+
 
 	.ak-privacy.large-radios .input-radio-group input[type="radio"]:checked + label:before,
 	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="radio"]:checked + .larger-radios-choice-label:before {
@@ -372,7 +374,6 @@ jQuery(function(){
 			jQuery(v).contents().eq(1).wrap('<span class="larger-radios-choice-label"/>');
 		});
 		jQuery('#unknown_user .large-checkboxes.input-checkbox .ak-userfield-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
-
 	});
 </script>
 {% endif %}

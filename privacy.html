@@ -67,8 +67,16 @@
     </div>
 
     <div id="really-opt-out" class="text-small bg-dkgray-trans padding-tiny text-whote" style="display: none;">
-      <p>{% filter ak_text:"really_optout" %}Are you sure? Email is how the global climate movement is able to stay organised. You can always unsubscribe.{% endfilter %}</p>
-      <p><label for="privacy_optin" class="button button-small button-secondary bg-teal">{% filter ak_text:"really_optout_button" %}Yes, keep me involved{% endfilter %}</label></p>
+			{% if page.custom_fields.privacy_really_optout_text %}
+      	<p>{{ page.custom_fields.privacy_really_optout_text }}</p>
+			{% else %}
+				<p>{% filter ak_text:"really_optout" %}Are you sure? Email is how the global climate movement is able to stay organised. You can always unsubscribe.{% endfilter %}</p>
+			{% endif %} 
+			{% if page.custom_fields.privacy_really_optout_button %}
+				<p><label for="privacy_optin" class="button button-small button-secondary bg-teal">{{ page.custom_fields.privacy_really_optout_button }}</label></p>
+			{% else %}
+				<p><label for="privacy_optin" class="button button-small button-secondary bg-teal">{% filter ak_text:"really_optout_button" %}Yes, keep me involved{% endfilter %}</label></p>
+			{% endif %}
     </div>
     <script>
     jQuery(document).ready(function($){

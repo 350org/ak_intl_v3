@@ -205,8 +205,8 @@
 	<script src="https://dbqvwi2zcv14h.cloudfront.net/images/respond.js"></script>
 <![endif]-->
 	{% block script_additions %}{% endblock %}
-
-	{% if page.custom_fields.page_fb_pixel == "yes" %}
+	
+	{% if page.custom_fields.page_add_regional_fb_pixel %}
 	<!-- Facebook Pixel Code -->
 	<script>
 		! function (f, b, e, v, n, t, s) {
@@ -227,13 +227,76 @@
 			s.parentNode.insertBefore(t, s)
 		}(window, document, 'script',
 			'https://connect.facebook.net/en_US/fbevents.js');
-		fbq('init', '147925275930541');
-		fbq('track', 'PageView');
+			{% if page.custom_fields.page_add_regional_fb_pixel == '350 Global' %}
+			fbq('init', '147925275930541');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Action (US, C4)' %}
+			fbq('init', '760144104545160');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 US (C3)' %}
+			console.log('fire 350 us c3 pixels');
+			fbq('init', '469060784227902');
+			fbq('init', '2976874985878630');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 UK' %}
+			fbq('init', '223897111835615');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Germany' %}
+			fbq('init', '974200562960361');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Canada' %}
+			fbq('init', '235529934214728');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Africa' %}
+			fbq('init', '1255539551457226');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Asia' %}
+			fbq('init', '258183635858266');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Indonesia' %}
+			fbq('init', '2280443225419804');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == 'Ghana Reducing Our Carbon' %}
+			fbq('init', '423813182105279');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == 'Fossielvrij NL' %}
+			fbq('init', '375505180476661');
+			{% endif %}
+			fbq('track', 'PageView');
 	</script>
-	<noscript><img height="1" width="1" style="display:none"
-			src="https://www.facebook.com/tr?id=147925275930541&ev=PageView&noscript=1" /></noscript>
+		
+		<noscript>
+			{% if page.custom_fields.page_add_regional_fb_pixel == '350 Global' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=147925275930541&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Action (US, C4)' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=760144104545160&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 US (C3)' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=469060784227902&ev=PageView&noscript=1" />
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=2976874985878630&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 UK' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=223897111835615&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Germany' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=974200562960361&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Canada' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=235529934214728&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Africa' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=1255539551457226&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Asia' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=258183635858266&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 Indonesia' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=2280443225419804&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == 'Ghana Reducing Our Carbon' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=423813182105279&ev=PageView&noscript=1" />
+			{% elif page.custom_fields.page_add_regional_fb_pixel == 'Fossielvrij NL' %}
+			<img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=375505180476661&ev=PageView&noscript=1" />
+			{% endif %}
+		</noscript>
 	<!-- End Facebook Pixel Code -->
+
 	{% endif %}
+	
 	<!-- Hotjar Tracking Code -->
 	<script>
 		(function (h, o, t, j, a, r) {

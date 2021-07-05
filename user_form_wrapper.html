@@ -73,8 +73,6 @@
 {% endif %}
 </div>
 
-
-
 {% if page.custom_fields.form_opt_in %}
 <input type="hidden" name="opt_in" value="1">
 <div class="input-checkbox ak-userfield-checkbox-choice">
@@ -84,4 +82,306 @@
 </div>
 {% else %}
 <!--<input name="lists" value="{{ page.list.id }}" type="hidden"/>-->
+{% endif %}
+
+{% if page.type != "Signup" or page.type != "Petition" %}
+  {% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
+  <script>
+  jQuery(function(){
+    function showMobileFields() {
+      // add mobile field if not already added, or show if already added
+      if (!jQuery('#id_mobile_phone_box').length) {
+        jQuery('#unknown_user').append(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
+        jQuery('#id_mobile_phone_box').on('keyup change', function(){
+          ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
+        });
+      } else {
+        jQuery('#id_mobile_phone_box').show();	
+      }
+      // add mobile subscriber checkbox if not already added, or show if already added
+      if (!jQuery('#id_user_mobile_subscriber_box').length) {
+        var smsOptInLanguage = '{% filter ak_text:"sms_privacy_optin" %}Keep me updated by SMS*{% endfilter %}';
+        if ('{{ page.custom_fields.form_label_text_sms_optin }}') {
+          smsOptInLanguage = '{{ page.custom_fields.form_label_text_sms_optin }}'
+        }
+        jQuery('#id_mobile_phone_box').after(jQuery('<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom  ak-err-below"><span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice"><input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
+        if ('{{ page.custom_fields.form_bigger_radio_buttons }}') {
+          jQuery('#id_user_mobile_subscriber_box').addClass('large-checkboxes');
+        }
+
+        jQuery('#id_user_mobile_subscriber_true').on('change', function(){
+          // if subscriber opt in checkbox is checked, and country is US, include mobile subscriber number in submission
+          // otherwise, exclude mobile subscriber number from submission
+          if (jQuery(this).is(':checked')) {
+            ifCountryIsUS(selectedCountry, function(){
+              jQuery('#mobile_subscriber_number').val(jQuery('#id_mobile_phone').val());
+              jQuery('#mobile_subscriber_number').attr('name', 'action_mobile_subscriber_number');
+            }, function(){
+              jQuery('#mobile_subscriber_number').val('');
+              jQuery('#mobile_subscriber_number').attr('name', '');
+            });
+          } else {
+            jQuery('#mobile_subscriber_number').val('');
+            jQuery('#mobile_subscriber_number').attr('name', '');
+          }
+        });
+      } else {
+        jQuery('#id_user_mobile_subscriber_box').show();
+      }
+      jQuery('.sms-privacy-notice').show();
+    }
+
+    function hideMobileFields() {
+      jQuery('#id_mobile_phone_box, #id_user_mobile_subscriber_box, .sms-privacy-notice').hide();
+      jQuery('#id_mobile_phone, #mobile_subscriber_number').val('');
+      jQuery('#mobile_subscriber_number').attr('name', ''); // remove from form submission
+      jQuery('#id_user_mobile_subscriber_true').attr('checked', false);
+    }
+
+    function includeMobSubscriberInFormSubmission() {
+      jQuery('#id_user_mobile_subscriber_true').attr('name', 'user_mobile_subscriber');
+      // store the user's opt in mobile in custom action field
+      if (!jQuery('#mobile_subscriber_number').length) {
+        jQuery('#action-form').append(jQuery('<input name="action_mobile_subscriber_number" id="mobile_subscriber_number" value="" type="hidden"/>'));
+      }
+      // if they opted in, include subscriber number field in form submission, with value of mobile number
+      // else don't include in submission
+      if (jQuery('#id_user_mobile_subscriber_true').is(':checked')) {
+        jQuery('#mobile_subscriber_number').val(jQuery('#id_mobile_phone').val());
+        jQuery('#mobile_subscriber_number').attr('name', 'action_mobile_subscriber_number');
+      } else {
+        jQuery('#mobile_subscriber_number').attr('name', '');
+      }
+    }
+
+    function excludeMobSubscriberInFormSubmission() {
+      // remove the name attr so we don't send the opt in field (if for example the user opts in but provides no number)
+      jQuery('#id_user_mobile_subscriber_true').attr('name', '');
+      jQuery('#mobile_subscriber_number').attr('name', '');
+      jQuery('#mobile_subscriber_number').val('');
+    }
+
+    function ifCountryIsUS (country, yes, no) {
+      if (country === 'United States') {
+        yes();
+      } else {
+        no();
+      }
+    }
+
+    function ifUSMobileIsProvided(country, yes, no) {
+      if (country === 'United States' && jQuery('#id_mobile_phone').val() !== '') {
+        yes();
+      } else {
+        no();
+      }
+    }
+
+    // add sms privacy notice
+    var $smsPrivacyNotice = jQuery('<div class="sms-privacy-notice text-small2 margin-top-normal" style="display:none;"><p>{% filter ak_text:"sms_privacy_notice" %}By providing your mobile number you consent to receive automated recurring text messages from 350.org. Msg&data rates may apply. Text HELP for info or STOP to opt out to 83224. 350.org/mobile-tos{% endfilter %}</p></div>');
+    jQuery('.general-privacy-notice').after($smsPrivacyNotice);
+
+    var selectedCountry = jQuery('#country').val();
+    ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
+    ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
+
+    jQuery('#country').on('change', function(){
+      selectedCountry = jQuery(this).val();
+      ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
+      ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
+    });
+
+  });
+  </script>
+  {% endif %}
+{% endif %}
+
+{% if page.custom_fields.form_bigger_radio_buttons == 'Y' %}
+<style>
+	.input-radio.large-radios,
+	.input-radio.large-radios .ak-userfield-radio-choice,
+	.input-checkbox.large-checkboxes,
+	.input-checkbox.large-checkboxes .ak-userfield-checkbox-choice {
+		display: block;
+	}
+  .ak-privacy.large-radios .input-radio-group .input-radio,
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-choice,
+	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-choice,
+  .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-choice {
+	  position: relative;
+	  margin-bottom: 10px;
+	}
+	.ak-privacy.large-radios .input-radio-group .input-radio:last-child,
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-choice:last-child,
+	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-choice:last-child,
+  .input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-choice:last-child {
+		margin-bottom: 25px;
+	}
+
+	.ak-privacy.large-radios .input-radio-group input[type="radio"],
+	.input-radio.ak-input-type-action.large-radios input[type="radio"] {
+	  position: absolute;
+	  opacity: 0;
+	  cursor: pointer;
+	  height: 0;
+	  width: 0;
+	  -webkit-appearance: none;
+	}
+
+	.ak-privacy.large-radios .input-radio-group input[type="radio"] + label,
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label,
+	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label
+  .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-set label {
+	  padding-left: 35px;
+		margin-left: 0;
+		font-weight: bold;
+	}
+	.ak-privacy.large-radios .input-radio-group input[type="radio"] + label {
+		display: inline-block;
+	}
+
+	.ak-privacy.large-radios .input-radio-group input[type="radio"] + label:before,
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set .larger-radios-choice-label:before {
+	  content: "";
+	  height: 25px;
+	  width: 25px;
+	  border-radius: 50%;
+	  background-color: #f4f6f8;
+	  border: solid 0.8px #979797;
+	  position: absolute;
+	  top: 0.1em;
+	  display: block;
+	  left:0;
+	}
+
+
+	.ak-privacy.large-radios .input-radio-group input[type="radio"]:checked + label:before,
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="radio"]:checked + .larger-radios-choice-label:before {
+	  height: 10px;
+	  width: 10px;
+	  background-color: white;
+	  border: 9px solid #3b88fd;
+	}
+
+	.ak-privacy.large-radios .input-radio-group input[type="radio"]:focus +label:before,
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="focus"]:checked + .larger-radios-choice-label:before {
+	  outline: auto 2px Highlight;
+	  outline: -webkit-focus-ring-color auto 5px;
+	}
+
+	.ak-privacy.large-radios .input-radio-group label {
+	  font-size: 1.175em;
+	}
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label,
+	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label,
+  .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-set label {
+		font-size: 15.98px;
+	}
+  .ak-privacy.large-radios #ak-fieldbox-privacy_notice,
+	.input-radio.ak-input-type-action.large-radios > label,
+	.input-checkbox.ak-input-type-action.large-checkboxes > label,
+  .input-checkbox.ak-input-type-custom.large-checkboxes > label
+	 {
+    font-size: 0.99875em !important;
+		font-weight: normal !important;
+		margin-left: 0;
+  }
+
+	.large-checkboxes.input-checkbox {
+		padding-left: 0;
+	}
+	.large-checkboxes.input-checkbox input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
+	.checkmark {
+		position: absolute;
+		top: 5px;
+		left: 0;
+		height: 25px;
+		width: 25px;
+		background-color: #eee;
+	}
+	.large-checkboxes.input-checkbox input:checked ~ .checkmark {
+		background-color: #3b88fd;
+	}
+	.checkmark:after {
+		content: "";
+		position: absolute;
+		display: none;
+	}
+	.large-checkboxes.input-checkbox input:checked ~ .checkmark:after {
+		display: block;
+	}
+	.large-checkboxes.input-checkbox .checkmark:after {
+		left: 9px;
+		top: 5px;
+		width: 5px;
+		height: 10px;
+		border: solid white;
+		border-width: 0 3px 3px 0;
+		-webkit-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		transform: rotate(45deg);
+	}
+
+  @media screen and (min-width: 650px) {
+    .ak-privacy.large-radios .input-radio-group input[type="radio"] + label:before,
+		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set .larger-radios-choice-label:before {
+      height: 18px;
+	    width: 18px;
+    }
+    .ak-privacy.large-radios .input-radio-group input[type="radio"]:checked + label:before,
+		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="radio"]:checked + .larger-radios-choice-label:before {
+      height: 8px;
+	    width: 8px;
+	    border: 6px solid #3b88fd;
+    }
+
+		.checkmark {
+			height: 18px;
+			width: 18px;
+		}
+		.large-checkboxes.input-checkbox .checkmark:after {
+			left: 6px;
+			top: 2px;
+			width: 3px;
+			height: 8px;
+		}
+
+    .ak-privacy.large-radios .input-radio-group input[type="radio"] + label{
+      font-size: 1.1em;
+    }
+		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label,
+		.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label,
+    .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-set label {
+			font-size: 14.96px;
+			padding-left: 28px;
+		}
+    .ak-privacy.large-radios #ak-fieldbox-privacy_notice,
+		.input-radio.ak-input-type-action.large-radios > label,
+		.input-checkbox.ak-input-type-action.large-checkboxes > label,
+    .input-checkbox.ak-input-type-custom.large-checkboxes > label {
+      font-size: 0.935em !important;
+    }
+    .ak-privacy.large-radios .input-radio-group input[type="radio"] + label,
+		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label {
+      padding-left: 28px;
+    }
+  }
+
+</style>
+<script>
+	jQuery(function(){
+		jQuery('.ak-privacy, #unknown_user .input-radio').addClass('large-radios');
+		jQuery('#unknown_user .input-checkbox').addClass('large-checkboxes');
+		jQuery('.large-radios .ak-userfield-radio-choice.ak-userfield-radio-choice').each(function(i, v) {
+			jQuery(v).contents().eq(1).wrap('<span class="larger-radios-choice-label"/>');
+		});
+		jQuery('#unknown_user .large-checkboxes.input-checkbox .ak-userfield-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
+	});
+</script>
 {% endif %}

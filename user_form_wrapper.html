@@ -79,16 +79,10 @@
     function getUserRegion(country) {
       const euContriesExUK = [
     'albania', 'andorra', 'armenia','austria', 'azerbaijan', 'belarus', 'belgium', 'bosnia and herzegovina', 'bulgaria', 'croatia', 'cyprus', 'czech republic', 'denmark', 'estonia', 'finland', 'france', 'georgia', 'germany', 'greece', 'hungary', 'iceland', 'ireland', 'italy', 'kosovo', 'latvia', 'liechtenstein', 'lithuania', 'luxembourg', 'macedonia', 'malta', 'moldova', 'monaco', 'montenegro', 'netherlands', 'norway', 'poland', 'portugal', 'romania', 'russia', 'san marino', 'serbia', 'slovakia', 'slovenia', 'spain', 'sweden', 'switzerland', 'turkey', 'ukraine',  'vatican'];
-      if (country === 'united states') {
-        return 'united states';
-      } else if (country === 'canada') {
-        return 'canada';
-      } else if (country === 'united kingdom') {
-        return 'united kingdom';
-      } else if (euContriesExUK.indexOf(country) > -1) {
+      if (euContriesExUK.indexOf(country) > -1) {
         return 'eu excluding uk'
       } else {
-        return false;
+        return country;
       }
     }
     let regionSpecificUrlRules = "{% spaceless %}{% with page.custom_fields.page_region_specific_thank_you_pages|length as length %}{{ page.custom_fields.page_region_specific_thank_you_pages|truncatechars:length }}{% endwith %}{% endspaceless %}".replace(/<p[^>]*>/g, "").split('</p>');
@@ -112,18 +106,17 @@
           $('form#action-form').append($('<input type="hidden" name="redirect" value="'+ regionSpecificUrlRulesArray[i].url +'">'))
           tyPageUrl = regionSpecificUrlRulesArray[i].url;
           break;
-        } else {
-          console.log('no rule found, use default share url');
         }
       }
       $('form#action-form input[name="redirect').remove();
       if (tyPageUrl) {
         $('form#action-form').append($('<input type="hidden" name="redirect" value="'+ regionSpecificUrlRulesArray[i].url +'">'));
       }
+      
     }
 
     userCountry = '{{ user.country }}';
-    userRegion = getUserRegion(userCountry);
+    userRegion = getUserRegion(userCountry.toLowerCase());
     setTyPageUrl(userRegion);
     if ($('#country').length) {
       $('#country').change(function(){
@@ -135,7 +128,6 @@
   });
 </script>
 {% endif %}
-
 {% if page.custom_fields.form_bigger_radio_buttons == 'Y' %}
 
 <style>
@@ -359,5 +351,3 @@
 	});
 </script>
 {% endif %}
-
-{% endblock %}

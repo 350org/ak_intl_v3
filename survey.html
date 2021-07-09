@@ -146,4 +146,14 @@
 
 </style>
 
+{% if page.custom_fields.survey_user_field_form_fields_above_survey_questions == 'Y' %}
+	<script>
+		$(function(){
+			$('#unknown_user').before($('<div class="text-large survey-user-fields-above"><hr class="margin-large"></div>'));
+			$('#known_user, #unknown_user, .ak-privacy').prependTo($('.survey-user-fields-above'));
+			$('#survey-questions form.ak-form').prepend($('.survey-user-fields-above'));
+		});
+	</script>
+{% endif %}
+
 {% endblock %}

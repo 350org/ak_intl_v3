@@ -76,16 +76,55 @@
 {% if page.custom_fields.page_region_specific_thank_you_pages %}
 <script>
 	$(function(){
-    function getUserRegion(country) {
-      const euContriesExUK = [
-    'albania', 'andorra', 'armenia','austria', 'azerbaijan', 'belarus', 'belgium', 'bosnia and herzegovina', 'bulgaria', 'croatia', 'cyprus', 'czech republic', 'denmark', 'estonia', 'finland', 'france', 'georgia', 'germany', 'greece', 'hungary', 'iceland', 'ireland', 'italy', 'kosovo', 'latvia', 'liechtenstein', 'lithuania', 'luxembourg', 'macedonia', 'malta', 'moldova', 'monaco', 'montenegro', 'netherlands', 'norway', 'poland', 'portugal', 'romania', 'russia', 'san marino', 'serbia', 'slovakia', 'slovenia', 'spain', 'sweden', 'switzerland', 'turkey', 'ukraine',  'vatican'];
-      if (euContriesExUK.indexOf(country) > -1) {
-        return 'eu excluding uk'
-      } else {
-        return country;
+		function getUserRegionalUrl(country, regionalUrlRules) {
+			let europeCountries = ['aland islands', 'albania', 'andorra', 'austria', 'belgium', 'bosnia and herzegovina', 'bulgaria', 'croatia', 'cyprus', 'czechia', 'denmark', 'estonia', 'faroe islands', 'finland', 'france', 'germany', 'gibraltar', 'greece', 'guernsey', 'hungary', 'iceland', 'ireland', 'isle of man', 'italy', 'jersey', 'kosovo', 'latvia', 'liechtenstein', 'lithuania', 'luxembourg', 'malta', 'monaco', 'montenegro', 'netherlands', 'north macedonia', 'norway', 'poland', 'portugal', 'romania', 'san marino', 'serbia', 'slovakia', 'slovenia', 'spain', 'sweden', 'switzerland', 'united kingdom', 'vatican'];
+			let africaCountries = ['angola', 'benin', 'botswana', 'burkina faso', 'burundi', 'cabo verde', 'cameroon', 'central african republic', 'chad', 'comoros', 'democratic republic of the congo', 'djibouti', 'equatorial guinea', 'eritrea', 'eswatini', 'ethiopia', 'gabon', 'gambia', 'ghana', 'guinea', 'guinea-bissau', 'ivory coast', 'kenya', 'lesotho', 'liberia', 'madagascar', 'malawi', 'mali', 'mauritius', 'mayotte', 'mozambique', 'namibia', 'niger', 'nigeria', 'republic of the congo', 'reunion', 'rwanda', 'saint helena', 'sao tome and principe', 'senegal', 'seychelles', 'sierra leone', 'somalia', 'south africa', 'south sudan', 'sudan', 'tanzania', 'togo', 'uganda', 'western sahara', 'zambia', 'zimbabwe'];
+			let asiaCountries = ['brunei', 'cambodia', 'china', 'hong kong', 'indonesia', 'japan', 'laos', 'macao', 'malaysia', 'mongolia', 'myanmar', 'philippines', 'singapore', 'south korea', 'taiwan', 'thailand', 'timor leste', 'vietnam', 'afghanistan', 'bangladesh', 'bhutan', 'india', 'maldives', 'nepal', 'pakistan', 'sri lanka'];
+			let latinAmericaCountries = ['argentina', 'belize', 'bolivia', 'brazil', 'chile', 'cocos islands', 'colombia', 'costa rica', 'cuba', 'dominican republic', 'ecuador', 'el salvador', 'french guiana', 'guadeloupe', 'guatemala', 'guyana', 'haiti', 'honduras', 'martinique', 'mexico', 'nicaragua', 'panama', 'paraguay', 'peru', 'puerto rico', 'suriname', 'uruguay', 'venezuela', 'american samoa'];
+			let pacificCountries = ['american samoa', 'christmas island', 'cook islands', 'fiji', 'french polynesia', 'guam', 'kiribati', 'marshall islands', 'micronesia', 'nauru', 'new caledonia', 'niue', 'northern mariana islands', 'palau', 'papua new guinea', 'pitcairn', 'samoa', 'solomon islands', 'tokelau', 'tonga', 'tuvalu', 'vanuatu', 'wallis and futuna'];
+			
+			// if the user country matches any country specific rules
+			for (var i = 0; i < regionalUrlRules.length; i++) {
+				if (regionalUrlRules[i].region.toLowerCase() ===  country) {
+					return regionalUrlRules[i].url;
+				}
+			}
+			
+			// otherwise, check if user country matches any regional rule
+			for (var x= 0; x < regionalUrlRules.length; x++) {
+				if (regionalUrlRules[x].region.toLowerCase() === 'europe all countries' && europeCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'europe excluding uk' && country !== 'united kingdom' && europeCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'africa' && africaCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'asia' && asiaCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'latin america' && latinAmericaCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'pacific' && pacificCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+			}
+			return false;
+		}
+
+		function setTyPageUrl(tyPageUrl){
+			$('form#action-form input[name="redirect').remove();
+      if (tyPageUrl) {
+        $('form#action-form').append($('<input type="hidden" name="redirect" value="'+ tyPageUrl +'">'));
       }
     }
-    let regionSpecificUrlRules = "{% spaceless %}{% with page.custom_fields.page_region_specific_thank_you_pages|length as length %}{{ page.custom_fields.page_region_specific_thank_you_pages|truncatechars:length }}{% endwith %}{% endspaceless %}".replace(/<p[^>]*>/g, "").split('</p>');
+
+    let regionSpecificUrlRules = "{% spaceless %}{% with page.custom_fields.page_region_specific_thank_you_pages|length as length %}{{ page.custom_fields.page_region_specific_thank_you_pages|truncatechars:length }}{% endwith %}{% endspaceless %}"
+			.replace(/<p[^>]*>/g, "")
+			.replace(/(<br \/>)*/g, '')
+			.split('</p>');
     let regionSpecificUrlRulesArray = [];
     let userCountry;
     let userRegion;
@@ -98,31 +137,15 @@
         regionSpecificUrlRulesArray.push(regionRule);
       }
     }
-    
-    function setTyPageUrl(region){
-      let tyPageUrl;
-      for (var i = 0; i < regionSpecificUrlRulesArray.length; i++) {
-        if (regionSpecificUrlRulesArray[i].region.toLowerCase() ===  userRegion) {
-          $('form#action-form').append($('<input type="hidden" name="redirect" value="'+ regionSpecificUrlRulesArray[i].url +'">'))
-          tyPageUrl = regionSpecificUrlRulesArray[i].url;
-          break;
-        }
-      }
-      $('form#action-form input[name="redirect').remove();
-      if (tyPageUrl) {
-        $('form#action-form').append($('<input type="hidden" name="redirect" value="'+ regionSpecificUrlRulesArray[i].url +'">'));
-      }
-      
-    }
 
     userCountry = '{{ user.country }}';
-    userRegion = getUserRegion(userCountry.toLowerCase());
+    userTyPage = getUserRegionalUrl(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
     setTyPageUrl(userRegion);
     if ($('#country').length) {
       $('#country').change(function(){
         userCountry = $(this).val();
-        userRegion = getUserRegion(userCountry.toLowerCase());
-        setTyPageUrl(userRegion);
+        userTyPage = getUserRegionalUrl(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
+        setTyPageUrl(userTyPage);
       });
     }
   });

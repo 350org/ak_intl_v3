@@ -33,7 +33,7 @@
 		});
 	</script>
 
-
+	{% if page.custom_fields.page_disable_gtm != 'Y' %}
 	<!-- Google Tag Manager -->
 	<script>
 		(function (w, d, s, l, i) {
@@ -52,7 +52,7 @@
 		})(window, document, 'script', 'dataLayer', 'GTM-MNNGDHL');
 	</script>
 	<!-- End Google Tag Manager -->
-
+	{% endif %}
 
 	{% if event.custom_fields.url and page.type == 'EventSignup' %}
 	<meta http-equiv="refresh" content="0;url={{ event.custom_fields.url }}" />
@@ -330,11 +330,12 @@
 <body
 	class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.iso_code|default:'en-US'}} page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %} {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js ">
 
+	{% if page.custom_fields.page_disable_gtm != 'Y' %}
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNNGDHL" height="0" width="0"
 			style="display:none;visibility:hidden"></iframe></noscript>
 	<!-- End Google Tag Manager (noscript) -->
-
+	{% endif %}
 	{% if page.custom_fields.page_hide_from_search_engines %}
 	<div id="hidden-from-search-engines-bar" class="section bg-teal text-center text-small padding-tiny width-wide">
 		<div class="section-inner">

@@ -151,6 +151,119 @@
   });
 </script>
 {% endif %}
+
+{% if page.type != "Signup" or page.type != "Petition" %}
+  {% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
+  <script>
+  jQuery(function(){
+    function showMobileFields() {
+      // add mobile field if not already added, or show if already added
+      if (!jQuery('#id_mobile_phone_box').length) {
+        jQuery('#unknown_user').append(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
+        jQuery('#id_mobile_phone_box').on('keyup change', function(){
+          ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
+        });
+      } else {
+        jQuery('#id_mobile_phone_box').show();	
+      }
+      // add mobile subscriber checkbox if not already added, or show if already added
+      if (!jQuery('#id_user_mobile_subscriber_box').length) {
+        var smsOptInLanguage = '{% filter ak_text:"sms_privacy_optin" %}Keep me updated by SMS*{% endfilter %}';
+        if ('{{ page.custom_fields.form_label_text_sms_optin }}') {
+          smsOptInLanguage = '{{ page.custom_fields.form_label_text_sms_optin }}'
+        }
+        jQuery('#id_mobile_phone_box').after(jQuery('<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom  ak-err-below"><span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice"><input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
+        if ('{{ page.custom_fields.form_bigger_radio_buttons }}') {
+          jQuery('#id_user_mobile_subscriber_box').addClass('large-checkboxes');
+        }
+
+        jQuery('#id_user_mobile_subscriber_true').on('change', function(){
+          // if subscriber opt in checkbox is checked, and country is US, include mobile subscriber number in submission
+          // otherwise, exclude mobile subscriber number from submission
+          if (jQuery(this).is(':checked')) {
+            ifCountryIsUS(selectedCountry, function(){
+              jQuery('#mobile_subscriber_number').val(jQuery('#id_mobile_phone').val());
+              jQuery('#mobile_subscriber_number').attr('name', 'action_mobile_subscriber_number');
+            }, function(){
+              jQuery('#mobile_subscriber_number').val('');
+              jQuery('#mobile_subscriber_number').attr('name', '');
+            });
+          } else {
+            jQuery('#mobile_subscriber_number').val('');
+            jQuery('#mobile_subscriber_number').attr('name', '');
+          }
+        });
+      } else {
+        jQuery('#id_user_mobile_subscriber_box').show();
+      }
+      jQuery('.sms-privacy-notice').show();
+    }
+
+    function hideMobileFields() {
+      jQuery('#id_mobile_phone_box, #id_user_mobile_subscriber_box, .sms-privacy-notice').hide();
+      jQuery('#id_mobile_phone, #mobile_subscriber_number').val('');
+      jQuery('#mobile_subscriber_number').attr('name', ''); // remove from form submission
+      jQuery('#id_user_mobile_subscriber_true').attr('checked', false);
+    }
+
+    function includeMobSubscriberInFormSubmission() {
+      jQuery('#id_user_mobile_subscriber_true').attr('name', 'user_mobile_subscriber');
+      // store the user's opt in mobile in custom action field
+      if (!jQuery('#mobile_subscriber_number').length) {
+        jQuery('#action-form').append(jQuery('<input name="action_mobile_subscriber_number" id="mobile_subscriber_number" value="" type="hidden"/>'));
+      }
+      // if they opted in, include subscriber number field in form submission, with value of mobile number
+      // else don't include in submission
+      if (jQuery('#id_user_mobile_subscriber_true').is(':checked')) {
+        jQuery('#mobile_subscriber_number').val(jQuery('#id_mobile_phone').val());
+        jQuery('#mobile_subscriber_number').attr('name', 'action_mobile_subscriber_number');
+      } else {
+        jQuery('#mobile_subscriber_number').attr('name', '');
+      }
+    }
+
+    function excludeMobSubscriberInFormSubmission() {
+      // remove the name attr so we don't send the opt in field (if for example the user opts in but provides no number)
+      jQuery('#id_user_mobile_subscriber_true').attr('name', '');
+      jQuery('#mobile_subscriber_number').attr('name', '');
+      jQuery('#mobile_subscriber_number').val('');
+    }
+
+    function ifCountryIsUS (country, yes, no) {
+      if (country === 'United States') {
+        yes();
+      } else {
+        no();
+      }
+    }
+
+    function ifUSMobileIsProvided(country, yes, no) {
+      if (country === 'United States' && jQuery('#id_mobile_phone').val() !== '') {
+        yes();
+      } else {
+        no();
+      }
+    }
+
+    // add sms privacy notice
+    var $smsPrivacyNotice = jQuery('<div class="sms-privacy-notice text-small2 margin-top-normal" style="display:none;"><p>{% filter ak_text:"sms_privacy_notice" %}By providing your mobile number you consent to receive automated recurring text messages from 350.org. Msg&data rates may apply. Text HELP for info or STOP to opt out to 83224. 350.org/mobile-tos{% endfilter %}</p></div>');
+    jQuery('.general-privacy-notice').after($smsPrivacyNotice);
+
+    var selectedCountry = jQuery('#country').val();
+    ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
+    ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
+
+    jQuery('#country').on('change', function(){
+      selectedCountry = jQuery(this).val();
+      ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
+      ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
+    });
+
+  });
+  </script>
+  {% endif %}
+{% endif %}
+
 {% if page.custom_fields.form_bigger_radio_buttons == 'Y' %}
 
 <style>

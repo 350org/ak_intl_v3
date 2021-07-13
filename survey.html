@@ -41,7 +41,7 @@
 			<input type="hidden" name="page" value="{{ page.name }}" />
 			<div id="survey-custom-questions" class="form-style-expanded margin-bottom-huge {{templateset.custom_fields.field_errors_class|default:"ak-errs-below"}}">
 	{% for question in form.surveyquestion_set.all %}
-				<div class="survey-question margin-bottom-large input input-{{ question.field_type }}">
+				<div class="survey-question margin-bottom-large input input-{{ question.field_type }} survey-q-vertical-spacing">
 					<label class="strong text-strong text-blue margin-bottom-normal">{{ question.question_label|safe }}</label>
 				{{ question.input_html|safe }}
 				</div>
@@ -82,6 +82,78 @@
 	.ak-survey-checkbox-set {
     padding-left: 8px;
 	}
+	.survey-question label img,
+	.survey-question label iframe {
+    margin-top: 0.6rem;
+    padding-top: 5px;
+	}
+	.form-style-expanded .survey-q-vertical-spacing input,
+	.form-style-expanded .survey-q-vertical-spacing select,
+	.form-style-expanded .survey-q-vertical-spacing textarea {
+		margin-bottom: 0;
+	}
+	.form-style-expanded .survey-q-vertical-spacing,
+	.form-style-expanded .survey-q-vertical-spacing.input-text,
+	.form-style-expanded.survey-q-vertical-spacing.input-textarea, 
+	.form-style-expanded.survey-q-vertical-spacing.input-select, 
+	.form-style-expanded.survey-q-vertical-spacing.input-checkbox, 
+	.form-style-expanded .survey-q-vertical-spacing.input-radio,
+	.form-style-expanded.survey-q-vertical-spacing.input-multiple {
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-bottom: 0 !important;
+		padding-left: 0 !important;
+	}
+	.form-style-expanded .survey-q-vertical-spacing:not(:first-child),
+	.form-style-expanded .survey-q-vertical-spacing:not(:first-child).input-checkbox {
+		padding-top: 9vh;
+		margin-top: 0;
+	}
+	.form-style-expanded .survey-q-vertical-spacing.input-checkbox .checkbox-item,
+	.form-style-expanded .survey-q-vertical-spacing.input-radio .radio-item {
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	.form-style-expanded .survey-q-vertical-spacing.input-checkbox:not(.large-checkboxes) .checkbox-item .ak-survey-checkbox-choice:first-child,
+	.form-style-expanded .survey-q-vertical-spacing.input-radio:not(.large-radios) .radio-item .ak-survey-radio-choice:first-child {
+		margin-top: 0;
+		padding-top: 0;
+	}
+	.form-style-expanded .survey-q-vertical-spacing.input-checkbox .checkbox-item .ak-survey-checkbox-choice:last-child,
+	.form-style-expanded .survey-q-vertical-spacing.input-radio .radio-item .ak-survey-radio-choice:last-child {
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+	@media screen and (min-width: 720px) {
+		.form-style-expanded .survey-q-vertical-spacing:not(:first-child),
+		.form-style-expanded .survey-q-vertical-spacing:not(:first-child).input-checkbox {
+			padding-top: 8vh;
+		}
+		.survey-question label img,
+		.survey-question label iframe {
+    	margin-top: 0.8rem;
+		}
+	}
+	@media screen and (min-width: 900px) {
+		.form-style-expanded .survey-q-vertical-spacing:not(:first-child),
+		.form-style-expanded .survey-q-vertical-spacing:not(:first-child).input-checkbox {
+			padding-top:  calc(6.3 * (1vw + 1vh - 1vmin));
+		}
+	}
+
+
 </style>
+
+{% if page.custom_fields.survey_user_field_form_fields_above_survey_questions == 'Y' %}
+	<script>
+		$(function(){
+			$('#unknown_user').before($('<div class="text-large survey-user-fields-above"><hr class="margin-large"></div>'));
+			$('#known_user, #unknown_user, .ak-privacy').prependTo($('.survey-user-fields-above'));
+			$('#survey-questions form.ak-form').prepend($('.survey-user-fields-above'));
+		});
+	</script>
+{% endif %}
 
 {% endblock %}

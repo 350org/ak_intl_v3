@@ -84,6 +84,85 @@
 <!--<input name="lists" value="{{ page.list.id }}" type="hidden"/>-->
 {% endif %}
 
+{% if page.custom_fields.page_region_specific_thank_you_pages %}
+<script>
+	$(function(){
+		function getUserRegionalUrl(country, regionalUrlRules) {
+			let europeCountries = ['aland islands', 'albania', 'andorra', 'austria', 'belgium', 'bosnia and herzegovina', 'bulgaria', 'croatia', 'cyprus', 'czechia', 'denmark', 'estonia', 'faroe islands', 'finland', 'france', 'germany', 'gibraltar', 'greece', 'guernsey', 'hungary', 'iceland', 'ireland', 'isle of man', 'italy', 'jersey', 'kosovo', 'latvia', 'liechtenstein', 'lithuania', 'luxembourg', 'malta', 'monaco', 'montenegro', 'netherlands', 'north macedonia', 'norway', 'poland', 'portugal', 'romania', 'san marino', 'serbia', 'slovakia', 'slovenia', 'spain', 'sweden', 'switzerland', 'united kingdom', 'vatican'];
+			let africaCountries = ['angola', 'benin', 'botswana', 'burkina faso', 'burundi', 'cabo verde', 'cameroon', 'central african republic', 'chad', 'comoros', 'democratic republic of the congo', 'djibouti', 'equatorial guinea', 'eritrea', 'eswatini', 'ethiopia', 'gabon', 'gambia', 'ghana', 'guinea', 'guinea-bissau', 'ivory coast', 'kenya', 'lesotho', 'liberia', 'madagascar', 'malawi', 'mali', 'mauritius', 'mayotte', 'mozambique', 'namibia', 'niger', 'nigeria', 'republic of the congo', 'reunion', 'rwanda', 'saint helena', 'sao tome and principe', 'senegal', 'seychelles', 'sierra leone', 'somalia', 'south africa', 'south sudan', 'sudan', 'tanzania', 'togo', 'uganda', 'western sahara', 'zambia', 'zimbabwe'];
+			let asiaCountries = ['brunei', 'cambodia', 'china', 'hong kong', 'indonesia', 'japan', 'laos', 'macao', 'malaysia', 'mongolia', 'myanmar', 'philippines', 'singapore', 'south korea', 'taiwan', 'thailand', 'timor leste', 'vietnam', 'afghanistan', 'bangladesh', 'bhutan', 'india', 'maldives', 'nepal', 'pakistan', 'sri lanka'];
+			let latinAmericaCountries = ['argentina', 'belize', 'bolivia', 'brazil', 'chile', 'cocos islands', 'colombia', 'costa rica', 'cuba', 'dominican republic', 'ecuador', 'el salvador', 'french guiana', 'guadeloupe', 'guatemala', 'guyana', 'haiti', 'honduras', 'martinique', 'mexico', 'nicaragua', 'panama', 'paraguay', 'peru', 'puerto rico', 'suriname', 'uruguay', 'venezuela', 'american samoa'];
+			let pacificCountries = ['american samoa', 'christmas island', 'cook islands', 'fiji', 'french polynesia', 'guam', 'kiribati', 'marshall islands', 'micronesia', 'nauru', 'new caledonia', 'niue', 'northern mariana islands', 'palau', 'papua new guinea', 'pitcairn', 'samoa', 'solomon islands', 'tokelau', 'tonga', 'tuvalu', 'vanuatu', 'wallis and futuna'];
+			
+			// if the user country matches any country specific rules
+			for (var i = 0; i < regionalUrlRules.length; i++) {
+				if (regionalUrlRules[i].region.toLowerCase() ===  country) {
+					return regionalUrlRules[i].url;
+				}
+			}
+			
+			// otherwise, check if user country matches any regional rule
+			for (var x= 0; x < regionalUrlRules.length; x++) {
+				if (regionalUrlRules[x].region.toLowerCase() === 'europe all countries' && europeCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'europe excluding uk' && country !== 'united kingdom' && europeCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'africa' && africaCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'asia' && asiaCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'latin america' && latinAmericaCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+				else if (regionalUrlRules[x].region.toLowerCase() === 'pacific' && pacificCountries.indexOf(country) > -1 ) {
+					return regionalUrlRules[x].url;
+				}
+			}
+			return false;
+		}
+
+		function setTyPageUrl(tyPageUrl){
+			$('form#action-form input[name="redirect').remove();
+      if (tyPageUrl) {
+        $('form#action-form').append($('<input type="hidden" name="redirect" value="'+ tyPageUrl +'">'));
+      }
+    }
+
+    let regionSpecificUrlRules = "{% spaceless %}{% with page.custom_fields.page_region_specific_thank_you_pages|length as length %}{{ page.custom_fields.page_region_specific_thank_you_pages|truncatechars:length }}{% endwith %}{% endspaceless %}"
+			.replace(/<p[^>]*>/g, "")
+			.replace(/(<br \/>)*/g, '')
+			.split('</p>');
+    let regionSpecificUrlRulesArray = [];
+    let userCountry;
+    let userRegion;
+    for (var x = 0; x < regionSpecificUrlRules.length; x++) {
+      if (regionSpecificUrlRules[x]) {
+        let regionRule = {
+          'region': regionSpecificUrlRules[x].replace(/\=/,'setTo').split('setTo')[0],
+          'url': regionSpecificUrlRules[x].replace(/\=/,'setTo').split('setTo')[1]
+        }
+        regionSpecificUrlRulesArray.push(regionRule);
+      }
+    }
+
+    userCountry = '{{ user.country }}';
+    userTyPage = getUserRegionalUrl(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
+    setTyPageUrl(userRegion);
+    if ($('#country').length) {
+      $('#country').change(function(){
+        userCountry = $(this).val();
+        userTyPage = getUserRegionalUrl(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
+        setTyPageUrl(userTyPage);
+      });
+    }
+  });
+</script>
+{% endif %}
+
 {% if page.type != "Signup" or page.type != "Petition" %}
   {% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
   <script>
@@ -197,18 +276,26 @@
 {% endif %}
 
 {% if page.custom_fields.form_bigger_radio_buttons == 'Y' %}
+
 <style>
 	.input-radio.large-radios,
 	.input-radio.large-radios .ak-userfield-radio-choice,
+	.input-radio.large-radios .ak-survey-radio-choice,
 	.input-checkbox.large-checkboxes,
-	.input-checkbox.large-checkboxes .ak-userfield-checkbox-choice {
+	.input-checkbox.large-checkboxes .ak-userfield-checkbox-choice,
+	.input-checkbox.large-checkboxes .ak-survey-checkbox-choice {
 		display: block;
 	}
   .ak-privacy.large-radios .input-radio-group .input-radio,
 	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-choice,
+	.input-radio.survey-question.large-radios .ak-survey-radio-choice,
 	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-choice,
-  .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-choice {
+  .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-choice,
+	.input-checkbox.survey-question.large-checkboxes .ak-survey-checkbox-choice {
 	  position: relative;
+	  margin-bottom: 10px;
+	}
+	.input-checkbox.survey-question.large-checkboxes .ak-survey-checkbox-choice {
 	  margin-bottom: 10px;
 	}
 	.ak-privacy.large-radios .input-radio-group .input-radio:last-child,
@@ -219,7 +306,8 @@
 	}
 
 	.ak-privacy.large-radios .input-radio-group input[type="radio"],
-	.input-radio.ak-input-type-action.large-radios input[type="radio"] {
+	.input-radio.ak-input-type-action.large-radios input[type="radio"],
+	.input-radio.survey-question.large-radios input[type="radio"] {
 	  position: absolute;
 	  opacity: 0;
 	  cursor: pointer;
@@ -236,12 +324,17 @@
 		margin-left: 0;
 		font-weight: bold;
 	}
+	.input-checkbox.survey-question.large-checkboxes .ak-survey-checkbox-set label,
+	.input-radio.survey-question.large-radios .ak-survey-radio-set label {
+		padding-left: 35px;
+	}
 	.ak-privacy.large-radios .input-radio-group input[type="radio"] + label {
 		display: inline-block;
 	}
 
 	.ak-privacy.large-radios .input-radio-group input[type="radio"] + label:before,
-	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set .larger-radios-choice-label:before {
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set .larger-radios-choice-label:before,
+	.input-radio.survey-question.large-radios .ak-survey-radio-set .larger-radios-choice-label:before {
 	  content: "";
 	  height: 25px;
 	  width: 25px;
@@ -253,10 +346,13 @@
 	  display: block;
 	  left:0;
 	}
-
+	.input-radio.survey-question.large-radios .ak-survey-radio-set .larger-radios-choice-label:before {
+		top: 6px;
+	}
 
 	.ak-privacy.large-radios .input-radio-group input[type="radio"]:checked + label:before,
-	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="radio"]:checked + .larger-radios-choice-label:before {
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="radio"]:checked + .larger-radios-choice-label:before,
+	.input-radio.survey-question.large-radios .ak-survey-radio-set input[type="radio"]:checked + .larger-radios-choice-label:before {
 	  height: 10px;
 	  width: 10px;
 	  background-color: white;
@@ -264,7 +360,8 @@
 	}
 
 	.ak-privacy.large-radios .input-radio-group input[type="radio"]:focus +label:before,
-	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="focus"]:checked + .larger-radios-choice-label:before {
+	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="focus"]:checked + .larger-radios-choice-label:before,
+	.input-radio.survey-question.large-radios .ak-survey-radio-set input[type="focus"]:checked + .larger-radios-choice-label:before {
 	  outline: auto 2px Highlight;
 	  outline: -webkit-focus-ring-color auto 5px;
 	}
@@ -273,8 +370,10 @@
 	  font-size: 1.175em;
 	}
 	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label,
+	.input-radio.survey-question.large-radios .ak-userfield-radio-set label,
 	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label,
-  .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-set label {
+  .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-set label,
+	.input-checkbox.survey-question.large-checkboxes .ak-survey-checkbox-set label {
 		font-size: 15.98px;
 	}
   .ak-privacy.large-radios #ak-fieldbox-privacy_notice,
@@ -330,12 +429,22 @@
 
   @media screen and (min-width: 650px) {
     .ak-privacy.large-radios .input-radio-group input[type="radio"] + label:before,
-		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set .larger-radios-choice-label:before {
+		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set .larger-radios-choice-label:before,
+		.input-radio.survey-question.large-radios .ak-survey-radio-set .larger-radios-choice-label:before {
       height: 18px;
 	    width: 18px;
     }
+		.input-radio.survey-question.large-radios .ak-survey-radio-choice,
+		.input-checkbox.survey-question.large-checkboxes .ak-survey-checkbox-choice {
+			padding-top: 10px;
+		}
+		.input-radio.survey-question.large-radios .ak-survey-radio-set .larger-radios-choice-label::before,
+		.input-checkbox.survey-question.large-checkboxes .ak-survey-checkbox-set .checkmark{
+			top: 13px;
+		}
     .ak-privacy.large-radios .input-radio-group input[type="radio"]:checked + label:before,
-		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="radio"]:checked + .larger-radios-choice-label:before {
+		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set input[type="radio"]:checked + .larger-radios-choice-label:before,
+		.input-radio.survey-question.large-radios .ak-survey-radio-set input[type="radio"]:checked + .larger-radios-choice-label:before {
       height: 8px;
 	    width: 8px;
 	    border: 6px solid #3b88fd;
@@ -359,16 +468,20 @@
 		.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label,
     .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-set label {
 			font-size: 14.96px;
+		}
+		.input-checkbox.survey-question.large-checkboxes .ak-survey-checkbox-set label,
+		.input-radio.survey-question.large-radios .ak-survey-radio-set label {
 			padding-left: 28px;
 		}
     .ak-privacy.large-radios #ak-fieldbox-privacy_notice,
 		.input-radio.ak-input-type-action.large-radios > label,
 		.input-checkbox.ak-input-type-action.large-checkboxes > label,
-    .input-checkbox.ak-input-type-custom.large-checkboxes > label {
+    .input-checkbox.ak-input-type-custom.large-checkboxes > label  {
       font-size: 0.935em !important;
     }
     .ak-privacy.large-radios .input-radio-group input[type="radio"] + label,
-		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label {
+		.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label,
+		.input-radio.survey-question.large-radios .ak-survey-radio-set label {
       padding-left: 28px;
     }
   }
@@ -376,12 +489,12 @@
 </style>
 <script>
 	jQuery(function(){
-		jQuery('.ak-privacy, #unknown_user .input-radio').addClass('large-radios');
-		jQuery('#unknown_user .input-checkbox').addClass('large-checkboxes');
-		jQuery('.large-radios .ak-userfield-radio-choice.ak-userfield-radio-choice').each(function(i, v) {
+		jQuery('.ak-privacy, #unknown_user .input-radio, #survey-custom-questions .input-radio').addClass('large-radios');
+		jQuery('#unknown_user .input-checkbox, #survey-custom-questions .input-checkbox').addClass('large-checkboxes');
+		jQuery('.large-radios .ak-userfield-radio-choice.ak-userfield-radio-choice, .large-radios .ak-survey-radio-choice').each(function(i, v) {
 			jQuery(v).contents().eq(1).wrap('<span class="larger-radios-choice-label"/>');
 		});
-		jQuery('#unknown_user .large-checkboxes.input-checkbox .ak-userfield-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
+		jQuery('#unknown_user .large-checkboxes.input-checkbox .ak-userfield-checkbox-choice, .large-checkboxes.input-checkbox .ak-survey-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
 	});
 </script>
 {% endif %}

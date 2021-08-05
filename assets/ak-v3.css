@@ -4658,6 +4658,15 @@ label.ak-survey-radio-choice {
 
 /* Thanks pages */
 
+#thanks-message h1,
+#thanks-message h2,
+#thanks-message h3,
+#thanks-message h4
+#thanks-message h5,
+#thanks-message h6 {
+  font-family: KlimaWeb, Klima, -apple-system-, BlinkMacSystemFont, Arial, sans-serif;
+}
+
 #thanks-message p:first-child {
   font-weight: bold;
 }

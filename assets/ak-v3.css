@@ -4662,24 +4662,6 @@ label.ak-survey-radio-choice {
   font-weight: bold;
 }
 
-.wf-tficons-n7-active #thanks-message p:first-child::before {
-  background-color: rgb(0, 205, 100);
-  border-radius: 40px;
-  color: #fff;
-  /* content:'\E942'; */
-  content: '→';
-  display: inline-block;
-  font-family: KlimaWeb, sans-serif;
-  font-size: 0.75em;
-  height: 1.5em;
-  line-height: 1.75;
-  margin-right: 0.5em;
-  text-align: center;
-  vertical-align: text-bottom;
-  width: 1.5em;
-}
-
-
 /* Mobile formatting */
 #action-header {
   margin-top: 2rem;
@@ -5103,7 +5085,6 @@ input:checked+.toggle-donation-type .toggle-option-2 {
 
   /* Thanks pages */
   .wf-tficons-n7-active #thanks-message p {
-    padding-left: 1.8em;
     position: relative;
   }
 

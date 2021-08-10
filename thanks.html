@@ -353,6 +353,13 @@
 </div>
 {% endif %}
 
+{% if page.custom_fields.thanks_alternate_thank_you_page_styling == 'Y' %}
+<script>
+	$(function(){
+		$('#thanks').addClass('thanks-alt');
+	});
+</script>
+{% endif %}
 
 {% endautoescape %}
 

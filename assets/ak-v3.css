@@ -4683,10 +4683,11 @@ label.ak-survey-radio-choice {
   width: 1.5em;
 }
 
-#thanks.thanks-alt .wf-tficons-n7-active #thanks-message p:first-child::before {
+.wf-tficons-n7-active #thanks.thanks-alt #thanks-message p:first-child::before {
   content: '';
   height: 0;
   width: 0;
+  margin-right: 0;
 }
 
 #thanks.thanks-alt #thanks-message h1,

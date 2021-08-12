@@ -59,9 +59,58 @@
 		</form>
 	</div>
 </section>
+
+<style>
+
+</style>
 <script type="text/javascript">
+
 	$(document).ready(function () {
 		actionkit.forms.installOverlayLabelHandler();
+
+		// Hide/show state & region -  zip & postcode based on country
+		function showAndHideFields(toShow,toHide) {
+			// adapted from ln:1941 of https://act.350.org/resources/actionkit.js
+			var $show = $(toShow);
+			var $hide = $(toHide);
+
+			// don't do anything if show is already visible and hide is
+			// already invisible
+			if ($show.is(':visible') && !$hide.is(':visible')) {
+					return;
+			}
+
+			// if there's a value in the field we're hiding, copy it
+			// to the one we're showing
+			$show.removeAttr('disabled');
+			if ( $show.val() != $hide.val() && $hide.val() ) {
+					$show.val($hide.val());
+					$show.trigger('change');
+			}
+			$hide.prop('disabled', true);
+			var shownRow = $show.closest('div.ak-labels-before')
+			shownRow.show();
+			var hiddenRow = $hide.closest('div.ak-labels-before')
+			hiddenRow.hide();
+		}
+
+		function countryChanged(){
+			if ($('#id_country').val() === 'United States') {
+				showAndHideFields('#id_zip', '#id_postal');
+				showAndHideFields('#id_state', '#id_region');
+			} else {
+				showAndHideFields('#id_postal', '#id_zip');
+				showAndHideFields('#id_region', '#id_state');
+			}
+		}
+
+		$('#id_country').on('change', countryChanged);
+		countryChanged();
+
+		showAndHideFields(undefined, '#id_prefix');
+		showAndHideFields(undefined, '#id_suffix');
+		showAndHideFields(undefined, '#id_plus4');
+
 	});
 </script>
 {% endblock content %}

@@ -4662,6 +4662,10 @@ label.ak-survey-radio-choice {
   font-weight: bold;
 }
 
+#thanks.thanks-alt #thanks-message p:first-child {
+  font-weight: inherit;
+}
+
 .wf-tficons-n7-active #thanks-message p:first-child::before {
   background-color: rgb(0, 205, 100);
   border-radius: 40px;
@@ -4679,6 +4683,21 @@ label.ak-survey-radio-choice {
   width: 1.5em;
 }
 
+.wf-tficons-n7-active #thanks.thanks-alt #thanks-message p:first-child::before {
+  content: '';
+  height: 0;
+  width: 0;
+  margin-right: 0;
+}
+
+#thanks.thanks-alt #thanks-message h1,
+#thanks.thanks-alt #thanks-message h2,
+#thanks.thanks-alt #thanks-message h3,
+#thanks.thanks-alt #thanks-message h4
+#thanks.thanks-alt #thanks-message h5,
+#thanks.thanks-alt #thanks-message h6 {
+  font-family: KlimaWeb, Klima, -apple-system-, BlinkMacSystemFont, Arial, sans-serif;
+}
 
 /* Mobile formatting */
 #action-header {
@@ -5103,7 +5122,6 @@ input:checked+.toggle-donation-type .toggle-option-2 {
 
   /* Thanks pages */
   .wf-tficons-n7-active #thanks-message p {
-    padding-left: 1.8em;
     position: relative;
   }
 

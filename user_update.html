@@ -36,7 +36,9 @@
 						{% if onchange %}onchange="{{ onchange }}" onblur="{{ onchange }}" {% endif %}>
 						<option selected="{{ field.value }}">{{ field.value }}</option>
 						{% for std_name,name in templateset.lang.country_names_us_first %}
-						<option value="{{ std_name|escapeall }}">{{ name|escapeall }}</option>
+							{% if std_name != field.value %}
+								<option value="{{ std_name|escapeall }}">{{ name|escapeall }}</option>
+							{% endif %}
 						{% endfor %}
 					</select>
 					{% case 'state' %}
@@ -67,7 +69,7 @@
 
 	$(document).ready(function () {
 		actionkit.forms.installOverlayLabelHandler();
-
+		
 		// Hide/show state & region -  zip & postcode based on country
 		function showAndHideFields(toShow,toHide) {
 			// adapted from ln:1941 of https://act.350.org/resources/actionkit.js
@@ -110,7 +112,7 @@
 		showAndHideFields(undefined, '#id_prefix');
 		showAndHideFields(undefined, '#id_suffix');
 		showAndHideFields(undefined, '#id_plus4');
-
+		
 	});
 </script>
 {% endblock content %}

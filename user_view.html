@@ -1,11 +1,11 @@
 {% extends './wrapper.html' %}
 
 {% block content %}
-<div id="content" class="one-col">
+<section id="action-lead" class="section action-lead width-normal padding-medium bg-white">
+<div class="section-inner">
 
-
-<h1>{{ actionkit_user.name }}</h1>
-<a href="/logout/">Logout</a></p>
+<h2>Your records: {{ actionkit_user.name }}</h2>
+<a href="/logout/">Click here to sign out</a></p>
 
 {% if messages %}
 <ul class="messages">
@@ -16,25 +16,25 @@
 {% endif %}
 
 <div class="section note">
-<h2>Your Information</h2>
-<p><b>{{ actionkit_user.email }}</b></p>
+<h3>Your Information</h3>
+<p>
+  <strong>{{ actionkit_user.name }}</strong><br>
+  {{ actionkit_user.email }}<br>
+  {{ actionkit_user.address1 }}
+  {{ actionkit_user.address2 }}
+  {{ actionkit_user.city }}, {{ actionkit_user.state }} {{ actionkit_user.zip }}
+  {{ actionkit_user.country }}
+</p>
 
-<address>
-{{ actionkit_user.address1 }}
-{{ actionkit_user.address2 }}
-{{ actionkit_user.city }}, {{ actionkit_user.state }} {{ actionkit_user.zip }}
-{{ actionkit_user.country }}
-</address>
-
-<p><a href="update/">Update your email or address.</a></p>
+<p><a href="update/" class="button button-secondary">Update your information</a></p>
 </div>
-
+<!--
 <div class="section note">
-<h2>Subscription History </h2>
+<h3>Subscription History </h3>
 
 <ul>
 {% for subscription in actionkit_user.subscription_history %}
-<li>{{ subscription.list.name }}, {{ subscription.change.name }}, at {{ subscription.created_at|date:"m/d/Y" }}
+<li><strong>{{ subscription.list.name }}</strong> at {{ subscription.created_at|date:"m/d/Y" }}
 {% endfor %}
 </ul>
 
@@ -43,6 +43,7 @@
 {% endif %}
 
 </div>
+-->
 
 {% if recurring_donations %}
 <div class="section note">
@@ -78,4 +79,22 @@ You've given a total of {{ profile.payment_total_amt }}.
 {% endif %}
 
 </div>
+</section>
+<style>
+  .ak-pagetype-user_view h3 {
+    font-family: KlimaWeb,arial,helvetica,sans-serif;
+  }
+  .ak-pagetype-user_view .note {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    left: -2px;
+    margin: 25px 0;
+    padding: 20px;
+    position: relative;
+  }
+  .ak-pagetype-user_view ul li {
+    margin-left: 1.35em;
+  }
+</style>
 {% endblock %}

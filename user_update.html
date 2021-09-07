@@ -73,8 +73,8 @@
 		// Hide/show state & region -  zip & postcode based on country
 		function showAndHideFields(toShow,toHide) {
 			// adapted from ln:1941 of https://act.350.org/resources/actionkit.js
-			var $show = $(toShow);
-			var $hide = $(toHide);
+			let $show = $(toShow);
+			let $hide = $(toHide);
 
 			// don't do anything if show is already visible and hide is
 			// already invisible
@@ -90,9 +90,9 @@
 					$show.trigger('change');
 			}
 			$hide.prop('disabled', true);
-			var shownRow = $show.closest('div.ak-labels-before')
+			let shownRow = $show.closest('div.ak-labels-before')
 			shownRow.show();
-			var hiddenRow = $hide.closest('div.ak-labels-before')
+			let hiddenRow = $hide.closest('div.ak-labels-before')
 			hiddenRow.hide();
 		}
 

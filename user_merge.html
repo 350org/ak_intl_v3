@@ -1,22 +1,76 @@
 {% extends "./wrapper.html" %}
 {% block content %}
+<section id="action-lead" class="section action-lead width-normal padding-medium bg-white">
+<div class="section-inner">
 {% if sent %}
 <h2>Sent!</h2>
 {% else %}
 <h2>Almost done! One More Step!</h2>
-<p>
-We already have another user account with the email <b>{{ target }}</b>. Maybe 
-you already took an action with that email?
-</p>
-<p>
-If you'd like to consolidate your two accounts, we'll send an email to 
-<b>{{ target }}</b> to confirm it's your email. Once you click the link in the 
-email, we'll change your email address from <b>{{ actionkit_user.email }}</b>
-to <b>{{ target }}</b>.
-</p>
-<form name="merge" method="POST">
-<input type="hidden" name="target" value="{{ target }}" />
-<input type="submit" name="submit" class="submit" value="Okay, send me the email!" />
-</form>
+<div class="section note">
+  <p>
+  We already have another user account with the email <b>{{ target }}</b>. Maybe 
+  you already took an action with that email?
+  </p>
+  <p>
+  If you'd like to consolidate your two accounts, we'll send an email to 
+  <b>{{ target }}</b> to confirm it's your email. Once you click the link in the 
+  email, we'll change your email address from <b>{{ actionkit_user.email }}</b>
+  to <b>{{ target }}</b>.
+  </p>
+  <form name="merge" method="POST">
+  <input type="hidden" name="target" value="{{ target }}" />
+  <input type="submit" name="submit" class="submit" value="Okay, send me the email!" />
+  </form>
+</div>
+
+<!-- start of donate data testing-->
+{% if recurring_donations %}
+<div class="section note">
+<h2> Your Recurring Donations </h2>
+<ul>
+{% for profile in recurring_donations %}
+<li>{{ profile.amt }} a {{ profile.inverse_period_display|lower }}, started on {{ profile.created_at|date:"m/d/Y" }}. 
+You've given a total of {{ profile.payment_total_amt }}. 
+{% if profile.is_active %}
+  {% if profile.order.payment_method != "paypal" %}
+    <a href="/cms/pledge/update/update/">Update your credit card</a> or <a href="/cms/pledge/cancel/monthly/">cancel at any time.</a>
+  {% else %}
+    <a href="/cms/pledge/cancel/monthly/">Cancel at any time.</a>
+  {% endif %} 
+{% else %}
+  <b>{{ profile.get_status_display }} on {{ profile.updated_at|date:"m/d/Y" }} </b>
 {% endif %}
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if donations %}
+<div class="section note">
+<h2>Donation History </h2>
+<ul>
+{% for donation in donations %}
+<li>{{ donation.amt }} on {{ donation.created_at|date:"m/d/Y" }}  {% if donation.recurring %} (Recurring) {% endif %}
+{% endfor %}
+</ul>
+</diV>
+{% endif %}
+<!-- end of donate data testing-->
+
+{% endif %}
+
+</div>
+</section>
+<style>
+  .ak-pagetype-user_merge .note {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    left: -2px;
+    margin: 25px 0;
+    padding: 20px;
+    position: relative;
+  }
+</style>
+
 {% endblock %}

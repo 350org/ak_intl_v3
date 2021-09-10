@@ -1,22 +1,48 @@
 {% extends "./wrapper.html" %}
 {% block content %}
-{% if sent %}
-<h2>Sent!</h2>
+<section id="action-lead" class="section action-lead width-normal padding-medium bg-white">
+<div class="section-inner">
+{% if actionkit_user.highest_previous_contribution %}
+  <h2>Just a moment...</h2>
+  <div class="section note">
+    <p>We already have another user account with the email <b>{{ target }}</b>.</p>
+    <p>If you'd like to consolidate your two accounts, please contact us at help@350.org so we can make sure this goes smoothly!</p>
+  </div>
 {% else %}
-<h2>Almost done! One More Step!</h2>
-<p>
-We already have another user account with the email <b>{{ target }}</b>. Maybe 
-you already took an action with that email?
-</p>
-<p>
-If you'd like to consolidate your two accounts, we'll send an email to 
-<b>{{ target }}</b> to confirm it's your email. Once you click the link in the 
-email, we'll change your email address from <b>{{ actionkit_user.email }}</b>
-to <b>{{ target }}</b>.
-</p>
-<form name="merge" method="POST">
-<input type="hidden" name="target" value="{{ target }}" />
-<input type="submit" name="submit" class="submit" value="Okay, send me the email!" />
-</form>
+  {% if sent %}
+    <h2>Sent!</h2>
+  {% else %}
+    <h2>Almost done! One More Step!</h2>
+    <div class="section note">
+      <p>
+      We already have another user account with the email <b>{{ target }}</b>. Maybe 
+      you already took an action with that email?
+      </p>
+      <p>
+      If you'd like to consolidate your two accounts, we'll send an email to 
+      <b>{{ target }}</b> to confirm it's your email. Once you click the link in the 
+      email, we'll change your email address from <b>{{ actionkit_user.email }}</b>
+      to <b>{{ target }}</b>.
+      </p>
+      <form name="merge" method="POST">
+      <input type="hidden" name="target" value="{{ target }}" />
+      <input type="submit" name="submit" class="submit" value="Okay, send me the email!" />
+      </form>
+    </div>
+  {% endif %}
 {% endif %}
+</div>
+</section>
+<style>
+  .ak-pagetype-user_merge .note {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    left: -2px;
+    margin: 25px 0;
+    padding: 20px;
+    position: relative;
+  }
+</style>
+
 {% endblock %}

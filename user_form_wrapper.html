@@ -184,9 +184,11 @@
           smsOptInLanguage = '{{ page.custom_fields.form_label_text_sms_optin }}'
         }
         jQuery('#id_mobile_phone_box').after(jQuery('<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom  ak-err-below"><span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice"><input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
-        if ('{{ page.custom_fields.form_bigger_radio_buttons }}') {
-          jQuery('#id_user_mobile_subscriber_box').addClass('large-checkboxes');
-        }
+        {% if page.custom_fields.form_bigger_radio_buttons == "Y" %}
+					jQuery('#id_user_mobile_subscriber_box').addClass('large-checkboxes');
+					jQuery('#id_user_mobile_subscriber_box .ak-userfield-checkbox-choice .checkmark').remove()
+					jQuery('#id_user_mobile_subscriber_box .ak-userfield-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
+				{% endif %}
 
         jQuery('#id_user_mobile_subscriber_true').on('change', function(){
           // if subscriber opt in checkbox is checked, and country is US, include mobile subscriber number in submission
@@ -318,7 +320,7 @@
 
 	.ak-privacy.large-radios .input-radio-group input[type="radio"] + label,
 	.input-radio.ak-input-type-action.large-radios .ak-userfield-radio-set label,
-	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label
+	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label,
   .input-checkbox.ak-input-type-custom.large-checkboxes .ak-userfield-checkbox-set label {
 	  padding-left: 35px;
 		margin-left: 0;

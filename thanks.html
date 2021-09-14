@@ -101,7 +101,7 @@
 		<input type="hidden" name="page" value="{{ page.name }}" />
 		{% include "./progress_meter.html" %}
 		</form>
-		<div id="thanks-message" class="bg-dkgray-trans text-large3 c10 ct10 cm10 box box-huge margin-bottom-large">
+		<div id="thanks-message" class="bg-dkgray-trans c10 ct10 cm10 box box-huge margin-bottom-large">
 		{% include_tmpl form.thank_you_text %}
 		
 		{% if page.custom_fields.thank_you_page_show_upsell == 'Y' and not action.orderrecurring and not user.orderrecurring_set.active %}
@@ -353,6 +353,13 @@
 </div>
 {% endif %}
 
+{% if page.custom_fields.thanks_alternate_thank_you_page_styling == 'Y' %}
+<script>
+	$(function(){
+		$('#thanks').addClass('thanks-alt');
+	});
+</script>
+{% endif %}
 
 {% endautoescape %}
 

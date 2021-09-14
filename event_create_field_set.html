@@ -53,3 +53,11 @@
       </fieldset>
     </div>
   </div>
+
+	{% if page.custom_fields.event_alternate_venue_label %}
+		<script>
+			$(function(){
+				$('label[for="id_event_venue"]').html('{{ page.custom_fields.event_alternate_venue_label }}');
+			});
+		</script>
+	{% endif %}

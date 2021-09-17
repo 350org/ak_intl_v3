@@ -108,11 +108,26 @@
 
 		$('#id_country').on('change', countryChanged);
 		countryChanged();
-
 		showAndHideFields(undefined, '#id_prefix');
 		showAndHideFields(undefined, '#id_suffix');
 		showAndHideFields(undefined, '#id_plus4');
-		
+
+		/* only show languages in priority list */
+		(function () {
+			const priorityLangValues = ['1', '24', '34', '8', '3', '6', '14', '2', '23', '7', '35'];
+			const initialSelectedLang = $('#id_lang').val();
+			$('#id_lang > option').each(function(i, lang){
+			if (priorityLangValues.indexOf(lang.value) === -1 && lang.value !== initialSelectedLang)
+				$(this).remove();
+			});
+		})();
+
+		/* move lang field to below last name */
+		$('#id_last_name').closest($('.ak-labels-before')).after($('#id_lang').closest($('.ak-labels-before')));
+
+		/* add spacing after the "Country field */
+		$('#id_country').closest($('.ak-labels-before')).after($('<br>'));
+
 	});
 </script>
 {% endblock content %}

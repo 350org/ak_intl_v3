@@ -353,7 +353,7 @@
 </div>
 {% endif %}
 
-{% if page.custom_fields.thanks_alternate_thank_you_page_styling == 'Y' %}
+{% if page.custom_fields.thanks_alternate_thank_you_page_styling|default:'Y' == 'Y' %}
 <script>
 	$(function(){
 		$('#thanks').addClass('thanks-alt');

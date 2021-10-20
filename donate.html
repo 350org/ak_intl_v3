@@ -125,37 +125,7 @@
                       </thead>
                       <tbody>
                         {% for product in products %}
-                        <tr>
-                          <td class="ak-product-details">
-                            <div class="ak-product-name">{{ product.name }}</div>
-                            {% if product.desc %}
-                            <div class="ak-product-description">{{ product.desc }}</div>
-                            {% endif %}
-                          </td>
-                          <td class="ak-product-amount">
-                            <span id="product_{{ product.id }}_price" data-price="{{ product.price }}">
-                              {% if product.price == 0 %}
-                              FREE!
-                              {% else %}
-                              <span class="ak-currency-sym">{{ page.currency_sym }}</span>{{ product.price|commify }}
-                              {% endif %}
-                            </span>
-                          </td>
-                          <td class="ak-product-quantity">
-                            {% if product.max == 1 %}
-                            <input type="checkbox" value="1" name="product_{{ product.id }}"
-                              id="product_{{ product.id }}" class="ak_product_inputs">
-                            {% else %}
-                            <input type="number" min="0" max="{{ product.max }}"
-                              onvalidate="return validate_product_count(this)" name="product_{{ product.id }}"
-                              id="product_{{ product.id }}" size="2" class="ak_product_inputs">
-                            {% endif %}
-                          </td>
-                          <td class="ak-product-subtotal">
-                            <span class="ak-currency-sym">{{ page.currency_sym }}</span><span
-                              class="ak_product_subtotal_{{ product.id }}"></span>
-                          </td>
-                        </tr>
+                          {% include "./product.html" %}
                         {% endfor %}
                       </tbody>
                     </table>
@@ -182,27 +152,7 @@
                       </thead>
                       <tbody>
                         {% for candidate in candidates %}
-                        <tr>
-                          <td class="ak-candidate-details">
-                            {% if candidate.portrait_url %}
-                            {% autoescape off %}
-                            <img class="ak-candidate-portrait" alt="{{ candidate.name }}"
-                              src="{{ candidate.portrait_url }}">
-                            {% endautoescape %}
-                            {% endif %}
-                          </td>
-                          <td class="ak-candidate-name">
-                            <div>{{ candidate.name }}</div>
-                            {% autoescape off %}
-                            <p>{{ candidate.desc }}</p>
-                            {% endautoescape %}
-                          </td>
-                          <td class="ak-candidate-amount ak-align-right">
-                            <span class="ak-currency-sym">{{ page.currency_sym }}</span><input type="text"
-                              name="candidate_{{ candidate.id }}" id="candidate_{{ candidate.id }}" size="2"
-                              class="ak_candidate_inputs">
-                          </td>
-                        </tr>
+                          {% include "./candidate.html" %}
                         {% endfor %}
                       </tbody>
                     </table>
@@ -320,84 +270,10 @@
                   <input type="hidden" name="donation_type" value="single">
                   {% elif page.custom_fields.donation_once_recurring_or_both|lower == "both-recurring" %}
                   <!-- Toggle button, donate monthly default -->
-                  <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
-                    <div class="input-checkbox text-strong margin-bottom-none">
-                      <input type="hidden" name="donation_type" id="donation_type" value="recurring">
-                      <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle"
-                        data-donation-type="both-recurring" value="">
-                      <span class="toggle-donation-type">
-                        <span class="toggle-option-1 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate
-                          monthly{% endfilter %}</span>
-                        <span class="toggle-option-2 toggle-once">{% filter ak_text:"donate_once" %}Donate
-                          once{% endfilter %}</span>
-                      </span>
-                    </div>
-                    <div id="donation-toggle-bubble" class="default-monthly">
-                      <svg id="monthly-heart" class="monthly-chosen" width="50" height="50">
-                        <image href="https://dbqvwi2zcv14h.cloudfront.net/ak-dev/monthly-heart.svg" width="50"
-                          height="50"></image>
-                      </svg>
-                      <div id="bubble-text">
-                        <div class="once-chosen hidden">
-                          {% if page.custom_fields.donate_monthly_upsell_bubble %}
-                          {% autoescape off %}
-                          {{ page.custom_fields.donate_monthly_upsell_bubble }}
-                          {% endautoescape %}
-                          {% else %}
-                          {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining
-                          donations help us plan and focus on the
-                          future.{% endfilter %}
-                          {% endif %}
-                        </div>
-                        <div class='monthly-chosen'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank you for
-                            choosing a
-                            monthly donation!</strong><br>
-                          Giving monthly helps us plan for big, bold actions to fight back against the fossil fuel
-                          industry at key
-                          moments
-                          around the world. Thank you.{% endfilter %}</div>
-                      </div>
-                    </div>
-                  </div>
+                    {% include "./recurring_donation.html" %}
                   {% else %}
                   <!-- Toggle button, donate once default -->
-                  <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
-                    <div class="input-checkbox text-strong margin-bottom-none">
-                      <input type="hidden" name="donation_type" id="donation_type" value="single">
-                      <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle"
-                        data-donation-type="both" value="">
-                      <span class="toggle-donation-type">
-                        <span class="toggle-option-1 toggle-once">{% filter ak_text:"donate_once" %}Donate
-                          once{% endfilter %}</span>
-                        <span class="toggle-option-2 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate
-                          monthly{% endfilter %}</span>
-                      </span>
-                    </div>
-                    <div id="donation-toggle-bubble" class="default-once">
-                      <svg id="monthly-heart" class="monthly-chosen hidden" width="50" height="50">
-                        <image href="https://dbqvwi2zcv14h.cloudfront.net/ak-dev/monthly-heart.svg" width="50"
-                          height="50"></image>
-                      </svg>
-                      <div id="bubble-text">
-                        <div class="once-chosen">
-                          {% if page.custom_fields.donate_monthly_upsell_bubble %}
-                          {% autoescape off %}
-                          {{ page.custom_fields.donate_monthly_upsell_bubble }}
-                          {% endautoescape %}
-                          {% else %}
-                          {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining
-                          donations help us plan and focus on the
-                          future.{% endfilter %}
-                          {% endif %}
-                        </div>
-                        <div class='monthly-chosen hidden'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank
-                            you for choosing a monthly donation!</strong><br>
-                          Giving monthly helps us plan for big, bold actions to fight back against the fossil fuel
-                          industry at key moments
-                          around the world. Thank you.{% endfilter %}</div>
-                      </div>
-                    </div>
-                  </div>
+                    {% include "./one_time_donation.html" %}
                   {% endif %}
                   {% else %}
                   <div id="ak-recurring-type"></div>
@@ -406,46 +282,7 @@
                   {% endif %}
 
                   {% if page.custom_fields.donation_show_inhonorof|lower == "show" %}
-                  <fieldset id="in-honor-of" class="ak-donate-area-step-1 form-style-labelabove">
-                    <div class="input checkbox input-checkbox margin-top-small margin-bottom-none text-strong">
-                      <input type="checkbox" value="1" name="inhonorcheck" id="in-honor-check" />
-                      <label for="in-honor-check">{% filter ak_text:"donate_inhonorof_option_label" %}Donate in
-                        someone's honor.{% endfilter %}</label>
-                    </div>
-                    <div id="in-honor-of-fields" class="margin-bottom-normal">
-                      <div class="input text input-text ak-">
-                        <label for="action_in_honor_of_name">{% filter ak_text:"donate_inhonorof_name_label" %}Honoree's
-                          Name{% endfilter %}</label>
-                        <input type="text" id="action_in_honor_of_name" name="action_in_honor_of_name" />
-                      </div>
-                      <div class="input input-text"
-                        title="The email address to send a notification of the donation to.">
-                        <label
-                          for="action_in_honor_of_email">{% filter ak_text:"donate_inhonorof_email_label" %}Honoree's
-                          Email Address{% endfilter %}</label>
-                        <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
-                      </div>
-                      <div class="input input-textarea" title="An optional note to the honoree.">
-                        <label for="action_in_honor_of_note"
-                          title="An optional note to the honoree.">{% filter ak_text:"donate_inhonorof_note_label" %}Note
-                          to Honoree{% endfilter %}</label>
-                        <textarea id="action_in_honor_of_note" name="action_in_honor_of_note"
-                          title="An optional note to the honoree."></textarea>
-                      </div>
-                      <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll
-                        send a notification of your donation to this email address.{% endfilter %}</p>
-                    </div>
-                    <script>
-                      jQuery("#in-honor-of-fields").hide();
-                      jQuery("#in-honor-check").change(function () {
-                        if ($(this).is(':checked')) {
-                          jQuery("#in-honor-of-fields").fadeIn();
-                        } else {
-                          jQuery("#in-honor-of-fields").fadeOut();
-                        }
-                      });
-                    </script>
-                  </fieldset>
+                    {% include "./in_honor_donation.html" %}
                   {% endif %}
 
 
@@ -536,59 +373,7 @@
 
                     {% if has_shippable_products %}
                     <div id="ak-shipping-address">
-                      <h4>Shipping Address</h4>
-                      {% with "shipping_" as input_name_prefix %}
-                      <div class="ak-margin-1 input-checkbox">
-                        <label for="ak-shipping-same" class="ak-small">
-                          <input id="ak-shipping-same" type="checkbox" name="shipping_same" value="1" checked>
-                          Ship to billing address
-                        </label>
-                      </div>
-                      <div id="ak-shipping-fields" class="ak-errs-below" style="display: none">
-                        <div class="input-text">
-                          <label for="id_shipping_address1">Shipping address line 1</label>
-                          <input id="id_shipping_address1" class="ak-input-type-action" type="text"
-                            name="shipping_address1">
-                        </div>
-                        <div class="input-text">
-                          <label for="id_shipping_address2">Shipping address line 2 (optional)</label>
-                          <input id="id_shipping_address2" class="ak-input-type-action" type="text"
-                            name="shipping_address2">
-                        </div>
-                        <div class="input-text">
-                          <label for="id_shipping_city">Shipping city</label>
-                          <input id="id_shipping_city" class="ak-input-type-action" type="text" name="shipping_city">
-                        </div>
-                        <div class="ak-us-shipping-fields">
-                          <div class="input-select">
-                            <label for="id_shipping_state">Shipping state</label>
-                            {% include "./state_select.html" %}
-                          </div>
-                          <div class="input-text">
-                            <label for="id_shipping_zip">Shipping ZIP</label>
-                            <input id="id_shipping_zip" class="ak-input-type-action" type="text" name="shipping_zip"
-                              maxlength="5" size="5">
-                          </div>
-                        </div>
-                        {% if page.allow_international %}
-                        <div class="ak-intl-shipping-fields">
-                          <div class="input-text ak-input-type-action">
-                            <label for="id_shipping_region">Shipping region</label>
-                            <input id="id_shipping_region" class="ak-input-type-action" type="text"
-                              name="shipping_region" size="20">
-                          </div>
-                          <div class="input-text ak-input-type-action">
-                            <label for="id_shipping_postal">Shipping postal Code</label>
-                            <input id="id_shipping_postal" type="text" name="shipping_postal" size="10">
-                          </div>
-                        </div>
-                        <div class="input-select input-country">
-                          <label for="id_shipping_country">Shipping country</label>
-                          {% include "./country_select.html" %}
-                        </div>
-                        {% endif %}
-                      </div>
-                      {% endwith %}
+                      {% include "./shipping_address.html" %}
                     </div> <!-- shipping address -->
                     {% endif %}
                   </div> <!-- donation contact -->
@@ -647,59 +432,7 @@
                     {% comment %} Show the Credit Card Fields only when the custom field for donation_only_paypal is
                     {% endcomment %}
                     {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
-                    <fieldset class="input-group cc-fields">
-                      <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user cc-fields">
-                        <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card
-                          #{% endfilter %}</label>
-                        <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-                        <div id="ak-card_num-hosted" class="hosted-field"></div>
-                        <input id="ak-card_num" type="text" name="card_num">
-                      </div>
-                      <div class="inline_fields">
-                        <div id="ak-fieldbox-exp_date"
-                          class="input-select input-cc-expiration ak-input-type-user cc-fields ak-err-below">
-                          <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-                          <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration
-                            Date{% endfilter %}</label>
-                          <div id="ak-exp_date-hosted" class="hosted-field"></div>
-                          <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin"
-                            type="text" name="exp_date_month">
-                            <option value="">MM</option>
-                            <option value="01">01</option>
-                            <option value="02">02</option>
-                            <option value="03">03</option>
-                            <option value="04">04</option>
-                            <option value="05">05</option>
-                            <option value="06">06</option>
-                            <option value="07">07</option>
-                            <option value="08">08</option>
-                            <option value="09">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                          </select>
-                          <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-                          <select id="ak-exp_date_year" type="text"
-                            class="input-cc-expiration-year c6 ct6 cm6 no-margin cc-fields" name="exp_date_year">
-                            <option value="">YYYY</option>
-                            {% for year in exp_years %}
-                            <option value="{{ year.two }}">{{ year.four }}</option>
-                            {% endfor %}
-                          </select>
-                          <div class="clear"></div>
-                        </div>
-
-                        <div id="ak-fieldbox-card_code"
-                          class="input-text input-cvv ak-input-type-user cc-fields c5 ct5 margin-top-none">
-                          <input type="hidden" name="required" value="card_code" id="ak-card_code-required">
-                          <label for="ak-card_code"
-                            title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>
-                          <div id="ak-card_code-hosted" class="hosted-field"></div>
-                          <input id="ak-card_code" type="text" name="card_code" size="4">
-                          <div class="clear"></div>
-                        </div>
-                      </div>
-                    </fieldset>
+                      {% include "./credit_card.html" %}
                     {% endif %}
 
 
@@ -788,79 +521,7 @@
 
 <div id="donation-other"
   class="section padding-medium width-normal bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}">
-  <div class="section-inner">
-    {% if templateset.custom_fields.donate_footer_text %}
-    {% autoescape off %}
-    {{ templateset.custom_fields.donate_footer_text }}
-    {% endautoescape %}
-    {% elif page.custom_fields.donate_footer_text %}
-    {% autoescape off %}
-    {{ page.custom_fields.donate_footer_text }}
-    {% endautoescape %}
-    {% else %}
-    {% if page.custom_fields.page_is_c4 %}
-    <p class="strong">Contributions or gifts to 350 Action are not deductible as charitable contributions for Federal
-      income tax purposes.</p>
-    <hr>
-    {% endif %}
-    <p><img style="float:right;margin:0 0 1em 1em;"
-        src="https://s3.amazonaws.com/s3.350.org/images/RapidSSL_SEAL-90x50.gif" height="40" width="70"
-        alt="This site is secured by RapidSSL" />
-      {% filter ak_text:"donate_security" %}
-      <strong class="text-small-caps">Security:</strong> This page uses <a
-        href="https://en.wikipedia.org/wiki/HTTP_Secure" target="_blank">Secure HTTP</a> and <a
-        href="https://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank">SSL</a> technologies to make sure
-      your information is 100% secure.
-      {% endfilter %}
-    </p>
-    {% if page.custom_fields.page_is_c4 %}
-    <p><strong class="text-small-caps">Contact Us:</strong>Questions? Problems? Please contact us at <a
-        href="mailto:donations@350.org?subject=Question%20about%20donation%20to%20350.org">donations@350action.org</a>.
-    </p>
-    <p><strong class="text-small-caps">Update Your Account: </strong>To update your account with a new credit card, new
-      expiration date, or new amount please visit <a href="https://350action.org/update">350action.org/update</a></p>
-    {% else %}
-    <div class="margin-bottom-normal">
-      {% if page.payment_processor_information.currency == 'AUD' %}
-      <p><strong class="text-small-caps">Donate by Cheque</strong>: Make your cheque payable to <em>350.org</em> and
-        mail it to <em>350.org Limited, Suite 8 / 50 Reservoir Street, Surry Hills, NSW 2010, Australia.</em>.</p>
-      <p><strong class="text-small-caps">Contact Us:</strong> Questions? Problems? Please contact us at <a
-          href="mailto:donations@350.org.au?subject=Question%20about%20donation%20to%20350.org%20Australia">donations@350.org.au</a>.
-      </p>
-      <p><strong class="text-small-caps">Update Your Account: </strong>To update your account with a new credit card,
-        new expiration date, or new amount please visit <a href="https://350.org/update">350.org/update</a></p>
-      <p>350.org Limited is a registered Australian charity but donations are NOT tax-deductible in Australia. ABN: 46
-        138 155 192. Some donations for joint work with our partner organisation Climate Action Network Australia (CANA)
-        can be made tax deductible. For information about that, please contact <a
-          href="mailto:donations@350.org.au">donations@350.org.au</a>.</p>
-      {% else %}
-      {% filter ak_text:"donate_footer_text_block" %}
-      <p><strong class="text-small-caps">Donate by Check:</strong> <a href="https://350.org/">350.org,</a> PO Box
-        843004, Boston, MA 02284-3004.</p>
-      <p><strong class="text-small-caps">Other Ways To Give:</strong> <a
-          href="https://350.org/other-ways-to-give/">Click here</a> to see additional options, including transferring
-        stock.</p>
-      <p><strong class="text-small-caps">Contact Us:</strong> Questions? Problems? Please contact us at <a
-          href="mailto:donations@350.org?subject=Question%20about%20donation%20to%20350.org">donations@350.org</a>.</p>
-      <p><strong class="text-small-caps">Update Your Account:</strong> To update your account with a new credit card,
-        new expiration date, or new amount please visit <a href="https://350.org/update">350.org/update</a></p>
-
-      <div style="float:left;margin:0 1em 1em 0;"><img
-          src="https://s3.amazonaws.com/s3.350.org/ak/charity_navigator_with_stars.png"
-          style="float: left; height: 40px; margin-right: 10px;"> <img alt="1% For The Planet"
-          src="https://dbqvwi2zcv14h.cloudfront.net/images/350-ak-1pftp-donate-footer.png"
-          style="float: left; height: 40px; background: #fff; padding: 2px;"></div>
-
-      <p>350.org is a registered 501c3 non-profit organization and all contributions are tax-deductible in the United
-        States. 350.org's EIN/Tax ID is 26-1150699. <a
-          href="https://350.org/additional-financial-and-regulatory-information/">Additional financial information for
-          US donors</a>.</p>
-      {% endfilter %}
-      {% endif %}
-    </div>
-    {% endif %}
-    {% endif %}
-  </div>
+  {% include "./donation_disclaimers.html" %}
 </div>
 
 {% endblock %}

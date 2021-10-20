@@ -1,0 +1,125 @@
+.payments-titles {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 1em;
+  }
+
+  .payments-title {
+    border-bottom: 3px solid;
+    border-bottom-color: #798890;
+    width: 100%;
+    margin-right: 2px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .payments-title-active {
+    border-bottom-color: #0f81e8;
+  }
+
+  .card-title span {
+    margin-right: 0.3em;
+    font-weight: bold;
+    color: #798890;
+    font-size: small;
+  }
+
+  #ak-continue-button,
+  .ak-submit-button {
+    width: 100%;
+  }
+
+  .paypal-only {
+    border-bottom: none;
+    cursor: auto;
+  }
+
+  .button:focus {
+    outline: none;
+  }
+
+  .payment-title-button {
+    border: 2px solid #798890;
+    border-radius: 6px;
+    margin-right: 12px;
+    margin: 0 6px;
+    padding: 3px 0;
+  }
+
+  .payment-title-button:hover {
+    border-color: #0f81e8;
+  }
+
+  .payment-title-button:first-of-type {
+    margin-left: 0;
+  }
+
+  .payment-title-button:last-of-type {
+    margin-right: 0;
+  }
+
+  .payment-title-button.payments-title-active {
+    border-color: #0f81e8;
+    ;
+  }
+
+  /* IE Fixes */
+  .title-section-60,
+  .title-section {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column
+  }
+
+  /* IE fixes for footer */
+  iframe[width="1"][height="1"] {
+    width: 0;
+    height: 0;
+    display: block;
+  }
+
+  #site-footer {
+    top: 0;
+    position: relative;
+  }
+
+  #site-footer nav {
+    margin: 0;
+  }
+
+  .ak-multi-currency select::-ms-expand {
+    display: none;
+  }
+
+  /* inline fields for expiry and cvv */
+
+  .inline_fields {
+    display: flex;
+  }
+
+  .inline_fields>div:first-of-type {
+    border-top: 1px solid rgba(21, 36, 43, 0.3) !important;
+    width: 50% !important;
+  }
+
+  .inline_fields>div:last-of-type {
+    width: 50% !important;
+    margin: 0 !important;
+  }
+
+  /* style for when the payment type above amounts custom field is set to Y */
+  .paymenttype-above {
+    margin-top: -0.8em;
+    margin-bottom: 1.4em;
+  }
+
+  /* make sure the select fills the page width on mobile */
+  #ak-currency-switcher {
+    max-width: initial;
+  }

@@ -86,6 +86,8 @@
                 </div>
                 {% endif %}
                 {% endautoescape %}
+
+                <!-- Render progress meter -->
                 {% include "./progress_meter.html" %}
                 <!--Add .ak-donate-three-step for three-step-->
                 <div
@@ -139,7 +141,7 @@
                     {% endif %}
                   </div>
                   <!--product-list-->
-
+                  <!-- If has_candidates is true, renders option to donate to included candidates -->
                   <div id="ak-candidate-list" class="ak-donate-area-step-1 ak-errs-below">
                     {% if has_candidates %}
                     <table>
@@ -159,6 +161,7 @@
                     {% endif %}
                   </div>
 
+                  <!-- If has_products is true, renders option to buy included products -->
                   {% if has_products %}
                   <h4 class="ak-donate-area-step-1">Donation (Optional)</h4>
                   {% endif %}
@@ -249,6 +252,7 @@
                   </div>
 
                   <div id="ak-donation-total-div"></div>
+                  <!-- Displays updated donation total based on selection of products/candidate donation amounts -->
                   <script type="text/ak-template" for="ak-donation-total-div">
           [% if (has_products || has_candidates) { %]
             <p class="ak-donation-total ak-donate-area-step-1">
@@ -281,6 +285,7 @@
                   {% endif %}
                   {% endif %}
 
+                  <!-- If enabled, render option to donate in honor of someone else  -->
                   {% if page.custom_fields.donation_show_inhonorof|lower == "show" %}
                     {% include "./in_honor_donation.html" %}
                   {% endif %}
@@ -288,6 +293,7 @@
 
                   <div id="ak-donation-contact" class="ak-donate-area-step-2 form-style-labelabove">
                     <div style="display: none">
+                      <!-- Displayed when ActionKit remembers a user  -->
                       <div id="known_user">
                         Not <span id="known_user_name"></span>? <a href="?"
                           onclick="return actionkit.forms.logOut()">Click here.</a>
@@ -351,6 +357,7 @@
                     </div>
                     {% include "./privacy.html" %}
 
+                    <!-- Render occupation and employer fields, if required -->
                     {% if templateset.custom_fields.ask_occupation_and_employer %}
                     <p class="ak-label-above text-small" id="ak-occ-emp-why">
                       Federal law requires us to use our best efforts to collect and report the name, mailing address,
@@ -371,6 +378,7 @@
                     </div>
                     {% endif %}
 
+                    <!-- Render shipping address inputs if products need to be shipped -->
                     {% if has_shippable_products %}
                     <div id="ak-shipping-address">
                       {% include "./shipping_address.html" %}
@@ -382,7 +390,7 @@
                     <!-- <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5> -->
                     <div class="payments-container">
                       <div class="payments-titles">
-
+                        <!-- Render non Paypal payment icons -->
                         {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
 
                         <div
@@ -403,6 +411,7 @@
                           </svg>
                         </div>
                         {% endif %}
+                        <!-- Render Paypal payment icon -->
                         {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'  %}
                         <div class="payments-title payments-title-active paypal-title paypal-only">
                           <svg width="75" height="40">
@@ -444,7 +453,7 @@
                     {% endif %}
                     {% endautoescape %}
 
-
+                    <!-- Render pre submit text -->
                     {% if templateset.custom_fields.pre_submit_text %}
                     <div class="pre-submit-text">
                       {% autoescape off %}
@@ -452,6 +461,7 @@
                       {% endautoescape %}
                     </div>
                     {% endif %}
+                    <!-- Render "Pay by Paypal" option -->
                     {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'%}
                     <div class="ak-payment-options text-center ak-donate-area-step-3 paypal-fields">
                       <input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
@@ -461,6 +471,7 @@
                         </button></p>
                     </div>
 
+                    <!-- Render post submission text -->
                     {% if page.custom_fields.post_submit_text %}
                     <div class="post-submit-text">
                       {% autoescape off %}
@@ -521,6 +532,7 @@
 
 <div id="donation-other"
   class="section padding-medium width-normal bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}">
+  <!-- Render all donation disclaimers -->
   {% include "./donation_disclaimers.html" %}
 </div>
 

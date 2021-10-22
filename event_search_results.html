@@ -10,7 +10,11 @@ event titles, venues, etc., and different choices produce different HTML.
 <input type="hidden" id="id_have_events" name="have_events" value="1">
 	{% if not events|length %}
 <div id="no-events-found">
-	<h4>{% filter ak_text:"event_search_no_events_found" %}Sorry, we didn't find any events near the location you entered. You can try searching again by using a larger nearby city, or by navigating to a nearby event using the map below.{% endfilter %}</h4>
+	{% if page.custom_fields.events_search_no_results_custom_text %}
+		{% autoescape off %} {{ page.custom_fields.events_search_no_results_custom_text }} {% endautoescape %}
+	{% else %}
+		<h4>{% filter ak_text:"event_search_no_events_found" %}Sorry, we didn't find any events near the location you entered. You can try searching again by using a larger nearby city, or by navigating to a nearby event using the map below.{% endfilter %}</h4>
+	{% endif %}
 		{% autoescape off %}
 			{% if page.custom_fields.no_events_found_msg %}
 	<div class="notice">{{page.custom_fields.no_events_found_msg }}</div>
@@ -25,14 +29,14 @@ event titles, venues, etc., and different choices produce different HTML.
 </div -->
 		{% endif %}
 <ul id="event_search_results_event_list" class="events nobullet">
-		{% comment %}
+		
 			{% if args.zip %}
 	<h4 class="meta opacity-50 margin-bottom-medium">{% filter ak_text:"event_search_results_zip" %}Events found near:{% endfilter %} {{args.zip}}:</h5>
 			{% else %}
 	<h4 class="meta opacity-50 margin-bottom-medium">{% filter ak_text:"event_search_results_heading" %}Events:{% endfilter %}</h5>
-			{% endif
-		{% endcomment %}
-		{% comment %}
+			{% endif %}
+		
+		
 		{% for event in events %}
 	<li data-event_id="{{ event.id }}" class="event margin-bottom-large">
 		<a class="area-link event-link" href="/event/{{ campaign.local_name }}/{{event.id}}/signup/?akid={{args.akid}}&zip={{args.zip}}">
@@ -94,7 +98,7 @@ event titles, venues, etc., and different choices produce different HTML.
 		</a>
 	</li>
 		{% endfor %}
-		{% endcomment %}
+		
 </ul>
 	{% endif %}
 {% endif %}
@@ -108,6 +112,7 @@ event titles, venues, etc., and different choices produce different HTML.
 {% endif %}
 
 <!-- Gets the 'source' part of the URL query and tacks it on to the end of the href attribute of event links, so partner source info gets passed to individual event pages when a partner links to the general search page -->
+
 <script type="text/javascript">
 $.urlParam = function(name){
 	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -130,4 +135,5 @@ $(document).ready(function(){
 
 });
 </script>
+
 {% endfilter %}

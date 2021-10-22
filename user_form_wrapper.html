@@ -171,7 +171,7 @@
       // add mobile field if not already added, or show if already added
       if (!jQuery('#id_mobile_phone_box').length) {
         jQuery('#unknown_user').append(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
-        jQuery('#id_mobile_phone_box').on('keyup change', function(){
+        jQuery('#id_mobile_phone').on('keyup change', function(){
           ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
         });
       } else {
@@ -236,8 +236,8 @@
     }
 
     function excludeMobSubscriberInFormSubmission() {
-      // remove the name attr so we don't send the opt in field (if for example the user opts in but provides no number)
-      jQuery('#id_user_mobile_subscriber_true').attr('name', '');
+      // set user_mobile_subscriber_true name to action_mobile_subscriber_true so we don't record it as a true opt in, but instead as an acton field so we still have a record that the user opted in
+      jQuery('#id_user_mobile_subscriber_true').attr('name', 'action_mobile_subscriber_true');
       jQuery('#mobile_subscriber_number').attr('name', '');
       jQuery('#mobile_subscriber_number').val('');
     }
@@ -265,6 +265,12 @@
     var selectedCountry = jQuery('#country').val();
     ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
     ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
+
+    if (jQuery('#id_mobile_phone_box').length) {
+      jQuery('#id_mobile_phone').on('keyup change', function(){
+        ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
+      });
+    }
 
     jQuery('#country').on('change', function(){
       selectedCountry = jQuery(this).val();
@@ -389,6 +395,9 @@
 		font-weight: normal !important;
 		margin-left: 0;
   }
+	.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label {
+		font-weight: bold;
+	}
 
 	.large-checkboxes.input-checkbox {
 		padding-left: 0;
@@ -474,7 +483,8 @@
 			font-size: 14.96px;
 		}
 		.input-checkbox.survey-question.large-checkboxes .ak-survey-checkbox-set label,
-		.input-radio.survey-question.large-radios .ak-survey-radio-set label {
+		.input-radio.survey-question.large-radios .ak-survey-radio-set label,
+		.input-checkbox.ak-input-type-action.large-checkboxes .ak-userfield-checkbox-set label {
 			padding-left: 28px;
 		}
     .ak-privacy.large-radios #ak-fieldbox-privacy_notice,

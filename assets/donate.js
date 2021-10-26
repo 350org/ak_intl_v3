@@ -121,18 +121,14 @@ function clear_radio_buttons() {
       if ($('#id_donation_type_toggle').data('donation-type') === 'both-recurring') {
         if ($('#id_donation_type_toggle').prop('checked')) {
           $('#donation_type').val("single");
-          // console.log('One-time donation option set');
         } else {
           $('#donation_type').val("recurring");
-          // console.log('Monthly donation option set');
         }
       } else {
         if ($('#id_donation_type_toggle').prop('checked')) {
           $('#donation_type').val("recurring");
-          // console.log('Monthly donation option set');
         } else {
           $('#donation_type').val("single");
-          // console.log('One-time donation option set');
         }
       }
     })
@@ -142,9 +138,7 @@ function clear_radio_buttons() {
 
   function scroll_to_top_of_box() {
     //Gets top of three step box
-    console.log("Scroll to top of box is called")
     var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').offset().top;
-    console.log('top of three step box: ', top_of_three_step_box);
     $('html,body').animate({ scrollTop: top_of_three_step_box }, 'fast')
   }
 
@@ -223,7 +217,6 @@ function clear_radio_buttons() {
   }
 
   function three_step_goto(next) {
-    console.log('three_step_goto() fired');
     // trigger validation on the step we're leaving
     var current_step = $('input[name="ak-donate-step"]:checked').val();
 
@@ -240,7 +233,6 @@ function clear_radio_buttons() {
     }
 
     // can't skip over a step unless it's already been completed
-    console.log('three_step_goto: step_has_errors = ' + step_has_errors + ', current_step = ' + current_step + ', next = ' + next);
     if ((!step_has_errors) && (current_step == 1) && (next == 3)) {
       validate_step("2");
       if (step_has_errors) {
@@ -309,7 +301,6 @@ function clear_radio_buttons() {
 
 
   function three_step_initialize() {
-    console.log('three_step_initialize() fired');
     if ($('.ak-err').is(":visible")) {
       var has_errors = [];
       if ($('.ak-donate-area-step-1').find('.ak-err').length) {
@@ -335,7 +326,6 @@ function clear_radio_buttons() {
   }
 
   $(function () {
-    console.log("here????")
     // three-step vs. one-step UI
     if ($('form.ak-donate-three-step').length == 0) {
       $('.ak-donate-three-step-visible').hide();

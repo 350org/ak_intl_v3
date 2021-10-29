@@ -12,6 +12,7 @@
 
   .payments-title {
     border-bottom: 0.1875em solid;  /* 3px */
+    border-bottom-color: #798890;
     border-bottom-color: var(--gray);
     width: 100%;
     margin-right: 0.125em; /* 2px */
@@ -23,12 +24,14 @@
   }
 
   .payments-title-active {
+    border-bottom-color: #0f81e8;
     border-bottom-color: var(--light-blue);
   }
 
   .card-title span {
     margin-right: 0.3em;  /* 4.8px */
     font-weight: bold;
+    color: #798890;
     color: var(--gray);
     font-size: small;
   }
@@ -48,6 +51,7 @@
   }
 
   .payment-title-button {
+    border: 0.125em solid #798890;
     border: 0.125em solid var(--gray);  /* 2px border */
     border-radius: 0.375em; /* 6px */
     margin-right: 0.75em; /* 12px */
@@ -56,6 +60,7 @@
   }
 
   .payment-title-button:hover {
+    border-color: #0f81e8;
     border-color: var(--light-blue);
   }
 
@@ -68,6 +73,7 @@
   }
 
   .payment-title-button.payments-title-active {
+    border-color: #0f81e8;
     border-color: var(--light-blue);
     ;
   }

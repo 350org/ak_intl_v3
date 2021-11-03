@@ -970,7 +970,7 @@
         new expiration date, or new amount please visit <a href="https://350.org/update">350.org/update</a></p>
 
       <div style="float:left;margin:0 1em 1em 0;"><img
-          src="https://s3.amazonaws.com/s3.350.org/ak/charity_navigator_with_stars.png"
+          src="https://s3.amazonaws.com/s3.350.org/ak/charity_navigator_with_stars-min.png"
           style="float: left; height: 40px; margin-right: 10px;"> <img alt="1% For The Planet"
           src="https://dbqvwi2zcv14h.cloudfront.net/images/350-ak-1pftp-donate-footer.png"
           style="float: left; height: 40px; background: #fff; padding: 2px;"></div>
@@ -1111,7 +1111,7 @@
       }
     });
   });
-  
+
   /* Currency symbols */
 
   actionkit.utils.currencySymbols = {
@@ -2014,13 +2014,7 @@
   }
 
   .hosted-field.braintree-hosted-fields-invalid {
-    border-color: {
-        {
-        templateset.custom_fields.color_error
-      }
-    }
-
-    ;
+    border-color: '{{templateset.custom_fields.color_error}}';
     background: #fff0d4;
   }
 
@@ -2049,91 +2043,93 @@
 {% braintree_js_libs %}
 <script src="/resources/ak_braintree_vzero.js"></script>
 <script>
-  $(function () {
-    {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y' %}
-    var form = document.querySelector("#act"),
-      options = {
-        form: form,
-        fields: {
-          number: {
-            selector: '#ak-card_num-hosted'
+  $(document).ready(function() {
+    $(function () {
+      {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y' %}
+      var form = document.querySelector("#act"),
+        options = {
+          form: form,
+          fields: {
+            number: {
+              selector: '#ak-card_num-hosted'
+            },
+            cvv: {
+              selector: '#ak-card_code-hosted'
+            },
+            expirationDate: {
+              selector: '#ak-exp_date-hosted',
+              placeholder: 'MM / YYYY'
+            }
           },
-          cvv: {
-            selector: '#ak-card_code-hosted'
+          styles: {
+            'input': {
+              'font-family': '{{ templateset.custom_fields.font_family|default:"sans-serif"|safe }}',
+              'font-size': '1.1rem',
+              'font-weight': 'bold',
+              'color': '#17292e',
+              'padding': '0.6em'
+            },
+            'input.invalid': {
+              'color': '{{templateset.custom_fields.color_error }}',
+              'background-color': '#fff0d4'
+            },
+            'input.valid': {
+            }
           },
-          expirationDate: {
-            selector: '#ak-exp_date-hosted',
-            placeholder: 'MM / YYYY'
-          }
+          submitOnEmpty: function () {
+            return $('#ak-pay-by-paypal').val() == 1;
+          },
+          submit: form.querySelector(".ak-submit-button")
         },
-        styles: {
-          'input': {
-            'font-family': '{{ templateset.custom_fields.font_family|default:"sans-serif"|safe }}',
-            'font-size': '1.1rem',
-            'font-weight': 'bold',
-            'color': '#17292e',
-            'padding': '0.6em'
-          },
-          'input.invalid': {
-            'color': '{{templateset.custom_fields.color_error }}',
-            'background-color': '#fff0d4'
-          },
-          'input.valid': {
-          }
-        },
-        submitOnEmpty: function () {
-          return $('#ak-pay-by-paypal').val() == 1;
-        },
-        submit: form.querySelector(".ak-submit-button")
-      },
-      toRemove = ["#ak-card_num", "#ak-card_code", "#ak-exp_date_month",
-        "#ak-exp_date_year", "#ak-card_num-required",
-        "#ak-exp_date_month-required",
-        "#ak-exp_date_year-required", "#ak-card_code-required"];
-    toRemove.forEach(function (el) {
-      $(el).remove();
-    });
+        toRemove = ["#ak-card_num", "#ak-card_code", "#ak-exp_date_month",
+          "#ak-exp_date_year", "#ak-card_num-required",
+          "#ak-exp_date_month-required",
+          "#ak-exp_date_year-required", "#ak-card_code-required"];
+      toRemove.forEach(function (el) {
+        $(el).remove();
+      });
 
-    // Fix to stop donation errors gettin redirected from the error page
-    actionkit.utils.appendHiddenInput('referer_from_url', '1');
-    actionkit.donations.handleError = function (err) {
-      if (window.console) {
-        window.console.log(err);
-      }
-      if (!actionkit.errors) {
-        actionkit.errors = {};
-      }
-      switch (err.code) {
-        case 'HOSTED_FIELDS_FIELDS_EMPTY':
-          actionkit.errors['card_num:invalid'] = "Credit card fields are empty.";
-          break;
-        case 'HOSTED_FIELDS_FIELDS_INVALID':
-          err.details.invalidFieldKeys.forEach(function (key) {
-            var map = {
-              'number': 'card_num',
-              'cvv': 'card_code',
-              'expirationDate': 'card_exp'
-            };
-            actionkit.errors[map[key] + ':invalid'] = "This field is invalid.";;
-          });
-          break;
-        case 'HOSTED_FIELDS_FAILED_TOKENIZATION':
-          actionkit.errors['card_num:invalid'] = "Please check that your credit card is valid.";
-          break;
-        case 'HOSTED_FIELDS_TOKENIZATION_NETWORK_ERROR':
-          actionkit.errors['card_num:invalid'] = "Network error.";
-          break;
-        default:
-          actionkit.errors['card_num:invalid'] = "An error occurred: " + err.message;
-      }
-      actionkit.forms.onValidationErrors(actionkit.errors);
-    };
-    actionkit.donations.initClient('{{ pp.client_token }}', options);
-    // read by 3-step validation
-    actionkit.donations.skip_cc_validation = true;
-    actionkit.donations.vzero = true;
-    $(".hosted-field.braintree-hosted-fields-invalid").prev().css("background-color", "#fff0d4");
-    {% endif %}
+      // Fix to stop donation errors gettin redirected from the error page
+      actionkit.utils.appendHiddenInput('referer_from_url', '1');
+      actionkit.donations.handleError = function (err) {
+        if (window.console) {
+          window.console.log(err);
+        }
+        if (!actionkit.errors) {
+          actionkit.errors = {};
+        }
+        switch (err.code) {
+          case 'HOSTED_FIELDS_FIELDS_EMPTY':
+            actionkit.errors['card_num:invalid'] = "Credit card fields are empty.";
+            break;
+          case 'HOSTED_FIELDS_FIELDS_INVALID':
+            err.details.invalidFieldKeys.forEach(function (key) {
+              var map = {
+                'number': 'card_num',
+                'cvv': 'card_code',
+                'expirationDate': 'card_exp'
+              };
+              actionkit.errors[map[key] + ':invalid'] = "This field is invalid.";;
+            });
+            break;
+          case 'HOSTED_FIELDS_FAILED_TOKENIZATION':
+            actionkit.errors['card_num:invalid'] = "Please check that your credit card is valid.";
+            break;
+          case 'HOSTED_FIELDS_TOKENIZATION_NETWORK_ERROR':
+            actionkit.errors['card_num:invalid'] = "Network error.";
+            break;
+          default:
+            actionkit.errors['card_num:invalid'] = "An error occurred: " + err.message;
+        }
+        actionkit.forms.onValidationErrors(actionkit.errors);
+      };
+      actionkit.donations.initClient('{{ pp.client_token }}', options);
+      // read by 3-step validation
+      actionkit.donations.skip_cc_validation = true;
+      actionkit.donations.vzero = true;
+      $(".hosted-field.braintree-hosted-fields-invalid").prev().css("background-color", "#fff0d4");
+      {% endif %}
+    });
   });
 </script>
 {% endif %}

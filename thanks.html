@@ -218,7 +218,7 @@
 			<input type="hidden" name="utf8" value="&#x2714;" />
 			<input type="hidden" name="page" value="{{ page.name }}" />
 				<ul id="ak-errors" class="c10 ct10 cm10" style="display:none;"><li></li></ul>
-{%ifequal page.custom_fields.hide_share_buttons_on_thanks_page "Y" %}
+				{% if page.custom_fields.thanks_alternate_thank_you_page_styling|default:'Y' == 'Y' %}
 {% else %}
 				<div class="margin-bottom-medium c6 ct10 cm10">
 					<div class="share-facebook">

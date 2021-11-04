@@ -11,11 +11,11 @@
   }
 
   .payments-title {
-    border-bottom: 0.1875em solid;  /* 3px */
+    border-bottom: 0.1875rem solid;  /* 3px */
     border-bottom-color: #798890;
     border-bottom-color: var(--gray);
     width: 100%;
-    margin-right: 0.125em; /* 2px */
+    margin-right: 0.125rem; /* 2px */
     text-align: center;
     cursor: pointer;
     display: flex;
@@ -51,12 +51,12 @@
   }
 
   .payment-title-button {
-    border: 0.125em solid #798890;
-    border: 0.125em solid var(--gray);  /* 2px border */
-    border-radius: 0.375em; /* 6px */
-    margin-right: 0.75em; /* 12px */
-    margin: 0 0.375em; /* margin: 0 6px */
-    padding: 0.1875em 0; /* padding: 3px 0 */
+    border: 0.125rem solid #798890;
+    border: 0.125rem solid var(--gray);  /* 2px border */
+    border-radius: 0.375rem; /* 6px */
+    margin-right: 0.75rem; /* 12px */
+    margin: 0 0.375rem; /* margin: 0 6px */
+    padding: 0.1875rem 0; /* padding: 3px 0 */
   }
 
   .payment-title-button:hover {
@@ -115,7 +115,7 @@
   }
 
   .inline_fields>div:first-of-type {
-    border-top: 0.0625em solid rgba(21, 36, 43, 0.3) !important; /* 1px border */
+    border-top: 0.0625rem solid rgba(21, 36, 43, 0.3) !important; /* 1px border */
     width: 50% !important;
   }
 

@@ -1,15 +1,21 @@
+:root {
+  --gray: #798890;
+  --light-blue: #0f81e8;
+}
+
 .payments-titles {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-bottom: 1em;
+    margin-bottom: 1em; /* 16px */
   }
 
   .payments-title {
-    border-bottom: 3px solid;
+    border-bottom: 0.1875rem solid;  /* 3px */
     border-bottom-color: #798890;
+    border-bottom-color: var(--gray);
     width: 100%;
-    margin-right: 2px;
+    margin-right: 0.125rem; /* 2px */
     text-align: center;
     cursor: pointer;
     display: flex;
@@ -19,12 +25,14 @@
 
   .payments-title-active {
     border-bottom-color: #0f81e8;
+    border-bottom-color: var(--light-blue);
   }
 
   .card-title span {
-    margin-right: 0.3em;
+    margin-right: 0.3em;  /* 4.8px */
     font-weight: bold;
     color: #798890;
+    color: var(--gray);
     font-size: small;
   }
 
@@ -43,15 +51,17 @@
   }
 
   .payment-title-button {
-    border: 2px solid #798890;
-    border-radius: 6px;
-    margin-right: 12px;
-    margin: 0 6px;
-    padding: 3px 0;
+    border: 0.125rem solid #798890;
+    border: 0.125rem solid var(--gray);  /* 2px border */
+    border-radius: 0.375rem; /* 6px */
+    margin-right: 0.75rem; /* 12px */
+    margin: 0 0.375rem; /* margin: 0 6px */
+    padding: 0.1875rem 0; /* padding: 3px 0 */
   }
 
   .payment-title-button:hover {
     border-color: #0f81e8;
+    border-color: var(--light-blue);
   }
 
   .payment-title-button:first-of-type {
@@ -64,6 +74,7 @@
 
   .payment-title-button.payments-title-active {
     border-color: #0f81e8;
+    border-color: var(--light-blue);
     ;
   }
 
@@ -104,7 +115,7 @@
   }
 
   .inline_fields>div:first-of-type {
-    border-top: 1px solid rgba(21, 36, 43, 0.3) !important;
+    border-top: 0.0625rem solid rgba(21, 36, 43, 0.3) !important; /* 1px border */
     width: 50% !important;
   }
 
@@ -115,8 +126,8 @@
 
   /* style for when the payment type above amounts custom field is set to Y */
   .paymenttype-above {
-    margin-top: -0.8em;
-    margin-bottom: 1.4em;
+    margin-top: -0.8em; /* 12.8px */
+    margin-bottom: 1.4em; /* 22.4px */
   }
 
   /* make sure the select fills the page width on mobile */

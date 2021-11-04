@@ -394,7 +394,7 @@
                         {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
 
                         <div
-                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %} payments-title-active card-title ">
+                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance.strip|lower == 'y' %}payment-title-button{% endif %} payments-title-active card-title ">
                           <svg width="150" height="40" class="payments-title-active cards-us">
                             <image href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="150" height="40" />
                           </svg>
@@ -404,7 +404,7 @@
                         </div>
 
                         <div
-                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %} paypal-title">
+                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance.strip|lower == 'y' %}payment-title-button{% endif %} paypal-title">
                           <svg width="75" height="40">
                             <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75"
                               height="40" />
@@ -540,7 +540,7 @@
 
 {% block script_additions %}
 
-{% if page.custom_fields.donate_payment_frequency_above_amounts == 'Y' %}
+{% if page.custom_fields.donate_payment_frequency_above_amounts.strip|lower == 'y' %}
 <script>
   $(function () {
     $('#ak-recurring-type').insertBefore('#ak-amount-list');
@@ -576,12 +576,10 @@
     $('.ak-amount-wrapper .input-radio-button').each(function () {
       var current_amount = parseInt($(this).text().replace(/\D/g, ''));
       if (arg_amount && (arg_amount == current_amount)) {
-        console.log('arg_amount == current_amount');
         clear_radio_buttons();
         $(this).trigger('click');
         arg_amount_selected = true;
       } else if (arg_amount && !arg_amount_selected) {
-        // console.log('arg_amount !== current_amount');
         if ($(this).hasClass('input-radio-button-other')) {
           clear_radio_buttons();
           $('#ak-other-amount-field').val(arg_amount).trigger('click');
@@ -711,7 +709,6 @@
       }
     }
 
-    // console.log('button amount', button_amount, 'custom amount', custom_amount, 'amount', amount);
     $('input[name="ak-donate-step"]:checked')
       .closest('label')
       .find('span.ak-amount-label')
@@ -722,7 +719,6 @@
 
   let step_has_errors = false;
   function three_step_advance() {
-    console.log('three_step_advance() fired');
 
     // trigger validation on the step we're leaving
     var current_step = $('input[name="ak-donate-step"]:checked').val();
@@ -780,14 +776,9 @@
     if (step == "2" && !step_has_errors) {
       step_has_errors = step_2_validation();
     }
-    console.log("Do we get here before step 3 validation.")
-    console.log("any errors before step 3 validation", step_has_errors)
-    console.log("We are currently at step -->", step)
-    console.log(actionkit.errors, "What are the errors?")
+
     if (step == "3" && !step_has_errors) {
-      console.log(step_has_errors, "In the validate step function before")
       step_has_errors = step_3_validation();
-      console.log(step_has_errors, "In the validate step function after")
     }
       // What do we do with this step_has_errors
   }
@@ -802,7 +793,6 @@
   }
 
   function step_3_validation() {
-    console.log('validating step 3');
     var step_has_errors = false;
 
     if (!valid_email($('#id_email').val())) {
@@ -812,15 +802,10 @@
       step_has_errors = true;
     }
 
-    console.log("====>Before check do valid credit card.")
     if (!do_validate_credit_card()) {
-      console.log("Gets to do validate_credit_card", step_has_errors);
       return step_has_errors; // Leaves this function?
     }
 
-    console.log("Checking credit card valididity...");
-    console.log(valid_credit_card($('#ak-card_num').val()), "<---")
-    console.log("Done Checking CC valid")
     if (!valid_credit_card($('#ak-card_num').val())) {
       if (!actionkit.errors) actionkit.errors = {}
       actionkit.errors['card_num:invalid'] = actionkit.forms.errorMessage('card_num:invalid');
@@ -835,12 +820,10 @@
       step_has_errors = true;
     }
 
-    console.log(step_has_errors, "Step Has Errors end of step 3?")
     return step_has_errors;
   }
 
   function step_2_validation() {
-    console.log('validating step 2');
     var step_has_errors = false;
 
     if (document.getElementById("country").value === "United States" && document.getElementById("id_state").value === "") {
@@ -854,7 +837,6 @@
   }
 
   function step_1_validation() {
-    console.log('validating step 1.');
     var step_has_errors = false;
 
     // look for product selections
@@ -1078,8 +1060,6 @@
     $('#ak-paypal-button').on('mousedown', function () {
       var form_elt = $(this).closest('form');
       var required_fields = form_elt.find('input[name="required"]');
-      console.log(required_fields, "required fields");
-      console.log(form_elt, "required fields");
       if (required_fields.length) {
         required_fields.remove();
         $('body').on('mouseup', function (event) {
@@ -1230,7 +1210,7 @@
 {% endif %}
 {% endwith %}
 
-{% if page.custom_fields.donate_payment_frequency_above_amounts == 'Y' %}
+{% if page.custom_fields.donate_payment_frequency_above_amounts.strip|lower == 'y' %}
 <script>
   $(function () {
     $('#ak-recurring-type').insertBefore('#ak-amount-list');

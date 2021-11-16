@@ -55,6 +55,8 @@
   </div>
 
 	{% if page.custom_fields.event_alternate_venue_label %}
+
+	{{page.custom_fields}}
 		<script>
 			$(function(){
 				$('label[for="id_event_venue"]').html('{{ page.custom_fields.event_alternate_venue_label }}');
@@ -62,5 +64,5 @@
 		</script>
 	{% endif %}
 
-	
+
 

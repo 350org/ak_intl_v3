@@ -130,5 +130,39 @@ This is an example of how to show inactive profiles.
 </div>
 <br class="clear" />
 
+<style>
+.ak-pagetype-recurring_update h3 {
+    font-family: KlimaWeb,arial,helvetica,sans-serif;
+}
+.ak-pagetype-recurring_update .note {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    left: -2px;
+    margin: 25px 0;
+    padding: 20px;
+    position: relative;
+}
+.ak-pagetype-recurring_update li {
+    margin-left: 1.35em;
+}
+.ak-pagetype-recurring_update button.submit {
+    max-width: 300px;
+    margin: 0 auto;
+}
+@media screen and (max-width: 900px) {
+    .ak-pagetype-recurring_update .ak-change-amount,
+    .ak-pagetype-recurring_update .ak-change-cc,
+    .ak-pagetype-recurring_update .field-cont  {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+</style>
 
+<script>
+    $(function(){
+        $('#id_state').addClass('c5');
+    });
+</script>
 {% endblock %}

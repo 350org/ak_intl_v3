@@ -86,14 +86,15 @@
 
 {% if page.custom_fields.page_region_specific_thank_you_pages %}
 <script>
-	$(function(){
-		function getUserRegionalUrl(country, regionalUrlRules) {
+	jQuery(function(){
+		function regionalTyPage(country, regionalUrlRules) {
 			let europeCountries = ['aland islands', 'albania', 'andorra', 'austria', 'belgium', 'bosnia and herzegovina', 'bulgaria', 'croatia', 'cyprus', 'czechia', 'denmark', 'estonia', 'faroe islands', 'finland', 'france', 'germany', 'gibraltar', 'greece', 'guernsey', 'hungary', 'iceland', 'ireland', 'isle of man', 'italy', 'jersey', 'kosovo', 'latvia', 'liechtenstein', 'lithuania', 'luxembourg', 'malta', 'monaco', 'montenegro', 'netherlands', 'north macedonia', 'norway', 'poland', 'portugal', 'romania', 'san marino', 'serbia', 'slovakia', 'slovenia', 'spain', 'sweden', 'switzerland', 'united kingdom', 'vatican'];
 			let africaCountries = ['angola', 'benin', 'botswana', 'burkina faso', 'burundi', 'cabo verde', 'cameroon', 'central african republic', 'chad', 'comoros', 'democratic republic of the congo', 'djibouti', 'equatorial guinea', 'eritrea', 'eswatini', 'ethiopia', 'gabon', 'gambia', 'ghana', 'guinea', 'guinea-bissau', 'ivory coast', 'kenya', 'lesotho', 'liberia', 'madagascar', 'malawi', 'mali', 'mauritius', 'mayotte', 'mozambique', 'namibia', 'niger', 'nigeria', 'republic of the congo', 'reunion', 'rwanda', 'saint helena', 'sao tome and principe', 'senegal', 'seychelles', 'sierra leone', 'somalia', 'south africa', 'south sudan', 'sudan', 'tanzania', 'togo', 'uganda', 'western sahara', 'zambia', 'zimbabwe'];
 			let asiaCountries = ['brunei', 'cambodia', 'china', 'hong kong', 'indonesia', 'japan', 'laos', 'macao', 'malaysia', 'mongolia', 'myanmar', 'philippines', 'singapore', 'south korea', 'taiwan', 'thailand', 'timor leste', 'vietnam', 'afghanistan', 'bangladesh', 'bhutan', 'india', 'maldives', 'nepal', 'pakistan', 'sri lanka'];
 			let latinAmericaCountries = ['argentina', 'belize', 'bolivia', 'brazil', 'chile', 'cocos islands', 'colombia', 'costa rica', 'cuba', 'dominican republic', 'ecuador', 'el salvador', 'french guiana', 'guadeloupe', 'guatemala', 'guyana', 'haiti', 'honduras', 'martinique', 'mexico', 'nicaragua', 'panama', 'paraguay', 'peru', 'puerto rico', 'suriname', 'uruguay', 'venezuela', 'american samoa'];
 			let pacificCountries = ['american samoa', 'christmas island', 'cook islands', 'fiji', 'french polynesia', 'guam', 'kiribati', 'marshall islands', 'micronesia', 'nauru', 'new caledonia', 'niue', 'northern mariana islands', 'palau', 'papua new guinea', 'pitcairn', 'samoa', 'solomon islands', 'tokelau', 'tonga', 'tuvalu', 'vanuatu', 'wallis and futuna'];
 			
+			country = country.toLowerCase();
 			// if the user country matches any country specific rules
 			for (var i = 0; i < regionalUrlRules.length; i++) {
 				if (regionalUrlRules[i].region.toLowerCase() ===  country) {
@@ -125,10 +126,10 @@
 			return false;
 		}
 
-		function setTyPageUrl(tyPageUrl){
-			$('form#action-form input[name="redirect').remove();
+		function changeTyPage(tyPageUrl){
+			jQuery('form#action-form input[name="redirect').remove();
       if (tyPageUrl) {
-        $('form#action-form').append($('<input type="hidden" name="redirect" value="'+ tyPageUrl +'">'));
+        jQuery('form#action-form').append(jQuery('<input type="hidden" name="redirect" value="'+ tyPageUrl +'">'));
       }
     }
 
@@ -138,7 +139,7 @@
 			.split('</p>');
     let regionSpecificUrlRulesArray = [];
     let userCountry;
-    let userRegion;
+    let userTyPage;
     for (var x = 0; x < regionSpecificUrlRules.length; x++) {
       if (regionSpecificUrlRules[x]) {
         let regionRule = {
@@ -150,13 +151,13 @@
     }
 
     userCountry = '{{ user.country }}';
-    userTyPage = getUserRegionalUrl(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
-    setTyPageUrl(userRegion);
-    if ($('#country').length) {
-      $('#country').change(function(){
-        userCountry = $(this).val();
-        userTyPage = getUserRegionalUrl(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
-        setTyPageUrl(userTyPage);
+    userTyPage = regionalTyPage(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
+    changeTyPage(userTyPage);
+    if (jQuery('#country').length) {
+      jQuery('#country').change(function(){
+        userCountry = jQuery(this).val();
+        userTyPage = regionalTyPage(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
+        changeTyPage(userTyPage);
       });
     }
   });

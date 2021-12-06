@@ -264,6 +264,11 @@
     jQuery('.general-privacy-notice').after($smsPrivacyNotice);
 
     var selectedCountry = jQuery('#country').val();
+
+		// if user is not known and country field is not added, assume country is US
+		if ('{{ user }}' === 'None' && !jQuery('#country').length) {
+			selectedCountry = 'United States';
+		}
     ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
     ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
 
@@ -512,6 +517,8 @@
 		jQuery('#unknown_user .large-checkboxes.input-checkbox .ak-userfield-checkbox-choice, .large-checkboxes.input-checkbox .ak-survey-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
 	});
 </script>
+
+
 {% endif %}
 
 

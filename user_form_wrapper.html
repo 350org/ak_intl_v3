@@ -171,7 +171,7 @@
     function showMobileFields() {
       // add mobile field if not already added, or show if already added
       if (!jQuery('#id_mobile_phone_box').length) {
-        jQuery('#unknown_user').append(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
+        jQuery('#unknown_user').after(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
         jQuery('#id_mobile_phone').on('keyup change', function(){
           ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
         });
@@ -268,6 +268,9 @@
 		// if user is not known and country field is not added, assume country is US
 		if ('{{ user }}' === 'None' && !jQuery('#country').length) {
 			selectedCountry = 'United States';
+		} else if ('{{ user }}' !== 'None') {
+			// if user is know, get their country
+			selectedCountry = '{{ user.country }}';
 		}
     ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
     ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);

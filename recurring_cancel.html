@@ -38,8 +38,8 @@
 <input type="hidden" name="page" value="{{ page.name }}">
 <input type="hidden" name="profile_id" value="{{ profile.id }}">
 
-<p><input name="submit" type="submit" class="submit" value="Cancel Donation"></p>
-
+<!--<p><input name="submit" type="submit" class="submit" value="Cancel Donation"></p>-->
+<div><button type="submit" class="ak-normal">Cancel Donation</button></div>
 </form>
 
 {% endfor %}
@@ -81,7 +81,7 @@ We have to have a form, or the JavaScript doesn't work.
     position: relative;
 }
 
-.ak-pagetype-recurring_cancel input.submit {
+.ak-pagetype-recurring_cancel button.submit {
     max-width: 300px;
     margin: 0 auto;
 }

@@ -163,15 +163,19 @@
   });
 </script>
 {% endif %}
-
-{% if page.type != "Signup" or page.type != "Petition" %}
+<script>
+console.log('{{page.type}}');
+</script>
+{% if page.type == "Signup" or page.type == "Petition" or page.type == 'Letter' or page.type == 'Survey' or page.type == 'Call' %}
   {% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
   <script>
+	console.log('testing');
   jQuery(function(){
+		jQuery('#unknown_user').after(jQuery('<div id="known_or_unknow_fields" class="user-form ak-errs-below form-style-labelabove text-black">'));
     function showMobileFields() {
       // add mobile field if not already added, or show if already added
       if (!jQuery('#id_mobile_phone_box').length) {
-        jQuery('#unknown_user').after(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
+        jQuery('#known_or_unknow_fields').append(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
         jQuery('#id_mobile_phone').on('keyup change', function(){
           ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
         });
@@ -224,7 +228,7 @@
       jQuery('#id_user_mobile_subscriber_true').attr('name', 'user_mobile_subscriber');
       // store the user's opt in mobile in custom action field
       if (!jQuery('#mobile_subscriber_number').length) {
-        jQuery('#action-form').append(jQuery('<input name="action_mobile_subscriber_number" id="mobile_subscriber_number" value="" type="hidden"/>'));
+        jQuery('.ak-form').append(jQuery('<input name="action_mobile_subscriber_number" id="mobile_subscriber_number" value="" type="hidden"/>'));
       }
       // if they opted in, include subscriber number field in form submission, with value of mobile number
       // else don't include in submission

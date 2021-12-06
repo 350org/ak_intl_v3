@@ -166,6 +166,8 @@
 <script>
 console.log('{{page.type}}');
 </script>
+<!-- add page types to the condition below if you want to allow sms opt ins for those pages -->
+<!-- be sure to test the styling doesn't break when adding new page types -->
 {% if page.type == "Signup" or page.type == "Petition" or page.type == 'Letter' or page.type == 'Survey' or page.type == 'Call' %}
   {% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
   <script>

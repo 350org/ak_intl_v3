@@ -32,6 +32,7 @@
 <div class="section note">
 {% include "./recurring_info.html" %}
 <div style="clear:both;"></div>
+<div><button type="submit" class="submit">Cancel Donation</button></div>
 </div>
 {% comment %} JavaScript needs it. {% endcomment %}
 <input type="hidden" name="akid" value="{{ logged_in_user.token }}">
@@ -39,7 +40,7 @@
 <input type="hidden" name="profile_id" value="{{ profile.id }}">
 
 <!--<p><input name="submit" type="submit" class="submit" value="Cancel Donation"></p>-->
-<div><button type="submit" class="ak-normal">Cancel Donation</button></div>
+
 </form>
 
 {% endfor %}

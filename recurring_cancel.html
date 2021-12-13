@@ -16,13 +16,12 @@
 </div>
 
 {% if active %}
-{% for profile in active %}
-
 {% autoescape off %}
 
 <p>{% include_tmpl form.please_stay_text %}</p>
 
 {% endautoescape %}
+{% for profile in active %}
 
 
 <form class="action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">

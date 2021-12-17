@@ -1,141 +1,17 @@
 {% extends "./wrapper.html" %}
 {% load actionkit_tags %}
 
-{% block content %}
-<style>
-  .payments-titles {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 1em;
-  }
+{% block css_additions %}
+<link href="https://dbqvwi2zcv14h.cloudfront.net/ak/donate.css" rel="stylesheet" type="text/css">
+{% endblock %}
 
-  .payments-title {
-    border-bottom: 3px solid;
-    border-bottom-color: #798890;
-    width: 100%;
-    margin-right: 2px;
-    text-align: center;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .payments-title-active {
-    border-bottom-color: #0f81e8;
-  }
-
-  .card-title span {
-    margin-right: 0.3em;
-    font-weight: bold;
-    color: #798890;
-    font-size: small;
-  }
-
-  #ak-continue-button,
-  .ak-submit-button {
-    width: 100%;
-  }
-
-  .paypal-only {
-    border-bottom: none;
-    cursor: auto;
-  }
-
-  .button:focus {
-    outline: none;
-  }
-
-  .payment-title-button {
-    border: 2px solid #798890;
-    border-radius: 6px;
-    margin-right: 12px;
-    margin: 0 6px;
-    padding: 3px 0;
-  }
-
-  .payment-title-button:hover {
-    border-color: #0f81e8;
-  }
-
-  .payment-title-button:first-of-type {
-    margin-left: 0;
-  }
-
-  .payment-title-button:last-of-type {
-    margin-right: 0;
-  }
-
-  .payment-title-button.payments-title-active {
-    border-color: #0f81e8;
-    ;
-  }
-
-  /* IE Fixes */
-  .title-section-60,
-  .title-section {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    flex-direction: column
-  }
-
-  /* IE fixes for footer */
-  iframe[width="1"][height="1"] {
-    width: 0;
-    height: 0;
-    display: block;
-  }
-
-  #site-footer {
-    top: 0;
-    position: relative;
-  }
-
-  #site-footer nav {
-    margin: 0;
-  }
-
-  .ak-multi-currency select::-ms-expand {
-    display: none;
-  }
-
-  /* inline fields for expiry and cvv */
-
-  .inline_fields {
-    display: flex;
-  }
-
-  .inline_fields>div:first-of-type {
-    border-top: 1px solid rgba(21, 36, 43, 0.3) !important;
-    width: 50% !important;
-  }
-
-  .inline_fields>div:last-of-type {
-    width: 50% !important;
-    margin: 0 !important;
-  }
-
-  /* style for when the payment type above amounts custom field is set to Y */
-  .paymenttype-above {
-    margin-top: -0.8em;
-    margin-bottom: 1.4em;
-  }
-
-  /* make sure the select fills the page width on mobile */
-  #ak-currency-switcher {
-    max-width: initial;
-  }
-
-</style>
 {% if templateset.custom_fields.donate_hide_paypal.strip|lower == 'y' %}
 <style>
   .paypal-title{ display: none;}
 </style>
 {% endif %}
 
+{% block content %}
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
   <div class="section-inner">
@@ -210,6 +86,8 @@
                 </div>
                 {% endif %}
                 {% endautoescape %}
+
+                <!-- Render progress meter -->
                 {% include "./progress_meter.html" %}
                 <!--Add .ak-donate-three-step for three-step-->
                 <div
@@ -249,37 +127,7 @@
                       </thead>
                       <tbody>
                         {% for product in products %}
-                        <tr>
-                          <td class="ak-product-details">
-                            <div class="ak-product-name">{{ product.name }}</div>
-                            {% if product.desc %}
-                            <div class="ak-product-description">{{ product.desc }}</div>
-                            {% endif %}
-                          </td>
-                          <td class="ak-product-amount">
-                            <span id="product_{{ product.id }}_price" data-price="{{ product.price }}">
-                              {% if product.price == 0 %}
-                              FREE!
-                              {% else %}
-                              <span class="ak-currency-sym">{{ page.currency_sym }}</span>{{ product.price|commify }}
-                              {% endif %}
-                            </span>
-                          </td>
-                          <td class="ak-product-quantity">
-                            {% if product.max == 1 %}
-                            <input type="checkbox" value="1" name="product_{{ product.id }}"
-                              id="product_{{ product.id }}" class="ak_product_inputs">
-                            {% else %}
-                            <input type="number" min="0" max="{{ product.max }}"
-                              onvalidate="return validate_product_count(this)" name="product_{{ product.id }}"
-                              id="product_{{ product.id }}" size="2" class="ak_product_inputs">
-                            {% endif %}
-                          </td>
-                          <td class="ak-product-subtotal">
-                            <span class="ak-currency-sym">{{ page.currency_sym }}</span><span
-                              class="ak_product_subtotal_{{ product.id }}"></span>
-                          </td>
-                        </tr>
+                          {% include "./product.html" %}
                         {% endfor %}
                       </tbody>
                     </table>
@@ -293,7 +141,7 @@
                     {% endif %}
                   </div>
                   <!--product-list-->
-
+                  <!-- If has_candidates is true, renders option to donate to included candidates -->
                   <div id="ak-candidate-list" class="ak-donate-area-step-1 ak-errs-below">
                     {% if has_candidates %}
                     <table>
@@ -306,33 +154,14 @@
                       </thead>
                       <tbody>
                         {% for candidate in candidates %}
-                        <tr>
-                          <td class="ak-candidate-details">
-                            {% if candidate.portrait_url %}
-                            {% autoescape off %}
-                            <img class="ak-candidate-portrait" alt="{{ candidate.name }}"
-                              src="{{ candidate.portrait_url }}">
-                            {% endautoescape %}
-                            {% endif %}
-                          </td>
-                          <td class="ak-candidate-name">
-                            <div>{{ candidate.name }}</div>
-                            {% autoescape off %}
-                            <p>{{ candidate.desc }}</p>
-                            {% endautoescape %}
-                          </td>
-                          <td class="ak-candidate-amount ak-align-right">
-                            <span class="ak-currency-sym">{{ page.currency_sym }}</span><input type="text"
-                              name="candidate_{{ candidate.id }}" id="candidate_{{ candidate.id }}" size="2"
-                              class="ak_candidate_inputs">
-                          </td>
-                        </tr>
+                          {% include "./candidate.html" %}
                         {% endfor %}
                       </tbody>
                     </table>
                     {% endif %}
                   </div>
 
+                  <!-- If has_products is true, renders option to buy included products -->
                   {% if has_products %}
                   <h4 class="ak-donate-area-step-1">Donation (Optional)</h4>
                   {% endif %}
@@ -423,6 +252,7 @@
                   </div>
 
                   <div id="ak-donation-total-div"></div>
+                  <!-- Displays updated donation total based on selection of products/candidate donation amounts -->
                   <script type="text/ak-template" for="ak-donation-total-div">
           [% if (has_products || has_candidates) { %]
             <p class="ak-donation-total ak-donate-area-step-1">
@@ -444,84 +274,10 @@
                   <input type="hidden" name="donation_type" value="single">
                   {% elif page.custom_fields.donation_once_recurring_or_both|lower == "both-recurring" %}
                   <!-- Toggle button, donate monthly default -->
-                  <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
-                    <div class="input-checkbox text-strong margin-bottom-none">
-                      <input type="hidden" name="donation_type" id="donation_type" value="recurring">
-                      <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle"
-                        data-donation-type="both-recurring" value="">
-                      <span class="toggle-donation-type">
-                        <span class="toggle-option-1 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate
-                          monthly{% endfilter %}</span>
-                        <span class="toggle-option-2 toggle-once">{% filter ak_text:"donate_once" %}Donate
-                          once{% endfilter %}</span>
-                      </span>
-                    </div>
-                    <div id="donation-toggle-bubble" class="default-monthly">
-                      <svg id="monthly-heart" class="monthly-chosen" width="50" height="50">
-                        <image href="https://dbqvwi2zcv14h.cloudfront.net/ak-dev/monthly-heart.svg" width="50"
-                          height="50"></image>
-                      </svg>
-                      <div id="bubble-text">
-                        <div class="once-chosen hidden">
-                          {% if page.custom_fields.donate_monthly_upsell_bubble %}
-                          {% autoescape off %}
-                          {{ page.custom_fields.donate_monthly_upsell_bubble }}
-                          {% endautoescape %}
-                          {% else %}
-                          {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining
-                          donations help us plan and focus on the
-                          future.{% endfilter %}
-                          {% endif %}
-                        </div>
-                        <div class='monthly-chosen'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank you for
-                            choosing a
-                            monthly donation!</strong><br>
-                          Giving monthly helps us plan for big, bold actions to fight back against the fossil fuel
-                          industry at key
-                          moments
-                          around the world. Thank you.{% endfilter %}</div>
-                      </div>
-                    </div>
-                  </div>
+                    {% include "./recurring_donation.html" %}
                   {% else %}
                   <!-- Toggle button, donate once default -->
-                  <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
-                    <div class="input-checkbox text-strong margin-bottom-none">
-                      <input type="hidden" name="donation_type" id="donation_type" value="single">
-                      <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle"
-                        data-donation-type="both" value="">
-                      <span class="toggle-donation-type">
-                        <span class="toggle-option-1 toggle-once">{% filter ak_text:"donate_once" %}Donate
-                          once{% endfilter %}</span>
-                        <span class="toggle-option-2 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate
-                          monthly{% endfilter %}</span>
-                      </span>
-                    </div>
-                    <div id="donation-toggle-bubble" class="default-once">
-                      <svg id="monthly-heart" class="monthly-chosen hidden" width="50" height="50">
-                        <image href="https://dbqvwi2zcv14h.cloudfront.net/ak-dev/monthly-heart.svg" width="50"
-                          height="50"></image>
-                      </svg>
-                      <div id="bubble-text">
-                        <div class="once-chosen">
-                          {% if page.custom_fields.donate_monthly_upsell_bubble %}
-                          {% autoescape off %}
-                          {{ page.custom_fields.donate_monthly_upsell_bubble }}
-                          {% endautoescape %}
-                          {% else %}
-                          {% filter ak_text:"donate_make_it_monthly" %}<strong>Make it monthly?</strong> Sustaining
-                          donations help us plan and focus on the
-                          future.{% endfilter %}
-                          {% endif %}
-                        </div>
-                        <div class='monthly-chosen hidden'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank
-                            you for choosing a monthly donation!</strong><br>
-                          Giving monthly helps us plan for big, bold actions to fight back against the fossil fuel
-                          industry at key moments
-                          around the world. Thank you.{% endfilter %}</div>
-                      </div>
-                    </div>
-                  </div>
+                    {% include "./one_time_donation.html" %}
                   {% endif %}
                   {% else %}
                   <div id="ak-recurring-type"></div>
@@ -529,52 +285,15 @@
                   {% endif %}
                   {% endif %}
 
+                  <!-- If enabled, render option to donate in honor of someone else  -->
                   {% if page.custom_fields.donation_show_inhonorof|lower == "show" %}
-                  <fieldset id="in-honor-of" class="ak-donate-area-step-1 form-style-labelabove">
-                    <div class="input checkbox input-checkbox margin-top-small margin-bottom-none text-strong">
-                      <input type="checkbox" value="1" name="inhonorcheck" id="in-honor-check" />
-                      <label for="in-honor-check">{% filter ak_text:"donate_inhonorof_option_label" %}Donate in
-                        someone's honor.{% endfilter %}</label>
-                    </div>
-                    <div id="in-honor-of-fields" class="margin-bottom-normal">
-                      <div class="input text input-text ak-">
-                        <label for="action_in_honor_of_name">{% filter ak_text:"donate_inhonorof_name_label" %}Honoree's
-                          Name{% endfilter %}</label>
-                        <input type="text" id="action_in_honor_of_name" name="action_in_honor_of_name" />
-                      </div>
-                      <div class="input input-text"
-                        title="The email address to send a notification of the donation to.">
-                        <label
-                          for="action_in_honor_of_email">{% filter ak_text:"donate_inhonorof_email_label" %}Honoree's
-                          Email Address{% endfilter %}</label>
-                        <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
-                      </div>
-                      <div class="input input-textarea" title="An optional note to the honoree.">
-                        <label for="action_in_honor_of_note"
-                          title="An optional note to the honoree.">{% filter ak_text:"donate_inhonorof_note_label" %}Note
-                          to Honoree{% endfilter %}</label>
-                        <textarea id="action_in_honor_of_note" name="action_in_honor_of_note"
-                          title="An optional note to the honoree."></textarea>
-                      </div>
-                      <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll
-                        send a notification of your donation to this email address.{% endfilter %}</p>
-                    </div>
-                    <script>
-                      jQuery("#in-honor-of-fields").hide();
-                      jQuery("#in-honor-check").change(function () {
-                        if ($(this).is(':checked')) {
-                          jQuery("#in-honor-of-fields").fadeIn();
-                        } else {
-                          jQuery("#in-honor-of-fields").fadeOut();
-                        }
-                      });
-                    </script>
-                  </fieldset>
+                    {% include "./in_honor_donation.html" %}
                   {% endif %}
 
 
                   <div id="ak-donation-contact" class="ak-donate-area-step-2 form-style-labelabove">
                     <div style="display: none">
+                      <!-- Displayed when ActionKit remembers a user  -->
                       <div id="known_user">
                         Not <span id="known_user_name"></span>? <a href="?"
                           onclick="return actionkit.forms.logOut()">Click here.</a>
@@ -638,6 +357,7 @@
                     </div>
                     {% include "./privacy.html" %}
 
+                    <!-- Render occupation and employer fields, if required -->
                     {% if templateset.custom_fields.ask_occupation_and_employer %}
                     <p class="ak-label-above text-small" id="ak-occ-emp-why">
                       Federal law requires us to use our best efforts to collect and report the name, mailing address,
@@ -658,61 +378,10 @@
                     </div>
                     {% endif %}
 
+                    <!-- Render shipping address inputs if products need to be shipped -->
                     {% if has_shippable_products %}
                     <div id="ak-shipping-address">
-                      <h4>Shipping Address</h4>
-                      {% with "shipping_" as input_name_prefix %}
-                      <div class="ak-margin-1 input-checkbox">
-                        <label for="ak-shipping-same" class="ak-small">
-                          <input id="ak-shipping-same" type="checkbox" name="shipping_same" value="1" checked>
-                          Ship to billing address
-                        </label>
-                      </div>
-                      <div id="ak-shipping-fields" class="ak-errs-below" style="display: none">
-                        <div class="input-text">
-                          <label for="id_shipping_address1">Shipping address line 1</label>
-                          <input id="id_shipping_address1" class="ak-input-type-action" type="text"
-                            name="shipping_address1">
-                        </div>
-                        <div class="input-text">
-                          <label for="id_shipping_address2">Shipping address line 2 (optional)</label>
-                          <input id="id_shipping_address2" class="ak-input-type-action" type="text"
-                            name="shipping_address2">
-                        </div>
-                        <div class="input-text">
-                          <label for="id_shipping_city">Shipping city</label>
-                          <input id="id_shipping_city" class="ak-input-type-action" type="text" name="shipping_city">
-                        </div>
-                        <div class="ak-us-shipping-fields">
-                          <div class="input-select">
-                            <label for="id_shipping_state">Shipping state</label>
-                            {% include "./state_select.html" %}
-                          </div>
-                          <div class="input-text">
-                            <label for="id_shipping_zip">Shipping ZIP</label>
-                            <input id="id_shipping_zip" class="ak-input-type-action" type="text" name="shipping_zip"
-                              maxlength="5" size="5">
-                          </div>
-                        </div>
-                        {% if page.allow_international %}
-                        <div class="ak-intl-shipping-fields">
-                          <div class="input-text ak-input-type-action">
-                            <label for="id_shipping_region">Shipping region</label>
-                            <input id="id_shipping_region" class="ak-input-type-action" type="text"
-                              name="shipping_region" size="20">
-                          </div>
-                          <div class="input-text ak-input-type-action">
-                            <label for="id_shipping_postal">Shipping postal Code</label>
-                            <input id="id_shipping_postal" type="text" name="shipping_postal" size="10">
-                          </div>
-                        </div>
-                        <div class="input-select input-country">
-                          <label for="id_shipping_country">Shipping country</label>
-                          {% include "./country_select.html" %}
-                        </div>
-                        {% endif %}
-                      </div>
-                      {% endwith %}
+                      {% include "./shipping_address.html" %}
                     </div> <!-- shipping address -->
                     {% endif %}
                   </div> <!-- donation contact -->
@@ -721,11 +390,11 @@
                     <!-- <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5> -->
                     <div class="payments-container">
                       <div class="payments-titles">
-
+                        <!-- Render non Paypal payment icons -->
                         {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
 
                         <div
-                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %} payments-title-active card-title ">
+                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance.strip|lower == 'y' %}payment-title-button{% endif %} payments-title-active card-title ">
                           <svg width="150" height="40" class="payments-title-active cards-us">
                             <image href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="150" height="40" />
                           </svg>
@@ -735,13 +404,14 @@
                         </div>
 
                         <div
-                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %} paypal-title">
+                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance.strip|lower == 'y' %}payment-title-button{% endif %} paypal-title">
                           <svg width="75" height="40">
                             <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75"
                               height="40" />
                           </svg>
                         </div>
                         {% endif %}
+                        <!-- Render Paypal payment icon -->
                         {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'  %}
                         <div class="payments-title payments-title-active paypal-title paypal-only">
                           <svg width="75" height="40">
@@ -771,59 +441,7 @@
                     {% comment %} Show the Credit Card Fields only when the custom field for donation_only_paypal is
                     {% endcomment %}
                     {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
-                    <fieldset class="input-group cc-fields">
-                      <div id="ak-fieldbox-card_num" class="input-text ak-input-type-user cc-fields">
-                        <label for="ak-card_num">{% filter ak_text:"field_card_num" %}Credit Card
-                          #{% endfilter %}</label>
-                        <input type="hidden" name="required" value="card_num" id="ak-card_num-required">
-                        <div id="ak-card_num-hosted" class="hosted-field"></div>
-                        <input id="ak-card_num" type="text" name="card_num">
-                      </div>
-                      <div class="inline_fields">
-                        <div id="ak-fieldbox-exp_date"
-                          class="input-select input-cc-expiration ak-input-type-user cc-fields ak-err-below">
-                          <input type="hidden" name="required" value="exp_date_month" id="ak-exp_date_month-required">
-                          <label for="ak-exp_date_month">{% filter ak_text:"field_exp_date" %}Expiration
-                            Date{% endfilter %}</label>
-                          <div id="ak-exp_date-hosted" class="hosted-field"></div>
-                          <select id="ak-exp_date_month" class="input-cc-expiration-month c4 ct4 cm4 no-margin"
-                            type="text" name="exp_date_month">
-                            <option value="">MM</option>
-                            <option value="01">01</option>
-                            <option value="02">02</option>
-                            <option value="03">03</option>
-                            <option value="04">04</option>
-                            <option value="05">05</option>
-                            <option value="06">06</option>
-                            <option value="07">07</option>
-                            <option value="08">08</option>
-                            <option value="09">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                          </select>
-                          <input type="hidden" name="required" value="exp_date_year" id="ak-exp_date_year-required">
-                          <select id="ak-exp_date_year" type="text"
-                            class="input-cc-expiration-year c6 ct6 cm6 no-margin cc-fields" name="exp_date_year">
-                            <option value="">YYYY</option>
-                            {% for year in exp_years %}
-                            <option value="{{ year.two }}">{{ year.four }}</option>
-                            {% endfor %}
-                          </select>
-                          <div class="clear"></div>
-                        </div>
-
-                        <div id="ak-fieldbox-card_code"
-                          class="input-text input-cvv ak-input-type-user cc-fields c5 ct5 margin-top-none">
-                          <input type="hidden" name="required" value="card_code" id="ak-card_code-required">
-                          <label for="ak-card_code"
-                            title="The 3–4 digit security code on the back of your card.">{% filter ak_text:"field_card_code" %}CVV{% endfilter %}</label>
-                          <div id="ak-card_code-hosted" class="hosted-field"></div>
-                          <input id="ak-card_code" type="text" name="card_code" size="4">
-                          <div class="clear"></div>
-                        </div>
-                      </div>
-                    </fieldset>
+                      {% include "./credit_card.html" %}
                     {% endif %}
 
 
@@ -835,7 +453,7 @@
                     {% endif %}
                     {% endautoescape %}
 
-
+                    <!-- Render pre submit text -->
                     {% if templateset.custom_fields.pre_submit_text %}
                     <div class="pre-submit-text">
                       {% autoescape off %}
@@ -843,6 +461,7 @@
                       {% endautoescape %}
                     </div>
                     {% endif %}
+                    <!-- Render "Pay by Paypal" option -->
                     {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'%}
                     <div class="ak-payment-options text-center ak-donate-area-step-3 paypal-fields">
                       <input type="hidden" name="paypal" value="0" id="ak-pay-by-paypal">
@@ -852,6 +471,7 @@
                         </button></p>
                     </div>
 
+                    <!-- Render post submission text -->
                     {% if page.custom_fields.post_submit_text %}
                     <div class="post-submit-text">
                       {% autoescape off %}
@@ -912,162 +532,26 @@
 
 <div id="donation-other"
   class="section padding-medium width-normal bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}">
-  <div class="section-inner">
-    {% if templateset.custom_fields.donate_footer_text %}
-    {% autoescape off %}
-    {{ templateset.custom_fields.donate_footer_text }}
-    {% endautoescape %}
-    {% elif page.custom_fields.donate_footer_text %}
-    {% autoescape off %}
-    {{ page.custom_fields.donate_footer_text }}
-    {% endautoescape %}
-    {% else %}
-    {% if page.custom_fields.page_is_c4 %}
-    <p class="strong">Contributions or gifts to 350 Action are not deductible as charitable contributions for Federal
-      income tax purposes.</p>
-    <hr>
-    {% endif %}
-    <p><img style="float:right;margin:0 0 1em 1em;"
-        src="https://s3.amazonaws.com/s3.350.org/images/RapidSSL_SEAL-90x50.gif" height="40" width="70"
-        alt="This site is secured by RapidSSL" />
-      {% filter ak_text:"donate_security" %}
-      <strong class="text-small-caps">Security:</strong> This page uses <a
-        href="https://en.wikipedia.org/wiki/HTTP_Secure" target="_blank">Secure HTTP</a> and <a
-        href="https://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank">SSL</a> technologies to make sure
-      your information is 100% secure.
-      {% endfilter %}
-    </p>
-    {% if page.custom_fields.page_is_c4 %}
-    <p><strong class="text-small-caps">Contact Us:</strong>Questions? Problems? Please contact us at <a
-        href="mailto:donations@350.org?subject=Question%20about%20donation%20to%20350.org">donations@350action.org</a>.
-    </p>
-    <p><strong class="text-small-caps">Update Your Account: </strong>To update your account with a new credit card, new
-      expiration date, or new amount please visit <a href="https://350action.org/update">350action.org/update</a></p>
-    {% else %}
-    <div class="margin-bottom-normal">
-      {% if page.payment_processor_information.currency == 'AUD' %}
-      <p><strong class="text-small-caps">Donate by Cheque</strong>: Make your cheque payable to <em>350.org</em> and
-        mail it to <em>350.org Limited, Suite 8 / 50 Reservoir Street, Surry Hills, NSW 2010, Australia.</em>.</p>
-      <p><strong class="text-small-caps">Contact Us:</strong> Questions? Problems? Please contact us at <a
-          href="mailto:donations@350.org.au?subject=Question%20about%20donation%20to%20350.org%20Australia">donations@350.org.au</a>.
-      </p>
-      <p><strong class="text-small-caps">Update Your Account: </strong>To update your account with a new credit card,
-        new expiration date, or new amount please visit <a href="https://350.org/update">350.org/update</a></p>
-      <p>350.org Limited is a registered Australian charity but donations are NOT tax-deductible in Australia. ABN: 46
-        138 155 192. Some donations for joint work with our partner organisation Climate Action Network Australia (CANA)
-        can be made tax deductible. For information about that, please contact <a
-          href="mailto:donations@350.org.au">donations@350.org.au</a>.</p>
-      {% else %}
-      {% filter ak_text:"donate_footer_text_block" %}
-      <p><strong class="text-small-caps">Donate by Check:</strong> <a href="https://350.org/">350.org,</a> PO Box
-        843004, Boston, MA 02284-3004.</p>
-      <p><strong class="text-small-caps">Other Ways To Give:</strong> <a
-          href="https://350.org/other-ways-to-give/">Click here</a> to see additional options, including transferring
-        stock.</p>
-      <p><strong class="text-small-caps">Contact Us:</strong> Questions? Problems? Please contact us at <a
-          href="mailto:donations@350.org?subject=Question%20about%20donation%20to%20350.org">donations@350.org</a>.</p>
-      <p><strong class="text-small-caps">Update Your Account:</strong> To update your account with a new credit card,
-        new expiration date, or new amount please visit <a href="https://350.org/update">350.org/update</a></p>
-
-      <div style="float:left;margin:0 1em 1em 0;"><img
-          src="https://s3.amazonaws.com/s3.350.org/ak/charity_navigator_with_stars.png"
-          style="float: left; height: 40px; margin-right: 10px;"> <img alt="1% For The Planet"
-          src="https://dbqvwi2zcv14h.cloudfront.net/images/350-ak-1pftp-donate-footer.png"
-          style="float: left; height: 40px; background: #fff; padding: 2px;"></div>
-
-      <p>350.org is a registered 501c3 non-profit organization and all contributions are tax-deductible in the United
-        States. 350.org's EIN/Tax ID is 26-1150699. <a
-          href="https://350.org/additional-financial-and-regulatory-information/">Additional financial information for
-          US donors</a>.</p>
-      {% endfilter %}
-      {% endif %}
-    </div>
-    {% endif %}
-    {% endif %}
-  </div>
+  <!-- Render all donation disclaimers -->
+  {% include "./donation_disclaimers.html" %}
 </div>
 
 {% endblock %}
 
 {% block script_additions %}
 
-<script language="javascript">
-  let paypalFieldOptionSelectedStepThree = false;
-
-  $(document).keydown(function (e) {
-    const which = e.which;
-    if (which === 13) {
-      e.preventDefault();
-    }
+{% if page.custom_fields.donate_payment_frequency_above_amounts.strip|lower == 'y' %}
+<script>
+  $(function () {
+    $('#ak-recurring-type').insertBefore('#ak-amount-list');
+    $('#ak-recurring-type').addClass('paymenttype-above');
   });
+</script>
+{% endif %}
 
-  function clear_radio_buttons() {
-    $('input.ak-amount-radio-button').prop('checked', false);
-  }
+<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/donate.js"></script>
 
-  function clear_other() {
-    $('#ak-other-amount-field').val("");
-  }
-
-  function update_total() {
-    var total = 0.0;
-    $('.ak_product_inputs').each(function (i) {
-      // max == 1 produces checkboxes for these
-      if (this.type == "checkbox" && !this.checked) {
-        return;
-      }
-
-      // check that quantity is a valid int
-      var quantity = this.value;
-      if (quantity.length == 0 || ! /^[1-9]\d*$/.test(quantity)) {
-        return;
-      }
-
-      // and price is a valid dollar amount
-      var price_element = $('#' + this.id + '_price');
-      var price = price_element.attr("data-price") || price_element.text();
-      if (price.length == 0 || !/^[1-9]\d*(\.\d\d)?$/.test(price)) {
-        return;
-      }
-
-      total += parseInt(quantity) * parseFloat(price);
-    });
-
-    $('.ak_candidate_inputs').each(function (i) {
-      // check that amount is a valid amount
-      var amount = this.value;
-      if (amount.length == 0 || ! /^[0-9]\d*(\.\d\d)?$/.test(amount)) {
-        return;
-      }
-
-      total += parseFloat(amount);
-    });
-
-    // look for checked off donation amounts
-    var amount_checked = $('input:radio[name=amount]:checked').val();
-    if (amount_checked) {
-      total += parseFloat(amount_checked);
-    } else {
-      // or other amounts
-      var other = $('#ak-other-amount-field').val();
-      if (typeof other !== "undefined" &&
-        other.length && /^\d*(\.\d{1,2})?$/.test(other))
-        total += parseFloat(other);
-    }
-
-    var new_total = total === 0 ? "" : "" + (total % 1 != 0 ? total.toFixed(2) : total.toFixed(0));
-    if (new_total != $('#total').html()) {
-      $('.ak-donation-total-amount').html(new_total);
-    }
-    return total;
-  }
-
-
-  /* Amount buttons */
-  function highlight_selected_amount_button() {
-    $('label.ak-radio-checked').removeClass('ak-radio-checked');
-    $(this).closest('label').addClass('ak-radio-checked');
-  }
+<script language="javascript">
 
   $(function () {
     $('input[name="amount"]').on(
@@ -1092,12 +576,10 @@
     $('.ak-amount-wrapper .input-radio-button').each(function () {
       var current_amount = parseInt($(this).text().replace(/\D/g, ''));
       if (arg_amount && (arg_amount == current_amount)) {
-        console.log('arg_amount == current_amount');
         clear_radio_buttons();
         $(this).trigger('click');
         arg_amount_selected = true;
       } else if (arg_amount && !arg_amount_selected) {
-        // console.log('arg_amount !== current_amount');
         if ($(this).hasClass('input-radio-button-other')) {
           clear_radio_buttons();
           $('#ak-other-amount-field').val(arg_amount).trigger('click');
@@ -1110,44 +592,6 @@
         );
       }
     });
-  });
-  
-  /* Currency symbols */
-
-  actionkit.utils.currencySymbols = {
-    "AUD": "AUD",
-    "BRL": "R$",
-    "CAD": "CAD",
-    "EUR": "€",
-    "GBP": "£",
-    "USD": "$",
-  }
-
-  // Sherezz and Kimani Did this. Blame them
-  actionkit.utils.ensureVisible = function () { console.log("Hi. ensurevisible is now an anonymous function.") };
-
-  function redraw_currency_symbol() {
-    var id = $('input[id^=id_currency_]:checked, option[id^=id_currency_]:selected').attr('id');
-    var iso_code_match = /([A-Z][A-Z][A-Z])$/.exec(id);
-    if (!iso_code_match) {
-      return
-    }
-    var iso_code = iso_code_match[1];
-    var currency_sym = actionkit.utils.currencySymbols[iso_code];
-    $('.ak-currency-sym').text(currency_sym || '');
-    $("#ak-amount-list").removeClass('currency-AUD currency-BRL currency-CAD currency-EUR currency-GBP currency-USD').addClass('currency-' + iso_code);
-  }
-
-  $(function () {
-    $('input[id^=id_currency_], select[name="currency"], select[name="payment_account"]').on('change', redraw_currency_symbol);
-    redraw_currency_symbol();
-
-    // preselect a currency with a url parameter
-    var arg_currency = '{{ args.currency|default:"false" }}';
-    if (arg_currency && typeof actionkit.utils.currencySymbols[arg_currency] !== 'undefined') {
-      $('#id_currency_' + arg_currency).prop('selected', true);
-      redraw_currency_symbol();
-    }
   });
 
 
@@ -1248,112 +692,6 @@
       '#id_region, #id_postal').on('change blur', sync_to_shipping);
   });
 
-  // Change donation type value whether custom field is set to both-recurring or both
-  $(function () {
-    $('.toggle-donation-type').click(function () {
-      if ($('#id_donation_type_toggle').data('donation-type') === 'both-recurring') {
-        if ($('#id_donation_type_toggle').prop('checked')) {
-          $('#donation_type').val("single");
-          // console.log('One-time donation option set');
-        } else {
-          $('#donation_type').val("recurring");
-          // console.log('Monthly donation option set');
-        }
-      } else {
-        if ($('#id_donation_type_toggle').prop('checked')) {
-          $('#donation_type').val("recurring");
-          // console.log('Monthly donation option set');
-        } else {
-          $('#donation_type').val("single");
-          // console.log('One-time donation option set');
-        }
-      }
-    })
-  });
-
-  function scroll_to_top_of_box() {
-    //Gets top of three step box
-    console.log("Scroll to top of box is called")
-    var top_of_three_step_box = $('.ak-field-box.ak-donate-three-step').offset().top;
-    console.log('top of three step box: ', top_of_three_step_box);
-    $('html,body').animate({ scrollTop: top_of_three_step_box }, 'fast')
-  }
-
-  var three_step_initialized = 0;
-  function three_step_reveal() {
-    var current_step = $('input[name="ak-donate-step"]:checked').val();
-    if (current_step != "2" && current_step != "3") {
-      current_step = "1"
-    }
-    var speed = three_step_initialized ? 1 : 400;
-    if (current_step == "1") {
-      $('.ak-donate-area-step-2, .ak-donate-area-step-3').hide();
-      $('.ak-donate-area-step-1, #ak-continue-button').fadeIn(speed);
-      $('.ak-donate-step').removeClass('active-step');
-      $('.ak-donate-step-1').addClass('active-step');
-
-    } else if (current_step == "2") {
-      $('.ak-donate-area-step-1, .ak-donate-area-step-3').hide();
-
-      $('.ak-donate-area-step-2, #ak-continue-button').fadeIn(speed);
-      $('.ak-donate-step').removeClass('active-step');
-      $('.ak-donate-step-2').addClass('active-step');
-    } else if (current_step == "3") {
-      $('.ak-donate-area-step-1, .ak-donate-area-step-2, #ak-continue-button').hide();
-
-      $('.ak-donate-area-step-3').fadeIn(speed);
-      $('.ak-donate-step').removeClass('active-step');
-      $('.ak-donate-step-3').addClass('active-step');
-
-      if (paypalFieldOptionSelectedStepThree) {
-        $('.ak-submit-button').css({ display: 'none' })
-      } else {
-        $("#ak-paypal-button").css({ display: 'none' })
-      }
-    }
-  }
-
-  function focus_field_if_blank(field_elt) {
-    return (function () {
-      if (!field_elt.val()) {
-        field_elt.focus()
-      }
-    })
-  }
-  
-
-  function show_tick(current_step) {
-    if (current_step !== "3") {
-      // hide step number
-      $('input[name="ak-donate-step"]:checked')
-        .closest('label')
-        .find('span.ak-step-number')
-        .addClass('hidden');
-
-      // show tick
-      $('input[name="ak-donate-step"]:checked')
-        .closest('label')
-        .find('span.ak-step-complete')
-        .removeClass('hidden');
-    }
-  }
-
-  function hide_tick(current_step) {
-    if (current_step !== "3") {
-      // show step number
-      $('input[name="ak-donate-step"]:checked')
-        .closest('label')
-        .find('span.ak-step-number')
-        .removeClass('hidden');
-
-      // hide tick
-      $('input[name="ak-donate-step"]:checked')
-        .closest('label')
-        .find('span.ak-step-complete')
-        .addClass('hidden');
-    }
-  }
-
   function change_step_one_label(current_step) {
     {% comment %} // change amount label if step 1 is complete
     if (current_step === "1") {
@@ -1371,7 +709,6 @@
       }
     }
 
-    // console.log('button amount', button_amount, 'custom amount', custom_amount, 'amount', amount);
     $('input[name="ak-donate-step"]:checked')
       .closest('label')
       .find('span.ak-amount-label')
@@ -1382,7 +719,6 @@
 
   let step_has_errors = false;
   function three_step_advance() {
-    console.log('three_step_advance() fired');
 
     // trigger validation on the step we're leaving
     var current_step = $('input[name="ak-donate-step"]:checked').val();
@@ -1406,69 +742,6 @@
       hide_tick(current_step);
     }
   }
-
-  function three_step_goto(next) {
-    console.log('three_step_goto() fired');
-    // trigger validation on the step we're leaving
-    var current_step = $('input[name="ak-donate-step"]:checked').val();
-
-    // skip validation if we're going backwards
-    if (current_step < next) {
-      validate_step(current_step);
-
-      if (!step_has_errors) {
-        show_tick(current_step);
-        change_step_one_label(current_step);
-      } else {
-        hide_tick(current_step);
-      }
-    }
-
-    // can't skip over a step unless it's already been completed
-    console.log('three_step_goto: step_has_errors = ' + step_has_errors + ', current_step = ' + current_step + ', next = ' + next);
-    if ((!step_has_errors) && (current_step == 1) && (next == 3)) {
-      validate_step("2");
-      if (step_has_errors) {
-        $('#ak-donate-step-2').prop('checked', true);
-        three_step_reveal();
-        return;
-      }
-    }
-
-    // allow the user to go back even if there are errors
-    if (current_step > next || !step_has_errors) {
-      // only mark current step as complete if it has no errors
-      $('#ak-donate-step-' + next).prop('checked', true);
-      three_step_reveal();
-      scroll_to_top_of_box();
-    }
-  }
-
-  function validate_product_count(field) {
-    var product_count = field.value;
-    if (product_count == "" || product_count == "0") {
-      return true
-    }
-
-    product_count = parseInt(product_count);
-    if (product_count < 1) {
-      return actionkit.forms.errorMessage('product:choose');
-    }
-    var product_max = parseInt($(field).attr('max'));
-    if (product_max && product_count > product_max) {
-      var err_msg = actionkit.forms.errorMessage('product:max');
-      err_msg = err_msg.replace("{0}", product_max);
-      return err_msg
-    }
-    return true
-  }
-
-  // even for recognized users we still need to require all user fields
-  actionkit.forms.alwaysRequireUserFields = true;
-
-  /* used to limit AK built-in validation to particular fields by step */
-  var doing_step_validation = false;
-  var validate_fields = [];
 
   /**
   * Function Step
@@ -1503,14 +776,9 @@
     if (step == "2" && !step_has_errors) {
       step_has_errors = step_2_validation();
     }
-    console.log("Do we get here before step 3 validation.")
-    console.log("any errors before step 3 validation", step_has_errors)
-    console.log("We are currently at step -->", step)
-    console.log(actionkit.errors, "What are the errors?")
+
     if (step == "3" && !step_has_errors) {
-      console.log(step_has_errors, "In the validate step function before")
       step_has_errors = step_3_validation();
-      console.log(step_has_errors, "In the validate step function after")
     }
       // What do we do with this step_has_errors
   }
@@ -1525,7 +793,6 @@
   }
 
   function step_3_validation() {
-    console.log('validating step 3');
     var step_has_errors = false;
 
     if (!valid_email($('#id_email').val())) {
@@ -1535,15 +802,10 @@
       step_has_errors = true;
     }
 
-    console.log("====>Before check do valid credit card.")
     if (!do_validate_credit_card()) {
-      console.log("Gets to do validate_credit_card", step_has_errors);
       return step_has_errors; // Leaves this function?
     }
 
-    console.log("Checking credit card valididity...");
-    console.log(valid_credit_card($('#ak-card_num').val()), "<---")
-    console.log("Done Checking CC valid")
     if (!valid_credit_card($('#ak-card_num').val())) {
       if (!actionkit.errors) actionkit.errors = {}
       actionkit.errors['card_num:invalid'] = actionkit.forms.errorMessage('card_num:invalid');
@@ -1558,12 +820,10 @@
       step_has_errors = true;
     }
 
-    console.log(step_has_errors, "Step Has Errors end of step 3?")
     return step_has_errors;
   }
 
   function step_2_validation() {
-    console.log('validating step 2');
     var step_has_errors = false;
 
     if (document.getElementById("country").value === "United States" && document.getElementById("id_state").value === "") {
@@ -1577,7 +837,6 @@
   }
 
   function step_1_validation() {
-    console.log('validating step 1.');
     var step_has_errors = false;
 
     // look for product selections
@@ -1632,175 +891,6 @@
 
     return step_has_errors;
     }
-
-  function actionkitValidationErrors(errors, field) {
-    // only want this running during step validation
-    if (!doing_step_validation) {
-      return;
-    }
-
-    // trim out validation errors we don't care about on this step
-    var to_delete = [];
-    step_has_errors = false;
-    for (var key in errors) {
-      parts = key.split(':');
-      if (validate_fields.indexOf(parts[0]) == -1) {
-        to_delete.push(key);
-      } else {
-        step_has_errors = true;
-      }
-    }
-    for (var i = 0; i < to_delete.length; i++) {
-      delete errors[to_delete[i]];
-    }
-  }
-
-  function three_step_initialize() {
-    console.log('three_step_initialize() fired');
-    if ($('.ak-err').is(":visible")) {
-      var has_errors = [];
-      if ($('.ak-donate-area-step-1').find('.ak-err').length) {
-        has_errors.push($('.ak-donate-area-step-1'));
-      }
-      if ($('.ak-donate-area-step-2').find('.ak-err').length) {
-        has_errors.push($('.ak-donate-area-step-2'));
-      }
-      if ($('.ak-donate-area-step-3').find('.ak-err').length) {
-        has_errors.push($('.ak-donate-area-step-3'));
-      }
-
-      if (has_errors.length == 1) {
-        // just one pane with errors?  show it
-        has_errors[0].show();
-      } else if (has_errors.length > 1) {
-        // show all if errors on multiple steps
-        $('.ak-donate-area-step-1, .ak-donate-area-step-2, .ak-donate-area-step-3').show();
-        $('#ak-continue-button').hide();
-      }
-    }
-    three_step_initialized = 1;
-  }
-
-  $(function () {
-    console.log("here????")
-    // three-step vs. one-step UI
-    if ($('form.ak-donate-three-step').length == 0) {
-      $('.ak-donate-three-step-visible').hide();
-    } else {
-      $('.ak-donate-three-step-hidden').hide();
-      three_step_reveal();
-      window.actionkitFormReady = three_step_initialize;
-      $('#ak-continue-button').on('click', function (evt) {
-        // letting this event go will trigger our onsubmit and lead to validation woe
-        evt.preventDefault();
-        three_step_advance();
-      });
-      $('.ak-donate-step-1').on('click', function (evt) {
-        evt.preventDefault();
-        three_step_goto('1');
-      });
-      $('.ak-donate-step-2').on('click', function (evt) {
-        evt.preventDefault();
-        three_step_goto('2');
-      });
-      $('.ak-donate-step-3').on('click', function (evt) {
-        evt.preventDefault();
-        three_step_goto('3');
-      });
-    }
-  });
-
-  function product_ids() {
-    return $("[data-product]").map(function (i, el) {
-      return $(el).data("product");
-    }).toArray();
-  }
-
-  function product_infos() {
-    return product_ids().map(function (id) {
-      return product_info(id);
-    });
-  }
-
-
-  // calculate subtotals if products exist
-  function calculate_product_subtotals() {
-    var subtotal = 0;
-    product_infos().forEach(function (info) {
-      $('.ak_product_subtotal_' + info.id).text(info.subtotal.toFixed(2));
-      subtotal += info.subtotal;
-    });
-    $('#ak-donation-subtotal-amount').text(subtotal.toFixed(2));
-  }
-
-  $(function () {
-    calculate_product_subtotals();
-
-    $('.ak_product_inputs').on('change', function () {
-      calculate_product_subtotals();
-    });
-  });
-
-  //calculate subtotals total
-  function calculate_product_subtotals_total() {
-    var amounts = [];
-    for (var i = 1; i < $('#ak-product-list tr').length; i++) {
-      var id = product_ids[i - 1];
-      amounts.push(parseFloat($('.ak_product_subtotal_' + id).text()));
-    }
-    var subtotal = amounts.reduce(function (a, b) { return a + b; }, 0);
-    $('#ak-donation-subtotal-amount').text(subtotal.toFixed(2));
-  }
-
-  $(function () {
-    calculate_product_subtotals();
-    $('.ak_product_inputs').on('change', function () {
-      calculate_product_subtotals();
-    });
-  });
-
-  // Standard luhn check to detect mistyped credit card numbers
-  // from https://gist.github.com/DiegoSalazar/4075533
-  function valid_credit_card(value) {
-    if (/[^0-9-\s]/.test(value)) {
-      return false;
-    }
-    var nCheck = 0, nDigit = 0, bEven = false;
-    value = value.replace(/\D/g, "");
-
-    for (var n = value.length - 1; n >= 0; n--) {
-      var cDigit = value.charAt(n),
-        nDigit = parseInt(cDigit, 10);
-
-      if (bEven) {
-        if ((nDigit *= 2) > 9) {
-          nDigit -= 9;
-        }
-      }
-
-      nCheck += nDigit;
-      bEven = !bEven;
-    }
-
-    return (nCheck % 10) == 0;
-  }
-
-  function valid_credit_card_code(value) {
-    if (/[^0-9-\s]/.test(value)) {
-      return false;
-    }
-    value = value.replace(/\D/g, "");
-    if (value.length == 3 || value.length == 4) {
-      return true;
-    }
-    return false;
-  }
-
-  // not 100% the same as Django but pretty close
-  var email_regExp = /^\s*((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\s*$/i;
-  function valid_email(email) {
-    return email_regExp.test(email);
-  }
 
   {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' %}
 
@@ -1970,8 +1060,6 @@
     $('#ak-paypal-button').on('mousedown', function () {
       var form_elt = $(this).closest('form');
       var required_fields = form_elt.find('input[name="required"]');
-      console.log(required_fields, "required fields");
-      console.log(form_elt, "required fields");
       if (required_fields.length) {
         required_fields.remove();
         $('body').on('mouseup', function (event) {
@@ -1983,24 +1071,6 @@
     {% endif %}
   });
   {% endif %}
-
-
-  // check for currency param and set default
-  var getUrlParameter = function (sParam) {
-    var sPageURL = window.location.search.substring(1),
-      sURLVariables = sPageURL.split('&'),
-      sParameterName,
-      i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-      sParameterName = sURLVariables[i].split('=');
-
-      if (sParameterName[0] === sParam) {
-        return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-      }
-    }
-  };
-
 
 </script>
 
@@ -2140,7 +1210,7 @@
 {% endif %}
 {% endwith %}
 
-{% if page.custom_fields.donate_payment_frequency_above_amounts == 'Y' %}
+{% if page.custom_fields.donate_payment_frequency_above_amounts.strip|lower == 'y' %}
 <script>
   $(function () {
     $('#ak-recurring-type').insertBefore('#ak-amount-list');

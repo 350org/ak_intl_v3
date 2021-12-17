@@ -125,6 +125,7 @@
 						"EUR": "€",
 						"GBP": "£",
 						"USD": "$",
+						"JPY": "¥"
 					}
 					
 					{% if action.order.currency %}
@@ -152,7 +153,8 @@
 					var multilingualMonthlyDonateUrls = {
 						en: 'https://act.350.org/donate/make_it_monthly',
 						fr: 'https://act.350.org/donate/make_it_monthly_fr',
-						de: 'https://act.350.org/donate/make_it_monthly_de'
+						de: 'https://act.350.org/donate/make_it_monthly_de',
+						ja: 'https://act.350.org/donate/give_ja'
 					};
 
 					var baseUrl;
@@ -218,7 +220,6 @@
 			<input type="hidden" name="utf8" value="&#x2714;" />
 			<input type="hidden" name="page" value="{{ page.name }}" />
 				<ul id="ak-errors" class="c10 ct10 cm10" style="display:none;"><li></li></ul>
-				{% if page.custom_fields.thanks_alternate_thank_you_page_styling|default:'Y' == 'N' %}
 				<div class="margin-bottom-medium c6 ct10 cm10">
 					<div class="share-facebook">
 						<div class="box bg-facebook-color margin-bottom-none">
@@ -276,7 +277,7 @@
 						</div>
 					</div>
 					
-				{% endif %}		
+				
 
 
 <div class="taf-option taf-option-3" id="taf-email" style="display:none">
@@ -351,14 +352,6 @@
 <div id="thank-you-donate">
 	<a href="/donate/build?source=thanks_page"><img src="https://s3.amazonaws.com/s3.350.org/images/350-ak-thankyou-donate.jpg" alt="400,000 people in the People's Climate March - Donate to 350.org" /></a>
 </div>
-{% endif %}
-
-{% if page.custom_fields.thanks_alternate_thank_you_page_styling|default:'Y' == 'Y' %}
-<script>
-	$(function(){
-		$('#thanks').addClass('thanks-alt');
-	});
-</script>
 {% endif %}
 
 {% endautoescape %}

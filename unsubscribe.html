@@ -241,7 +241,8 @@
 			max-width: 542px;
 		}
 		.ak-pagetype-unsubscribe .input-submit {
-			margin-top: 4px;
+			margin-top: 15px;
+			margin-bottom: 10px;
 		}
 		.ak-pagetype-unsubscribe .input-submit {
 			display: flex;
@@ -252,13 +253,14 @@
 			font-size: 13px;
 			text-shadow: none;
 			padding: 8px 12px;
-			min-height: 32px;
-			max-width: 110px;
+			min-height: 39px;
+			max-width: 153px;
 			border-radius: 4px;
 			background: #3681E2;
 			border-bottom: none !important;
 			box-shadow: 0px 2px 5px rgba(60, 66, 87, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 0px 1px rgba(60, 66, 87, 0.06);
 			margin-bottom: 0;
+			font-size: 1.25rem;
 		}
 		.ak-pagetype-unsubscribe #unsubscribe-all-btn {
 			color: #3681E2;
@@ -369,7 +371,7 @@
 			{% if user.subscriptions|length > 1 %}
 				
 			<fieldset>
-				<p>{% filter ak_text:"unsubscribe_from_lists_preemail" %}Your email{% endfilter %} <strong>{{ user.email }}</strong> {% filter ak_text:"unsubscribe_from_lists_postemail" %}is subscribed to:{% endfilter %}</p>
+				<p>{% filter ak_text:"unsubscribe_from_lists_preemail" %}Unsubscribe{% endfilter %} <strong>{{ user.email }}</strong> {% filter ak_text:"unsubscribe_from_lists_postemail" %}from:{% endfilter %}</p>
 				<input type="hidden" name="have_unsub_lists" value="1" />
 				<div class="checkbox-grid">
 					{% for s in user.subscriptions %}
@@ -411,7 +413,7 @@
 				
 			{% endif %}
 				<div class="input-wrapper input-submit">		
-					<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe{% endfilter %}{% endif %}" />
+					<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe from selected{% endfilter %}{% endif %}" />
 					{% if user.subscriptions|length > 1 %}
 					<button type="button" id="unsubscribe-all-btn">Unsubscribe from all</button>
 					{% endif %}

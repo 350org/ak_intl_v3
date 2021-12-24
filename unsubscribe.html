@@ -232,7 +232,7 @@
 				font-size: 13px;
 			}
 		}
-		.ak-pagetype-unsubscribe #action_survey-unsubscribe-reason-other {
+		.ak-pagetype-unsubscribe #action_survey_unsubscribe_reason_other {
 			font-size: 13px;
 			padding: 8px 15px;
 			border: 1px solid #DCDFE6;
@@ -389,25 +389,25 @@
 				<p class="radio-label">{% filter ak_text:"unsubscribe_from_lists_survey" %}Before you go, please tell us why{% endfilter %}  <span class="optional-hint">{% filter ak_text:"unsubscribe_from_lists_survey_post" %}(optional){% endfilter %}</span></p>
 				<div class="ak-unsubscribe-survey-radio-set ak-input-set">
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey-unsubscribe-reason" id="id_action_survey-unsubscribe-reason_1" value="You send me too many emails"><span class="larger-radios-choice-label"> You send me too many emails</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_1" value="You send me too many emails"><span class="larger-radios-choice-label"> You send me too many emails</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey-unsubscribe-reason" id="id_action_survey-unsubscribe-reason_2" value="I never signed up for this mailing list"><span class="larger-radios-choice-label"> I never signed up for this mailing list</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_2" value="I never signed up for this mailing list"><span class="larger-radios-choice-label"> I never signed up for this mailing list</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey-unsubscribe-reason" id="id_action_survey-unsubscribe-reason_3" value="I signed up with a different email"><span class="larger-radios-choice-label"> I signed up with a different email</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_3" value="I signed up with a different email"><span class="larger-radios-choice-label"> I signed up with a different email</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey-unsubscribe-reason" id="id_action_survey-unsubscribe-reason_4" value="I'm no longer interested in 350.org's campaigns"><span class="larger-radios-choice-label"> I'm no longer interested in 350.org's campaigns</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_4" value="I'm no longer interested in 350.org's campaigns"><span class="larger-radios-choice-label"> I'm no longer interested in 350.org's campaigns</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey-unsubscribe-reason" id="id_action_survey-unsubscribe-reason_5" value="Other"><span class="larger-radios-choice-label"> Other</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_5" value="Other"><span class="larger-radios-choice-label"> Other</span>
 					</label>
 				</div>
 			</fieldset>
 
 			<fieldset class="unsubscribe-other">
-				<textarea class="ak-unsubscribe-survey-input" name="action_survey-unsubscribe-reason-other" id="action_survey-unsubscribe-reason-other" placeholder="Can you tell us more?" rows="2"></textarea>
+				<textarea class="ak-unsubscribe-survey-input" name="action_survey_unsubscribe_reason_other" id="action_survey_unsubscribe_reason_other" placeholder="Can you tell us more?" rows="2"></textarea>
 				<span class="other-char-count"></span>
 			</fieldset>
 				
@@ -431,21 +431,21 @@
 
 	$(function(){
 		function moreDetailsAnwer() {
-			return $('input[name="action_survey-unsubscribe-reason"][value="I\'m no longer interested in 350.org\'s campaigns"], input[name="action_survey-unsubscribe-reason"][value="Other"]').is(':checked');
+			return $('input[name="action_survey_unsubscribe_reason"][value="I\'m no longer interested in 350.org\'s campaigns"], input[name="action_survey_unsubscribe_reason"][value="Other"]').is(':checked');
 		}
 
-		$('input[name="action_survey-unsubscribe-reason"]').on('change', function(){
+		$('input[name="action_survey_unsubscribe_reason"]').on('change', function(){
 			if (moreDetailsAnwer()) {
-				$('#action_survey-unsubscribe-reason-other').show();
+				$('#action_survey_unsubscribe_reason_other').show();
 			} else {
-				$('#action_survey-unsubscribe-reason-other').hide();
-				$('#action_survey-unsubscribe-reason-other').val('');
+				$('#action_survey_unsubscribe_reason_other').hide();
+				$('#action_survey_unsubscribe_reason_other').val('');
 			}
 		});
 
 		if (!moreDetailsAnwer()) { // check on pageload to handle autofill
-			$('#action_survey-unsubscribe-reason-other').hide();
-			$('#action_survey-unsubscribe-reason-other').val('');
+			$('#action_survey_unsubscribe_reason_other').hide();
+			$('#action_survey_unsubscribe_reason_other').val('');
 		}
 
 		$('#unsubscribe-all-btn').click(function(){

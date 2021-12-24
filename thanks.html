@@ -4,7 +4,7 @@
 {% autoescape off %}
 
 {% ifequal page.type "Unsubscribe" %}
-	<h1>unsubscribe page</h1>
+	{% include "./thanks_unsubscribe.html" %}
 {% else %}
 	<style>
 		.upsell_wrap {

@@ -4,11 +4,10 @@
 {% autoescape off %}
 
 {% ifequal page.type "Unsubscribe" %}
-	<h1>unsubscribe page</h1>
+	{% include "./thanks_unsubscribe.html" %}
 {% else %}
 	
 	<style>
-
 		.upsell_wrap {
 			display: flex;
 			justify-content: center;
@@ -224,7 +223,6 @@
 				<input type="hidden" name="utf8" value="&#x2714;" />
 				<input type="hidden" name="page" value="{{ page.name }}" />
 					<ul id="ak-errors" class="c10 ct10 cm10" style="display:none;"><li></li></ul>
-					{% if page.custom_fields.thanks_alternate_thank_you_page_styling|default:'Y' == 'N' %}
 					<div class="margin-bottom-medium c6 ct10 cm10">
 						<div class="share-facebook">
 							<div class="box bg-facebook-color margin-bottom-none">
@@ -282,7 +280,6 @@
 							</div>
 						</div>
 						
-					{% endif %}		
 
 
 	<div class="taf-option taf-option-3" id="taf-email" style="display:none">

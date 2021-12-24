@@ -2,6 +2,9 @@
 {% load actionkit_tags %}
 {% block content %}
 {% autoescape off %}
+{% ifequal page.type "Unsubscribe" %}
+	{% include "./thanks_unsubscribe.html" %}
+{% else %}
 <style>
 	.upsell_wrap {
 		display: flex;
@@ -376,7 +379,7 @@
 	<a href="/donate/build?source=thanks_page"><img src="https://s3.amazonaws.com/s3.350.org/images/350-ak-thankyou-donate.jpg" alt="400,000 people in the People's Climate March - Donate to 350.org" /></a>
 </div>
 {% endif %}
-
+{% endifequal %}
 {% endautoescape %}
 
 {% endblock %}
@@ -394,5 +397,3 @@ actionkit.forms.initForm('act');
 
 </script>
 {% endblock %}
-
-

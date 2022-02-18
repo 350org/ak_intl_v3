@@ -4662,40 +4662,16 @@ label.ak-survey-radio-choice {
   font-weight: bold;
 }
 
-#thanks.thanks-alt #thanks-message p:first-child {
+#thanks #thanks-message p:first-child {
   font-weight: inherit;
 }
 
-.wf-tficons-n7-active #thanks-message p:first-child::before {
-  background-color: rgb(0, 205, 100);
-  border-radius: 40px;
-  color: #fff;
-  /* content:'\E942'; */
-  content: '→';
-  display: inline-block;
-  font-family: KlimaWeb, sans-serif;
-  font-size: 0.75em;
-  height: 1.5em;
-  line-height: 1.75;
-  margin-right: 0.5em;
-  text-align: center;
-  vertical-align: text-bottom;
-  width: 1.5em;
-}
-
-.wf-tficons-n7-active #thanks.thanks-alt #thanks-message p:first-child::before {
-  content: '';
-  height: 0;
-  width: 0;
-  margin-right: 0;
-}
-
-#thanks.thanks-alt #thanks-message h1,
-#thanks.thanks-alt #thanks-message h2,
-#thanks.thanks-alt #thanks-message h3,
-#thanks.thanks-alt #thanks-message h4
-#thanks.thanks-alt #thanks-message h5,
-#thanks.thanks-alt #thanks-message h6 {
+#thanks #thanks-message h1,
+#thanks #thanks-message h2,
+#thanks #thanks-message h3,
+#thanks #thanks-message h4
+#thanks #thanks-message h5,
+#thanks #thanks-message h6 {
   font-family: KlimaWeb, Klima, -apple-system-, BlinkMacSystemFont, Arial, sans-serif;
 }
 

@@ -1,10 +1,11 @@
 {% extends "./wrapper.html" %}{% load actionkit_tags %}
 
 {% block content %}
-<div id="content">
 
 
-<div class="span-9 last">
+<section id="action-lead" class="section action-lead width-normal padding-medium bg-white">
+<div class="section-inner">
+
 
 <h2 class="page-title">{{ page.title }}</h2>
 
@@ -15,28 +16,29 @@
 </div>
 
 {% if active %}
-{% for profile in active %}
-
 {% autoescape off %}
 
 <p>{% include_tmpl form.please_stay_text %}</p>
 
 {% endautoescape %}
+{% for profile in active %}
 
 
 <form class="action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
 <input type="hidden" name="utf8" value="&#x2714;">
 
 <ul class="compact" id="ak-errors"></ul>
-
+<div class="section note">
 {% include "./recurring_info.html" %}
-
+<div style="clear:both;"></div>
+<div><button type="submit" class="submit">Cancel Donation</button></div>
+</div>
 {% comment %} JavaScript needs it. {% endcomment %}
 <input type="hidden" name="akid" value="{{ logged_in_user.token }}">
 <input type="hidden" name="page" value="{{ page.name }}">
 <input type="hidden" name="profile_id" value="{{ profile.id }}">
 
-<p><input name="submit" type="submit" class="submit" value="Cancel Donation"></p>
+<!--<p><input name="submit" type="submit" class="submit" value="Cancel Donation"></p>-->
 
 </form>
 
@@ -68,8 +70,24 @@ We have to have a form, or the JavaScript doesn't work.
     </ul>
 [% } %]
 </script>
+<style>
+.ak-pagetype-recurring_cancel .note {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    left: -2px;
+    margin: 25px 0;
+    padding: 20px;
+    position: relative;
+}
+
+.ak-pagetype-recurring_cancel button.submit {
+    max-width: 300px;
+    margin: 0 auto;
+}
+</style>
 
 </div>
-</div>
+</section>
 
 {% endblock %}

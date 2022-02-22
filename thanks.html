@@ -94,22 +94,6 @@
 			border-radius: 0 0 1.4em 1.4em;
 		}
 	}
-
-	/**
-	TODO: REMOVE this section once the sync between buddy and AWS is solved
-	**/
-	.wf-tficons-n7-active #thanks-message p:first-child::before {
-		content: none !important;
-	}
-
-	#thanks-message p:first-child{
-		font-weight: inherit
-	};
-	/**
-	TODO: REMOVE this section once the sync between buddy and AWS is solved
-	**/
-
-
 </style>
 <section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
@@ -141,7 +125,6 @@
 						"EUR": "€",
 						"GBP": "£",
 						"USD": "$",
-						"JPY": "¥"
 					}
 					
 					{% if action.order.currency %}
@@ -169,8 +152,7 @@
 					var multilingualMonthlyDonateUrls = {
 						en: 'https://act.350.org/donate/make_it_monthly',
 						fr: 'https://act.350.org/donate/make_it_monthly_fr',
-						de: 'https://act.350.org/donate/make_it_monthly_de',
-						ja: 'https://act.350.org/donate/give_ja'
+						de: 'https://act.350.org/donate/make_it_monthly_de'
 					};
 
 					var baseUrl;
@@ -236,9 +218,7 @@
 			<input type="hidden" name="utf8" value="&#x2714;" />
 			<input type="hidden" name="page" value="{{ page.name }}" />
 				<ul id="ak-errors" class="c10 ct10 cm10" style="display:none;"><li></li></ul>
-
-				{%if page.custom_fields.hide_share_buttons_on_thanks_page == "Y" %} 
-				{% else %}
+				{% if page.custom_fields.thanks_alternate_thank_you_page_styling|default:'Y' == 'N' %}
 				<div class="margin-bottom-medium c6 ct10 cm10">
 					<div class="share-facebook">
 						<div class="box bg-facebook-color margin-bottom-none">
@@ -295,8 +275,8 @@
 							</div>
 						</div>
 					</div>
-					{% endif %}
-				
+					
+				{% endif %}		
 
 
 <div class="taf-option taf-option-3" id="taf-email" style="display:none">
@@ -373,6 +353,14 @@
 </div>
 {% endif %}
 
+{% if page.custom_fields.thanks_alternate_thank_you_page_styling|default:'Y' == 'Y' %}
+<script>
+	$(function(){
+		$('#thanks').addClass('thanks-alt');
+	});
+</script>
+{% endif %}
+
 {% endautoescape %}
 
 {% endblock %}
@@ -390,5 +378,4 @@ actionkit.forms.initForm('act');
 
 </script>
 {% endblock %}
-
 

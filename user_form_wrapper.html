@@ -86,15 +86,14 @@
 
 {% if page.custom_fields.page_region_specific_thank_you_pages %}
 <script>
-	jQuery(function(){
-		function regionalTyPage(country, regionalUrlRules) {
+	$(function(){
+		function getUserRegionalUrl(country, regionalUrlRules) {
 			let europeCountries = ['aland islands', 'albania', 'andorra', 'austria', 'belgium', 'bosnia and herzegovina', 'bulgaria', 'croatia', 'cyprus', 'czechia', 'denmark', 'estonia', 'faroe islands', 'finland', 'france', 'germany', 'gibraltar', 'greece', 'guernsey', 'hungary', 'iceland', 'ireland', 'isle of man', 'italy', 'jersey', 'kosovo', 'latvia', 'liechtenstein', 'lithuania', 'luxembourg', 'malta', 'monaco', 'montenegro', 'netherlands', 'north macedonia', 'norway', 'poland', 'portugal', 'romania', 'san marino', 'serbia', 'slovakia', 'slovenia', 'spain', 'sweden', 'switzerland', 'united kingdom', 'vatican'];
 			let africaCountries = ['angola', 'benin', 'botswana', 'burkina faso', 'burundi', 'cabo verde', 'cameroon', 'central african republic', 'chad', 'comoros', 'democratic republic of the congo', 'djibouti', 'equatorial guinea', 'eritrea', 'eswatini', 'ethiopia', 'gabon', 'gambia', 'ghana', 'guinea', 'guinea-bissau', 'ivory coast', 'kenya', 'lesotho', 'liberia', 'madagascar', 'malawi', 'mali', 'mauritius', 'mayotte', 'mozambique', 'namibia', 'niger', 'nigeria', 'republic of the congo', 'reunion', 'rwanda', 'saint helena', 'sao tome and principe', 'senegal', 'seychelles', 'sierra leone', 'somalia', 'south africa', 'south sudan', 'sudan', 'tanzania', 'togo', 'uganda', 'western sahara', 'zambia', 'zimbabwe'];
 			let asiaCountries = ['brunei', 'cambodia', 'china', 'hong kong', 'indonesia', 'japan', 'laos', 'macao', 'malaysia', 'mongolia', 'myanmar', 'philippines', 'singapore', 'south korea', 'taiwan', 'thailand', 'timor leste', 'vietnam', 'afghanistan', 'bangladesh', 'bhutan', 'india', 'maldives', 'nepal', 'pakistan', 'sri lanka'];
 			let latinAmericaCountries = ['argentina', 'belize', 'bolivia', 'brazil', 'chile', 'cocos islands', 'colombia', 'costa rica', 'cuba', 'dominican republic', 'ecuador', 'el salvador', 'french guiana', 'guadeloupe', 'guatemala', 'guyana', 'haiti', 'honduras', 'martinique', 'mexico', 'nicaragua', 'panama', 'paraguay', 'peru', 'puerto rico', 'suriname', 'uruguay', 'venezuela', 'american samoa'];
 			let pacificCountries = ['american samoa', 'christmas island', 'cook islands', 'fiji', 'french polynesia', 'guam', 'kiribati', 'marshall islands', 'micronesia', 'nauru', 'new caledonia', 'niue', 'northern mariana islands', 'palau', 'papua new guinea', 'pitcairn', 'samoa', 'solomon islands', 'tokelau', 'tonga', 'tuvalu', 'vanuatu', 'wallis and futuna'];
 			
-			country = country.toLowerCase();
 			// if the user country matches any country specific rules
 			for (var i = 0; i < regionalUrlRules.length; i++) {
 				if (regionalUrlRules[i].region.toLowerCase() ===  country) {
@@ -126,10 +125,10 @@
 			return false;
 		}
 
-		function changeTyPage(tyPageUrl){
-			jQuery('form#action-form input[name="redirect').remove();
+		function setTyPageUrl(tyPageUrl){
+			$('form#action-form input[name="redirect').remove();
       if (tyPageUrl) {
-        jQuery('form#action-form').append(jQuery('<input type="hidden" name="redirect" value="'+ tyPageUrl +'">'));
+        $('form#action-form').append($('<input type="hidden" name="redirect" value="'+ tyPageUrl +'">'));
       }
     }
 
@@ -139,7 +138,7 @@
 			.split('</p>');
     let regionSpecificUrlRulesArray = [];
     let userCountry;
-    let userTyPage;
+    let userRegion;
     for (var x = 0; x < regionSpecificUrlRules.length; x++) {
       if (regionSpecificUrlRules[x]) {
         let regionRule = {
@@ -151,33 +150,27 @@
     }
 
     userCountry = '{{ user.country }}';
-    userTyPage = regionalTyPage(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
-    changeTyPage(userTyPage);
-    if (jQuery('#country').length) {
-      jQuery('#country').change(function(){
-        userCountry = jQuery(this).val();
-        userTyPage = regionalTyPage(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
-        changeTyPage(userTyPage);
+    userTyPage = getUserRegionalUrl(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
+    setTyPageUrl(userRegion);
+    if ($('#country').length) {
+      $('#country').change(function(){
+        userCountry = $(this).val();
+        userTyPage = getUserRegionalUrl(userCountry.toLowerCase(), regionSpecificUrlRulesArray);
+        setTyPageUrl(userTyPage);
       });
     }
   });
 </script>
 {% endif %}
-<script>
-console.log('{{page.type}}');
-</script>
-<!-- add page types to the condition below if you want to allow sms opt ins for those pages -->
-<!-- be sure to test the styling doesn't break when adding new page types -->
-{% if page.type == "Signup" or page.type == "Petition" or page.type == 'Letter' or page.type == 'Survey' or page.type == 'Call' %}
+
+{% if page.type != "Signup" or page.type != "Petition" %}
   {% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
   <script>
-	console.log('testing');
   jQuery(function(){
-		jQuery('#unknown_user').after(jQuery('<div id="known_or_unknow_fields" class="user-form ak-errs-below form-style-labelabove text-black">'));
     function showMobileFields() {
       // add mobile field if not already added, or show if already added
       if (!jQuery('#id_mobile_phone_box').length) {
-        jQuery('#known_or_unknow_fields').append(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
+        jQuery('#unknown_user').append(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
         jQuery('#id_mobile_phone').on('keyup change', function(){
           ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
         });
@@ -230,7 +223,7 @@ console.log('{{page.type}}');
       jQuery('#id_user_mobile_subscriber_true').attr('name', 'user_mobile_subscriber');
       // store the user's opt in mobile in custom action field
       if (!jQuery('#mobile_subscriber_number').length) {
-        jQuery('.ak-form').append(jQuery('<input name="action_mobile_subscriber_number" id="mobile_subscriber_number" value="" type="hidden"/>'));
+        jQuery('#action-form').append(jQuery('<input name="action_mobile_subscriber_number" id="mobile_subscriber_number" value="" type="hidden"/>'));
       }
       // if they opted in, include subscriber number field in form submission, with value of mobile number
       // else don't include in submission
@@ -270,14 +263,6 @@ console.log('{{page.type}}');
     jQuery('.general-privacy-notice').after($smsPrivacyNotice);
 
     var selectedCountry = jQuery('#country').val();
-
-		// if user is not known and country field is not added, assume country is US
-		if ('{{ user }}' === 'None' && !jQuery('#country').length) {
-			selectedCountry = 'United States';
-		} else if ('{{ user }}' !== 'None') {
-			// if user is know, get their country
-			selectedCountry = '{{ user.country }}';
-		}
     ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
     ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
 
@@ -526,8 +511,6 @@ console.log('{{page.type}}');
 		jQuery('#unknown_user .large-checkboxes.input-checkbox .ak-userfield-checkbox-choice, .large-checkboxes.input-checkbox .ak-survey-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
 	});
 </script>
-
-
 {% endif %}
 
 

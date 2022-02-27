@@ -205,6 +205,8 @@
                           £){% endfilter %}
                           {% elif currency == "USD" %} {% filter ak_text:"general_us_dollar" %}U.S. Dollar (USD
                           $){% endfilter %}
+                          {% elif currency == "JPY" %} {% filter ak_text:"general_ja_yen" %}Japanese Yen (JPY ¥){% endfilter %}
+                          {% elif currency == "NZD" %} {% filter ak_text:"general_nz_dollar" %}New Zealand Dollar (NZD $){% endfilter %}
                           {% else %}
                           {{ currency }}
                           {% endif %}

@@ -1,0 +1,37 @@
+<div class="ak-us-billing-fields input-text ak-input-type-user input-field-group ak-err-below">
+  <input type="hidden" name="required" value="zip">
+  <label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
+  <input id="id_zip" type="text" name="zip" maxlength="5" size="5">
+</div>
+{% if page.allow_international %}
+  <div class="ak-intl-billing-fields input-text ak-input-type-user input-field-group ak-err-below">
+    <label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
+    <input id="id_postal" type="text" name="postal" size="10">
+  </div>
+{% endif %}
+{% if page.allow_international %}
+  <div class="ak-intl-billing-fields input-text ak-input-type-user input-field-group ak-err-below">
+    <label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
+    <input id="id_region" type="text" name="region" size="20">
+  </div>
+{% endif %}
+{% if has_shippable_products %}
+  <div class="input-text ak-input-type-user input-field-group ak-err-below">
+    <label for="id_address1">Billing address line 1</label>
+    <input id="id_address1" class="" type="text" name="address1">
+  </div>
+  <div class="input-text ak-input-type-user input-field-group ak-err-below">
+    <label for="id_address2">Billing address line 2 (optional)</label>
+    <input id="id_address2" class="" type="text" name="address2">
+  </div>
+{% else %}
+  <div class="input-select ak-input-type-user input-field-group ak-err-below">
+    <label for="id_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
+    {% include "./japanese_city_select.html" %}
+  </div>
+  <div class="input-text ak-input-type-user input-field-group ak-err-below">
+    <label for="id_address1">{% filter ak_text:"field_billing_address" %}Billing
+      address{% endfilter %}</label>
+    <input id="id_address1" class="" type="text" name="address1">
+  </div>
+{% endif %}

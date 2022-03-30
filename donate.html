@@ -393,8 +393,14 @@
 
                     <!--Name-->
                     <div class="input-text ak-input-type-user">
-                      <label for="id_name">{% filter ak_text:"field_name" %}Name{% endfilter %}</label>
-                      <input id="id_name" class="ak-input-type-user" type="text" name="name">
+                      <label for="id_first_name">{% filter ak_text:"field_first_name" %}First Name{% endfilter %}</label>
+                      <input id="id_first_name" class="ak-input-type-user" type="text" name="first_name">
+                      <input type="hidden" name="required" value="first_name">
+                    </div>
+                    <div class="input-text ak-input-type-user">
+                      <label for="id_last_name">{% filter ak_text:"field_last_name" %}Last Name{% endfilter %}</label>
+                      <input id="id_last_name" class="ak-input-type-user" type="text" name="last_name">
+                      <input type="hidden" name="required" value="last_name">
                     </div>
                     <!--Email-->
                     <div class="input-text ak-input-type-user input-field-group">

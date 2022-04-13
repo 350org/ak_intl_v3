@@ -214,6 +214,20 @@
                     </div>
                     {% endif %}
 
+                    <script>
+                      // Select currency in AK currency switcher if query param `currency` is passed through in URL
+                      $(function() {
+                        function urlParam(name){
+                          var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                          if (!results) { return 0; }
+                          return results[1] || 0;
+                        }
+
+                        if (urlParam('currency')) {
+                      		$('#ak-currency-switcher').val('Braintree Client-Side Encryption ' + urlParam('currency')).change();
+                        }
+                      });
+                    </script>
                     <div class="ak-amount-wrapper clearfix margin-bottom-small">
                       <h5 class="margin-bottom-normal ak-donate-three-step-hidden">Amount:</h5>
                       <ul class="ak-unstyled nobullet text-large">

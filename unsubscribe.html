@@ -259,13 +259,14 @@
 			text-shadow: none;
 			padding: 8px 12px;
 			min-height: 39px;
-			max-width: 153px;
+			max-width: 250px;
 			border-radius: 4px;
 			background: #3681E2;
 			border-bottom: none !important;
 			box-shadow: 0px 2px 5px rgba(60, 66, 87, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 0px 1px rgba(60, 66, 87, 0.06);
 			margin-bottom: 0;
-			font-size: 1.25rem;
+			font-size: 1rem;
+			width: fit-content;
 		}
 		.ak-pagetype-unsubscribe #unsubscribe-all-btn {
 			color: #3681E2;
@@ -442,14 +443,14 @@
 			</fieldset>
 
 			<fieldset class="unsubscribe-other">
-				<textarea class="ak-unsubscribe-survey-input" name="action_survey_unsubscribe_reason_other" id="action_survey_unsubscribe_reason_other" placeholder="{% filter ak_text:"unsubscribe_reason_other_placeholder" %}Can you tell us more?{% endfilter %}" rows="2"></textarea>
+				<textarea class="ak-unsubscribe-survey-input" name="action_survey_unsubscribe_reason_other" id="action_survey_unsubscribe_reason_other" placeholder="{% filter ak_text:'unsubscribe_reason_other_placeholder' %}Can you tell us more?{% endfilter %}" rows="2"></textarea>
 				<span class="other-char-count"></span>
 			</fieldset>
 
 			<div class="input-wrapper input-submit">
-				<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe from selected{% endfilter %}{% endif %}" />
+				<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% if user.subscriptions|length > 1 %}{% filter ak_text:'unsubscribe_submit_button_multiple' %}Unsubscribe from selected{% endfilter %}{% else %}{% filter ak_text:'unsubscribe_submit_button' %}Unsubscribe{% endfilter %}{% endif %}{% endif %}" />
 				{% if user.subscriptions|length > 1 %}
-				<button type="button" id="unsubscribe-all-btn">{% filter ak_text:"unsubscribe_from_all_label" %}Unsubscribe from all{% endfilter %}</button>
+					<button type="button" id="unsubscribe-all-btn">{% filter ak_text:"unsubscribe_from_all_label" %}Unsubscribe from all{% endfilter %}</button>
 				{% endif %}
 			</div>
 

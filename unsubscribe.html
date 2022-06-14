@@ -365,7 +365,36 @@
 	-->
 			</div>
 			<div id="known_user">
-			<div>{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %} <strong><span id="known_user_name"></span></strong>{% filter ak_text:"unsubscribe_user_warning_postname " %}?{% endfilter %} <a href="/unsubscribe/unsubscribe">{% filter ak_text:"unsubscribe_user_warning_link_label" %}Use this form instead{% endfilter %}</a></div>
+				<div>
+					{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %}
+					<strong>
+						<span id="known_user_name"></span>
+					</strong>
+					{% filter ak_text:"unsubscribe_user_warning_postname " %}?{% endfilter %}
+					{% if page.lang.iso_code == "de"%}
+						<a href="/unsubscribe/unsubscribe-de">
+					{% elif page.lang.iso_code == "fr" %}
+						<a href="/unsubscribe/unsubscribe-fr">
+					{% elif page.lang.iso_code == "es" %}
+						<a href="/unsubscribe/unsubscribe-es">
+					{% elif page.lang.iso_code == "pt" %}
+						<a href="/unsubscribe/unsubscribe-pt">
+					{% elif page.lang.iso_code == "jp" %}
+						<a href="/unsubscribe/unsubscribe_japanese">
+					{% elif page.lang.iso_code == "tr" %}
+						<a href="/unsubscribe/unsubscribe-turkish">
+					{% elif page.lang.iso_code == "se" %}
+						<a href="/unsubscribe/unsubscribe-sw">
+					{% elif page.lang.iso_code == "nl" %}
+						<a href="/unsubscribe/unsubscribe-du">
+					{% elif page.lang.iso_code == "pl" %}
+						<a href="/unsubscribe/unsubscribe-pl">
+					{% else %}
+						<a href="/unsubscribe/unsubscribe">
+					{% endif %}
+						{% filter ak_text:"unsubscribe_user_warning_link_label" %}Use this form instead{% endfilter %}
+					</a>
+				</div>
 			</div>
 
 			{% if user.subscriptions|length > 1 %}

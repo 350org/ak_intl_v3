@@ -106,6 +106,7 @@
 			width: 25px;
 			background-color: #eee;
 			border-radius: 3px;
+			border: 2px solid #3681E2;
 		}
 		@media screen and (min-width: 650px) {
 			.ak-pagetype-unsubscribe .checkbox-set label {
@@ -118,6 +119,7 @@
 		}
 		.ak-pagetype-unsubscribe .checkbox-set input:checked ~ .checkmark {
     	background-color: #3b88fd;
+		border: none;
 		}
 		.ak-pagetype-unsubscribe .checkbox-set .checkmark::after {
 			display: none;
@@ -205,6 +207,8 @@
 			border-radius: 50%;
 			background-color: #FFFFFF;
 			border: solid 0.8px #BAC7D5;
+			outline: 2px solid #3681E2;
+    		outline-offset: -2px;
 			position: absolute;
 			display: block;
 			left: 0;
@@ -227,6 +231,7 @@
 				height: 8px;
 				width: 8px;
 				border: 6px solid #3b88fd;
+				outline: none;
 			}
 			.ak-pagetype-unsubscribe .larger-radios-choice-label {
 				font-size: 13px;
@@ -264,12 +269,13 @@
 		}
 		.ak-pagetype-unsubscribe #unsubscribe-all-btn {
 			color: #3681E2;
-			font-size: 13px;
+			font-size: 16px;
 			background: none;
 			border: none;
 			max-height: 25px;
 			padding: 0;
 			margin-left: 22px;
+			font-weight: 500;
 		}
 		@media screen and (max-width: 440px) {
 			.ak-pagetype-unsubscribe .input-submit {

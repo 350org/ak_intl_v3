@@ -82,7 +82,7 @@
 			cursor: pointer;
 			font-family: 'Inter', sans-serif;
 		}
-		
+
 		.ak-pagetype-unsubscribe .checkbox-set .sub {
 			font-weight: 400;
 			margin-top: 5px;
@@ -152,7 +152,7 @@
 			grid-template-columns: repeat(3, 1fr);
 			margin-bottom: 32px;
 		}
-		
+
 		@media screen and (max-width: 719px) {
 			.ak-pagetype-unsubscribe .checkbox-grid {
 				grid-template-columns: repeat(2, 1fr);
@@ -309,7 +309,7 @@
 						<path d="M94.0129 53.9872L53.4787 57.5278L36.2778 20.6539" stroke="#B4C5D8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 						</g>
 					</svg>
-				</div>	
+				</div>
 				{% if page.custom_fields.page_pretitle %}
 				<p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
 				{% endif %}
@@ -327,7 +327,7 @@
 				{% endif %}
 				{% if page.custom_fields.page_layout_style == "expanded" %}
 			</div>
-			{% endif %}			
+			{% endif %}
 			{% if page.custom_fields.page_layout_style == "expanded" %}{% else %}
 		</div>
 		{% endif %}
@@ -337,8 +337,8 @@
 			{{ page.custom_fields.page_is_inactive }}
 		{% endautoescape %}
 		</div>
-		{% else %}			
-				
+		{% else %}
+
 
 			<form id="action-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
 			<div id="form">
@@ -353,8 +353,8 @@
 					<div id="id_email_box" class="input-text ak-input-type-user required ak-err-below">
 						<label for="id_email">{% filter ak_text:"field_email" %}Email Address{% endfilter %}</label>
 						<input type="text" name="email" id="id_email" class="ak-userfield-input">
-					</div>			 
-	<!--		   
+					</div>
+	<!--
 				<div class="ak-labels-overlaid">
 					<div>
 						<label for="id_email">{% filter ak_text:"field_email"|capfirst %}{% endfilter %}</label>
@@ -362,29 +362,30 @@
 					</div>
 					<input type="hidden" name="country" value="United States" />
 				</div>
-	-->	
+	-->
 			</div>
 			<div id="known_user">
-			<div>{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %} <strong><span id="known_user_name"></span></strong>{% filter ak_text:"unsubscribe_user_warning_postname " %}?{% endfilter %} <a href="/unsubscribe/unsubscribe">{% filter ak_text:"unsubscribe_user_warning_link_label" %}Use this form instead{% endfilter %}</a></div>				
+			<div>{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %} <strong><span id="known_user_name"></span></strong>{% filter ak_text:"unsubscribe_user_warning_postname " %}?{% endfilter %} <a href="/unsubscribe/unsubscribe">{% filter ak_text:"unsubscribe_user_warning_link_label" %}Use this form instead{% endfilter %}</a></div>
 			</div>
-			
+
 			{% if user.subscriptions|length > 1 %}
-				
-			<fieldset>
-				<p>{% filter ak_text:"unsubscribe_from_lists_preemail" %}Unsubscribe{% endfilter %} <strong>{{ user.email }}</strong> {% filter ak_text:"unsubscribe_from_lists_postemail" %}from:{% endfilter %}</p>
-				<input type="hidden" name="have_unsub_lists" value="1" />
-				<div class="checkbox-grid">
-					{% for s in user.subscriptions %}
-					<div class="checkbox-set">
-						<label>
-							<input type="checkbox" checked name="unsub_lists" value="{{ s.list.id }}" /> {{ s.list.name }}<br />
-							<span class="sub">A little more description of what this mailing is about</span>
-							<span class="checkmark"></span>
-						</label>
+				<fieldset>
+					<p>{% filter ak_text:"unsubscribe_from_lists_preemail" %}Unsubscribe{% endfilter %} <strong>{{ user.email }}</strong> {% filter ak_text:"unsubscribe_from_lists_postemail" %}from:{% endfilter %}</p>
+					<input type="hidden" name="have_unsub_lists" value="1" />
+					<div class="checkbox-grid">
+						{% for s in user.subscriptions %}
+						<div class="checkbox-set">
+							<label>
+								<input type="checkbox" checked name="unsub_lists" value="{{ s.list.id }}" /> {{ s.list.name }}<br />
+								<span class="sub">A little more description of what this mailing is about</span>
+								<span class="checkmark"></span>
+							</label>
+						</div>
+					{% endfor %}
 					</div>
-				{% endfor %}
-				</div>
-			</fieldset>
+				</fieldset>
+			{% endif %}
+
 			<fieldset>
 				<p class="radio-label">{% filter ak_text:"unsubscribe_from_lists_survey" %}Before you go, please tell us why{% endfilter %}  <span class="optional-hint">{% filter ak_text:"unsubscribe_from_lists_survey_post" %}(optional){% endfilter %}</span></p>
 				<div class="ak-unsubscribe-survey-radio-set ak-input-set">
@@ -410,15 +411,14 @@
 				<textarea class="ak-unsubscribe-survey-input" name="action_survey_unsubscribe_reason_other" id="action_survey_unsubscribe_reason_other" placeholder="Can you tell us more?" rows="2"></textarea>
 				<span class="other-char-count"></span>
 			</fieldset>
-				
-			{% endif %}
-				<div class="input-wrapper input-submit">		
-					<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe from selected{% endfilter %}{% endif %}" />
-					{% if user.subscriptions|length > 1 %}
-					<button type="button" id="unsubscribe-all-btn">Unsubscribe from all</button>
-					{% endif %}
-				</div>
-			
+
+			<div class="input-wrapper input-submit">
+				<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe from selected{% endfilter %}{% endif %}" />
+				{% if user.subscriptions|length > 1 %}
+				<button type="button" id="unsubscribe-all-btn">Unsubscribe from all</button>
+				{% endif %}
+			</div>
+
 			<input type="hidden" name="page" value="{{ page.name }}">
 			</div>
 			</form>
@@ -453,7 +453,7 @@
 			$('input[value="Unsubscribe"]').click();
 		});
 
-		
+
 
 
 	});

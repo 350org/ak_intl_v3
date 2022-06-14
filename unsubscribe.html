@@ -389,32 +389,32 @@
 				<p class="radio-label">{% filter ak_text:"unsubscribe_from_lists_survey" %}Before you go, please tell us why{% endfilter %}  <span class="optional-hint">{% filter ak_text:"unsubscribe_from_lists_survey_post" %}(optional){% endfilter %}</span></p>
 				<div class="ak-unsubscribe-survey-radio-set ak-input-set">
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_1" value="You send me too many emails"><span class="larger-radios-choice-label"> You send me too many emails</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_1" value="You send me too many emails"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_frequency" %}You send me too many emails{% endfilter %}</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_2" value="I never signed up for this mailing list"><span class="larger-radios-choice-label"> I never signed up for this mailing list</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_2" value="I never signed up for this mailing list"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_consent" %}I never signed up for this mailing list{% endfilter %}</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_3" value="I signed up with a different email"><span class="larger-radios-choice-label"> I signed up with a different email</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_3" value="I signed up with a different email"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_difemail" %}I signed up with a different email{% endfilter %}</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_4" value="I'm no longer interested in 350.org's campaigns"><span class="larger-radios-choice-label"> I'm no longer interested in 350.org's campaigns</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_4" value="I'm no longer interested in 350.org's campaigns"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_campaigns" %}I'm no longer interested in 350.org's campaigns{% endfilter %}</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_5" value="Other"><span class="larger-radios-choice-label"> Other</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_5" value="Other"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_other" %}Other{% endfilter %}</span>
 					</label>
 				</div>
 			</fieldset>
 
 			<fieldset class="unsubscribe-other">
-				<textarea class="ak-unsubscribe-survey-input" name="action_survey_unsubscribe_reason_other" id="action_survey_unsubscribe_reason_other" placeholder="Can you tell us more?" rows="2"></textarea>
+				<textarea class="ak-unsubscribe-survey-input" name="action_survey_unsubscribe_reason_other" id="action_survey_unsubscribe_reason_other" placeholder="{% filter ak_text:"unsubscribe_reason_other_placeholder" %}Can you tell us more?{% endfilter %}" rows="2"></textarea>
 				<span class="other-char-count"></span>
 			</fieldset>
 
 			<div class="input-wrapper input-submit">
 				<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe from selected{% endfilter %}{% endif %}" />
 				{% if user.subscriptions|length > 1 %}
-				<button type="button" id="unsubscribe-all-btn">Unsubscribe from all</button>
+				<button type="button" id="unsubscribe-all-btn">{% filter ak_text:"unsubscribe_from_all_label" %}Unsubscribe from all{% endfilter %}</button>
 				{% endif %}
 			</div>
 

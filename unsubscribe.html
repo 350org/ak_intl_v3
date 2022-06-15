@@ -412,7 +412,7 @@
 						{% for s in user.subscriptions %}
 						<div class="checkbox-set">
 							<label>
-								<input type="checkbox" checked name="unsub_lists" value="{{ s.list.id }}" /> {{ s.list.name }}<br />
+								<input type="checkbox" name="unsub_lists" value="{{ s.list.id }}" /> {{ s.list.name }}<br />
 								<span class="checkmark"></span>
 							</label>
 						</div>
@@ -488,9 +488,21 @@
 			$('input[value="Unsubscribe"]').click();
 		});
 
-
-
-
+		if (actionkit && actionkit.args) {
+			// Preselect a mailing list if query parameter exists
+			if (actionkit.args.mailing_list_id) {
+				var checkboxToSelect = $("input[name=unsub_lists][value='" + actionkit.args.mailing_list_id + "']");
+				if (checkboxToSelect.length > 0) {
+					$(checkboxToSelect[0]).prop('checked', 'true');
+				} else {
+					// If no checkbox with mailing list ID passed through in query parameter, pre-select all mailing lists
+					$("input[name=unsub_lists]").prop('checked', 'true')
+				}
+			} else {
+				// If no mailing list ID passed through in query parameter, pre-select all mailing lists
+				$("input[name=unsub_lists]").prop('checked', 'true')
+			}
+		}
 	});
 </script>
 

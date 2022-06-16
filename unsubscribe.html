@@ -356,7 +356,7 @@
 			{% endautoescape %}
 			<ul class="compact" id="ak-errors"></ul>
 			<div id="unknown_user">
-				<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}{% endfilter %}</h5>
+				<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}Enter your email here to unsubscribe:{% endfilter %}</h5>
 					<div id="id_email_box" class="input-text ak-input-type-user required ak-err-below">
 						<label for="id_email">{% filter ak_text:"field_email" %}Email Address{% endfilter %}</label>
 						<input type="text" name="email" id="id_email" class="ak-userfield-input">
@@ -373,11 +373,11 @@
 			</div>
 			<div id="known_user">
 				<div>
-					{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %}
+					{% filter ak_text:"unsubscribe_user_warning_prename" %}Not{% endfilter %}
 					<strong>
 						<span id="known_user_name"></span>
 					</strong>
-					{% filter ak_text:"unsubscribe_user_warning_postname " %}?{% endfilter %}
+					{% filter ak_text:"unsubscribe_user_warning_postname" %}?{% endfilter %}
 					{% if page.lang.iso_code == "de"%}
 						<a href="/unsubscribe/unsubscribe-de">
 					{% elif page.lang.iso_code == "fr" %}
@@ -396,6 +396,18 @@
 						<a href="/unsubscribe/unsubscribe-du">
 					{% elif page.lang.iso_code == "pl" %}
 						<a href="/unsubscribe/unsubscribe-pl">
+					{% elif page.lang.iso_code == "bn" %}
+						<a href="/unsubscribe/unsubscribe_bn">
+					{% elif page.lang.iso_code == "id" %}
+						<a href="/unsubscribe/unsubscribe-bahasaindonesia">
+					{% elif page.lang.iso_code == "ua" %}
+						<a href="/unsubscribe/unsubscribe_uk">
+					{% elif page.lang.iso_code == "ar" %}
+						<a href="/unsubscribe/unsubscribe-arabic">
+					{% elif page.lang.iso_code == "ru" %}
+						<a href="/unsubscribe/unsubscribe-russian">
+					{% elif page.lang.iso_code == "zh" %}
+						<a href="/unsubscribe/unsubscribe-chinese">
 					{% else %}
 						<a href="/unsubscribe/unsubscribe">
 					{% endif %}
@@ -491,16 +503,16 @@
 		if (actionkit && actionkit.args) {
 			// Preselect a mailing list if query parameter exists
 			if (actionkit.args.mailing_list_id) {
-				var checkboxToSelect = $("input[name=unsub_lists][value='" + actionkit.args.mailing_list_id + "']");
+				var checkboxToSelect = $("input[name='unsub_lists'][value='" + actionkit.args.mailing_list_id + "']");
 				if (checkboxToSelect.length > 0) {
 					$(checkboxToSelect[0]).prop('checked', 'true');
 				} else {
 					// If no checkbox with mailing list ID passed through in query parameter, pre-select all mailing lists
-					$("input[name=unsub_lists]").prop('checked', 'true')
+					$("input[name='unsub_lists']").prop('checked', 'true');
 				}
 			} else {
 				// If no mailing list ID passed through in query parameter, pre-select all mailing lists
-				$("input[name=unsub_lists]").prop('checked', 'true')
+				$("input[name='unsub_lists']").prop('checked', 'true');
 			}
 		}
 	});

@@ -130,7 +130,7 @@
 	{% if page.custom_fields.fb_pic_url %}
 	<meta name="twitter:image" content="{{ page.custom_fields.fb_pic_url }}" />
 	{% endif %}
-
+	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="{{ templateset.custom_fields.site_twitter }}" />
 	<meta name="twitter:site:id" content="{{ templateset.custom_fields.site_url }}" />
 
@@ -207,7 +207,7 @@
 	<script src="https://dbqvwi2zcv14h.cloudfront.net/images/respond.js"></script>
 <![endif]-->
 	{% block script_additions %}{% endblock %}
-	
+
 	{% if page.custom_fields.page_add_regional_fb_pixel %}
 	<!-- Facebook Pixel Code -->
 	<script>
@@ -256,7 +256,7 @@
 			{% endif %}
 			fbq('track', 'PageView');
 	</script>
-		
+
 		<noscript>
 			{% if page.custom_fields.page_add_regional_fb_pixel == '350 Global' %}
 			<img height="1" width="1" style="display:none"
@@ -298,7 +298,7 @@
 	<!-- End Facebook Pixel Code -->
 
 	{% endif %}
-	
+
 	<!-- Hotjar Tracking Code -->
 	<script>
 		(function (h, o, t, j, a, r) {
@@ -373,7 +373,7 @@
 			</nav>
 		</div>
 	</div>
-	
+
 	{% endif %}
 	{% include "./language_picker.html" %}
 	<script type="text/javascript">
@@ -612,7 +612,7 @@
 	<div id="body-mobile-background"></div>
 	{% block scripts %}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
-	
+
 	<!-- scripts to all be moved here. -->
 	{% endblock %}
 </body>

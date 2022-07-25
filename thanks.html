@@ -264,8 +264,12 @@
 						<h4 class="icon-after icon-faded" data-icon="&#xE941;">{% filter ak_text:"general_tweet" %}Share on Twitter{% endfilter %}</h4>
 						</div>
 						<div class="box box-big bg-white border">
-							<textarea class="bg-ltgray border strong p" readonly>{{ page.followup.twitter_message }}</textarea>
-							<p><a class="button-share-medium button-share-twitter bg-twitter-icon bg-twitter-color no-margin-bottom"href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_tweet" %}Tweet{% endfilter %}</a></p>
+							{% if page.followup and page.followup.twitter_message %}
+								<textarea class="bg-ltgray border strong p" readonly>{{ page.followup.twitter_message }}</textarea>
+							{% else %}
+								<textarea class="bg-ltgray border strong p" readonly>{{ page.followup.share_title_value }} {{ page.canonical_url }}</textarea>
+							{% endif %}
+							<p><a class="button-share-medium button-share-twitter bg-twitter-icon bg-twitter-color no-margin-bottom" href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_tweet" %}Tweet{% endfilter %}</a></p>
 						</div>
 					</div>
 						</div>
@@ -296,7 +300,6 @@
 						</div>
 					</div>
 					{% endif %}
-
 
 
 

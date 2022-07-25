@@ -11,7 +11,7 @@
 		//    console.log('privacy requirement is now: ' + privacyStatus);
 				if ( privacyStatus ){
 					jQuery(".privacy-non_eu").hide();
-					jQuery(".partner-signup").show();			
+					jQuery(".partner-signup").show();
 				} else {
 					jQuery(".privacy-non_eu").show();
 					jQuery(".partner-signup").show();
@@ -71,7 +71,7 @@
       	<p>{{ page.custom_fields.privacy_really_optout_text }}</p>
 			{% else %}
 				<p>{% filter ak_text:"really_optout" %}Are you sure? Email is how the global climate movement is able to stay organised. You can always unsubscribe.{% endfilter %}</p>
-			{% endif %} 
+			{% endif %}
 			{% if page.custom_fields.privacy_really_optout_button %}
 				<p><label for="privacy_optin" class="button button-small button-secondary bg-teal">{{ page.custom_fields.privacy_really_optout_button }}</label></p>
 			{% else %}
@@ -114,3 +114,18 @@
 
 {% endwith %}
 {% endfilter %}
+
+<style>
+	#privacy_optin, #privacy_optout {
+		opacity: 1;
+		-webkit-appearance: auto;
+	}
+
+	#privacy_optin + label:before {
+		content: unset;
+	}
+
+	#privacy_optout + label:before {
+		content: unset;
+	}
+</style>

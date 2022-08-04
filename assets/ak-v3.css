@@ -4917,6 +4917,53 @@ label.ak-radio-checked {
   justify-content: center;
 }
 
+#ak-recurring-type .toggle-donation-type .toggle-option-1, .toggle-option-2 {
+  align-items: unset;
+  justify-content: space-evenly;
+}
+
+.monthly-checkmark, .once-checkmark {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 2.5rem;
+  justify-content: center;
+  visibility: visible;
+}
+
+.once-label, .monthly-label {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  margin-right: 1.75rem;
+  align-items: center;
+}
+
+.upsell-arrow {
+  transform: rotate(230deg);
+  position: absolute;
+  left: 1.5rem;
+  margin-top: -1rem;
+}
+
+/* Positioning of arrow for mobile */
+@media screen and (max-width:720px) {
+  .upsell-arrow {
+    left: 0;
+  }
+}
+
+/* Positioning of arrow for tablet */
+@media only screen and (min-width:721px) and (max-width:900px) {
+  .upsell-arrow {
+    left: 1rem;
+  }
+}
+
+.monthly-checkmark.v-hide, .once-checkmark.v-hide {
+  visibility: hidden;
+}
+
 input:checked+.toggle-donation-type .toggle-option-1 {
   background-color: #e1eaf2;
   color: #17292E;
@@ -4941,7 +4988,7 @@ input:checked+.toggle-donation-type .toggle-option-2 {
 }
 
 /* Once default styles for bubble arrow */
-#donation-toggle-bubble.default-once:before,
+/* #donation-toggle-bubble.default-once:before,
 #donation-toggle-bubble.default-once:after {
   content: "";
   position: absolute;
@@ -4950,7 +4997,7 @@ input:checked+.toggle-donation-type .toggle-option-2 {
   left: calc(50% - 10px + 75px);
   width: 0;
   height: 0;
-}
+} */
 
 @media screen and (max-width:400px) {
 

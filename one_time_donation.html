@@ -1,22 +1,8 @@
 <div id="ak-recurring-type" class="ak-donate-area-step-1 margin-bottom-small form-style-labelabove">
-    <div class="input-checkbox text-strong margin-bottom-none">
-      <input type="hidden" name="donation_type" id="donation_type" value="single">
-      <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle"
-        data-donation-type="both" value="">
-      <span class="toggle-donation-type">
-        <span class="toggle-option-1 toggle-once">{% filter ak_text:"donate_once" %}Donate
-          once{% endfilter %}</span>
-        <span class="toggle-option-2 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate
-          monthly{% endfilter %}</span>
-      </span>
-    </div>
+  {% if page.custom_fields.donate_monthly_upsell_show_vs_hide == "Y" %}
     <div id="donation-toggle-bubble" class="default-once">
-      <svg id="monthly-heart" class="monthly-chosen hidden" width="50" height="50">
-        <image href="https://dbqvwi2zcv14h.cloudfront.net/ak-dev/monthly-heart.svg" width="50"
-          height="50"></image>
-      </svg>
       <div id="bubble-text">
-        <div class="once-chosen">
+        <div class="once-selected">
           {% if page.custom_fields.donate_monthly_upsell_bubble %}
           {% autoescape off %}
           {{ page.custom_fields.donate_monthly_upsell_bubble }}
@@ -27,11 +13,66 @@
           future.{% endfilter %}
           {% endif %}
         </div>
-        <div class='monthly-chosen hidden'>{% filter ak_text:"donate_monthly_thank_you" %}<strong>Thank
-            you for choosing a monthly donation!</strong><br>
-          Giving monthly helps us plan for big, bold actions to fight back against the fossil fuel
-          industry at key moments
-          around the world. Thank you.{% endfilter %}</div>
       </div>
     </div>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?><svg class="upsell-arrow" width="8.4669189mm" height="7.1163864mm" viewBox="0 0 8.4669189 7.1163864" version="1.1" id="svg5" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+      <sodipodi:namedview
+        id="namedview7"
+        pagecolor="#ffffff"
+        bordercolor="#666666"
+        borderopacity="1.0"
+        inkscape:showpageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        inkscape:deskcolor="#d1d1d1"
+        inkscape:document-units="mm"
+        showgrid="false" />
+      <defs
+        id="defs2" />
+      <g
+        inkscape:label="Layer 1"
+        inkscape:groupmode="layer"
+        id="layer1"
+        transform="translate(-106.81627,-96.791356)">
+        <path
+          d="m 115.24759,103.68261 c 0.0132,-0.0889 0.29342,-2.22515 -0.96282,-3.695175 -0.77179,-0.903287 -1.96268,-1.397794 -3.50044,-1.446742 l -0.008,-1.485106 c 0,-0.102129 -0.059,-0.194998 -0.15107,-0.238919 -0.0923,-0.04313 -0.20162,-0.03069 -0.28073,0.03387 l -3.43085,2.815696 c -0.0614,0.05027 -0.0971,0.125412 -0.0974,0.204787 -2.6e-4,0.07937 0.0352,0.154519 0.0966,0.204789 l 3.43111,2.84241 c 0.0789,0.0654 0.18918,0.0788 0.28072,0.0349 0.0929,-0.0437 0.15161,-0.13705 0.15161,-0.23918 l 0.008,-1.51845 c 3.70655,-0.003 3.97007,2.37226 3.97907,2.47042 0.0114,0.13335 0.0958,0.23733 0.22966,0.24156 0.003,2.7e-4 0.006,2.7e-4 0.009,2.7e-4 0.13097,0 0.22595,-0.0955 0.24553,-0.22516 z"
+          fill="#121313"
+          id="Arrow_Left_1_"
+          style="fill:#0f81e8;fill-opacity:1;stroke-width:0.264583"
+          sodipodi:nodetypes="cccccccccccccccscc" />
+      </g>
+    </svg>
+  {% endif %}
+
+  <div class="input-checkbox text-strong margin-bottom-none">
+    <input type="hidden" name="donation_type" id="donation_type" value="single">
+    <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle"
+      data-donation-type="both" value="">
+    <span class="toggle-donation-type">
+      <span class="toggle-option-1 toggle-once">
+        {% if page.custom_fields.donate_monthly_upsell_show_vs_hide == "Y" %}
+        <span class="once-checkmark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="fill: #fff;" width="14" height="14" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path></svg>
+        </span>
+        {% endif %}
+        <span class="once-label">{% filter ak_text:"donate_once" %}Donate once{% endfilter %}</span>
+      </span>
+      <span class="toggle-option-2 toggle-monthly">
+        {% if page.custom_fields.donate_monthly_upsell_show_vs_hide == "Y" %}
+        <span class="monthly-checkmark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="fill: #fff;" width="14" height="14" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path></svg>
+        </span>
+        {% endif %}
+        <span class="monthly-label">{% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}</span>
+      </span>
+    </span>
   </div>
+
+  </div>
+  {% if page.custom_fields.donate_monthly_upsell_show_vs_hide == "N" %}
+  <style>
+    .once-label, .monthly-label {
+      margin-right: 0 !important;
+    }
+  </style>
+  {% endif %}

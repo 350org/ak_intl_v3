@@ -123,17 +123,33 @@ function clear_radio_buttons() {
       if ($('#id_donation_type_toggle').data('donation-type') === 'both-recurring') {
         if ($('#id_donation_type_toggle').prop('checked')) {
           $('#donation_type').val("single");
+          $('.once-checkmark').removeClass('v-hide');
+          $('.monthly-checkmark').addClass('v-hide');
         } else {
           $('#donation_type').val("recurring");
+          $('.monthly-checkmark').removeClass('v-hide');
+          $('.once-checkmark').addClass('v-hide');
         }
       } else {
         if ($('#id_donation_type_toggle').prop('checked')) {
           $('#donation_type').val("recurring");
+          $('.monthly-checkmark').removeClass('v-hide');
+          $('.once-checkmark').addClass('v-hide');
         } else {
           $('#donation_type').val("single");
+          $('.once-checkmark').removeClass('v-hide');
+          $('.monthly-checkmark').addClass('v-hide');
         }
       }
     })
+
+    if ($('#donation_type').val("single")) {
+      $('.once-checkmark').removeClass('v-hide');
+      $('.monthly-checkmark').addClass('v-hide');
+    } else {
+      $('.monthly-checkmark').removeClass('v-hide');
+      $('.once-checkmark').addClass('v-hide');
+    }
   });
 
 

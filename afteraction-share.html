@@ -228,13 +228,13 @@ Custom template for same-page post-AJAX submit share ask.
 
 	<div>
 		<a
-			class="afteraction-donate-ask-no text-small"
+			class="afteraction-donate-ask-no button button-alternate"
 			href="{% if page.custom_fields.after_action_next_step == 'scroll-share' %}{% if templateset.custom_fields.getinvolved_url %}{% include_tmpl templateset.custom_fields.getinvolved_url %}{% else %}https://350.org/get-involved{% endif %}{% else%}#{% endif %}"
 		>
 			{% if page.custom_fields.afteraction_donate_ask_no %}
 				{{ page.custom_fields.afteraction_donate_ask_no }}
 			{% else %}
-				{% filter ak_text:"afteraction_donate_ask_no" %}Not ready to donate? Learn more about 350's campaigns{% endfilter %}
+				{% filter ak_text:"afteraction_donate_ask_no" %}Not ready to donate?{% endfilter %}
 			{% endif %}
 		</a>
 	</div>

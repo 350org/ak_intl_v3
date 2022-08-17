@@ -136,10 +136,12 @@
 
 	{% block meta_additions %}{% endblock %}
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	{% if page.type != "Donation" %}
 	<!-- Mapbox GL Source -->
 	<script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
 	<!-- End -->
+	{% endif %}
 
 	<!--JQuery UI CSS-->
 	<link href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css' rel='stylesheet' />

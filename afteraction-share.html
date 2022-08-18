@@ -271,6 +271,10 @@ jQuery(document).ready(function($){
 
 		const euroCountries = ['Austria', 'Belgium', 'Cyprus', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Portugal', 'Slovakia', 'Slovenia', 'Spain'];
 
+		// Hide "Add your Name" button on mobile if in scroll donate view
+		if (afterActionNextStep === 'scroll-donate') {
+			$('#jump-to-form').hide();
+		}
 		function updateDonateCurrency(userLocation){
 			if (euroCountries.includes(userLocation)) {
 				userLocation = 'Europe';

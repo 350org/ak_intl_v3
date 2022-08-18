@@ -143,6 +143,10 @@ function clear_radio_buttons() {
       }
     })
 
+    // Set Donation Type to "Donate Once" on page load
+    $('#donation_type').val('single'); 
+
+    // Toggle checkmark depending on Donation Type selection
     if ($('#donation_type').val("single")) {
       $('.once-checkmark').removeClass('v-hide');
       $('.monthly-checkmark').addClass('v-hide');

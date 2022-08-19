@@ -49,7 +49,6 @@
     <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle"
       data-donation-type="both" value="">
     <span class="toggle-donation-type">
-      {% if page.custom_fields.donate_monthly_upsell_show_vs_hide == "Y" %}
         <span class="toggle-option-2 toggle-monthly">
           <span class="monthly-checkmark">
             <svg xmlns="http://www.w3.org/2000/svg" style="fill: #fff;" width="14" height="14" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path></svg>
@@ -62,48 +61,36 @@
           </span>
           <span class="once-label">{% filter ak_text:"donate_once" %}No, donate once{% endfilter %}</span>
         </span>
-      {% else %}
-      <span class="toggle-option-1 toggle-once">
-        <span class="once-label">{% filter ak_text:"donate_once" %}Donate once{% endfilter %}</span>
-      </span>
-      <span class="toggle-option-2 toggle-monthly">
-        <span class="monthly-label">{% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}</span>
-      </span>
-      {% endif %}
     </span>
   </div>
 
   </div>
   {% if page.custom_fields.donate_monthly_upsell_show_vs_hide == "Y" %}
     <style>
-      .toggle-option-1, .toggle-option-2 {
-        padding: 8px;
-      }
-
-      .monthly-checkmark, .once-checkmark {
-        width: 1rem;
-      }
-
-      .toggle-option-1 {
-        border-radius: 0 5px 5px 0;
-      }
-
-      .toggle-option-2 {
-        border-radius: 5px 0 0 5px;
-      }
-
-      .once-label, .monthly-label {
-        margin-right: 1rem;
-      }
-
       #donation-toggle-bubble {
         font-size: 0.85rem;
       }
     </style>
-  {% else %}
-    <style>
-      .once-label, .monthly-label {
-        margin-right: 0 !important;
-      }
-    </style>
   {% endif %}
+
+  <style>
+    .toggle-option-1, .toggle-option-2 {
+      padding: 8px;
+    }
+
+    .monthly-checkmark, .once-checkmark {
+      width: 1rem;
+    }
+
+    .toggle-option-1 {
+      border-radius: 0 5px 5px 0;
+    }
+
+    .toggle-option-2 {
+      border-radius: 5px 0 0 5px;
+    }
+
+    .once-label, .monthly-label {
+      margin-right: 1rem;
+    }
+  </style>

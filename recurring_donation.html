@@ -4,10 +4,18 @@
       <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle"
         data-donation-type="both-recurring" value="">
       <span class="toggle-donation-type">
-        <span class="toggle-option-1 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate
-          monthly{% endfilter %}</span>
-        <span class="toggle-option-2 toggle-once">{% filter ak_text:"donate_once" %}Donate
-          once{% endfilter %}</span>
+        <span class="toggle-option-1 toggle-monthly">
+          <span class="monthly-checkmark">
+            <svg xmlns="http://www.w3.org/2000/svg" style="fill: #fff;" width="14" height="14" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path></svg>
+          </span>
+          <span class="monthly-label">{% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}</span>
+        </span>
+        <span class="toggle-option-2 toggle-once">
+          <span class="once-checkmark">
+            <svg xmlns="http://www.w3.org/2000/svg" style="fill: #fff;" width="14" height="14" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path></svg>
+          </span>
+          <span class="once-label">{% filter ak_text:"donate_once" %}Donate once{% endfilter %}</span>
+        </span>
       </span>
     </div>
 
@@ -38,3 +46,25 @@
       </div>
     </div>
   </div>
+
+  <style>
+    .toggle-option-1, .toggle-option-2 {
+      padding: 8px;
+    }
+
+    .monthly-checkmark, .once-checkmark {
+      width: 1rem;
+    }
+
+    .toggle-option-1 {
+      border-radius: 0 5px 5px 0;
+    }
+
+    .toggle-option-2 {
+      border-radius: 5px 0 0 5px;
+    }
+
+    .once-label, .monthly-label {
+      margin-right: 1rem;
+    }
+  </style>

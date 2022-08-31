@@ -5009,7 +5009,7 @@ input:checked+.toggle-donation-type .toggle-option-2 {
 }
 
 /* Monthly default styles for bubble arrow */
-#donation-toggle-bubble.default-monthly:before,
+/* #donation-toggle-bubble.default-monthly:before,
 #donation-toggle-bubble.default-monthly:after {
   content: "";
   position: absolute;
@@ -5018,7 +5018,7 @@ input:checked+.toggle-donation-type .toggle-option-2 {
   left: calc(50% - 10px - 75px);
   width: 0;
   height: 0;
-}
+} */
 
 @media screen and (max-width:400px) {
 

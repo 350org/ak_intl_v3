@@ -1069,19 +1069,19 @@
    var country = document.getElementById("country").value
     dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
     dataLayer.push({
-        'event': 'checkout',
+      'event': 'checkout',
       'ecommerce': {
-          'checkout': { // 'add' actionFieldObject measures.
-            'actionField': {
-            'step': step,
-            'option': country,
+        'checkout': { // 'add' actionFieldObject measures.
+          'actionField': {
+          'step': step,
+          'option': country,
           },
           'products': [{
             'name': 'donation',       // Name or ID is required.
             'id': 'id_donation',
             'variant': amount_type,
             'price': price,
-                'quantity': 1,
+            'quantity': 1,
             'dimension2': frequency,
             'donationFrequency': frequency
           }]

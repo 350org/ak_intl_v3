@@ -1045,14 +1045,14 @@
   }
 
   function checkout_step_track(step, payment) {
-      var amount_container = $('li.ak-amount-container label.ak-radio-checked');
-      var amount;
-      var price;
-      var frequency;
-      var currency = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
-      var button_amount = amount_container.find('span.ak-amount-button-amount').text();
-      var custom_amount = document.querySelector('#ak-other-amount-field').value;
-      if (!custom_amount) {
+    var amount_container = $('li.ak-amount-container label.ak-radio-checked');
+    var amount;
+    var price;
+    var frequency;
+    var currency = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
+    var button_amount = amount_container.find('span.ak-amount-button-amount').text();
+    var custom_amount = document.querySelector('#ak-other-amount-field').value;
+    if (!custom_amount) {
       amount = button_amount;
       amount_type = 'preset';
       price = button_amount;
@@ -1061,12 +1061,12 @@
       amount_type = 'custom';
       price = custom_amount;
     }
-      if ($('input[name="donation_type"][type="hidden"]').val() === 'recurring') {
-        frequency = 'recurring';
-      } else {
-        frequency = 'single';
-      }
-   var country = document.getElementById("country").value
+    if ($('input[name="donation_type"][type="hidden"]').val() === 'recurring') {
+      frequency = 'recurring';
+    } else {
+      frequency = 'single';
+    }
+    var country = document.getElementById("country").value;
     dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
     dataLayer.push({
       'event': 'checkout',
@@ -1077,7 +1077,7 @@
           'option': country,
           },
           'products': [{
-            'name': 'donation',       // Name or ID is required.
+            'name': 'donation',
             'id': 'id_donation',
             'variant': amount_type,
             'price': price,

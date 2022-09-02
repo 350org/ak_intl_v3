@@ -472,7 +472,7 @@
 
 	$(function(){
 		function moreDetailsAnwer() {
-			return $('input[name="action_survey_unsubscribe_reason"][value="I\'m no longer interested in 350.org\'s campaigns"], input[name="action_survey_unsubscribe_reason"][value="Other"]').is(':checked');
+			return $('input[name="action_survey_unsubscribe_reason"][value="campaigns"], input[name="action_survey_unsubscribe_reason"][value="other"]').is(':checked');
 		}
 
 		$('input[name="action_survey_unsubscribe_reason"]').on('change', function(){

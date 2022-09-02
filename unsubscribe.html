@@ -454,7 +454,7 @@
 			</fieldset>
 
 			<div class="input-wrapper input-submit">
-				<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% if user.subscriptions|length > 1 %}{% filter ak_text:'unsubscribe_submit_button_multiple' %}Unsubscribe from selected{% endfilter %}{% else %}{% filter ak_text:'unsubscribe_submit_button' %}Unsubscribe{% endfilter %}{% endif %}{% endif %}" />
+				<input class="submit" id="unsubscribe-submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% if user.subscriptions|length > 1 %}{% filter ak_text:'unsubscribe_submit_button_multiple' %}Unsubscribe from selected{% endfilter %}{% else %}{% filter ak_text:'unsubscribe_submit_button' %}Unsubscribe{% endfilter %}{% endif %}{% endif %}" />
 				{% if user.subscriptions|length > 1 %}
 					<button type="button" id="unsubscribe-all-btn">{% filter ak_text:"unsubscribe_from_all_label" %}Unsubscribe from all{% endfilter %}</button>
 				{% endif %}
@@ -491,7 +491,7 @@
 
 		$('#unsubscribe-all-btn').click(function(){
 			$('input[name="unsub_lists"]').prop("checked", true);
-			$('input[value="Unsubscribe"]').click();
+			$('#unsubscribe-submit').click();
 		});
 
 		if (actionkit && actionkit.args) {

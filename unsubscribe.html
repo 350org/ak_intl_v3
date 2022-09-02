@@ -431,19 +431,19 @@
 				<p class="radio-label">{% filter ak_text:"unsubscribe_from_lists_survey" %}Before you go, please tell us why{% endfilter %}  <span class="optional-hint">{% filter ak_text:"unsubscribe_from_lists_survey_post" %}(optional){% endfilter %}</span></p>
 				<div class="ak-unsubscribe-survey-radio-set ak-input-set">
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_1" value="You send me too many emails"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_frequency" %}You send me too many emails{% endfilter %}</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_1" value="frequency"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_frequency" %}You send me too many emails{% endfilter %}</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_2" value="I never signed up for this mailing list"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_consent" %}I never signed up for this mailing list{% endfilter %}</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_2" value="consent"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_consent" %}I never signed up for this mailing list{% endfilter %}</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_3" value="I signed up with a different email"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_difemail" %}I signed up with a different email{% endfilter %}</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_3" value="difemail"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_difemail" %}I signed up with a different email{% endfilter %}</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_4" value="I'm no longer interested in 350.org's campaigns"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_campaigns" %}I'm no longer interested in 350.org's campaigns{% endfilter %}</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_4" value="campaigns"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_campaigns" %}I'm no longer interested in 350.org's campaigns{% endfilter %}</span>
 					</label>
 					<label class="ak-unsubscribe-survey-radio-choice">
-						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_5" value="Other"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_other" %}Other{% endfilter %}</span>
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_5" value="other"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_other" %}Other{% endfilter %}</span>
 					</label>
 				</div>
 			</fieldset>
@@ -454,7 +454,7 @@
 			</fieldset>
 
 			<div class="input-wrapper input-submit">
-				<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% if user.subscriptions|length > 1 %}{% filter ak_text:'unsubscribe_submit_button_multiple' %}Unsubscribe from selected{% endfilter %}{% else %}{% filter ak_text:'unsubscribe_submit_button' %}Unsubscribe{% endfilter %}{% endif %}{% endif %}" />
+				<input class="submit" id="unsubscribe-submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% if user.subscriptions|length > 1 %}{% filter ak_text:'unsubscribe_submit_button_multiple' %}Unsubscribe from selected{% endfilter %}{% else %}{% filter ak_text:'unsubscribe_submit_button' %}Unsubscribe{% endfilter %}{% endif %}{% endif %}" />
 				{% if user.subscriptions|length > 1 %}
 					<button type="button" id="unsubscribe-all-btn">{% filter ak_text:"unsubscribe_from_all_label" %}Unsubscribe from all{% endfilter %}</button>
 				{% endif %}
@@ -472,7 +472,7 @@
 
 	$(function(){
 		function moreDetailsAnwer() {
-			return $('input[name="action_survey_unsubscribe_reason"][value="I\'m no longer interested in 350.org\'s campaigns"], input[name="action_survey_unsubscribe_reason"][value="Other"]').is(':checked');
+			return $('input[name="action_survey_unsubscribe_reason"][value="campaigns"], input[name="action_survey_unsubscribe_reason"][value="other"]').is(':checked');
 		}
 
 		$('input[name="action_survey_unsubscribe_reason"]').on('change', function(){
@@ -491,7 +491,7 @@
 
 		$('#unsubscribe-all-btn').click(function(){
 			$('input[name="unsub_lists"]').prop("checked", true);
-			$('input[value="Unsubscribe"]').click();
+			$('#unsubscribe-submit').click();
 		});
 
 		if (actionkit && actionkit.args) {

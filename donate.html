@@ -24,7 +24,7 @@
     {% else %}
     <form id="act" name="act"
       class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} "
-      method="POST" action="https://350.actionkit.com/act/" accept-charset="utf-8">
+      method="POST" action="/act/" accept-charset="utf-8">
       <a id="jump-to-form" href="#donate"
         class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a>
       <input type="hidden" name="page" value="{{ page.name }}">
@@ -226,7 +226,7 @@
                         }
 
                         if (urlParam('currency')) {
-                      		$('#ak-currency-switcher').val('Braintree Client-Side Encryption ' + urlParam('currency')).change();
+                          $('#ak-currency-switcher').val('Braintree Client-Side Encryption ' + urlParam('currency')).change();
                         }
                       });
                     </script>
@@ -248,6 +248,23 @@
                               onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
                               id="ak-other-amount-field" class="text-font-display" name="amount_other" size="3">
                           </label>
+                          <script>
+                            // Measures product impressions
+                            dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+                            dataLayer.push({
+                              'event': 'impression',
+                              'ecommerce': {
+                              'impressions': [
+                               {
+                                 'name': 'donation',
+                                 'id': 'id_donation',
+                                 'list': 'ak_donation_page',
+                                 'variant': 'custom',
+                                 'price': 'custom',
+                               }]
+                              }
+                            });
+                            </script>              
                         </li>
                         {% else %}
                         <li class="ak-amount-container c3_3 ct3_3 cm3_3 no-margin-bottom">
@@ -259,6 +276,23 @@
                               class="ak-amount-radio-button hidden" name="amount"
                               {% if not args.amount_other and amount == default_amount %}checked{% endif %}>
                           </label>
+                          <script>
+                            // Measures product impressions
+                            dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+                            dataLayer.push({
+                              'event': 'impression',
+                              'ecommerce': {
+                              'impressions': [
+                               {
+                                 'name': 'donation',
+                                 'id': 'id_donation',
+                                 'list': 'ak_donation_page',
+                                 'variant': 'preset',
+                                 'price': '{{amount}}',
+                               }]
+                              }
+                            });
+                            </script>              
                         </li>
                         {% endif %}
                         {% endfor %}
@@ -558,6 +592,24 @@
     var arg_amount_selected = false;
     var arg_amount = {{ args.amount|default:"false" }};
 
+    // Records Product "Details View" based on product click from Homepage
+    dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+    dataLayer.push({
+      'ecommerce': {
+        'detail': {
+          'actionField': {
+            'list': '{{ args.source|default:"" }}',
+          },
+          'products': [{
+            'name': 'donation',
+            'id': 'id_donation',
+            'variant': {% if args.amount  %} 'preset' {% else %} 'custom' {% endif %},
+            'price': '{{args.amount|default:""}}',
+          }]
+        }
+      }
+    });
+
     $('.ak-amount-wrapper .input-radio-button').each(function () {
       var current_amount = parseInt($(this).text().replace(/\D/g, ''));
       if (arg_amount && (arg_amount == current_amount)) {
@@ -678,6 +730,50 @@
   });
 
   function change_step_one_label(current_step) {
+    if (current_step == "1") {
+    // Records Add to Cart
+      var amount_container = $('li.ak-amount-container label.ak-radio-checked');
+      var amount;
+      var price;
+      var frequency;
+      var currency = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
+      var button_amount = amount_container.find('span.ak-amount-button-amount').text();
+      var custom_amount = document.querySelector('#ak-other-amount-field').value;
+      if (!custom_amount) {
+        amount = button_amount;
+        amount_type = 'preset';
+        price = button_amount;
+      } else {
+        amount = 'custom';
+        amount_type = 'custom';
+        price = custom_amount;
+      }
+      if ($('input[name="donation_type"][type="hidden"]').val() === 'recurring') {
+        frequency = 'recurring';
+      } else {
+        frequency = 'single';
+      }
+
+      dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+      dataLayer.push({
+        'event': 'addToCart',
+        'ecommerce': {
+          'add': {
+            'products': [{
+              'name': 'donation',
+              'id': 'id_donation',
+              'variant': amount_type,
+              'price': price,
+              'quantity': 1,
+              'dimension2': frequency
+            }]
+          }
+        }
+      });
+    } else if (current_step == "2") { 
+      // Records Checkout Step 1
+      checkout_step_track(1);
+    }
     {% comment %} // change amount label if step 1 is complete
     if (current_step === "1") {
       var amount_container = $('li.ak-amount-container label.ak-radio-checked');
@@ -919,6 +1015,7 @@
     $('#ak-exp_date_year-required').remove();
 
     /* and keep submitting */
+    checkout_step_track(2, "paypal");
     return true;
     }
 
@@ -932,6 +1029,7 @@
       if (step_has_errors) {
         return false;
       } else {
+        checkout_step_track(2, "cc");
         return true;
       }
     }
@@ -944,6 +1042,52 @@
     step_2_validation(),
     step_3_validation()];
     return !(results[0] || results[1] || results[2]);
+  }
+
+  function checkout_step_track(step, payment) {
+    var amount_container = $('li.ak-amount-container label.ak-radio-checked');
+    var amount;
+    var price;
+    var frequency;
+    var currency = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
+    var button_amount = amount_container.find('span.ak-amount-button-amount').text();
+    var custom_amount = document.querySelector('#ak-other-amount-field').value;
+    if (!custom_amount) {
+      amount = button_amount;
+      amount_type = 'preset';
+      price = button_amount;
+    } else {
+      amount = 'custom';
+      amount_type = 'custom';
+      price = custom_amount;
+    }
+    if ($('input[name="donation_type"][type="hidden"]').val() === 'recurring') {
+      frequency = 'recurring';
+    } else {
+      frequency = 'single';
+    }
+    var country = document.getElementById("country").value;
+    dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+    dataLayer.push({
+      'event': 'checkout',
+      'ecommerce': {
+        'checkout': { // 'add' actionFieldObject measures.
+          'actionField': {
+          'step': step,
+          'option': country,
+          },
+          'products': [{
+            'name': 'donation',
+            'id': 'id_donation',
+            'variant': amount_type,
+            'price': price,
+            'quantity': 1,
+            'dimension2': frequency,
+            'donationFrequency': frequency
+          }]
+        }
+      }
+    });
   }
 
   // Tab Creation Code

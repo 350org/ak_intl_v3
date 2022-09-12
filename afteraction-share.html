@@ -208,6 +208,10 @@ Custom template for same-page post-AJAX submit share ask.
 			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
 			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}/?amount=35&source=aa_{{ page.id }}"
 		>$35</a>
+		<a
+			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}/?source=aa_{{ page.id }}"
+		>Other</a>
 	</div>
 
 	<div>

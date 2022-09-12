@@ -190,32 +190,21 @@ Custom template for same-page post-AJAX submit share ask.
 		{% endif %}
 	</p>
 
-		{% if page.custom_fields.afteraction_donate_alternate_url %}
-	<div class="afteraction-donate-cta-container margin-bottom-large">
-		<a class="button button-large button-primary arrow-right" href="{{ page.custom_fields.afteraction_donate_alternate_url }}">
-			{% if page.custom_fields.afteraction_donate_alternate_link_text %}
-				{{ page.custom_fields.afteraction_donate_alternate_link_text }}
-			{% else %}
-				{% filter ak_text:"general_donate" %}Donate{% endfilter %}
-			{% endif %}
-		</a>
-	</div>
-		{% else %}
 	<div class="afteraction-donate-amount-container">
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
-			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=3&source=aa_{{ page.id }}"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=3&source=aa_{{ page.id }}"
 		>$3</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
-			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=10&source=aa_{{ page.id }}"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=10&source=aa_{{ page.id }}"
 		>$10</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
-			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=35&source=aa_{{ page.id }}"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
 		>$35</a>
 	</div>
-		{% endif %}
+
 	<div>
 		<a
 			class="afteraction-donate-ask-no text-small"

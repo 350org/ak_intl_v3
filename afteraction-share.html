@@ -163,6 +163,22 @@ Custom template for same-page post-AJAX submit share ask.
 		</div>
 	</div>
 	{% endif %}
+	{% if page.custom_fields.share_twitter != "no" %}
+	<div class="afteraction-twitter-share afteraction-share-option margin-bottom-large">
+		<div class="afteraction-twitter-share-intro afteraction-share-option-intro margin-bottom-medium">
+			<a class="afteraction-share-button tw-share button-icon bg-twitter-color bg-twitter-icon button-share-twitter"  href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_twitter" %}Share on Twitter{% endfilter %}</a>
+		</div>
+		<div class="tw-preview bg-white border margin-bottom-large">
+			<div class="tw-preview-share-text text-left">
+				{% if page.followup and page.followup.twitter_message %}
+					<textarea class="border strong p no-margin" readonly>{{ page.followup.twitter_message }}</textarea>
+				{% else %}
+					<textarea class="border strong p no-margin" readonly>{{ page.followup.share_title_value }} {{ page.canonical_url }}</textarea>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	{% endif %}
 </div>
 
 <div id="afteraction-donate-ask-source" aria-hidden="true" style="display:none;">

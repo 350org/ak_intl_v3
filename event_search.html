@@ -96,7 +96,7 @@
   {% endif %}
       <h2 id="action-title" class="text-style-title-large title3">
   {% if page.custom_fields.page_title_custom_html %}
-    {% autoescape off %} {{ page.custom_fields.page_title_custom_html }} {% endautoescape %}
+      {% include_tmpl page.custom_fields.page_title_custom_html %}
   {% else %}
         <span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
   {% endif %}

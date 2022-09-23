@@ -1,4 +1,5 @@
-	<style>
+<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 		.button-icon.button{
 			padding: 0.5em 1em 0.5em 2.1em !important;
 			font-size: 1rem !important;
@@ -10,98 +11,505 @@
     		color: rgb(255, 255, 255) !important;
     		background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIxLjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxvZ28iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU+CjxnPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTI1Niw0OS41YzY3LjMsMCw3NS4yLDAuMywxMDEuOCwxLjVjMjQuNiwxLjEsMzcuOSw1LjIsNDYuOCw4LjdjMTEuOCw0LjYsMjAuMiwxMCwyOSwxOC44CgkJYzguOCw4LjgsMTQuMywxNy4yLDE4LjgsMjljMy40LDguOSw3LjYsMjIuMiw4LjcsNDYuOGMxLjIsMjYuNiwxLjUsMzQuNSwxLjUsMTAxLjhzLTAuMyw3NS4yLTEuNSwxMDEuOAoJCWMtMS4xLDI0LjYtNS4yLDM3LjktOC43LDQ2LjhjLTQuNiwxMS44LTEwLDIwLjItMTguOCwyOWMtOC44LDguOC0xNy4yLDE0LjMtMjksMTguOGMtOC45LDMuNC0yMi4yLDcuNi00Ni44LDguNwoJCWMtMjYuNiwxLjItMzQuNSwxLjUtMTAxLjgsMS41cy03NS4yLTAuMy0xMDEuOC0xLjVjLTI0LjYtMS4xLTM3LjktNS4yLTQ2LjgtOC43Yy0xMS44LTQuNi0yMC4yLTEwLTI5LTE4LjgKCQljLTguOC04LjgtMTQuMy0xNy4yLTE4LjgtMjljLTMuNC04LjktNy42LTIyLjItOC43LTQ2LjhjLTEuMi0yNi42LTEuNS0zNC41LTEuNS0xMDEuOHMwLjMtNzUuMiwxLjUtMTAxLjgKCQljMS4xLTI0LjYsNS4yLTM3LjksOC43LTQ2LjhjNC42LTExLjgsMTAtMjAuMiwxOC44LTI5YzguOC04LjgsMTcuMi0xNC4zLDI5LTE4LjhjOC45LTMuNCwyMi4yLTcuNiw0Ni44LTguNwoJCUMxODAuOCw0OS43LDE4OC43LDQ5LjUsMjU2LDQ5LjUgTTI1Niw0LjFjLTY4LjQsMC03NywwLjMtMTAzLjksMS41QzEyNS4zLDYuOCwxMDcsMTEuMSw5MSwxNy4zYy0xNi42LDYuNC0zMC42LDE1LjEtNDQuNiwyOS4xCgkJYy0xNCwxNC0yMi42LDI4LjEtMjkuMSw0NC42Yy02LjIsMTYtMTAuNSwzNC4zLTExLjcsNjEuMkM0LjQsMTc5LDQuMSwxODcuNiw0LjEsMjU2YzAsNjguNCwwLjMsNzcsMS41LDEwMy45CgkJYzEuMiwyNi44LDUuNSw0NS4xLDExLjcsNjEuMmM2LjQsMTYuNiwxNS4xLDMwLjYsMjkuMSw0NC42YzE0LDE0LDI4LjEsMjIuNiw0NC42LDI5LjFjMTYsNi4yLDM0LjMsMTAuNSw2MS4yLDExLjcKCQljMjYuOSwxLjIsMzUuNCwxLjUsMTAzLjksMS41czc3LTAuMywxMDMuOS0xLjVjMjYuOC0xLjIsNDUuMS01LjUsNjEuMi0xMS43YzE2LjYtNi40LDMwLjYtMTUuMSw0NC42LTI5LjEKCQljMTQtMTQsMjIuNi0yOC4xLDI5LjEtNDQuNmM2LjItMTYsMTAuNS0zNC4zLDExLjctNjEuMmMxLjItMjYuOSwxLjUtMzUuNCwxLjUtMTAzLjlzLTAuMy03Ny0xLjUtMTAzLjkKCQljLTEuMi0yNi44LTUuNS00NS4xLTExLjctNjEuMmMtNi40LTE2LjYtMTUuMS0zMC42LTI5LjEtNDQuNmMtMTQtMTQtMjguMS0yMi42LTQ0LjYtMjkuMWMtMTYtNi4yLTM0LjMtMTAuNS02MS4yLTExLjcKCQlDMzMzLDQuNCwzMjQuNCw0LjEsMjU2LDQuMUwyNTYsNC4xeiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTI1NiwxMjYuNmMtNzEuNCwwLTEyOS40LDU3LjktMTI5LjQsMTI5LjRTMTg0LjYsMzg1LjQsMjU2LDM4NS40UzM4NS40LDMyNy40LDM4NS40LDI1NgoJCVMzMjcuNCwxMjYuNiwyNTYsMTI2LjZ6IE0yNTYsMzQwYy00Ni40LDAtODQtMzcuNi04NC04NHMzNy42LTg0LDg0LTg0YzQ2LjQsMCw4NCwzNy42LDg0LDg0UzMwMi40LDM0MCwyNTYsMzQweiIvPgoJPGNpcmNsZSBjbGFzcz0ic3QwIiBjeD0iMzkwLjUiIGN5PSIxMjEuNSIgcj0iMzAuMiIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=);
     background-repeat: no-repeat;}
+
+		.ak-pagetype-unsubscribe .section-inner {
+			max-width: 900px;
+		}
+		.ak-pagetype-unsubscribe .white-container {
+			background: white;
+			padding: 50px 30px;
+			border-radius: 8px;
+			color: #32325D;
+			margin: 0 15px;
+		}
+		@media screen and (min-width: 650px) {
+			.ak-pagetype-unsubscribe .white-container {
+				margin: 0 30px;
+				padding: 50px 80px 115px;
+			}
+		}
+		@media screen and (max-width: 400px) {
+			.ak-pagetype-unsubscribe .white-container {
+				margin: 0;
+			}
+		}
+		.ak-pagetype-unsubscribe .white-container a,
+		.ak-pagetype-unsubscribe .white-container a:hover {
+			color: #0f81e7;
+			font-weight: 600;
+			text-decoration: none;
+		}
+		.ak-pagetype-unsubscribe .icons-container {
+			display: flex;
+			justify-content: space-between;
+		}
+		.ak-pagetype-unsubscribe .icons-container svg:last-child {
+			position: relative;
+			top: -47px;
+			right: -18px;
+		}
+		@media screen and (min-width: 650px) {
+			.ak-pagetype-unsubscribe .icons-container svg:last-child {
+				right: -68px;
+			}
+		}
+		.ak-pagetype-unsubscribe #action-header {
+			margin-top: 0;
+		}
+		.ak-pagetype-unsubscribe #action-title {
+			font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; /* change to klima when we have it available in 400 */
+			font-weight: 400;
+			font-size: 30px;
+			line-height: 1.3;
+			max-width: 550px;
+		}
+		@media screen and (min-width: 650px) {
+			.ak-pagetype-unsubscribe #action-title {
+				line-height: 48px;
+				font-size: 40px;
+			}
+		}
+		.ak-pagetype-unsubscribe #known_user > div,
+		.ak-pagetype-unsubscribe p {
+			margin-bottom: 0.8em;
+		}
+
+		.ak-pagetype-unsubscribe .checkbox-set label {
+			padding-left: 34px;
+			position: relative;
+			display: block;
+			font-weight: 600;
+			cursor: pointer;
+			font-family: 'Inter', sans-serif;
+		}
+
+		.ak-pagetype-unsubscribe .checkbox-set .sub {
+			font-weight: 400;
+			margin-top: 5px;
+			display: block;
+			font-size: 13px;
+			line-height: 15.73px;
+		}
+		.ak-pagetype-unsubscribe .checkbox-set input {
+			position: absolute;
+			opacity: 0;
+			cursor: pointer;
+			height: 0;
+			width: 0;
+			left: 0;
+		}
+		.ak-pagetype-unsubscribe .checkbox-set .checkmark {
+			position: absolute;
+			top: 5px;
+			left: 0;
+			height: 25px;
+			width: 25px;
+			background-color: #eee;
+			border-radius: 3px;
+			border: 2px solid #3681E2;
+		}
+		@media screen and (min-width: 650px) {
+			.ak-pagetype-unsubscribe .checkbox-set label {
+				padding-left: 28px;
+			}
+			.ak-pagetype-unsubscribe .checkbox-set .checkmark {
+				height: 20px;
+				width: 20px;
+			}
+		}
+		.ak-pagetype-unsubscribe .checkbox-set input:checked ~ .checkmark {
+    	background-color: #3b88fd;
+		border: none;
+		}
+		.ak-pagetype-unsubscribe .checkbox-set .checkmark::after {
+			display: none;
+			content: "";
+			position: absolute;
+			left: 9px;
+			top: 5px;
+			width: 5px;
+			height: 10px;
+			border: solid white;
+			border-width: 0 2px 2px 0;
+			-webkit-transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			transform: rotate(45deg);
+		}
+
+		@media screen and (min-width: 650px) {
+			.ak-pagetype-unsubscribe .checkbox-set .checkmark::after {
+				left: 8px;
+				top: 4px;
+				width: 3px;
+				height: 8px;
+			}
+		}
+
+		.ak-pagetype-unsubscribe .checkbox-set input:checked ~ .checkmark::after {
+			display: block;
+		}
+		.ak-pagetype-unsubscribe .checkbox-grid {
+			display: grid;
+			grid-gap: 20px;
+			grid-template-columns: repeat(3, 1fr);
+			margin-bottom: 32px;
+		}
+
+		@media screen and (max-width: 719px) {
+			.ak-pagetype-unsubscribe .checkbox-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+		@media screen and (max-width: 649px) {
+			.ak-pagetype-unsubscribe .checkbox-grid {
+				grid-template-columns: repeat(1, 1fr);
+			}
+		}
+
+		.ak-pagetype-unsubscribe .radio-label {
+			font-weight: 500;
+			font-family: 'Inter', sans-serif;
+		}
+		.ak-pagetype-unsubscribe .radio-label .optional-hint {
+			color: #677793;
+		}
+
+		.ak-pagetype-unsubscribe .larger-radios-choice-label {
+			font-weight: 500;
+			font-family: 'Inter', sans-serif;
+		}
+
+		.ak-pagetype-unsubscribe .ak-unsubscribe-survey-radio-set {
+			padding-right: 7px;
+		}
+		.ak-pagetype-unsubscribe .ak-unsubscribe-survey-radio-choice {
+			display: block;
+			position: relative
+		}
+
+		.ak-pagetype-unsubscribe .ak-unsubscribe-survey-radio-set label {
+			padding-left: 35px;
+			margin-bottom: 12px;
+			cursor: pointer;
+		}
+		.ak-pagetype-unsubscribe .ak-unsubscribe-survey-radio-set input[type="radio"] {
+			position: absolute;
+			opacity: 0;
+			cursor: pointer;
+			height: 0;
+			width: 0;
+			-webkit-appearance: none;
+		}
+		.ak-pagetype-unsubscribe .ak-unsubscribe-survey-radio-set .larger-radios-choice-label::before {
+			content: "";
+			height: 25px;
+			width: 25px;
+			border-radius: 50%;
+			background-color: #FFFFFF;
+			border: solid 0.8px #BAC7D5;
+			outline: 2px solid #3681E2;
+    		outline-offset: -2px;
+			position: absolute;
+			display: block;
+			left: 0;
+		}
+		.ak-pagetype-unsubscribe .ak-unsubscribe-survey-radio-set input[type="radio"]:checked + .larger-radios-choice-label::before {
+			height: 10px;
+			width: 10px;
+			background-color: white;
+			border: 9px solid #3b88fd;
+		}
+		@media screen and (min-width: 650px) {
+			.ak-pagetype-unsubscribe .ak-unsubscribe-survey-radio-set label {
+				padding-left: 32px;
+			}
+			.ak-pagetype-unsubscribe .ak-unsubscribe-survey-radio-set .larger-radios-choice-label::before {
+				height: 18px;
+				width: 18px;
+			}
+			.ak-pagetype-unsubscribe .ak-unsubscribe-survey-radio-set input[type="radio"]:checked + .larger-radios-choice-label::before {
+				height: 8px;
+				width: 8px;
+				border: 6px solid #3b88fd;
+				outline: none;
+			}
+			.ak-pagetype-unsubscribe .larger-radios-choice-label {
+				font-size: 13px;
+			}
+		}
+		.ak-pagetype-unsubscribe #action_survey_unsubscribe_reason_other {
+			font-size: 13px;
+			padding: 8px 15px;
+			border: 1px solid #DCDFE6;
+			border-radius: 4px;
+			resize: none;
+			max-width: 542px;
+		}
+		.ak-pagetype-unsubscribe .input-submit {
+			margin-top: 15px;
+			margin-bottom: 10px;
+		}
+		.ak-pagetype-unsubscribe .input-submit {
+			display: flex;
+			align-items: center
+		}
+		.ak-pagetype-unsubscribe input[type="submit"] {
+			font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+			font-size: 13px;
+			text-shadow: none;
+			padding: 8px 12px;
+			min-height: 39px;
+			max-width: 250px;
+			border-radius: 4px;
+			background: #3681E2;
+			border-bottom: none !important;
+			box-shadow: 0px 2px 5px rgba(60, 66, 87, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 0px 1px rgba(60, 66, 87, 0.06);
+			margin-bottom: 0;
+			font-size: 1rem;
+			width: fit-content;
+		}
+		.ak-pagetype-unsubscribe #unsubscribe-all-btn {
+			color: #3681E2;
+			font-size: 16px;
+			background: none;
+			border: none;
+			max-height: 25px;
+			padding: 0;
+			margin-left: 22px;
+			font-weight: 500;
+		}
+		@media screen and (max-width: 440px) {
+			.ak-pagetype-unsubscribe .input-submit {
+				display: block;
+			}
+			.ak-pagetype-unsubscribe #unsubscribe-all-btn {
+				margin-left: 0;
+				margin-top: 10px;
+			}
+		}
+
 	</style>
 {% extends "./wrapper.html" %}
 {% load actionkit_tags %}
 {% load smartif %}
 
 {% block content %}
-<section id="action-lead" class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+<section id="action-lead" class="section action-lead width-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
-		<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c6{% endif %} ct10 cm10 c-wide">
-			{% if page.custom_fields.page_pretitle %}
-			<p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
-			{% endif %}
-			<h2 id="action-title" class="title3 text-style-title3">
-			{% if page.custom_fields.page_title_custom_html %}
-				{% autoescape off %} {{ page.custom_fields.page_title_custom_html }} {% endautoescape %}
-			{% else %}
-				<span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
-			{% endif %}
-			</h2>
-			{% if page.custom_fields.page_author %}
-			<div class="action-author" class="p">
-				{% if page.custom_fields.page_author_image %}<span class="action-author-image"><img src="{{ page.custom_fields.page_author_image }}"></span> {% else %}&mdash; {% endif %}<span class="action-author-text meta">{% autoescape off %}{{ page.custom_fields.page_author }}{% endautoescape %}</span>
+		<div class="white-container">
+			<div id="action-header">
+				<div class="icons-container">
+					<svg width="81" height="80" viewBox="0 0 81 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M72.4562 80H9.542C4.83259 80 0.999634 76.1671 0.999634 71.4577V28.542C0.999634 27.8254 1.40734 27.1712 2.05187 26.8562C2.69639 26.5449 3.46542 26.6218 4.02938 27.065L39.0216 54.4071C40.1837 55.3202 41.8096 55.3202 42.9766 54.4071L77.9688 27.065C78.5376 26.6243 79.3042 26.5437 79.9463 26.8562C80.5908 27.1712 80.9986 27.8254 80.9986 28.542V71.4577C80.9986 76.1671 77.1656 80 72.4562 80ZM4.74958 32.3871V71.4577C4.74958 74.0992 6.90043 76.2501 9.542 76.2501H72.4562C75.0977 76.2501 77.2486 74.0992 77.2486 71.4577V32.3871L45.2861 57.3612C42.7618 59.3387 39.2364 59.3338 36.712 57.3612L4.74958 32.3871Z" fill="black"/>
+						<path d="M72.4562 80H9.542C9.45411 80 9.14894 79.9731 9.06105 79.9609C8.35794 79.8608 7.69144 79.3604 7.46683 78.6865C7.24223 78.0152 7.335 77.2632 7.83792 76.7603L28.9607 55.6375C29.6931 54.9051 30.8796 54.9051 31.612 55.6375C32.3444 56.3699 32.3444 57.5565 31.612 58.2889L13.6533 76.2476L68.3474 76.25L50.3862 58.2889C49.6538 57.5565 49.6538 56.3699 50.3862 55.6375C51.1186 54.9051 52.3051 54.9051 53.0375 55.6375L74.1603 76.7603C74.6827 77.2827 74.8487 78.064 74.5875 78.7525C74.3238 79.4434 73.6793 79.9146 72.942 79.9585C72.7785 79.9829 72.6198 80 72.4562 80Z" fill="black"/>
+						<path d="M12.872 38.2318C12.4692 38.2318 12.0639 38.1024 11.7197 37.8339L1.71984 30.019C1.29505 29.687 1.03382 29.189 1.00208 28.6519C0.970343 28.1135 1.17298 27.5886 1.55627 27.209L6.5562 22.2616C7.2935 21.5328 8.48001 21.5401 9.20754 22.2762C9.93506 23.0123 9.93018 24.1988 9.19289 24.9275L5.70661 28.376L14.0292 34.8798C14.8447 35.517 14.9887 36.695 14.3515 37.5116C13.9829 37.984 13.4311 38.2318 12.872 38.2318Z" fill="black"/>
+						<path d="M69.1263 38.2318C68.5672 38.2318 68.0154 37.984 67.6468 37.5116C67.0096 36.695 67.1536 35.517 67.969 34.8798L76.2917 28.376L72.8054 24.9275C72.0681 24.1988 72.0632 23.0123 72.7908 22.2762C73.5183 21.5401 74.7048 21.5328 75.4421 22.2616L80.442 27.209C80.8253 27.5886 81.0279 28.1135 80.9962 28.6519C80.9645 29.189 80.7032 29.687 80.2784 30.019L70.2786 37.8339C69.9368 38.1024 69.5291 38.2318 69.1263 38.2318Z" fill="black"/>
+						<path d="M40.9991 58.843C39.4879 58.843 37.9742 58.3474 36.7121 57.3611L11.7197 37.8338C11.2656 37.4786 10.9995 36.9342 10.9995 36.3568V1.87604C10.9995 0.8409 11.8393 0.00106812 12.8745 0.00106812H57.6664C58.7015 0.00106812 59.5413 0.8409 59.5413 1.87604V11.4597H69.1237C70.1589 11.4597 70.9987 12.2995 70.9987 13.3346V36.3568C70.9987 36.9342 70.7326 37.4786 70.2785 37.8338L45.2862 57.3611C44.024 58.3499 42.5128 58.843 40.9991 58.843ZM14.7495 35.4425L39.0216 54.4071C40.1837 55.3201 41.8096 55.3201 42.9766 54.4071L67.2487 35.4425V15.2096H57.6664C56.6312 15.2096 55.7914 14.3698 55.7914 13.3346V3.75102H14.7495V35.4425Z" fill="black"/>
+						<path d="M69.1237 15.2096H57.6664C56.6312 15.2096 55.7914 14.3698 55.7914 13.3346V1.87606C55.7914 1.11802 56.2479 0.434431 56.9486 0.143908C57.6493 -0.147836 58.4549 0.0120738 58.992 0.550397L70.4494 12.009C70.9865 12.5449 71.1452 13.3517 70.8571 14.0524C70.5666 14.7531 69.883 15.2096 69.1237 15.2096ZM59.5413 11.4597H64.5974L59.5413 6.40359V11.4597Z" fill="black"/>
+						<path d="M29.6711 28.4827C31.5695 28.4827 33.1085 26.9437 33.1085 25.0452C33.1085 23.1468 31.5695 21.6078 29.6711 21.6078C27.7726 21.6078 26.2336 23.1468 26.2336 25.0452C26.2336 26.9437 27.7726 28.4827 29.6711 28.4827Z" fill="black"/>
+						<path d="M52.3271 28.4827C54.2256 28.4827 55.7646 26.9437 55.7646 25.0452C55.7646 23.1468 54.2256 21.6078 52.3271 21.6078C50.4286 21.6078 48.8896 23.1468 48.8896 25.0452C48.8896 26.9437 50.4286 28.4827 52.3271 28.4827Z" fill="black"/>
+						<path d="M46.5459 39.107C45.5132 39.107 44.6758 38.2733 44.6709 37.2418C44.6612 36.5655 44.4414 33.2086 40.9991 33.2086C37.4298 33.2086 37.3273 36.8206 37.3273 37.232C37.3273 38.2672 36.4874 39.107 35.4523 39.107C34.4172 39.107 33.5773 38.2672 33.5773 37.232C33.5773 34.1071 35.5548 29.4587 40.9991 29.4587C46.4434 29.4587 48.4209 34.1071 48.4209 37.232C48.4209 38.2672 47.5811 39.107 46.5459 39.107Z" fill="black"/>
+					</svg>
+					<svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<g opacity="0.2">
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M45.3847 18.2137L91.5727 44.8804C94.7482 46.7137 95.8462 50.8118 94.0129 53.9872L74.0129 88.6282C72.1796 91.8037 68.0815 92.9017 64.9061 91.0684L18.718 64.4017C15.5426 62.5684 14.4445 58.4703 16.2779 55.2949L36.2779 20.6539C38.1112 17.4784 42.2093 16.3804 45.3847 18.2137Z" stroke="#B4C5D8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						<path d="M94.0129 53.9872L53.4787 57.5278L36.2778 20.6539" stroke="#B4C5D8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</g>
+					</svg>
+				</div>
+				{% if page.custom_fields.page_pretitle %}
+				<p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
+				{% endif %}
+				<h2 id="action-title" class="title3 text-style-title3">
+				{% if page.custom_fields.page_title_custom_html %}
+					{% include_tmpl page.custom_fields.page_title_custom_html %}
+				{% else %}
+					<span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
+				{% endif %}
+				</h2>
+				{% if page.custom_fields.page_author %}
+				<div class="action-author" class="p">
+					{% if page.custom_fields.page_author_image %}<span class="action-author-image"><img src="{{ page.custom_fields.page_author_image }}"></span> {% else %}&mdash; {% endif %}<span class="action-author-text meta">{% autoescape off %}{{ page.custom_fields.page_author }}{% endautoescape %}</span>
+				</div>
+				{% endif %}
+				{% if page.custom_fields.page_layout_style == "expanded" %}
 			</div>
 			{% endif %}
-		{% if page.custom_fields.page_layout_style == "expanded" %}
+			{% if page.custom_fields.page_layout_style == "expanded" %}{% else %}
 		</div>
-		{% endif %}			
-<div id="action-description" class="text-large margin-top-none margin-bottom-huge" data-read-more-after="10">
-		{% autoescape off %}
-			{% include_tmpl form.introduction_text %}
-		{% endautoescape %}
-		</div>
-		{% if page.custom_fields.page_layout_style == "expanded" %}{% else %}
-	</div>
-	{% endif %}
-	{% if page.custom_fields.page_is_inactive %}
+		{% endif %}
+		{% if page.custom_fields.page_is_inactive %}
 		<div id="page-inactive" class="c4 ct7_5 cm10 c-wide">
 		{% autoescape off %}
 			{{ page.custom_fields.page_is_inactive }}
 		{% endautoescape %}
 		</div>
-	{% else %}			
-			
+		{% else %}
 
-		<form id="action-form" class="c4 ct7_5 cm10 c-wide form-changeorg form-style-labelabove ak-form action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
-		<div id="form">
-		{% autoescape off %}
-		{% if page.custom_fields.form_text_above_form %}
-		<div id="form-intro">{{ page.custom_fields.form_text_above_form }}</div>
-		{% endif %}
-		{% endautoescape %}
-		<ul class="compact" id="ak-errors"></ul>
-		<div id="unknown_user">
-			<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}{% endfilter %}</h5>
-				<div id="id_email_box" class="input-text ak-input-type-user required ak-err-below">
-					<label for="id_email">{% filter ak_text:"field_email" %}Email Address{% endfilter %}</label>
-					<input type="text" name="email" id="id_email" class="ak-userfield-input">
-				</div>			 
-<!--		   
-			<div class="ak-labels-overlaid">
-				<div>
-					<label for="id_email">{% filter ak_text:"field_email"|capfirst %}{% endfilter %}</label>
-					<input id="id_email" type="text" name="email" size=40 />
+
+			<form id="action-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+			<div id="form">
+			{% autoescape off %}
+			{% if page.custom_fields.form_text_above_form %}
+			<div id="form-intro">{{ page.custom_fields.form_text_above_form }}</div>
+			{% endif %}
+			{% endautoescape %}
+			<ul class="compact" id="ak-errors"></ul>
+			<div id="unknown_user">
+				<h5 id="unsubscribe-intro">{% filter ak_text:"unsubscribe_intro" %}Enter your email here to unsubscribe:{% endfilter %}</h5>
+					<div id="id_email_box" class="input-text ak-input-type-user required ak-err-below">
+						<label for="id_email">{% filter ak_text:"field_email" %}Email Address{% endfilter %}</label>
+						<input type="text" name="email" id="id_email" class="ak-userfield-input">
+					</div>
+	<!--
+				<div class="ak-labels-overlaid">
+					<div>
+						<label for="id_email">{% filter ak_text:"field_email"|capfirst %}{% endfilter %}</label>
+						<input id="id_email" type="text" name="email" size=40 />
+					</div>
+					<input type="hidden" name="country" value="United States" />
 				</div>
-		    <input type="hidden" name="country" value="United States" />
+	-->
 			</div>
--->	
-		</div>
-		<div id="known_user">
-		<h5>{% filter ak_text:"unsubscribe_user_warning_prename " %}Not{% endfilter %} <span id="known_user_name"></span>{% filter ak_text:"unsubscribe_user_warning_postname " %}? Don't use this form!{% endfilter %}</h5>
-			<p><a href="/unsubscribe/unsubscribe">{% filter ak_text:"general_recognized_user_logout_instructions" %}Click here to log out{% endfilter %}</a></p>
-		</div>
-		
-		{% if user.subscriptions|length > 1 %}
-			<hr>
-		<fieldset>
-			<div><strong>{% filter ak_text:"unsubscribe_from_lists" %}Unsubscribe from:{% endfilter %}</strong></div>
-		<input type="hidden" name="have_unsub_lists" value="1" />
-		{% for s in user.subscriptions %}
-		<input type="checkbox" checked name="unsub_lists" value="{{ s.list.id }}" /> {{ s.list.name }}<br />
-		{% endfor %}
+			<div id="known_user">
+				<div>
+					{% filter ak_text:"unsubscribe_user_warning_prename" %}Not{% endfilter %}
+					<strong>
+						<span id="known_user_name"></span>
+					</strong>
+					{% filter ak_text:"unsubscribe_user_warning_postname" %}?{% endfilter %}
+					{% if page.lang.iso_code == "de"%}
+						<a href="/unsubscribe/unsubscribe-de">
+					{% elif page.lang.iso_code == "fr" %}
+						<a href="/unsubscribe/unsubscribe-fr">
+					{% elif page.lang.iso_code == "es" %}
+						<a href="/unsubscribe/unsubscribe-es">
+					{% elif page.lang.iso_code == "pt" %}
+						<a href="/unsubscribe/unsubscribe-pt">
+					{% elif page.lang.iso_code == "ja" %}
+						<a href="/unsubscribe/unsubscribe-ja">
+					{% elif page.lang.iso_code == "tr" %}
+						<a href="/unsubscribe/unsubscribe-tr">
+					{% elif page.lang.iso_code == "se" %}
+						<a href="/unsubscribe/unsubscribe-sw">
+					{% elif page.lang.iso_code == "nl" %}
+						<a href="/unsubscribe/unsubscribe-nl">
+					{% elif page.lang.iso_code == "pl" %}
+						<a href="/unsubscribe/unsubscribe-pl">
+					{% elif page.lang.iso_code == "bn" %}
+						<a href="/unsubscribe/unsubscribe-bn">
+					{% elif page.lang.iso_code == "id" %}
+						<a href="/unsubscribe/unsubscribe-id">
+					{% elif page.lang.iso_code == "zh" %}
+						<a href="/unsubscribe/unsubscribe-zh">
+					{% else %}
+						<a href="/unsubscribe/unsubscribe">
+					{% endif %}
+						{% filter ak_text:"unsubscribe_user_warning_link_label" %}Use this form instead{% endfilter %}
+					</a>
+				</div>
+			</div>
+
+			{% if user.subscriptions|length > 1 %}
+				<fieldset>
+					<p>{% filter ak_text:"unsubscribe_from_lists_preemail" %}Unsubscribe{% endfilter %} <strong>{{ user.email }}</strong> {% filter ak_text:"unsubscribe_from_lists_postemail" %}from:{% endfilter %}</p>
+					<input type="hidden" name="have_unsub_lists" value="1" />
+					<div class="checkbox-grid">
+						{% for s in user.subscriptions %}
+						<div class="checkbox-set">
+							<label>
+								<input type="checkbox" name="unsub_lists" value="{{ s.list.id }}" /> {{ s.list.name }}<br />
+								<span class="checkmark"></span>
+							</label>
+						</div>
+					{% endfor %}
+					</div>
+				</fieldset>
+			{% endif %}
+
+			<fieldset>
+				<p class="radio-label">{% filter ak_text:"unsubscribe_from_lists_survey" %}Before you go, please tell us why{% endfilter %}  <span class="optional-hint">{% filter ak_text:"unsubscribe_from_lists_survey_post" %}(optional){% endfilter %}</span></p>
+				<div class="ak-unsubscribe-survey-radio-set ak-input-set">
+					<label class="ak-unsubscribe-survey-radio-choice">
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_1" value="frequency"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_frequency" %}You send me too many emails{% endfilter %}</span>
+					</label>
+					<label class="ak-unsubscribe-survey-radio-choice">
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_2" value="consent"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_consent" %}I never signed up for this mailing list{% endfilter %}</span>
+					</label>
+					<label class="ak-unsubscribe-survey-radio-choice">
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_3" value="difemail"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_difemail" %}I signed up with a different email{% endfilter %}</span>
+					</label>
+					<label class="ak-unsubscribe-survey-radio-choice">
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_4" value="campaigns"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_campaigns" %}I'm no longer interested in 350.org's campaigns{% endfilter %}</span>
+					</label>
+					<label class="ak-unsubscribe-survey-radio-choice">
+						<input type="radio" class="ak-survey-input" name="action_survey_unsubscribe_reason" id="id_action_survey_unsubscribe_reason_5" value="other"><span class="larger-radios-choice-label">{% filter ak_text:"unsubscribe_reason_other" %}Other{% endfilter %}</span>
+					</label>
+				</div>
 			</fieldset>
-			<hr>
-		{% endif %}
-			<div class="input-wrapper input-submit">		
-				<input class="submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"unsubscribe_submit_button" %}Unsubscribe{% endfilter %}{% endif %}" />
+
+			<fieldset class="unsubscribe-other">
+				<textarea class="ak-unsubscribe-survey-input" name="action_survey_unsubscribe_reason_other" id="action_survey_unsubscribe_reason_other" placeholder="{% filter ak_text:'unsubscribe_reason_other_placeholder' %}Can you tell us more?{% endfilter %}" rows="2"></textarea>
+				<span class="other-char-count"></span>
+			</fieldset>
+
+			<div class="input-wrapper input-submit">
+				<input class="submit" id="unsubscribe-submit" type="submit" value="{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% if user.subscriptions|length > 1 %}{% filter ak_text:'unsubscribe_submit_button_multiple' %}Unsubscribe from selected{% endfilter %}{% else %}{% filter ak_text:'unsubscribe_submit_button' %}Unsubscribe{% endfilter %}{% endif %}{% endif %}" />
+				{% if user.subscriptions|length > 1 %}
+					<button type="button" id="unsubscribe-all-btn">{% filter ak_text:"unsubscribe_from_all_label" %}Unsubscribe from all{% endfilter %}</button>
+				{% endif %}
 			</div>
-		
-		<input type="hidden" name="page" value="{{ page.name }}">
+
+			<input type="hidden" name="page" value="{{ page.name }}">
+			</div>
+			</form>
+		{% endif %}
 		</div>
-		</form>
-	{% endif %}
 	</div>
 </section>
+
+<script>
+
+	$(function(){
+		function moreDetailsAnwer() {
+			return $('input[name="action_survey_unsubscribe_reason"][value="campaigns"], input[name="action_survey_unsubscribe_reason"][value="other"]').is(':checked');
+		}
+
+		$('input[name="action_survey_unsubscribe_reason"]').on('change', function(){
+			if (moreDetailsAnwer()) {
+				$('#action_survey_unsubscribe_reason_other').show();
+			} else {
+				$('#action_survey_unsubscribe_reason_other').hide();
+				$('#action_survey_unsubscribe_reason_other').val('');
+			}
+		});
+
+		if (!moreDetailsAnwer()) { // check on pageload to handle autofill
+			$('#action_survey_unsubscribe_reason_other').hide();
+			$('#action_survey_unsubscribe_reason_other').val('');
+		}
+
+		$('#unsubscribe-all-btn').click(function(){
+			$('input[name="unsub_lists"]').prop("checked", true);
+			$('#unsubscribe-submit').click();
+		});
+
+		if (actionkit && actionkit.args) {
+			// Preselect a mailing list if query parameter exists
+			if (actionkit.args.mailing_list_id) {
+				var checkboxToSelect = $("input[name='unsub_lists'][value='" + actionkit.args.mailing_list_id + "']");
+				if (checkboxToSelect.length > 0) {
+					$(checkboxToSelect[0]).prop('checked', 'true');
+				} else {
+					// If no checkbox with mailing list ID passed through in query parameter, pre-select all mailing lists
+					$("input[name='unsub_lists']").prop('checked', 'true');
+				}
+			} else {
+				// If no mailing list ID passed through in query parameter, pre-select all mailing lists
+				$("input[name='unsub_lists']").prop('checked', 'true');
+			}
+		}
+	});
+</script>
+
 {% endblock %}

@@ -52,6 +52,13 @@ Custom template for same-page post-AJAX submit share ask.
     transform: rotate(360deg);
   }
 }
+.afteraction-donate-amount-container {
+	flex-wrap: wrap;
+}
+
+.afteraction-donate-amount {
+	flex: 30%;
+}
 </style>
 
 <div id="afteraction-progress-meter" aria-hidden="true" class="section text-small text-strong width-wide text-center padding-tiny bg-dkgray-trans" style="display:none;position:fixed;top:0;left:0;width:100%;z-index:10;">
@@ -214,22 +221,29 @@ Custom template for same-page post-AJAX submit share ask.
 	<div class="afteraction-donate-amount-container">
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}/?amount=3&source=aa_{{ page.id }}"
-		>$3</a>
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=3&source=aa_{{ page.id }}"
+		>$3.50</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}/?amount=10&source=aa_{{ page.id }}"
-		>$10</a>
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=10&source=aa_{{ page.id }}"
+		>$25</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}/?amount=35&source=aa_{{ page.id }}"
-		>$35</a>
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
+		>$50</a>
 		<a
-			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}/?source=aa_{{ page.id }}"
-		>Other</a>
+			class="afteraction-donate-amount afteraction-donate-amount-4 button margin-bottom-large"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
+		>$100</a>
+		<a
+			class="afteraction-donate-amount afteraction-donate-amount-5 button margin-bottom-large"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
+		>$350</a>
+		<a
+			class="afteraction-donate-amount afteraction-donate-amount-6 button margin-bottom-large"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?source=aa_{{ page.id }}"
+		>{% filter ak_text:"afteraction_donate_other_amount" %}Other{% endfilter %}</a>
 	</div>
-
 	<div>
 		<a
 			class="afteraction-donate-ask-no button button-alternate"
@@ -328,12 +342,15 @@ jQuery(document).ready(function($){
 					$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(i){
 						var $this = $(this);
 						var originalAmt = initDonateAmounts[i];
-						var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
-						var url = $(this).attr('href');
-						var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
-						$this.attr('href', newUrl);
-						// change button label
-						$this.html(currencyData[userLocation].currencySymbol + convertedAmt);
+						// account for new "Other" button
+						if (!isNaN(originalAmt)) {
+							var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
+							var url = $(this).attr('href');
+							var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
+							$this.attr('href', newUrl);
+							// change button label
+							$this.html(currencyData[userLocation].currencySymbol + convertedAmt);
+						}
 					});
 				}
 			}

@@ -56,7 +56,7 @@
 					{% include "./state_select.html" %}
 					{% case 'email' %}
 					{% if user.stats.donated %}
-						<p class="donor-email-label">We noticed you have previously donated. To update your email address, please contact us at <a href="mailto:donations@350.org">donations@350.org</a> so we can make sure your donation records are moved to your new address.</p>
+						<p class="donor-email-label">We noticed you have previously donated. To update your email address ({{ field.value }}), please contact us at <a href="mailto:donations@350.org">donations@350.org</a> so we can make sure your donation records are moved to your new address.</p>
 					{% else %}
 						{{ field }}
 					{% endif %}

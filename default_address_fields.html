@@ -38,7 +38,7 @@
   {% if page.allow_international %}
   <div class="ak-intl-billing-fields input-text ak-input-type-user input-field-group ak-err-below">
     <label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
-    <input id="id_postal" type="text" name="postal" size="10">
+    <input id="id_postal" type="te  xt" name="postal" size="10">
   </div>
   {% endif %}
 </div>
@@ -61,7 +61,11 @@
   }
 
   .state-zip-container fieldset {
-    border-radius: 0 4px 4px 0 !important;
     border-top: 0 !important;
+  }
+
+  .state-zip-container fieldset > .ak-intl-billing-fields {
+    border-top: 1px solid rgba(21, 36, 43, 0.3) !important;
+    border-radius: 4px !important;
   }
 </style>

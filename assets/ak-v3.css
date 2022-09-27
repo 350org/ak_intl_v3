@@ -5768,6 +5768,7 @@ a.bg-midgray:hover {
 .afteraction-donate-amount-container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .afteraction-donate-amount {
@@ -5778,6 +5779,7 @@ a.bg-midgray:hover {
   margin-left: 0.1em;
   margin-right: 0.1em;
   padding: 1.2rem;
+  flex: 30%;
 }
 
 .post-submit-text{

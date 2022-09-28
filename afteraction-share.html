@@ -350,6 +350,7 @@ jQuery(document).ready(function($){
 			$(document).trigger('domUpdated'); // tell other scripts to re-run
 			$("#jump-to-form").remove();
 
+			// if user opts not to donate, update progress meter
 			if (afterActionNextStep === 'scroll-donate') {
 				if ( $(el).hasClass('afteraction-donate-ask-no') ){
 					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")

@@ -53,7 +53,9 @@
 <li>{{ profile.amt }} a {{ profile.inverse_period_display|lower }}, started on {{ profile.created_at|date:"m/d/Y" }}. 
 You've given a total of {{ profile.payment_total_amt }}. 
 {% if profile.is_active %}
-  {% if profile.order.payment_method != "paypal" %}
+  {% if 'ActBlue' in profile.account %}
+    <a href="https://secure.actblue.com/signin">Update your credit card or cancel at any time - via ActBlue.</a>
+  {% elif profile.order.payment_method != "paypal" %}
     <a href="/cms/pledge/update/update/">Update your credit card</a> or <a href="/cms/pledge/cancel/monthly/">cancel at any time.</a>
   {% else %}
     <a href="/cms/pledge/cancel/monthly/">Cancel at any time.</a>
@@ -71,7 +73,7 @@ You've given a total of {{ profile.payment_total_amt }}.
 <h2>Donation History </h2>
 <ul>
 {% for donation in donations %}
-<li>{{ donation.amt }} on {{ donation.created_at|date:"m/d/Y" }}  {% if donation.recurring %} (Recurring) {% endif %}
+<li>{{ donation.amt }} on {{ donation.created_at|date:"m/d/Y" }} {% if 'ActBlue' in donation.account %}via <a href="https://secure.actblue.com/signin">ActBlue</a>{% endif %} {% if donation.recurring %} (Recurring) {% endif %}
 {% endfor %}
 </ul>
 

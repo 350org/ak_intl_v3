@@ -104,11 +104,3 @@
 {% if templateset.custom_fields.site_addl_js_url %}
 	<script type="text/javascript" src="{{ templateset.custom_fields.site_addl_js_url }}"></script>
 {% endif %}
-
-<script>
-	var fields = $('[id$=_box]');
-	for (var i = 0; i < fields.length; i++) {
-		var field = fields[i].id;
-		$('[id*=' + field + ']').insertAfter($('.ak-user-form'));
-	}
-</script>

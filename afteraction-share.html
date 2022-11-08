@@ -67,24 +67,45 @@ Custom template for same-page post-AJAX submit share ask.
 		</span>
 	</span>
 	<span id="afteraction-progress-meter-step2" class="afteraction-progress-meter-step">
-		<span class="afteraction-progress-meter-dot icon" data-icon=""></span>
-			{% filter ak_text:"afteraction_progress_step2" %}Share{% endfilter %}
-		</span>
+		{% if page.custom_fields.after_action_next_step == "scroll-share" %}
+			<span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+				{% filter ak_text:"afteraction_progress_step2" %}Share{% endfilter %}
+			</span>
+		{% elif page.custom_fields.after_action_next_step == "scroll-donate" %}
+			<span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+				{% filter ak_text:"afteraction_progress_step3" %}Donate{% endfilter %}
+			</span>
+		{% endif %}
 	</span>
 	<span id="afteraction-progress-meter-step3" class="afteraction-progress-meter-step">
-		<span class="afteraction-progress-meter-dot icon" data-icon=""></span>
-			{% filter ak_text:"afteraction_progress_step3" %}Donate{% endfilter %}
-		</span>
+		{% if page.custom_fields.after_action_next_step == "scroll-share" %}
+			<span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+				{% filter ak_text:"afteraction_progress_step3" %}Donate{% endfilter %}
+			</span>
+		{% elif page.custom_fields.after_action_next_step == "scroll-donate" %}
+			<span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+				{% filter ak_text:"afteraction_progress_step2" %}Share{% endfilter %}
+			</span>
+		{% endif %}
 	</span>
 </div>
 
 <div id="afteraction">
+	{% if page.custom_fields.after_action_next_step == "scroll-share" %}
 	<div id="afteraction-share" class="section afteraction-panel border-top title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}" aria-live="polite" style="display:none;">
 		<div id="afteraction-share-inner" class="section-inner"></div>
 	</div>
 	<div id="afteraction-donate" class="section afteraction-panel title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}-fade" aria-live="polite" style="display:none;">
 		<div id="afteraction-donate-inner" class="section-inner"></div>
 	</div>
+	{% else %}
+	<div id="afteraction-donate" class="section afteraction-panel title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}-fade" aria-live="polite" style="display:none;">
+		<div id="afteraction-donate-inner" class="section-inner"></div>
+	</div>
+	<div id="afteraction-share" class="section afteraction-panel border-top title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}" aria-live="polite" style="display:none;">
+		<div id="afteraction-share-inner" class="section-inner"></div>
+	</div>
+	{% endif %}
 </div>
 
 
@@ -163,6 +184,22 @@ Custom template for same-page post-AJAX submit share ask.
 		</div>
 	</div>
 	{% endif %}
+	{% if page.custom_fields.share_twitter == "yes" %}
+	<div class="afteraction-twitter-share afteraction-share-option margin-bottom-large">
+		<div class="afteraction-twitter-share-intro afteraction-share-option-intro margin-bottom-medium">
+			<a class="afteraction-share-button tw-share button-icon bg-twitter-color bg-twitter-icon button-share-twitter"  href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_twitter" %}Share on Twitter{% endfilter %}</a>
+		</div>
+		<div class="tw-preview bg-white border margin-bottom-large">
+			<div class="tw-preview-share-text text-left">
+				{% if page.followup and page.followup.twitter_message %}
+					<textarea class="border strong p no-margin" readonly>{{ page.followup.twitter_message }}</textarea>
+				{% else %}
+					<textarea class="border strong p no-margin" readonly>{{ page.followup.share_title_value }} {{ page.canonical_url }}</textarea>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	{% endif %}
 </div>
 
 <div id="afteraction-donate-ask-source" aria-hidden="true" style="display:none;">
@@ -174,41 +211,33 @@ Custom template for same-page post-AJAX submit share ask.
 		{% endif %}
 	</p>
 
-		{% if page.custom_fields.afteraction_donate_alternate_url %}
-	<div class="afteraction-donate-cta-container margin-bottom-large">
-		<a class="button button-large button-primary arrow-right" href="{{ page.custom_fields.afteraction_donate_alternate_url }}">
-			{% if page.custom_fields.afteraction_donate_alternate_link_text %}
-				{{ page.custom_fields.afteraction_donate_alternate_link_text }}
-			{% else %}
-				{% filter ak_text:"general_donate" %}Donate{% endfilter %}
-			{% endif %}
-		</a>
-	</div>
-		{% else %}
 	<div class="afteraction-donate-amount-container">
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
-			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=3&source=aa_{{ page.id }}"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=3&source=aa_{{ page.id }}"
+			target="_blank"
 		>$3</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
-			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=10&source=aa_{{ page.id }}"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=10&source=aa_{{ page.id }}"
+			target="_blank"
 		>$10</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
-			href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}/?amount=35&source=aa_{{ page.id }}"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
+			target="_blank"
 		>$35</a>
 	</div>
-		{% endif %}
+
 	<div>
 		<a
-			class="afteraction-donate-ask-no text-small"
-			href="{% if templateset.custom_fields.getinvolved_url %}{% include_tmpl templateset.custom_fields.getinvolved_url %}{% else %}https://350.org/get-involved{% endif %}"
+			class="afteraction-donate-ask-no button button-alternate"
+			href="{% if page.custom_fields.after_action_next_step == 'scroll-share' %}{% if templateset.custom_fields.getinvolved_url %}{% include_tmpl templateset.custom_fields.getinvolved_url %}{% else %}https://350.org/get-involved{% endif %}{% else%}#{% endif %}"
 		>
 			{% if page.custom_fields.afteraction_donate_ask_no %}
 				{{ page.custom_fields.afteraction_donate_ask_no }}
 			{% else %}
-				{% filter ak_text:"afteraction_donate_ask_no" %}Not ready to donate? Learn more about 350's campaigns{% endfilter %}
+				{% filter ak_text:"afteraction_donate_ask_no" %}Not ready to donate?{% endfilter %}
 			{% endif %}
 		</a>
 	</div>
@@ -239,8 +268,16 @@ jQuery(document).ready(function($){
 		var afteractionDonateAskContent = $('#afteraction-donate-ask-source').html();
 		var afteractionDonateContent = $('#afteraction-donate-source').html();
 
+		// get the setting of the after action next step variable
+		var afterActionNextStep = "{{ page.custom_fields.after_action_next_step }}";
+		var getInvolvedURL = "{% if templateset.custom_fields.getinvolved_url %}{% include_tmpl templateset.custom_fields.getinvolved_url %}{% else %}https://350.org/get-involved{% endif %}";
+
 		const euroCountries = ['Austria', 'Belgium', 'Cyprus', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Portugal', 'Slovakia', 'Slovenia', 'Spain'];
 
+		// Hide "Add your Name" button on mobile if in scroll donate view
+		if (afterActionNextStep === 'scroll-donate') {
+			$('#jump-to-form').hide();
+		}
 		function updateDonateCurrency(userLocation){
 			if (euroCountries.includes(userLocation)) {
 				userLocation = 'Europe';
@@ -301,7 +338,7 @@ jQuery(document).ready(function($){
 			}
 		}
 
-		function afteractionShowShareAsk(){
+		function afteractionShowShareAsk(el){
 			if ( afteractionShareSlideInner.html() == '' ){
 				afteractionShareSlideInner.append( afteractionShareAskContent )
 				afteractionShareSlide.show();
@@ -312,6 +349,21 @@ jQuery(document).ready(function($){
 			afteractionProgressMeter.fadeIn();
 			$(document).trigger('domUpdated'); // tell other scripts to re-run
 			$("#jump-to-form").remove();
+
+			// if user opts not to donate, update progress meter
+			if (afterActionNextStep === 'scroll-donate') {
+				if ( $(el).hasClass('afteraction-donate-ask-no') ){
+					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+						.removeClass('complete')
+						.addClass('declined')
+						.attr('data-icon',''); //&xE943; X
+				} else {
+					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+						.removeClass('declined')
+						.addClass('complete')
+						.attr('data-icon',''); //&xE942; checkmark
+				}
+			}
 		}
 
 		function afteractionShowShare(){
@@ -345,16 +397,20 @@ jQuery(document).ready(function($){
 						scrollTop: afteractionDonateSlide.offset().top
 					}, 800);
 			});
-			if ( $(el).hasClass('afteraction-share-ask-no') ){
-				$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
-					.removeClass('complete')
-					.addClass('declined')
-					.attr('data-icon',''); //&xE943; X
+			if (afterActionNextStep === 'scroll-share') {
+				if ( $(el).hasClass('afteraction-share-ask-no') ){
+					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+						.removeClass('complete')
+						.addClass('declined')
+						.attr('data-icon',''); //&xE943; X
+				} else {
+					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+						.removeClass('declined')
+						.addClass('complete')
+						.attr('data-icon',''); //&xE942; checkmark
+				}
 			} else {
-				$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
-					.removeClass('declined')
-					.addClass('complete')
-					.attr('data-icon',''); //&xE942; checkmark
+				afteractionProgressMeter.fadeIn();
 			}
 		};
 
@@ -415,39 +471,88 @@ jQuery(document).ready(function($){
 							'position': 'relative'
 						});
 						$('.loader').hide();
-						// show the share ask
-						afteractionShowShareAsk();
-						// if user opts to share, show share dialog
-						$('.afteraction-share-ask-yes').on('click', function(){
-							afteractionShowShare();
-							// handle adblockers preventing the loading of Google Analytics library
-							if (typeof ga !== 'undefined') {
-								ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);
-							}
-						});
-						$('.afteraction-share-ask-no').on('click', function(){
-							// handle adblockers preventing the loading of Google Analytics library
-							if (typeof ga !== 'undefined') {
-								ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-no', window.location.pathname);
-							}
-						});
-						// if user opts not to share or has completed sharing, show donate ask
-						afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
-							var el = $(this);
-							afteractionShowDonate(el);
-						});
-						$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
-							// handle adblockers preventing the loading of Google Analytics library
-							if (typeof ga !== 'undefined') {
-								ga('send', 'event', 'scrolling-signup', 'afteraction-donate-yes', window.location.pathname);
-							}
-						});
-						$('.afteraction-donate-ask-no').on('click', function(){
-							// handle adblockers preventing the loading of Google Analytics library
-							if (typeof ga !== 'undefined') {
-								ga('send', 'event', 'scrolling-signup', 'afteraction-donate-no', window.location.pathname);
-							}
-						});
+						if (afterActionNextStep === 'scroll-share') {
+							// show the share ask
+							afteractionShowShareAsk();
+							// if user opts to share, show share dialog
+							$('.afteraction-share-ask-yes').on('click', function(){
+								afteractionShowShare();
+								// handle adblockers preventing the loading of Google Analytics library
+								if (typeof ga !== 'undefined') {
+									ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);
+								}
+							});
+							$('.afteraction-share-ask-no').on('click', function(){
+								// handle adblockers preventing the loading of Google Analytics library
+								if (typeof ga !== 'undefined') {
+									ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-no', window.location.pathname);
+								}
+							});
+							// if user opts not to share or has completed sharing, show donate ask
+							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
+								var el = $(this);
+								afteractionShowDonate(el);
+							});
+							$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
+								// handle adblockers preventing the loading of Google Analytics library
+								if (typeof ga !== 'undefined') {
+									ga('send', 'event', 'scrolling-signup', 'afteraction-donate-yes', window.location.pathname);
+								}
+							});
+							$('.afteraction-donate-ask-no').on('click', function(){
+								// handle adblockers preventing the loading of Google Analytics library
+								if (typeof ga !== 'undefined') {
+									ga('send', 'event', 'scrolling-signup', 'afteraction-donate-no', window.location.pathname);
+								}
+							});
+						} else if (afterActionNextStep === 'scroll-donate') {
+							// show the donate ask
+							afteractionShowDonate();
+
+							afteraction.on('click', '.afteraction-donate-ask-no', function(e){
+								// prevent getting redirected to the Get Involved URL
+								e.preventDefault();
+
+								// handle adblockers preventing the loading of Google Analytics library
+								if (typeof ga !== 'undefined') {
+									ga('send', 'event', 'scrolling-signup', 'afteraction-donate-no', window.location.pathname);
+								}
+								var el = $(this);
+								// if user doesn't want to donate, show the share ask
+								afteractionShowShareAsk(el);
+
+								// if user opts to share, show share dialog
+								$('.afteraction-share-ask-yes').on('click', function(){
+									afteractionShowShare();
+									// handle adblockers preventing the loading of Google Analytics library
+									if (typeof ga !== 'undefined') {
+										ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);
+									}
+								});
+								$('.afteraction-share-ask-no').on('click', function(){
+									// handle adblockers preventing the loading of Google Analytics library
+									if (typeof ga !== 'undefined') {
+										ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-no', window.location.pathname);
+									}
+									window.location.href = getInvolvedURL;
+								});
+							});
+
+							// if user opts not to share or has completed sharing, update progress meter
+							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
+								if ( $(this).hasClass('afteraction-share-ask-no') ){
+									$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
+										.removeClass('complete')
+										.addClass('declined')
+										.attr('data-icon',''); //&xE943; X
+								} else {
+									$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
+										.removeClass('declined')
+										.addClass('complete')
+										.attr('data-icon',''); //&xE942; checkmark
+								}
+							});
+						}
 					})
 					.fail(function(){
 							console.log('Error: AK AJAX submission failed.');

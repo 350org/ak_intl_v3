@@ -367,7 +367,7 @@ jQuery(document).ready(function($){
 		}
 
 		function afteractionShowShare(response){
-			
+
 			afteractionShareSlideInner
 				.animate({opacity:0 }, 300, function(){
 					$(this)
@@ -392,7 +392,6 @@ jQuery(document).ready(function($){
 							for (var i = 0; i < currFBShareEls.length; i++) {
 								var currFBShareEl = currFBShareEls[i];
 								$(currFBShareEl).attr('href', fbShareUrl);
-								console.log(currFBShareEl);
 							}
 						}
 					}

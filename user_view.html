@@ -73,7 +73,7 @@ You've given a total of {{ profile.payment_total_amt }}.
 <h2>Donation History </h2>
 <ul>
 {% for donation in donations %}
-<li>{{ donation.amt }} on {{ donation.created_at|date:"m/d/Y" }} {% if 'ActBlue' in donation.account %}via <a href="https://secure.actblue.com/signin">ActBlue</a>{% endif %} {% if donation.recurring %} (Recurring) {% endif %}
+<li>{{ donation.amt }} on {{ donation.created_at|date:"m/d/Y" }} {% if 'ActBlue' in donation.account %}via <a href="https://secure.actblue.com/signin" target="_blank">ActBlue</a>{% endif %} {% if donation.recurring %} (Recurring) {% endif %}
 {% endfor %}
 </ul>
 

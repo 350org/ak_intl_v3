@@ -115,61 +115,62 @@
 
 
 	</style>
-<script>
-function insertUrlParam(key, value) {
-	if (history.pushState) {
-		let searchParams = new URLSearchParams(window.location.search);
-		searchParams.set(key, value);
-		let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + searchParams.toString();
-		window.history.pushState({path: newurl}, '', newurl);
+	<script>
+	function insertUrlParam(key, value) {
+		if (history.pushState) {
+			let searchParams = new URLSearchParams(window.location.search);
+			searchParams.set(key, value);
+			let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + searchParams.toString();
+			window.history.pushState({path: newurl}, '', newurl);
+		}
 	}
-}
-
-const params = new Proxy(new URLSearchParams(window.location.search), {
-  get: (searchParams, prop) => searchParams.get(prop),
-});
-
-let recorded = params.success; 
-
-var usecase = '';
-{% if action.page.custom_fields.page_use_case %} usecase = '{{ action.page.custom_fields.page_use_case }}';{% endif %}
-	// Send transaction data
-	dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
-	if (recorded != 1) {
-		dataLayer.push({
-		  'event': 'transaction',
-		  'eventLabel': '{{ action.page.canonical_path }}',
-		  'ecommerce': {
-			'currencyCode': '{{action.order.currency}}',
-			'purchase': {
-			  'actionField': {
-				'id': '{{action.id}}',                         // Transaction ID. Required for purchases and refunds.
-				'affiliation': usecase,
-				'revenue': '{{action.order.total}}',                     // Total transaction value (incl. tax and shipping)
-				'tax':'0',
-				'shipping': '0',
-				'coupon': '',
-			  },
-			  'products': [{                            // List of productFieldObjects.
-				'name': 'donation',     // Name or ID is required.
-				'id': 'id_donation',
-				'price': '{{action.order.total}}',
-				'brand': '350.org',
-				'category': 'Donation',
-				'variant': '',
-				{% if action.orderrecurring %}
-				'dimension2': 'recurring',
-				{% else %}
-				'dimension2': 'single',
-				{% endif %}
-				'quantity': 1,
-				'coupon': ''                            // Optional fields may be omitted or set to empty string.
-			   }]
-			}
-		  }
+	{% if action.page.type == "Donation" %}
+		const params = new Proxy(new URLSearchParams(window.location.search), {
+		get: (searchParams, prop) => searchParams.get(prop),
 		});
-		insertUrlParam('success', 1);
-	}
+
+		let recorded = params.success; 
+
+		var usecase = '';
+		{% if action.page.custom_fields.page_use_case %} usecase = '{{ action.page.custom_fields.page_use_case }}';{% endif %}
+		// Send transaction data
+		dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+		if (recorded != 1) {
+			dataLayer.push({
+			'event': 'transaction',
+			'eventLabel': '{{ action.page.canonical_path }}',
+			'ecommerce': {
+				'currencyCode': '{{action.order.currency}}',
+				'purchase': {
+				'actionField': {
+					'id': '{{action.id}}',                         // Transaction ID. Required for purchases and refunds.
+					'affiliation': usecase,
+					'revenue': '{{action.order.total}}',                     // Total transaction value (incl. tax and shipping)
+					'tax':'0',
+					'shipping': '0',
+					'coupon': '',
+				},
+				'products': [{                            // List of productFieldObjects.
+					'name': 'donation',     // Name or ID is required.
+					'id': 'id_donation',
+					'price': '{{action.order.total}}',
+					'brand': '350.org',
+					'category': 'Donation',
+					'variant': '',
+					{% if action.orderrecurring %}
+					'dimension2': 'recurring',
+					{% else %}
+					'dimension2': 'single',
+					{% endif %}
+					'quantity': 1,
+					'coupon': ''                            // Optional fields may be omitted or set to empty string.
+				}]
+				}
+			}
+			});
+			insertUrlParam('success', 1);
+		}
+	{% endif %}																									
 	</script>
 	<section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 		<div class="section-inner">

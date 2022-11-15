@@ -171,26 +171,15 @@
 		type='text/css' media='all' />
 	{% endif %}
 
-	<style>
-		{
-			% if page.custom_fields.page_background_image %
-		}
-
-		#body-mobile-background {
-			background-color: {
-					{
-					templateset.custom_fields.color_page
-				}
+	{% if page.custom_fields.page_background_image %}
+		<style>
+			#body-mobile-background {
+				background-color: {{templateset.custom_fields.color_page}};
+				background-image: url({{ page.custom_fields.page_background_image }});
 			}
 
-			;
-			background-image:url({{ page.custom_fields.page_background_image }});
-		}
-
-			{
-			% endif %
-		}
-	</style>
+		</style>
+	{% endif %}
 
 	{% block css_additions %}{% endblock %}
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

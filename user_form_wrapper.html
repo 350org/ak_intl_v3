@@ -18,7 +18,7 @@
  </div>
 </div>
 
-<div id="unknown_user" class="user-form ak-errs-below form-style-labelabove text-black">
+<div id="unknown_user" class="user-form ak-user-form ak-errs-below form-style-labelabove text-black">
  {% include "./user_form.html" %}
 {% if page.custom_fields.form_show_gjrg_optins == "Y" %}
   {% include "./user_gjrg_optins.html" %}
@@ -176,26 +176,26 @@ console.log('{{page.type}}');
 		jQuery('#unknown_user').after(jQuery('<div id="known_or_unknow_fields" class="user-form ak-errs-below form-style-labelabove text-black">'));
     function showMobileFields() {
       // add mobile field if not already added, or show if already added
-      if (!jQuery('#id_mobile_phone_box').length) {
-        jQuery('#known_or_unknow_fields').append(jQuery('<div id="id_mobile_phone_box" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
+      if (!jQuery('.mobile_phone_box').length) {
+        jQuery('#known_or_unknow_fields').append(jQuery('<div id="ak-fieldbox-mobile_phone" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
         jQuery('#id_mobile_phone').on('keyup change', function(){
           ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
         });
       } else {
-        jQuery('#id_mobile_phone_box').show();	
+        jQuery('.mobile_phone_box').show();
       }
       // add mobile subscriber checkbox if not already added, or show if already added
-      if (!jQuery('#id_user_mobile_subscriber_box').length) {
+      if (!jQuery('.user_mobile_subscriber_box').length) {
         var smsOptInLanguage = '{% filter ak_text:"sms_privacy_optin" %}Keep me updated by SMS*{% endfilter %}';
         if ('{{ page.custom_fields.form_label_text_sms_optin }}') {
           smsOptInLanguage = '{{ page.custom_fields.form_label_text_sms_optin }}'
         }
-        jQuery('#id_mobile_phone_box').after(jQuery('<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom  ak-err-below"><span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice"><input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
-        {% if page.custom_fields.form_bigger_radio_buttons == "Y" %}
-					jQuery('#id_user_mobile_subscriber_box').addClass('large-checkboxes');
-					jQuery('#id_user_mobile_subscriber_box .ak-userfield-checkbox-choice .checkmark').remove()
-					jQuery('#id_user_mobile_subscriber_box .ak-userfield-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
-				{% endif %}
+        jQuery('.mobile_phone_box').after(jQuery('<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom  ak-err-below"><span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice"><input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
+
+		// Add large checkboxes
+		jQuery('.user_mobile_subscriber_box').addClass('large-checkboxes');
+		jQuery('.user_mobile_subscriber_box .ak-userfield-checkbox-choice .checkmark').remove()
+		jQuery('.user_mobile_subscriber_box .ak-userfield-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
 
         jQuery('#id_user_mobile_subscriber_true').on('change', function(){
           // if subscriber opt in checkbox is checked, and country is US, include mobile subscriber number in submission
@@ -214,13 +214,13 @@ console.log('{{page.type}}');
           }
         });
       } else {
-        jQuery('#id_user_mobile_subscriber_box').show();
+        jQuery('.user_mobile_subscriber_box').show();
       }
       jQuery('.sms-privacy-notice').show();
     }
 
     function hideMobileFields() {
-      jQuery('#id_mobile_phone_box, #id_user_mobile_subscriber_box, .sms-privacy-notice').hide();
+      jQuery('.mobile_phone_box, .user_mobile_subscriber_box, .sms-privacy-notice').hide();
       jQuery('#id_mobile_phone, #mobile_subscriber_number').val('');
       jQuery('#mobile_subscriber_number').attr('name', ''); // remove from form submission
       jQuery('#id_user_mobile_subscriber_true').attr('checked', false);
@@ -281,7 +281,7 @@ console.log('{{page.type}}');
     ifCountryIsUS(selectedCountry, showMobileFields, hideMobileFields);
     ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
 
-    if (jQuery('#id_mobile_phone_box').length) {
+    if (jQuery('.mobile_phone_box').length) {
       jQuery('#id_mobile_phone').on('keyup change', function(){
         ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
       });
@@ -298,8 +298,8 @@ console.log('{{page.type}}');
   {% endif %}
 {% endif %}
 
-{% if page.custom_fields.form_bigger_radio_buttons == 'Y' %}
 
+<!-- Add styles for larger radio buttons/check boxes -->
 <style>
 	.input-radio.large-radios,
 	.input-radio.large-radios .ak-userfield-radio-choice,
@@ -430,7 +430,8 @@ console.log('{{page.type}}');
 		left: 0;
 		height: 25px;
 		width: 25px;
-		background-color: #eee;
+		background-color: #f4f6f8;
+		border: solid 0.8px #979797;
 	}
 	.large-checkboxes.input-checkbox input:checked ~ .checkmark {
 		background-color: #3b88fd;
@@ -483,7 +484,7 @@ console.log('{{page.type}}');
 			width: 18px;
 		}
 		.large-checkboxes.input-checkbox .checkmark:after {
-			left: 6px;
+			left: 5px;
 			top: 2px;
 			width: 3px;
 			height: 8px;
@@ -526,9 +527,6 @@ console.log('{{page.type}}');
 		jQuery('#unknown_user .large-checkboxes.input-checkbox .ak-userfield-checkbox-choice, .large-checkboxes.input-checkbox .ak-survey-checkbox-choice').append(jQuery('<span class="checkmark"/>'));
 	});
 </script>
-
-
-{% endif %}
 
 
 

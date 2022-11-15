@@ -168,7 +168,7 @@ Custom template for same-page post-AJAX submit share ask.
 	{% if page.custom_fields.share_facebook != "no" %}
 	<div class="afteraction-facebook-share afteraction-share-option margin-bottom-large">
 		<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook"  href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+			<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook"  href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&short=1">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
 		</div>
 		<div class="fb-preview bg-white border margin-bottom-large">
 			{% if page.followup.share_image_value %}
@@ -187,7 +187,7 @@ Custom template for same-page post-AJAX submit share ask.
 	{% if page.custom_fields.share_twitter == "yes" %}
 	<div class="afteraction-twitter-share afteraction-share-option margin-bottom-large">
 		<div class="afteraction-twitter-share-intro afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-button tw-share button-icon bg-twitter-color bg-twitter-icon button-share-twitter"  href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">{% filter ak_text:"general_share_on_twitter" %}Share on Twitter{% endfilter %}</a>
+			<a class="afteraction-share-button tw-share button-icon bg-twitter-color bg-twitter-icon button-share-twitter"  href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&short=1">{% filter ak_text:"general_share_on_twitter" %}Share on Twitter{% endfilter %}</a>
 		</div>
 		<div class="tw-preview bg-white border margin-bottom-large">
 			<div class="tw-preview-share-text text-left">
@@ -366,7 +366,8 @@ jQuery(document).ready(function($){
 			}
 		}
 
-		function afteractionShowShare(){
+		function afteractionShowShare(response){
+
 			afteractionShareSlideInner
 				.animate({opacity:0 }, 300, function(){
 					$(this)
@@ -377,6 +378,37 @@ jQuery(document).ready(function($){
 					$('html, body').animate({
 						scrollTop: afteractionShareSlide.offset().top
 					}, 800);
+
+					var responseHTML = document.createElement('html');
+					responseHTML.innerHTML = response;
+
+					// Set FB Share URL based on response from API
+					var fbShareEl = $(responseHTML).find('a.fb-share');
+					if (fbShareEl.length > 0) {
+						var fbShareUrl = fbShareEl[0].href;
+
+						var currFBShareEls = $('a.fb-share');
+						if (currFBShareEls.length > 0) {
+							for (var i = 0; i < currFBShareEls.length; i++) {
+								var currFBShareEl = currFBShareEls[i];
+								$(currFBShareEl).attr('href', fbShareUrl);
+							}
+						}
+					}
+
+					// Set Twitter Share URL based on response from API
+					var twShareEl = $(responseHTML).find('a.tw-share');
+					if (twShareEl.length > 0) {
+						var twShareUrl = twShareEl[0].href;
+
+						var currTwShareEls = $('a.tw-share');
+						if (currTwShareEls.length > 0) {
+							for (var i = 0; i < currTwShareEls.length; i++) {
+								var currTwShareEl = currTwShareEls[i];
+								$(currTwShareEl).attr('href', twShareUrl);
+							}
+						}
+					}
 				});
 		};
 
@@ -474,9 +506,10 @@ jQuery(document).ready(function($){
 						if (afterActionNextStep === 'scroll-share') {
 							// show the share ask
 							afteractionShowShareAsk();
+
 							// if user opts to share, show share dialog
 							$('.afteraction-share-ask-yes').on('click', function(){
-								afteractionShowShare();
+								afteractionShowShare(msg);
 								// handle adblockers preventing the loading of Google Analytics library
 								if (typeof ga !== 'undefined') {
 									ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);
@@ -523,7 +556,7 @@ jQuery(document).ready(function($){
 
 								// if user opts to share, show share dialog
 								$('.afteraction-share-ask-yes').on('click', function(){
-									afteractionShowShare();
+									afteractionShowShare(msg);
 									// handle adblockers preventing the loading of Google Analytics library
 									if (typeof ga !== 'undefined') {
 										ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);

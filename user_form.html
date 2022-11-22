@@ -29,17 +29,17 @@
   {% for field in user_fields %}
   	{% switch field.field_name %}
   	{% case 'country' %}
-	<div id="id_{{ field.field_name }}_box" class="input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+	<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
 		<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
 		  {% include "./country_select.html" %}
 	</div>
 	  {% case 'state' %}
-	<div id="id_{{ field.field_name }}_box" class="input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+	<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
 		<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
 		  {% include "./state_select.html" %}
 	</div>
     {% else %}
-	<div id="id_{{ field.field_name }}_box" class="input-{{field.input}} ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+	<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-{{field.input}} ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
 		<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
 		{{ field.input_html }}
 	</div>

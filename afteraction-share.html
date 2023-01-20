@@ -215,17 +215,14 @@ Custom template for same-page post-AJAX submit share ask.
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
 			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=3&source=aa_{{ page.id }}"
-			target="_blank"
 		>$3</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
 			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=10&source=aa_{{ page.id }}"
-			target="_blank"
 		>$10</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
 			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
-			target="_blank"
 		>$35</a>
 	</div>
 

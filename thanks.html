@@ -523,6 +523,16 @@ actionkit.forms.initTafForm('taf');
 actionkit.forms.initForm('act');
 {% endif %}
 
+
+jQuery(document).ready(function($){
+	var shareURL = '/share/link?type=ot&page_name={{page.name}}';
+	$.ajax({
+		method: 'GET',
+		url: shareURL,
+	}).done(function(shareURL) {
+		$('#page-link-url-general').val(shareURL);
+	});
+});
 </script>
 
 {% if page.custom_fields.page_background_color == 'new_accessible' or page.custom_fields.page_background_color == 'new_accessible_desktop' %}

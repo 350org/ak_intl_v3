@@ -171,7 +171,6 @@ console.log('{{page.type}}');
 {% if page.type == "Signup" or page.type == "Petition" or page.type == 'Letter' or page.type == 'Survey' or page.type == 'Call' %}
   {% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
   <script>
-	console.log('testing');
   jQuery(function(){
 		jQuery('#unknown_user').after(jQuery('<div id="known_or_unknow_fields" class="user-form ak-errs-below form-style-labelabove text-black">'));
     function showMobileFields() {
@@ -190,7 +189,7 @@ console.log('{{page.type}}');
         if ('{{ page.custom_fields.form_label_text_sms_optin }}') {
           smsOptInLanguage = '{{ page.custom_fields.form_label_text_sms_optin }}'
         }
-        jQuery('.mobile_phone_box').after(jQuery('<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom  ak-err-below"><span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice"><input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
+        jQuery('.mobile_phone_box').after(jQuery('<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom ak-err-below user_mobile_subscriber_box"><span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice"><input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
 
 		// Add large checkboxes
 		jQuery('.user_mobile_subscriber_box').addClass('large-checkboxes');

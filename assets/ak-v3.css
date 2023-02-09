@@ -1495,6 +1495,10 @@ a.bg-sina-weibo-color:hover {
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
+a.whatsapp-share {
+  color: #fff !important;
+}
+
 .bg-whatsapp-color {
   background-color: #1ebea5;
 }

@@ -153,7 +153,7 @@ Custom template for same-page post-AJAX submit share ask.
 	{% if page.custom_fields.share_whatsapp == "yes" %}
 	<div class="afteraction-share-whatsapp afteraction-share-option margin-bottom-large">
 		<div class="afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="https://api.whatsapp.com/send?text={% if page.custom_fields.share_whatsapp_message %}{{ page.custom_fields.share_whatsapp_message }} {% else %}{{ page.followup.share_title_value }} {% endif %}">{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}</a>
+			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="https://api.whatsapp.com/send?text={% if page.custom_fields.share_whatsapp_message %}{{ page.custom_fields.share_whatsapp_message }}{% else %}{{ page.followup.share_description_value|urlencode }}{% endif %}">{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}</a>
 		</div>
 		<div class="afteraction-share-whatsapp-preview afteraction-share-option-preview ">
 			<div class="whatsapp-preview-chat-bg padding-small">
@@ -406,22 +406,6 @@ jQuery(document).ready(function($){
 							}
 						}
 					}
-
-					// Set Whatsapp Share URL based on response from API
-					var getShareURL = '/share/link?type=ot&page_name={{page.name}}&short=1';
-					$.ajax({
-						method: 'GET',
-						url: getShareURL,
-					}).done(function(shareURL) {
-						var currWhatsappShareEls = $('a.whatsapp-share');
-						if (currWhatsappShareEls.length > 0) {
-							for (var i = 0; i < currWhatsappShareEls.length; i++) {
-								var currWhatsappEl = currWhatsappShareEls[i];
-								var currWhatsappHref = $(currWhatsappEl).attr('href');
-								$(currWhatsappEl).attr('href', currWhatsappHref + shareURL);
-							}
-						}
-					});
 				});
 		};
 

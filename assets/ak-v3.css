@@ -5871,6 +5871,12 @@ a.bg-midgray:hover {
   height: 0;
   width: 0;
 }
+#in-honor-of .input-checkbox input {
+  opacity: 1;
+}
+#in-honor-of .input-checkbox {
+  padding-left: 20px;
+}
 .checkmark {
   position: absolute;
   top: 5px;

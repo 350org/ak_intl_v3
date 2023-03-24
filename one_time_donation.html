@@ -4,18 +4,74 @@
       <input type="checkbox" hidden name="donation_type_toggle" id="id_donation_type_toggle"
         data-donation-type="both" value="">
       <span class="toggle-donation-type">
+        {% if page.custom_fields.reorder_onetime_monthly_options == 'Y' %}
+        <span class="toggle-option-1 toggle-once">
+          <span class="once-checkmark">
+            <svg xmlns="http://www.w3.org/2000/svg" style="fill: #fff;" width="14" height="14" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path></svg>
+          </span>
+          <span class="once-label">
+            {% filter ak_text:"donate_donate_monthly" %}Donate once{% endfilter %}
+          </span>
+        </span>
+        <span class="toggle-option-2 toggle-monthly">
+          <span class="monthly-checkmark">
+            <svg xmlns="http://www.w3.org/2000/svg" style="fill: #fff;" width="14" height="14" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path></svg>
+          </span>
+          <span class="monthly-label">
+            {% filter ak_text:"donate_donate_monthly" %}Donate monthly{% endfilter %}
+          </span>
+        </span>
+        {% else %}
         <span class="toggle-option-1 toggle-once">{% filter ak_text:"donate_once" %}Donate
           once{% endfilter %}</span>
         <span class="toggle-option-2 toggle-monthly">{% filter ak_text:"donate_donate_monthly" %}Donate
           monthly{% endfilter %}</span>
+        {% endif %}
+
+        <style>
+          .toggle-option-1, .toggle-option-2 {
+            padding: 8px;
+          }
+
+          #ak-recurring-type .toggle-donation-type .toggle-option-1, .toggle-option-2 {
+            align-items: unset;
+            justify-content: space-evenly;
+          }
+
+          .monthly-checkmark, .once-checkmark {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: visible;
+          }
+
+          .once-label, .monthly-label {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .monthly-checkmark.v-hide, .once-checkmark.v-hide {
+            visibility: hidden;
+          }
+        </style>
+        <script>
+          $(function () {
+            $('.once-checkmark').removeClass('v-hide');
+            $('.monthly-checkmark').addClass('v-hide');
+          });
+        </script>
       </span>
     </div>
+    {% if not page.custom_fields.reorder_onetime_monthly_options or page.custom_fields.reorder_onetime_monthly_options == 'N' %}
     <div class="">
       <svg id="monthly-option-image" class="" width="100%" height="50">
         <image href="https://dbqvwi2zcv14h.cloudfront.net/ak/make-it-monthly.svg" width="100%"
           height="50"></image>
       </svg>
     </div>
+    {% endif %}
     <div id="donation-toggle-bubble" class="default-once hidden">
       <svg id="monthly-heart" class="monthly-chosen hidden" width="50" height="50">
         <image href="https://dbqvwi2zcv14h.cloudfront.net/ak-dev/monthly-heart.svg" width="50"

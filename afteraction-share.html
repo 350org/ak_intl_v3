@@ -159,7 +159,7 @@ Custom template for same-page post-AJAX submit share ask.
 			<div class="whatsapp-preview-chat-bg padding-small">
 				<p class="text-caps text-center text-strong text-small opacity-50">{% filter ak_text:"general_preview" %}Preview:{% endfilter %}</p>
 				<div class="whatsapp-preview-chat-bubble">
-					{% if page.custom_fields.share_whatsapp_message %}{{ page.custom_fields.share_whatsapp_message }}{% else %}{{ page.followup.share_description_value|urlencode }}{% endif %}
+					{% if page.custom_fields.share_whatsapp_message %}{{ page.custom_fields.share_whatsapp_message }}{% else %}{{ page.followup.share_title_value }}{% endif %}
 				</div>
 			</div>
 		</div>
@@ -215,24 +215,21 @@ Custom template for same-page post-AJAX submit share ask.
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
 			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=3&source=aa_{{ page.id }}"
-			target="_blank"
 		>$3</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
 			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=10&source=aa_{{ page.id }}"
-			target="_blank"
 		>$10</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
 			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
-			target="_blank"
 		>$35</a>
 	</div>
 
 	<div>
 		<a
 			class="afteraction-donate-ask-no button button-alternate"
-			href="{% if page.custom_fields.after_action_next_step == 'scroll-share' %}{% if templateset.custom_fields.getinvolved_url %}{% include_tmpl templateset.custom_fields.getinvolved_url %}{% else %}https://350.org/get-involved{% endif %}{% else%}#{% endif %}"
+			href="{% if page.custom_fields.after_action_next_step == 'scroll-share' %}{% if page.custom_fields.getinvolved_url %}{{ page.custom_fields.getinvolved_url }}{% else %}https://350.org/science{% endif %}{% else%}#{% endif %}"
 		>
 			{% if page.custom_fields.afteraction_donate_ask_no %}
 				{{ page.custom_fields.afteraction_donate_ask_no }}
@@ -270,7 +267,7 @@ jQuery(document).ready(function($){
 
 		// get the setting of the after action next step variable
 		var afterActionNextStep = "{{ page.custom_fields.after_action_next_step }}";
-		var getInvolvedURL = "{% if templateset.custom_fields.getinvolved_url %}{% include_tmpl templateset.custom_fields.getinvolved_url %}{% else %}https://350.org/get-involved{% endif %}";
+		var getInvolvedURL = "{% if page.custom_fields.getinvolved_url %}{{ page.custom_fields.getinvolved_url }}{% else %}https://350.org/science{% endif %}";
 
 		const euroCountries = ['Austria', 'Belgium', 'Cyprus', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Portugal', 'Slovakia', 'Slovenia', 'Spain'];
 
@@ -567,7 +564,8 @@ jQuery(document).ready(function($){
 									if (typeof ga !== 'undefined') {
 										ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-no', window.location.pathname);
 									}
-									window.location.href = getInvolvedURL;
+									var queryString = window.location.search;
+									window.location.href = getInvolvedURL + queryString;
 								});
 							});
 

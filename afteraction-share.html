@@ -6,7 +6,6 @@ Custom template for same-page post-AJAX submit share ask.
 {% load actionkit_tags %}
 
 {% if page.custom_fields.after_action_next_step != "page-redirect" %}
-	{% if page.lang.iso_code = "en" %}
 
 <style>
 .loader,
@@ -601,7 +600,6 @@ jQuery(document).ready(function($){
 });
 </script>
 
-	{% endif %}
 {% endif %}
 
 

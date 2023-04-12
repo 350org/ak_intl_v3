@@ -1538,4 +1538,13 @@
 </style>
 {% endif %}
 
+<script>
+  $(function () {
+    var searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {
+      three_step_advance();
+    }
+  });
+</script>
+
 {% endblock %}

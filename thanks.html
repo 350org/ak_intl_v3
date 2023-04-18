@@ -65,6 +65,11 @@
 			padding-right: 10px;
 		}
 
+		/* Hide upsell top bar for pages not using new donate page layout */
+		.upsell_top_bar, .upsell_button_container, #action-toc {
+			display: none;
+		}
+
 		@media only screen and (max-width: 900px) {
 			.upsell_wrap {
 				width: 100%;
@@ -259,7 +264,7 @@
 							baseUrl = multilingualMonthlyDonateUrls.en;
 						}
 
-						var url = baseUrl + '?source=';
+						url = baseUrl + '?source=';
 						if (source) url+= source;
 						url += '&utm_source=';
 						if (utmSource) url+= utmSource;
@@ -299,6 +304,20 @@
 					});
 				</script>
 
+				<div class="upsell_top_bar">
+					<label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
+						<span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>
+						<span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span class="ak-amount-label">Amount</span>
+						</label>
+						<label class="ak-donate-step-2" for="ak-donate-step-2">
+						<span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>
+						<span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>Info</span>
+						</label>
+						<label class="ak-donate-step-3" for="ak-donate-step-3">
+						<span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>
+						<span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>Payment</span>
+						</label>
+				</div>
 				<div class="upsell_wrap">
 					<script>
 						var currency = '';
@@ -330,7 +349,16 @@
 							<button id="other_amt_btn" class="button">{% filter ak_text:"donate_monthly_upsell_other_button" %}Give Monthly{% endfilter %}</button>
 						</div>
 				</div>
-
+				<div class="upsell_button_container">
+					<a href="#" class="button arrow-right">Continue</a>
+				</div>
+				<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
+					<strong>{% filter ak_text:"donate_secure_donation" %}Secure donation{% endfilter %}.</strong>
+					{% if page.custom_fields.form_short_toc %}{% autoescape off %}{{ page.custom_fields.form_short_toc }}{% endautoescape %}{% else %}Your
+					contribution will support 350.org groups all over the world working to build a better, climate-safe
+					future.{% endif %}
+				  </div>
+	
 				{% endif %}
 			</div>
 			<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">
@@ -512,8 +540,144 @@ actionkit.forms.initForm('act');
 	}
 
 	#thanks-message {
-		background-color: #01294E;
+		background-color: #0E76D8;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.thanks-header-text {
+		display: inline-flex;
+		align-self: center;
+		font-size: 5em;
+	}
+
+	@media only screen and (min-width: 900px) {
+		#thanks-message {
+    		padding-right: 10em;
+    		padding-left: 10em;
+		}
+	}
+
+	#suggestions button.upsell_btn.selected, .upsell_other_amt.selected {
+		background: #0f81e8 !important;
+		border-color: rgba(0, 0, 0, 0.4) !important;
+		color: #fff !important;
+	}
+
+	#suggestions button {
+		border-radius: 0;
+    	background: rgb(218, 230, 242);
+		border: 1px solid rgba(21, 36, 43, 0.14);
+    	border-bottom-width: 1px !important;
+		color: #17292e !important;
+		width: 100%;
+	}
+
+	.upsell_wrap {
+		background-color: #fff;
+		padding: 20px;
+		max-width: 500px;
+	}
+
+	.upsell_top_bar {
+		background-color: rgba(255, 255, 255, 0.85);
+		color: #17292e;
+		display: flex;
+		max-width: 500px;
+    	margin: 0 auto;
+    	justify-content: center;
+		padding-bottom: 20px;
+		padding-top: 20px;
+		font-size: 0.85em;
+		width: 100%;
+	}
+
+	.upsell_other_amt {
+		width: 92%;
+    	padding: 10px;
+    	background: rgb(218, 230, 242);
+		border-radius: 2px;
+		border: 1px solid rgba(21, 36, 43, 0.14);
+	}
+
+	.upsell_other_amt #other_amt_btn {
+		display: none;
+	}
+
+	.upsell_other_amt input {
+		width: unset;
+		border-radius: 2px;
+	}
+
+	.upsell_button_container {
+		background-color: white;
+		display: block;
+		max-width: 500px;
+		margin: 0 auto;
+		width: 100%;
+	}
+
+	.upsell_button_container a {
+		display: block;
+		margin: 20px;
+		margin-top: 0;
+	}
+
+	#action-toc {
+		display: block;
+		max-width: 500px;
+		margin: 0 auto;
+		padding: 20px;
+	}
+
+	@media only screen and (min-width: 900px) {
+		#suggestions {
+			width: 66%;
+		}
+
+		.upsell_other_amt {
+			width: 33%;
+		}
 	}
 </style>
+
+<script>
+	$(function() {
+		// remove existing click handler on upsell buttons
+		$('body').unbind('click');
+
+		// remove '/mo' text from upsell buttons
+		$('.upsell_btn').first().text($('.upsell_btn').first().text().replace('/mo', ''));
+		$('.upsell_btn').last().text($('.upsell_btn').last().text().replace('/mo', ''));
+
+		// add styles for selected buttons
+		$('body').on('click', '.upsell_btn', function(e){
+			$('.selected').removeClass('selected');
+			$(e.target).toggleClass('selected');
+		});
+
+		$('#other_amt').on('click keyup', function(e) {
+			$('.selected').removeClass('selected');
+			$(e.target).parent().addClass('selected');
+		});
+
+		// set amount in donation URL based on user selection
+		// if no amount selected, do not set any amount
+		$('.upsell_button_container a').click(function() {
+			var amt = '';
+			if ($('.upsell_btn').hasClass('selected')) {
+				amt = $('.upsell_btn.selected').data('amt');
+			} else if ($('.upsell_other_amt').hasClass('selected')) {
+				amt = $('#other_amt').val();
+			}
+
+			if (amt != '') {
+				window.location.href = url + '&amount='+amt;
+			} else {
+				window.location.href = url;
+			}
+		});
+	});
+</script>
 {% endif %}
 {% endblock %}

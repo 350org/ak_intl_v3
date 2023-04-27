@@ -540,6 +540,14 @@ actionkit.forms.initForm('act');
 	}
 
 	#thanks-message {
+		background-color: #01294E;
+	}
+</style>
+{% endif %}
+
+{% if page.custom_fields.enable_thanks_page_redesign %}
+<style>
+	#thanks-message {
 		background-color: #0E76D8;
 		display: flex;
 		flex-direction: column;

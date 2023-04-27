@@ -18,25 +18,56 @@
   <label for="id_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
   <input id="id_city" type="text" name="city">
 </div>
-<div class="ak-us-billing-fields input-select ak-input-type-user input-field-group ak-err-below">
-  <input type="hidden" name="required" value="state">
-  <label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
-  {% include "./state_select.html" %}
+<div class="state-zip-container">
+  <div class="ak-us-billing-fields state-container input-select ak-input-type-user input-field-group ak-err-below">
+    <input type="hidden" name="required" value="state">
+    <label for="id_state">{% filter ak_text:"field_state" %}State{% endfilter %}</label>
+    {% include "./state_select.html" %}
+  </div>
+  {% if page.allow_international %}
+  <div class="ak-intl-billing-fields input-text ak-input-type-user input-field-group ak-err-below">
+    <label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
+    <input id="id_region" type="text" name="region" size="20">
+  </div>
+  {% endif %}
+  <div class="ak-us-billing-fields zip-container input-text ak-input-type-user input-field-group ak-err-below">
+    <input type="hidden" name="required" value="zip">
+    <label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
+    <input id="id_zip" type="text" name="zip" maxlength="5" size="5">
+  </div>
+  {% if page.allow_international %}
+  <div class="ak-intl-billing-fields input-text ak-input-type-user input-field-group ak-err-below">
+    <label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
+    <input id="id_postal" type="text" name="postal" size="10">
+  </div>
+  {% endif %}
 </div>
-{% if page.allow_international %}
-<div class="ak-intl-billing-fields input-text ak-input-type-user input-field-group ak-err-below">
-  <label for="id_region">{% filter ak_text:"field_region" %}Region{% endfilter %}</label>
-  <input id="id_region" type="text" name="region" size="20">
-</div>
-{% endif %}
-<div class="ak-us-billing-fields input-text ak-input-type-user input-field-group ak-err-below">
-  <input type="hidden" name="required" value="zip">
-  <label for="id_zip">{% filter ak_text:"field_zip" %}Zip{% endfilter %}</label>
-  <input id="id_zip" type="text" name="zip" maxlength="5" size="5">
-</div>
-{% if page.allow_international %}
-<div class="ak-intl-billing-fields input-text ak-input-type-user input-field-group ak-err-below">
-  <label for="id_postal">{% filter ak_text:"field_postal" %}Postal Code{% endfilter %}</label>
-  <input id="id_postal" type="text" name="postal" size="10">
-</div>
-{% endif %}
+
+<style>
+  .state-zip-container {
+    display: inline-flex;
+    margin: 0.9rem 0;
+    width: 100%;
+  }
+
+  .state-container, .state-zip-container fieldset {
+    flex: 1;
+    margin: 0 !important;
+  }
+
+  .state-container {
+    border-radius: 4px 0px 0px 4px !important;
+    border-right: 0 !important;
+  }
+
+  .state-zip-container fieldset {
+    border-radius: 0 4px 4px 0 !important;
+    border-top: 0 !important;
+  }
+
+  .state-zip-container fieldset > .ak-intl-billing-fields {
+    border-top: 1px solid rgba(21, 36, 43, 0.3) !important;
+    border-radius: 4px !important;
+  }
+  
+</style>

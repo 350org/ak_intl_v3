@@ -223,6 +223,32 @@
                         {% endfor %}
                       </select>
                     </div>
+                    <style>
+                      #ak-multi-currency {
+                        padding: 0.5em;
+                        background-color: rgb(218, 230, 242);
+                        border-radius: 2px;
+                        border: 1px solid #BECBD6;
+                        margin: 0 0.2em;
+                        opacity: 1;
+                      }
+                      #ak-currency-switcher {
+                        background-color: rgb(218, 230, 242);
+                        margin: 0;
+                        margin-left: 0.6em;
+                      }
+                      #ak-multi-currency label {
+                        font-weight: bold;
+                        padding-top: 0.1em;
+                      }
+                    </style>
+                    {% if page.custom_fields.donate_payment_frequency_above_amounts.strip|lower == 'y' %}
+                    <style>
+                      #ak-multi-currency label {
+                        padding-top: 0.2em;
+                      }
+                    </style>
+                    {% endif %}
                     {% endif %}
 
                     <script>

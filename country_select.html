@@ -2,7 +2,11 @@
 <select name="{{ input_name_prefix }}country" id="{{ input_name_prefix }}country" {% if onchange %}onchange="{{ onchange }}" onblur="{{ onchange }}"{% endif %} {% if page.custom_fields.form_preselect_country %}data-preselect="{{ page.custom_fields.form_preselect_country }}"{% endif %}>
 <option selected></option>
 {% for std_name,name in page.lang_or_en.country_names %}
+{% if name == "República de Santo Domingo" %}
+<option value="{{ std_name|escapeall }}">República Dominicana</option>
+{% else %}
 <option value="{{ std_name|escapeall }}">{{ name|escapeall }}</option>
+{% endif %}
 {% endfor %}
 <!-- in case we need manual override
 	<option value="Åland Islands">

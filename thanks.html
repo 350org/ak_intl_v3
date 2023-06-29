@@ -407,11 +407,11 @@
 									<h4 class="icon-after icon-faded" data-icon="&#xE94E;">{% filter ak_text:"general_share" %}Share{% endfilter %}</h4>
 								</div>
 								<div class="bg-ltgray box box-medium">
+									<p class="text-small"><em>{% filter ak_text:"general_share_custom_instructions" %}Copy and paste this info into whatever app you use for messaging:{% endfilter %}</em></p>
 								{% if page.custom_fields.page_is_c4 %}{% else %}
 								<div class="general-share-url margin-bottom-medium">
-									<h4 class="text-small margin-bottom-none"><span class="highlight bg-midgray">{% filter ak_text:"general_share_link" %}Share Link:{% endfilter %}</span></h4>
 									<!-- p class="text-right text-small2"><em>(tap or click to select)</em></p -->
-									<a href="#" class="bg-dkgray copy-link button button-small margin-top-small">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
+									<a href="#" class="bg-dkgray copy-link button button-small">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
 								</div>
 								{% endif %}
 								<div class="general-share-description">
@@ -530,8 +530,9 @@ jQuery(document).ready(function($){
 		method: 'GET',
 		url: shareURL,
 	}).done(function(shareURL) {
-		$('#page-link-url-general').val(shareURL);
-		navigator.clipboard.writeText(shareURL);
+		var finalURL = shareURL + '&type=OT&short=1';
+		$('#page-link-url-general').val(finalURL);
+		navigator.clipboard.writeText(finalURL);
 	});
 
 	})

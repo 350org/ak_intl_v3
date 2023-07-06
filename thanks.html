@@ -524,7 +524,7 @@ actionkit.forms.initForm('act');
 
 
 jQuery(document).ready(function($){
-	var shareURL = '/share/link?type=ot&short=1&action_id={{action.id}}&page_name={{page.name}}';
+	var shareURL = '/share/link?type=ot&short=1&action_id={{action.id}}';
 	$('.copy-link').on('click', function () {
 		$.ajax({
 		method: 'GET',

@@ -216,7 +216,7 @@ Custom template for same-page post-AJAX submit share ask.
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
-				var getShareURL = '/share/link?type=ot&action_id={{action.id}}&short=1';
+				var getShareURL = '/share/link?type=ot&action_id={{action.id}}&short=1&page_name={{page.name}}';
 				$.ajax({
 					method: 'GET',
 					url: getShareURL,

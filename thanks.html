@@ -530,8 +530,9 @@ jQuery(document).ready(function($){
 		method: 'GET',
 		url: shareURL,
 	}).done(function(shareURL) {
-		$('#page-link-url-general').val(shareURL);
 		navigator.clipboard.writeText(shareURL);
+	}).fail(function() {
+		navigator.clipboard.writeText(window.location.href);
 	});
 
 	})

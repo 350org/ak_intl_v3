@@ -176,7 +176,8 @@ console.log('{{page.type}}');
     function showMobileFields() {
       // add mobile field if not already added, or show if already added
       if (!jQuery('.mobile_phone_box').length) {
-        jQuery('#known_or_unknow_fields').append(jQuery('<div id="ak-fieldbox-mobile_phone" class="input-text ak-input-type-user  ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
+
+        jQuery('#known_or_unknow_fields').append(jQuery('<div id="ak-fieldbox-mobile_phone" class="input-text ak-input-type-user mobile_phone_box ak-err-below"><label for="id_mobile_phone">Mobile phone</label><input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input"></div>'));
         jQuery('#id_mobile_phone').on('keyup change', function(){
           ifUSMobileIsProvided(selectedCountry, includeMobSubscriberInFormSubmission, excludeMobSubscriberInFormSubmission);
         });

@@ -228,6 +228,12 @@ Custom template for same-page post-AJAX submit share ask.
 					if (win) {
 						win.focus();
 					}
+				}).fail(function () {
+					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + window.location.href;
+					var win = window.open(whatsappShareURL);
+					if (win) {
+						win.focus();
+					}
 				});
 			});
 		});

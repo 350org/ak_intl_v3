@@ -221,7 +221,6 @@ Custom template for same-page post-AJAX submit share ask.
 					method: 'GET',
 					url: getShareURL,
 				}).done(function(shareURL) {
-					var currWhatsappHref = $(e.target).attr('href');
 					var newURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + shareURL;
 					$(e.target).attr('href', newURL);
 					var win = window.open(newURL);

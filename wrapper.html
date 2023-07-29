@@ -467,22 +467,6 @@
 		</div>
 	</footer>
 	{% endif %}
-		<script>
-	$(document).ready(function() {
-        // Get token
-        fetch(`https://zaki-server.herokuapp.com/api/v1/auth`).then(response=>{
-          if(response.ok){
-            response.json().then(data=>{
-              localStorage.setItem("auth-token", data.token);
-            })
-          } else {
-            throw new Error("Response not ok.")
-          }
-        }).catch(e=>{
-          console.log(`Auth error: ${e.message}.`)
-        });
-	});
-	</script>
 
 	<script src="https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.js"></script>
 	{% if page.custom_fields.form_include_college %}

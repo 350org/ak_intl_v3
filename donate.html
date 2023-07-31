@@ -216,6 +216,7 @@
                           $){% endfilter %}
                           {% elif currency == "JPY" %} {% filter ak_text:"general_ja_yen" %}Japanese Yen (JPY ¥){% endfilter %}
                           {% elif currency == "NZD" %} {% filter ak_text:"general_nz_dollar" %}New Zealand Dollar (NZD $){% endfilter %}
+                          {% elif currency == "ZAR" %} {% filter ak_text:"general_sa_rand" %}South African Rand (ZAR R){% endfilter %}
                           {% else %}
                           {{ currency }}
                           {% endif %}
@@ -1544,6 +1545,15 @@
     if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {
       three_step_advance();
     }
+
+    $('#ak-currency-switcher').on('change', function() {
+      var currencyVal = $(this).val();
+      if (currencyVal === 'Braintree Client-Side Encryption ZAR') {
+        $('.paypal-title').hide();
+      } else {
+        $('.paypal-title').show();
+      }
+    });
   });
 </script>
 

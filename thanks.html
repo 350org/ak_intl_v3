@@ -409,10 +409,9 @@
 								<div class="bg-ltgray box box-medium">
 									<p class="text-small"><em>{% filter ak_text:"general_share_custom_instructions" %}Copy and paste this info into whatever app you use for messaging:{% endfilter %}</em></p>
 								{% if page.custom_fields.page_is_c4 %}{% else %}
-								<div class="general-share-url">
-									<h4 class="text-small margin-bottom-none"><span class="highlight bg-midgray">{% filter ak_text:"general_share_link" %}Share Link:{% endfilter %}</span></h4>
-									<input id="page-link-url-general" type="text" class="border margin-bottom-medium bg-white page-link-url js-click-to-select-text"  value="{{ page.canonical_url }}" readonly>
+								<div class="general-share-url margin-bottom-medium">
 									<!-- p class="text-right text-small2"><em>(tap or click to select)</em></p -->
+									<a href="#" class="bg-dkgray copy-link button button-small">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
 								</div>
 								{% endif %}
 								<div class="general-share-description">
@@ -514,6 +513,21 @@ actionkit.forms.initTafForm('taf');
 actionkit.forms.initForm('act');
 {% endif %}
 
+
+jQuery(document).ready(function($){
+	var shareURL = '/share/link?type=ot&short=1&action_id={{action.id}}';
+	$('.copy-link').on('click', function () {
+		$.ajax({
+		method: 'GET',
+		url: shareURL,
+	}).done(function(shareURL) {
+		navigator.clipboard.writeText(shareURL);
+	}).fail(function() {
+		navigator.clipboard.writeText(window.location.href);
+	});
+
+	})
+});
 </script>
 
 {% if page.custom_fields.page_background_color == 'new_accessible' or page.custom_fields.page_background_color == 'new_accessible_desktop' %}

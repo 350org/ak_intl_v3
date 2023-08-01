@@ -85,7 +85,8 @@ function clear_radio_buttons() {
     "GBP": "£",
     "USD": "$",
     "NZD": "NZ$",
-    "JPY": "¥"
+    "JPY": "¥",
+    "ZAR": "R"
   }
 
     // Sherezz and Kimani Did this. Blame them

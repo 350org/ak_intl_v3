@@ -58,8 +58,8 @@ input, select, textarea{max-width: initial;}
 			  
 			</form>		
 			<p style="margin-top: 5px;">
-				<a href="{% url 'user_password_forgot' %}?next={{ next }}&amp;email={{ email }}">{% filter ak_text:"user_login_forgot_password" %}Forgot your password?{% endfilter %}</a><br>
-				<a href="{% url 'user_password_forgot' %}?next={{ next }}&amp;first=1&amp;email={{ email }}">{% filter ak_text:"user_login_first_time_start" %}Never logged in before?{% endfilter %}</a>
+				<a class="text-small" href="{% url 'user_password_forgot' %}?next={{ next }}&amp;email={{ email }}">{% filter ak_text:"user_login_forgot_password" %}Forgot your password?{% endfilter %}</a><br>
+				<a class="text-large margin-top-small" href="{% url 'user_password_forgot' %}?next={{ next }}&amp;first=1&amp;email={{ email }}">{% filter ak_text:"user_login_first_time_start" %}Never logged in before?{% endfilter %}</a>
 			</p>
 		</div>
 	</div>

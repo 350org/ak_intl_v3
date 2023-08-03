@@ -10,22 +10,55 @@
 {% once %}<ul id="ak-errors"></ul>{% endonce %}
           <ul class="ak-errors"></ul>
 
-        <div class="clearfix">
-            <label class="c4 cm5 ct5 alignright text-strong">
-                Next Payment 
-            </label>
-            <div class="ak-readonly-value c5 cm5 ct5">
-                <div>
-                    {{ profile.next_payment_date|date }}
-                </div>
-                {% if not profile.is_import_stub %}
-                <div>
-                    <a class="update" style="display:none" href = "/cms/pledge/cancel/monthly/">Cancel donation</a>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        
+          {% if profile.order.payment_method == "cc" %}
+          <div class="ak-show-cc clearfix">
+              <label class="c4 cm5 ct5 alignright text-strong">
+                  Credit Card
+              </label>
+              <div class="ak-readonly-value c5 cm5 ct5">
+                  <div>
+                      Card ending in {{ profile.card_num }}
+                      <br>
+                      Expiration {{ profile.display_expiration_date }}
+                  </div>
+                  <div>
+                     {%if not profile.is_import_stub %} <a style="display: none;" class="update" href="#" onclick="return ak_recurring_change_card('{{ profile.id }}');">Change credit card information</a>{% endif %}
+                  </div>
+              </div>
+          </div>
+          
+          <div class="ak-change-cc clearfix" style="display: none">
+              <label class="c4 alignright text-strong" for="card_num_{{ profile.id }}">
+                  Credit Card Number
+              </label>
+              <div class="c5">
+                <input id="card_num_{{ profile.id }}" type="text" name="card_num" disabled=true>
+                <div class="ak-card_num-hosted"></div>
+              </div>
+          </div>
+          
+          <div class="ak-change-cc clearfix" style="display: none">
+              <label class="c4 alignright text-strong" for="exp_date_{{ profile.id }}">
+                  Expiration Date
+              </label>
+              <div class="c5">
+                <input id="exp_date_{{ profile.id }}" type="text" name="exp_date" size="6" placeholder="MMYY" style="max-width: 33%" disabled=true>
+                <div class="ak-exp_date-hosted"></div>
+              </div>
+          </div>
+          
+          <div class="ak-change-cc clearfix" style="display: none">
+              <label class="c4 alignright text-strong" for="card_code_{{ profile.id }}">
+                  Verification Number
+              </label>
+              <div class="c5">
+                <input id="card_code_{{ profile.id }}" type="text" name="card_code" size="6"  style="max-width: 33%" disabled=true>
+                <div class="ak-card_code-hosted"></div>
+              </div>
+          </div>
+  
+          {% endif %}
+
         <div class="ak-show-amount clearfix">
             <label class="c4 cm5 ct5 alignright text-strong">
                 {{ profile.get_period_display }} Amount
@@ -45,7 +78,7 @@
             </label>
             <input class="c5" type="text" name="amount" size="6" value="{{ profile.amount }}">
         </div>
-        
+
         <div class="clearfix">
             <label class="c4 cm5 ct5 alignright text-strong">
                 First Payment
@@ -56,56 +89,23 @@
                 </div>
             </div>
         </div>
-        
-        {% if profile.order.payment_method == "cc" %}
-        <div class="ak-show-cc clearfix">
+
+        <div class="clearfix">
             <label class="c4 cm5 ct5 alignright text-strong">
-                Credit Card
+                Next Payment 
             </label>
             <div class="ak-readonly-value c5 cm5 ct5">
                 <div>
-                    Card ending in {{ profile.card_num }}
-                    <br>
-                    Expiration {{ profile.display_expiration_date }}
+                    {{ profile.next_payment_date|date }}
                 </div>
+                {% if not profile.is_import_stub %}
                 <div>
-                   {%if not profile.is_import_stub %} <a style="display: none;" class="update" href="#" onclick="return ak_recurring_change_card('{{ profile.id }}');">Change credit card information</a>{% endif %}
+                    <a class="update" style="display:none" href = "/cms/pledge/cancel/monthly/">Cancel donation</a>
                 </div>
+                {% endif %}
             </div>
         </div>
-        
-        <div class="ak-change-cc clearfix" style="display: none">
-            <label class="c4 alignright text-strong" for="card_num_{{ profile.id }}">
-                Credit Card Number
-            </label>
-            <div class="c5">
-              <input id="card_num_{{ profile.id }}" type="text" name="card_num" disabled=true>
-              <div class="ak-card_num-hosted"></div>
-            </div>
-        </div>
-        
-        <div class="ak-change-cc clearfix" style="display: none">
-            <label class="c4 alignright text-strong" for="exp_date_{{ profile.id }}">
-                Expiration Date
-            </label>
-            <div class="c5">
-              <input id="exp_date_{{ profile.id }}" type="text" name="exp_date" size="6" placeholder="MMYY" style="max-width: 33%" disabled=true>
-              <div class="ak-exp_date-hosted"></div>
-            </div>
-        </div>
-        
-        <div class="ak-change-cc clearfix" style="display: none">
-            <label class="c4 alignright text-strong" for="card_code_{{ profile.id }}">
-                Verification Number
-            </label>
-            <div class="c5">
-              <input id="card_code_{{ profile.id }}" type="text" name="card_code" size="6"  style="max-width: 33%" disabled=true>
-              <div class="ak-card_code-hosted"></div>
-            </div>
-        </div>
-
-        {% endif %}
-
+                        
         {% if profile.is_ach %}
         <input type="hidden" name="payment_method" value="ach">
         <input type="hidden" name="first_name" value="{{ user.first_name }}">

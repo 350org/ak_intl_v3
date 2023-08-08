@@ -71,7 +71,7 @@ You've given a total of {{ profile.payment_total_amt }}.
 {% if donations %}
 <div class="section note">
 <h2>Donation History </h2>
-<ul>
+<ul class="donation-history-ul">
 {% for donation in donations %}
 <li>{{ donation.amt }} on {{ donation.created_at|date:"m/d/Y" }} {% if 'ActBlue' in donation.account %}via <a href="https://secure.actblue.com/signin" target="_blank">ActBlue</a>{% endif %} {% if donation.recurring %} (Recurring) {% endif %}
 {% endfor %}
@@ -97,6 +97,10 @@ You've given a total of {{ profile.payment_total_amt }}.
   }
   .ak-pagetype-user_view ul li {
     margin-left: 1.35em;
+  }
+  .donation-history-ul {
+    max-height: 250px;
+    overflow-y: scroll;
   }
 </style>
 {% endblock %}

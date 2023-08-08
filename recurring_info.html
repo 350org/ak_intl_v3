@@ -99,7 +99,7 @@
                     {{ profile.next_payment_date|date }}
                 </div>
                 {% if not profile.is_import_stub %}
-                <div>
+                <div style="display: none;">
                     <a class="update" style="display:none" href = "/cms/pledge/cancel/monthly/">Cancel donation</a>
                 </div>
                 {% endif %}

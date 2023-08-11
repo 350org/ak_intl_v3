@@ -3720,6 +3720,25 @@ a.tf-logo:hover {
   }
 }
 
+/* Event Search Results Specific CSS */
+@media screen and (max-width:480px) {
+  .event-description {
+    display: none;
+  }
+}
+
+@media screen and (max-width:480px) {
+  #event-list .section-inner {
+    display: flex;
+    flex-direction: column;
+  }
+  #event-search-results-wrapper {
+    order: 2;
+  }
+  #event-map {
+    order: 1;
+  }
+}
 
 
 /* ActionKit specific CSS  */

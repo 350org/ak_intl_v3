@@ -42,7 +42,7 @@
 
   {% if pt.notice %}
     <input type="hidden" id="privacy_notice" name="privacy_hidden" value="{{pt.notice_hash}}">
-    <p id="ak-fieldbox-privacy_notice" class="text-small">{{pt.notice|safe}}</p>
+    <p id="ak-fieldbox-privacy_notice" class="text-small text-left">{{pt.notice|safe}}</p>
   {% endif %}
 
   {% if pt.radio_optin and pt.radio_optout %}
@@ -55,7 +55,7 @@
       <input type="hidden" name="privacy_optout_skip_confirmation" value="1">
     {% endif %}
 
-    <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio-group text-lineheight-small text-small">
+    <div id="ak-fieldbox-privacy_radio" class="margin-bottom-normal input-radio-group text-lineheight-small text-small text-left">
       <div class="input-radio">
         <input type="radio" name="privacy" id="privacy_optin" value="{{pt.radio_optin_hash}}">
         <label for="privacy_optin">{{pt.radio_optin|safe}}</label>

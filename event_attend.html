@@ -245,8 +245,10 @@
 				<ul class="compact" id="ak-errors"></ul>
 				<button id="id_submit" class="submit button button-big margin-bottom-normal add-registrant button-primary arrow-right" type="submit" name="submit">{% if update %}{% filter ak_text:"event_attend_update_info"%}Update Your Info{% endfilter %}{% else %}{% filter ak_text:"event_attend_submit_button" %}Sign up{% endfilter %}{% endif %}</button>
 				<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
-					{% if page.custom_fields.form_short_toc %}
-						{{ page.custom_fields.form_short_toc }}
+					{% if page.custom_fields.privacy_default_notice %}
+						{% autoescape off %}
+							{{ page.custom_fields.privacy_default_notice }}
+						{% endautoescape %}
 					{% elif page.custom_fields.form_opt_in %}
 						{% filter ak_text:"general_secure_signup" %}350.org respects your privacy.{% endfilter %}
 					{% elif page.custom_fields.page_is_c4 %}

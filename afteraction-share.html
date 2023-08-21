@@ -201,15 +201,16 @@ Custom template for same-page post-AJAX submit share ask.
 	</div>
 	{% endif %}
 
-	{% if page.custom_fields.share_whatsapp_message %}
+  {% if page.custom_fields.share_whatsapp_message %}
 		<script>
-		var whatsappMsg = '{{ page.custom_fields.share_whatsapp_message }} ';
+		var whatsappMsg = '{{ page.custom_fields.share_whatsapp_message|escapejs }} ';
 		</script>
 	{% else %}
 		<script>
-		var whatsappMsg = '{{ page.followup.share_title_value }} ';
+		var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
 		</script>
 	{% endif %}
+
 
 	<script>
 		jQuery(document).ready(function($){

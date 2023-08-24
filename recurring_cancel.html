@@ -30,15 +30,13 @@
 
 <ul class="compact" id="ak-errors"></ul>
 {% include "./recurring_info.html" %}
-<div><button id="submitBtn" type="submit" class="submit display-none">Cancel Donation</button></div>
+
 <div style="clear:both;"></div>
 
 {% comment %} JavaScript needs it. {% endcomment %}
 <input type="hidden" name="akid" value="{{ logged_in_user.token }}">
 <input type="hidden" name="page" value="{{ page.name }}">
 <input type="hidden" name="profile_id" value="{{ profile.id }}">
-
-<!--<p><input name="submit" type="submit" class="submit" value="Cancel Donation"></p>-->
 
 </form>
 
@@ -62,10 +60,10 @@ We have to have a form, or the JavaScript doesn't work.
 <div id="inactive">
 </div>
 
-<div id="confirmationPopup" class="display-none">
-<p>Are you sure?</p>
-<button class="submit">Lower your monthly gift amount instead</button>
-<button class="submit">Yes, I'm sure. Cancel my donation</button>
+<div id="confirmationPopup" class="js-hide js-hidden">
+<h2 class="text-center">Are you sure?</h2>
+<button class="submit submitConfirm float-left">Lower your monthly gift amount instead</button>
+<button id="cancelBtn" class="submit submitConfirm">Yes, I'm sure. Cancel my donation</button>
 </div>
 <script type="text/ak-template" for="inactive">
 [% if (inactive.length) { %]
@@ -80,6 +78,11 @@ We have to have a form, or the JavaScript doesn't work.
 
 </script>
 <script>
+    jQuery( document ).ready(function() {
+        jQuery('#cancelBtn').on('click', function() {
+            $('form').submit();
+        });
+    });
 </script>
 <style>
 .ak-pagetype-recurring_cancel .note {
@@ -96,8 +99,14 @@ We have to have a form, or the JavaScript doesn't work.
     max-width: 300px;
     margin: 0 auto;
 }
+.ak-pagetype-recurring_cancel button.submitConfirm {
+    max-width: 250px;
+}
 .display-none {
     display: none !important;
+}
+.float-left {
+    float: left;
 }
 </style>
 

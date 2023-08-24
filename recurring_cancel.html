@@ -23,16 +23,15 @@
 {% endautoescape %}
 {% for profile in active %}
 
+<div class="section note">
 
 <form class="action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
 <input type="hidden" name="utf8" value="&#x2714;">
 
 <ul class="compact" id="ak-errors"></ul>
-<div class="section note">
 {% include "./recurring_info.html" %}
 <div style="clear:both;"></div>
-<div><button type="submit" class="submit">Cancel Donation</button></div>
-</div>
+
 {% comment %} JavaScript needs it. {% endcomment %}
 <input type="hidden" name="akid" value="{{ logged_in_user.token }}">
 <input type="hidden" name="page" value="{{ page.name }}">
@@ -42,6 +41,8 @@
 
 </form>
 
+<div><button type="submit" class="submit">Cancel Donation</button></div>
+</div>
 {% endfor %}
 {% else %}
 

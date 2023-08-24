@@ -30,6 +30,7 @@
 
 <ul class="compact" id="ak-errors"></ul>
 {% include "./recurring_info.html" %}
+<div><button id="submitBtn" type="submit" class="submit display-none">Cancel Donation</button></div>
 <div style="clear:both;"></div>
 
 {% comment %} JavaScript needs it. {% endcomment %}
@@ -60,6 +61,12 @@ We have to have a form, or the JavaScript doesn't work.
 {% endif %}
 <div id="inactive">
 </div>
+
+<div class="confirmationPopup">
+<p>Are you sure?</p>
+<button class="submit">Lower your monthly gift amount instead</button>
+<button class="submit">Yes, I'm sure. Cancel my donation</button>
+</div>
 <script type="text/ak-template" for="inactive">
 [% if (inactive.length) { %]
     <p class="large loud">Your inactive recurring donations:</p>
@@ -70,6 +77,10 @@ We have to have a form, or the JavaScript doesn't work.
     [% } %]
     </ul>
 [% } %]
+
+</script>
+<script>
+    jQuery('.confirmationPopup').newWindowPopup();
 </script>
 <style>
 .ak-pagetype-recurring_cancel .note {
@@ -85,6 +96,9 @@ We have to have a form, or the JavaScript doesn't work.
 .ak-pagetype-recurring_cancel button.submit {
     max-width: 300px;
     margin: 0 auto;
+}
+.display-none {
+    display: none;
 }
 </style>
 

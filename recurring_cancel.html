@@ -42,7 +42,7 @@
 
 </form>
 
-<div><button type="submit" class="submit">Cancel Donation</button></div>
+<div><button type="submit" class="submit js-modal" data-modal-source="#confirmationPopup">Cancel Donation</button></div>
 </div>
 {% endfor %}
 {% else %}
@@ -62,7 +62,7 @@ We have to have a form, or the JavaScript doesn't work.
 <div id="inactive">
 </div>
 
-<div class="confirmationPopup">
+<div id="confirmationPopup" class="display-none">
 <p>Are you sure?</p>
 <button class="submit">Lower your monthly gift amount instead</button>
 <button class="submit">Yes, I'm sure. Cancel my donation</button>
@@ -80,7 +80,6 @@ We have to have a form, or the JavaScript doesn't work.
 
 </script>
 <script>
-    jQuery('.confirmationPopup').newWindowPopup();
 </script>
 <style>
 .ak-pagetype-recurring_cancel .note {
@@ -98,7 +97,7 @@ We have to have a form, or the JavaScript doesn't work.
     margin: 0 auto;
 }
 .display-none {
-    display: none;
+    display: none !important;
 }
 </style>
 

@@ -158,14 +158,25 @@
 {% endblock %}
 {% block tail_js %}
 
+{% if page.custom_fields.custom_single_event_marker_icon_url %}
 <script type="text/javascript">
       RAH = {};
-      RAH.sprite_url = "https://350-ak-map-assets.netlify.com/images/marker-single.png";
+      RAH.sprite_url = "{{ page.custom_fields.custom_single_event_marker_icon_url }}";
       RAH.multiple_sprite_url = "https://350-ak-map-assets.netlify.com/images/marker-cluster.png";
       // Add locations for plotting on the map
       RAH.event_locations = [];
       RAH.map_center = {};
 </script>
+{% else %}
+<script type="text/javascript">
+  RAH = {};
+  RAH.sprite_url = "https://350-ak-map-assets.netlify.com/images/marker-single.png";
+  RAH.multiple_sprite_url = "https://350-ak-map-assets.netlify.com/images/marker-cluster.png";
+  // Add locations for plotting on the map
+  RAH.event_locations = [];
+  RAH.map_center = {};
+</script>
+{% endif %}
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc65HgY18lHPM_vjvZS-jgkqpZPwaCDc&sensor=false"></script>
 <script type="text/javascript" src="https://s3.amazonaws.com/s3.350.org/js/map/markerclusterer.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>

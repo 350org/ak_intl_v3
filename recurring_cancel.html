@@ -62,7 +62,7 @@ We have to have a form, or the JavaScript doesn't work.
 
 <div id="confirmationPopup" class="js-hide js-hidden">
 <h2 class="text-center">Are you sure?</h2>
-<button class="submit submitConfirm float-left">Lower your monthly gift amount instead</button>
+<button id="lowerBtn" class="submit submitConfirm float-left">Lower your monthly gift amount instead</button>
 <button id="cancelBtn" class="submit submitConfirm">Yes, I'm sure. Cancel my donation</button>
 </div>
 <script type="text/ak-template" for="inactive">
@@ -81,6 +81,9 @@ We have to have a form, or the JavaScript doesn't work.
     jQuery( document ).ready(function() {
         jQuery('#cancelBtn').on('click', function() {
             $('form').submit();
+        });
+        jQuery('#lowerBtn').on('click', function() {
+            window.location.href = "https://act.350.org/cms/pledge/update/update/";
         });
     });
 </script>

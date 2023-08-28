@@ -113,9 +113,6 @@
     <div class="section-inner">
       <div id="event-search-results-wrapper" class="c6 ct10 cm10 no-margin margin-none padding-medium">
         <div class="margin-bottom-large">
-          {% if form.search_page_text %}
-            {% include_tmpl form.search_page_text %}
-          {% endif %}
           {% if page.custom_fields.form_text_above_form %}
             {{ page.custom_fields.form_text_above_form }}
           {% else %}

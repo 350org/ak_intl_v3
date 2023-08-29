@@ -54,6 +54,9 @@ We have to have a form, or the JavaScript doesn't work.
 <input type="hidden" name="utf8" value="&#x2714;">
 <ul class="compact" id="ak-errors"></ul>
 <input type="hidden" name="page" value="{{ page.name }}">
+{% if actionkit_user %}
+<input type="hidden" name="akid" value="{{actionkit_user.token}}">
+{% endif %}
 </form>
 
 {% endif %}

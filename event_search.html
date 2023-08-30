@@ -158,11 +158,11 @@
 {% endblock %}
 {% block tail_js %}
 
-{% if page.custom_fields.custom_single_event_marker_icon_url %}
+{% if page.custom_fields.custom_single_event_marker_icon_url and page.custom_fields.custom_multiple_event_marker_icon_url %}
 <script type="text/javascript">
       RAH = {};
       RAH.sprite_url = "{{ page.custom_fields.custom_single_event_marker_icon_url }}";
-      RAH.multiple_sprite_url = "https://350-ak-map-assets.netlify.com/images/marker-cluster.png";
+      RAH.multiple_sprite_url = "{{ page.custom_fields.custom_multiple_event_marker_icon_url }}";
       // Add locations for plotting on the map
       RAH.event_locations = [];
       RAH.map_center = {};

@@ -93,7 +93,7 @@
 			let asiaCountries = ['brunei', 'cambodia', 'china', 'hong kong', 'indonesia', 'japan', 'laos', 'macao', 'malaysia', 'mongolia', 'myanmar', 'philippines', 'singapore', 'south korea', 'taiwan', 'thailand', 'timor leste', 'vietnam', 'afghanistan', 'bangladesh', 'bhutan', 'india', 'maldives', 'nepal', 'pakistan', 'sri lanka'];
 			let latinAmericaCountries = ['argentina', 'belize', 'bolivia', 'brazil', 'chile', 'cocos islands', 'colombia', 'costa rica', 'cuba', 'dominican republic', 'ecuador', 'el salvador', 'french guiana', 'guadeloupe', 'guatemala', 'guyana', 'haiti', 'honduras', 'martinique', 'mexico', 'nicaragua', 'panama', 'paraguay', 'peru', 'puerto rico', 'suriname', 'uruguay', 'venezuela', 'american samoa'];
 			let pacificCountries = ['american samoa', 'christmas island', 'cook islands', 'fiji', 'french polynesia', 'guam', 'kiribati', 'marshall islands', 'micronesia', 'nauru', 'new caledonia', 'niue', 'northern mariana islands', 'palau', 'papua new guinea', 'pitcairn', 'samoa', 'solomon islands', 'tokelau', 'tonga', 'tuvalu', 'vanuatu', 'wallis and futuna'];
-			
+
 			country = country.toLowerCase();
 			// if the user country matches any country specific rules
 			for (var i = 0; i < regionalUrlRules.length; i++) {
@@ -101,7 +101,7 @@
 					return regionalUrlRules[i].url;
 				}
 			}
-			
+
 			// otherwise, check if user country matches any regional rule
 			for (var x= 0; x < regionalUrlRules.length; x++) {
 				if (regionalUrlRules[x].region.toLowerCase() === 'europe all countries' && europeCountries.indexOf(country) > -1 ) {
@@ -166,8 +166,15 @@
 <script>
 console.log('{{page.type}}');
 </script>
+
 <!-- add page types to the condition below if you want to allow sms opt ins for those pages -->
 <!-- be sure to test the styling doesn't break when adding new page types -->
+
+<script>
+// ak-fieldbox-sms_optin
+</script>
+
+{% comment %}
 {% if page.type == "Signup" or page.type == "Petition" or page.type == 'Letter' or page.type == 'Survey' or page.type == 'Call' %}
   {% if page.custom_fields.form_include_mobile_optin == 'Y' and user.custom_fields.mobile_subscriber != 'true' %}
   <script>
@@ -190,7 +197,10 @@ console.log('{{page.type}}');
         if ('{{ page.custom_fields.form_label_text_sms_optin }}') {
           smsOptInLanguage = '{{ page.custom_fields.form_label_text_sms_optin }}'
         }
-        jQuery('.mobile_phone_box').after(jQuery('<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom ak-err-below user_mobile_subscriber_box"><span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice"><input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
+        jQuery('.mobile_phone_box').after(jQuery(
+          '<div id="id_user_mobile_subscriber_box" class="input-checkbox ak-input-type-custom ak-err-below user_mobile_subscriber_box">
+          <span class="ak-userfield-checkbox-set"><label class="ak-userfield-checkbox-choice">
+          <input type="checkbox" name="user_mobile_subscriber" id="id_user_mobile_subscriber_true" class="ak-userfield-input" value="true"> '+smsOptInLanguage+'</label> </span></div>'));
 
 		// Add large checkboxes
 		jQuery('.user_mobile_subscriber_box').addClass('large-checkboxes');
@@ -266,7 +276,9 @@ console.log('{{page.type}}');
     }
 
     // add sms privacy notice
-    var $smsPrivacyNotice = jQuery('<div class="sms-privacy-notice text-small2 margin-top-normal" style="display:none;"><p>{% filter ak_text:"sms_privacy_notice" %}By providing your mobile number you consent to receive automated recurring text messages from 350.org. Msg&data rates may apply. Text HELP for info or STOP to opt out to 83224. 350.org/mobile-tos{% endfilter %}</p></div>');
+    var $smsPrivacyNotice = jQuery('<div class="sms-privacy-notice text-small2 margin-top-normal" style="display:none;"><p>
+    {% filter ak_text:"sms_privacy_notice" %}By providing your mobile number you consent to receive automated recurring text messages from 350.org. Msg&data rates may apply. Text HELP for info or STOP to opt out to 83224. 350.org/mobile-tos{% endfilter %}
+    </p></div>');
     jQuery('.general-privacy-notice').after($smsPrivacyNotice);
 
     var selectedCountry = jQuery('#country').val();
@@ -297,6 +309,7 @@ console.log('{{page.type}}');
   </script>
   {% endif %}
 {% endif %}
+{% endcomment %}
 
 <script>
 	jQuery(function(){

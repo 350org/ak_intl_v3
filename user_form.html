@@ -29,20 +29,39 @@
   {% for field in user_fields %}
   	{% switch field.field_name %}
   	{% case 'country' %}
-	<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
-		<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
-		  {% include "./country_select.html" %}
-	</div>
-	  {% case 'state' %}
-	<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
-		<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
-		  {% include "./state_select.html" %}
-	</div>
+		<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+			<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
+			{% include "./country_select.html" %}
+		</div>
+	{% case 'state' %}
+		<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+			<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
+			{% include "./state_select.html" %}
+		</div>
+	{% case 'mobile_phone' %}
+		{% with field.options_json|load_json as options %}
+		<div id="ak-fieldbox-mobile_phone" class="mobile_phone_box input-text ak-input-type-user  ak-err-below">
+			<label for="id_mobile_phone">Mobile phone</label>
+			<input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input">
+		</div>
+		{% if options.sms_opt_in %}
+			<div id="ak-fieldbox-sms_optin" style="padding: 0.3em"> {% comment %}TODO: move to ak-v3.css when I know how to deploy that. =){% endcomment %}
+			<label><input type="checkbox" name="texting_fieldname" value="mobile_phone">
+			    {{ options.sms_label|default:"Keep me updated by SMS" }}
+			</label>
+			<div class="sms-privacy-notice text-small2 margin-top-normal" style="">
+				<p class="icon-before" data-icon="*">
+		        {{ options.sms_notice|default:"By providing your mobile number you consent to receive automated recurring text messages from 350.org. Message and data rates may apply. Text HELP for info or STOP to opt out to INSERT OUT NUMBER HERE!}. 350.org/mobile-tos" }}
+				</p>
+			</div>
+			</div>
+		{% endif %}
+		{% endwith %}
     {% else %}
-	<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-{{field.input}} ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
-		<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
-		{{ field.input_html }}
-	</div>
+		<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-{{field.input}} ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+			<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
+			{{ field.input_html }}
+		</div>
     {% endswitch %}
   {% endfor %}
 
@@ -91,7 +110,7 @@
 				<option value="26">Українська</option>
 			</select>
 		</div>
-		
+
 {% endif %}
 
 

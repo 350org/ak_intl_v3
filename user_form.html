@@ -30,7 +30,7 @@
   	{% switch field.field_name %}
   	{% case 'country' %}
 		<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-select ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
-			<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
+			<label for="id_{{ field.field_name }}">{{ field.label_text }}{% if field.field_name|is_in:context.required %}<span class="ak-required-flag">*</span>{% endif %}</label>
 			{% include "./country_select.html" %}
 		</div>
 	{% case 'state' %}
@@ -41,7 +41,7 @@
 	{% case 'mobile_phone' %}
 		{% with field.options_json|load_json as options %}
 		<div id="ak-fieldbox-mobile_phone" class="mobile_phone_box input-text ak-input-type-user  ak-err-below">
-			<label for="id_mobile_phone">Mobile phone</label>
+			<label for="id_mobile_phone">Mobile phone{% if field.field_name|is_in:context.required %}<span class="ak-required-flag">*</span>{% endif %}</label>
 			<input type="text" name="mobile_phone" id="id_mobile_phone" class="ak-userfield-input">
 		</div>
 		{% if options.sms_opt_in %}

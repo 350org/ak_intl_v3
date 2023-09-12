@@ -58,10 +58,10 @@
 		{% endif %}
 		{% endwith %}
     {% else %}
-		<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-{{field.input}} ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
-			<label for="id_{{ field.field_name }}">{{ field.label_text }}</label>
-			{{ field.input_html }}
-		</div>
+	<div id="ak-fieldbox-{{ field.field_name }}" class="{{ field.field_name }}_box input-{{field.input}} ak-input-type-{{ field.type }} {% if field.field_name|is_in:context.required %}required{% endif %}">
+		<label for="id_{{ field.field_name }}">{{ field.label_text }}{% if field.field_name|is_in:context.required %}<span class="ak-required-flag">*</span>{% endif %}</label>
+		{{ field.input_html }}
+	</div>
     {% endswitch %}
   {% endfor %}
 

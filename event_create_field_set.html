@@ -10,7 +10,7 @@
         <p class="text-small opacity-50">{% filter ak_text:"event_create_address_hidden_privacy_note" %}NOTE: The exact address will be hidden until people sign up to attend your event.{% endfilter %}</p>
   {% endif %}
         <div class="input-text ak-input-type-event input-venue">
-      		<label for="id_event_venue">{% filter ak_text:"event_create_label_venue" %}Venue (i.e. "My Living Room" or "North Side Park"){% endfilter %}</label>
+      		<label for="id_event_venue">{% filter ak_text:"event_create_label_venue" %}Venue (i.e. "My Living Room" or "North Side Park"){% endfilter %}<span class="ak-required-flag">*</span></label>
           <input autocomplete='off' id="id_event_venue" type="text" if-at-my-house="Home" name="event_venue" />
       	</div>
   {% if not campaign.show_address1 %}

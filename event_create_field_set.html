@@ -10,7 +10,7 @@
         <p class="text-small opacity-50">{% filter ak_text:"event_create_address_hidden_privacy_note" %}NOTE: The exact address will be hidden until people sign up to attend your event.{% endfilter %}</p>
   {% endif %}
         <div class="input-text ak-input-type-event input-venue">
-      		<label for="id_event_venue">{% filter ak_text:"event_create_label_venue" %}Venue (i.e. "My Living Room" or "North Side Park"){% endfilter %}</label>
+      		<label for="id_event_venue">{% filter ak_text:"event_create_label_venue" %}Venue (i.e. "My Living Room" or "North Side Park"){% endfilter %}<span class="ak-required-flag">*</span></label>
           <input autocomplete='off' id="id_event_venue" type="text" if-at-my-house="Home" name="event_venue" />
       	</div>
   {% if not campaign.show_address1 %}
@@ -21,24 +21,27 @@
       		{% include "./country_select.html" %}
       	</div>
         <div class="input-text ak-input-type-event input-address">
-      		{% if page.custom_fields.events_custom_address_field %}{{page.custom_fields.events_custom_address_field}}
-{% else %}
-{% filter ak_text:"field_address1"|capfirst %}Street address{% endfilter %}
-{% endif %}	
+			{% if page.custom_fields.events_custom_address_field %}
+			<label for="id_event_address1">{{page.custom_fields.events_custom_address_field}}<span class="ak-required-flag">*</span></label>
+			{% else %}
+			<label for="id_event_address1">{% filter ak_text:"field_address1"|capfirst %}Street address{% endfilter %}<span class="ak-required-flag">*</span></label>
+			{% endif %}
       		<input autocomplete='off' id="id_event_address1" type="text" name="event_address1"/>
       	</div>
 	
         <div class="input-text ak-input-type-event input-city">
-      		<label for="id_event_city">{% filter ak_text:"field_city" %}City{% endfilter %}</label>
+			<label for="id_event_city">{% filter ak_text:"field_city" %}City{% endfilter %}<span class="ak-required-flag">*</span></label>
       		<input autocomplete='off' id="id_event_city" type="text" name="event_city" />
+			<input type="hidden" name="required" value="event_city">
       	</div>
         <div class="input-text ak-input-type-event input-postal">
       		<label for="id_event_postal">{% filter ak_text:"field_postal" %}Postal{% endfilter %} {% filter ak_text:"general_optional" %}(Optional, this helps us locate your event on the map at 350.org/get-involved){% endfilter %}</label>
       		<input autocomplete='off' id="id_event_postal" type="text" name="event_postal" />
       	</div>
         <div class="input-text ak-input-type-event input-zip">
-      		<label for="id_event_zip">{% filter ak_text:"field_postal" %}Postal/ZIP (This helps us locate your event on the map at 350.org/get-involved){% endfilter %}</label>
+			<label for="id_event_zip">{% filter ak_text:"field_postal" %}Postal/ZIP (This helps us locate your event on the map at 350.org/get-involved){% endfilter %}<span class="ak-required-flag">*</span></label>
       		<input autocomplete='off' id="id_event_zip" type="text" name="event_zip" />
+			<input type="hidden" name="required" value="event_zip">
       	</div>
 
 

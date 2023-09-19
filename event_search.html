@@ -51,6 +51,18 @@
   }
   #event-search-country-wrapper select{
   }
+
+  @media screen and (max-width:768px){
+    li.event:nth-child(odd) > a.event-link {
+      box-shadow: 0 0 0 10px rgba(0,0,0,0.05);
+      background: rgba(0,0,0,0.05);
+    }
+
+    a.area-link.event-link:hover {
+      background: inherit !important;
+      box-shadow: inherit !important;
+    }
+  }
   @media screen and (min-width:900px){
   
     #page-header{

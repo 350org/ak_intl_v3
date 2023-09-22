@@ -3,6 +3,9 @@
 {% block content %}
 
 <style>
+  body {
+    min-height: unset !important;
+  }
 .section.padding-none{
 	padding:0;}
 
@@ -51,6 +54,12 @@
 
 #really-opt-out {
 	margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width:480px) {
+  #event-attend-details {
+    display: none;
+  }
 }
 
 </style>

@@ -3722,7 +3722,7 @@ a.tf-logo:hover {
 
 /* Event Search Results Specific CSS */
 @media screen and (max-width:480px) {
-  .event-description {
+  #event-attend-details {
     display: none;
   }
 }

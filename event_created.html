@@ -11,7 +11,7 @@
 <div class="section width-narrow padding-large bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner bg-white padding-medium">
 		<h1>{% filter ak_text:"event_created_headline" %}You're almost done!{% endfilter %}</h1>
-		<p class="text-large">{% filter ak_text:"event_created_text_pt1" %}Check your e-mail{% endfilter %} {% if args.email %} ({{args.email}}) {% endif %}{% filter ak_text:"event_created_text_pt2" %}and click the link inside it to confirm your event. If you don't see the email, check your spam folder — or email {% endfilter %}{% if page.custom_fields.event_contact_email_on_confirmation %}{{ page.custom_fields.event_contact_email_on_confirmation }}{% else %}events@350.org.{% endif %}</p>
+		<p class="text-large">{% filter ak_text:"event_created_text_pt1" %}Check your e-mail{% endfilter %} {% if args.email %} <nobr>({{args.email}})</nobr> {% endif %}{% filter ak_text:"event_created_text_pt2" %}and click the link inside it to confirm your event. If you don't see the email, check your spam folder — or email {% endfilter %}{% if page.custom_fields.event_contact_email_on_confirmation %}{{ page.custom_fields.event_contact_email_on_confirmation }}{% else %}events@350.org.{% endif %}</p>
 	</div>
 </div>
 

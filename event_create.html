@@ -416,7 +416,7 @@
           <label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Event
             description{% endfilter %}</label>
           <textarea id="id_event_public_description"
-            name="event_public_description">{% if page.custom_fields.event_default_description %}{% autoescape off %}{{ page.custom_fields.event_default_description }}{% endautoescape %}{% endif %}</textarea>
+                    name="event_public_description">{% if page.custom_fields.event_default_description %}{% autoescape off %}{% include_tmpl page.custom_fields.event_default_description %}{% endautoescape %}{% endif %}</textarea>
         </div>
         <p class="text-small opacity-50">
           {% if page.custom_fields.event_create_description_helptext %}

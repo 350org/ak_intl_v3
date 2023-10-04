@@ -27,7 +27,15 @@
 </p>
 
 <p><a href="update/" class="button button-secondary">Update your information</a></p>
-<p><a href="/cms/pledge/update/update/" class="button button-secondary">Update your donation</a></p>
+{% if recurring_donations %}
+  {% for profile in recurring_donations %}
+    {% if profile.is_active and profile.order.payment_method != "paypal" %}
+      {% once %}
+      <p><a href="/cms/pledge/update/update/" class="button button-secondary">Update your donation</a></p>
+      {% endonce %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
 </div>
 <!--
 <div class="section note">

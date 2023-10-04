@@ -23,25 +23,25 @@
 {% endautoescape %}
 {% for profile in active %}
 
+<div class="section note">
 
 <form class="action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
 <input type="hidden" name="utf8" value="&#x2714;">
 
 <ul class="compact" id="ak-errors"></ul>
-<div class="section note">
 {% include "./recurring_info.html" %}
+
 <div style="clear:both;"></div>
-<div><button type="submit" class="submit">Cancel Donation</button></div>
-</div>
+
 {% comment %} JavaScript needs it. {% endcomment %}
 <input type="hidden" name="akid" value="{{ logged_in_user.token }}">
 <input type="hidden" name="page" value="{{ page.name }}">
 <input type="hidden" name="profile_id" value="{{ profile.id }}">
 
-<!--<p><input name="submit" type="submit" class="submit" value="Cancel Donation"></p>-->
-
 </form>
 
+<div><button type="submit" class="submit js-modal button bg-blue" data-modal-source="#confirmationPopup">Cancel Donation</button></div>
+</div>
 {% endfor %}
 {% else %}
 
@@ -54,10 +54,19 @@ We have to have a form, or the JavaScript doesn't work.
 <input type="hidden" name="utf8" value="&#x2714;">
 <ul class="compact" id="ak-errors"></ul>
 <input type="hidden" name="page" value="{{ page.name }}">
+{% if actionkit_user %}
+<input type="hidden" name="akid" value="{{actionkit_user.token}}">
+{% endif %}
 </form>
 
 {% endif %}
 <div id="inactive">
+</div>
+
+<div id="confirmationPopup" class="js-hide js-hidden">
+<h2 class="text-center">Are you sure?</h2>
+<button id="lowerBtn" class="submit submitConfirm float-left-desktop button bg-blue">Lower your monthly gift amount instead</button>
+<button id="cancelBtn" class="submit submitConfirm margin-top-small button bg-blue">Yes, I'm sure. Cancel my donation</button>
 </div>
 <script type="text/ak-template" for="inactive">
 [% if (inactive.length) { %]
@@ -69,6 +78,17 @@ We have to have a form, or the JavaScript doesn't work.
     [% } %]
     </ul>
 [% } %]
+
+</script>
+<script>
+    jQuery( document ).ready(function() {
+        jQuery('#cancelBtn').on('click', function() {
+            $('form').submit();
+        });
+        jQuery('#lowerBtn').on('click', function() {
+            window.location.href = "https://act.350.org/cms/pledge/update/update/";
+        });
+    });
 </script>
 <style>
 .ak-pagetype-recurring_cancel .note {
@@ -84,6 +104,17 @@ We have to have a form, or the JavaScript doesn't work.
 .ak-pagetype-recurring_cancel button.submit {
     max-width: 300px;
     margin: 0 auto;
+}
+.ak-pagetype-recurring_cancel button.submitConfirm {
+    max-width: 250px;
+}
+.display-none {
+    display: none !important;
+}
+@media screen and (min-width: 1024px) {
+    .float-left-desktop {
+        float: left;
+    }
 }
 </style>
 

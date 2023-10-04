@@ -159,7 +159,7 @@
 <div id="event-attend-details" class="section width-normal padding-none">
 	<div class="section-inner bg-white">
 
-		<div class="margin-bottom-none padding-medium">
+		<div class="margin-bottom-none padding-small">
 			{% if event.note_to_attendees %}
 			<div class="event-note-to-attendees">
 				<strong>{% filter ak_text:"event_details_host_note" %}Note from the host: {% endfilter %}</strong> {{ event.note_to_attendees }}
@@ -187,7 +187,7 @@
 
 {% if form.ground_rules|is_nonblank and not update %}
 <div id="event-attend-rules" class="section width-normal padding-none">
-	<div class="section-inner bg-ltgray padding-medium">
+	<div class="section-inner bg-ltgray padding-small">
 
 		<div id="id_ground_rules_text" class="nojs">
 			<h3 class="section-header meta text-center margin-bottom-medium">Rules:</h3>

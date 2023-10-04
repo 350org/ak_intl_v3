@@ -69,15 +69,6 @@
 				<input type="submit" class="submit" value="Update My Info" />
 			</div>
 		</form>
-
-		{% for profile in user.lazy_recurring_orders %}
-		{% if profile.is_active %}
-		{% once %}
-		<a class="submit button button-big" href="/cms/pledge/update/update/" style="display: block;">Update your Donation</a>
-		{% endonce %}
-		{% endif %}
-		{% endfor %}
-
 	</div>
 </section>
 

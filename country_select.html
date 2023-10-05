@@ -761,3 +761,29 @@
 	</option>
 -->
 </select>
+
+<script>
+	window.onload = function(){
+		var geoipCountry = '{{ geoip.country_name }}';
+		var geoipCity = '{{ geoip.city }}';
+		if (geoipCountry) {
+			var countrySelect = document.getElementById('country');
+			if (countrySelect) {
+				countrySelect.value = geoipCountry;
+			}
+		}
+		if (geoipCity && geoipCity != 'None') {
+			var cityInput = document.getElementById('id_place');
+			if (cityInput) {
+				cityInput.value = geoipCity;
+			}
+		}
+
+		if (geoipCity || geoipCountry) {
+			var submitBtn = document.getElementById('event-search-submit');
+			if (submitBtn) {
+				setTimeout(submitBtn.click(), 2000);
+			}
+		}
+	};
+</script>

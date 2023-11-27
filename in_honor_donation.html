@@ -1,8 +1,12 @@
 <fieldset id="in-honor-of" class="ak-donate-area-step-1 form-style-labelabove">
     <div class="input checkbox input-checkbox margin-top-small margin-bottom-none text-strong">
       <input type="checkbox" value="1" name="inhonorcheck" id="in-honor-check" />
+      {% if page.custom_fields.custom_donate_honor_label %}
+      <label for="in-honor-check">{{ page.custom_fields.custom_donate_honor_label }}</label>
+      {% else %}
       <label for="in-honor-check">{% filter ak_text:"donate_inhonorof_option_label" %}Donate in
         someone's honor.{% endfilter %}</label>
+      {% endif %}
     </div>
     <div id="in-honor-of-fields" class="margin-bottom-normal">
       <div class="input text input-text ak-">
@@ -37,4 +41,12 @@
         }
       });
     </script>
+    {% if page.custom_fields.donate_honor_prechecked == "1" %}
+    <script>
+      $(function() {
+        jQuery("#in-honor-check").attr('checked', true);
+        jQuery("#in-honor-of-fields").fadeIn();
+      });
+    </script>
+    {% endif %}
   </fieldset>

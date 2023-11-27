@@ -9,6 +9,27 @@
       {% endif %}
     </div>
     <div id="in-honor-of-fields" class="margin-bottom-normal">
+      {% if page.custom_fields.donate_honoree_alt_spelling == "Y" %}
+      <div class="input text input-text ak-">
+        <label for="action_in_honor_of_name">Honouree's Name</label>
+        <input type="text" id="action_in_honor_of_name" name="action_in_honor_of_name" />
+      </div>
+      <div class="input input-text"
+        title="The email address to send a notification of the donation to.">
+        <label
+          for="action_in_honor_of_email">Honouree's Email Address</label>
+        <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
+      </div>
+      <div class="input input-textarea" title="An optional note to the honouree.">
+        <label for="action_in_honor_of_note"
+          title="An optional note to the honouree.">Note to Honouree</label>
+        <textarea id="action_in_honor_of_note" name="action_in_honor_of_note"
+          title="An optional note to the honouree."></textarea>
+      </div>
+      <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll
+        send a notification of your donation to this email address.{% endfilter %}</p>
+
+      {% else %}
       <div class="input text input-text ak-">
         <label for="action_in_honor_of_name">{% filter ak_text:"donate_inhonorof_name_label" %}Honoree's
           Name{% endfilter %}</label>
@@ -30,6 +51,7 @@
       </div>
       <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll
         send a notification of your donation to this email address.{% endfilter %}</p>
+      {% endif %}
     </div>
     <script>
       jQuery("#in-honor-of-fields").hide();

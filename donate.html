@@ -513,7 +513,14 @@
 
 
                     {% endif %}
-
+                    <fieldset id="transaction-fee-container" class=" form-style-labelabove" style="display: block;">
+                      <div class="checkbox-container input checkbox input-checkbox margin-top-small margin-bottom-none text-strong">
+                        <input type="checkbox" value="1" name="transaction-fee" id="transaction-fee">
+                        <label for="transaction-fee">
+                          {% filter ak_text:"transaction_fee_text_pt1" %}Round up my gift to{% endfilter %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-fee-total-amount checkbox"></span> {% filter ak_text:"transaction_fee_text_pt2" %}to help cover transaction costs.{% endfilter %}
+                        </label>
+                      </div>
+                    </fieldset>
                   </div>
                   <!--ak-styled-fields-->
 
@@ -618,6 +625,88 @@
 {% endif %}
 
 <script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/donate.js"></script>
+
+<script>
+  $(function() {
+    setTimeout(function() {
+      // Set original transaction fee amount 
+      var origAmount = $('label.ak-radio-checked input').val();
+      var transactionFeeAmount = parseInt(calculateTransactionFee(origAmount)) + parseInt(origAmount);
+      $('.ak-donation-fee-total-amount.checkbox').html(transactionFeeAmount);
+    }, 500);
+    // Set new transaction fee based on user selected amount 
+    $('input[name="amount"]').on('click', function(e) {
+      var newAmount = e.target.value;
+      if (newAmount) {
+        origAmount = newAmount;
+        var transactionFeeAmount = parseInt(calculateTransactionFee(newAmount)) + parseInt(newAmount);
+        $('.ak-donation-fee-total-amount.checkbox').html(transactionFeeAmount);
+        $('#transaction-fee').prop('checked', false);
+      }
+    });
+
+    // If user selects other amount, update amounts only if transaction fee is unchecked to avoid infinite loop
+    $('input[name="amount_other"]').on('change', function(e) {
+      var newAmount = e.target.value;
+      if (newAmount) {
+        origAmount = newAmount;
+        var transactionFeeAmount = parseInt(calculateTransactionFee(newAmount)) + parseInt(newAmount);
+        $('.ak-donation-fee-total-amount.checkbox').html(transactionFeeAmount);
+        $('#transaction-fee').prop('checked', false);
+      }
+    });
+
+    // The transaction fee checkbox should only appear for certain currencies
+    $('#ak-currency-switcher').on('change', function(e) {
+      var currencyNameBCSE = $(e.target).val();
+      var currencyName = currencyNameBCSE.replace('Braintree Client-Side Encryption ', '');
+      var transactionFeeCurrencies = ['Braintree Client-Side Encryption', 'GBP', 'CAD', 'EUR', 'AUD', 'NZD'];
+      var amount = $('.ak-donation-total-amount').html();
+      var newAmount = parseInt(calculateTransactionFee(amount)) + parseInt(amount);
+      if (transactionFeeCurrencies.indexOf(currencyName) > -1) {
+        $('.ak-donation-fee-total-amount.checkbox').html(newAmount);
+        $('#transaction-fee-container').show();
+      } else {
+        $('#transaction-fee-container').hide();
+      }
+    });
+
+    // Update donation amounts if transaction fee checkbox is checked
+    $('#transaction-fee').on('change', function(e) {
+      if (typeof(origAmount) == 'undefined') {
+        origAmount = $('.ak-donation-total-amount').html();
+      }
+
+      if ($(e.target).prop('checked')) {
+        var amount = $('.ak-donation-total-amount').html();
+        var newAmount = parseInt(calculateTransactionFee(amount)) + parseInt(amount);
+        $('.ak-donation-total-amount').html(newAmount);
+        $('input[name=amount_other]').val(newAmount);
+        $('#ak-other-amount-field').val(newAmount).trigger('click');
+        $('label.ak-radio-checked').removeClass('ak-radio-checked');
+        $('label[for="ak-other-amount-field"]').addClass('ak-radio-checked');
+      } else {
+        $('button .ak-donation-total-amount').html(origAmount);
+        $('input[name=amount_other]').val(origAmount);
+      }
+    });
+
+    function calculateTransactionFee(amount) {
+      var feeAmt = Math.ceil(Math.max(amount * 0.03, 0.50));
+      return feeAmt;
+    }
+  });
+</script>
+
+<style>
+  #transaction-fee-container .input-checkbox {
+    padding-left: 20px;
+  }
+
+  #transaction-fee-container .input-checkbox input {
+    opacity: 1;
+  }
+</style>
 
 <script language="javascript">
 

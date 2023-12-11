@@ -51,6 +51,17 @@
 			f.parentNode.insertBefore(j, f);
 		})(window, document, 'script', 'dataLayer', 'GTM-MNNGDHL');
 	</script>
+       {% if page.type == "Donate" %}
+               <!-- Conversion Funnel Tracking -->
+               <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JDP8BTBJM"></script>
+               <script>
+                 window.dataLayer = window.dataLayer || [];
+                 function gtag(){dataLayer.push(arguments);}
+                 gtag('js', new Date());
+ 
+                 gtag('config', 'G-2JDP8BTBJM');
+               </script>
+       {% endif %}
 	<!-- End Google Tag Manager -->
 	<!-- Start VWO Async SmartCode -->
 	<link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />

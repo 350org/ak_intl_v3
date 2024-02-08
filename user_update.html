@@ -57,9 +57,23 @@
 					{% case 'email' %}
 					{% if user.stats.donated %}
 						<p class="donor-email-label">We noticed you have previously donated. To update your email address ({{ field.value }}), please contact us at <a href="mailto:donations@350.org">donations@350.org</a> so we can make sure your donation records are moved to your new address.</p>
+						<input type="hidden" name="email" value="{{ field.value }}" maxlength="255" id="id_email" readonly>
 					{% else %}
 						{{ field }}
 					{% endif %}
+					{% case 'zip' %}
+						<input type="text" name="zip" value="{{ field.value }}" id="id_zip">
+						<script>
+							$(document).ready(function() {
+								setTimeout(function() {
+									var zip = $('#id_zip').val();
+									if (zip) {
+										zip = zip.substring(0, 5);
+										$('#id_zip').val(zip);
+									}
+								}, 0)
+							});
+						</script>
 					{% else %}
 					{{ field }}
 					{% endswitch %}

@@ -778,6 +778,19 @@
       '#id_region, #id_postal').on('change blur', sync_to_shipping);
   });
 
+  // classList changes when users change currency; use to pull three-leter ISO currency code
+  function getCurrencyCode(){
+    var strCurrencyCode = 'USD'; // default to usd
+    var objClassList = document.querySelector('#ak-amount-list').classList;
+    var arrClassList = Array.from(objClassList);
+    arrClassList.forEach(function(strClass){
+      if(strClass.substr(0,8) == 'currency'){
+        strCurrencyCode = strClass.substr(9);
+      }
+    });
+    return strCurrencyCode;
+  }
+
   function change_step_one_label(current_step) {
     if (current_step == "1") {
     // Records Add to Cart
@@ -817,6 +830,21 @@
               'dimension2': frequency
             }]
           }
+        }
+      });
+
+      var currencyCode = getCurrencyCode();
+      dataLayer.push({
+        event: 'add_to_cart',
+        ecommerce: {
+          currency: currencyCode,
+          items: [{
+            item_id: '{{page.id}}',
+            item_name: '{{ page.name|escapeall }}',
+            item_category: frequency,
+            item_variant: amount_type, 
+            quantity: 1
+          }]
         }
       });
     } else if (current_step == "2") { 
@@ -1136,6 +1164,22 @@
             'donationFrequency': frequency
           }]
         }
+      }
+    });
+
+    var currencyCode = getCurrencyCode();
+    dataLayer.push({
+      event: 'begin_checkout',
+      ecommerce: {
+        currency: currencyCode,
+        value: price,
+        items: [{
+          item_id: '{{page.id}}',
+          item_name: '{{ page.name|escapeall }}',
+          item_category: frequency,
+          item_variant: amount_type,
+          quantity: 1
+        }]
       }
     });
   }

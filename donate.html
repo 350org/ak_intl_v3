@@ -659,6 +659,19 @@
       }
     });
 
+    var currencyCode = getCurrencyCode();
+    dataLayer.push({
+      event: 'view_item',
+      ecommerce: {
+        currency: currencyCode,
+        items: [{
+          item_id: '{{page.id}}',
+          item_name: '{{ page.name|escapeall }}',
+          quantity: 1
+        }]
+      }
+    });
+
     $('.ak-amount-wrapper .input-radio-button').each(function () {
       var current_amount = parseInt($(this).text().replace(/\D/g, ''));
       if (arg_amount && (arg_amount == current_amount)) {

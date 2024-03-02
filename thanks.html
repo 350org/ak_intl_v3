@@ -173,6 +173,22 @@
 				}
 			}
 			});
+
+			dataLayer.push({
+				'event': 'purchase',
+				'ecommerce': {
+					'transaction_id': '{{action.id}}',
+					'value': '{{action.order.total}}',
+					'currency': '{{action.order.currency}}',
+					'items': [{
+						'item_id': '{{page.id}}',
+            'item_name': '{{ page.name|escapeall }}',
+						'item_variant': '{% if action.orderrecurring %}recurring{% else %}single{% endif %}',
+						'price': '{{action.order.total}}',
+						'quantity': 1 
+					}]
+				}
+			});
 			insertUrlParam('success', 1);
 		}
 	{% endif %}																									

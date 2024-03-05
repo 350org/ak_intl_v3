@@ -344,6 +344,12 @@
 		})(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
 	</script>
 
+	<script type="text/javascript">
+		dataLayer.push({
+			'actionKitTemplate': '{{templateset.name}}',
+		});
+	</script>
+
 	{% if templateset.custom_fields.site_addl_js_url %}
 	<script type="text/javascript" src="{{ templateset.custom_fields.site_addl_js_url }}"></script>
 	{% endif %}

@@ -26,20 +26,20 @@ jobs:
                     # For posting a rich message using Block Kit
                 payload: |
                     {
-                        "text": "**${{ github.repository }}** has been deployed by ${{ github.event.commit.committer.name }}! :tada: :rocket: :tada: \n",
+                        "text": "*${{ github.repository }}* has been deployed by ${{ github.event.commit.committer.name }}! :tada: :rocket: :tada: \n",
                         "blocks": [
                         {
                             "type": "section",
                             "text": {
                             "type": "mrkdwn",
-                            "text": "**Deployment result** \n ${{ job.status }}"
+                            "text": "*Deployment result* \n ${{ job.status }}"
                             }
                         },
                         {
                             "type": "section",
                             "text": {
                             "type": "mrkdwn",
-                            "text": "**Commit** \n [${{ steps.commit_message.outputs.first_line }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
+                            "text": "*Commit* \n [${{ steps.commit_message.outputs.first_line }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
                             }
                         }
                         ]

@@ -33,7 +33,7 @@ jobs:
                             "type": "section",
                             "text": {
                             "type": "mrkdwn",
-                            "text": "**Commit** \n [\`${{ github.event.commit.message.split('\n')[0] }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
+                            "text": "**Commit** \n [`${{ github.event.commit.message.split('\n')[0] }}`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
                             }
                         }
                         ]

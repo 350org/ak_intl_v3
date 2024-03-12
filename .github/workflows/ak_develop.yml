@@ -10,6 +10,12 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
+            - name: Get first line of commit message
+              id: commit_message
+              run: |
+                echo "COMMIT_MESSAGE_FIRST_LINE=$(git log -1 --pretty=%B | head -n 1)" >> $GITHUB_ENV
+                echo "::set-output name=first_line::$(git log -1 --pretty=%B | head -n 1)"
+
             - name: Post to a Slack channel
               id: slack
               uses: slackapi/slack-github-action@v1.25.0
@@ -33,7 +39,7 @@ jobs:
                             "type": "section",
                             "text": {
                             "type": "mrkdwn",
-                            "text": "**Commit** \n [`${{ github.event.commit.message.split('\n')[0] }}`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
+                            "text": "**Commit** \n [${{ steps.commit_message.outputs.first_line }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
                             }
                         }
                         ]

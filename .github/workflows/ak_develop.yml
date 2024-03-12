@@ -39,7 +39,7 @@ jobs:
                             "type": "section",
                             "text": {
                             "type": "mrkdwn",
-                            "text": "*Commit* \n ['${{ steps.commit_message.outputs.first_line }}''](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
+                            "text": "*Commit* \n ['${{ steps.commit_message.outputs.first_line }}'](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
                             }
                         }
                         ]

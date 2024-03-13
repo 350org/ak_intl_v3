@@ -515,7 +515,7 @@
                     {% endif %}
                     <fieldset id="transaction-fee-container" class=" form-style-labelabove" style="display: block;">
                       <div class="checkbox-container input checkbox input-checkbox margin-top-small margin-bottom-none text-strong">
-                        <input type="checkbox" value="1" name="transaction-fee" id="transaction-fee">
+                        <input type="checkbox" value="1" name="action_transaction-fee" id="transaction-fee">
                         <label for="transaction-fee">
                           {% filter ak_text:"transaction_fee_text_pt1" %}Round up my gift to{% endfilter %} <span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak-donation-fee-total-amount checkbox"></span> {% filter ak_text:"transaction_fee_text_pt2" %}to help cover transaction costs.{% endfilter %}
                         </label>

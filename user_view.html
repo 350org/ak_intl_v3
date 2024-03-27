@@ -27,15 +27,6 @@
 </p>
 
 <p><a href="update/" class="button button-secondary">Update your information</a></p>
-{% if recurring_donations %}
-  {% for profile in recurring_donations %}
-    {% if profile.is_active and profile.order.payment_method != "paypal" %}
-      {% once %}
-      <p><a href="/cms/pledge/update/update/" class="button button-secondary">Update your donation</a></p>
-      {% endonce %}
-    {% endif %}
-  {% endfor %}
-{% endif %}
 </div>
 <!--
 <div class="section note">
@@ -59,13 +50,20 @@
 <h2> Your Recurring Donations </h2>
 <ul>
 {% for profile in recurring_donations %}
-<li>{{ profile.amt }} a {{ profile.inverse_period_display|lower }}, started on {{ profile.created_at|date:"m/d/Y" }}. 
-You've given a total of {{ profile.payment_total_amt }}. 
+<li> 
 {% if profile.is_active %}
   {% if 'ActBlue' in profile.account %}
-    <a href="https://secure.actblue.com/signin">Update your credit card or cancel at any time - via ActBlue.</a>
+    <span class="bold">{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via ActBlue</span>, started on {{ profile.created_at|date:"m/d/Y" }}. 
+    You've given a total of {{ profile.payment_total_amt }}.
+    <a href="https://secure.actblue.com/signin">To update your payment details, amount or cancel your donation please go to ActBlue.com</a>
   {% elif profile.order.payment_method != "paypal" %}
-    <a href="/cms/pledge/update/update/">Update your credit card</a> or <a href="/cms/pledge/cancel/monthly/">cancel at any time.</a>
+    <span class="bold">{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via Credit card</span>, started on {{ profile.created_at|date:"m/d/Y" }}. 
+    You've given a total of {{ profile.payment_total_amt }}.
+    <a href="/donate/update">Update your payment details or amount</a> or <a href="/cms/pledge/cancel/monthly/">cancel your donation.</a>
+  {% elif profile.order.payment_method == "paypal" %}
+    <span class="bold">{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via Paypal</span>, started on {{ profile.created_at|date:"m/d/Y" }}. 
+    You've given a total of {{ profile.payment_total_amt }}.
+    <a href="https://www.paypal.com/myaccount/autopay/">Update your payment details on Paypal.com</a> or <a href="/cms/pledge/cancel/monthly/">cancel your donation.</a> To update the amount, please cancel and then <a href="https://act.350.org/donate/paypal-only-demo/">set up a new monthly gift.</a>
   {% else %}
     <a href="/cms/pledge/cancel/monthly/">Cancel at any time.</a>
   {% endif %} 
@@ -92,6 +90,9 @@ You've given a total of {{ profile.payment_total_amt }}.
 </div>
 </section>
 <style>
+  .bold {
+    font-weight: bold;
+  }
   .ak-pagetype-user_view h3 {
     font-family: KlimaWeb,arial,helvetica,sans-serif;
   }

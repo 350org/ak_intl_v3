@@ -68,8 +68,11 @@
     <a href="/cms/pledge/cancel/monthly/">Cancel at any time.</a>
   {% endif %} 
 {% else %}
+  {{ profile.amt }} a {{ profile.inverse_period_display|lower }}, started on {{ profile.created_at|date:"m/d/Y" }}. 
+You've given a total of {{ profile.payment_total_amt }}. 
   <b>{{ profile.get_status_display }} on {{ profile.updated_at|date:"m/d/Y" }} </b>
 {% endif %}
+</li>
 {% endfor %}
 </ul>
 <div>

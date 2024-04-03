@@ -71,7 +71,7 @@
                     {{ profile.amt }}
                 </div>
                 <div>
-                    {%if not profile.is_import_stub %}<a style="display:none;" href="#" onclick="return ak_recurring_change_amount('{{ profile.id }}');" class="ak-change-amount-link update">Change amount</a>{% endif %}
+                    {%if not profile.is_import_stub and profile.status != 'past_due' %}<a style="display:none;" href="#" onclick="return ak_recurring_change_amount('{{ profile.id }}');" class="ak-change-amount-link update">Change amount</a>{% endif %}
                 </div>
             </div>
         </div>

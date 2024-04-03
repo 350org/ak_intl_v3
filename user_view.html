@@ -53,15 +53,15 @@
 <li> 
 {% if profile.is_active %}
   {% if 'ActBlue' in profile.account %}
-    <span class="bold">{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via ActBlue</span>, started on {{ profile.created_at|date:"m/d/Y" }}. 
+    <b>{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via ActBlue</b>, started on {{ profile.created_at|date:"m/d/Y" }}. 
     You've given a total of {{ profile.payment_total_amt }}.
     <a href="https://secure.actblue.com/signin">To update your payment details, amount or cancel your donation please go to ActBlue.com</a>
   {% elif profile.order.payment_method != "paypal" %}
-    <span class="bold">{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via Credit card</span>, started on {{ profile.created_at|date:"m/d/Y" }}. 
+    <b>{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via Credit card</b>, started on {{ profile.created_at|date:"m/d/Y" }}. 
     You've given a total of {{ profile.payment_total_amt }}.
     <a href="/donate/update">Update your payment details or amount</a> or <a href="/cms/pledge/cancel/monthly/">cancel your donation.</a>
   {% elif profile.order.payment_method == "paypal" %}
-    <span class="bold">{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via Paypal</span>, started on {{ profile.created_at|date:"m/d/Y" }}. 
+    <b>{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via Paypal</b>, started on {{ profile.created_at|date:"m/d/Y" }}. 
     You've given a total of {{ profile.payment_total_amt }}.
     <a href="https://www.paypal.com/myaccount/autopay/">Update your payment details on Paypal.com</a> or <a href="/cms/pledge/cancel/monthly/">cancel your donation.</a> To update the amount, please cancel and then <a href="https://act.350.org/donate/paypal-only-demo/">set up a new monthly gift.</a>
   {% else %}
@@ -96,9 +96,6 @@ You've given a total of {{ profile.payment_total_amt }}.
 </div>
 </section>
 <style>
-  .bold {
-    font-weight: bold;
-  }
   .ak-pagetype-user_view h3 {
     font-family: KlimaWeb,arial,helvetica,sans-serif;
   }

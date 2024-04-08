@@ -63,7 +63,7 @@
   {% elif profile.order.payment_method == "paypal" %}
     <b>{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via Paypal</b>, started on {{ profile.created_at|date:"m/d/Y" }}. 
     You've given a total of {{ profile.payment_total_amt }}.
-    <a href="https://www.paypal.com/myaccount/autopay/">Update your payment details on Paypal.com</a> or <a href="/cms/pledge/cancel/monthly/">cancel your donation.</a> To update the amount, please cancel and then <a href="https://act.350.org/donate/paypal-only-demo/">set up a new monthly gift.</a>
+    <a href="https://www.paypal.com/myaccount/autopay/">Update your payment details on Paypal.com</a> or <a href="/cms/pledge/cancel/monthly/">cancel your donation.</a> To update the amount, please cancel and then <a href="https://act.350.org/donate/web-renew-recurring-payment">set up a new monthly gift.</a>
   {% else %}
     <a href="/cms/pledge/cancel/monthly/">Cancel at any time.</a>
   {% endif %} 

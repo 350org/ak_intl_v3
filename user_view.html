@@ -55,7 +55,7 @@
   {% if 'ActBlue' in profile.account %}
     <b>{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via ActBlue</b>, started on {{ profile.created_at|date:"m/d/Y" }}. 
     You've given a total of {{ profile.payment_total_amt }}.
-    <a href="https://secure.actblue.com/signin">To update your payment details, amount or cancel your donation please go to ActBlue.com</a>
+    <a href="https://secure.actblue.com/signin?return_to_path=/my-express/contributions/recurring">To update your payment details, amount or cancel your donation please go to ActBlue.com</a>
   {% elif profile.order.payment_method != "paypal" %}
     <b>{{ profile.amt }} a {{ profile.inverse_period_display|lower }} via Credit card</b>, started on {{ profile.created_at|date:"m/d/Y" }}. 
     You've given a total of {{ profile.payment_total_amt }}.

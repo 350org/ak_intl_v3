@@ -18,7 +18,7 @@
         title="The email address to send a notification of the donation to.">
         <label
           for="action_in_honor_of_email">Honouree's Email Address</label>
-        <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
+        <input type="email" id="action_in_honor_of_email" name="action_in_honor_of_email" />
       </div>
       <div class="input input-textarea" title="An optional note to the honouree.">
         <label for="action_in_honor_of_note"
@@ -30,7 +30,7 @@
         send a notification of your donation to this email address.{% endfilter %}</p>
 
       {% else %}
-      <div class="input text input-text ak-">
+      <div class="input text input-text">
         <label for="action_in_honor_of_name">{% filter ak_text:"donate_inhonorof_name_label" %}Honoree's
           Name{% endfilter %}</label>
         <input type="text" id="action_in_honor_of_name" name="action_in_honor_of_name" />
@@ -40,7 +40,7 @@
         <label
           for="action_in_honor_of_email">{% filter ak_text:"donate_inhonorof_email_label" %}Honoree's
           Email Address{% endfilter %}</label>
-        <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
+        <input type="email" id="action_in_honor_of_email" name="action_in_honor_of_email" />
       </div>
       <div class="input input-textarea" title="An optional note to the honoree.">
         <label for="action_in_honor_of_note"

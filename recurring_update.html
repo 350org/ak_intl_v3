@@ -322,7 +322,7 @@ function disable_invisibles(form) {
             <p>Whoops! You don't have any active recurring donations to update.</p>
         {% else %}
             {% for profile in active %}
-                <div class="section note">
+                <div class="section note{% if profile.order.payment_method != 'cc' %} noncc{% endif %}">
                     {% include "./recurring_info.html" %}
                     <div style="clear:both;"></div>
                 </div>
@@ -374,6 +374,9 @@ function disable_invisibles(form) {
         max-width: 300px;
         margin: 0 auto;
     }
+}
+.section.note.noncc {
+    display: none   ;
 }
 </style>
 

@@ -1,11 +1,36 @@
 <fieldset id="in-honor-of" class="ak-donate-area-step-1 form-style-labelabove">
     <div class="input checkbox input-checkbox margin-top-small margin-bottom-none text-strong">
       <input type="checkbox" value="1" name="inhonorcheck" id="in-honor-check" />
+      {% if page.custom_fields.custom_donate_honor_label %}
+      <label for="in-honor-check">{{ page.custom_fields.custom_donate_honor_label }}</label>
+      {% else %}
       <label for="in-honor-check">{% filter ak_text:"donate_inhonorof_option_label" %}Donate in
         someone's honor.{% endfilter %}</label>
+      {% endif %}
     </div>
     <div id="in-honor-of-fields" class="margin-bottom-normal">
-      <div class="input text input-text ak-">
+      {% if page.custom_fields.donate_honoree_alt_spelling == "Y" %}
+      <div class="input text input-text">
+        <label for="action_in_honor_of_name">Honouree's Name</label>
+        <input type="text" id="action_in_honor_of_name" name="action_in_honor_of_name" />
+      </div>
+      <div class="input input-text"
+        title="The email address to send a notification of the donation to.">
+        <label
+          for="action_in_honor_of_email">Honouree's Email Address</label>
+        <input type="email" id="action_in_honor_of_email" name="action_in_honor_of_email" />
+      </div>
+      <div class="input input-textarea" title="An optional note to the honouree.">
+        <label for="action_in_honor_of_note"
+          title="An optional note to the honouree.">Note to Honouree</label>
+        <textarea id="action_in_honor_of_note" name="action_in_honor_of_note"
+          title="An optional note to the honouree."></textarea>
+      </div>
+      <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll
+        send a notification of your donation to this email address.{% endfilter %}</p>
+
+      {% else %}
+      <div class="input text input-text">
         <label for="action_in_honor_of_name">{% filter ak_text:"donate_inhonorof_name_label" %}Honoree's
           Name{% endfilter %}</label>
         <input type="text" id="action_in_honor_of_name" name="action_in_honor_of_name" />
@@ -15,7 +40,7 @@
         <label
           for="action_in_honor_of_email">{% filter ak_text:"donate_inhonorof_email_label" %}Honoree's
           Email Address{% endfilter %}</label>
-        <input type="text" id="action_in_honor_of_email" name="action_in_honor_of_email" />
+        <input type="email" id="action_in_honor_of_email" name="action_in_honor_of_email" />
       </div>
       <div class="input input-textarea" title="An optional note to the honoree.">
         <label for="action_in_honor_of_note"
@@ -26,6 +51,7 @@
       </div>
       <p class="form-instructions text-small">{% filter ak_text:"donate_inhonorof_email_note" %}We'll
         send a notification of your donation to this email address.{% endfilter %}</p>
+      {% endif %}
     </div>
     <script>
       jQuery("#in-honor-of-fields").hide();
@@ -37,4 +63,12 @@
         }
       });
     </script>
+    {% if page.custom_fields.donate_honor_prechecked == "1" %}
+    <script>
+      $(function() {
+        jQuery("#in-honor-check").attr('checked', true);
+        jQuery("#in-honor-of-fields").fadeIn();
+      });
+    </script>
+    {% endif %}
   </fieldset>

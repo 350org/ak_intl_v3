@@ -813,7 +813,7 @@
       var frequency;
       var currency = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
       var button_amount = amount_container.find('span.ak-amount-button-amount').text();
-      var custom_amount = document.querySelector('#ak-other-amount-field').value;
+      var custom_amount = document.querySelector('#ak-other-amount-field') ? document.querySelector('#ak-other-amount-field').value : null;
       if (!custom_amount) {
         amount = button_amount;
         amount_type = 'preset';
@@ -854,8 +854,8 @@
           items: [{
             item_id: '{{page.id}}',
             item_name: '{{ page.name|escapeall }}',
-            item_category: frequency,
-            item_variant: amount_type, 
+            item_category: amount_type,
+            item_variant: frequency, 
             quantity: 1
           }]
         }
@@ -869,7 +869,7 @@
       var amount_container = $('li.ak-amount-container label.ak-radio-checked');
       var amount = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
       var button_amount = amount_container.find('span.ak-amount-button-amount').text();
-      var custom_amount = document.querySelector('#ak-other-amount-field').value;
+      var custom_amount = document.querySelector('#ak-other-amount-field')? document.querySelector('#ak-other-amount-field').value : null;
       if (!custom_amount) amount += button_amount;
       else amount += custom_amount;
 
@@ -1142,7 +1142,7 @@
     var frequency;
     var currency = document.querySelector('li.ak-amount-container>label>span.ak-currency-sym').innerHTML;
     var button_amount = amount_container.find('span.ak-amount-button-amount').text();
-    var custom_amount = document.querySelector('#ak-other-amount-field').value;
+    var custom_amount = document.querySelector('#ak-other-amount-field') ? document.querySelector('#ak-other-amount-field').value : null;
     if (!custom_amount) {
       amount = button_amount;
       amount_type = 'preset';

@@ -525,6 +525,8 @@ jQuery(document).ready(function($){
 						if (typeof ga !== 'undefined') {
 							// send google analytics event
 							ga('send', 'event', 'scrolling-signup', 'signup', window.location.pathname);
+							// trigger GA event for successful after action signup
+							dataLayer.push(({'event': 'afterActionSignup'}));
 						}
 						// send FB tracker event
 						if (typeof fbq === "function") {

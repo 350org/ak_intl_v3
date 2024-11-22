@@ -379,8 +379,7 @@
 				  </div>
 	
 				{% endif %}
-				{{ user }}
-				{% if not user.optin_donate_social_proof %}
+				{% if not user.custom_fields.optin_donate_social_proof %}
 				<form class="text-small text-center" name="update_optin" method="POST" action="/update_action/">
 					<input type="hidden" name="page" value="{{ page.name }}">
 					<input class="social_proof_optin" type="checkbox" name="user_optin_donate_social_proof">

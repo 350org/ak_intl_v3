@@ -7,6 +7,9 @@
 	{% include "./thanks_unsubscribe.html" %}
 {% else %}
 	<style>
+		.display-none {
+			display: none;
+		}
 		.upsell_wrap {
 			display: flex;
 			justify-content: center;
@@ -376,6 +379,23 @@
 				  </div>
 	
 				{% endif %}
+				{% if not user.custom_fields.optin_donate_social_proof and page.custom_fields.show_social_proof_opt == "Y" %}
+					<form class="text-center" name="update_optin" method="POST" action="/update_action/">
+						<input type="hidden" name="page" value="{{ page.name }}">
+						<p>
+							Can we use your generosity to inspire other supporters to donate by highlighting your name, location, and gift history on the 350 website?
+						</p>
+						<input class="social_proof_optin" type="checkbox" name="user_optin_donate_social_proof">
+						<label class="social_proof_optin" for="user_optin_donate_social_proof">
+							YES, SHARE MY DONATION
+						</label>
+						<button type="submit" class="display-none submit-optin"></button>
+					</form>
+				{% elif user.custom_fields.optin_donate_social_proof == "Y" %}
+					<p class="text-center">
+						In 2025, it is more important than ever that we all come together to fight back — as hard as we can — against the fossil fuel companies, billionaires and right-wing politicians that are wrecking our planet. So thank you for showing your support for the climate movement.
+					</p>
+				{% endif %}
 			</div>
 			<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">
 				<input type="hidden" name="utf8" value="&#x2714;" />
@@ -527,6 +547,7 @@ actionkit.forms.contextRoot = '/context/';
 actionkit.forms.initTafForm('taf');
 {% else %}
 actionkit.forms.initForm('act');
+actionkit.forms.initForm('update_optin');
 {% endif %}
 
 
@@ -705,6 +726,15 @@ jQuery(document).ready(function($){
 			} else {
 				window.location.href = url;
 			}
+		});
+
+		$('.social_proof_optin').on('click', function(e) {
+			if ($('input.social_proof_optin').is(':checked')) {
+				$('input.social_proof_optin').val('Y');
+			} else {
+				$('input.social_proof_optin').val('N');
+			}
+			$('.submit-optin').click();
 		});
 	});
 </script>

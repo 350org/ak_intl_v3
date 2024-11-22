@@ -368,6 +368,10 @@
 				<div class="upsell_button_container">
 					<a href="#" class="button arrow-right">Continue</a>
 				</div>
+				<form name="update_optin" method="POST" action="/update_action/">
+					<input id="social_proof_optin" type="checkbox" name="user_optin_donate_social_proof">
+					<label for="user_optin_donate_social_proof">Can we share your generous gifts (first name, state/country, and amount) on our website to show the strength of our climate movement?</label>
+				</form>
 				<div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
 					<strong>{% filter ak_text:"donate_secure_donation" %}Secure donation{% endfilter %}.</strong>
 					{% if page.custom_fields.form_short_toc %}{% autoescape off %}{{ page.custom_fields.form_short_toc }}{% endautoescape %}{% else %}Your
@@ -705,6 +709,16 @@ jQuery(document).ready(function($){
 			} else {
 				window.location.href = url;
 			}
+		});
+
+		$('#social_proof_optin').on('click', function(e) {
+			if ($('#social_proof_optin').is(':checked')) {
+				$('#social_proof_optin').val('1')
+			} else {
+				$('#social_proof_optin').val('0');
+			}
+
+			$('form[name="update_optin"]').submit();
 		});
 	});
 </script>

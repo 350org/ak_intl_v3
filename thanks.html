@@ -723,9 +723,9 @@ jQuery(document).ready(function($){
 
 		$('.social_proof_optin').on('click', function(e) {
 			if ($('input.social_proof_optin').is(':checked')) {
-				$('input.social_proof_optin').val('1')
+				$('input.social_proof_optin').val('Y')
 			} else {
-				$('input.social_proof_optin').val('0');
+				$('input.social_proof_optin').val('N');
 			}
 
 			$('.submit-optin').click();

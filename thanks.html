@@ -383,7 +383,7 @@
 					<form class="text-center" name="update_optin" method="POST" action="/update_action/">
 						<input type="hidden" name="page" value="{{ page.name }}">
 						<p>
-							Can we share your generous gifts (first name, U.S. state or country, and amount) on our website to show the strength of our climate movement? By sharing your support for our climate movement, you could inspire others to donate too:
+							Can we share your generous gifts (first name, U.S. state or country, and amount) on our website to show the strength of our climate movement? By sharing your support, you can inspire others to donate too:
 						</p>
 						<input class="social_proof_optin" type="checkbox" name="user_optin_donate_social_proof">
 						<label class="social_proof_optin" for="user_optin_donate_social_proof">
@@ -728,12 +728,9 @@ jQuery(document).ready(function($){
 
 		$('.social_proof_optin').on('click', function(e) {
 			if ($('input.social_proof_optin').is(':checked')) {
-				$('input.social_proof_optin').val('Y')
 			} else {
 				$('input.social_proof_optin').val('N');
 			}
-
-			$('.submit-optin').click();
 		});
 	});
 </script>

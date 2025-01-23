@@ -52,6 +52,11 @@ Custom template for same-page post-AJAX submit share ask.
     transform: rotate(360deg);
   }
 }
+
+.copy-link-share {
+	border: white solid 1px;
+	border-bottom: unset;
+}
 </style>
 
 <div id="afteraction-progress-meter" aria-hidden="true" class="section text-small text-strong width-wide text-center padding-tiny bg-dkgray-trans" style="display:none;position:fixed;top:0;left:0;width:100%;z-index:10;">
@@ -153,7 +158,8 @@ Custom template for same-page post-AJAX submit share ask.
 	{% if page.custom_fields.enable_copy_link %}
 	<div class="afteraction-share-copy-link afteraction-share-option margin-bottom-large">
 		<div class="afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-button copy-link-share" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&short=1">{% filter ak_text:"copy_link" %}Copy Link{% endfilter %}</a>
+			
+			<a class="copy-link-share button button-secondary" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&short=1">{% filter ak_text:"copy_link" %}Copy Link{% endfilter %}</a>
 		</div>
 	</div>
 	{% endif %}
@@ -228,8 +234,6 @@ Custom template for same-page post-AJAX submit share ask.
 				copyLinkVariant = 'v'
 			}
 
-			var currentFbShareLink = $('.afteraction-share-button.fb-share').attr('href');
-			$('.afteraction-share-button.fb-share').attr('href', currentFbShareLink + '&source=share_thanksflow_fb_FY25Q2_CL_' + copyLinkVariant);
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API

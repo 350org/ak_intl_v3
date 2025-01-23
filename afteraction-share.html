@@ -56,7 +56,7 @@ Custom template for same-page post-AJAX submit share ask.
 
 .copy-link-share {
 	border: white solid 1px;
-	border-bottom: unset;
+	border-bottom: unset !important;
 }
 </style>
 
@@ -232,7 +232,7 @@ Custom template for same-page post-AJAX submit share ask.
 			var copyLinkVariant = 'c';
 			var enableCopyLink = '{{ page.custom_fields.enable_copy_link }}';
 			if (enableCopyLink === 'Y') {
-				copyLinkVariant = 'v'
+				copyLinkVariant = 'v';
 			}
 
 			$('.whatsapp-share').on('click', function(e) {

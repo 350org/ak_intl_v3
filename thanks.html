@@ -402,6 +402,14 @@
 				<input type="hidden" name="page" value="{{ page.name }}" />
 					<ul id="ak-errors" class="c10 ct10 cm10" style="display:none;"><li></li></ul>
 
+					{% if page.custom_fields.enable_copy_link %}
+					<div class="share-option margin-bottom-large">
+						<div class="margin-bottom-medium">
+							<a class="copy-link-share" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&short=1">{% filter ak_text:"copy_link" %}Copy Link{% endfilter %}</a>
+						</div>
+					</div>
+					{% endif %}				
+
 					{%if page.custom_fields.hide_share_buttons_on_thanks_page == "Y" %}
 					{% else %}
 					<div class="margin-bottom-medium c6 ct10 cm10">

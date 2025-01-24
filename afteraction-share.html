@@ -261,6 +261,7 @@ Custom template for same-page post-AJAX submit share ask.
 			$('.copy-link-share').on('click', function(e) {
 				e.preventDefault();
 				var shareUrl = $(this).attr('href');
+				console.log('share URL', shareUrl);
 				$.ajax({
 					method: 'GET',
 					url: shareUrl,

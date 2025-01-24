@@ -259,7 +259,6 @@ Custom template for same-page post-AJAX submit share ask.
 				});
 			});
 
-			console.log('copy link share');
 			$('.copy-link-share').on('click', function(e) {
 				e.preventDefault();
 				var shareUrl = $(this).attr('href');
@@ -499,7 +498,7 @@ jQuery(document).ready(function($){
 						if (currCopyShareEls.length > 0) {
 							for (var i = 0; i < currCopyShareEls.length; i++) {
 								var currCopyShareEl = currCopyShareEls[i];
-								$(currCopyShareEl).attr('href', copyShareUrl + '&source=share_thanksflow_wa_FY25Q2_CL_' + copyLinkVariant);
+								$(currCopyShareEl).attr('href', copyShareUrl);
 							}
 						}
 					}

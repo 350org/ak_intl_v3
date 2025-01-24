@@ -156,7 +156,7 @@ Custom template for same-page post-AJAX submit share ask.
 		<p>{% filter ak_text:"afteraction_share_instructions" %}Thank you — Click below to share:{% endfilter %}</p>
 	</div>
 
-	{% if page.custom_fields.enable_copy_link %}
+	{% if page.custom_fields.enable_copy_link == "v" %}
 	<div class="afteraction-share-copy-link afteraction-share-option margin-bottom-large">
 		<div class="afteraction-share-option-intro margin-bottom-medium">
 			<a class="copy-link-share button button-secondary" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">
@@ -230,16 +230,10 @@ Custom template for same-page post-AJAX submit share ask.
 
 	<script>
 		jQuery(document).ready(function($){
-			var copyLinkVariant = 'c';
-			var enableCopyLink = '{{ page.custom_fields.enable_copy_link }}';
-			if (enableCopyLink === 'Y') {
-				copyLinkVariant = 'v';
-			}
-
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
-				var getShareURL = '/share/link?type=ot&action_id={{action.id}}&page_name={{page.name}}&source=share_thanksflow_wa_FY25Q2_CL_' + copyLinkVariant;
+				var getShareURL = '/share/link?type=ot&action_id={{action.id}}&page_name={{page.name}}&source=share_thanksflow_wa_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}';
 				$.ajax({
 					method: 'GET',
 					url: getShareURL,
@@ -262,7 +256,6 @@ Custom template for same-page post-AJAX submit share ask.
 			$('.copy-link-share').on('click', function(e) {
 				e.preventDefault();
 				var shareUrl = $(this).attr('href');
-				console.log('share URL', shareUrl);
 				$.ajax({
 					method: 'GET',
 					url: shareUrl,
@@ -290,15 +283,15 @@ Custom template for same-page post-AJAX submit share ask.
 	<div class="afteraction-donate-amount-container">
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=3&source=aa_{{ page.id }}"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=3&source=aa_{{ page.id }}_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}"
 		>$3</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=10&source=aa_{{ page.id }}"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=10&source=aa_{{ page.id }}_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}"
 		>$10</a>
 		<a
 			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
+			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}"
 		>$35</a>
 	</div>
 

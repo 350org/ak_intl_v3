@@ -405,10 +405,10 @@
 					{%if page.custom_fields.hide_share_buttons_on_thanks_page == "Y" %}
 					{% else %}
 					<div class="margin-bottom-medium c6 ct10 cm10">
-						{% if page.custom_fields.enable_copy_link %}
+						{% if page.custom_fields.enable_copy_link == "v" %}
 						<div class="share-option margin-bottom-large">
 							<div class="margin-bottom-medium">
-								<a class="copy-link-share" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&source=share_thanksflow_fb_FY25Q2_CL_{% if page.custom_fields.enable_copy_link == 'Y' %}v{% else %}c{% endif %}">
+								<a class="copy-link-share" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&source=share_thanksflow_cp_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}">
 									{% filter ak_text:"copy_link" %}Copy Link{% endfilter %}
 								</a>
 							</div>
@@ -430,7 +430,10 @@
 									<br class="clear">
 								</div>
 
-								<a class="fb-share button-share-facebook button-share-medium bg-facebook-icon bg-facebook-color margin-bottom-none" href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&source=share_thanksflow_fb_FY25Q2_CL_{% if page.custom_fields.enable_copy_link == 'Y' %}v{% else %}c{% endif %}">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+								<a class="fb-share button-share-facebook button-share-medium bg-facebook-icon bg-facebook-color margin-bottom-none"
+								href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&source=share_thanksflow_fb_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}">
+									{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}
+								</a>
 							</div>
 						</div>
 						<div class="twitter-share">

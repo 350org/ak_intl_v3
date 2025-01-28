@@ -57,6 +57,12 @@ Custom template for same-page post-AJAX submit share ask.
 .copy-link-share {
 	border: white solid 1px;
 	border-bottom: white solid 1px !important;
+	width: 15rem;
+}
+
+.bg-copy-link {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAoklEQVR4nO2SMQ7CMAxF3zFKeiRa9TYNO6rEpaC9EqQLU1AkD1ZIhpYMVMqXvHzb/zt2oKLicBiABVgBH0WMOB96ZqDPid8STX6DgY4pNXlIvIERMDtebwArGkGr08lFyFDwK6xoPTTphDxtWIPPrK8R7pUyMAUMWuGempwLrugiWndN9urIttCRz3HBVPCbXnNTdHJ9t8PAyVq+Jq+o+HN8ABUiZiXyWbTDAAAAAElFTkSuQmCC);
+	background-repeat: no-repeat;
 }
 </style>
 
@@ -160,7 +166,9 @@ Custom template for same-page post-AJAX submit share ask.
 	<div class="afteraction-share-copy-link afteraction-share-option margin-bottom-large">
 		<div class="afteraction-share-option-intro margin-bottom-medium">
 			<a class="copy-link-share button button-secondary" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">
-				{% filter ak_text:"copy_link" %}Copy Link{% endfilter %}
+				<span class="button-icon bg-copy-link">
+					{% filter ak_text:"copy_link" %}Copy Link{% endfilter %}
+				</span>
 			</a>
 		</div>
 	</div>

@@ -61,8 +61,9 @@ Custom template for same-page post-AJAX submit share ask.
 }
 
 .bg-copy-link {
-	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAoklEQVR4nO2SMQ7CMAxF3zFKeiRa9TYNO6rEpaC9EqQLU1AkD1ZIhpYMVMqXvHzb/zt2oKLicBiABVgBH0WMOB96ZqDPid8STX6DgY4pNXlIvIERMDtebwArGkGr08lFyFDwK6xoPTTphDxtWIPPrK8R7pUyMAUMWuGempwLrugiWndN9urIttCRz3HBVPCbXnNTdHJ9t8PAyVq+Jq+o+HN8ABUiZiXyWbTDAAAAAElFTkSuQmCC);
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGElEQVR4nO3BAQ0AAADCoPdP7ewBFAAANwkYAAHw0wEXAAAAAElFTkSuQmCC);
 	background-repeat: no-repeat;
+	padding-left: 2rem;
 }
 </style>
 
@@ -165,8 +166,8 @@ Custom template for same-page post-AJAX submit share ask.
 	{% if page.custom_fields.enable_copy_link == "v" %}
 	<div class="afteraction-share-copy-link afteraction-share-option margin-bottom-large">
 		<div class="afteraction-share-option-intro margin-bottom-medium">
-			<a class="copy-link-share button button-secondary" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">
-				<span class="button-icon bg-copy-link">
+			<a class="copy-link-share button button-secondary button-icon" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">
+				<span class="bg-copy-link">
 					{% filter ak_text:"copy_link" %}Copy Link{% endfilter %}
 				</span>
 			</a>

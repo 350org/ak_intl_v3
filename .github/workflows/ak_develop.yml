@@ -38,24 +38,24 @@ jobs:
 
       # 5) Send Slack notification
       # We'll use slackapi/slack-github-action for convenience
-      - name: Notify Slack Channel with Blocks
+      - name: Send Slack notification
         uses: slackapi/slack-github-action@v1.23.0
         with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}  # or use your channel ID directly (e.g., "CHZ9289JR")
           payload: >
             {
-              "text": "${{ github.actor }} just deployed a build!",
+              "text": "*${{ github.event.repository.name }}* has been deployed by ${{ github.actor }}! 🚀",
               "blocks": [
                 {
                   "type": "section",
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Successful execution:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Run #${{ github.run_id }}>"
+                      "text": "*Successful execution:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Execution #${{ github.run_id }} ${{ github.event.head_commit.message}}>"
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Pipeline:* AK Develop"
+                      "text": "*Pipeline:* <${{ github.server_url }}/${{ github.repository }}|AK Develop>"
                     },
                     {
                       "type": "mrkdwn",
@@ -63,7 +63,7 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Project:* ${{ github.event.repository.name }}"
+                      "text": "*Project:* <${{ github.server_url }}/${{ github.repository }}|${{ github.event.repository.name}}>"
                     }
                   ]
                 }

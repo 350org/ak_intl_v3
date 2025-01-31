@@ -3,7 +3,7 @@ name: "Deploy Master"
 on:
   push:
     branches:
-      - new-pipeline
+      - master
 
 jobs:
   deploy:

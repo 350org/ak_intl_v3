@@ -3,7 +3,7 @@ name: "AK Develop"
 on:
   push:
     branches:
-      - new-pipeline
+      - develop
 
 jobs:
   deploy:

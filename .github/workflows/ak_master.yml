@@ -30,13 +30,19 @@ jobs:
             --distribution-id E1A2162YKWCD00 \
             --paths "/*"
 
+  notify_success:
+    needs: deploy
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Send Slack notification on success
         uses: slackapi/slack-github-action@v1.23.0
         with:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           payload: |
             {
-              "text": "*${{ github.event.repository.name }}* has been deployed by ${{ github.actor }}! 🚀",
+              "text": "*${{ github.event.repository.name }}* has been deployed by *${{ github.actor }}*! 🚀",
               "attachments": [
                 {
                   "fallback": "Deployment successful",
@@ -69,9 +75,11 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-  on_failure:
+  notify_failure:
+    needs: deploy
+    if: ${{ failure() }}
     runs-on: ubuntu-latest
-    if: failure()
+
     steps:
       - name: Send Slack notification on failure
         uses: slackapi/slack-github-action@v1.23.0

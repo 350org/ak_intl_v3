@@ -1,4 +1,4 @@
-name: "Deploy Master Assets"
+name: "Deploy Master"
 
 on:
   push:
@@ -10,50 +10,107 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1) Check out code
       - name: Check out code
         uses: actions/checkout@v3
 
+      # 2) Configure AWS Credentials
+      # Make sure AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION
+      # are set as GitHub secrets in your repository.
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION }} # e.g. 'us-east-1'
 
-      - name: Upload 'assets/' to S3 with Public Access
+      # 3) Upload assets to S3 with public read
+      - name: Upload 'assets/' to S3
         run: |
+          # Sync local 'assets/' directory to s3://s3.350.org/ak/ with public-read ACL
           aws s3 sync assets/ s3://s3.350.org/ak/ --acl public-read
 
+      # 4) Invalidate the CloudFront cache
       - name: Invalidate CloudFront Cache
         run: |
           aws cloudfront create-invalidation \
             --distribution-id E1A2162YKWCD00 \
             --paths "/*"
 
-  notify_success:
-    needs: deploy
-    if: ${{ needs.deploy.result == 'success' }}
-    runs-on: ubuntu-latest
-
-    steps:
+      # 5) Send Slack notification on SUCCESS
       - name: Send Slack notification on success
-        uses: 8398a7/action-slack@v3
+        if: ${{ success() }}
+        uses: slackapi/slack-github-action@v1.23.0
         with:
-          status: success
-          fields: repo,commit,author,action
+          # Replace with your Slack channel ID, or set as a secret
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: |
+            {
+              "text": "*${{ github.event.repository.name }}* has been deployed by ${{ github.actor }}! 🚀",
+              "attachments": [
+                {
+                  "fallback": "Deploy pipeline execution succeeded",
+                  "color": "good",
+                  "fields": [
+                    {
+                      "title": "Commit",
+                      "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.event.head_commit.message }}>",
+                      "short": true
+                    },
+                    {
+                      "title": "Pipeline",
+                      "value": "<${{ github.server_url }}/${{ github.repository }}/actions|Deploy Master Assets>",
+                      "short": true
+                    },
+                    {
+                      "title": "Branch",
+                      "value": "${{ github.ref_name }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Project",
+                      "value": "<${{ github.server_url }}/${{ github.repository }}|${{ github.event.repository.name }}>",
+                      "short": true
+                    }
+                  ]
+                }
+              ]
+            }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-  notify_failure:
-    needs: deploy
-    if: ${{ needs.deploy.result == 'failure' }}
-    runs-on: ubuntu-latest
-
-    steps:
+      # 6) Send Slack notification on FAILURE
       - name: Send Slack notification on failure
-        uses: 8398a7/action-slack@v3
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@v1.23.0
         with:
-          status: failure
-          fields: repo,commit,author,action
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: |
+            {
+              "text": "[#${{ github.run_id }}] Deploy Master Assets FAILED",
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Failed execution:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Execution #${{ github.run_id }} ${{ github.event.head_commit.message }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Pipeline:* <${{ github.server_url }}/${{ github.repository }}/actions|Deploy Master Assets>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:* ${{ github.ref_name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project:* <${{ github.server_url }}/${{ github.repository }}|${{ github.event.repository.name }}>"
+                    }
+                  ]
+                }
+              ]
+            }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

@@ -41,8 +41,8 @@ jobs:
       - name: Send Slack notification
         uses: slackapi/slack-github-action@v1.23.0
         with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}  # or use your channel ID directly (e.g., "CHZ9289JR")
-          payload: >
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: |
             {
               "text": "*${{ github.event.repository.name }}* has been deployed by ${{ github.actor }}! 🚀",
               "blocks": [
@@ -55,7 +55,7 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Pipeline:* <${{ github.server_url }}/${{ github.repository }}|AK Develop>"
+                      "text": "*Pipeline:* <${{ github.server_url }}/${{ github.repository }}/actions|AK Develop>"
                     },
                     {
                       "type": "mrkdwn",

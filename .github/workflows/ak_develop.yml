@@ -1,0 +1,73 @@
+name: "AK Develop"
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Check out code so we can access the files in this repository
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # 2) Configure AWS Credentials
+      # The AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION must be set as GitHub Secrets in your repo
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }} # e.g. 'us-east-1'
+
+      # 3) Upload assets to S3
+      - name: Upload 'assets' to S3
+        run: |
+          # Sync local 'assets' directory to s3://s3.350.org/ak-dev
+          aws s3 sync assets s3://s3.350.org/ak-dev --acl private
+
+      # 4) Invalidate the CloudFront cache
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E1A2162YKWCD00 \
+            --paths "/*"
+
+      # 5) Send Slack notification
+      # We'll use slackapi/slack-github-action for convenience
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: |
+            {
+              "text": "*${{ github.event.repository.name }}* has been deployed by ${{ github.actor }}! 🚀",
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Successful execution:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Execution #${{ github.run_id }} ${{ github.event.head_commit.message}}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Pipeline:* <${{ github.server_url }}/${{ github.repository }}/actions|AK Develop>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:* ${{ github.ref_name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project:* <${{ github.server_url }}/${{ github.repository }}|${{ github.event.repository.name}}>"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

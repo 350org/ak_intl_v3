@@ -564,6 +564,8 @@ jQuery(document).ready(function($){
 	});
 
 	})
+
+	window.userFirstName = '{{ action.user.first_name }}';
 });
 </script>
 
@@ -737,7 +739,6 @@ jQuery(document).ready(function($){
 			$('.submit-optin').click();
 		});
 
-		window.userFirstName = '{{ action.user.first_name }}';
 	});
 </script>
 {% endif %}

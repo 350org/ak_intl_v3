@@ -565,7 +565,7 @@ jQuery(document).ready(function($){
 
 	})
 
-	window.userFirstName = '{{ action.user.first_name }}';
+	$('body').data('userFirstName', '{{ action.user.first_name }}');
 });
 </script>
 

@@ -528,6 +528,7 @@ jQuery(document).ready(function($){
 						data: $('#action-form').serialize()
 					})
 					.done(function(msg) {
+						console.log('response from form submission', msg);
 						// handle adblockers preventing the loading of Google Analytics library
 						if (typeof ga !== 'undefined') {
 							// send google analytics event

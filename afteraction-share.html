@@ -242,12 +242,19 @@ Custom template for same-page post-AJAX submit share ask.
 
 <div id="afteraction-donate-ask-source" aria-hidden="true" style="display:none;">
 	<p class="afteraction-donate-ask-intro text-large2 text-strong margin-bottom-huge">
-		{% if page.custom_fields.afteraction_donate_ask %}
+		{% if page.custom_fields.enable_afteraction_why == "v" %}
+			{{ action.user.first_name }}, there’s a little more you can do!
+		{% elif page.custom_fields.afteraction_donate_ask %}
 			{{ page.custom_fields.afteraction_donate_ask }}
 		{% else %}
 			{% filter ak_text:"afteraction_donate_ask" %}Can you chip in to help stop climate change and create a more just, prosperous world? Donate in two minutes now:{% endfilter %}
 		{% endif %}
 	</p>
+	{% if page.custom_fields.enable_afteraction_why == "v" %}
+		<p>
+			Signing is the first step, but the more support you can give, the better chance we will have to win!
+		</p>
+	{% endif %}
 
 	<div class="afteraction-donate-amount-container">
 		<a

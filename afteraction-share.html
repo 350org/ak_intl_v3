@@ -243,7 +243,7 @@ Custom template for same-page post-AJAX submit share ask.
 <div id="afteraction-donate-ask-source" aria-hidden="true" style="display:none;">
 	<p class="afteraction-donate-ask-intro text-large2 text-strong margin-bottom-huge">
 		{% if page.custom_fields.enable_afteraction_why == "v" %}
-			{{ action.user.first_name }}, there’s a little more you can do!
+			<span class="afteraction-donate-firstname">Friend</span>, there’s a little more you can do!
 		{% elif page.custom_fields.afteraction_donate_ask %}
 			{{ page.custom_fields.afteraction_donate_ask }}
 		{% else %}
@@ -451,13 +451,10 @@ jQuery(document).ready(function($){
 							}
 						}
 					}
-
-					// Set user first name based on response from API
-					console.log($(responseHTML).find('#userFirstName').text());
 				});
 		};
 
-		function afteractionShowDonate(el){
+		function afteractionShowDonate(el, akResponse){
 			afteractionDonateSlide.show();
 			afteractionDonateSlideInner.animate({opacity:0 }, 300, function(){
 				$(this)
@@ -474,6 +471,14 @@ jQuery(document).ready(function($){
 						scrollTop: afteractionDonateSlide.offset().top
 					}, 800);
 			});
+			
+			var responseHTML = document.createElement('html');
+			responseHTML.innerHTML = akResponse;
+
+			// Set user first name based on response from API
+			var firstName = $(responseHTML).find('#userFirstName').text().trim();
+			$('.afteraction-donate-firstname').text(firstName);
+
 			if (afterActionNextStep === 'scroll-share') {
 				if ( $(el).hasClass('afteraction-share-ask-no') ){
 					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
@@ -530,8 +535,7 @@ jQuery(document).ready(function($){
 						url: $('#action-form').attr('action'),
 						data: $('#action-form').serialize()
 					})
-					.done(function(msg) {
-						console.log('response from form submission', msg);
+					.done(function(akResponse) {
 						// handle adblockers preventing the loading of Google Analytics library
 						if (typeof ga !== 'undefined') {
 							// send google analytics event
@@ -557,7 +561,7 @@ jQuery(document).ready(function($){
 
 							// if user opts to share, show share dialog
 							$('.afteraction-share-ask-yes').on('click', function(){
-								afteractionShowShare(msg);
+								afteractionShowShare(akResponse);
 								// handle adblockers preventing the loading of Google Analytics library
 								if (typeof ga !== 'undefined') {
 									ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);
@@ -572,7 +576,7 @@ jQuery(document).ready(function($){
 							// if user opts not to share or has completed sharing, show donate ask
 							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
 								var el = $(this);
-								afteractionShowDonate(el);
+								afteractionShowDonate(el, akResponse);
 							});
 							$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
 								// handle adblockers preventing the loading of Google Analytics library
@@ -588,7 +592,7 @@ jQuery(document).ready(function($){
 							});
 						} else if (afterActionNextStep === 'scroll-donate') {
 							// show the donate ask
-							afteractionShowDonate();
+							afteractionShowDonate(undefined, akResponse);
 
 							afteraction.on('click', '.afteraction-donate-ask-no', function(e){
 								// prevent getting redirected to the Get Involved URL
@@ -604,7 +608,7 @@ jQuery(document).ready(function($){
 
 								// if user opts to share, show share dialog
 								$('.afteraction-share-ask-yes').on('click', function(){
-									afteractionShowShare(msg);
+									afteractionShowShare(akResponse);
 									// handle adblockers preventing the loading of Google Analytics library
 									if (typeof ga !== 'undefined') {
 										ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);

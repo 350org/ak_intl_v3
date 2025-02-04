@@ -477,7 +477,9 @@ jQuery(document).ready(function($){
 
 			// Set user first name based on response from API
 			var firstName = $(responseHTML).find('#userFirstName').text().trim();
-			$('.afteraction-donate-firstname').text(firstName);
+			if (firstName) {
+				$('.afteraction-donate-firstname').text(firstName);
+			}
 
 			if (afterActionNextStep === 'scroll-share') {
 				if ( $(el).hasClass('afteraction-share-ask-no') ){

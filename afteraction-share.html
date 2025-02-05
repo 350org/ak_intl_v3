@@ -276,10 +276,8 @@ Custom template for same-page post-AJAX submit share ask.
 					url: shareUrl,
 				}).done(function(shareURL) {
 					navigator.clipboard.writeText(shareURL);
-					$(this).html('<span class="bg-copy-link">Link copied &#x2713;</span>');
 				}).fail(function() {
 					navigator.clipboard.writeText(window.location.href);
-					$(this).html('<span class="bg-copy-link">Link copied &#x2713;</span>');
 				});
 			});
 		});
@@ -508,6 +506,9 @@ jQuery(document).ready(function($){
 							for (var i = 0; i < currCopyShareEls.length; i++) {
 								var currCopyShareEl = currCopyShareEls[i];
 								$(currCopyShareEl).attr('href', copyShareUrl);
+								$(currCopyShareEl).on('click', function(e) {
+									$(this).html('<span class="bg-copy-link">Link copied &#x2713;</span>');
+								});
 							}
 						}
 					}

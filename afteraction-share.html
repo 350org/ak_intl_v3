@@ -543,6 +543,15 @@ jQuery(document).ready(function($){
 						scrollTop: afteractionDonateSlide.offset().top
 					}, 800);
 			});
+
+			$('.afteraction-donate-amount').on('click', function(){
+				// handle adblockers preventing the loading of Google Analytics library
+				if (typeof gtag !== 'undefined') {
+					gtag('event', 'scrolling-signup', {'donate_id': 'click_donate_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}'});
+
+				}
+			});
+
 			if (afterActionNextStep === 'scroll-share') {
 				if ( $(el).hasClass('afteraction-share-ask-no') ){
 					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
@@ -619,23 +628,6 @@ jQuery(document).ready(function($){
 							'position': 'relative'
 						});
 						$('.loader').hide();
-
-						$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
-								console.log('click donate button');
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-yes'});
-									gtag('event', 'scrolling-signup', {'donate_id': 'click_donate_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}'});
-
-								}
-							});
-							$('.afteraction-donate-ask-no').on('click', function(){
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
-								}
-							});
-
 						if (afterActionNextStep === 'scroll-share') {
 							// show the share ask
 							afteractionShowShareAsk();
@@ -658,6 +650,19 @@ jQuery(document).ready(function($){
 							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
 								var el = $(this);
 								afteractionShowDonate(el);
+							});
+							$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
+								// handle adblockers preventing the loading of Google Analytics library
+								if (typeof gtag !== 'undefined') {
+									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-yes'});
+
+								}
+							});
+							$('.afteraction-donate-ask-no').on('click', function(){
+								// handle adblockers preventing the loading of Google Analytics library
+								if (typeof gtag !== 'undefined') {
+									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
+								}
 							});
 						} else if (afterActionNextStep === 'scroll-donate') {
 							// show the donate ask

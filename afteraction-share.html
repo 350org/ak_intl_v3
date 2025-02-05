@@ -172,7 +172,7 @@ Custom template for same-page post-AJAX submit share ask.
 	{% if page.custom_fields.enable_copy_link == "v" %}
 	<div class="afteraction-share-copy-link afteraction-share-option margin-bottom-large">
 		<div class="afteraction-share-option-intro margin-bottom-medium">
-			<a class="copy-link-share button button-secondary button-icon bg-white" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">
+			<a class="afteraction-share-button copy-link-share button button-secondary button-icon bg-white" href="/share/link?type=ot&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}">
 				<span class="bg-copy-link">
 					{% filter ak_text:"copy_link" %}Copy Link{% endfilter %}
 				</span>

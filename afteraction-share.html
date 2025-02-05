@@ -502,8 +502,8 @@ jQuery(document).ready(function($){
 			var winLeft = (screen.width / 2) - (popupWidth / 2);
 			window.open( destination , 'new-window-popup', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,resizable=yes,scrollbars=yes,width=' + popupWidth + ',height=' + popupHeight );
 			// send Google Analytics event
-			if (typeof ga !== 'undefined') {
-				ga('send', 'event', 'scrolling-signup', 'share-facebook', window.location.pathname);
+			if (typeof gtag !== 'undefined') {
+				gtag('event', 'scrolling-signup', {'click_id': 'share-facebook'});
 			}
 		});
 
@@ -532,9 +532,9 @@ jQuery(document).ready(function($){
 					})
 					.done(function(msg) {
 						// handle adblockers preventing the loading of Google Analytics library
-						if (typeof ga !== 'undefined') {
+						if (typeof gtag !== 'undefined') {
 							// send google analytics event
-							ga('send', 'event', 'scrolling-signup', 'signup', window.location.pathname);
+							gtag('event', 'scrolling-signup', {'click_id': 'signup'});
 							// trigger GA event for successful after action signup
 							dataLayer.push(({'event': 'afterActionSignup'}));
 						}
@@ -558,14 +558,14 @@ jQuery(document).ready(function($){
 							$('.afteraction-share-ask-yes').on('click', function(){
 								afteractionShowShare(msg);
 								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof ga !== 'undefined') {
-									ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);
+								if (typeof gtag !== 'undefined') {
+									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
 								}
 							});
 							$('.afteraction-share-ask-no').on('click', function(){
 								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof ga !== 'undefined') {
-									ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-no', window.location.pathname);
+								if (typeof gtag !== 'undefined') {
+									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
 								}
 							});
 							// if user opts not to share or has completed sharing, show donate ask
@@ -575,16 +575,17 @@ jQuery(document).ready(function($){
 							});
 							$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
 								// handle adblockers preventing the loading of Google Analytics library
-								gtag('send', 'event', 'scrolling-signup', 'click_donate_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}', window.location.pathname);
 
-								if (typeof ga !== 'undefined') {
-									ga('send', 'event', 'scrolling-signup', 'afteraction-donate-yes', window.location.pathname);
+								if (typeof gtag !== 'undefined') {
+									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-yes'});
+									gtag('event', 'scrolling-signup', {'donate_id': 'click_donate_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}'});
+
 								}
 							});
 							$('.afteraction-donate-ask-no').on('click', function(){
 								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof ga !== 'undefined') {
-									ga('send', 'event', 'scrolling-signup', 'afteraction-donate-no', window.location.pathname);
+								if (typeof gtag !== 'undefined') {
+									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
 								}
 							});
 						} else if (afterActionNextStep === 'scroll-donate') {
@@ -596,8 +597,8 @@ jQuery(document).ready(function($){
 								e.preventDefault();
 
 								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof ga !== 'undefined') {
-									ga('send', 'event', 'scrolling-signup', 'afteraction-donate-no', window.location.pathname);
+								if (typeof gtag !== 'undefined') {
+									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
 								}
 								var el = $(this);
 								// if user doesn't want to donate, show the share ask
@@ -607,14 +608,14 @@ jQuery(document).ready(function($){
 								$('.afteraction-share-ask-yes').on('click', function(){
 									afteractionShowShare(msg);
 									// handle adblockers preventing the loading of Google Analytics library
-									if (typeof ga !== 'undefined') {
-										ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-yes', window.location.pathname);
+									if (typeof gtag !== 'undefined') {
+										gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
 									}
 								});
 								$('.afteraction-share-ask-no').on('click', function(){
 									// handle adblockers preventing the loading of Google Analytics library
-									if (typeof ga !== 'undefined') {
-										ga('send', 'event', 'scrolling-signup', 'afteraction-share-ask-no', window.location.pathname);
+									if (typeof gtag !== 'undefined') {
+										gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
 									}
 									var queryString = window.location.search;
 									window.location.href = getInvolvedURL + queryString;

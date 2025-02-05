@@ -539,17 +539,16 @@ jQuery(document).ready(function($){
 					});
 					updateDonateCurrency(userCountry);
 					$(document).trigger('domUpdated');
+					$('.afteraction-donate-amount').on('click', function(){
+						// handle adblockers preventing the loading of Google Analytics library
+						if (typeof gtag !== 'undefined') {
+							gtag('event', 'scrolling-signup', {'donate_id': 'click_donate_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}'});
+
+						}
+					});
 					$('html, body').animate({
 						scrollTop: afteractionDonateSlide.offset().top
 					}, 800);
-			});
-
-			$('.afteraction-donate-amount').on('click', function(){
-				// handle adblockers preventing the loading of Google Analytics library
-				if (typeof gtag !== 'undefined') {
-					gtag('event', 'scrolling-signup', {'donate_id': 'click_donate_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}'});
-
-				}
 			});
 
 			if (afterActionNextStep === 'scroll-share') {

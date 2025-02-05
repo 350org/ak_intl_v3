@@ -508,6 +508,7 @@ jQuery(document).ready(function($){
 								$(currCopyShareEl).attr('href', copyShareUrl);
 								$(currCopyShareEl).on('click', function(e) {
 									$(this).html('<span class="bg-copy-link">Link copied &#x2713;</span>');
+									afteractionShowDonate();
 								});
 							}
 						}
@@ -627,8 +628,7 @@ jQuery(document).ready(function($){
 								}
 							});
 							// if user opts not to share or has completed sharing, show donate ask
-							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button, .copy-link-share', function(){
-								console.log('clicked button');
+							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
 								var el = $(this);
 								afteractionShowDonate(el);
 							});

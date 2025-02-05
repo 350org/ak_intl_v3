@@ -2,6 +2,16 @@
 Custom template for same-page post-AJAX submit share ask.
 {% endcomment %}
 
+<!-- Conversion Funnel Tracking -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2JDP8BTBJM"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'G-2JDP8BTBJM');
+</script>
+
 <!-- {{page}} -->
 {% load actionkit_tags %}
 
@@ -565,6 +575,8 @@ jQuery(document).ready(function($){
 							});
 							$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
 								// handle adblockers preventing the loading of Google Analytics library
+								gtag('send', 'event', 'scrolling-signup', 'click_donate_thanksflow_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}', window.location.pathname);
+
 								if (typeof ga !== 'undefined') {
 									ga('send', 'event', 'scrolling-signup', 'afteraction-donate-yes', window.location.pathname);
 								}

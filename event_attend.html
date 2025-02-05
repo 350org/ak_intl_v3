@@ -285,10 +285,6 @@
 	</div>
 </div>
 
-{% if args.foo or event.is_open_for_signup or update %}
-	{% include "./social_plugins.html" %}
-{% endif %}
-
 		<script>
 			const eventMapDataSet = document.getElementById("event-attend-map");
 			const [lat, lng] = eventMapDataSet.dataset.srcLatlong.split(",");

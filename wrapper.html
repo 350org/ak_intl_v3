@@ -495,6 +495,10 @@
 	{% endif %}
 
 	<script src="https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.js"></script>
+	<script>
+		// JS variable used by crossdomain script to determain folloup url for embedded ak forms
+		var akFollowupPage = "{{ page.followup.url }}";
+		</script>		
 	{% if page.custom_fields.form_include_college %}
 	{% comment %} Select menu plugin for huge select menus: https://harvesthq.github.com/chosen/ {% endcomment %}
 	<link rel="stylesheet" type="text/css" href="//dbqvwi2zcv14h.cloudfront.net/images/chosen.css" />

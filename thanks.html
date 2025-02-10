@@ -431,7 +431,7 @@
 								</div>
 
 								<a class="fb-share button-share-facebook button-share-medium bg-facebook-icon bg-facebook-color margin-bottom-none"
-								href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&source=share_thanksflow_fb_FY25Q2_CL_{{ page.custom_fields.enable_copy_link }}">
+								href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&source=share_thanksflow_fb_FY25Q2_CL_">
 									{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}
 								</a>
 							</div>
@@ -570,7 +570,7 @@ jQuery(document).ready(function($){
 		copyLinkVariant = 'v';
 	}
 
-	var shareURL = '/share/link?type=ot&action_id={{action.id}}&source=share_thanksflow_wa_FY25Q2_CL_' + copyLinkVariant;
+	var shareURL = '/share/link?type=ot&action_id={{action.id}}&source=share_thanksflow_cp_FY25Q2_CL_' + copyLinkVariant;
 	$('.copy-link').on('click', function () {
 		$.ajax({
 		method: 'GET',

@@ -518,7 +518,7 @@ jQuery(document).ready(function($){
 								$(currCopyShareEl).attr('href', copyShareUrl);
 								$(currCopyShareEl).on('click', function(e) {
 									$(this).html('<span class="bg-copy-link">Link copied &#x2713;</span>');
-									setTimeout(function() {afteractionShowDonate();}, 1000);
+									setTimeout(afteractionShowDonate, 1000);
 								});
 							}
 						}

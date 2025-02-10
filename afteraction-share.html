@@ -255,6 +255,7 @@ Custom template for same-page post-AJAX submit share ask.
 
 	<script>
 		jQuery(document).ready(function($){
+			console.log('this is the copy link field {{ page.custom_fields.enable_copy_link }}');
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API

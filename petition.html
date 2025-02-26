@@ -74,16 +74,11 @@
 		{% endautoescape %}
 			<ul style="display:none;" id="ak-errors"><li></li></ul>
 		</form>
-		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide">
 		{% include "./recentactions.html" %}
 		</div>
 	{% endif %}
 	</div>
-<script>
-// JS variable used by crossdomain script to determain folloup url for embedded ak forms
-var akFollowupPage = "{{ page.followup.url }}";
-</script>
 
 <!-- Add styles for larger radio buttons/check boxes -->
 <style>

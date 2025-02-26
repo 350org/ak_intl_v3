@@ -106,16 +106,11 @@ jQuery( document ).ready(function() {
 </script>
 
 
-		{% include "./social_plugins.html" %}
 		<div id="recent-actions" class="c6 ct6 cm10 c-wide text-small">
 			{% include "./recentactions.html" %}
 		</div>
 {% endif %}
 	</div>
-<script>
-// JS variable used by crossdomain script to determain folloup url for embedded ak forms
-var akFollowupPage = "{{ page.followup.url }}";
-</script>
 </section>
 {% include "./afteraction-share.html" %}
 {% endblock %}

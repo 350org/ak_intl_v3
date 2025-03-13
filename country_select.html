@@ -761,3 +761,63 @@
 	</option>
 -->
 </select>
+<script>
+	var country = '{{ page.custom_fields.form_preselect_country }}';
+	if (!country) {
+		var urlParams = new URLSearchParams(window.location.search);
+  		var regionParam = urlParams.get('r');
+		var codeToName = {
+			"US": "United States",
+			"CA": "Canada",
+			"GB": "United Kingdom",
+			"DE": "Germany",
+			"FR": "France",
+			"ES": "Spain",
+			"IT": "Italy",
+			"AU": "Australia",
+			"JP": "Japan",
+			"CN": "China",
+			"IN": "India",
+			"BR": "Brazil",
+			"RU": "Russia",
+			"ZA": "South Africa",
+			"MX": "Mexico",
+			"KR": "South Korea",
+			"NL": "Netherlands",
+			"SE": "Sweden",
+			"CH": "Switzerland",
+			"NO": "Norway",
+			"DK": "Denmark",
+			"FI": "Finland",
+			"BE": "Belgium",
+			"AT": "Austria",
+			"NZ": "New Zealand",
+			"SG": "Singapore",
+			"IE": "Ireland",
+			"PT": "Portugal",
+			"GR": "Greece",
+			"PL": "Poland",
+			"HU": "Hungary",
+			"CZ": "Czech Republic",
+			"TR": "Turkey",
+			"IL": "Israel",
+			"SA": "Saudi Arabia",
+			"AE": "United Arab Emirates",
+			"AR": "Argentina",
+			"CL": "Chile",
+			"CO": "Colombia",
+			"TH": "Thailand",
+			"MY": "Malaysia",
+			"ID": "Indonesia",
+			"PH": "Philippines",
+			"VN": "Vietnam",
+			"EG": "Egypt",
+			"NG": "Nigeria",
+			"PK": "Pakistan"
+		};
+
+		if (codeToName[regionParam]) {
+			jQuery('#country').val(codeToName[regionParam]);
+		}
+	}
+</script>

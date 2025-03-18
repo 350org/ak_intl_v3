@@ -721,11 +721,11 @@
                     <!-- <h5 class="margin-bottom-normal">{% filter ak_text:"donate_payment_information" %}Payment Information{% endfilter %}</h5> -->
                     <div class="payments-container">
                       <div class="payments-titles">
-
+                        <!-- Render non Paypal payment icons -->
                         {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y'  %}
 
                         <div
-                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %} payments-title-active card-title ">
+                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance.strip|lower == 'y' %}payment-title-button{% endif %} payments-title-active card-title ">
                           <svg width="150" height="40" class="payments-title-active cards-us">
                             <image href=https://dkaroyc5da26m.cloudfront.net/images/cards.svg width="150" height="40" />
                           </svg>
@@ -733,16 +733,18 @@
                             <image href="https://dbqvwi2zcv14h.cloudfront.net/images/cards-visa-mc.svg" width="75" height="40" />
                           </svg>
                         </div>
-
+                        {% if templateset.custom_fields.donate_hide_paypal.strip|lower != 'y' %}
                         <div
-                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance == 'Y' %}payment-title-button{% endif %} paypal-title">
+                          class="payments-title {% if page.custom_fields.donation_payment_type_appearance.strip|lower == 'y' %}payment-title-button{% endif %} paypal-title">
                           <svg width="75" height="40">
                             <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75"
                               height="40" />
                           </svg>
                         </div>
                         {% endif %}
-                        {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'  %}
+                        {% endif %}
+                        <!-- Render Paypal payment icon -->
+                        {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'  %} 
                         <div class="payments-title payments-title-active paypal-title paypal-only">
                           <svg width="75" height="40">
                             <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75"

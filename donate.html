@@ -444,7 +444,7 @@
                             <image href="https://dbqvwi2zcv14h.cloudfront.net/images/cards-visa-mc.svg" width="75" height="40" />
                           </svg>
                         </div>
-
+                        {% if templateset.custom_fields.donate_hide_paypal.strip|lower != 'y' %}
                         <div
                           class="payments-title {% if page.custom_fields.donation_payment_type_appearance.strip|lower == 'y' %}payment-title-button{% endif %} paypal-title">
                           <svg width="75" height="40">
@@ -453,8 +453,9 @@
                           </svg>
                         </div>
                         {% endif %}
+                        {% endif %}
                         <!-- Render Paypal payment icon -->
-                        {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'  %}
+                        {% if page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y'  %} 
                         <div class="payments-title payments-title-active paypal-title paypal-only">
                           <svg width="75" height="40">
                             <image href=https://dkaroyc5da26m.cloudfront.net/images/paypal-logo.svg width="75"

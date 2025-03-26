@@ -4157,7 +4157,7 @@ label.ak-survey-radio-choice {
 
 .form-style-labelabove .input-radio.ak-input-type-action>label:first-child,
 .form-style-labelabove .input-checkbox.ak-input-type-action>label:first-child {
-  color: white;
+  color: inherit;
   cursor: default;
   display: block;
   font-size: 0.85em;

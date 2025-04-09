@@ -43,6 +43,8 @@
     }
   }
   </style>
+
+  <h2>Afteraction Flow</h2>
   
   <div id="afteraction-progress-meter" aria-hidden="true" class="section text-small text-strong width-wide text-center padding-tiny bg-dkgray-trans" style="display:none;position:fixed;top:0;left:0;width:100%;z-index:10;">
     <span id="afteraction-progress-meter-step1" class="afteraction-progress-meter-step">
@@ -230,7 +232,7 @@
     </script>
   </div>
   
-  <div id="afteraction-donate-ask-source" aria-hidden="true" style="display:none;">
+  <div id="afteraction-donate-ask-source" aria-hidden="true">
     <p class="afteraction-donate-ask-intro text-large2 text-strong margin-bottom-huge">
       {% if page.custom_fields.afteraction_donate_ask %}
         {{ page.custom_fields.afteraction_donate_ask }}

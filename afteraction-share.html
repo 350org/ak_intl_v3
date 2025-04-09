@@ -62,11 +62,88 @@ Custom template for same-page post-AJAX submit share ask.
     transform: rotate(360deg);
   }
 }
+
+.bg-blue_opaque-fade .section-inner {
+  background-color: #0F81E9;
+  color: #fff;
+  padding: 48px 36px;
+  border-radius: 64px;
+  max-width: 1133px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.bg-blue_opaque-fade .section-inner #action-header {
+  max-width: 520px;
+  padding: 0 24px;
+}
+.bg-blue_opaque-fade .section-inner #action-form {
+  margin: auto;
+}
+.bg-blue_opaque-fade .section-inner p {
+  font-family: Klima, -apple-system-, BlinkMacSystemFont, Arial, sans-serif;
+}
+.bg-blue_opaque-fade .section-inner .highlight {
+  border-radius: 8px;
+  background: #144872;
+  height: 52px;
+  padding: 12px;
+  gap: 10px;
+  color: #FFF;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 647;
+  line-height: normal;
+}
+.bg-blue_opaque-fade .section-inner #action-title {
+  margin-top: 25px;
+  color: #FFF;
+  font-size: 58px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
-<div id="afteraction-flow" class="section afteraction-panel afteraction-fundraising border-top title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}">
+<div id="afteraction-flow" class="section action-lead bg-blue_opaque-fade afteraction-panel afteraction-fundraising border-top title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}">
+	<div class="section-inner">
+		<div id="action-header" class="c10 c-wide">
+			<h2 id="action-title" class="title3 text-style-title3">
+				
+				<span class="">Thanks for taking action, <span class="firstName">Friend</span>!</span>
+	 
+				<p>There's more you can do to help this campaign succeed.</p>
+				<p>Donating allows us to promote this campaign through email and social media ads, bringing more supporters on board.</p>
+				<p>Can you make a donation today?</p>
+			</h2>
+	
 
+	
+		<div id="action-description" class="text-large margin-top-none margin-bottom-huge ">
+			<div id="action-description-text" class="margin-bottom-medium" data-read-more-after="3">
+		
+			<p>As we kick off 2023, we are calling on world leaders to invest in 100% renewable energy. We need to create public momentum for the transition away from fossil fuels, and start investing in our renewable future. <br><br><strong>Sign on to pledge your support for 100% renewables!</strong></p>
+		
+			</div>
+			<p class="no-js-hidden nojs-hide petition-text-link text-small">
+				<a href="" class="js-modal text-small icon-before icon-faded text-underline-none" data-icon="" data-modal-source="#petition-text">
+					
+						View the full petition text.
+					 
+				</a>
+			</p>
+			<div class="js-hidden js-hide box box-big text-small bg-white">
+				<div id="petition-text" style="display: none;">
+	
+					<div class="petition-target text-large strong p"><p>Optional Statement Lead-in</p></div><hr>
+	
+					<p>The global energy crisis is showing no signs of letting up. Our dependency on coal, oil and gas is not only destroying the environment, but is also making our daily lives a struggle.<br><br><strong>We need a lot more than saying “no” to fossil fuels.</strong> The monopoly industry has on energy supply needs to end. We need to start investing in renewables now. We need a just energy transition everywhere.</p>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+	</div>
 </div>
 {% endif %}
 

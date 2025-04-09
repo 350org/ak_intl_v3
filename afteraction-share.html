@@ -62,7 +62,68 @@ Custom template for same-page post-AJAX submit share ask.
     transform: rotate(360deg);
   }
 }
+
+.bg-blue_opaque-fade .section-inner {
+  background-color: #0F81E9;
+  color: #fff;
+  padding: 48px 36px;
+  border-radius: 64px;
+  max-width: 1133px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.bg-blue_opaque-fade .section-inner #action-header {
+  max-width: 520px;
+  padding: 0 24px;
+}
+.bg-blue_opaque-fade .section-inner #action-form {
+  margin: auto;
+}
+.bg-blue_opaque-fade .section-inner p {
+  font-family: Klima, -apple-system-, BlinkMacSystemFont, Arial, sans-serif;
+}
+.bg-blue_opaque-fade .section-inner .highlight {
+  border-radius: 8px;
+  background: #144872;
+  height: 52px;
+  padding: 12px;
+  gap: 10px;
+  color: #FFF;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 647;
+  line-height: normal;
+}
+.bg-blue_opaque-fade .section-inner #action-title {
+  margin-top: 25px;
+  color: #FFF;
+  font-size: 58px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+#afteraction-flow, #body-mobile-background {
+	background-image: url('https://dbqvwi2zcv14h.cloudfront.net/images/1000x751px-660740-renewable-energy-460-67-kb-13-03-2015.jpg') !important;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+@media screen and (max-width:720px) {
+    #jump-to-form, #site-footer {
+      display: none;
+    }
+		#afteraction-flow {
+			background-image: unset !important;
+			background-color: #0F81E9;
+		}
+}
 </style>
+
+{% if page.custom_fields.after_action_next_step == "flow" %}
+<div id="afteraction-flow" style="display: none;">
+	<iframe scrolling="no" src="https://act.350.org/donate/test_wtr_donate_afteractionflow" style="height: 100vh; width: 100vw; overflow: hidden;"></iframe>
+</div>
+{% endif %}
 
 <div id="afteraction-progress-meter" aria-hidden="true" class="section text-small text-strong width-wide text-center padding-tiny bg-dkgray-trans" style="display:none;position:fixed;top:0;left:0;width:100%;z-index:10;">
 	<span id="afteraction-progress-meter-step1" class="afteraction-progress-meter-step">
@@ -288,6 +349,10 @@ Custom template for same-page post-AJAX submit share ask.
 	</div>
 </div>
 
+<script type="text/javascript">
+	actionkit.forms.contextRoot = '/context/';
+	actionkit.forms.initForm('act-donate');
+</script>
 <script>
 jQuery(document).ready(function($){
 	/* only run the AJAX submission if we're sure this is an AK-hosted page */
@@ -312,6 +377,8 @@ jQuery(document).ready(function($){
 		var afteractionDonateSlideInner = $('#afteraction-donate-inner');
 		var afteractionDonateAskContent = $('#afteraction-donate-ask-source').html();
 		var afteractionDonateContent = $('#afteraction-donate-source').html();
+
+		var afteractionFlowSlide = $('#afteraction-flow');
 
 		// get the setting of the after action next step variable
 		var afterActionNextStep = "{{ page.custom_fields.after_action_next_step }}";
@@ -634,6 +701,20 @@ jQuery(document).ready(function($){
 										.attr('data-icon',''); //&xE942; checkmark
 								}
 							});
+						} else if (afterActionNextStep === 'flow') {
+							if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
+								const firstName = $('#id_name').val().split(' ')[0];
+								const iframe = document.querySelector("iframe");
+								const dataToSend = {
+									type: "firstName",
+									value: firstName
+								}
+								iframe.contentWindow.postMessage(dataToSend);
+							}
+							afteractionFlowSlide.show();
+							$('html, body').animate({
+								scrollTop: afteractionFlowSlide.offset().top
+							}, 800);
 						}
 					})
 					.fail(function(){
@@ -649,6 +730,36 @@ jQuery(document).ready(function($){
 			}, 150);
 		});
 	}
+
+	$('.ak-amount-wrapper .input-radio-button').on('click', function () {
+		$('label.ak-radio-checked').removeClass('ak-radio-checked');
+    $(this).closest('label').addClass('ak-radio-checked');
+	});
+
+	$('#ak-continue-button').show();
+
+	$('#ak-continue-button').on('click', function() {
+		if ($('#afteraction-donation-btns').is(":visible")) {
+			$('#afteraction-donation-btns').hide();
+			$('#afteraction-contact-info').show();
+			$('#ak-donation-contact').show();
+		} else if ($('#afteraction-contact-info').is(":visible")) {
+			$('#afteraction-contact-info').hide();
+			$('#afteraction-payments').show();
+			$('#afteraction-payments .ak-donate-area-step-3').show();
+			$('#ak-pay-by-paypal').val(1);
+
+			/* clear out CC info if entered */
+			$('#ak-card_num').val('');
+			$('#ak-card_code').val('');
+
+			/* disable CC requirements */
+			$('#ak-card_num-required').remove();
+			$('#ak-card_code-required').remove();
+			$('#ak-exp_date_month-required').remove();
+			$('#ak-exp_date_year-required').remove();
+		}
+	});
 });
 </script>
 

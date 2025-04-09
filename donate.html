@@ -3,6 +3,7 @@
 
 {% block css_additions %}
 <link href="https://dbqvwi2zcv14h.cloudfront.net/ak/donate.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" id="baseline-css" href="https://xs17wgd2wu.ufs.sh/f/nX6SBdwGAudfMc7nEwkpwOVbmzKeyQ79SYAD4PgvC38niq6j" type="text/css" media="screen">
 {% endblock %}
 
 {% if templateset.custom_fields.donate_hide_paypal.strip|lower == 'y' %}
@@ -12,6 +13,113 @@
 {% endif %}
 
 {% block content %}
+<style>
+  #action-lead {
+    max-width: 800px;
+  }
+
+  #donation-other, #ak-recurring-type, #in-honor-of {
+    display: none !important;
+  }
+
+  #site-footer {
+    display: none;
+  }
+  .ak-pagetype-donate.Donation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: transparent;
+  }
+  #admin-bar {
+    display: none;
+  }
+  #ak-donation-details {
+    background-color: transparent !important;
+    padding: 0 !important;
+  }
+  .ak-field-box.ak-donate-three-step {
+    display: flex;
+  }
+  #action-header {
+    text-align: left !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  #donate {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #action-lead .section-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  .ak-donate-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: transparent;
+    height: 200px;
+    align-self: center;
+  }
+  #action-toc {
+    display: none;
+  }
+  .inline-dot {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 2em;
+    border: 2px solid white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .ak-step-number {
+    color: white;
+  }
+  .ak-donate-step-2::after,
+  .ak-donate-step-2::before {
+    content: unset;
+  }
+  .payments-container {
+    background-color: white;
+    min-width: 530px;
+  }
+  .ak-donate-step-1 .ak-step-number::after,
+  .ak-donate-step-2 .ak-step-number::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 1px;
+    height: 48px;
+    background-color: white;
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  /* Mobile Styles */
+  @media screen and (max-width:720px) {
+    .ak-donate-menu.ak-donate-three-step {
+      display: none;
+    }
+    #action-lead {
+      min-height: unset;
+      height: 100%;
+    }
+    #action-lead .section-inner {
+      padding: 10px;
+    }
+    .payments-container {
+      min-width: 330px !important;
+    }
+    #body-mobile-background {
+      background-image: url('{{ page.custom_fields.page_background_image }}') !important;
+    }
+  }
+</style>
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
   {% if page.custom_fields.donate_enable_countdown and page.custom_fields.donate_countdown_date and page.custom_fields.donate_countdown_copy %}
@@ -31,6 +139,28 @@
       {% endautoescape %}
     </div>
     {% else %}
+    <div
+      class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
+      <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
+        <span class="ak-step-number strong inline-dot bg-trans">1</span>
+        <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span
+          class="ak-amount-label"></span>
+        <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1"
+          checked="checked">
+      </label>
+      <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
+        <span class="ak-step-number strong inline-dot bg-trans">2</span>
+        <span
+          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span></span>
+        <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
+      </label>
+      <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
+        <span class="ak-step-number strong inline-dot bg-trans">3</span>
+        <span
+          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span></span>
+        <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
+      </label>
+    </div>
     <form id="act" name="act"
       class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} "
       method="POST" action="/act/" accept-charset="utf-8" autocomplete="on">
@@ -41,14 +171,15 @@
       <div id="action-header"
         class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
         {% if page.custom_fields.page_pretitle %}
-        <p id="action-pretitle" class="text-font-secondary"><span
-            class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
+        <p id="action-pretitle" class="text-font-secondary" style="display: none;"><span
+            class="highlight bg-dkgray-trans">Complete your donation</span></p>
         {% endif %}
         <h2 id="action-title" class="title3 text-style-title3">
           {% if page.custom_fields.page_title_custom_html %}
-          {% include_tmpl page.custom_fields.page_title_custom_html %}
+          <!-- {% include_tmpl page.custom_fields.page_title_custom_html %} -->
+          <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, <span class="actionFirstName">friend</span>!</span>
           {% else %}
-          <span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
+          <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, {{ action.user.first_name }}</span>
           {% endif %}
         </h2>
         {% if page.custom_fields.page_author %}
@@ -66,7 +197,7 @@
           {% endif %}
 
           <div id="action-description"
-            class="{% if page.custom_fields.page_layout_style == 'expanded' %}c5 ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
+            class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10 ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
             {% if page.custom_fields.featured_image %}
             <img class="ak-featured-img" src="{{ page.custom_fields.featured_image }}">
             {% endif %}
@@ -86,7 +217,7 @@
 
             {% comment %}The ID "donate" here breaks from normal naming convention so that there's a cleaner appearance
             when using it for anchor linking directly to the form.{% endcomment %}
-            <div id="donate" class="action-form c5 ct10 cm10 c-wide margin-top-none">
+            <div id="donate" class="action-form c10 ct10 cm10 c-wide margin-top-none">
               <div class="ak-field-box ak-donate-three-step">
                 {% autoescape off %}
                 {% if page.custom_fields.form_text_above_form %}
@@ -99,29 +230,6 @@
                 <!-- Render progress meter -->
                 {% include "./progress_meter.html" %}
                 <!--Add .ak-donate-three-step for three-step-->
-                <div
-                  class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
-                  <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>
-                    <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span
-                      class="ak-amount-label">{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
-                    <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1"
-                      checked="checked">
-                  </label>
-                  <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>
-                    <span
-                      class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
-                    <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
-                  </label>
-                  <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>
-                    <span
-                      class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
-                    <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
-                  </label>
-                </div>
-
                 <div id="ak-donation-details" class="box box-medium bg-white">
                   <div id="ak-product-list" class="ak-donate-area-step-1 ak-errs-below">
                     {% if has_products %}
@@ -1596,9 +1704,28 @@
 
 </style>
 {% endif %}
-
 <script>
   $(function () {
+    window.addEventListener('message', function(event) {
+      const data = event.data;
+      console.log('data', data);
+      if (data.type === "firstName") {
+        $('.actionFirstName').text(data.value);
+      }
+    });
+
+    $('#ak-continue-button').on('click', function() {
+      if (!$('.ak-donate-area-step-1').is(':visible')) {
+        $('#action-pretitle').show();
+      }
+      if ($('.ak-donate-area-step-2').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
+      } else if ($('.ak-donate-area-step-1').is(':visible')) {
+        $('#action-title').show();
+        $('#action-description').show();
+      }
+    });
     var searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {
       three_step_advance();

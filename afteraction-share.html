@@ -14,8 +14,10 @@ Custom template for same-page post-AJAX submit share ask.
 
 <!-- {{page}} -->
 {% load actionkit_tags %}
+{% if page.custom_fields.after_action_next_step == "flow" %}
+	{% include "./afteraction-flow.html" %}
 
-{% if page.custom_fields.after_action_next_step != "page-redirect" %}
+{% elif page.custom_fields.after_action_next_step != "page-redirect" %}
 	{% if page.lang.iso_code = "en" %}
 
 <style>
@@ -288,370 +290,370 @@ Custom template for same-page post-AJAX submit share ask.
 	</div>
 </div>
 
-<script>
-jQuery(document).ready(function($){
-	/* only run the AJAX submission if we're sure this is an AK-hosted page */
-	if ( $('html').hasClass('ak-hosted') ){
-		let initDonateAmounts = [];
-		let userCountry;
-		let exchangeRateData = {};
-		let exchangeApiUrl = 'https://api.exchangeratesapi.io/latest?base=USD';
-		$.get(exchangeApiUrl, function (data, status) {
-			if (data && data.rates) exchangeRateData = data.rates;
-		});
-		// set up variables
-		var afteractionProgressMeter = $("#afteraction-progress-meter");
+	<script>
+		jQuery(document).ready(function($){
+			/* only run the AJAX submission if we're sure this is an AK-hosted page */
+			if ( $('html').hasClass('ak-hosted') ){
+				let initDonateAmounts = [];
+				let userCountry;
+				let exchangeRateData = {};
+				let exchangeApiUrl = 'https://api.exchangeratesapi.io/latest?base=USD';
+				$.get(exchangeApiUrl, function (data, status) {
+					if (data && data.rates) exchangeRateData = data.rates;
+				});
+				// set up variables
+				var afteractionProgressMeter = $("#afteraction-progress-meter");
 
-		var afteraction = $("#afteraction");
-		var afteractionShareSlide = $('#afteraction-share');
-		var afteractionShareSlideInner = $('#afteraction-share-inner');
-		var afteractionShareAskContent = $('#afteraction-share-ask-source').html();
-		var afteractionShareContent = $('#afteraction-share-source').html();
+				var afteraction = $("#afteraction");
+				var afteractionShareSlide = $('#afteraction-share');
+				var afteractionShareSlideInner = $('#afteraction-share-inner');
+				var afteractionShareAskContent = $('#afteraction-share-ask-source').html();
+				var afteractionShareContent = $('#afteraction-share-source').html();
 
-		var afteractionDonateSlide = $('#afteraction-donate');
-		var afteractionDonateSlideInner = $('#afteraction-donate-inner');
-		var afteractionDonateAskContent = $('#afteraction-donate-ask-source').html();
-		var afteractionDonateContent = $('#afteraction-donate-source').html();
+				var afteractionDonateSlide = $('#afteraction-donate');
+				var afteractionDonateSlideInner = $('#afteraction-donate-inner');
+				var afteractionDonateAskContent = $('#afteraction-donate-ask-source').html();
+				var afteractionDonateContent = $('#afteraction-donate-source').html();
 
-		// get the setting of the after action next step variable
-		var afterActionNextStep = "{{ page.custom_fields.after_action_next_step }}";
-		var getInvolvedURL = "{% if page.custom_fields.getinvolved_url %}{{ page.custom_fields.getinvolved_url }}{% else %}https://350.org/science{% endif %}";
+				// get the setting of the after action next step variable
+				var afterActionNextStep = "{{ page.custom_fields.after_action_next_step }}";
+				var getInvolvedURL = "{% if page.custom_fields.getinvolved_url %}{{ page.custom_fields.getinvolved_url }}{% else %}https://350.org/science{% endif %}";
 
-		const euroCountries = ['Austria', 'Belgium', 'Cyprus', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Portugal', 'Slovakia', 'Slovenia', 'Spain'];
+				const euroCountries = ['Austria', 'Belgium', 'Cyprus', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Portugal', 'Slovakia', 'Slovenia', 'Spain'];
 
-		// Hide "Add your Name" button on mobile if in scroll donate view
-		if (afterActionNextStep === 'scroll-donate') {
-			$('#jump-to-form').hide();
-		}
-		function updateDonateCurrency(userLocation){
-			if (euroCountries.includes(userLocation)) {
-				userLocation = 'Europe';
-			}
-			var currencyData = {
-				/* uses API exchange data, with hardcoded (out of date) exchange rate as fallback */
-				'Canada': {
-					currencySymbol: '$',
-					currency: 'CAD',
-					exchangeRate: exchangeRateData['CAD'] || 1.45
-				},
-				'Australia': {
-					currencySymbol: '$',
-					currency: 'AUD',
-					exchangeRate:  exchangeRateData['AUD']  || 1.68
-				},
-				'New Zealand': {
-					currencySymbol: '$',
-					currency: 'NZD',
-					exchangeRate:  exchangeRateData['NZD'] || 1.72
-				},
-				'United Kingdom': {
-					currencySymbol: '£',
-					currency: 'GBP',
-					exchangeRate: exchangeRateData['GBP'] || 0.85
-				},
-				'Europe': {
-					currencySymbol: '€',
-					currency: 'EUR',
-					exchangeRate: exchangeRateData['EUR'] || 0.92
-				},
-				'Brazil': {
-					currencySymbol: 'R$',
-					currency: 'BRL',
-					exchangeRate: exchangeRateData['BRL'] || 5.07
+				// Hide "Add your Name" button on mobile if in scroll donate view
+				if (afterActionNextStep === 'scroll-donate') {
+					$('#jump-to-form').hide();
 				}
-			};
-			if (currencyData[userLocation]) {
-				if ($('#afteraction-donate-inner .afteraction-donate-cta-container a').length) {
-					// update alternate donate url
-					let altDonateUrl = $('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href');
-					altDonateUrl.indexOf('?') > -1 ?  altDonateUrl += '&currency=' : altDonateUrl += '?currency=';
-					altDonateUrl += currencyData[userLocation].currency;
-					$('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href', altDonateUrl);
-				} else {
-					// update default donate buttons url
-					$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(i){
-						var $this = $(this);
-						var originalAmt = initDonateAmounts[i];
-						var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
-						var url = $(this).attr('href');
-						var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
-						$this.attr('href', newUrl);
-						// change button label
-						$this.html(currencyData[userLocation].currencySymbol + convertedAmt);
-					});
+				function updateDonateCurrency(userLocation){
+					if (euroCountries.includes(userLocation)) {
+						userLocation = 'Europe';
+					}
+					var currencyData = {
+						/* uses API exchange data, with hardcoded (out of date) exchange rate as fallback */
+						'Canada': {
+							currencySymbol: '$',
+							currency: 'CAD',
+							exchangeRate: exchangeRateData['CAD'] || 1.45
+						},
+						'Australia': {
+							currencySymbol: '$',
+							currency: 'AUD',
+							exchangeRate:  exchangeRateData['AUD']  || 1.68
+						},
+						'New Zealand': {
+							currencySymbol: '$',
+							currency: 'NZD',
+							exchangeRate:  exchangeRateData['NZD'] || 1.72
+						},
+						'United Kingdom': {
+							currencySymbol: '£',
+							currency: 'GBP',
+							exchangeRate: exchangeRateData['GBP'] || 0.85
+						},
+						'Europe': {
+							currencySymbol: '€',
+							currency: 'EUR',
+							exchangeRate: exchangeRateData['EUR'] || 0.92
+						},
+						'Brazil': {
+							currencySymbol: 'R$',
+							currency: 'BRL',
+							exchangeRate: exchangeRateData['BRL'] || 5.07
+						}
+					};
+					if (currencyData[userLocation]) {
+						if ($('#afteraction-donate-inner .afteraction-donate-cta-container a').length) {
+							// update alternate donate url
+							let altDonateUrl = $('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href');
+							altDonateUrl.indexOf('?') > -1 ?  altDonateUrl += '&currency=' : altDonateUrl += '?currency=';
+							altDonateUrl += currencyData[userLocation].currency;
+							$('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href', altDonateUrl);
+						} else {
+							// update default donate buttons url
+							$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(i){
+								var $this = $(this);
+								var originalAmt = initDonateAmounts[i];
+								var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
+								var url = $(this).attr('href');
+								var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
+								$this.attr('href', newUrl);
+								// change button label
+								$this.html(currencyData[userLocation].currencySymbol + convertedAmt);
+							});
+						}
+					}
 				}
-			}
-		}
 
-		function afteractionShowShareAsk(el){
-			if ( afteractionShareSlideInner.html() == '' ){
-				afteractionShareSlideInner.append( afteractionShareAskContent )
-				afteractionShareSlide.show();
-			}
-			$('html, body').animate({
-				scrollTop: afteractionShareSlide.offset().top
-			}, 800);
-			afteractionProgressMeter.fadeIn();
-			$(document).trigger('domUpdated'); // tell other scripts to re-run
-			$("#jump-to-form").remove();
-
-			// if user opts not to donate, update progress meter
-			if (afterActionNextStep === 'scroll-donate') {
-				if ( $(el).hasClass('afteraction-donate-ask-no') ){
-					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
-						.removeClass('complete')
-						.addClass('declined')
-						.attr('data-icon',''); //&xE943; X
-				} else {
-					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
-						.removeClass('declined')
-						.addClass('complete')
-						.attr('data-icon',''); //&xE942; checkmark
-				}
-			}
-		}
-
-		function afteractionShowShare(response){
-
-			afteractionShareSlideInner
-				.animate({opacity:0 }, 300, function(){
-					$(this)
-						.empty()
-						.append( afteractionShareContent )
-						.animate({opacity:1}, 300);
-					$(document).trigger('domUpdated');
+				function afteractionShowShareAsk(el){
+					if ( afteractionShareSlideInner.html() == '' ){
+						afteractionShareSlideInner.append( afteractionShareAskContent )
+						afteractionShareSlide.show();
+					}
 					$('html, body').animate({
 						scrollTop: afteractionShareSlide.offset().top
 					}, 800);
+					afteractionProgressMeter.fadeIn();
+					$(document).trigger('domUpdated'); // tell other scripts to re-run
+					$("#jump-to-form").remove();
 
-					var responseHTML = document.createElement('html');
-					responseHTML.innerHTML = response;
-
-					// Set FB Share URL based on response from API
-					var fbShareEl = $(responseHTML).find('a.fb-share');
-					if (fbShareEl.length > 0) {
-						var fbShareUrl = fbShareEl[0].href;
-
-						var currFBShareEls = $('a.fb-share');
-						if (currFBShareEls.length > 0) {
-							for (var i = 0; i < currFBShareEls.length; i++) {
-								var currFBShareEl = currFBShareEls[i];
-								$(currFBShareEl).attr('href', fbShareUrl);
-							}
+					// if user opts not to donate, update progress meter
+					if (afterActionNextStep === 'scroll-donate') {
+						if ( $(el).hasClass('afteraction-donate-ask-no') ){
+							$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+								.removeClass('complete')
+								.addClass('declined')
+								.attr('data-icon',''); //&xE943; X
+						} else {
+							$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+								.removeClass('declined')
+								.addClass('complete')
+								.attr('data-icon',''); //&xE942; checkmark
 						}
 					}
+				}
 
-					// Set Twitter Share URL based on response from API
-					var twShareEl = $(responseHTML).find('a.tw-share');
-					if (twShareEl.length > 0) {
-						var twShareUrl = twShareEl[0].href;
+				function afteractionShowShare(response){
 
-						var currTwShareEls = $('a.tw-share');
-						if (currTwShareEls.length > 0) {
-							for (var i = 0; i < currTwShareEls.length; i++) {
-								var currTwShareEl = currTwShareEls[i];
-								$(currTwShareEl).attr('href', twShareUrl);
+					afteractionShareSlideInner
+						.animate({opacity:0 }, 300, function(){
+							$(this)
+								.empty()
+								.append( afteractionShareContent )
+								.animate({opacity:1}, 300);
+							$(document).trigger('domUpdated');
+							$('html, body').animate({
+								scrollTop: afteractionShareSlide.offset().top
+							}, 800);
+
+							var responseHTML = document.createElement('html');
+							responseHTML.innerHTML = response;
+
+							// Set FB Share URL based on response from API
+							var fbShareEl = $(responseHTML).find('a.fb-share');
+							if (fbShareEl.length > 0) {
+								var fbShareUrl = fbShareEl[0].href;
+
+								var currFBShareEls = $('a.fb-share');
+								if (currFBShareEls.length > 0) {
+									for (var i = 0; i < currFBShareEls.length; i++) {
+										var currFBShareEl = currFBShareEls[i];
+										$(currFBShareEl).attr('href', fbShareUrl);
+									}
+								}
 							}
+
+							// Set Twitter Share URL based on response from API
+							var twShareEl = $(responseHTML).find('a.tw-share');
+							if (twShareEl.length > 0) {
+								var twShareUrl = twShareEl[0].href;
+
+								var currTwShareEls = $('a.tw-share');
+								if (currTwShareEls.length > 0) {
+									for (var i = 0; i < currTwShareEls.length; i++) {
+										var currTwShareEl = currTwShareEls[i];
+										$(currTwShareEl).attr('href', twShareUrl);
+									}
+								}
+							}
+						});
+				};
+
+				function afteractionShowDonate(el){
+					afteractionDonateSlide.show();
+					afteractionDonateSlideInner.animate({opacity:0 }, 300, function(){
+						$(this)
+							.empty()
+							.append( afteractionDonateAskContent )
+							.animate({opacity:1}, 300);
+							// save initial donate amounts to be converted for each currency
+							$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(){
+								initDonateAmounts.push(parseInt($(this).html().substring(1)));
+							});
+							updateDonateCurrency(userCountry);
+							$(document).trigger('domUpdated');
+							$('html, body').animate({
+								scrollTop: afteractionDonateSlide.offset().top
+							}, 800);
+					});
+					if (afterActionNextStep === 'scroll-share') {
+						if ( $(el).hasClass('afteraction-share-ask-no') ){
+							$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+								.removeClass('complete')
+								.addClass('declined')
+								.attr('data-icon',''); //&xE943; X
+						} else {
+							$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+								.removeClass('declined')
+								.addClass('complete')
+								.attr('data-icon',''); //&xE942; checkmark
 						}
+					} else {
+						afteractionProgressMeter.fadeIn();
+					}
+				};
+
+				// re-set facebook share window pop-up
+				afteraction.on('click','.button-share-facebook', function(e){
+					e.preventDefault();
+					var destination = jQuery(this).attr('href');
+					popupWidth = 520;
+					popupHeight = 350;
+					// center the pop-up on the screen
+					var winTop = (screen.height / 2) - (popupHeight / 2);
+					var winLeft = (screen.width / 2) - (popupWidth / 2);
+					window.open( destination , 'new-window-popup', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,resizable=yes,scrollbars=yes,width=' + popupWidth + ',height=' + popupHeight );
+					// send Google Analytics event
+					if (typeof gtag !== 'undefined') {
+						gtag('event', 'scrolling-signup', {'click_id': 'share-facebook'});
 					}
 				});
-		};
 
-		function afteractionShowDonate(el){
-			afteractionDonateSlide.show();
-			afteractionDonateSlideInner.animate({opacity:0 }, 300, function(){
-				$(this)
-					.empty()
-					.append( afteractionDonateAskContent )
-					.animate({opacity:1}, 300);
-					// save initial donate amounts to be converted for each currency
-					$('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(){
-						initDonateAmounts.push(parseInt($(this).html().substring(1)));
-					});
-					updateDonateCurrency(userCountry);
-					$(document).trigger('domUpdated');
-					$('html, body').animate({
-						scrollTop: afteractionDonateSlide.offset().top
-					}, 800);
-			});
-			if (afterActionNextStep === 'scroll-share') {
-				if ( $(el).hasClass('afteraction-share-ask-no') ){
-					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
-						.removeClass('complete')
-						.addClass('declined')
-						.attr('data-icon',''); //&xE943; X
-				} else {
-					$("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
-						.removeClass('declined')
-						.addClass('complete')
-						.attr('data-icon',''); //&xE942; checkmark
-				}
-			} else {
-				afteractionProgressMeter.fadeIn();
-			}
-		};
-
-		// re-set facebook share window pop-up
-		afteraction.on('click','.button-share-facebook', function(e){
-			e.preventDefault();
-			var destination = jQuery(this).attr('href');
-			popupWidth = 520;
-			popupHeight = 350;
-			// center the pop-up on the screen
-			var winTop = (screen.height / 2) - (popupHeight / 2);
-			var winLeft = (screen.width / 2) - (popupWidth / 2);
-			window.open( destination , 'new-window-popup', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,resizable=yes,scrollbars=yes,width=' + popupWidth + ',height=' + popupHeight );
-			// send Google Analytics event
-			if (typeof gtag !== 'undefined') {
-				gtag('event', 'scrolling-signup', {'click_id': 'share-facebook'});
-			}
-		});
-
-		/* When the main form is submitted... */
-		$('#action-form').submit(function (e) {
-			// don't redirect to standard thank you page
-			e.preventDefault();
-			// wait 150ms for... some reason? idk, i forget
-			setTimeout(function() {
-				// if no errors...
-				if( $(".ak-err li").length < 1) {
-					// show loading wheel in submit button
-					if (!$('.input-submit button[type="submit"] .loader').length) {
-						$('.input-submit button[type="submit"]').wrapInner('<span class="submit-button-text"><\/span>');
-						$('.input-submit button[type="submit"]').append($('<span class="loader">'));
-					}
-					$('.submit-button-text').css({
-						'opacity': '0',
-						'position': 'absolute'
-					});
-					$('.loader').show();
-					$.ajax({
-						method: 'POST',
-						url: $('#action-form').attr('action'),
-						data: $('#action-form').serialize()
-					})
-					.done(function(msg) {
-						// handle adblockers preventing the loading of Google Analytics library
-						if (typeof gtag !== 'undefined') {
-							// send google analytics event
-							gtag('event', 'scrolling-signup', {'click_id': 'signup'});
-							// trigger GA event for successful after action signup
-							dataLayer.push(({'event': 'afterActionSignup'}));
-						}
-						// send FB tracker event
-						if (typeof fbq === "function") {
-							fbq('track', 'CompleteRegistration');
-						}
-						// save country for currency feature (needed for country prefill issue - FA)
-						userCountry = $('#country').val();
-						// hide the loading wheel
-						$('.submit-button-text').css({
-							'opacity': '1',
-							'position': 'relative'
-						});
-						$('.loader').hide();
-						if (afterActionNextStep === 'scroll-share') {
-							// show the share ask
-							afteractionShowShareAsk();
-
-							// if user opts to share, show share dialog
-							$('.afteraction-share-ask-yes').on('click', function(){
-								afteractionShowShare(msg);
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
-								}
-							});
-							$('.afteraction-share-ask-no').on('click', function(){
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
-								}
-							});
-							// if user opts not to share or has completed sharing, show donate ask
-							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
-								var el = $(this);
-								afteractionShowDonate(el);
-							});
-							$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
-								// handle adblockers preventing the loading of Google Analytics library
-
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-yes'});
-								}
-							});
-							$('.afteraction-donate-ask-no').on('click', function(){
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
-								}
-							});
-						} else if (afterActionNextStep === 'scroll-donate') {
-							// show the donate ask
-							afteractionShowDonate();
-
-							afteraction.on('click', '.afteraction-donate-ask-no', function(e){
-								// prevent getting redirected to the Get Involved URL
-								e.preventDefault();
-
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
-								}
-								var el = $(this);
-								// if user doesn't want to donate, show the share ask
-								afteractionShowShareAsk(el);
-
-								// if user opts to share, show share dialog
-								$('.afteraction-share-ask-yes').on('click', function(){
-									afteractionShowShare(msg);
-									// handle adblockers preventing the loading of Google Analytics library
-									if (typeof gtag !== 'undefined') {
-										gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
-									}
-								});
-								$('.afteraction-share-ask-no').on('click', function(){
-									// handle adblockers preventing the loading of Google Analytics library
-									if (typeof gtag !== 'undefined') {
-										gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
-									}
-									var queryString = window.location.search;
-									window.location.href = getInvolvedURL + queryString;
-								});
-							});
-
-							// if user opts not to share or has completed sharing, update progress meter
-							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
-								if ( $(this).hasClass('afteraction-share-ask-no') ){
-									$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
-										.removeClass('complete')
-										.addClass('declined')
-										.attr('data-icon',''); //&xE943; X
-								} else {
-									$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
-										.removeClass('declined')
-										.addClass('complete')
-										.attr('data-icon',''); //&xE942; checkmark
-								}
-							});
-						}
-					})
-					.fail(function(){
-							console.log('Error: AK AJAX submission failed.');
-							// hide the loading wheel
+				/* When the main form is submitted... */
+				$('#action-form').submit(function (e) {
+					// don't redirect to standard thank you page
+					e.preventDefault();
+					// wait 150ms for... some reason? idk, i forget
+					setTimeout(function() {
+						// if no errors...
+						if( $(".ak-err li").length < 1) {
+							// show loading wheel in submit button
+							if (!$('.input-submit button[type="submit"] .loader').length) {
+								$('.input-submit button[type="submit"]').wrapInner('<span class="submit-button-text"><\/span>');
+								$('.input-submit button[type="submit"]').append($('<span class="loader">'));
+							}
 							$('.submit-button-text').css({
-								'opacity': '1',
-								'position': 'relative'
+								'opacity': '0',
+								'position': 'absolute'
 							});
-							$('.loader').hide();
-					});
-				}
-			}, 150);
-		});
-	}
-});
-</script>
+							$('.loader').show();
+							$.ajax({
+								method: 'POST',
+								url: $('#action-form').attr('action'),
+								data: $('#action-form').serialize()
+							})
+							.done(function(msg) {
+								// handle adblockers preventing the loading of Google Analytics library
+								if (typeof gtag !== 'undefined') {
+									// send google analytics event
+									gtag('event', 'scrolling-signup', {'click_id': 'signup'});
+									// trigger GA event for successful after action signup
+									dataLayer.push(({'event': 'afterActionSignup'}));
+								}
+								// send FB tracker event
+								if (typeof fbq === "function") {
+									fbq('track', 'CompleteRegistration');
+								}
+								// save country for currency feature (needed for country prefill issue - FA)
+								userCountry = $('#country').val();
+								// hide the loading wheel
+								$('.submit-button-text').css({
+									'opacity': '1',
+									'position': 'relative'
+								});
+								$('.loader').hide();
+								if (afterActionNextStep === 'scroll-share') {
+									// show the share ask
+									afteractionShowShareAsk();
 
+									// if user opts to share, show share dialog
+									$('.afteraction-share-ask-yes').on('click', function(){
+										afteractionShowShare(msg);
+										// handle adblockers preventing the loading of Google Analytics library
+										if (typeof gtag !== 'undefined') {
+											gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
+										}
+									});
+									$('.afteraction-share-ask-no').on('click', function(){
+										// handle adblockers preventing the loading of Google Analytics library
+										if (typeof gtag !== 'undefined') {
+											gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
+										}
+									});
+									// if user opts not to share or has completed sharing, show donate ask
+									afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
+										var el = $(this);
+										afteractionShowDonate(el);
+									});
+									$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
+										// handle adblockers preventing the loading of Google Analytics library
+
+										if (typeof gtag !== 'undefined') {
+											gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-yes'});
+										}
+									});
+									$('.afteraction-donate-ask-no').on('click', function(){
+										// handle adblockers preventing the loading of Google Analytics library
+										if (typeof gtag !== 'undefined') {
+											gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
+										}
+									});
+								} else if (afterActionNextStep === 'scroll-donate') {
+									// show the donate ask
+									afteractionShowDonate();
+
+									afteraction.on('click', '.afteraction-donate-ask-no', function(e){
+										// prevent getting redirected to the Get Involved URL
+										e.preventDefault();
+
+										// handle adblockers preventing the loading of Google Analytics library
+										if (typeof gtag !== 'undefined') {
+											gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
+										}
+										var el = $(this);
+										// if user doesn't want to donate, show the share ask
+										afteractionShowShareAsk(el);
+
+										// if user opts to share, show share dialog
+										$('.afteraction-share-ask-yes').on('click', function(){
+											afteractionShowShare(msg);
+											// handle adblockers preventing the loading of Google Analytics library
+											if (typeof gtag !== 'undefined') {
+												gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
+											}
+										});
+										$('.afteraction-share-ask-no').on('click', function(){
+											// handle adblockers preventing the loading of Google Analytics library
+											if (typeof gtag !== 'undefined') {
+												gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
+											}
+											var queryString = window.location.search;
+											window.location.href = getInvolvedURL + queryString;
+										});
+									});
+
+									// if user opts not to share or has completed sharing, update progress meter
+									afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
+										if ( $(this).hasClass('afteraction-share-ask-no') ){
+											$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
+												.removeClass('complete')
+												.addClass('declined')
+												.attr('data-icon',''); //&xE943; X
+										} else {
+											$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
+												.removeClass('declined')
+												.addClass('complete')
+												.attr('data-icon',''); //&xE942; checkmark
+										}
+									});
+								}
+							})
+							.fail(function(){
+									console.log('Error: AK AJAX submission failed.');
+									// hide the loading wheel
+									$('.submit-button-text').css({
+										'opacity': '1',
+										'position': 'relative'
+									});
+									$('.loader').hide();
+							});
+						}
+					}, 150);
+				});
+			}
+		});
+	</script>
+		{% endif %}
 	{% endif %}
 {% endif %}
 

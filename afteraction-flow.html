@@ -1,0 +1,634 @@
+<style>
+  .loader,
+  .loader:after {
+    border-radius: 50%;
+    width: 27.5px;
+    height: 27.5px;
+  }
+  .loader {
+    display:block;
+    overflow: hidden;
+    margin: 0 auto;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    border-top: 0.5em solid rgba(255, 255, 255, 0.2);
+    border-right: 0.5em solid rgba(255, 255, 255, 0.2);
+    border-bottom: 0.5em solid rgba(255, 255, 255, 0.2);
+    border-left: 0.5em solid #fff;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: load8 1.1s infinite linear;
+    animation: load8 1.1s infinite linear;
+  }
+  @-webkit-keyframes load8 {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes load8 {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  </style>
+  
+  <div id="afteraction-progress-meter" aria-hidden="true" class="section text-small text-strong width-wide text-center padding-tiny bg-dkgray-trans" style="display:none;position:fixed;top:0;left:0;width:100%;z-index:10;">
+    <span id="afteraction-progress-meter-step1" class="afteraction-progress-meter-step">
+      <span class="afteraction-progress-meter-dot complete icon" data-icon="&#xE942;"></span>
+      {% if page.type == "Petition" %}
+        {% filter ak_text:"afteraction_progress_step1_petition" %}Sign{% endfilter %}
+      {% elif page.type == "Signup" %}
+        {% filter ak_text:"afteraction_progress_step1_signup" %}Sign up{% endfilter %}
+      {% else %}
+        {% filter ak_text:"afteraction_progress_step1" %}Submit{% endfilter %}
+      {% endif %}
+      </span>
+    </span>
+    <span id="afteraction-progress-meter-step2" class="afteraction-progress-meter-step">
+      {% if page.custom_fields.after_action_next_step == "scroll-share" %}
+        <span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+          {% filter ak_text:"afteraction_progress_step2" %}Share{% endfilter %}
+        </span>
+      {% elif page.custom_fields.after_action_next_step == "scroll-donate" %}
+        <span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+          {% filter ak_text:"afteraction_progress_step3" %}Donate{% endfilter %}
+        </span>
+      {% endif %}
+    </span>
+    <span id="afteraction-progress-meter-step3" class="afteraction-progress-meter-step">
+      {% if page.custom_fields.after_action_next_step == "scroll-share" %}
+        <span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+          {% filter ak_text:"afteraction_progress_step3" %}Donate{% endfilter %}
+        </span>
+      {% elif page.custom_fields.after_action_next_step == "scroll-donate" %}
+        <span class="afteraction-progress-meter-dot icon" data-icon=""></span>
+          {% filter ak_text:"afteraction_progress_step2" %}Share{% endfilter %}
+        </span>
+      {% endif %}
+    </span>
+  </div>
+  
+  <div id="afteraction">
+    {% if page.custom_fields.after_action_next_step == "scroll-share" %}
+    <div id="afteraction-share" class="section afteraction-panel border-top title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}" aria-live="polite" style="display:none;">
+      <div id="afteraction-share-inner" class="section-inner"></div>
+    </div>
+    <div id="afteraction-donate" class="section afteraction-panel title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}-fade" aria-live="polite" style="display:none;">
+      <div id="afteraction-donate-inner" class="section-inner"></div>
+    </div>
+    {% else %}
+    <div id="afteraction-donate" class="section afteraction-panel title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}-fade" aria-live="polite" style="display:none;">
+      <div id="afteraction-donate-inner" class="section-inner"></div>
+    </div>
+    <div id="afteraction-share" class="section afteraction-panel border-top title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}" aria-live="polite" style="display:none;">
+      <div id="afteraction-share-inner" class="section-inner"></div>
+    </div>
+    {% endif %}
+  </div>
+  
+  
+  <div id="afteraction-share-ask-source" aria-hidden="true" style="display:none;">
+    <div class="afteraction-share-ask-intro text-style-lead3 text-large2 text-lineheight-small text-strong margin-bottom-large">
+    {% if page.custom_fields.share_slide_title %}
+      <h2>{{ page.custom_fields.share_slide_title }}</h2>
+    {% endif %}
+    {% if page.custom_fields.share_slide_body %}
+      <p>{{ page.custom_fields.share_slide_body }}</p>
+    {% else %}
+      <p>{% include_tmpl form.thank_you_text %}</p>
+    {% endif %}
+      <p class="afteraction-share-ask-text margin-bottom-huge">
+    {% if page.custom_fields.afteraction_share_ask %}
+      {{ page.custom_fields.afteraction_share_ask }}
+    {% else %}
+      {% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}
+    {% endif %}
+      </p>
+      <p>
+        <button class="afteraction-share-ask-yes button button-large margin-bottom-large">
+          {% if page.custom_fields.afteraction_share_ask_yes %}
+            {{ page.custom_fields.afteraction_share_ask_yes }}
+          {% else %}
+            {% filter ak_text:"afteraction_share_ask_yes" %}Yes, I can share this{% endfilter %}
+          {% endif %}
+        </button>
+        <button class="afteraction-share-ask-no button button-large button-alternate margin-bottom-large">
+          {% if page.custom_fields.afteraction_share_ask_no %}
+            {{ page.custom_fields.afteraction_share_ask_no }}
+          {% else %}
+            {% filter ak_text:"afteraction_share_ask_no" %}No, not now{% endfilter %}
+          {% endif %}
+        </button>
+      </p>
+    </div>
+  </div>
+  
+  <div id="afteraction-share-source" aria-hidden="true" style="display:none;">
+    <div class="afteraction-share-intro text-style-lead3 text-large3 text-lineheight-small text-strong margin-bottom-medium">
+      <p>{% filter ak_text:"afteraction_share_instructions" %}Thank you — Click below to share:{% endfilter %}</p>
+    </div>
+  
+    {% if page.custom_fields.share_whatsapp == "yes" %}
+    <div class="afteraction-share-whatsapp afteraction-share-option margin-bottom-large">
+      <div class="afteraction-share-option-intro margin-bottom-medium">
+        <a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="{{ page.canonical_url }}">{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}</a>
+      </div>
+      <div class="afteraction-share-whatsapp-preview afteraction-share-option-preview ">
+        <div class="whatsapp-preview-chat-bg padding-small">
+          <p class="text-caps text-center text-strong text-small opacity-50">{% filter ak_text:"general_preview" %}Preview:{% endfilter %}</p>
+          <div class="whatsapp-preview-chat-bubble">
+            {% if page.custom_fields.share_whatsapp_message %}{{ page.custom_fields.share_whatsapp_message }}{% else %}{{ page.followup.share_title_value }}{% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if page.custom_fields.share_facebook != "no" %}
+    <div class="afteraction-facebook-share afteraction-share-option margin-bottom-large">
+      <div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
+        <a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook"  href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&short=1">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+      </div>
+      <div class="fb-preview bg-white border margin-bottom-large">
+        {% if page.followup.share_image_value %}
+        <div class="fb-preview-share-image image-link-parent">
+          <img src="{{ page.followup.share_image_value }}">
+        </div>
+        {% endif %}
+        <div class="fb-preview-share-text padding-tiny text-left">
+          <p class="fb-preview-share-title- strong margin-bottom-small">{{ page.followup.share_title_value }}</p>
+          <p class="fb-preview-share-description- text-small">{{ page.followup.share_description_value }}</p>
+          <p class="text-small2 text-font-secondary text-caps">{% if page.custom_fields.page_is_c4 %}350action.org{% else %}350.org{% endif %}</p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if page.custom_fields.share_twitter == "yes" %}
+    <div class="afteraction-twitter-share afteraction-share-option margin-bottom-large">
+      <div class="afteraction-twitter-share-intro afteraction-share-option-intro margin-bottom-medium">
+        <a class="afteraction-share-button tw-share button-icon bg-twitter-color bg-twitter-icon button-share-twitter"  href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&short=1">{% filter ak_text:"general_share_on_twitter" %}Share on Twitter{% endfilter %}</a>
+      </div>
+      <div class="tw-preview bg-white border margin-bottom-large">
+        <div class="tw-preview-share-text text-left">
+          {% if page.followup and page.followup.twitter_message %}
+            <textarea class="border strong p no-margin" readonly>{{ page.followup.twitter_message }}</textarea>
+          {% else %}
+            <textarea class="border strong p no-margin" readonly>{{ page.followup.share_title_value }} {{ page.canonical_url }}</textarea>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  
+    {% if page.custom_fields.share_whatsapp_message %}
+      <script>
+      var whatsappMsg = '{{ page.custom_fields.share_whatsapp_message|escapejs }} ';
+      </script>
+    {% else %}
+      <script>
+      var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
+      </script>
+    {% endif %}
+  
+  
+    <script>
+      jQuery(document).ready(function($){
+        $('.whatsapp-share').on('click', function(e) {
+          e.preventDefault();
+          // Set Whatsapp Share URL based on response from API
+          var getShareURL = '/share/link?type=ot&action_id={{action.id}}&short=1&page_name={{page.name}}';
+          $.ajax({
+            method: 'GET',
+            url: getShareURL,
+          }).done(function(shareURL) {
+            var newURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + shareURL;
+            $(e.target).attr('href', newURL);
+            var win = window.open(newURL);
+            if (win) {
+              win.focus();
+            }
+          }).fail(function () {
+            var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + window.location.href;
+            var win = window.open(whatsappShareURL);
+            if (win) {
+              win.focus();
+            }
+          });
+        });
+      });
+    </script>
+  </div>
+  
+  <div id="afteraction-donate-ask-source" aria-hidden="true" style="display:none;">
+    <p class="afteraction-donate-ask-intro text-large2 text-strong margin-bottom-huge">
+      {% if page.custom_fields.afteraction_donate_ask %}
+        {{ page.custom_fields.afteraction_donate_ask }}
+      {% else %}
+        {% filter ak_text:"afteraction_donate_ask" %}Can you chip in to help stop climate change and create a more just, prosperous world? Donate in two minutes now:{% endfilter %}
+      {% endif %}
+    </p>
+  
+    <div class="afteraction-donate-amount-container">
+      <a
+        class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
+        href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=3&source=aa_{{ page.id }}"
+      >$3</a>
+      <a
+        class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
+        href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=10&source=aa_{{ page.id }}"
+      >$10</a>
+      <a
+        class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
+        href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
+      >$35</a>
+    </div>
+  
+    <div>
+      <a
+        class="afteraction-donate-ask-no button button-alternate"
+        href="{% if page.custom_fields.after_action_next_step == 'scroll-share' %}{% if page.custom_fields.getinvolved_url %}{{ page.custom_fields.getinvolved_url }}{% else %}https://350.org/science{% endif %}{% else%}#{% endif %}"
+      >
+        {% if page.custom_fields.afteraction_donate_ask_no %}
+          {{ page.custom_fields.afteraction_donate_ask_no }}
+        {% else %}
+          {% filter ak_text:"afteraction_donate_ask_no" %}Not ready to donate?{% endfilter %}
+        {% endif %}
+      </a>
+    </div>
+  </div>
+  
+  <script>
+  jQuery(document).ready(function($){
+    /* only run the AJAX submission if we're sure this is an AK-hosted page */
+    if ( $('html').hasClass('ak-hosted') ){
+      let initDonateAmounts = [];
+      let userCountry;
+      let exchangeRateData = {};
+      let exchangeApiUrl = 'https://api.exchangeratesapi.io/latest?base=USD';
+      $.get(exchangeApiUrl, function (data, status) {
+        if (data && data.rates) exchangeRateData = data.rates;
+      });
+      // set up variables
+      var afteractionProgressMeter = $("#afteraction-progress-meter");
+  
+      var afteraction = $("#afteraction");
+      var afteractionShareSlide = $('#afteraction-share');
+      var afteractionShareSlideInner = $('#afteraction-share-inner');
+      var afteractionShareAskContent = $('#afteraction-share-ask-source').html();
+      var afteractionShareContent = $('#afteraction-share-source').html();
+  
+      var afteractionDonateSlide = $('#afteraction-donate');
+      var afteractionDonateSlideInner = $('#afteraction-donate-inner');
+      var afteractionDonateAskContent = $('#afteraction-donate-ask-source').html();
+      var afteractionDonateContent = $('#afteraction-donate-source').html();
+  
+      // get the setting of the after action next step variable
+      var afterActionNextStep = "{{ page.custom_fields.after_action_next_step }}";
+      var getInvolvedURL = "{% if page.custom_fields.getinvolved_url %}{{ page.custom_fields.getinvolved_url }}{% else %}https://350.org/science{% endif %}";
+  
+      const euroCountries = ['Austria', 'Belgium', 'Cyprus', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Portugal', 'Slovakia', 'Slovenia', 'Spain'];
+  
+      // Hide "Add your Name" button on mobile if in scroll donate view
+      if (afterActionNextStep === 'scroll-donate') {
+        $('#jump-to-form').hide();
+      }
+      function updateDonateCurrency(userLocation){
+        if (euroCountries.includes(userLocation)) {
+          userLocation = 'Europe';
+        }
+        var currencyData = {
+          /* uses API exchange data, with hardcoded (out of date) exchange rate as fallback */
+          'Canada': {
+            currencySymbol: '$',
+            currency: 'CAD',
+            exchangeRate: exchangeRateData['CAD'] || 1.45
+          },
+          'Australia': {
+            currencySymbol: '$',
+            currency: 'AUD',
+            exchangeRate:  exchangeRateData['AUD']  || 1.68
+          },
+          'New Zealand': {
+            currencySymbol: '$',
+            currency: 'NZD',
+            exchangeRate:  exchangeRateData['NZD'] || 1.72
+          },
+          'United Kingdom': {
+            currencySymbol: '£',
+            currency: 'GBP',
+            exchangeRate: exchangeRateData['GBP'] || 0.85
+          },
+          'Europe': {
+            currencySymbol: '€',
+            currency: 'EUR',
+            exchangeRate: exchangeRateData['EUR'] || 0.92
+          },
+          'Brazil': {
+            currencySymbol: 'R$',
+            currency: 'BRL',
+            exchangeRate: exchangeRateData['BRL'] || 5.07
+          }
+        };
+        if (currencyData[userLocation]) {
+          if ($('#afteraction-donate-inner .afteraction-donate-cta-container a').length) {
+            // update alternate donate url
+            let altDonateUrl = $('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href');
+            altDonateUrl.indexOf('?') > -1 ?  altDonateUrl += '&currency=' : altDonateUrl += '?currency=';
+            altDonateUrl += currencyData[userLocation].currency;
+            $('#afteraction-donate-inner .afteraction-donate-cta-container a').attr('href', altDonateUrl);
+          } else {
+            // update default donate buttons url
+            $('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(i){
+              var $this = $(this);
+              var originalAmt = initDonateAmounts[i];
+              var convertedAmt = Math.ceil(originalAmt * currencyData[userLocation].exchangeRate);
+              var url = $(this).attr('href');
+              var newUrl = url.split('amount')[0] + 'amount=' + convertedAmt + '&source=' + url.split('&source=')[1] + '&currency=' + currencyData[userLocation].currency;
+              $this.attr('href', newUrl);
+              // change button label
+              $this.html(currencyData[userLocation].currencySymbol + convertedAmt);
+            });
+          }
+        }
+      }
+  
+      function afteractionShowShareAsk(el){
+        if ( afteractionShareSlideInner.html() == '' ){
+          afteractionShareSlideInner.append( afteractionShareAskContent )
+          afteractionShareSlide.show();
+        }
+        $('html, body').animate({
+          scrollTop: afteractionShareSlide.offset().top
+        }, 800);
+        afteractionProgressMeter.fadeIn();
+        $(document).trigger('domUpdated'); // tell other scripts to re-run
+        $("#jump-to-form").remove();
+  
+        // if user opts not to donate, update progress meter
+        if (afterActionNextStep === 'scroll-donate') {
+          if ( $(el).hasClass('afteraction-donate-ask-no') ){
+            $("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+              .removeClass('complete')
+              .addClass('declined')
+              .attr('data-icon',''); //&xE943; X
+          } else {
+            $("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+              .removeClass('declined')
+              .addClass('complete')
+              .attr('data-icon',''); //&xE942; checkmark
+          }
+        }
+      }
+  
+      function afteractionShowShare(response){
+  
+        afteractionShareSlideInner
+          .animate({opacity:0 }, 300, function(){
+            $(this)
+              .empty()
+              .append( afteractionShareContent )
+              .animate({opacity:1}, 300);
+            $(document).trigger('domUpdated');
+            $('html, body').animate({
+              scrollTop: afteractionShareSlide.offset().top
+            }, 800);
+  
+            var responseHTML = document.createElement('html');
+            responseHTML.innerHTML = response;
+  
+            // Set FB Share URL based on response from API
+            var fbShareEl = $(responseHTML).find('a.fb-share');
+            if (fbShareEl.length > 0) {
+              var fbShareUrl = fbShareEl[0].href;
+  
+              var currFBShareEls = $('a.fb-share');
+              if (currFBShareEls.length > 0) {
+                for (var i = 0; i < currFBShareEls.length; i++) {
+                  var currFBShareEl = currFBShareEls[i];
+                  $(currFBShareEl).attr('href', fbShareUrl);
+                }
+              }
+            }
+  
+            // Set Twitter Share URL based on response from API
+            var twShareEl = $(responseHTML).find('a.tw-share');
+            if (twShareEl.length > 0) {
+              var twShareUrl = twShareEl[0].href;
+  
+              var currTwShareEls = $('a.tw-share');
+              if (currTwShareEls.length > 0) {
+                for (var i = 0; i < currTwShareEls.length; i++) {
+                  var currTwShareEl = currTwShareEls[i];
+                  $(currTwShareEl).attr('href', twShareUrl);
+                }
+              }
+            }
+          });
+      };
+  
+      function afteractionShowDonate(el){
+        afteractionDonateSlide.show();
+        afteractionDonateSlideInner.animate({opacity:0 }, 300, function(){
+          $(this)
+            .empty()
+            .append( afteractionDonateAskContent )
+            .animate({opacity:1}, 300);
+            // save initial donate amounts to be converted for each currency
+            $('#afteraction-donate-inner .afteraction-donate-amount-container a').each(function(){
+              initDonateAmounts.push(parseInt($(this).html().substring(1)));
+            });
+            updateDonateCurrency(userCountry);
+            $(document).trigger('domUpdated');
+            $('html, body').animate({
+              scrollTop: afteractionDonateSlide.offset().top
+            }, 800);
+        });
+        if (afterActionNextStep === 'scroll-share') {
+          if ( $(el).hasClass('afteraction-share-ask-no') ){
+            $("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+              .removeClass('complete')
+              .addClass('declined')
+              .attr('data-icon',''); //&xE943; X
+          } else {
+            $("#afteraction-progress-meter-step2 .afteraction-progress-meter-dot")
+              .removeClass('declined')
+              .addClass('complete')
+              .attr('data-icon',''); //&xE942; checkmark
+          }
+        } else {
+          afteractionProgressMeter.fadeIn();
+        }
+      };
+  
+      // re-set facebook share window pop-up
+      afteraction.on('click','.button-share-facebook', function(e){
+        e.preventDefault();
+        var destination = jQuery(this).attr('href');
+        popupWidth = 520;
+        popupHeight = 350;
+        // center the pop-up on the screen
+        var winTop = (screen.height / 2) - (popupHeight / 2);
+        var winLeft = (screen.width / 2) - (popupWidth / 2);
+        window.open( destination , 'new-window-popup', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,resizable=yes,scrollbars=yes,width=' + popupWidth + ',height=' + popupHeight );
+        // send Google Analytics event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'scrolling-signup', {'click_id': 'share-facebook'});
+        }
+      });
+  
+      /* When the main form is submitted... */
+      $('#action-form').submit(function (e) {
+        // don't redirect to standard thank you page
+        e.preventDefault();
+        // wait 150ms for... some reason? idk, i forget
+        setTimeout(function() {
+          // if no errors...
+          if( $(".ak-err li").length < 1) {
+            // show loading wheel in submit button
+            if (!$('.input-submit button[type="submit"] .loader').length) {
+              $('.input-submit button[type="submit"]').wrapInner('<span class="submit-button-text"><\/span>');
+              $('.input-submit button[type="submit"]').append($('<span class="loader">'));
+            }
+            $('.submit-button-text').css({
+              'opacity': '0',
+              'position': 'absolute'
+            });
+            $('.loader').show();
+            $.ajax({
+              method: 'POST',
+              url: $('#action-form').attr('action'),
+              data: $('#action-form').serialize()
+            })
+            .done(function(msg) {
+              // handle adblockers preventing the loading of Google Analytics library
+              if (typeof gtag !== 'undefined') {
+                // send google analytics event
+                gtag('event', 'scrolling-signup', {'click_id': 'signup'});
+                // trigger GA event for successful after action signup
+                dataLayer.push(({'event': 'afterActionSignup'}));
+              }
+              // send FB tracker event
+              if (typeof fbq === "function") {
+                fbq('track', 'CompleteRegistration');
+              }
+              // save country for currency feature (needed for country prefill issue - FA)
+              userCountry = $('#country').val();
+              // hide the loading wheel
+              $('.submit-button-text').css({
+                'opacity': '1',
+                'position': 'relative'
+              });
+              $('.loader').hide();
+              if (afterActionNextStep === 'scroll-share') {
+                // show the share ask
+                afteractionShowShareAsk();
+  
+                // if user opts to share, show share dialog
+                $('.afteraction-share-ask-yes').on('click', function(){
+                  afteractionShowShare(msg);
+                  // handle adblockers preventing the loading of Google Analytics library
+                  if (typeof gtag !== 'undefined') {
+                    gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
+                  }
+                });
+                $('.afteraction-share-ask-no').on('click', function(){
+                  // handle adblockers preventing the loading of Google Analytics library
+                  if (typeof gtag !== 'undefined') {
+                    gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
+                  }
+                });
+                // if user opts not to share or has completed sharing, show donate ask
+                afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
+                  var el = $(this);
+                  afteractionShowDonate(el);
+                });
+                $('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
+                  // handle adblockers preventing the loading of Google Analytics library
+  
+                  if (typeof gtag !== 'undefined') {
+                    gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-yes'});
+                  }
+                });
+                $('.afteraction-donate-ask-no').on('click', function(){
+                  // handle adblockers preventing the loading of Google Analytics library
+                  if (typeof gtag !== 'undefined') {
+                    gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
+                  }
+                });
+              } else if (afterActionNextStep === 'scroll-donate') {
+                // show the donate ask
+                afteractionShowDonate();
+  
+                afteraction.on('click', '.afteraction-donate-ask-no', function(e){
+                  // prevent getting redirected to the Get Involved URL
+                  e.preventDefault();
+  
+                  // handle adblockers preventing the loading of Google Analytics library
+                  if (typeof gtag !== 'undefined') {
+                    gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
+                  }
+                  var el = $(this);
+                  // if user doesn't want to donate, show the share ask
+                  afteractionShowShareAsk(el);
+  
+                  // if user opts to share, show share dialog
+                  $('.afteraction-share-ask-yes').on('click', function(){
+                    afteractionShowShare(msg);
+                    // handle adblockers preventing the loading of Google Analytics library
+                    if (typeof gtag !== 'undefined') {
+                      gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
+                    }
+                  });
+                  $('.afteraction-share-ask-no').on('click', function(){
+                    // handle adblockers preventing the loading of Google Analytics library
+                    if (typeof gtag !== 'undefined') {
+                      gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
+                    }
+                    var queryString = window.location.search;
+                    window.location.href = getInvolvedURL + queryString;
+                  });
+                });
+  
+                // if user opts not to share or has completed sharing, update progress meter
+                afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
+                  if ( $(this).hasClass('afteraction-share-ask-no') ){
+                    $("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
+                      .removeClass('complete')
+                      .addClass('declined')
+                      .attr('data-icon',''); //&xE943; X
+                  } else {
+                    $("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
+                      .removeClass('declined')
+                      .addClass('complete')
+                      .attr('data-icon',''); //&xE942; checkmark
+                  }
+                });
+              }
+            })
+            .fail(function(){
+                console.log('Error: AK AJAX submission failed.');
+                // hide the loading wheel
+                $('.submit-button-text').css({
+                  'opacity': '1',
+                  'position': 'relative'
+                });
+                $('.loader').hide();
+            });
+          }
+        }, 150);
+      });
+    }
+  });
+  </script>
+  

@@ -130,7 +130,10 @@ Custom template for same-page post-AJAX submit share ask.
 		</div>
 
 		{% include "./donation_buttons.html" with amounts="10,35,50,100,350,other"|split:"," %}
-	
+		<button class="ak-styled-submit-button arrow-right button ak-donate-three-step-visible"
+		id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue
+		&rarr;{% endfilter %}</button>
+
 	</div>
 	</div>
 </div>

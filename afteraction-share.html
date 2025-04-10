@@ -129,7 +129,7 @@ Custom template for same-page post-AJAX submit share ask.
 			</div>
 		</div>
 
-		{% include "./donation_buttons.html" with amounts=[Decimal('10'), Decimal('35'), Decimal('50'), Decimal('100'), Decimal('350'), 'other'] %}
+		{% include "./donation_buttons.html" with amounts="10,35,50,100,350,other"|split:"," %}
 	
 	</div>
 	</div>

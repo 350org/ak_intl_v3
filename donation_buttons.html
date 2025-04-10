@@ -1,5 +1,3 @@
-<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/donate.js"></script>
-
 <div class="ak-amount-wrapper clearfix margin-bottom-small">
   <h5 class="margin-bottom-normal ak-donate-three-step-hidden" style="display: none;">Amount:</h5>
   <ul class="ak-unstyled nobullet text-large">
@@ -68,28 +66,3 @@
     {% endfor %}
   </ul>
 </div>
-
-<script>
-  var arg_amount_selected = false;
-  var arg_amount = {{ args.amount|default:"false" }};
-  
-  $('.ak-amount-wrapper .input-radio-button').each(function () {
-    var current_amount = parseInt($(this).text().replace(/\D/g, ''));
-    if (arg_amount && (arg_amount == current_amount)) {
-      clear_radio_buttons();
-      $(this).trigger('click');
-      arg_amount_selected = true;
-    } else if (arg_amount && !arg_amount_selected) {
-      if ($(this).hasClass('input-radio-button-other')) {
-        clear_radio_buttons();
-        $('#ak-other-amount-field').val(arg_amount).trigger('click');
-      }
-    } else {
-      // Make sure label is highlighted if an amount is pre-selected
-      highlight_selected_amount_button.call(
-        $('input[name="amount"]:checked').get(0) //||
-        //$('input[name="amount_other"]').get(0)
-      );
-    }
-  });
-</script>

@@ -130,6 +130,7 @@ Custom template for same-page post-AJAX submit share ask.
 		</div>
 
 		{% include "./donation_buttons.html" with amounts="10,35,50,100,350,other"|split:"," %}
+
 		<button class="ak-styled-submit-button arrow-right button ak-donate-three-step-visible"
 		id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue
 		&rarr;{% endfilter %}</button>
@@ -731,6 +732,11 @@ jQuery(document).ready(function($){
 			}, 150);
 		});
 	}
+
+	$('.ak-amount-wrapper .input-radio-button').on('click', function () {
+		$('label.ak-radio-checked').removeClass('ak-radio-checked');
+    $(this).closest('label').addClass('ak-radio-checked');
+	});
 });
 </script>
 

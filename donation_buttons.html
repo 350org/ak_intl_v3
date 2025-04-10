@@ -2,7 +2,6 @@
   <h5 class="margin-bottom-normal ak-donate-three-step-hidden">Amount:</h5>
   <ul class="ak-unstyled nobullet text-large">
 
-    {{ amounts }}
     {% for row in amounts|columns:1 %}
     {% for amount in row %}
     {% if amount == "other" %}

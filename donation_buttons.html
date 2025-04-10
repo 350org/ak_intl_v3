@@ -68,6 +68,9 @@
 </div>
 
 <script>
+  var arg_amount_selected = false;
+  var arg_amount = {{ args.amount|default:"false" }};
+  
   $('.ak-amount-wrapper .input-radio-button').each(function () {
     var current_amount = parseInt($(this).text().replace(/\D/g, ''));
     if (arg_amount && (arg_amount == current_amount)) {

@@ -130,6 +130,22 @@ Custom template for same-page post-AJAX submit share ask.
 		</div>
 		<form id="act" name="act" class=" ak-donate-three-step " method="POST" action="/act/" accept-charset="utf-8" autocomplete="on" style="display: block;">
 		<div id="afteraction-donation-btns">
+			<div class="ak-currency">
+				<label>
+					<select name="currency">
+						{% for code in "USD,GBP,CAD,AUD,EUR"|split:"," %}
+						{% with currency_info|get:code as currency %}
+						<option value="{{code}}">{{code}} - {{currency.name}}</option>
+						{% endwith %}
+						{% endfor %}
+						<option value="" disabled>
+							&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</option>
+						{% for code, currency in currency_info.items %}
+						<option value="{{code}}">{{code}} - {{currency.name}}</option>
+						{% endfor %}
+					</select>
+				</label>
+			</div>
 			{% include "./donation_buttons.html" with amounts="10,35,50,100,350,other"|split:"," %}
 		</div>
 

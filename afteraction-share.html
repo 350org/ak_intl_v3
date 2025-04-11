@@ -138,7 +138,7 @@ Custom template for same-page post-AJAX submit share ask.
 		</div>
 
 		<div id="afteraction-payments" style="display: none;">
-			{% include "./donation_payments.html" %}
+			{% include "./donation_payments.html" with show_paypal="1" %}
 		</div>
 		</form>
 		<button class="ak-styled-submit-button arrow-right button ak-donate-three-step-visible"

@@ -155,12 +155,13 @@ Custom template for same-page post-AJAX submit share ask.
 						{{ currency }}
 						{% endif %}
 					</option>
-
 					{% endfor %}
 				</select>
 			</div>
 
 			{% include "./donation_buttons.html" with amounts="10,35,50,100,350,other"|split:"," %}
+			<input type="hidden" name="donation_type" value="single">
+      <input type="hidden" name="page" value="{{ page.name }}">
 		</div>
 
 		<div id="afteraction-contact-info" style="display: none;">

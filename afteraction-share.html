@@ -760,6 +760,16 @@ jQuery(document).ready(function($){
 			$('#afteraction-payments').show();
 			$('#afteraction-payments .ak-donate-area-step-3').show();
 			$('#ak-pay-by-paypal').val(1);
+
+			/* clear out CC info if entered */
+			$('#ak-card_num').val('');
+			$('#ak-card_code').val('');
+
+			/* disable CC requirements */
+			$('#ak-card_num-required').remove();
+			$('#ak-card_code-required').remove();
+			$('#ak-exp_date_month-required').remove();
+			$('#ak-exp_date_year-required').remove();
 		}
 	});
 });

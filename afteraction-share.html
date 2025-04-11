@@ -128,7 +128,7 @@ Custom template for same-page post-AJAX submit share ask.
 		
 			</div>
 		</div>
-		<form name="act-donate" class=" ak-donate-three-step " method="POST" action="/act/" accept-charset="utf-8" autocomplete="on" style="display: block;">
+		<form id="act-donate" name="act-donate" class=" ak-donate-three-step " method="POST" action="/act/" accept-charset="utf-8" autocomplete="on" style="display: block;">
 		<div id="afteraction-donation-btns">
 			<div id="ak-multi-currency">
 				<label class="text-small2 text-caps"
@@ -405,6 +405,10 @@ Custom template for same-page post-AJAX submit share ask.
 	</div>
 </div>
 
+<script type="text/javascript">
+	actionkit.forms.contextRoot = '/context/';
+	actionkit.forms.initForm('act-donate');
+</script>
 <script>
 jQuery(document).ready(function($){
 	/* only run the AJAX submission if we're sure this is an AK-hosted page */

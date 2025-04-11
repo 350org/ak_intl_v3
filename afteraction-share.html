@@ -109,75 +109,8 @@ Custom template for same-page post-AJAX submit share ask.
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
-<div id="afteraction-flow" class="section action-lead bg-blue_opaque-fade afteraction-panel afteraction-fundraising border-top title-section padding-medium width-narrow text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}">
-	<div class="section-inner">
-		<div id="action-header" class="c10 c-wide">
-			<h2 id="action-title" class="title3 text-style-title3">
-				
-				<span class="">Thanks for taking action, <span class="firstName">Friend</span>!</span>
-	 			</h2>
-	
-
-	
-		<div id="action-description" class="text-large margin-top-none margin-bottom-huge ">
-			<div id="action-description-text" class="margin-bottom-medium" data-read-more-after="3">
-		
-				<p>There's more you can do to help this campaign succeed.</p>
-				<p>Donating allows us to promote this campaign through email and social media ads, bringing more supporters on board.</p>
-				<p>Can you make a donation today?</p>
-		
-			</div>
-		</div>
-		<form id="act-donate" name="act-donate" class=" ak-donate-three-step " method="POST" action="/act/" accept-charset="utf-8" autocomplete="on" style="display: block;">
-		<div id="afteraction-donation-btns">
-			<div id="ak-multi-currency">
-				<label class="text-small2 text-caps"
-					for="amount">{% filter ak_text:"general_currency" %}Currency{% endfilter %}</label>
-				<select id="ak-currency-switcher" name="payment_account" class="ak-currencies">
-					{% for currency, account_name in page.derived.currency_accounts %}
-					<option class="ak-currency" {% if forloop.first %}checked{% endif %}
-						id="id_currency_{{currency}}" value="{{account_name}}">
-						{% if currency == "AUD" %} {% filter ak_text:"general_au_dollar" %}Australian Dollar (AUD
-						$){% endfilter %}
-						{% elif currency == "BRL" %} {% filter ak_text:"general_br_real" %}Brazilian Real (BRL
-						R$){% endfilter %}
-						{% elif currency == "CAD" %} {% filter ak_text:"general_ca_dollar" %}Canadian Dollar (CAD
-						$){% endfilter %}
-						{% elif currency == "EUR" %} {% filter ak_text:"general_eu_euro" %}Euro (EUR €){% endfilter %}
-						{% elif currency == "GBP" %} {% filter ak_text:"general_gb_pound" %}British Pound (GBP
-						£){% endfilter %}
-						{% elif currency == "USD" %} {% filter ak_text:"general_us_dollar" %}U.S. Dollar (USD
-						$){% endfilter %}
-						{% elif currency == "JPY" %} {% filter ak_text:"general_ja_yen" %}Japanese Yen (JPY ¥){% endfilter %}
-						{% elif currency == "NZD" %} {% filter ak_text:"general_nz_dollar" %}New Zealand Dollar (NZD $){% endfilter %}
-						{% elif currency == "ZAR" %} {% filter ak_text:"general_sa_rand" %}South African Rand (ZAR R){% endfilter %}
-						{% else %}
-						{{ currency }}
-						{% endif %}
-					</option>
-					{% endfor %}
-				</select>
-			</div>
-
-			{% include "./donation_buttons.html" with amounts="10,35,50,100,350,other"|split:"," %}
-			<input type="hidden" name="donation_type" value="single">
-      <input type="hidden" name="page" value="build">
-		</div>
-
-		<div id="afteraction-contact-info" style="display: none;">
-			{% include "./donation_contact_info.html" %}
-		</div>
-
-		<div id="afteraction-payments" style="display: none;">
-			{% include "./donation_payments.html" with show_paypal="1" %}
-		</div>
-		</form>
-		<button class="ak-styled-submit-button arrow-right button ak-donate-three-step-visible"
-		id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue
-		&rarr;{% endfilter %}</button>
-
-	</div>
-	</div>
+<div id="afteraction-flow">
+	<iframe src="https://act.350.org/donate/test_wtr_donation_page_newdesign" style="height: 100vh;"></iframe>
 </div>
 {% endif %}
 

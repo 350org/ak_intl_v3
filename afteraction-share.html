@@ -130,22 +130,35 @@ Custom template for same-page post-AJAX submit share ask.
 		</div>
 		<form id="act" name="act" class=" ak-donate-three-step " method="POST" action="/act/" accept-charset="utf-8" autocomplete="on" style="display: block;">
 		<div id="afteraction-donation-btns">
-			<div class="ak-currency">
-				<label>
-					<select name="currency">
-						{% for code in "USD,GBP,CAD,AUD,EUR"|split:"," %}
-						{% with currency_info|get:code as currency %}
-						<option value="{{code}}">{{code}} - {{currency.name}}</option>
-						{% endwith %}
-						{% endfor %}
-						<option value="" disabled>
-							&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</option>
-						{% for code, currency in currency_info.items %}
-						<option value="{{code}}">{{code}} - {{currency.name}}</option>
-						{% endfor %}
-					</select>
-				</label>
+			<div id="ak-multi-currency">
+				<label class="text-small2 text-caps"
+					for="amount">{% filter ak_text:"general_currency" %}Currency{% endfilter %}</label>
+				<select id="ak-currency-switcher" name="payment_account" class="ak-currencies">
+					{% for currency, account_name in page.derived.currency_accounts %}
+					<option class="ak-currency" {% if forloop.first %}checked{% endif %}
+						id="id_currency_{{currency}}" value="{{account_name}}">
+						{% if currency == "AUD" %} {% filter ak_text:"general_au_dollar" %}Australian Dollar (AUD
+						$){% endfilter %}
+						{% elif currency == "BRL" %} {% filter ak_text:"general_br_real" %}Brazilian Real (BRL
+						R$){% endfilter %}
+						{% elif currency == "CAD" %} {% filter ak_text:"general_ca_dollar" %}Canadian Dollar (CAD
+						$){% endfilter %}
+						{% elif currency == "EUR" %} {% filter ak_text:"general_eu_euro" %}Euro (EUR €){% endfilter %}
+						{% elif currency == "GBP" %} {% filter ak_text:"general_gb_pound" %}British Pound (GBP
+						£){% endfilter %}
+						{% elif currency == "USD" %} {% filter ak_text:"general_us_dollar" %}U.S. Dollar (USD
+						$){% endfilter %}
+						{% elif currency == "JPY" %} {% filter ak_text:"general_ja_yen" %}Japanese Yen (JPY ¥){% endfilter %}
+						{% elif currency == "NZD" %} {% filter ak_text:"general_nz_dollar" %}New Zealand Dollar (NZD $){% endfilter %}
+						{% elif currency == "ZAR" %} {% filter ak_text:"general_sa_rand" %}South African Rand (ZAR R){% endfilter %}
+						{% else %}
+						{{ currency }}
+						{% endif %}
+					</option>
+					{% endfor %}
+				</select>
 			</div>
+
 			{% include "./donation_buttons.html" with amounts="10,35,50,100,350,other"|split:"," %}
 		</div>
 

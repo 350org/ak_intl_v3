@@ -71,7 +71,7 @@
           {% if page.custom_fields.page_title_custom_html %}
           {% include_tmpl page.custom_fields.page_title_custom_html %}
           {% else %}
-          <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, {{ action.user.first_name|"friend" }}</span>
+          <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, {{ action.user.first_name }}</span>
           {% endif %}
         </h2>
         {% if page.custom_fields.page_author %}

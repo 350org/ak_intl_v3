@@ -12,6 +12,17 @@
 {% endif %}
 
 {% block content %}
+<style>
+  #action-lead {
+    max-width: 800px;
+  }
+  #donation-other {
+    display: none;
+  }
+  #site-footer {
+    display: none;
+  }
+</style>
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
   {% if page.custom_fields.donate_enable_countdown and page.custom_fields.donate_countdown_date and page.custom_fields.donate_countdown_copy %}
@@ -1457,16 +1468,6 @@
 {% endif %}
 
 <style>
-  #action-lead {
-    max-width: 800px;
-    justify-self: center;
-  }
-  #donation-other {
-    display: none;
-  }
-  #site-footer {
-    display: none;
-  }
   .name-container fieldset {
     display: inline-flex;
   }

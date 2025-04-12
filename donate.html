@@ -87,12 +87,19 @@
     background-color: white;
     min-width: 530px;
   }
-  .line {
-    width: 2px;
-    height: 48px; /* Adjust spacing between steps */
+  .ak-donate-step-1 .ak-step-number::after,
+  .ak-donate-step-2 .ak-step-number::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 1px;
+    height: 48px;
     background-color: white;
+    transform: translateX(-50%);
     z-index: 0;
   }
+
 </style>
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -121,14 +128,12 @@
           class="ak-amount-label"></span>
         <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1"
           checked="checked">
-          <div class="line"></div>
       </label>
       <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
         <span class="ak-step-number strong inline-dot bg-trans">2</span>
         <span
           class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span></span>
         <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
-        <div class="line"></div>
       </label>
       <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
         <span class="ak-step-number strong inline-dot bg-trans">3</span>

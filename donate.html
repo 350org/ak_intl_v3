@@ -25,6 +25,15 @@
   #site-footer {
     display: none;
   }
+  .ak-pagetype-donate.Donation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: transparent;
+  }
+  #admin-bar {
+    display: none;
+  }
 </style>
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -1612,6 +1621,12 @@
 {% endif %}
 <script>
   $(function () {
+    $('#ak-continue-button').on('click', function() {
+      if ($('.ak-donate-area-step-2').is(':visible')) {
+        $('#action-header').hide();
+        $('#action-description').hide();
+      }
+    });
     var searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {
       three_step_advance();

@@ -34,6 +34,34 @@
   #admin-bar {
     display: none;
   }
+  #ak-donation-details {
+    background-color: transparent !important;
+  }
+  .ak-field-box.ak-donate-three-step {
+    display: flex;
+  }
+  #action-header {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+  }
+  #donate {
+    margin: 0;
+    padding: 0;
+  }
+  #action-lead .section-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .ak-donate-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: transparent;
+    height: 200px;
+    align-self: center;
+  }
 </style>
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -54,6 +82,28 @@
       {% endautoescape %}
     </div>
     {% else %}
+    <div
+      class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
+      <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
+        <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>
+        <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span
+          class="ak-amount-label">{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
+        <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1"
+          checked="checked">
+      </label>
+      <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
+        <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>
+        <span
+          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
+        <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
+      </label>
+      <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
+        <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>
+        <span
+          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
+        <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
+      </label>
+    </div>
     <form id="act" name="act"
       class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} "
       method="POST" action="/act/" accept-charset="utf-8" autocomplete="on">
@@ -123,29 +173,6 @@
                 <!-- Render progress meter -->
                 {% include "./progress_meter.html" %}
                 <!--Add .ak-donate-three-step for three-step-->
-                <div
-                  class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
-                  <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>
-                    <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span
-                      class="ak-amount-label">{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
-                    <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1"
-                      checked="checked">
-                  </label>
-                  <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>
-                    <span
-                      class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
-                    <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
-                  </label>
-                  <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
-                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>
-                    <span
-                      class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
-                    <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
-                  </label>
-                </div>
-
                 <div id="ak-donation-details" class="box box-medium bg-white">
                   <div id="ak-product-list" class="ak-donate-area-step-1 ak-errs-below">
                     {% if has_products %}

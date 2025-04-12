@@ -608,6 +608,11 @@ jQuery(document).ready(function($){
 							'position': 'relative'
 						});
 						$('.loader').hide();
+						if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
+							const firstName = $('#id_name').val().split(' ')[0];
+							const iframe = document.querySelector("iframe");
+    					iframe.contentWindow.postMessage(firstName, "*");
+						}
 						if (afterActionNextStep === 'scroll-share') {
 							// show the share ask
 							afteractionShowShareAsk();

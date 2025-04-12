@@ -70,7 +70,7 @@
         <h2 id="action-title" class="title3 text-style-title3">
           {% if page.custom_fields.page_title_custom_html %}
           <!-- {% include_tmpl page.custom_fields.page_title_custom_html %} -->
-          <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, {{ action.user.first_name }}</span>
+          <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action!</span></span>
           {% else %}
           <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, {{ action.user.first_name }}</span>
           {% endif %}
@@ -1622,6 +1622,10 @@
 {% endif %}
 <script>
   $(function () {
+    window.addEventListener('message', function(event) {
+      console.log("Message received from the parent: " + event.data); // Message received from parent
+    });
+
     $('#ak-continue-button').on('click', function() {
       if (!$('.ak-donate-area-step-1').is(':visible')) {
         $('#action-pretitle').show();

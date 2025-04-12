@@ -1671,8 +1671,9 @@
 <script>
   $(function () {
     window.addEventListener('message', function(event) {
-      if (typeof(event.data) == "string") {
-        $('.actionFirstName').text(event.data);
+      const data = event.data;
+      if (data.type === "firstName") {
+        $('.actionFirstName').text(data.value);
       }
     });
 

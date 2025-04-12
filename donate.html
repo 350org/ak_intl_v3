@@ -64,14 +64,14 @@
       <div id="action-header"
         class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
         {% if page.custom_fields.page_pretitle %}
-        <p id="action-pretitle" class="text-font-secondary"><span
-            class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
+        <p id="action-pretitle" class="text-font-secondary" style="display: none;"><span
+            class="highlight bg-dkgray-trans">Complete your donation</span></p>
         {% endif %}
         <h2 id="action-title" class="title3 text-style-title3">
           {% if page.custom_fields.page_title_custom_html %}
           {% include_tmpl page.custom_fields.page_title_custom_html %}
           {% else %}
-          <span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
+          <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, {{ action.user.first_name|"friend" }}</span>
           {% endif %}
         </h2>
         {% if page.custom_fields.page_author %}
@@ -1622,8 +1622,11 @@
 <script>
   $(function () {
     $('#ak-continue-button').on('click', function() {
+      if (!$('.ak-donate-area-step-1').is(':visible')) {
+        $('#action-pretitle').show();
+      }
       if ($('.ak-donate-area-step-2').is(':visible')) {
-        $('#action-header').hide();
+        $('#action-title').hide();
         $('#action-description').hide();
       }
     });

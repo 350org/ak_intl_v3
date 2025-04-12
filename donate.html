@@ -64,6 +64,18 @@
     height: 200px;
     align-self: center;
   }
+  #action-toc {
+    display: none;
+  }
+  .inline-dot {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 2em;
+    border: 2px solid white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
@@ -87,22 +99,22 @@
     <div
       class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
       <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
-        <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>
+        <span class="ak-step-number strong inline-dot bg-trans">1</span>
         <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span
-          class="ak-amount-label">{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
+          class="ak-amount-label"></span>
         <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1"
           checked="checked">
       </label>
       <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
-        <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>
+        <span class="ak-step-number strong inline-dot bg-trans">2</span>
         <span
-          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
+          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span></span>
         <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
       </label>
       <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
-        <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>
+        <span class="ak-step-number strong inline-dot bg-trans">3</span>
         <span
-          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
+          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span></span>
         <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
       </label>
     </div>

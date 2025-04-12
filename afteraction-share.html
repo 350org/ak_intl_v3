@@ -611,7 +611,7 @@ jQuery(document).ready(function($){
 						if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
 							const message = $('#id_name').val().split(' ')[0];
 							const iframe = document.querySelector("iframe");
-    					iframe.contentWindow.postMessage(message, "*");
+							iframe.contentWindow.postMessage(message);
 						}
 						if (afterActionNextStep === 'scroll-share') {
 							// show the share ask

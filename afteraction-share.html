@@ -103,14 +103,16 @@ Custom template for same-page post-AJAX submit share ask.
   line-height: normal;
 }
 
-#afteraction-flow {
-	background-image: url('https://dbqvwi2zcv14h.cloudfront.net/images/1000x751px-660740-renewable-energy-460-67-kb-13-03-2015.jpg');
+#afteraction-flow, #body-mobile-background {
+	background-image: url('https://dbqvwi2zcv14h.cloudfront.net/images/1000x751px-660740-renewable-energy-460-67-kb-13-03-2015.jpg') !important;
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
 <div id="afteraction-flow">
-	<iframe scrolling="no" src="https://act.350.org/donate/test_wtr_donation_page_newdesign" style="height: 100vh; width: 100vw; overflow: hidden;"></iframe>
+	<iframe scrolling="no" src="https://act.350.org/donate/test_wtr_donate_afteractionflow" style="height: 100vh; width: 100vw; overflow: hidden;"></iframe>
 </div>
 {% endif %}
 

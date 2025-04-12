@@ -36,6 +36,7 @@
   }
   #ak-donation-details {
     background-color: transparent !important;
+    padding: 0 !important;
   }
   .ak-field-box.ak-donate-three-step {
     display: flex;
@@ -1651,7 +1652,9 @@
 <script>
   $(function () {
     window.addEventListener('message', function(event) {
-      $('.actionFirstName').text(event.data);
+      if (typeof(event.data) == "string") {
+        $('.actionFirstName').text(event.data);
+      }
     });
 
     $('#ak-continue-button').on('click', function() {

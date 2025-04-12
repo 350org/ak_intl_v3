@@ -1472,6 +1472,18 @@
   .last-name-container {
     border-top: 0 !important;
   }
+
+  #action-lead {
+    max-width: 800px;
+    justify-self: center;
+  }
+  #donation-other {
+    display: none;
+  }
+  #site-footer {
+    display: none;
+  }
+
 </style>
 
 <!-- New styles for more accessible donate pages -->
@@ -1596,18 +1608,6 @@
 
 </style>
 {% endif %}
-<style>
-  #action-lead {
-    max-width: 800px;
-    justify-self: center;
-  }
-  #donation-other {
-    display: none;
-  }
-  #site-footer {
-    display: none;
-  }
-</style>
 <script>
   $(function () {
     var searchParams = new URLSearchParams(window.location.search);

@@ -108,6 +108,11 @@ Custom template for same-page post-AJAX submit share ask.
 	background-size: cover;
 	background-repeat: no-repeat;
 }
+@media screen and (max-width:720px) {
+    #jump-to-form, #site-footer {
+      display: none;
+    }
+}
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}

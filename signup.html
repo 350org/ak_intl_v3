@@ -18,7 +18,7 @@
 	});
 </script>
 
-<section id="action-lead" class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+<section id="action-lead" class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_image %}{{ page.custom_fields.page_background_color | default: 'blue_opaque' }}-fade{% else %}blue_opaque-fade{% endif %}">
 	<div class="section-inner">
 		<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c6{% endif %} ct10 cm10 c-wide">
 			<a id="jump-to-form" href="#action-form" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"signup_submit_button" %}Sign Up{% endfilter %}{% endif %}</a>

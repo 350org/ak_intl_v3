@@ -702,6 +702,16 @@ jQuery(document).ready(function($){
 								}
 							});
 						} else if (afterActionNextStep === 'flow') {
+							const country = $('#country').val();
+							const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
+							if (fundraisingRegions.includes(country)) {
+								afteractionFlowSlide.show();
+								$('html, body').animate({
+									scrollTop: afteractionFlowSlide.offset().top
+								}, 800);
+							} else {
+								alert('Non fundraising country; redirect to share ask');
+							}
 							if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
 								const firstName = $('#id_name').val().split(' ')[0];
 								const iframe = document.querySelector("iframe");
@@ -711,10 +721,6 @@ jQuery(document).ready(function($){
 								}
 								iframe.contentWindow.postMessage(dataToSend);
 							}
-							afteractionFlowSlide.show();
-							$('html, body').animate({
-								scrollTop: afteractionFlowSlide.offset().top
-							}, 800);
 						}
 					})
 					.fail(function(){

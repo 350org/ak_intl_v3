@@ -120,7 +120,7 @@ Custom template for same-page post-AJAX submit share ask.
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
-<div id="afteraction-flow">
+<div id="afteraction-flow" style="display: none;">
 	<iframe scrolling="no" src="https://act.350.org/donate/test_wtr_donate_afteractionflow" style="height: 100vh; width: 100vw; overflow: hidden;"></iframe>
 </div>
 {% endif %}
@@ -617,15 +617,6 @@ jQuery(document).ready(function($){
 							'position': 'relative'
 						});
 						$('.loader').hide();
-						if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
-							const firstName = $('#id_name').val().split(' ')[0];
-							const iframe = document.querySelector("iframe");
-							const dataToSend = {
-								type: "firstName",
-								value: firstName
-							}
-							iframe.contentWindow.postMessage(dataToSend);
-						}
 						if (afterActionNextStep === 'scroll-share') {
 							// show the share ask
 							afteractionShowShareAsk();
@@ -711,6 +702,15 @@ jQuery(document).ready(function($){
 								}
 							});
 						} else if (afterActionNextStep === 'flow') {
+							if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
+								const firstName = $('#id_name').val().split(' ')[0];
+								const iframe = document.querySelector("iframe");
+								const dataToSend = {
+									type: "firstName",
+									value: firstName
+								}
+								iframe.contentWindow.postMessage(dataToSend);
+							}
 							afteractionFlowSlide.show();
 							$('html, body').animate({
 								scrollTop: afteractionFlowSlide.offset().top

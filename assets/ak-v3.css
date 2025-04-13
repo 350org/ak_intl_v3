@@ -64,6 +64,10 @@ body.bg-on {
   background-color: #17292e;
 }
 
+body:is(.Signup, .Petition, .Letter).body-blue_opaque {
+  background: #0F81E9;
+}
+
 #body-mobile-background {
   background: center/cover no-repeat scroll transparent;
   display: block;

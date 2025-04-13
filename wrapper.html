@@ -363,11 +363,8 @@
 </head>
 
 <body
-  class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{ page.lang.iso_code|default:'en-US' }}
-  page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %}
-  {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js body-{{ page.custom_fields.page_background_color }}
->
-	
+	class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.iso_code|default:'en-US'}} page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %} {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js body-{{ page.custom_fields.page_background_color }}">
+
 	{% if page.custom_fields.page_disable_gtm != 'Y' %}
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNNGDHL" height="0" width="0"

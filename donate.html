@@ -100,6 +100,36 @@
     z-index: 0;
   }
 
+  .ak-donate-step-1 .ak-step-complete::after,
+  .ak-donate-step-2 .ak-step-complete::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 1px;
+    height: 48px;
+    background-color: white;
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  #ak-donation-contact,
+  .ak-donate-area-step-3 {
+    margin-top: 1rem;
+  }
+
+  .ak-donate-area-step-3.ak-submit-button {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  label.ak-radio-checked {
+    background-color: rgb(255, 169, 2);
+  }
+  #ak-donation-details {
+    width: 100%;
+  }
+
   /* Mobile Styles */
   @media screen and (max-width:720px) {
     .ak-donate-menu.ak-donate-three-step {
@@ -117,6 +147,12 @@
     }
     #body-mobile-background {
       background-image: url('{{ page.custom_fields.page_background_image }}') !important;
+    }
+    #jump-to-form {
+      display: none;
+    }
+    #ak-donation-details {
+      margin: 10px;
     }
   }
 </style>
@@ -1206,7 +1242,9 @@
 
     /* clear out CC info if entered */
     $('#ak-card_num').val('');
+    $('#credit-card-number').val('');
     $('#ak-card_code').val('');
+    $('#cvv').val('');
 
     /* disable CC requirements */
     $('#ak-card_num-required').remove();
@@ -1708,24 +1746,51 @@
   $(function () {
     window.addEventListener('message', function(event) {
       const data = event.data;
-      console.log('data', data);
-      if (data.type === "firstName") {
-        $('.actionFirstName').text(data.value);
+      if (data.type === "signupForm") {
+        $('.actionFirstName').text(data.firstName);
+        $('#id_email').val(data.email);
+        $('#id_first_name').val(data.firstName);
+        if (data.lastName) {
+          $('#id_last_name').val(data.lastName);
+        }
+        $('#id_city').val(data.city);
       }
     });
 
     $('#ak-continue-button').on('click', function() {
-      if (!$('.ak-donate-area-step-1').is(':visible')) {
+      if ($('.ak-donate-area-step-1').is(':visible')) {
+        $('#action-title').show();
+        $('#action-description').show();
+      } else {
         $('#action-pretitle').show();
       }
       if ($('.ak-donate-area-step-2').is(':visible')) {
         $('#action-title').hide();
         $('#action-description').hide();
-      } else if ($('.ak-donate-area-step-1').is(':visible')) {
-        $('#action-title').show();
-        $('#action-description').show();
+      }
+      if ($('.ak-donate-area-step-3').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
       }
     });
+
+    $('.ak-donate-step').on('click', function() {
+      if ($('.ak-donate-area-step-1').is(':visible')) {
+        $('#action-title').show();
+        $('#action-description').show();
+      } else {
+        $('#action-pretitle').show();
+      }
+      if ($('.ak-donate-area-step-2').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
+      }
+      if ($('.ak-donate-area-step-3').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
+      }
+    });
+
     var searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {
       three_step_advance();

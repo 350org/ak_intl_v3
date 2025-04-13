@@ -202,7 +202,7 @@
 			<input type="hidden" name="page" value="{{ page.name }}" />
 			{% include "./progress_meter.html" %}
 			</form>
-			<div id="thanks-message" class="bg-dkgray-trans c10 ct10 cm10 box box-huge margin-bottom-large">
+			<div id="thanks-message" class="c10 ct10 cm10 box box-huge margin-bottom-large">
 			{% include_tmpl form.thank_you_text %}
 
 			{% if page.custom_fields.thank_you_page_show_upsell == 'Y' and not action.orderrecurring and not user.orderrecurring_set.active %}

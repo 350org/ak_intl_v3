@@ -100,6 +100,19 @@
     z-index: 0;
   }
 
+  .ak-donate-step-1 .ak-step-complete::after,
+  .ak-donate-step-2 .ak-step-complete::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 1px;
+    height: 48px;
+    background-color: white;
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
   /* Mobile Styles */
   @media screen and (max-width:720px) {
     .ak-donate-menu.ak-donate-three-step {

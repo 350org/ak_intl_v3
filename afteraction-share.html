@@ -113,16 +113,13 @@ Custom template for same-page post-AJAX submit share ask.
 }
 
 @media screen and (max-width:720px) {
-    #jump-to-form, #site-footer {
-      display: none;
-    }
-		#afteraction-flow {
-			background-image: unset !important;
-			background-color: #0F81E9;
-		}
-		#body-mobile-background {
-			display: none;
-		}
+	#jump-to-form, #site-footer {
+		display: none;
+	}
+	#afteraction-flow {
+		background-image: unset !important;
+		background-color: #0F81E9;
+	}
 }
 </style>
 
@@ -714,6 +711,7 @@ jQuery(document).ready(function($){
 							const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 							if (fundraisingRegions.includes(country)) {
 								afteractionFlowSlide.show();
+								$('#body-mobile-background').hide();
 								afteractionFlowSlide.addClass('afteraction-flow-show');
 								actionLead.hide();
 								afteractionFlowSlide.animate({

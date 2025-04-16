@@ -123,6 +123,10 @@
     margin-right: auto;
   }
 
+  label.ak-radio-checked {
+    background-color: #FFA902;
+  }
+
   /* Mobile Styles */
   @media screen and (max-width:720px) {
     .ak-donate-menu.ak-donate-three-step {
@@ -1244,8 +1248,6 @@
     $('#ak-card_code-required').remove();
     $('#ak-exp_date_month-required').remove();
     $('#ak-exp_date_year-required').remove();
-
-    console.log('removing cc fields');
 
     /* and keep submitting */
     checkout_step_track(2, "paypal");

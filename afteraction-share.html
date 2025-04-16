@@ -710,6 +710,7 @@ jQuery(document).ready(function($){
 							const country = $('#country').val();
 							const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 							if (fundraisingRegions.includes(country)) {
+								afteractionFlowSlide.show();
 								afteractionFlowSlide.addClass('afteraction-flow-show');
 							} else {
 								alert('Non fundraising country; redirect to share ask');

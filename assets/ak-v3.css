@@ -2341,6 +2341,14 @@ a.tf-logo:hover {
   background-color: #0f81e8;
 }
 
+#donation-other, #site-footer {
+  background-color: #0E76D8;
+  color: white;
+}
+#donation-other a, #site-footer a {
+  color: white;
+}
+
 /* Mobile Only */
 @media only screen and (max-width:720px) {
   .mobile-hide {
@@ -4451,6 +4459,12 @@ label.ak-survey-radio-choice {
   background-color: rgba(15, 129, 232, 0.7);
   color: #fff;
 }
+.Donation .bg-blue_opaque-fade .section-inner {
+  background-color: #0F81E9;
+  color: #fff;
+  padding: 48px 24px;
+}
+
 .Signup .bg-blue_opaque-fade .section-inner,
 .Petition .bg-blue_opaque-fade .section-inner,
 .Letter .bg-blue_opaque-fade .section-inner {

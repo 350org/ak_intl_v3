@@ -724,10 +724,13 @@ jQuery(document).ready(function($){
 							}
 							if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
 								const firstName = $('#id_name').val().split(' ')[0];
+								const email = $('#id_email').val();
 								const iframe = document.querySelector("iframe");
 								const dataToSend = {
 									type: "firstName",
-									value: firstName
+									value: firstName,
+									inputType: "email",
+									emailValue: email,
 								}
 								iframe.contentWindow.postMessage(dataToSend);
 							}

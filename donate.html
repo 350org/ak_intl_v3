@@ -124,7 +124,7 @@
   }
 
   label.ak-radio-checked {
-    background-color: #FFA902;
+    background-color: rgb(255, 169, 2);
   }
 
   /* Mobile Styles */
@@ -1746,6 +1746,9 @@
       const data = event.data;
       if (data.type === "firstName") {
         $('.actionFirstName').text(data.value);
+      }
+      if (data.inputType === "email") {
+        $('#id_email').val(data.emailValue);
       }
     });
 

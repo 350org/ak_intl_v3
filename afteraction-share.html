@@ -741,14 +741,6 @@ jQuery(document).ready(function($){
 			}, 150);
 		});
 	}
-
-	$('#ak-pay-by-paypal').on('change', function(e) {
-		if ($(e).val() === '1') {
-			/* clear out CC info if entered */
-			$('#ak-card_num').val('');
-			$('#ak-card_code').val('');
-		}
-	})
 });
 </script>
 

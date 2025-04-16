@@ -107,6 +107,11 @@ Custom template for same-page post-AJAX submit share ask.
 	position: absolute;
 	right: 100%;
 }
+
+#afteraction-flow iframe {
+	overflow: hidden;
+}
+
 @media screen and (max-width:720px) {
     #jump-to-form, #site-footer {
       display: none;
@@ -123,7 +128,7 @@ Custom template for same-page post-AJAX submit share ask.
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
 <div id="afteraction-flow" style="display: none;">
-	<iframe scrolling="no" src="https://act.350.org/donate/test_wtr_donate_afteractionflow" style="height: 100vh; width: 100vw; overflow: hidden;"></iframe>
+	<iframe src="https://act.350.org/donate/test_wtr_donate_afteractionflow" style="height: 100vh; width: 100vw;"></iframe>
 </div>
 {% endif %}
 

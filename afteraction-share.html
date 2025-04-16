@@ -120,9 +120,6 @@ Custom template for same-page post-AJAX submit share ask.
 		background-image: unset !important;
 		background-color: #0F81E9;
 	}
-	#body-mobile-background {
-		display: none;
-	}
 }
 </style>
 
@@ -715,6 +712,7 @@ jQuery(document).ready(function($){
 							if (fundraisingRegions.includes(country)) {
 								afteractionFlowSlide.show();
 								afteractionFlowSlide.addClass('afteraction-flow-show');
+								$('#body-mobile-background').addClass('mobile-hide');
 								actionLead.hide();
 								afteractionFlowSlide.animate({
 									right: 0

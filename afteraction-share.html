@@ -109,9 +109,8 @@ Custom template for same-page post-AJAX submit share ask.
 	background-repeat: no-repeat;
 }
 .afteraction-flow-show {
-	display: block;
 	position: absolute;
-	top: 0;
+	right: 100%;
 }
 @media screen and (max-width:720px) {
     #jump-to-form, #site-footer {
@@ -384,6 +383,7 @@ jQuery(document).ready(function($){
 		var afteractionDonateContent = $('#afteraction-donate-source').html();
 
 		var afteractionFlowSlide = $('#afteraction-flow');
+		var actionLead = $('#action-lead');
 
 		// get the setting of the after action next step variable
 		var afterActionNextStep = "{{ page.custom_fields.after_action_next_step }}";
@@ -712,6 +712,10 @@ jQuery(document).ready(function($){
 							if (fundraisingRegions.includes(country)) {
 								afteractionFlowSlide.show();
 								afteractionFlowSlide.addClass('afteraction-flow-show');
+								actionLead.hide();
+								afteractionFlowSlide.animate({
+									right: 0
+								});
 							} else {
 								alert('Non fundraising country; redirect to share ask');
 							}

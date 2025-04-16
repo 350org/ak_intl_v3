@@ -721,14 +721,21 @@ jQuery(document).ready(function($){
 								alert('Non fundraising country; redirect to share ask');
 							}
 							if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
-								const firstName = $('#id_name').val().split(' ')[0];
+								const name = $('#id_name').val().split(' ');
+								const firstName = name[0];
+								var lastName = null;
+								if (name.length > 1) {
+									lastName = name[1];
+								}
 								const email = $('#id_email').val();
+								const city = $('#id_city').val();
 								const iframe = document.querySelector("iframe");
 								const dataToSend = {
-									type: "firstName",
-									value: firstName,
-									inputType: "email",
-									emailValue: email,
+									type: "signupForm",
+									firstName: firstName,
+									lastName: lastName,
+									email: email,
+									city: city
 								}
 								iframe.contentWindow.postMessage(dataToSend);
 							}

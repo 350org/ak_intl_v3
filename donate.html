@@ -1743,11 +1743,14 @@
   $(function () {
     window.addEventListener('message', function(event) {
       const data = event.data;
-      if (data.type === "firstName") {
-        $('.actionFirstName').text(data.value);
-      }
-      if (data.inputType === "email") {
-        $('#id_email').val(data.emailValue);
+      if (data.type === "signupForm") {
+        $('.actionFirstName').text(data.firstName);
+        $('#id_email').val(data.email);
+        $('#id_first_name').val(data.firstName);
+        if (data.lastName) {
+          $('#id_last_name').val(data.lastName);
+        }
+        $('#id_city').val(data.city);
       }
     });
 

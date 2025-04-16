@@ -1742,6 +1742,23 @@
         $('#action-description').hide();
       }
     });
+
+    $('.ak-donate-step').on('click', function() {
+      if (!$('.ak-donate-area-step-1').is(':visible')) {
+        $('#action-pretitle').show();
+        $('#action-title').show();
+        $('#action-description').show();
+      }
+      if ($('.ak-donate-area-step-2').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
+      }
+      if ($('.ak-donate-area-step-3').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
+      }
+    });
+
     var searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {
       three_step_advance();

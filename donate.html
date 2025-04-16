@@ -118,6 +118,11 @@
     margin-top: 1rem;
   }
 
+  .ak-donate-area-step-3.ak-submit-button {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   /* Mobile Styles */
   @media screen and (max-width:720px) {
     .ak-donate-menu.ak-donate-three-step {
@@ -1238,6 +1243,8 @@
     $('#ak-exp_date_month-required').remove();
     $('#ak-exp_date_year-required').remove();
 
+    console.log('removing cc fields');
+
     /* and keep submitting */
     checkout_step_track(2, "paypal");
     return true;
@@ -1531,6 +1538,7 @@
         "#ak-exp_date_month-required",
         "#ak-exp_date_year-required", "#ak-card_code-required"];
     toRemove.forEach(function (el) {
+      console.log(el);
       $(el).remove();
     });
 
@@ -1732,7 +1740,6 @@
   $(function () {
     window.addEventListener('message', function(event) {
       const data = event.data;
-      console.log('data', data);
       if (data.type === "firstName") {
         $('.actionFirstName').text(data.value);
       }

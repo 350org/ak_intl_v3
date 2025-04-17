@@ -129,6 +129,10 @@ Custom template for same-page post-AJAX submit share ask.
 <div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute;">
 	<iframe id="donate-iframe" style="height: 100vh; width: 100vw;"></iframe>
 </div>
+
+<div id="afteraction-flow-share" style="display: none; height: 100vh; width: 100vw; position: absolute; top: 0">
+<p>share :)</p>
+</div>
 {% endif %}
 
 <div id="afteraction-progress-meter" aria-hidden="true" class="section text-small text-strong width-wide text-center padding-tiny bg-dkgray-trans" style="display:none;position:fixed;top:0;left:0;width:100%;z-index:10;">
@@ -388,6 +392,7 @@ jQuery(document).ready(function($){
 
 		var afteractionFlowSlide = $('#afteraction-flow');
 		var actionLead = $('#action-lead');
+		var afteractionFlowShare = $('#afteraction-flow-share');
 
 		// get the setting of the after action next step variable
 		var afterActionNextStep = "{{ page.custom_fields.after_action_next_step }}";
@@ -720,6 +725,7 @@ jQuery(document).ready(function($){
 								actionLead.hide();
 							} else {
 								alert('Non fundraising country; redirect to share ask');
+								afteractionFlowShare.show();
 							}
 							if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
 								const name = $('#id_name').val().split(' ');

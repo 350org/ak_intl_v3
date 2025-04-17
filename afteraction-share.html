@@ -106,8 +106,6 @@ Custom template for same-page post-AJAX submit share ask.
 .afteraction-flow-show {
 	position: absolute;
 	right: 0;
-	left: 0;
-	visibility: visible;
 }
 
 #afteraction-flow iframe {
@@ -126,7 +124,7 @@ Custom template for same-page post-AJAX submit share ask.
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
-<div id="afteraction-flow" style="visibility: hidden; position: absolute; left: -9999px;">
+<div id="afteraction-flow" style="display: none;">
 	<iframe id="donate-iframe" style="height: 100vh; width: 100vw;"></iframe>
 </div>
 {% endif %}
@@ -292,7 +290,7 @@ Custom template for same-page post-AJAX submit share ask.
 	<script>
 		jQuery(document).ready(function($){
 			const iframe = document.getElementById('donate-iframe');
-			iframe.src = "https://act.350.org/donate/test_wtr_donate_afteractionflow"
+			iframe.src = "https://act.350.org/donate/test_wtr_donate_afteractionflow";
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
@@ -715,7 +713,6 @@ jQuery(document).ready(function($){
 							const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 							if (fundraisingRegions.includes(country)) {
 								afteractionFlowSlide.addClass('afteraction-flow-show');
-								afteractionFlowSlide.parent().addClass('afteraction-flow-show');
 								afteractionFlowSlide.show();
 								$('#body-mobile-background').addClass('mobile-hide');
 								actionLead.hide();

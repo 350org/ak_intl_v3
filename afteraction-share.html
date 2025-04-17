@@ -292,7 +292,7 @@ Custom template for same-page post-AJAX submit share ask.
 	<script>
 		jQuery(document).ready(function($){
 			const iframe = document.getElementById('donate-iframe');
-			iframe.src = "https://act.350.org/sign/sk-copy-link-test_copy";
+			iframe.src = "https://act.350.org/donate/test_wtr_donate_afteractionflow"
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
@@ -715,6 +715,7 @@ jQuery(document).ready(function($){
 							const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 							if (fundraisingRegions.includes(country)) {
 								afteractionFlowSlide.addClass('afteraction-flow-show');
+								afteractionFlowSlide.parent().addClass('afteraction-flow-show');
 								afteractionFlowSlide.show();
 								$('#body-mobile-background').addClass('mobile-hide');
 								actionLead.hide();

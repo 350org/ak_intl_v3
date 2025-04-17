@@ -108,6 +108,8 @@ Custom template for same-page post-AJAX submit share ask.
 	right: 0;
 	left: 0 !important;
 	visibility: visible !important;
+	height: 100% !important;
+	width: 100% !important;
 }
 
 #afteraction-flow iframe {
@@ -126,7 +128,7 @@ Custom template for same-page post-AJAX submit share ask.
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
-<div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute;">
+<div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute; height: 0; width: 0;">
 	<iframe id="donate-iframe" style="height: 100vh; width: 100vw;"></iframe>
 </div>
 
@@ -726,6 +728,7 @@ jQuery(document).ready(function($){
 							} else {
 								alert('Non fundraising country; redirect to share ask');
 								afteractionFlowShare.show();
+								actionLead.hide();
 							}
 							if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
 								const name = $('#id_name').val().split(' ');

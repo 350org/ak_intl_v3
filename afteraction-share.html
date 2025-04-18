@@ -570,6 +570,148 @@ jQuery(document).ready(function($){
 			}
 		}
 
+		function onSuccess(msg) {
+			// handle adblockers preventing the loading of Google Analytics library
+			if (typeof gtag !== 'undefined') {
+				// send google analytics event
+				gtag('event', 'scrolling-signup', {'click_id': 'signup'});
+				// trigger GA event for successful after action signup
+				dataLayer.push(({'event': 'afterActionSignup'}));
+			}
+			// send FB tracker event
+			if (typeof fbq === "function") {
+				fbq('track', 'CompleteRegistration');
+			}
+			// save country for currency feature (needed for country prefill issue - FA)
+			userCountry = $('#country').val();
+			// hide the loading wheel
+			$('.submit-button-text').css({
+				'opacity': '1',
+				'position': 'relative'
+			});
+			$('.loader').hide();
+			if (afterActionNextStep === 'scroll-share') {
+				// show the share ask
+				afteractionShowShareAsk();
+
+				// if user opts to share, show share dialog
+				$('.afteraction-share-ask-yes').on('click', function(){
+					afteractionShowShare(msg);
+					// handle adblockers preventing the loading of Google Analytics library
+					if (typeof gtag !== 'undefined') {
+						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
+					}
+				});
+				$('.afteraction-share-ask-no').on('click', function(){
+					// handle adblockers preventing the loading of Google Analytics library
+					if (typeof gtag !== 'undefined') {
+						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
+					}
+				});
+				// if user opts not to share or has completed sharing, show donate ask
+				afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
+					var el = $(this);
+					afteractionShowDonate(el);
+				});
+				$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
+					// handle adblockers preventing the loading of Google Analytics library
+
+					if (typeof gtag !== 'undefined') {
+						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-yes'});
+					}
+				});
+				$('.afteraction-donate-ask-no').on('click', function(){
+					// handle adblockers preventing the loading of Google Analytics library
+					if (typeof gtag !== 'undefined') {
+						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
+					}
+				});
+			} else if (afterActionNextStep === 'scroll-donate') {
+				// show the donate ask
+				afteractionShowDonate();
+
+				afteraction.on('click', '.afteraction-donate-ask-no', function(e){
+					// prevent getting redirected to the Get Involved URL
+					e.preventDefault();
+
+					// handle adblockers preventing the loading of Google Analytics library
+					if (typeof gtag !== 'undefined') {
+						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
+					}
+					var el = $(this);
+					// if user doesn't want to donate, show the share ask
+					afteractionShowShareAsk(el);
+
+					// if user opts to share, show share dialog
+					$('.afteraction-share-ask-yes').on('click', function(){
+						afteractionShowShare(msg);
+						// handle adblockers preventing the loading of Google Analytics library
+						if (typeof gtag !== 'undefined') {
+							gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
+						}
+					});
+					$('.afteraction-share-ask-no').on('click', function(){
+						// handle adblockers preventing the loading of Google Analytics library
+						if (typeof gtag !== 'undefined') {
+							gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
+						}
+						var queryString = window.location.search;
+						window.location.href = getInvolvedURL + queryString;
+					});
+				});
+
+				// if user opts not to share or has completed sharing, update progress meter
+				afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
+					if ( $(this).hasClass('afteraction-share-ask-no') ){
+						$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
+							.removeClass('complete')
+							.addClass('declined')
+							.attr('data-icon',''); //&xE943; X
+					} else {
+						$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
+							.removeClass('declined')
+							.addClass('complete')
+							.attr('data-icon',''); //&xE942; checkmark
+					}
+				});
+			} else if (afterActionNextStep === 'flow') {
+				$('#site-footer').addClass('site-footer-iframe');
+				const country = $('#country').val();
+				const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
+				var responseHTML = document.createElement('html');
+				responseHTML.innerHTML = msg;
+				setFacebookShareURL(responseHTML);
+				if (fundraisingRegions.includes(country)) {
+					afteractionFlowSlide.addClass('afteraction-flow-show');
+					afteractionFlowSlide.show();
+					$('#body-mobile-background').addClass('mobile-hide');
+					actionLead.hide();
+				} else {
+					afteractionFlowShare.show();
+					actionLead.hide();
+				}
+				if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
+					const name = $('#id_name').val().split(' ');
+					const firstName = name[0];
+					var lastName = null;
+					if (name.length > 1) {
+						lastName = name[1];
+					}
+					const email = $('#id_email').val();
+					const city = $('#id_city').val();
+					const iframe = document.querySelector("iframe");
+					const dataToSend = {
+						type: "signupForm",
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						city: city
+					}
+					iframe.contentWindow.postMessage(dataToSend);
+				}
+			}
+		}
+
 		function afteractionShowShare(response){
 
 			afteractionShareSlideInner
@@ -659,161 +801,25 @@ jQuery(document).ready(function($){
 						'position': 'absolute'
 					});
 					$('.loader').show();
-					$.ajax({
-						method: 'POST',
-						url: $('#action-form').attr('action'),
-						data: $('#action-form').serialize()
-					})
-					.done(function(msg) {
-						// handle adblockers preventing the loading of Google Analytics library
-						if (typeof gtag !== 'undefined') {
-							// send google analytics event
-							gtag('event', 'scrolling-signup', {'click_id': 'signup'});
-							// trigger GA event for successful after action signup
-							dataLayer.push(({'event': 'afterActionSignup'}));
-						}
-						// send FB tracker event
-						if (typeof fbq === "function") {
-							fbq('track', 'CompleteRegistration');
-						}
-						// save country for currency feature (needed for country prefill issue - FA)
-						userCountry = $('#country').val();
-						// hide the loading wheel
-						$('.submit-button-text').css({
-							'opacity': '1',
-							'position': 'relative'
-						});
-						$('.loader').hide();
-						if (afterActionNextStep === 'scroll-share') {
-							// show the share ask
-							afteractionShowShareAsk();
-
-							// if user opts to share, show share dialog
-							$('.afteraction-share-ask-yes').on('click', function(){
-								afteractionShowShare(msg);
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
-								}
-							});
-							$('.afteraction-share-ask-no').on('click', function(){
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
-								}
-							});
-							// if user opts not to share or has completed sharing, show donate ask
-							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
-								var el = $(this);
-								afteractionShowDonate(el);
-							});
-							$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
-								// handle adblockers preventing the loading of Google Analytics library
-
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-yes'});
-								}
-							});
-							$('.afteraction-donate-ask-no').on('click', function(){
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
-								}
-							});
-						} else if (afterActionNextStep === 'scroll-donate') {
-							// show the donate ask
-							afteractionShowDonate();
-
-							afteraction.on('click', '.afteraction-donate-ask-no', function(e){
-								// prevent getting redirected to the Get Involved URL
-								e.preventDefault();
-
-								// handle adblockers preventing the loading of Google Analytics library
-								if (typeof gtag !== 'undefined') {
-									gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
-								}
-								var el = $(this);
-								// if user doesn't want to donate, show the share ask
-								afteractionShowShareAsk(el);
-
-								// if user opts to share, show share dialog
-								$('.afteraction-share-ask-yes').on('click', function(){
-									afteractionShowShare(msg);
-									// handle adblockers preventing the loading of Google Analytics library
-									if (typeof gtag !== 'undefined') {
-										gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
-									}
-								});
-								$('.afteraction-share-ask-no').on('click', function(){
-									// handle adblockers preventing the loading of Google Analytics library
-									if (typeof gtag !== 'undefined') {
-										gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
-									}
-									var queryString = window.location.search;
-									window.location.href = getInvolvedURL + queryString;
-								});
-							});
-
-							// if user opts not to share or has completed sharing, update progress meter
-							afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
-								if ( $(this).hasClass('afteraction-share-ask-no') ){
-									$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
-										.removeClass('complete')
-										.addClass('declined')
-										.attr('data-icon',''); //&xE943; X
-								} else {
-									$("#afteraction-progress-meter-step3 .afteraction-progress-meter-dot")
-										.removeClass('declined')
-										.addClass('complete')
-										.attr('data-icon',''); //&xE942; checkmark
-								}
-							});
-						} else if (afterActionNextStep === 'flow') {
-							$('#site-footer').addClass('site-footer-iframe');
-							const country = $('#country').val();
-							const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
-							var responseHTML = document.createElement('html');
-							responseHTML.innerHTML = msg;
-							setFacebookShareURL(responseHTML);
-							if (fundraisingRegions.includes(country)) {
-								afteractionFlowSlide.addClass('afteraction-flow-show');
-								afteractionFlowSlide.show();
-								$('#body-mobile-background').addClass('mobile-hide');
-								actionLead.hide();
+					var xhr = new XMLHttpRequest;
+					xhr.open("POST", $('#action-form').attr('action'), true);
+					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+					xhr.send($('#action-form').serialize());
+					xhr.onreadystatechange = function () {
+						if (xhr.readyState === 4) {
+							if (xhr.status >= 200 && x.status < 300) {
+								onSuccess(xhr.response);
 							} else {
-								afteractionFlowShare.show();
-								actionLead.hide();
-							}
-							if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
-								const name = $('#id_name').val().split(' ');
-								const firstName = name[0];
-								var lastName = null;
-								if (name.length > 1) {
-									lastName = name[1];
-								}
-								const email = $('#id_email').val();
-								const city = $('#id_city').val();
-								const iframe = document.querySelector("iframe");
-								const dataToSend = {
-									type: "signupForm",
-									firstName: firstName,
-									lastName: lastName,
-									email: email,
-									city: city
-								}
-								iframe.contentWindow.postMessage(dataToSend);
+								console.log('Error: AK AJAX submission failed.');
+								// hide the loading wheel
+								$('.submit-button-text').css({
+									'opacity': '1',
+									'position': 'relative'
+								});
+								$('.loader').hide();
 							}
 						}
-					})
-					.fail(function(){
-							console.log('Error: AK AJAX submission failed.');
-							// hide the loading wheel
-							$('.submit-button-text').css({
-								'opacity': '1',
-								'position': 'relative'
-							});
-							$('.loader').hide();
-					});
+					}
 				}
 			}, 150);
 		});

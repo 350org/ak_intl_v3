@@ -150,11 +150,15 @@ Custom template for same-page post-AJAX submit share ask.
 			{% endif %}
 		</p>
 		<a href="#" class="bg-dkgray copy-link button button-small">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
-		<div class="box bg-facebook-color margin-bottom-none">
-			<h4 class="icon-after icon-faded" data-icon="&#xe93F;">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</h4>
+		<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
+			<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&short=1">
+				{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}
+			</a>
 		</div>
 		<div class="afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="{{ page.canonical_url }}">{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}</a>
+			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="{{ page.canonical_url }}">
+				{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}
+			</a>
 		</div>
 	</div>
 </div>
@@ -326,6 +330,17 @@ Custom template for same-page post-AJAX submit share ask.
 			if ($(window).width() > 600) {
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}
+
+			var shareURL = '/share/link?type=ot&short=1&action_id={{action.id}}';
+			$('.copy-link').on('click', function () {
+				$.ajax({
+				method: 'GET',
+				url: shareURL,
+			}).done(function(shareURL) {
+				navigator.clipboard.writeText(shareURL);
+			}).fail(function() {
+				navigator.clipboard.writeText(window.location.href);
+			});
 
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
@@ -755,7 +770,6 @@ jQuery(document).ready(function($){
 								$('#body-mobile-background').addClass('mobile-hide');
 								actionLead.hide();
 							} else {
-								alert('Non fundraising country; redirect to share ask');
 								afteractionFlowShare.show();
 								actionLead.hide();
 							}

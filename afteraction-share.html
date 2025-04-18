@@ -139,8 +139,25 @@ Custom template for same-page post-AJAX submit share ask.
 	<iframe id="donate-iframe" style="height: 110vh; width: 100vw;"></iframe>
 </div>
 
-<div id="afteraction-flow-share" style="display: none; height: 100vh; width: 100vw; position: absolute; top: 0">
-<p>share :)</p>
+<div id="afteraction-flow-share" style="display: none; height: 100vh; width: 100%; position: absolute; top: 0">
+<div class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section-inner">
+		<p class="afteraction-share-ask-text margin-bottom-huge">
+			{% if page.custom_fields.afteraction_share_ask %}
+				{{ page.custom_fields.afteraction_share_ask }}
+			{% else %}
+				{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}
+			{% endif %}
+		</p>
+		<a href="#" class="bg-dkgray copy-link button button-small">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
+		<div class="box bg-facebook-color margin-bottom-none">
+			<h4 class="icon-after icon-faded" data-icon="&#xe93F;">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</h4>
+		</div>
+		<div class="afteraction-share-option-intro margin-bottom-medium">
+			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="{{ page.canonical_url }}">{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}</a>
+		</div>
+	</div>
+</div>
 </div>
 {% endif %}
 

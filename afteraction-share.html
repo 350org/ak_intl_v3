@@ -510,6 +510,38 @@ jQuery(document).ready(function($){
 			}
 		}
 
+		function setFacebookShareURL(responseHTML) {
+			// Set FB Share URL based on response from API
+			var fbShareEl = $(responseHTML).find('a.fb-share');
+			if (fbShareEl.length > 0) {
+				var fbShareUrl = fbShareEl[0].href;
+
+				var currFBShareEls = $('a.fb-share');
+				if (currFBShareEls.length > 0) {
+					for (var i = 0; i < currFBShareEls.length; i++) {
+						var currFBShareEl = currFBShareEls[i];
+						$(currFBShareEl).attr('href', fbShareUrl);
+					}
+				}
+			}
+		}
+
+		function setTwitterShareURL(responseHTML) {
+			// Set Twitter Share URL based on response from API
+			var twShareEl = $(responseHTML).find('a.tw-share');
+			if (twShareEl.length > 0) {
+				var twShareUrl = twShareEl[0].href;
+
+				var currTwShareEls = $('a.tw-share');
+				if (currTwShareEls.length > 0) {
+					for (var i = 0; i < currTwShareEls.length; i++) {
+						var currTwShareEl = currTwShareEls[i];
+						$(currTwShareEl).attr('href', twShareUrl);
+					}
+				}
+			}
+		}
+
 		function afteractionShowShareAsk(el){
 			if ( afteractionShareSlideInner.html() == '' ){
 				afteractionShareSlideInner.append( afteractionShareAskContent )
@@ -554,33 +586,8 @@ jQuery(document).ready(function($){
 					var responseHTML = document.createElement('html');
 					responseHTML.innerHTML = response;
 
-					// Set FB Share URL based on response from API
-					var fbShareEl = $(responseHTML).find('a.fb-share');
-					if (fbShareEl.length > 0) {
-						var fbShareUrl = fbShareEl[0].href;
-
-						var currFBShareEls = $('a.fb-share');
-						if (currFBShareEls.length > 0) {
-							for (var i = 0; i < currFBShareEls.length; i++) {
-								var currFBShareEl = currFBShareEls[i];
-								$(currFBShareEl).attr('href', fbShareUrl);
-							}
-						}
-					}
-
-					// Set Twitter Share URL based on response from API
-					var twShareEl = $(responseHTML).find('a.tw-share');
-					if (twShareEl.length > 0) {
-						var twShareUrl = twShareEl[0].href;
-
-						var currTwShareEls = $('a.tw-share');
-						if (currTwShareEls.length > 0) {
-							for (var i = 0; i < currTwShareEls.length; i++) {
-								var currTwShareEl = currTwShareEls[i];
-								$(currTwShareEl).attr('href', twShareUrl);
-							}
-						}
-					}
+					setFacebookShareURL(responseHTML);
+					setTwitterShareURL(responseHTML);
 				});
 		};
 
@@ -765,6 +772,9 @@ jQuery(document).ready(function($){
 							$('#site-footer').addClass('site-footer-iframe');
 							const country = $('#country').val();
 							const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
+							var responseHTML = document.createElement('html');
+							responseHTML.innerHTML = msg;
+							setFacebookShareURL(responseHTML);
 							if (fundraisingRegions.includes(country)) {
 								afteractionFlowSlide.addClass('afteraction-flow-show');
 								afteractionFlowSlide.show();

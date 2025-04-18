@@ -116,6 +116,12 @@ Custom template for same-page post-AJAX submit share ask.
 	overflow: hidden;
 }
 
+#site-footer {
+	position: absolute;
+	top: unset;
+	bottom: -10rem;
+}
+
 @media screen and (max-width:720px) {
 	#jump-to-form, #site-footer {
 		display: none;
@@ -129,7 +135,7 @@ Custom template for same-page post-AJAX submit share ask.
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
 <div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute; height: 0; width: 0;">
-	<iframe id="donate-iframe" style="height: 100vh; width: 100vw;"></iframe>
+	<iframe id="donate-iframe" style="height: 110vh; width: 100vw;"></iframe>
 </div>
 
 <div id="afteraction-flow-share" style="display: none; height: 100vh; width: 100vw; position: absolute; top: 0">
@@ -299,6 +305,10 @@ Custom template for same-page post-AJAX submit share ask.
 		jQuery(document).ready(function($){
 			const iframe = document.getElementById('donate-iframe');
 			iframe.src = "https://act.350.org/donate/test_wtr_donate_afteractionflow";
+			if ($(window).width() > 600) {
+				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
+			}
+
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API

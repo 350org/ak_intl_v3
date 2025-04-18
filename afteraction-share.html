@@ -116,10 +116,11 @@ Custom template for same-page post-AJAX submit share ask.
 	overflow: hidden;
 }
 
-#site-footer {
-	position: absolute;
-	top: unset;
-	bottom: -10rem;
+.site-footer-iframe {
+	position: absolute !important;
+	top: unset !important;
+	bottom: -10rem !important;
+	width: 100%;
 }
 
 @media screen and (max-width:720px) {
@@ -728,6 +729,7 @@ jQuery(document).ready(function($){
 								}
 							});
 						} else if (afterActionNextStep === 'flow') {
+							$('#site-footer').addClass('site-footer-iframe');
 							const country = $('#country').val();
 							const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 							if (fundraisingRegions.includes(country)) {

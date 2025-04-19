@@ -123,6 +123,10 @@ Custom template for same-page post-AJAX submit share ask.
 	width: 100%;
 }
 
+#afteraction-flow-share .section-inner {
+	flex-direction: column;
+}
+
 @media screen and (max-width:720px) {
 	#jump-to-form, #site-footer {
 		display: none;
@@ -140,33 +144,36 @@ Custom template for same-page post-AJAX submit share ask.
 </div>
 
 <div id="afteraction-flow-share" style="display: none; height: 100vh; width: 100%; position: absolute; top: 0">
-<div class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
-	<div class="section-inner">
-		<p class="afteraction-share-ask-text margin-bottom-huge">
-			{% if page.custom_fields.afteraction_share_ask %}
-				{{ page.custom_fields.afteraction_share_ask }}
-			{% else %}
-				{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}
-			{% endif %}
-		</p>
-		<a href='/share/link?type=ot&short=1' class="bg-dkgray copy-link-share button button-small">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
-		<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1">
-				{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}
-			</a>
-		</div>
-		<div class="afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="{{ page.canonical_url }}">
-				{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}
-			</a>
-		</div>
-		<div class="afteraction-bluesky-share-intro afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-bluesky bluesky-share button-icon bg-bluesky-color bg-bluesky-icon button-share-bluesky" href="/share/link?type=ot&bluesky=true&page_name={{page.name}}&short=1">
-				{% filter ak_text:"general_share_on_bluesky" %}Share on Bluesky{% endfilter %}
-			</a>
+	<div class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+		<div class="section-inner">
+			<h2 id="action-title" class="title3 text-style-title3">
+				<span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, <span class="actionFirstName">friend</span>!</span>
+			</h2>
+			<p class="afteraction-share-ask-text margin-bottom-huge">
+				{% if page.custom_fields.afteraction_share_ask %}
+					{{ page.custom_fields.afteraction_share_ask }}
+				{% else %}
+					{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}
+				{% endif %}
+			</p>
+			<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
+			<div class="display-flex">
+				<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
+					<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1">
+					</a>
+				</div>
+				<div class="afteraction-share-option-intro margin-bottom-medium">
+					<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="{{ page.canonical_url }}">
+					</a>
+				</div>
+				<div class="afteraction-bluesky-share-intro afteraction-share-option-intro margin-bottom-medium">
+					<a class="afteraction-share-bluesky bluesky-share button-icon bg-bluesky-color bg-bluesky-icon button-share-bluesky" href="/share/link?type=ot&bluesky=true&page_name={{page.name}}&short=1">
+						{% filter ak_text:"general_share_on_bluesky" %}Share on Bluesky{% endfilter %}
+					</a>
+				</div>	
+			</div>
 		</div>
 	</div>
-</div>
 </div>
 {% endif %}
 
@@ -588,6 +595,11 @@ jQuery(document).ready(function($){
 			}
 			// save country for currency feature (needed for country prefill issue - FA)
 			userCountry = $('#country').val();
+			var fullName = $('#id_name').val();
+			if (fullName) {
+				firstName = fullName.split(' ')[0];
+				$('.actionFirstName').text(firstName);
+			}
 			// hide the loading wheel
 			$('.submit-button-text').css({
 				'opacity': '1',

@@ -831,7 +831,7 @@ jQuery(document).ready(function($){
 					blueskyShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
 				}
 				if (whatsappShareEl && whatsappShareEl.length > 0) {
-					whatsappShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
+					whatsappShareEl[0].href += `?action_id=${actionID}&akid=${akid}`;
 				}
 				if (fundraisingRegions.includes(country)) {
 					afteractionFlowSlide.addClass('afteraction-flow-show');

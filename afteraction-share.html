@@ -63,6 +63,7 @@ Custom template for same-page post-AJAX submit share ask.
   }
 }
 
+{% if page.custom_fields.after_action_next_step == "flow" %}
 .bg-blue_opaque-fade .section-inner {
   background-color: #0F81E9;
   color: #fff;
@@ -123,6 +124,21 @@ Custom template for same-page post-AJAX submit share ask.
 	width: 100%;
 }
 
+#afteraction-flow-share .button-icon {
+	border-radius: 2em;
+	width: 3em;
+	height: 3em;
+	padding: 10px;
+	background-position: center;
+	background-size: 1.5em;
+}
+
+#afteraction-flow-share .afteraction-share-option-intro {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 #afteraction-flow-share .ak-donate-menu,
 #afteraction-flow-share .share-container {
 	display: flex;
@@ -133,6 +149,12 @@ Custom template for same-page post-AJAX submit share ask.
 	justify-content: space-between;
 	height: 100px;
 	align-self: center;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#afteraction-flow-share .ak-donate-menu .inline-dot.bg-dkgray-trans {
+	background-color: rgba(23, 41, 46, 0.6);
 }
 
 .ak-donate-step-2::after,
@@ -174,6 +196,40 @@ Custom template for same-page post-AJAX submit share ask.
 	z-index: 0;
 }
 
+#afteraction-flow-share .share-buttons-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+#afteraction-flow-share .share-container,
+#afteraction-flow-share .post-share-container {
+	max-width: 30em;
+}
+
+.more-campaigns {
+	width: 100%;
+}
+
+#afteraction-flow-share .bg-email-icon {
+	background-color: rgb(255, 169, 2);
+	background-image: url('https://s3.us-east-1.amazonaws.com/s3.350.org/images/email.svg');
+}
+
+#afteraction-flow-share .bg-bluesky-icon {
+	background-color: #59B0FF;
+	background-image: url('https://s3.us-east-1.amazonaws.com/s3.350.org/images/bluesky-white.svg');
+}
+
+#afteraction-flow-share .find-ways-action {
+	text-decoration: none;
+	text-align: center;
+}
+
+#afteraction-flow-share .section {
+	padding: 1em;
+}
+
 @media screen and (max-width:720px) {
 	#jump-to-form, #site-footer {
 		display: none;
@@ -182,7 +238,11 @@ Custom template for same-page post-AJAX submit share ask.
 		background-image: unset !important;
 		background-color: #0F81E9;
 	}
+	#afteraction-flow-share .ak-donate-menu {
+		display: none;
+	}
 }
+{% endif %}
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
@@ -191,7 +251,7 @@ Custom template for same-page post-AJAX submit share ask.
 </div>
 
 <div id="afteraction-flow-share" style="display: none; height: 100vh; width: 100%; position: absolute; top: 0">
-	<div class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+	<div class="section donate-lead action-lead title-section width-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 		<div class="section-inner">
 			<div
 				class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-trans">
@@ -211,31 +271,47 @@ Custom template for same-page post-AJAX submit share ask.
     	</div>
 			<div class="share-container">
 				<h2 id="action-title" class="title3 text-style-title3">
-					<span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, <span class="actionFirstName">friend</span>!</span>
+					<span class="{{ page.custom_fields.page_title_style }}">{% filter ak_text:"flow_donate_step_thanks_taking_action" %}Thanks for taking action,{% endfilter %} <span class="actionFirstName">friend</span>!</span>
 				</h2>
-				<p class="afteraction-share-ask-text margin-bottom-huge">
-					{% if page.custom_fields.afteraction_share_ask %}
-						{{ page.custom_fields.afteraction_share_ask }}
+				<div class="afteraction-share-ask-text margin-bottom-huge">
+					{% if page.custom_fields.after_action_flow_share_ask_intro_text %}
+						{% include_tmpl page.custom_fields.after_action_flow_share_ask_intro_text %}
 					{% else %}
-						{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}
+						<p>{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}</p>
 					{% endif %}
-				</p>
-				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
-				<div class="display-flex">
+				</div>
+				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share copy-link button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
+				<div class="share-buttons-container margin-top-large">
 					<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
-						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1">
+						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1&source=share-ak-thanksflow-fb">
 						</a>
+						<span class="text-small">Facebook</span>
+					</div>
+					<div class="afteraction-email-share-intro afteraction-share-option-intro margin-bottom-medium">
+						<a class="afteraction-share-button email-share button-icon bg-email-color bg-email-icon button-share-email" href="/share/link?type=ot&page_name={{page.name}}&short=1">
+						</a>
+						<span class="text-small">Email</span>
 					</div>
 					<div class="afteraction-share-option-intro margin-bottom-medium">
 						<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="{{ page.canonical_url }}">
 						</a>
+						<span class="text-small">Whatsapp</span>
 					</div>
 					<div class="afteraction-bluesky-share-intro afteraction-share-option-intro margin-bottom-medium">
 						<a class="afteraction-share-bluesky bluesky-share button-icon bg-bluesky-color bg-bluesky-icon button-share-bluesky" href="/share/link?type=ot&bluesky=true&page_name={{page.name}}&short=1">
-							{% filter ak_text:"general_share_on_bluesky" %}Share on Bluesky{% endfilter %}
 						</a>
-					</div>	
+						<span class="text-small">Bluesky</span>
+					</div>
 				</div>
+				<a class="find-ways-action" href="#">Find more ways to take action ></a>
+			</div>
+			<div class="post-share-container" style="display: none;">
+        <p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">Thank you for your support!</span></p>
+				<h2 id="action-title" class="title3 text-style-title3">
+					<span class="{{ page.custom_fields.page_title_style }}">Find more ways to get involved.</span>
+				</h2>
+				<p>You've proven you're one of our top supporters - check out some of our other campaigns below!</p>
+				<a href='#' class="bg-orange more-campaigns button button-large">More Campaigns ></a>
 			</div>
 		</div>
 	</div>
@@ -402,27 +478,123 @@ Custom template for same-page post-AJAX submit share ask.
 
 	<script>
 		jQuery(document).ready(function($){
+			{% if page.custom_fields.after_action_next_step == "flow" %}
 			const iframe = document.getElementById('donate-iframe');
-			iframe.src = "https://act.350.org/donate/test_wtr_donate_afteractionflow";
+			const pageId = '{{ page.id }}';
+			const donateSourceCode = `aa_${pageId}_thanksflow`;
+			iframe.src = `https://act.350.org/donate/test_wtr_donate_afteractionflow?source=${donateSourceCode}`;
 			if ($(window).width() > 600) {
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}
-			var shareURL = '/share/link?type=ot&short=1&action_id={{action.id}}';
-			$('.copy-link').on('click', function (e) {
+
+			$('.email-share').on('click', function(e) {
+				e.preventDefault();
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
+				}
+				var initialShareURL = e.target.href + '&source=share-ak-thanksflow-em';
+				var pageName = '{{ page.title }}';
 				$.ajax({
 					method: 'GET',
-					url: shareURL,
+					url: initialShareURL,
 				}).done(function(shareURL) {
-				navigator.clipboard.writeText(shareURL);
+					var mailtoURL = `mailto:?subject=${pageName}&body=${shareURL}`;
+					window.open(mailtoURL);
 				}).fail(function() {
-					navigator.clipboard.writeText(window.location.href);
+					var mailtoURL = `mailto:?subject=${pageName}&body=${window.location.href}`;
+					window.open(mailtoURL);
+				});
+
+			});
+
+			$('.bluesky-share').on('click', function(e) {
+				e.preventDefault();
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
+				}
+				var initialShareURL = e.target.href + '&source=share-ak-thanksflow-bsk';
+				var pageName = '{{ page.title }}';
+				$.ajax({
+					method: 'GET',
+					url: initialShareURL,
+				}).done(function(shareURL) {
+					var blueskyShareURL = `https://bsky.app/intent/compose?text=${pageName} ${shareURL}`;
+					window.open(blueskyShareURL);
+				}).fail(function() {
+					var blueskyShareURL = `https://bsky.app/intent/compose?text=${pageName} ${window.location.href}`;
+					window.open(blueskyShareURL);
 				});
 			});
 
+			function show_tick(current_step) {
+				// hide step number
+				$('#afteraction-flow-share input[name="ak-donate-step"]:checked')
+					.closest('label')
+					.find('span.ak-step-number')
+					.addClass('hidden');
+
+				// show tick
+				$('#afteraction-flow-share input[name="ak-donate-step"]:checked')
+					.closest('label')
+					.find('span.ak-step-complete')
+					.removeClass('hidden');
+			}
+
+			$('#afteraction-flow-share .ak-donate-step-1').on('click', function(e) {
+				$('#afteraction-flow-share .share-container').show();
+				$('#afteraction-flow-share .post-share-container').hide()
+			});
+
+			$('#afteraction-flow-share .ak-donate-step-2').on('click', function(e) {
+				$('#afteraction-flow-share .share-container').hide();
+				$('#afteraction-flow-share .post-share-container').show()
+			});
+
+			$('.find-ways-action').on('click', function(e) {
+				$(`#afteraction-flow-share .ak-donate-step-1 input[name="ak-donate-step"]`).prop('checked', true);
+				show_tick(1);
+				$('#afteraction-flow-share .share-container').hide();
+				$('#afteraction-flow-share .post-share-container').show();
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_other'});
+				}
+			});
+
+			$('.more-campaigns').on('click', function(e) {
+				$(`#afteraction-flow-share .ak-donate-step-2 input[name="ak-donate-step"]`).prop('checked', true);
+				show_tick(2);
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_more'});
+				}
+				window.open("https://350.org/get-involved", "_blank");
+			});
+
+			$('.fb-share').on('click', function(e) {
+				if (typeof gtag !== 'undefined') {
+						// send google analytics event
+						gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
+					}
+			});
+			{% endif %}
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
+				var currShareURL = new URL(e.target.href);
 				var getShareURL = '/share/link?type=ot&action_id={{action.id}}&short=1&page_name={{page.name}}';
+				var actionID = currShareURL.searchParams.get('action_id');
+				{% if page.custom_fields.after_action_next_step == "flow" %}
+					if (typeof gtag !== 'undefined') {
+						// send google analytics event
+						gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
+					}
+				{% endif %}
+				if (actionID) {
+					getShareURL = '/share/link?type=ot&short=1&page_name={{page.name}}&source=share-ak-thanksflow-wa' + '&action_id=' + actionID;
+				}
 				$.ajax({
 					method: 'GET',
 					url: getShareURL,
@@ -433,6 +605,7 @@ Custom template for same-page post-AJAX submit share ask.
 					if (win) {
 						win.focus();
 					}
+					show_tick(1);
 				}).fail(function () {
 					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + window.location.href;
 					var win = window.open(whatsappShareURL);
@@ -483,10 +656,12 @@ Custom template for same-page post-AJAX submit share ask.
 	</div>
 </div>
 
+{% if page.custom_fields.after_action_next_step == "flow" %}
 <script type="text/javascript">
 	actionkit.forms.contextRoot = '/context/';
 	actionkit.forms.initForm('act-donate');
 </script>
+{% endif %}
 <script>
 jQuery(document).ready(function($){
 	/* only run the AJAX submission if we're sure this is an AK-hosted page */
@@ -679,16 +854,29 @@ jQuery(document).ready(function($){
 				copyLink.href += `&action_id=${actionID}`;
 			}
 
+			// Add action_id to Email button URL
+			var emailBtn = $('.email-share');
+			for (var i = 0; i < emailBtn.length; i++) {
+				var emailLink = emailBtn[0];
+				emailLink.href += `&action_id=${actionID}`;
+			}
+
 			$('.copy-link-share').on('click', function (e) {
 				e.preventDefault();
 				var initialShareURL = e.target.href;
+				var linkButton = e.target;
 				initialShareURL += `&action_id=${actionID}&akid=${akid}`;
-				console.log(initialShareURL);
+				{% if page.custom_fields.after_action_next_step == "flow" %}
+				if (typeof gtag !== 'undefined') {
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
+				}
+				{% endif %}
 				$.ajax({
 					method: 'GET',
 					url: initialShareURL,
 				}).done(function(shareURL) {
-				navigator.clipboard.writeText(shareURL);
+					navigator.clipboard.writeText(shareURL);
+					linkButton.text = 'Link Copied!';
 				}).fail(function() {
 					navigator.clipboard.writeText(window.location.href);
 				});
@@ -784,19 +972,31 @@ jQuery(document).ready(function($){
 				const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 				const fbShareEl = $('#afteraction-flow-share .fb-share');
 				const blueskyShareEl = $('#afteraction-flow-share .bluesky-share');
+				const whatsappShareEl = $('#afteraction-flow-share .whatsapp-share');
 				if (fbShareEl && fbShareEl.length > 0) {
 					fbShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
 				}
 				if (blueskyShareEl && blueskyShareEl.length > 0) {
 					blueskyShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
 				}
+				if (whatsappShareEl && whatsappShareEl.length > 0) {
+					whatsappShareEl[0].href += `?action_id=${actionID}&akid=${akid}`;
+				}
 				if (fundraisingRegions.includes(country)) {
 					afteractionFlowSlide.addClass('afteraction-flow-show');
 					afteractionFlowSlide.show();
+					if (typeof gtag !== 'undefined') {
+						// send google analytics event
+						gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
+					}
 					$('#body-mobile-background').addClass('mobile-hide');
 					actionLead.hide();
 				} else {
 					afteractionFlowShare.show();
+					if (typeof gtag !== 'undefined') {
+						// send google analytics event
+						gtag('event', 'scrolling-signup',  { 'view_id': 'thanksflow_step1_nonfundraising' });
+					}
 					actionLead.hide();
 				}
 				if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
@@ -808,14 +1008,15 @@ jQuery(document).ready(function($){
 					}
 					const email = $('#id_email').val();
 					const city = $('#id_city').val();
-					const iframe = document.querySelector("iframe");
+					const pageId = '{{ page.id }}';
 					const dataToSend = {
 						type: "signupForm",
 						firstName: firstName,
 						lastName: lastName,
 						email: email,
-						city: city
+						city: city,
 					}
+					const iframe = document.querySelector("iframe");
 					iframe.contentWindow.postMessage(dataToSend);
 				}
 			}
@@ -888,12 +1089,28 @@ jQuery(document).ready(function($){
 			window.open( destination , 'new-window-popup', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,resizable=yes,scrollbars=yes,width=' + popupWidth + ',height=' + popupHeight );
 			// send Google Analytics event
 			if (typeof gtag !== 'undefined') {
+				{% if page.custom_fields.after_action_next_step == "flow" %}
+				gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
+				{% else %}
 				gtag('event', 'scrolling-signup', {'click_id': 'share-facebook'});
+				{% endif %}
+			}
+		});
+
+		window.addEventListener("message", (event) => {
+			if (event.origin !== "https://act.350.org") return;
+			const data = event.data;
+			if (data.type === "donationSuccess") {
+				$('#afteraction-flow-share').show();
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'view_id': 'thanksflow_step1_nonfundraising'});
+				}
 			}
 		});
 
 		/* When the main form is submitted... */
-		$('#action-form').submit(function (e) {
+		document.querySelector('#action-form').addEventListener('submit', function(e) {
 			// don't redirect to standard thank you page
 			e.preventDefault();
 			// wait 150ms for... some reason? idk, i forget
@@ -921,7 +1138,6 @@ jQuery(document).ready(function($){
 								var params = responseURL.searchParams;
 								var actionID = params.get('action_id');
 								var akid = params.get('akid');
-								console.log('action_id', actionID, akid);
 								onSuccess(xhr.response, actionID, akid);
 							} else {
 								console.log('Error: AK AJAX submission failed.');

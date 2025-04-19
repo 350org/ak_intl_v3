@@ -129,6 +129,15 @@
   #ak-donation-details {
     width: 100%;
   }
+  #ak-continue-button {
+    margin-bottom: 1em;
+  }
+  .cant-donate {
+    text-decoration: none;
+  }
+  .cant-donate:hover {
+    color: white;
+  }
 
   /* Mobile Styles */
   @media screen and (max-width:720px) {
@@ -668,6 +677,9 @@
                       id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue
                       &rarr;{% endfilter %}</button>
 
+                      {% if page.custom_fields.after_action_next_step == "flow" %}
+                      <!-- <a class="cant-donate" href="#">I can't donate right now ></a> -->
+                      {% endif %}
                     {% if page.payment_processor_information.use_cse %}
                     {% comment %}
                     For pages that use CSE, the submit button will be enabled by javascript above.
@@ -837,7 +849,6 @@
       }
     });
   });
-
 
   var address_fields = [
     'address1', 'address2', 'city', 'state', 'zip'
@@ -1439,6 +1450,7 @@
     $('#ak-paypal-button').on('click', submit_paypal);
     $('.ak-submit-button').on('click', submit_cc);
 
+
     {% if page.paypal_user_requirements == "none" %}
     $('#ak-paypal-button').on('mousedown', function () {
       var form_elt = $(this).closest('form');
@@ -1453,6 +1465,35 @@
     });
     {% endif %}
   });
+  {% endif %}
+
+	{% if page.custom_fields.after_action_next_step == "flow" %}
+    $(function () {
+      $('.ak-submit-button').on('click', function(e) {
+        if (typeof gtag !== 'undefined') {
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_donate_step3_submit'});
+        }
+      });
+      $('.ak-amount-radio-button').on('click', function(e) {
+        if (typeof gtag !== 'undefined') {
+          var currencyValue = $('#ak-currency-switcher').val();
+          var currency = getCurrencyCode();
+          var amount = e.target.value;
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_${amount}_${currency}`});
+        }
+      });
+
+      $('#ak-other-amount-container').on('click', function() {
+        if (typeof gtag !== 'undefined') {
+          var currencyValue = $('#ak-currency-switcher').val();
+          var currency = getCurrencyCode();
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_other_${currency}`});
+        }
+      });
+    });
   {% endif %}
 
 </script>
@@ -1758,6 +1799,11 @@
     });
 
     $('#ak-continue-button').on('click', function() {
+      var currentStep = parseInt($('input[name="ak-donate-step"]:checked').val()) - 1;
+      if (typeof gtag !== 'undefined') {
+        // send google analytics event
+        gtag('event', 'scrolling-signup', {'click_id': `thanksflow_donate_step${currentStep}_continue`});
+      }
       if ($('.ak-donate-area-step-1').is(':visible')) {
         $('#action-title').show();
         $('#action-description').show();
@@ -1789,6 +1835,14 @@
         $('#action-title').hide();
         $('#action-description').hide();
       }
+    });
+
+    $('.cant-donate').on('click', function() {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
+      }
+      $('#afteraction-flow').hide();
+      $('#afteraction-flow-share').show();
     });
 
     var searchParams = new URLSearchParams(window.location.search);

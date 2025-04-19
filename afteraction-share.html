@@ -123,6 +123,57 @@ Custom template for same-page post-AJAX submit share ask.
 	width: 100%;
 }
 
+#afteraction-flow-share .ak-donate-menu,
+#afteraction-flow-share .share-container {
+	display: flex;
+	flex-direction: column;
+}
+
+#afteraction-flow-share .ak-donate-menu {
+	justify-content: space-between;
+	height: 100px;
+	align-self: center;
+}
+
+.ak-donate-step-2::after,
+.ak-donate-step-2::before {
+	content: unset;
+}
+
+.inline-dot {
+	width: 2.5em;
+	height: 2.5em;
+	border-radius: 2em;
+	border: 2px solid white;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#afteraction-flow-share .ak-donate-step-1 .ak-step-number::after{
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	width: 1px;
+	height: 20px;
+	background-color: white;
+	transform: translateX(-50%);
+	z-index: 0;
+}
+
+#afteraction-flow-share .ak-donate-step-1 .ak-step-complete::after {
+	content: " ";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	width: 1px;
+	height: 20px;
+	background-color: white;
+	transform: translateX(-50%);
+	z-index: 0;
+}
+
 @media screen and (max-width:720px) {
 	#jump-to-form, #site-footer {
 		display: none;
@@ -143,7 +194,7 @@ Custom template for same-page post-AJAX submit share ask.
 	<div class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 		<div class="section-inner">
 			<div
-				class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
+				class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-trans">
 				<label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
 					<span class="ak-step-number strong inline-dot bg-trans">1</span>
 					<span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span
@@ -158,7 +209,7 @@ Custom template for same-page post-AJAX submit share ask.
 					<input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
 				</label>
     	</div>
-			<div>
+			<div class="share-container">
 				<h2 id="action-title" class="title3 text-style-title3">
 					<span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, <span class="actionFirstName">friend</span>!</span>
 				</h2>

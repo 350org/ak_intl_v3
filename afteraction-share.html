@@ -205,6 +205,9 @@ Custom template for same-page post-AJAX submit share ask.
 		background-image: unset !important;
 		background-color: #0F81E9;
 	}
+	#afteraction-flow-share .ak-donate-menu {
+		display: none;
+	}
 }
 </style>
 
@@ -244,7 +247,7 @@ Custom template for same-page post-AJAX submit share ask.
 					{% endif %}
 				</p>
 				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
-				<div class="share-buttons-container">
+				<div class="share-buttons-container margin-top-large">
 					<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
 						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1">
 						</a>

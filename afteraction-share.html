@@ -123,6 +123,19 @@ Custom template for same-page post-AJAX submit share ask.
 	width: 100%;
 }
 
+#afteraction-flow-share .button-icon {
+	border-radius: 2em;
+	width: 3em;
+	height: 3em;
+	padding: 10px;
+	background-position: center;
+}
+
+#afteraction-flow-share .afteraction-share-option-intro {
+	display: flex;
+	flex-direction: column;
+}
+
 #afteraction-flow-share .ak-donate-menu,
 #afteraction-flow-share .share-container {
 	display: flex;
@@ -225,15 +238,22 @@ Custom template for same-page post-AJAX submit share ask.
 					<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
 						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1">
 						</a>
+						<span class="text-small">Facebook</span>
+					</div>
+					<div class="afteraction-email-share-intro afteraction-share-option-intro margin-bottom-medium">
+						<a class="afteraction-share-button email-share button-icon bg-email-color bg-email-icon button-share-email" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1">
+						</a>
+						<span class="text-small">Email</span>
 					</div>
 					<div class="afteraction-share-option-intro margin-bottom-medium">
 						<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="{{ page.canonical_url }}">
 						</a>
+						<span class="text-small">Whatsapp</span>
 					</div>
 					<div class="afteraction-bluesky-share-intro afteraction-share-option-intro margin-bottom-medium">
 						<a class="afteraction-share-bluesky bluesky-share button-icon bg-bluesky-color bg-bluesky-icon button-share-bluesky" href="/share/link?type=ot&bluesky=true&page_name={{page.name}}&short=1">
-							{% filter ak_text:"general_share_on_bluesky" %}Share on Bluesky{% endfilter %}
 						</a>
+						<span class="text-small">Bluesky</span>
 					</div>	
 				</div>
 			</div>

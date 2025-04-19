@@ -129,6 +129,7 @@ Custom template for same-page post-AJAX submit share ask.
 	height: 3em;
 	padding: 10px;
 	background-position: center;
+	background-size: 1.5em;
 }
 
 #afteraction-flow-share .afteraction-share-option-intro {
@@ -191,11 +192,21 @@ Custom template for same-page post-AJAX submit share ask.
 #afteraction-flow-share .share-buttons-container {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-evenly;
+	justify-content: space-around;
 }
 
 #afteraction-flow-share .share-container {
 	max-width: 30em;
+}
+
+#afteraction-flow-share .bg-email-icon {
+	background-color: rgb(255, 169, 2);
+	background-image: url('https://s3.us-east-1.amazonaws.com/s3.350.org/images/email.svg');
+}
+
+#afteraction-flow-share .bg-bluesky-icon {
+	background-color: #59B0FF;
+	background-image: url('https://s3.us-east-1.amazonaws.com/s3.350.org/images/bluesky-white.svg');
 }
 
 @media screen and (max-width:720px) {

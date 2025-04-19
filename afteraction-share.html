@@ -134,6 +134,7 @@ Custom template for same-page post-AJAX submit share ask.
 #afteraction-flow-share .afteraction-share-option-intro {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 }
 
 #afteraction-flow-share .ak-donate-menu,
@@ -455,7 +456,12 @@ Custom template for same-page post-AJAX submit share ask.
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
+				var currShareURL = new URL(e.target.href);
 				var getShareURL = '/share/link?type=ot&action_id={{action.id}}&short=1&page_name={{page.name}}';
+				var actionID = currShareURL.searchParams.get('action_id');
+				if (actionID) {
+					getShareURL = '/share/link?type=ot&short=1&page_name={{page.name}}' + '&action_id=' + actionID;
+				}
 				$.ajax({
 					method: 'GET',
 					url: getShareURL,
@@ -817,11 +823,15 @@ jQuery(document).ready(function($){
 				const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 				const fbShareEl = $('#afteraction-flow-share .fb-share');
 				const blueskyShareEl = $('#afteraction-flow-share .bluesky-share');
+				const whatsappShareEl = $('#afteraction-flow-share .whatsapp-share');
 				if (fbShareEl && fbShareEl.length > 0) {
 					fbShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
 				}
 				if (blueskyShareEl && blueskyShareEl.length > 0) {
 					blueskyShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
+				}
+				if (whatsappShareEl && whatsappShareEl.length > 0) {
+					whatsappShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
 				}
 				if (fundraisingRegions.includes(country)) {
 					afteractionFlowSlide.addClass('afteraction-flow-show');

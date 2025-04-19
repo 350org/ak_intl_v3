@@ -604,7 +604,8 @@ jQuery(document).ready(function($){
 
 			$('.copy-link-share').on('click', function (e) {
 				e.preventDefault();
-				var initialShareURL = $(e.target).href;
+				var initialShareURL = e.target.href;
+				initialShareURL += `&action_id=${actionID}&akid=${akid}`;
 				console.log(initialShareURL);
 				$.ajax({
 					method: 'GET',

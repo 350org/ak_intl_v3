@@ -149,15 +149,20 @@ Custom template for same-page post-AJAX submit share ask.
 				{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}
 			{% endif %}
 		</p>
-		<a href="#" class="bg-dkgray copy-link button button-small">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
+		<a href='/share/link?type=ot&short=1' class="bg-dkgray copy-link button button-small">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
 		<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
-			<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}&short=1">
+			<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1">
 				{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}
 			</a>
 		</div>
 		<div class="afteraction-share-option-intro margin-bottom-medium">
 			<a class="afteraction-share-button whatsapp-share button-icon bg-whatsapp-color bg-whatsapp-icon" href="{{ page.canonical_url }}">
 				{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}
+			</a>
+		</div>
+		<div class="afteraction-bluesky-share-intro afteraction-share-option-intro margin-bottom-medium">
+			<a class="afteraction-share-bluesky bluesky-share button-icon bg-bluesky-color bg-bluesky-icon button-share-bluesky" href="/share/link?type=ot&bluesky=true&page_name={{page.name}}&short=1">
+				{% filter ak_text:"general_share_on_bluesky" %}Share on Bluesky{% endfilter %}
 			</a>
 		</div>
 	</div>
@@ -330,17 +335,17 @@ Custom template for same-page post-AJAX submit share ask.
 			if ($(window).width() > 600) {
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}
-
-			var shareURL = '/share/link?type=ot&short=1&action_id={{action.id}}';
-			$('.copy-link').on('click', function () {
+			$('.copy-link').on('click', function (e) {
+				e.preventDefault();
+				var initialShareURL = $(e.target).href;
 				$.ajax({
-				method: 'GET',
-				url: shareURL,
-			}).done(function(shareURL) {
+					method: 'GET',
+					url: initialShareURL,
+				}).done(function(shareURL) {
 				navigator.clipboard.writeText(shareURL);
-			}).fail(function() {
-				navigator.clipboard.writeText(window.location.href);
-			});
+				}).fail(function() {
+					navigator.clipboard.writeText(window.location.href);
+				});
 			});
 
 			$('.whatsapp-share').on('click', function(e) {
@@ -570,7 +575,7 @@ jQuery(document).ready(function($){
 			}
 		}
 
-		function onSuccess(msg) {
+		function onSuccess(msg, actionID, akid) {
 			// handle adblockers preventing the loading of Google Analytics library
 			if (typeof gtag !== 'undefined') {
 				// send google analytics event
@@ -590,6 +595,14 @@ jQuery(document).ready(function($){
 				'position': 'relative'
 			});
 			$('.loader').hide();
+
+			// Set Copy Link URL with action_id
+			var copyLinks = $('.copy-link');
+			for (var i = 0; i < copyLinks.length; i++) {
+				var copyLink = copyLinks[i];
+				copyLink.href += `&action_id=${actionID}`;
+			}
+
 			if (afterActionNextStep === 'scroll-share') {
 				// show the share ask
 				afteractionShowShareAsk();
@@ -678,9 +691,14 @@ jQuery(document).ready(function($){
 				$('#site-footer').addClass('site-footer-iframe');
 				const country = $('#country').val();
 				const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
-				var responseHTML = document.createElement('html');
-				responseHTML.innerHTML = msg;
-				setFacebookShareURL(responseHTML);
+				const fbShareEl = $('#afteraction-flow-share .fb-share');
+				const blueskyShareEl = $('#afteraction-flow-share .bluesky-share');
+				if (fbShareEl && fbShareEl.length > 0) {
+					fbShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
+				}
+				if (blueskyShareEl && blueskyShareEl.length > 0) {
+					blueskyShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
+				}
 				if (fundraisingRegions.includes(country)) {
 					afteractionFlowSlide.addClass('afteraction-flow-show');
 					afteractionFlowSlide.show();
@@ -808,8 +826,12 @@ jQuery(document).ready(function($){
 					xhr.onreadystatechange = function () {
 						if (xhr.readyState === 4) {
 							if (xhr.status >= 200 && xhr.status < 300) {
-								console.log('responseURL', xhr.responseURL);
-								onSuccess(xhr.response);
+								var responseURL = new URL(xhr.responseURL);
+								var params = responseURL.searchParams;
+								var actionID = params.get('action_id');
+								var akid = params.get('akid');
+								console.log('action_id', actionID, akid);
+								onSuccess(xhr.response, actionID, akid);
 							} else {
 								console.log('Error: AK AJAX submission failed.');
 								// hide the loading wheel

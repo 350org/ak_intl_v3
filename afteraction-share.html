@@ -187,6 +187,16 @@ Custom template for same-page post-AJAX submit share ask.
 	z-index: 0;
 }
 
+#afteraction-flow-share .share-buttons-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+#afteraction-flow-share .share-container {
+	max-width: 30em;
+}
+
 @media screen and (max-width:720px) {
 	#jump-to-form, #site-footer {
 		display: none;
@@ -234,7 +244,7 @@ Custom template for same-page post-AJAX submit share ask.
 					{% endif %}
 				</p>
 				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
-				<div class="display-flex">
+				<div class="share-buttons-container">
 					<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
 						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1">
 						</a>

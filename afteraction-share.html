@@ -197,7 +197,8 @@ Custom template for same-page post-AJAX submit share ask.
 	justify-content: space-around;
 }
 
-#afteraction-flow-share .share-container {
+#afteraction-flow-share .share-container,
+#afteraction-flow-share .post-share-container {
 	max-width: 30em;
 }
 
@@ -482,6 +483,12 @@ Custom template for same-page post-AJAX submit share ask.
 
 			function show_tick(current_step) {
  				$(`#afteraction-flow-share input[name="ak-donate-step-${current_step}"]`).prop('checked', true);
+				// hide step number
+				$('#afteraction-flow-share input[name="ak-donate-step"]:checked')
+					.closest('label')
+					.find('span.ak-step-number')
+					.addClass('hidden');
+
 				// show tick
 				$('#afteraction-flow-share input[name="ak-donate-step"]:checked')
 					.closest('label')

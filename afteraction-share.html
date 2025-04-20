@@ -481,9 +481,9 @@ Custom template for same-page post-AJAX submit share ask.
 			});
 
 			function show_tick(current_step) {
- 				$(`input[name="ak-donate-step-${current_step}"]`).prop('checked', true);
+ 				$(`#afteraction-flow-share input[name="ak-donate-step-${current_step}"]`).prop('checked', true);
 				// show tick
-				$('input[name="ak-donate-step"]:checked')
+				$('#afteraction-flow-share input[name="ak-donate-step"]:checked')
 					.closest('label')
 					.find('span.ak-step-complete')
 					.removeClass('hidden');
@@ -491,8 +491,8 @@ Custom template for same-page post-AJAX submit share ask.
 
 			$('.find-ways-action').on('click', function(e) {
 				show_tick(1);
-				$('#afteraction-flow .share-container').hide();
-				$('#afteraction-flow .post-share-container').show()
+				$('#afteraction-flow-share .share-container').hide();
+				$('#afteraction-flow-share .post-share-container').show()
 			});
 
 			$('.more-campaigns').on('click', function(e) {

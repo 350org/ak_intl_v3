@@ -148,6 +148,8 @@ Custom template for same-page post-AJAX submit share ask.
 	justify-content: space-between;
 	height: 100px;
 	align-self: center;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 .ak-donate-step-2::after,
@@ -287,6 +289,14 @@ Custom template for same-page post-AJAX submit share ask.
 					</div>
 				</div>
 				<a class="find-ways-action" href="#">Find more ways to take action ></a>
+			</div>
+			<div class="post-share-container" style="display: none;">
+        <p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">Thank you for your support!</span></p>
+				<h2 id="action-title" class="title3 text-style-title3">
+					<span class="{{ page.custom_fields.page_title_style }}">Find more ways to get involved.</span>
+				</h2>
+				<p>You've proven you're one of our top supporters - check out some of our other campaigns below!</p>
+				<a href='https://350.org/get-involved' class="bg-orange more-campaigns button button-large">More Campaigns ></a>
 			</div>
 		</div>
 	</div>
@@ -470,6 +480,26 @@ Custom template for same-page post-AJAX submit share ask.
 				});
 			});
 
+			function show_tick(current_step) {
+ 				$(`input[name="ak-donate-step-${current_step}"]`).prop('checked', true);
+				// show tick
+				$('input[name="ak-donate-step"]:checked')
+					.closest('label')
+					.find('span.ak-step-complete')
+					.removeClass('hidden');
+			}
+
+			$('.find-ways-action').on('click', function(e) {
+				show_tick(1);
+				$('#afteraction-flow .share-container').hide();
+				$('#afteraction-flow .post-share-container').show()
+			});
+
+			$('.more-campaigns').on('click', function(e) {
+				show_tick(2);
+				window.open("https://350.org/get-involved", "_blank");
+			});
+
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
@@ -489,6 +519,7 @@ Custom template for same-page post-AJAX submit share ask.
 					if (win) {
 						win.focus();
 					}
+					show_tick(1);
 				}).fail(function () {
 					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + window.location.href;
 					var win = window.open(whatsappShareURL);

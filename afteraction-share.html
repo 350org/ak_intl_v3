@@ -507,6 +507,16 @@ Custom template for same-page post-AJAX submit share ask.
 					.removeClass('hidden');
 			}
 
+			$('#afteraction-flow-share .ak-donate-step-1').on('click', function(e) {
+				$('#afteraction-flow-share .share-container').show();
+				$('#afteraction-flow-share .post-share-container').hide()
+			});
+
+			$('#afteraction-flow-share .ak-donate-step-2').on('click', function(e) {
+				$('#afteraction-flow-share .share-container').hide();
+				$('#afteraction-flow-share .post-share-container').show()
+			});
+
 			$('.find-ways-action').on('click', function(e) {
 				$(`#afteraction-flow-share .ak-donate-step-1 input[name="ak-donate-step"]`).prop('checked', true);
 				show_tick(1);

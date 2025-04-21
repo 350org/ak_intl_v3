@@ -490,7 +490,6 @@ Custom template for same-page post-AJAX submit share ask.
 			});
 
 			function show_tick(current_step) {
- 				$(`#afteraction-flow-share input[name="ak-donate-step-${current_step}"]`).prop('checked', true);
 				// hide step number
 				$('#afteraction-flow-share input[name="ak-donate-step"]:checked')
 					.closest('label')
@@ -505,12 +504,14 @@ Custom template for same-page post-AJAX submit share ask.
 			}
 
 			$('.find-ways-action').on('click', function(e) {
+				$(`#afteraction-flow-share .ak-donate-step-1 input[name="ak-donate-step"]`).prop('checked', true);
 				show_tick(1);
 				$('#afteraction-flow-share .share-container').hide();
 				$('#afteraction-flow-share .post-share-container').show()
 			});
 
 			$('.more-campaigns').on('click', function(e) {
+				$(`#afteraction-flow-share .ak-donate-step-2 input[name="ak-donate-step"]`).prop('checked', true);
 				show_tick(2);
 				window.open("https://350.org/get-involved", "_blank");
 			});

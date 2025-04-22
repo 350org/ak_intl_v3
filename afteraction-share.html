@@ -492,6 +492,18 @@ Custom template for same-page post-AJAX submit share ask.
 					// send google analytics event
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
 				}
+				var initialShareURL = e.target.href;
+				$.ajax({
+					method: 'GET',
+					url: initialShareURL,
+				}).done(function(shareURL) {
+					var mailtoURL = `mailto:?subject=${page.name}&body=${shareURL}`;
+					window.open(mailtoURL);
+				}).fail(function() {
+					var mailtoURL = `mailto:?subject=${page.name}&body=${window.location.href}`;
+					window.open(mailtoURL);
+				});
+
 			})
 
 			function show_tick(current_step) {
@@ -801,6 +813,13 @@ jQuery(document).ready(function($){
 			for (var i = 0; i < copyLinks.length; i++) {
 				var copyLink = copyLinks[i];
 				copyLink.href += `&action_id=${actionID}`;
+			}
+
+			// Add action_id to Email button URL
+			var emailBtn = $('.email-share');
+			for (var i = 0; i < emailBtn.length; i++) {
+				var emailLink = emailBtn[0];
+				emailLink.href += `&action_id=${actionID}`;
 			}
 
 			$('.copy-link-share').on('click', function (e) {

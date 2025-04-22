@@ -1065,7 +1065,6 @@ jQuery(document).ready(function($){
 								var params = responseURL.searchParams;
 								var actionID = params.get('action_id');
 								var akid = params.get('akid');
-								console.log('action_id', actionID, akid);
 								onSuccess(xhr.response, actionID, akid);
 							} else {
 								console.log('Error: AK AJAX submission failed.');

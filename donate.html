@@ -135,6 +135,9 @@
   .cant-donate {
     text-decoration: none;
   }
+  .cant-donate:hover {
+    color: white;
+  }
 
   /* Mobile Styles */
   @media screen and (max-width:720px) {
@@ -1483,7 +1486,7 @@
         if (typeof gtag !== 'undefined') {
           var currencyValue = $('#ak-currency-switcher').val();
           var currency = getCurrencyCode();
-          var amount = e.target.val;
+          var amount = e.target.value;
           // send google analytics event
           gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_${amount}_${currency}`});
         }

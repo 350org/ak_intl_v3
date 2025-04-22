@@ -493,7 +493,7 @@ Custom template for same-page post-AJAX submit share ask.
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
 				}
 				var initialShareURL = e.target.href;
-				var pageName = '{{ page.name }}';
+				var pageName = '{{ page.title }}';
 				$.ajax({
 					method: 'GET',
 					url: initialShareURL,
@@ -505,7 +505,27 @@ Custom template for same-page post-AJAX submit share ask.
 					window.open(mailtoURL);
 				});
 
-			})
+			});
+
+			$('.bluesky-share').on('click', function(e) {
+				e.preventDefault();
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
+				}
+				var initialShareURL = e.target.href;
+				var pageName = '{{ page.title }}';
+				$.ajax({
+					method: 'GET',
+					url: initialShareURL,
+				}).done(function(shareURL) {
+					var blueskyShareURL = `https://bsky.app/intent/compose?text=${pageName} ${shareURL}`;
+					window.open(blueskyShareURL);
+				}).fail(function() {
+					var blueskyShareURL = `https://bsky.app/intent/compose?text=${pageName} ${window.location.href}`;
+					window.open(blueskyShareURL);
+				});
+			});
 
 			function show_tick(current_step) {
 				// hide step number

@@ -1790,23 +1790,20 @@
     });
 
     $('#ak-continue-button').on('click', function() {
+      var currentStep = $('input[name="ak-donate-step"]:checked').val();
+      if (typeof gtag !== 'undefined') {
+        // send google analytics event
+        gtag('event', 'scrolling-signup', {'click_id': `thanksflow_donate_step${currentStep}_continue`});
+      }
       if ($('.ak-donate-area-step-1').is(':visible')) {
         $('#action-title').show();
         $('#action-description').show();
-        if (typeof gtag !== 'undefined') {
-          // send google analytics event
-          gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1_donate_continue'});
-        }
       } else {
         $('#action-pretitle').show();
       }
       if ($('.ak-donate-area-step-2').is(':visible')) {
         $('#action-title').hide();
         $('#action-description').hide();
-        if (typeof gtag !== 'undefined') {
-          // send google analytics event
-          gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step2_donate_continue'});
-        }
       }
       if ($('.ak-donate-area-step-3').is(':visible')) {
         $('#action-title').hide();

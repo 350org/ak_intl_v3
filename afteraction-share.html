@@ -950,6 +950,9 @@ jQuery(document).ready(function($){
 				});
 			} else if (afterActionNextStep === 'flow') {
 				$('#site-footer').addClass('site-footer-iframe');
+				const iframe = document.querySelector("iframe");
+				const donateSourceCode = `aa_${pageId}_thanksflow`;
+				iframe.src += `?source=${donateSourceCode}`;
 				const country = $('#country').val();
 				const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 				const fbShareEl = $('#afteraction-flow-share .fb-share');
@@ -982,9 +985,7 @@ jQuery(document).ready(function($){
 					}
 					const email = $('#id_email').val();
 					const city = $('#id_city').val();
-					const iframe = document.querySelector("iframe");
 					const pageId = '{{ page.id }}';
-					const donateSourceCode = `aa_${pageId}_thanksflow`;
 					const dataToSend = {
 						type: "signupForm",
 						firstName: firstName,
@@ -992,7 +993,6 @@ jQuery(document).ready(function($){
 						email: email,
 						city: city,
 					}
-					iframe.src += `?source=${donateSourceCode}`;
 					iframe.contentWindow.postMessage(dataToSend);
 				}
 			}

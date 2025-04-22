@@ -275,7 +275,7 @@ Custom template for same-page post-AJAX submit share ask.
 				</h2>
 				<div class="afteraction-share-ask-text margin-bottom-huge">
 					{% if page.custom_fields.after_action_flow_share_ask_intro_text %}
-						{{ page.custom_fields.after_action_flow_share_ask_intro_text }}
+						{% include_tmpl page.custom_fields.after_action_flow_share_ask_intro_text %}
 					{% else %}
 						<p>{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}</p>
 					{% endif %}

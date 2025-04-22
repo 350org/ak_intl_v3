@@ -493,14 +493,15 @@ Custom template for same-page post-AJAX submit share ask.
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
 				}
 				var initialShareURL = e.target.href;
+				var pageName = '{{ page.name }}';
 				$.ajax({
 					method: 'GET',
 					url: initialShareURL,
 				}).done(function(shareURL) {
-					var mailtoURL = `mailto:?subject=${page.name}&body=${shareURL}`;
+					var mailtoURL = `mailto:?subject=${pageName}&body=${shareURL}`;
 					window.open(mailtoURL);
 				}).fail(function() {
-					var mailtoURL = `mailto:?subject=${page.name}&body=${window.location.href}`;
+					var mailtoURL = `mailto:?subject=${pageName}&body=${window.location.href}`;
 					window.open(mailtoURL);
 				});
 

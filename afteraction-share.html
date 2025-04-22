@@ -477,7 +477,9 @@ Custom template for same-page post-AJAX submit share ask.
 	<script>
 		jQuery(document).ready(function($){
 			const iframe = document.getElementById('donate-iframe');
-			iframe.src = "https://act.350.org/donate/test_wtr_donate_afteractionflow";
+			const pageId = '{{ page.id }}';
+			const donateSourceCode = `aa_${pageId}_thanksflow`;
+			iframe.src = `https://act.350.org/donate/test_wtr_donate_afteractionflow?source=${donateSourceCode}`;
 			if ($(window).width() > 600) {
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}
@@ -950,9 +952,6 @@ jQuery(document).ready(function($){
 				});
 			} else if (afterActionNextStep === 'flow') {
 				$('#site-footer').addClass('site-footer-iframe');
-				const iframe = document.querySelector("iframe");
-				const donateSourceCode = `aa_${pageId}_thanksflow`;
-				iframe.src += `?source=${donateSourceCode}`;
 				const country = $('#country').val();
 				const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 				const fbShareEl = $('#afteraction-flow-share .fb-share');
@@ -993,6 +992,7 @@ jQuery(document).ready(function($){
 						email: email,
 						city: city,
 					}
+					const iframe = document.querySelector("iframe");
 					iframe.contentWindow.postMessage(dataToSend);
 				}
 			}

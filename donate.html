@@ -1484,6 +1484,15 @@
           gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_${amount}_${currency}`});
         }
       });
+
+      $('#ak-other-amount-container').on('click', function() {
+        if (typeof gtag !== 'undefined') {
+          var currencyValue = $('#ak-currency-switcher').val();
+          var currency = getCurrencyCode();
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_other_${currency}`});
+        }
+      });
     });
   {% endif %}
 

@@ -273,11 +273,11 @@ Custom template for same-page post-AJAX submit share ask.
 				<h2 id="action-title" class="title3 text-style-title3">
 					<span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, <span class="actionFirstName">friend</span>!</span>
 				</h2>
-				<p class="afteraction-share-ask-text margin-bottom-huge">
-					{% if page.custom_fields.afteraction_share_ask %}
-						{{ page.custom_fields.afteraction_share_ask }}
+				<div class="afteraction-share-ask-text margin-bottom-huge">
+					{% if page.custom_fields.after_action_flow_share_ask_intro_text %}
+						{{ page.custom_fields.after_action_flow_share_ask_intro_text }}
 					{% else %}
-						{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}
+						<p>{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}</p>
 					{% endif %}
 				</p>
 				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share copy-link button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
@@ -987,7 +987,7 @@ jQuery(document).ready(function($){
 					afteractionFlowSlide.show();
 					if (typeof gtag !== 'undefined') {
 						// send google analytics event
-						gtag('event', 'scrolling-signup', 'thanksflow_step1_fundraising_ask');
+						gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
 					}
 					$('#body-mobile-background').addClass('mobile-hide');
 					actionLead.hide();
@@ -995,7 +995,7 @@ jQuery(document).ready(function($){
 					afteractionFlowShare.show();
 					if (typeof gtag !== 'undefined') {
 						// send google analytics event
-						gtag('event', 'scrolling-signup', 'thanksflow_step1_nonfundraising');
+						gtag('event', 'scrolling-signup',  { 'view_id': 'thanksflow_step1_nonfundraising' });
 					}
 					actionLead.hide();
 				}
@@ -1104,7 +1104,7 @@ jQuery(document).ready(function($){
 				$('#afteraction-flow-share').show();
 				if (typeof gtag !== 'undefined') {
 					// send google analytics event
-					gtag('event', 'scrolling-signup', 'thanksflow_step1_nonfundraising');
+					gtag('event', 'scrolling-signup', {'view_id': 'thanksflow_step1_nonfundraising'});
 				}
 			}
 		});

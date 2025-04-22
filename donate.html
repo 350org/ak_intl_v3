@@ -838,7 +838,6 @@
     });
   });
 
-
   var address_fields = [
     'address1', 'address2', 'city', 'state', 'zip'
         {% if page.allow_international %}, 'postal', 'region', 'country'{% endif %}
@@ -1455,6 +1454,19 @@
   });
   {% endif %}
 
+	{% if page.custom_fields.after_action_next_step == "flow" %}
+    $(function () {
+      $('.ak-amount-radio-button').on('click', function(e) {
+        if (typeof gtag !== 'undefined') {
+          // send google analytics event
+          var currency = $('#ak-currency-switcher').val().slice(-3);
+          var amount = e.target.val;
+          gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_${amount}_${currency}`});
+        }
+      });
+    });
+  {% endif %}
+
 </script>
 
 {% with page.payment_processor_information as pp %}
@@ -1758,6 +1770,10 @@
     });
 
     $('#ak-continue-button').on('click', function() {
+      if (typeof gtag !== 'undefined') {
+				// send google analytics event
+				gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1_donate_continue'});
+      }
       if ($('.ak-donate-area-step-1').is(':visible')) {
         $('#action-title').show();
         $('#action-description').show();

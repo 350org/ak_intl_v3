@@ -246,6 +246,9 @@ Custom template for same-page post-AJAX submit share ask.
 {% if page.custom_fields.after_action_next_step == "flow" %}
 <div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute; height: 0; width: 0;">
 	<iframe id="donate-iframe" style="height: 110vh; width: 100vw;"></iframe>
+	<div class="text-center">
+		<a class="cant-donate" href="#">I can't donate right now ></a>
+	</div>
 </div>
 
 <div id="afteraction-flow-share" style="display: none; height: 100vh; width: 100%; position: absolute; top: 0">
@@ -482,6 +485,14 @@ Custom template for same-page post-AJAX submit share ask.
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}
 			var shareURL = '/share/link?type=ot&short=1&action_id={{action.id}}';
+			$('.cant-donate').on('click', function() {
+				if (typeof gtag !== 'undefined') {
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
+				}
+				$('#afteraction-flow').hide();
+				$('#afteraction-flow-share').show();
+			});
+
 			$('.copy-link').on('click', function (e) {
 				$.ajax({
 					method: 'GET',

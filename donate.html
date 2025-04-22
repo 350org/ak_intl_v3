@@ -770,13 +770,6 @@
 
   jQuery(document).ready(function($){
     $(".js-countdown-timer").countdownTimer();
-    $('.cant-donate').on('click', function() {
-				if (typeof gtag !== 'undefined') {
-					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
-				}
-				$('#afteraction-flow').hide();
-				$('#afteraction-flow-share').show();
-			});
   });
 </script>
 {% endif %}
@@ -1836,6 +1829,14 @@
         $('#action-title').hide();
         $('#action-description').hide();
       }
+    });
+
+    $('.cant-donate').on('click', function() {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
+      }
+      $('#afteraction-flow').hide();
+      $('#afteraction-flow-share').show();
     });
 
     var searchParams = new URLSearchParams(window.location.search);

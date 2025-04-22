@@ -1077,6 +1077,8 @@ jQuery(document).ready(function($){
 		$('#action-form').submit(function (e) {
 			// don't redirect to standard thank you page
 			e.preventDefault();
+			e.stopPropagation();
+			console.log('preventing default');
 			// wait 150ms for... some reason? idk, i forget
 			setTimeout(function() {
 				// if no errors...

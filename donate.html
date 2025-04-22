@@ -129,6 +129,12 @@
   #ak-donation-details {
     width: 100%;
   }
+  #ak-continue-button {
+    margin-bottom: 1em;
+  }
+  .cant-donate {
+    text-decoration: none;
+  }
 
   /* Mobile Styles */
   @media screen and (max-width:720px) {
@@ -669,9 +675,7 @@
                       &rarr;{% endfilter %}</button>
 
                       {% if page.custom_fields.after_action_next_step == "flow" %}
-                      <div class="text-center">
-                        <a class="cant-donate" href="#">I can't donate right now ></a>
-                      </div>
+                      <a class="cant-donate" href="#">I can't donate right now ></a>
                       {% endif %}
                     {% if page.payment_processor_information.use_cse %}
                     {% comment %}
@@ -763,6 +767,13 @@
 
   jQuery(document).ready(function($){
     $(".js-countdown-timer").countdownTimer();
+    $('.cant-donate').on('click', function() {
+				if (typeof gtag !== 'undefined') {
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
+				}
+				$('#afteraction-flow').hide();
+				$('#afteraction-flow-share').show();
+			});
   });
 </script>
 {% endif %}
@@ -1471,10 +1482,7 @@
       $('.ak-amount-radio-button').on('click', function(e) {
         if (typeof gtag !== 'undefined') {
           var currencyValue = $('#ak-currency-switcher').val();
-          var currency = "USD";
-          if (currencyValue != 'Braintree Client-Side Encryption')  {
-            currency = currencyValue.slice(-3);
-          }
+          var currency = getCurrencyCode();
           var amount = e.target.val;
           // send google analytics event
           gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_${amount}_${currency}`});

@@ -63,6 +63,7 @@ Custom template for same-page post-AJAX submit share ask.
   }
 }
 
+{% if page.custom_fields.after_action_next_step == "flow" %}
 .bg-blue_opaque-fade .section-inner {
   background-color: #0F81E9;
   color: #fff;
@@ -241,6 +242,7 @@ Custom template for same-page post-AJAX submit share ask.
 		display: none;
 	}
 }
+{% endif %}
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
@@ -476,6 +478,7 @@ Custom template for same-page post-AJAX submit share ask.
 
 	<script>
 		jQuery(document).ready(function($){
+			{% if page.custom_fields.after_action_next_step == "flow" %}
 			const iframe = document.getElementById('donate-iframe');
 			const pageId = '{{ page.id }}';
 			const donateSourceCode = `aa_${pageId}_thanksflow`;
@@ -565,7 +568,7 @@ Custom template for same-page post-AJAX submit share ask.
 				show_tick(2);
 				window.open("https://350.org/get-involved", "_blank");
 			});
-
+			{% endif %}
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
@@ -642,10 +645,12 @@ Custom template for same-page post-AJAX submit share ask.
 	</div>
 </div>
 
+{% if page.custom_fields.after_action_next_step == "flow" %}
 <script type="text/javascript">
 	actionkit.forms.contextRoot = '/context/';
 	actionkit.forms.initForm('act-donate');
 </script>
+{% endif %}
 <script>
 jQuery(document).ready(function($){
 	/* only run the AJAX submission if we're sure this is an AK-hosted page */
@@ -1077,8 +1082,6 @@ jQuery(document).ready(function($){
 		document.querySelector('#action-form').addEventListener('submit', function(e) {
 			// don't redirect to standard thank you page
 			e.preventDefault();
-			e.stopPropagation();
-			console.log('preventing default');
 			// wait 150ms for... some reason? idk, i forget
 			setTimeout(function() {
 				// if no errors...
@@ -1096,7 +1099,6 @@ jQuery(document).ready(function($){
 					var xhr = new XMLHttpRequest;
 					xhr.open("POST", $('#action-form').attr('action'), true);
 					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-					console.log($('#action-form').serialize());
 					xhr.send($('#action-form').serialize());
 					xhr.onreadystatechange = function () {
 						if (xhr.readyState === 4) {
@@ -1119,7 +1121,7 @@ jQuery(document).ready(function($){
 					}
 				}
 			}, 150);
-		}, false);
+		});
 	}
 });
 </script>

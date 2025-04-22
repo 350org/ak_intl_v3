@@ -483,6 +483,11 @@ Custom template for same-page post-AJAX submit share ask.
 			}
 			var shareURL = '/share/link?type=ot&short=1&action_id={{action.id}}';
 
+      if (typeof gtag !== 'undefined') {
+				// send google analytics event
+				gtag('event', 'scrolling-signup', 'thanksflow_step1_fundraising_ask');
+      }
+
 			$('.copy-link').on('click', function (e) {
 				if (typeof gtag !== 'undefined') {
 					// send google analytics event
@@ -570,14 +575,6 @@ Custom template for same-page post-AJAX submit share ask.
 				});
 			});
 		});
-		{% if page.custom_fields.after_action_next_step == "flow" %}
-		jQuery(document).ready(function($) {
-      if (typeof gtag !== 'undefined') {
-				// send google analytics event
-				gtag('event', 'scrolling-signup', 'thanksflow_step1_fundraising_ask');
-      }
-		});
-		{% endif %}
 	</script>
 </div>
 

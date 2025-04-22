@@ -1790,7 +1790,7 @@
     });
 
     $('#ak-continue-button').on('click', function() {
-      var currentStep = $('input[name="ak-donate-step"]:checked').val();
+      var currentStep = parseInt($('input[name="ak-donate-step"]:checked').val()) - 1;
       if (typeof gtag !== 'undefined') {
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': `thanksflow_donate_step${currentStep}_continue`});

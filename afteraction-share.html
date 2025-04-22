@@ -278,7 +278,7 @@ Custom template for same-page post-AJAX submit share ask.
 						{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}
 					{% endif %}
 				</p>
-				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
+				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share copy-link button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
 				<div class="share-buttons-container margin-top-large">
 					<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
 						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1">
@@ -481,27 +481,18 @@ Custom template for same-page post-AJAX submit share ask.
 			if ($(window).width() > 600) {
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}
-			var shareURL = '/share/link?type=ot&short=1&action_id={{action.id}}';
-
       if (typeof gtag !== 'undefined') {
 				// send google analytics event
 				gtag('event', 'scrolling-signup', 'thanksflow_step1_fundraising_ask');
       }
 
-			$('.copy-link').on('click', function (e) {
+			$('.email-share').on('click', function(e) {
+				e.preventDefault();
 				if (typeof gtag !== 'undefined') {
 					// send google analytics event
-					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
 				}
-				$.ajax({
-					method: 'GET',
-					url: shareURL,
-				}).done(function(shareURL) {
-				navigator.clipboard.writeText(shareURL);
-				}).fail(function() {
-					navigator.clipboard.writeText(window.location.href);
-				});
-			});
+			})
 
 			function show_tick(current_step) {
 				// hide step number
@@ -815,13 +806,19 @@ jQuery(document).ready(function($){
 			$('.copy-link-share').on('click', function (e) {
 				e.preventDefault();
 				var initialShareURL = e.target.href;
+				var linkButton = e.target;
 				initialShareURL += `&action_id=${actionID}&akid=${akid}`;
-				console.log(initialShareURL);
+				{% if page.custom_fields.after_action_next_step == "flow" %}
+				if (typeof gtag !== 'undefined') {
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
+				}
+				{% endif %}
 				$.ajax({
 					method: 'GET',
 					url: initialShareURL,
 				}).done(function(shareURL) {
-				navigator.clipboard.writeText(shareURL);
+					navigator.clipboard.writeText(shareURL);
+					linkButton.text = 'Link Copied!';
 				}).fail(function() {
 					navigator.clipboard.writeText(window.location.href);
 				});

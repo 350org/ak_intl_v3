@@ -668,6 +668,11 @@
                       id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue
                       &rarr;{% endfilter %}</button>
 
+                      {% if page.custom_fields.after_action_next_step == "flow" %}
+                      <div class="text-center">
+                        <a class="cant-donate" href="#">I can't donate right now ></a>
+                      </div>
+                      {% endif %}
                     {% if page.payment_processor_information.use_cse %}
                     {% comment %}
                     For pages that use CSE, the submit button will be enabled by javascript above.
@@ -1438,6 +1443,7 @@
     $('#ak-paypal-button').on('click', submit_paypal);
     $('.ak-submit-button').on('click', submit_cc);
 
+
     {% if page.paypal_user_requirements == "none" %}
     $('#ak-paypal-button').on('mousedown', function () {
       var form_elt = $(this).closest('form');
@@ -1456,11 +1462,21 @@
 
 	{% if page.custom_fields.after_action_next_step == "flow" %}
     $(function () {
-      $('.ak-amount-radio-button').on('click', function(e) {
+      $('.ak-submit-button').on('click', function(e) {
         if (typeof gtag !== 'undefined') {
           // send google analytics event
-          var currency = $('#ak-currency-switcher').val().slice(-3);
+          gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_donate_step3_submit'});
+        }
+      });
+      $('.ak-amount-radio-button').on('click', function(e) {
+        if (typeof gtag !== 'undefined') {
+          var currencyValue = $('#ak-currency-switcher').val();
+          var currency = "USD";
+          if (currencyValue != 'Braintree Client-Side Encryption')  {
+            currency = currencyValue.slice(-3);
+          }
           var amount = e.target.val;
+          // send google analytics event
           gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_${amount}_${currency}`});
         }
       });
@@ -1770,19 +1786,23 @@
     });
 
     $('#ak-continue-button').on('click', function() {
-      if (typeof gtag !== 'undefined') {
-				// send google analytics event
-				gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1_donate_continue'});
-      }
       if ($('.ak-donate-area-step-1').is(':visible')) {
         $('#action-title').show();
         $('#action-description').show();
+        if (typeof gtag !== 'undefined') {
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1_donate_continue'});
+        }
       } else {
         $('#action-pretitle').show();
       }
       if ($('.ak-donate-area-step-2').is(':visible')) {
         $('#action-title').hide();
         $('#action-description').hide();
+        if (typeof gtag !== 'undefined') {
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step2_donate_continue'});
+        }
       }
       if ($('.ak-donate-area-step-3').is(':visible')) {
         $('#action-title').hide();

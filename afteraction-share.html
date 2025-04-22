@@ -246,9 +246,6 @@ Custom template for same-page post-AJAX submit share ask.
 {% if page.custom_fields.after_action_next_step == "flow" %}
 <div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute; height: 0; width: 0;">
 	<iframe id="donate-iframe" style="height: 110vh; width: 100vw;"></iframe>
-	<div class="text-center">
-		<a class="cant-donate" href="#">I can't donate right now ></a>
-	</div>
 </div>
 
 <div id="afteraction-flow-share" style="display: none; height: 100vh; width: 100%; position: absolute; top: 0">
@@ -494,6 +491,10 @@ Custom template for same-page post-AJAX submit share ask.
 			});
 
 			$('.copy-link').on('click', function (e) {
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
+				}
 				$.ajax({
 					method: 'GET',
 					url: shareURL,
@@ -547,6 +548,12 @@ Custom template for same-page post-AJAX submit share ask.
 				var currShareURL = new URL(e.target.href);
 				var getShareURL = '/share/link?type=ot&action_id={{action.id}}&short=1&page_name={{page.name}}';
 				var actionID = currShareURL.searchParams.get('action_id');
+				{% if page.custom_fields.after_action_next_step == "flow" %}
+					if (typeof gtag !== 'undefined') {
+						// send google analytics event
+						gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
+					}
+				{% endif %}
 				if (actionID) {
 					getShareURL = '/share/link?type=ot&short=1&page_name={{page.name}}' + '&action_id=' + actionID;
 				}
@@ -570,6 +577,14 @@ Custom template for same-page post-AJAX submit share ask.
 				});
 			});
 		});
+		{% if page.custom_fields.after_action_next_step == "flow" %}
+		jQuery(document).ready(function($) {
+      if (typeof gtag !== 'undefined') {
+				// send google analytics event
+				gtag('event', 'scrolling-signup', 'thanksflow_step1_fundraising_ask');
+      }
+		});
+		{% endif %}
 	</script>
 </div>
 
@@ -1020,7 +1035,11 @@ jQuery(document).ready(function($){
 			window.open( destination , 'new-window-popup', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,resizable=yes,scrollbars=yes,width=' + popupWidth + ',height=' + popupHeight );
 			// send Google Analytics event
 			if (typeof gtag !== 'undefined') {
+				{% if page.custom_fields.after_action_next_step == "flow" %}
+				gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
+				{% else %}
 				gtag('event', 'scrolling-signup', {'click_id': 'share-facebook'});
+				{% endif %}
 			}
 		});
 

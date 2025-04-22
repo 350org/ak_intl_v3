@@ -1074,7 +1074,7 @@ jQuery(document).ready(function($){
 		});
 
 		/* When the main form is submitted... */
-		$('#action-form').submit(function (e) {
+		document.querySelector('#action-form').addEventListener('submit', function(e) {
 			// don't redirect to standard thank you page
 			e.preventDefault();
 			e.stopPropagation();

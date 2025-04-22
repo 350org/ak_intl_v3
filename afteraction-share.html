@@ -1078,6 +1078,16 @@ jQuery(document).ready(function($){
 			}
 		});
 
+		window.addEventListener("message", (event) => {
+			console.log(event);
+			if (event.origin !== "https://act.350.org") return;
+			console.log("Received message from iframe:", event.data);
+
+			if (event.data === "donationSuccessful") {
+				$('#afteraction-flow-share').show();
+			}
+		});
+
 		/* When the main form is submitted... */
 		document.querySelector('#action-form').addEventListener('submit', function(e) {
 			// don't redirect to standard thank you page

@@ -205,7 +205,10 @@
 	</style>
 	<script>
 		jQuery(document).ready(function($){
-		window.postMessage('donationSuccessful');
+		window.parent.postMessage({
+			type: 'donationSuccess',
+			'donation': true
+		});
 		});
 	</script>
 {% endif %}

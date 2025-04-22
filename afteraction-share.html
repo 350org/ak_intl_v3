@@ -1079,11 +1079,10 @@ jQuery(document).ready(function($){
 		});
 
 		window.addEventListener("message", (event) => {
-			console.log(event);
 			if (event.origin !== "https://act.350.org") return;
-			console.log("Received message from iframe:", event.data);
-
-			if (event.data === "donationSuccessful") {
+			const data = event.data;
+			console.log(data);
+			if (data.type === "donationSuccess") {
 				$('#afteraction-flow-share').show();
 			}
 		});

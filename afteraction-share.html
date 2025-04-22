@@ -1096,6 +1096,7 @@ jQuery(document).ready(function($){
 					var xhr = new XMLHttpRequest;
 					xhr.open("POST", $('#action-form').attr('action'), true);
 					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+					console.log($('#action-form').serialize());
 					xhr.send($('#action-form').serialize());
 					xhr.onreadystatechange = function () {
 						if (xhr.readyState === 4) {
@@ -1118,7 +1119,7 @@ jQuery(document).ready(function($){
 					}
 				}
 			}, 150);
-		});
+		}, false);
 	}
 });
 </script>

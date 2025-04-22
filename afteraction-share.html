@@ -983,13 +983,16 @@ jQuery(document).ready(function($){
 					const email = $('#id_email').val();
 					const city = $('#id_city').val();
 					const iframe = document.querySelector("iframe");
+					const pageId = '{{ page.id }}';
+					const donateSourceCode = `aa_${pageId}_thanksflow`;
 					const dataToSend = {
 						type: "signupForm",
 						firstName: firstName,
 						lastName: lastName,
 						email: email,
-						city: city
+						city: city,
 					}
+					iframe.src += `?source=${donateSourceCode}`;
 					iframe.contentWindow.postMessage(dataToSend);
 				}
 			}

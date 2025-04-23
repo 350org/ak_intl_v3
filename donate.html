@@ -13,6 +13,7 @@
 {% endif %}
 
 {% block content %}
+{% if page.custom_fields.after_action_next_step == "flow" %}
 <style>
   #action-lead {
     max-width: 800px;
@@ -165,6 +166,7 @@
     }
   }
 </style>
+{% endif %}
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
   {% if page.custom_fields.donate_enable_countdown and page.custom_fields.donate_countdown_date and page.custom_fields.donate_countdown_copy %}
@@ -184,6 +186,7 @@
       {% endautoescape %}
     </div>
     {% else %}
+    {% if page.custom_fields.after_action_next_step == "flow" %}
     <div
       class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
       <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
@@ -206,6 +209,7 @@
         <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
       </label>
     </div>
+    {% endif %}
     <form id="act" name="act"
       class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} "
       method="POST" action="/act/" accept-charset="utf-8" autocomplete="on">
@@ -214,17 +218,20 @@
       <input type="hidden" name="page" value="{{ page.name }}">
       <input type="hidden" name="orig_akid" value="{{ akid }}">
       <div id="action-header"
-        class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
+        class="{% if page.custom_fields.page_layout_style == 'expanded' or page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
         {% if page.custom_fields.page_pretitle %}
-        <p id="action-pretitle" class="text-font-secondary" style="display: none;"><span
-            class="highlight bg-dkgray-trans">Complete your donation</span></p>
+        <p id="action-pretitle" class="text-font-secondary" {% if page.custom_fields.after_action_next_step == "flow" %}style="display: none;"{% endif%}><span
+            class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
         {% endif %}
         <h2 id="action-title" class="title3 text-style-title3">
-          {% if page.custom_fields.page_title_custom_html %}
-          <!-- {% include_tmpl page.custom_fields.page_title_custom_html %} -->
-          <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, <span class="actionFirstName">friend</span>!</span>
+          {% if page.custom_fields.after_action_next_step == "flow" %}
+            <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, <span class="actionFirstName">friend</span>!</span>
           {% else %}
-          <span class="{{ page.custom_fields.page_title_style }}">Thanks for taking action, {{ action.user.first_name }}</span>
+            {% if page.custom_fields.page_title_custom_html %}
+              {% include_tmpl page.custom_fields.page_title_custom_html %}
+            {% else %}
+              <span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
+            {% endif %}
           {% endif %}
         </h2>
         {% if page.custom_fields.page_author %}
@@ -242,7 +249,7 @@
           {% endif %}
 
           <div id="action-description"
-            class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10 ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
+            class="{% if page.custom_fields.page_layout_style == 'expanded' %}{% if page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
             {% if page.custom_fields.featured_image %}
             <img class="ak-featured-img" src="{{ page.custom_fields.featured_image }}">
             {% endif %}
@@ -262,7 +269,7 @@
 
             {% comment %}The ID "donate" here breaks from normal naming convention so that there's a cleaner appearance
             when using it for anchor linking directly to the form.{% endcomment %}
-            <div id="donate" class="action-form c10 ct10 cm10 c-wide margin-top-none">
+            <div id="donate" class="action-form {% if page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide margin-top-none">
               <div class="ak-field-box ak-donate-three-step">
                 {% autoescape off %}
                 {% if page.custom_fields.form_text_above_form %}
@@ -275,6 +282,30 @@
                 <!-- Render progress meter -->
                 {% include "./progress_meter.html" %}
                 <!--Add .ak-donate-three-step for three-step-->
+                {% if page.custom_fields.after_action_next_step != "flow" %}
+                  <div
+                  class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
+                  <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
+                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>
+                    <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span
+                      class="ak-amount-label">{% filter ak_text:"donate_step_1_amount" %}Amount{% endfilter %}</span>
+                    <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1"
+                      checked="checked">
+                  </label>
+                  <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
+                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">2</span>
+                    <span
+                      class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_2_info" %}Info{% endfilter %}</span>
+                    <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
+                  </label>
+                  <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
+                    <span class="ak-step-number strong inline-dot bg-dkgray-trans">3</span>
+                    <span
+                      class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span>{% filter ak_text:"donate_step_3_payment" %}Payment{% endfilter %}</span>
+                    <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
+                  </label>
+                </div>
+                {% endif %}
                 <div id="ak-donation-details" class="box box-medium bg-white">
                   <div id="ak-product-list" class="ak-donate-area-step-1 ak-errs-below">
                     {% if has_products %}
@@ -677,9 +708,6 @@
                       id="ak-continue-button">{% filter ak_text:"donate_button_continue" %}Continue
                       &rarr;{% endfilter %}</button>
 
-                      {% if page.custom_fields.after_action_next_step == "flow" %}
-                      <!-- <a class="cant-donate" href="#">I can't donate right now ></a> -->
-                      {% endif %}
                     {% if page.payment_processor_information.use_cse %}
                     {% comment %}
                     For pages that use CSE, the submit button will be enabled by javascript above.
@@ -1253,9 +1281,7 @@
 
     /* clear out CC info if entered */
     $('#ak-card_num').val('');
-    $('#credit-card-number').val('');
     $('#ak-card_code').val('');
-    $('#cvv').val('');
 
     /* disable CC requirements */
     $('#ak-card_num-required').remove();
@@ -1449,7 +1475,6 @@
   $(function () {
     $('#ak-paypal-button').on('click', submit_paypal);
     $('.ak-submit-button').on('click', submit_cc);
-
 
     {% if page.paypal_user_requirements == "none" %}
     $('#ak-paypal-button').on('mousedown', function () {
@@ -1785,6 +1810,7 @@
 {% endif %}
 <script>
   $(function () {
+    {% if page.custom_fields.after_action_next_step == "flow" %}
     window.addEventListener('message', function(event) {
       const data = event.data;
       if (data.type === "signupForm") {
@@ -1844,6 +1870,7 @@
       $('#afteraction-flow').hide();
       $('#afteraction-flow-share').show();
     });
+    {% endif %}
 
     var searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {

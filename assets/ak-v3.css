@@ -5621,42 +5621,47 @@ a.bg-blue {
 a.bg-blue:hover {
   color: rgba(255, 255, 255, 0.75);
 }
-
-/* Blue Opaque Colors */
-.Signup .bg-blue_opaque a,
-.Signup .bg-blue_opaque.text-color-override a,
-.Petition .bg-blue_opaque a,
-.Petition .bg-blue_opaque.text-color-override a,
-.Letter .bg-blue_opaque a,
-.Letter .bg-blue_opaque.text-color-override a {
+:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a,
+:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a {
   color: rgba(255, 255, 255, 0.75);
 }
 
-/* Link:hover Color */
-.Signup .bg-blue_opaque a:hover,
-.Signup .bg-blue_opaque.text-color-override a:hover,
-.Petition .bg-blue_opaque a:hover,
-.Petition .bg-blue_opaque.text-color-override a:hover,
-.Letter .bg-blue_opaque a:hover,
-.Letter .bg-blue_opaque.text-color-override a:hover {
+:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a:hover,
+:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a:hover {
   color: rgba(255, 255, 255, 0.3);
 }
 
-/* Button Text Color */
-.Signup a.bg-blue_opaque,
-.Signup .bg-blue_opaque-fade a,
-.Petition a.bg-blue_opaque,
-.Petition .bg-blue_opaque-fade a,
-.Letter a.bg-blue_opaque,
-.Letter .bg-blue_opaque-fade a {
+:is(.Signup, .Petition, .Letter) a[class*="_opaque"]:not(.bg-white_opaque),
+:is(.Signup, .Petition, .Letter) [class*="_opaque-fade"]:not(.bg-white_opaque-fade) a {
   color: #ffffff;
 }
 
-/* Button:hover Text Color */
-.Signup a.bg-blue_opaque:hover,
-.Petition a.bg-blue_opaque:hover,
-.Letter a.bg-blue_opaque:hover {
+:is(.Signup, .Petition, .Letter) a[class*="_opaque"]:not(.bg-white_opaque):hover {
   color: rgba(255, 255, 255, 0.75);
+}
+
+:is(.Signup, .Petition, .Letter) .bg-white_opaque a,
+:is(.Signup, .Petition, .Letter) .bg-white_opaque .text-color-override a,
+:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a,
+:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade .text-color-override a {
+  color: #144872;
+}
+
+:is(.Signup, .Petition, .Letter) .bg-white_opaque a:hover,
+:is(.Signup, .Petition, .Letter) .bg-white_opaque .text-color-override a:hover,
+:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a:hover,
+:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade .text-color-override a:hover {
+  color: rgba(20, 72, 114, 0.75);
+}
+
+:is(.Signup, .Petition, .Letter) a.bg-white_opaque,
+:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a {
+  color: #144872;
+}
+
+:is(.Signup, .Petition, .Letter) a.bg-white_opaque:hover,
+:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a:hover {
+  color: rgba(20, 72, 114, 0.75);
 }
 
 /* Thick Underline */

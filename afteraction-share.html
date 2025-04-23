@@ -270,8 +270,10 @@ Custom template for same-page post-AJAX submit share ask.
 				</label>
     	</div>
 			<div class="share-container">
+				<p id="action-pretitle" class="text-font-secondary"><span
+					class="highlight bg-dkgray-trans">{% filter ak_text:"flow_share_step_pre_header" %}Complete your support{% endfilter %}</span></p>
 				<h2 id="action-title" class="title3 text-style-title3">
-					<span class="{{ page.custom_fields.page_title_style }}">{% filter ak_text:"flow_donate_step_thanks_taking_action" %}Thanks for taking action,{% endfilter %} <span class="actionFirstName">friend</span>!</span>
+					<span class="afteraction-share-title {{ page.custom_fields.page_title_style }}">{% filter ak_text:"flow_donate_step_thanks_taking_action" %}Thanks for taking action,{% endfilter %} <span class="actionFirstName">friend</span>!</span>
 				</h2>
 				<div class="afteraction-share-ask-text margin-bottom-huge">
 					{% if page.custom_fields.after_action_flow_share_ask_intro_text %}
@@ -303,15 +305,23 @@ Custom template for same-page post-AJAX submit share ask.
 						<span class="text-small">Bluesky</span>
 					</div>
 				</div>
-				<a class="find-ways-action" href="#">Find more ways to take action ></a>
+				<a class="find-ways-action" href="#">{% filter ak_text:"flow_share_step_intro_share_ask" %}Find more ways to take action{% endfilter %} ></a>
 			</div>
 			<div class="post-share-container" style="display: none;">
-        <p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">Thank you for your support!</span></p>
+        <p id="action-pretitle" class="text-font-secondary">
+					<span class="highlight bg-dkgray-trans">
+						{% filter ak_text:"flow_final_step_pre_header" %}Thank you for your support!{% endfilter %}
+					</span>
+				</p>
 				<h2 id="action-title" class="title3 text-style-title3">
-					<span class="{{ page.custom_fields.page_title_style }}">Find more ways to get involved.</span>
+					<span class="{{ page.custom_fields.page_title_style }}">
+						{% filter ak_text:"flow_final_step_header" %}Find more ways to get involved.{% endfilter %}
+					</span>
 				</h2>
-				<p>You've proven you're one of our top supporters - check out some of our other campaigns below!</p>
-				<a href='#' class="bg-orange more-campaigns button button-large">More Campaigns ></a>
+				{% include_tmpl page.custom_fields.flow_final_step_paragraph_text %}
+				<a href='#' class="bg-orange more-campaigns button button-large">
+					{% filter ak_text:"flow_final_step_button_text" %}More Campaigns{% endfilter %} >
+				</a>
 			</div>
 		</div>
 	</div>
@@ -570,7 +580,7 @@ Custom template for same-page post-AJAX submit share ask.
 					// send google analytics event
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_more'});
 				}
-				window.open("https://350.org/get-involved", "_blank");
+				window.open('{% filter ak_text:"flow_final_step_link" %}https://350.org/get-involved{% endfilter %}', "_blank");
 			});
 
 			$('.fb-share').on('click', function(e) {
@@ -1101,6 +1111,7 @@ jQuery(document).ready(function($){
 			if (event.origin !== "https://act.350.org") return;
 			const data = event.data;
 			if (data.type === "donationSuccess") {
+				$('.afteraction-share-title').text('{% filter ak_text:"flow_share_step_thanks_donating" %}Thanks for your donation!{% endfilter %}');
 				$('#afteraction-flow-share').show();
 				if (typeof gtag !== 'undefined') {
 					// send google analytics event

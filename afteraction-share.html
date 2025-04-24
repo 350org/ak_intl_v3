@@ -262,7 +262,7 @@ Custom template for same-page post-AJAX submit share ask.
 </div>
 
 <div id="afteraction-flow-share" style="display: none; height: 100vh; width: 100%; position: absolute; top: 0">
-	<div class="section donate-lead action-lead title-section width-medium bg-{% if page.custom_fields.page_background_image and page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}-fade{% else %}blue_opaque-fade{% endif %}">
+	<div class="section donate-lead action-lead title-section width-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 		<div class="section-inner">
 			<div
 				class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-trans">

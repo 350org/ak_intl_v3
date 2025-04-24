@@ -229,7 +229,11 @@ Custom template for same-page post-AJAX submit share ask.
 #afteraction-flow-share .section {
 	padding: 1em;
 }
-
+@media screen and (max-width:900px) {
+	#jump-to-form {
+		display: none;
+	}
+}
 @media screen and (max-width:720px) {
 	#jump-to-form, #site-footer {
 		display: none;
@@ -1112,6 +1116,8 @@ jQuery(document).ready(function($){
 			const data = event.data;
 			if (data.type === "donationSuccess") {
 				$('.afteraction-share-title').text('{% filter ak_text:"flow_share_step_thanks_donating" %}Thanks for your donation!{% endfilter %}');
+				$('#afteraction-flow').hide();
+				$('#body-mobile-background').removeClass('mobile-hide');
 				$('#afteraction-flow-share').show();
 				if (typeof gtag !== 'undefined') {
 					// send google analytics event

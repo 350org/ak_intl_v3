@@ -503,7 +503,7 @@ Custom template for same-page post-AJAX submit share ask.
 			const iframe = document.getElementById('donate-iframe');
 			const pageId = '{{ page.id }}';
 			const donateSourceCode = `aa_${pageId}_thanksflow`;
-			const donatePageEmbedURL = '{{ page.custom_fields.flow_donate_embed_url }}' || 'https://act.350.org/donate/build';
+			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/build';
 			iframe.src = `${donatePageEmbedURL}?source=${donateSourceCode}`;
 			if ($(window).width() > 600) {
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')

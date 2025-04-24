@@ -239,6 +239,9 @@ Custom template for same-page post-AJAX submit share ask.
 	}
 }
 @media screen and (max-width:720px) {
+	#action-pretitle span.highlight {
+		line-height: 2.2;
+	}
 	#jump-to-form, #site-footer {
 		display: none;
 	}
@@ -500,7 +503,8 @@ Custom template for same-page post-AJAX submit share ask.
 			const iframe = document.getElementById('donate-iframe');
 			const pageId = '{{ page.id }}';
 			const donateSourceCode = `aa_${pageId}_thanksflow`;
-			iframe.src = `https://act.350.org/donate/test_wtr_donate_afteractionflow?source=${donateSourceCode}`;
+			const donatePageEmbedURL = '{{ page.custom_fields.flow_donate_embed_url }}' || 'https://act.350.org/donate/build';
+			iframe.src = `${donatePageEmbedURL}?source=${donateSourceCode}`;
 			if ($(window).width() > 600) {
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}

@@ -2355,6 +2355,13 @@ a.tf-logo:hover {
   color: #fff;
 }
 
+#donation-other, #site-footer {
+  background-color: #0E76D8;
+  color: white;
+}
+#donation-other a, #site-footer a {
+  color: white;
+}
 /* Mobile Only */
 @media only screen and (max-width:720px) {
   .mobile-hide {

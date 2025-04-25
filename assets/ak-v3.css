@@ -4851,6 +4851,29 @@ label.ak-donate-step.active-step .inline-dot {
   color: #fff;
 }
 
+.bg-dkgray_opaque-fade label.ak-donate-step.active-step .inline-dot {
+	background: #FFFFFF1A;
+}
+
+.bg-dkgray_opaque-fade #ak-multi-currency {
+  color: #fff;
+}
+
+.bg-white_opaque-fade label.ak-donate-step .inline-dot {
+	background: #ffffff;
+  color: #144872;
+  border-color: #144872;
+}
+
+.bg-white_opaque-fade #ak-multi-currency {
+  color: #144872;
+}
+
+.bg-white_opaque-fade .ak-donate-step-1 .ak-step-number::after, .bg-white_opaque-fade .ak-donate-step-2 .ak-step-number::after, .bg-white_opaque-fade .ak-donate-step-1 .ak-step-complete::after{
+	background-color: #144872;
+}
+
+
 .ak-donate-step-2 {
   padding: 0 1.5em;
   position: relative;

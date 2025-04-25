@@ -4490,6 +4490,10 @@ label.ak-survey-radio-choice {
   color: #fff;
 }
 
+:is(.Signup, .Petition, .Letter) .bg-dkgray_opaque-fade span.highlight.bg-dkgray-trans {
+  background: rgba(255, 255, 255, 0.10);
+}
+
 /* SHARED LAYOUT */
 :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner {
   padding: 48px 36px;
@@ -5155,7 +5159,7 @@ input:checked+.toggle-donation-type .toggle-option-2 {
     padding: 4rem;
   }
 
-  [class$="_opaque-fade"] .section-inner {
+  :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner {
     padding: 0 0 32px;
     border-radius: 0;
     z-index: 20;
@@ -5174,12 +5178,12 @@ input:checked+.toggle-donation-type .toggle-option-2 {
     background: linear-gradient(180deg, rgba(23, 36, 41, 0) 0%, #172429 5%);
   }
 
-  [class$="_opaque-fade"] .section-inner #action-header {
+  :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-header {
     max-width: 100%;
     padding: 0;
   }
 
-  [class$="_opaque-fade"] .section-inner #action-title {
+  :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-title {
     font-size: 43px;
     font-weight: 400;
     line-height: normal;

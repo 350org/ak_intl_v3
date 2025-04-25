@@ -4491,7 +4491,7 @@ label.ak-survey-radio-choice {
 }
 
 /* SHARED LAYOUT */
-[class$="_opaque-fade"] .section-inner {
+:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner {
   padding: 48px 36px;
   border-radius: 64px;
   max-width: 1133px;
@@ -4500,21 +4500,21 @@ label.ak-survey-radio-choice {
 }
 
 /* HEADER, FORM & COPY */
-[class$="_opaque-fade"] .section-inner #action-header {
+:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-header {
   max-width: 520px;
   padding: 0 24px;
 }
 
-[class$="_opaque-fade"] .section-inner #action-form {
+:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-form {
   margin: auto;
 }
 
-[class$="_opaque-fade"] .section-inner p {
+:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner p {
   font-family: Klima, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 }
 
 /* HIGHLIGHT BOX */
-[class$="_opaque-fade"] .section-inner .highlight {
+:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner .highlight {
   border-radius: 8px;
   background: #144872;
   height: 52px;
@@ -4527,7 +4527,7 @@ label.ak-survey-radio-choice {
 }
 
 /* TITLE */
-[class$="_opaque-fade"] .section-inner #action-title {
+:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-title {
   margin-top: 25px;
   font-size: 58px;
   font-weight: 400;

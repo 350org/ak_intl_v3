@@ -1701,7 +1701,7 @@
 </style>
 
 <!-- New styles for more accessible donate pages -->
-{% if page.custom_fields.page_background_color == 'new_accessible' or page.custom_fields.page_background_color == 'new_accessible_desktop' or page.custom_fields.page_background_color == 'blue_opaque' or page.custom_fields.page_background_color == 'white_opaque' or page.custom_fields.page_background_color == 'dkgray_opaque' %}
+{% if page.custom_fields.after_action_next_step != "flow" and page.custom_fields.page_background_color in "new_accessible,new_accessible_desktop,blue_opaque,white_opaque,dkgray_opaque"|split:"," %}
   <style>
     #body-mobile-background {
       opacity: 1;

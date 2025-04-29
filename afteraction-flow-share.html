@@ -193,12 +193,6 @@
 
 <script>
   jQuery(document).ready(function($){
-    {% if page.custom_fields.share_whatsapp_message %}
-		var whatsappMsg = '{{ page.custom_fields.share_whatsapp_message|escapejs }} ';
-    {% else %}
-      var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
-    {% endif %}
-
     $('.email-share').on('click', function(e) {
       e.preventDefault();
       if (typeof gtag !== 'undefined') {

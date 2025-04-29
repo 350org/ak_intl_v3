@@ -309,6 +309,12 @@ Custom template for same-page post-AJAX submit share ask.
 
 	<script>
 		jQuery(document).ready(function($){
+			{% if page.custom_fields.share_whatsapp_message %}
+			var whatsappMsg = '{{ page.custom_fields.share_whatsapp_message|escapejs }} ';
+			{% else %}
+				var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
+			{% endif %}
+
 			{% if page.custom_fields.after_action_next_step == "flow" %}
 			const iframe = document.getElementById('donate-iframe');
 			const pageId = '{{ page.id }}';

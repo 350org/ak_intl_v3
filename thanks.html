@@ -213,6 +213,12 @@
 		var origPageName = '{{ action.custom_fields.original_page_name }}';
 		var akid = currentUrl.searchParams.get('akid');
 
+    {% if page.custom_fields.share_whatsapp_message %}
+		var whatsappMsg = '{{ page.custom_fields.share_whatsapp_message|escapejs }} ';
+    {% else %}
+      var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
+    {% endif %}
+
 		if (typeof gtag !== 'undefined') {
 			// send google analytics event
 			gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });

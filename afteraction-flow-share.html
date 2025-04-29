@@ -21,7 +21,9 @@
 				<p id="action-pretitle" class="text-font-secondary"><span
 					class="highlight bg-dkgray-trans">{% filter ak_text:"flow_share_step_pre_header" %}Complete your support{% endfilter %}</span></p>
 				<h2 id="action-title" class="title3 text-style-title3">
-					<span class="afteraction-share-title {{ page.custom_fields.page_title_style }}">{% filter ak_text:"flow_donate_step_thanks_taking_action" %}Thanks for taking action,{% endfilter %} <span class="actionFirstName">friend</span>!</span>
+					<span class="afteraction-share-title {{ page.custom_fields.page_title_style }}">
+            {% filter ak_text:"flow_donate_step_thanks_taking_action" %}Thanks for taking action,{% endfilter %} <span class="actionFirstName">friend</span>!
+          </span>
 				</h2>
 				<div class="afteraction-share-ask-text margin-bottom-huge">
 					{% if page.custom_fields.after_action_flow_share_ask_intro_text %}
@@ -33,12 +35,12 @@
 				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share copy-link button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
 				<div class="share-buttons-container margin-top-large">
 					<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
-						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&amp;page_name={{page.name}}&short=1&source=share-ak-thanksflow-fb">
+						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&short=1&source=share-ak-thanksflow-fb">
 						</a>
 						<span class="text-small">Facebook</span>
 					</div>
 					<div class="afteraction-email-share-intro afteraction-share-option-intro margin-bottom-medium">
-						<a class="afteraction-share-button email-share button-icon bg-email-color bg-email-icon button-share-email" href="/share/link?type=ot&page_name={{page.name}}&short=1">
+						<a class="afteraction-share-button email-share button-icon bg-email-color bg-email-icon button-share-email" href="/share/link?type=ot&short=1">
 						</a>
 						<span class="text-small">Email</span>
 					</div>
@@ -48,7 +50,7 @@
 						<span class="text-small">Whatsapp</span>
 					</div>
 					<div class="afteraction-bluesky-share-intro afteraction-share-option-intro margin-bottom-medium">
-						<a class="afteraction-share-bluesky bluesky-share button-icon bg-bluesky-color bg-bluesky-icon button-share-bluesky" href="/share/link?type=ot&bluesky=true&page_name={{page.name}}&short=1">
+						<a class="afteraction-share-bluesky bluesky-share button-icon bg-bluesky-color bg-bluesky-icon button-share-bluesky" href="/share/link?type=ot&bluesky=true&short=1">
 						</a>
 						<span class="text-small">Bluesky</span>
 					</div>
@@ -197,8 +199,6 @@
       var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
     {% endif %}
 
-    var currentUrl = new URL(window.location.href);
-    var actionID = currentUrl.searchParams.get('action_id');
     $('.email-share').on('click', function(e) {
       e.preventDefault();
       if (typeof gtag !== 'undefined') {

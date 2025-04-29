@@ -210,6 +210,7 @@
 		$('#afteraction-flow-share').show();
     var currentUrl = new URL(window.location.href);
     var actionID = '{{ action.custom_fields.original_actionid }}';
+		var origPageName = '{{ action.custom_fields.original_page_name }}';
 		var akid = currentUrl.searchParams.get('akid');
 
 		if (typeof gtag !== 'undefined') {
@@ -220,14 +221,14 @@
 		var copyLinks = $('.copy-link');
 		for (var i = 0; i < copyLinks.length; i++) {
 			var copyLink = copyLinks[i];
-			copyLink.href += `&action_id=${actionID}`;
+			copyLink.href += `&action_id=${actionID}&page=${origPageName}`;
 		}
 
 		// Add action_id to Email button URL
 		var emailBtn = $('.email-share');
 		for (var i = 0; i < emailBtn.length; i++) {
 			var emailLink = emailBtn[0];
-			emailLink.href += `&action_id=${actionID}`;
+			emailLink.href += `&action_id=${actionID}&page=${origPageName}`;
 		}
 
     function show_tick(current_step) {
@@ -248,7 +249,7 @@
 			e.preventDefault();
 			var initialShareURL = e.target.href;
 			var linkButton = e.target;
-			initialShareURL += `&action_id=${actionID}&akid=${akid}`;
+			initialShareURL += `&action_id=${actionID}&page=${origPageName}`;
 			if (typeof gtag !== 'undefined') {
 				gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
 			}
@@ -267,14 +268,10 @@
     $('.whatsapp-share').on('click', function(e) {
       e.preventDefault();
       // Set Whatsapp Share URL based on response from API
-      var currShareURL = new URL(e.target.href);
-      var getShareURL = '/share/link?type=ot&short=1';
+      var getShareURL = `/share/link?type=ot&short=1&source=share-ak-thanksflow-wa&action_id=${actionID}&page=${origPageName}`;
       if (typeof gtag !== 'undefined') {
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
-      }
-      if (actionID) {
-        getShareURL = '/share/link?type=ot&short=1&source=share-ak-thanksflow-wa' + '&action_id=' + actionID;
       }
       $.ajax({
         method: 'GET',

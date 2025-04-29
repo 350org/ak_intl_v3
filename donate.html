@@ -233,6 +233,7 @@
       <input type="hidden" name="orig_akid" value="{{ akid }}">
       {% if page.custom_fields.after_action_next_step == "flow" %}
       <input id="action_original_actionid" type="hidden" name=action_original_actionid value="">
+      <input id="action_original_page_name" type="hidden" name=action_original_page_name value="">
       {% endif %}
       <div id="action-header"
         class="{% if page.custom_fields.page_layout_style == 'expanded' or page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
@@ -1835,6 +1836,7 @@
         $('#id_email').val(data.email);
         $('#id_first_name').val(data.firstName);
         $('#action_original_actionid').val(data.actionID);
+        $('#action_original_page_name').val(data.pageName);
         if (data.lastName) {
           $('#id_last_name').val(data.lastName);
         }

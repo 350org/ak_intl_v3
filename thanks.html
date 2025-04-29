@@ -202,6 +202,35 @@
 		#thanks {
 			display: none;
 		}
+		@media screen and (max-width:720px) {
+			#site-footer {
+				display: none;
+			}
+
+			:is(.Signup, .Petition, .Letter, .Donation) #body-mobile-background.bg-blue_opaque,
+			:is(.Signup, .Petition, .Letter, .Donation) #body-mobile-background.bg-white_opaque,
+			:is(.Signup, .Petition, .Letter, .Donation) #body-mobile-background.bg-dkgray_opaque {
+				height: 443px;
+				width: calc(100% - 32px);
+				left: 16px;
+				border-radius: 24px;
+				position: absolute;
+				top: 16px;
+				z-index: 10;
+			}
+
+			body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque {
+				background: #0F81E9;
+			}
+
+			body:is(.Signup, .Petition, .Letter, .Donation).body-white_opaque {
+				background: #ffffff;
+			}
+
+			body:is(.Signup, .Petition, .Letter, .Donation).body-dkgray_opaque {
+				background: #172429;
+			}
+		}
 	</style>
 {% include "./afteraction-flow-share.html" %}
 <script>
@@ -212,12 +241,6 @@
     var actionID = '{{ action.custom_fields.original_actionid }}';
 		var origPageName = '{{ action.custom_fields.original_page_name }}';
 		var akid = currentUrl.searchParams.get('akid');
-
-    {% if page.custom_fields.share_whatsapp_message %}
-		var whatsappMsg = '{{ page.custom_fields.share_whatsapp_message|escapejs }} ';
-    {% else %}
-      var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
-    {% endif %}
 
 		if (typeof gtag !== 'undefined') {
 			// send google analytics event
@@ -283,7 +306,7 @@
         method: 'GET',
         url: getShareURL,
       }).done(function(shareURL) {
-        var newURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + shareURL;
+        var newURL = 'https://api.whatsapp.com/send?text=' + shareURL;
         $(e.target).attr('href', newURL);
         var win = window.open(newURL);
         if (win) {
@@ -291,7 +314,7 @@
         }
         show_tick(1);
       }).fail(function () {
-        var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + window.location.href;
+        var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + window.location.href;
         var win = window.open(whatsappShareURL);
         if (win) {
           win.focus();

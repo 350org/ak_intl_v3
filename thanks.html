@@ -207,6 +207,9 @@
 <script>
 	jQuery(document).ready(function($){
 		$('#afteraction-flow-share').show();
+    var currentUrl = new URL(window.location.href);
+    var actionID = currentUrl.searchParams.get('action_id');
+
 		if (typeof gtag !== 'undefined') {
 			// send google analytics event
 			gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });

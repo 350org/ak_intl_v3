@@ -206,6 +206,7 @@
 {% include "./afteraction-flow-share.html" %}
 <script>
 	jQuery(document).ready(function($){
+		$('.afteraction-share-title').text('{% filter ak_text:"flow_share_step_thanks_donating" %}Thanks for your donation!{% endfilter %}');
 		$('#afteraction-flow-share').show();
     var currentUrl = new URL(window.location.href);
     var actionID = currentUrl.searchParams.get('action_id');

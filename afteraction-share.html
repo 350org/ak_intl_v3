@@ -837,21 +837,6 @@ jQuery(document).ready(function($){
 			}
 		});
 
-		window.addEventListener("message", (event) => {
-			if (event.origin !== "https://act.350.org") return;
-			const data = event.data;
-			if (data.type === "donationSuccess") {
-				$('.afteraction-share-title').text('{% filter ak_text:"flow_share_step_thanks_donating" %}Thanks for your donation!{% endfilter %}');
-				$('#afteraction-flow').hide();
-				$('#body-mobile-background').removeClass('mobile-hide');
-				$('#afteraction-flow-share').show();
-				if (typeof gtag !== 'undefined') {
-					// send google analytics event
-					gtag('event', 'scrolling-signup', {'view_id': 'thanksflow_step1_nonfundraising'});
-				}
-			}
-		});
-
 		/* When the main form is submitted... */
 		document.querySelector('#action-form').addEventListener('submit', function(e) {
 			// don't redirect to standard thank you page

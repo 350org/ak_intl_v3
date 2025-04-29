@@ -209,7 +209,7 @@
 		$('.afteraction-share-title').text('{% filter ak_text:"flow_share_step_thanks_donating" %}Thanks for your donation!{% endfilter %}');
 		$('#afteraction-flow-share').show();
     var currentUrl = new URL(window.location.href);
-    var actionID = currentUrl.searchParams.get('action_id');
+    var actionID = '{{ action.custom_fields.actionid_origin_page }}';
 		var akid = currentUrl.searchParams.get('akid');
 
 		if (typeof gtag !== 'undefined') {

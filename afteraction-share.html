@@ -747,13 +747,13 @@ jQuery(document).ready(function($){
 					}
 					const email = $('#id_email').val();
 					const city = $('#id_city').val();
-					const pageId = '{{ page.id }}';
 					const dataToSend = {
 						type: "signupForm",
 						firstName: firstName,
 						lastName: lastName,
 						email: email,
 						city: city,
+						actionID: actionID
 					}
 					const iframe = document.getElementById("donate-iframe");
 					iframe.setAttribute("sandbox", "allow-scripts allow-top-navigation allow-same-origin allow-forms");

@@ -197,6 +197,7 @@
       var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
     {% endif %}
 
+    var actionID = currShareURL.searchParams.get('action_id');
     $('.email-share').on('click', function(e) {
       e.preventDefault();
       if (typeof gtag !== 'undefined') {
@@ -295,7 +296,6 @@
       // Set Whatsapp Share URL based on response from API
       var currShareURL = new URL(e.target.href);
       var getShareURL = '/share/link?type=ot&action_id={{action.id}}&short=1&page_name={{page.name}}';
-      var actionID = currShareURL.searchParams.get('action_id');
       if (typeof gtag !== 'undefined') {
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});

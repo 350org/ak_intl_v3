@@ -263,6 +263,38 @@
 				navigator.clipboard.writeText(window.location.href);
 			});
 		});
+
+    $('.whatsapp-share').on('click', function(e) {
+      e.preventDefault();
+      // Set Whatsapp Share URL based on response from API
+      var currShareURL = new URL(e.target.href);
+      var getShareURL = '/share/link?type=ot&short=1';
+      if (typeof gtag !== 'undefined') {
+        // send google analytics event
+        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
+      }
+      if (actionID) {
+        getShareURL = '/share/link?type=ot&short=1&source=share-ak-thanksflow-wa' + '&action_id=' + actionID;
+      }
+      $.ajax({
+        method: 'GET',
+        url: getShareURL,
+      }).done(function(shareURL) {
+        var newURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + shareURL;
+        $(e.target).attr('href', newURL);
+        var win = window.open(newURL);
+        if (win) {
+          win.focus();
+        }
+        show_tick(1);
+      }).fail(function () {
+        var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + window.location.href;
+        var win = window.open(whatsappShareURL);
+        if (win) {
+          win.focus();
+        }
+      });
+    });
 	});
 </script>
 {% endif %}

@@ -1043,7 +1043,8 @@ jQuery(document).ready(function($){
 						email: email,
 						city: city,
 					}
-					const iframe = document.querySelector("iframe");
+					const iframe = document.getElementById("donate-iframe");
+					iframe.setAttribute("sandbox", "allow-scripts allow-top-navigation");
 					iframe.contentWindow.postMessage(dataToSend);
 				}
 			}

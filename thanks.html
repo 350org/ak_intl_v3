@@ -258,10 +258,17 @@
 		}
 
 		// Add action_id to Email button URL
-		var emailBtn = $('.email-share');
-		for (var i = 0; i < emailBtn.length; i++) {
-			var emailLink = emailBtn[0];
+		var emailBtns = $('.email-share');
+		for (var i = 0; i < emailBtns.length; i++) {
+			var emailLink = emailBtns[0];
 			emailLink.href += `&action_id=${actionID}&page=${origPageName}`;
+		}
+
+		// Add action_id to Bluesky URL
+		var blueskyBtns = $('.bluesky-share');
+		for (var i = 0; i < blueskyBtns.length; i++) {
+			var blueskyBtn = blueskyBtns[0];
+			blueskyBtn.href += `&action_id=${actionID}&page=${origPageName}`;
 		}
 
     function show_tick(current_step) {

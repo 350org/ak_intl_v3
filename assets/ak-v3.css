@@ -5749,6 +5749,9 @@ a.text-white-trans {
   border-color: rgba(255, 255, 255, 0.15);
   color: #ffffff;
 }
+.bg-dkgray_opaque-fade .ak-privacy {
+  color: #ffffff;
+}
 
 /* Nav Color */
 nav.bg-dkgray li,

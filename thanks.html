@@ -207,6 +207,42 @@
 <script>
 	jQuery(document).ready(function($){
 		$('#afteraction-flow-share').show();
+		if (typeof gtag !== 'undefined') {
+			// send google analytics event
+			gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
+		}
+		// Set Copy Link URL with action_id
+		var copyLinks = $('.copy-link');
+		for (var i = 0; i < copyLinks.length; i++) {
+			var copyLink = copyLinks[i];
+			copyLink.href += `&action_id=${actionID}`;
+		}
+
+		// Add action_id to Email button URL
+		var emailBtn = $('.email-share');
+		for (var i = 0; i < emailBtn.length; i++) {
+			var emailLink = emailBtn[0];
+			emailLink.href += `&action_id=${actionID}`;
+		}
+
+		$('.copy-link-share').on('click', function (e) {
+			e.preventDefault();
+			var initialShareURL = e.target.href;
+			var linkButton = e.target;
+			initialShareURL += `&action_id=${actionID}&akid=${akid}`;
+			if (typeof gtag !== 'undefined') {
+				gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
+			}
+			$.ajax({
+				method: 'GET',
+				url: initialShareURL,
+			}).done(function(shareURL) {
+				navigator.clipboard.writeText(shareURL);
+				linkButton.text = 'Link Copied!';
+			}).fail(function() {
+				navigator.clipboard.writeText(window.location.href);
+			});
+		});
 	});
 </script>
 {% endif %}

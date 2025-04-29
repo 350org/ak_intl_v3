@@ -75,6 +75,120 @@
 	</div>
 </div>
 
+<style>
+#afteraction-flow-share .button-icon {
+	border-radius: 2em;
+	width: 3em;
+	height: 3em;
+	padding: 10px;
+	background-position: center;
+	background-size: 1.5em;
+}
+
+#afteraction-flow-share .afteraction-share-option-intro {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#afteraction-flow-share .ak-donate-menu,
+#afteraction-flow-share .share-container {
+	display: flex;
+	flex-direction: column;
+}
+
+#afteraction-flow-share .ak-donate-menu {
+	justify-content: space-between;
+	height: 100px;
+	align-self: center;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#afteraction-flow-share .ak-donate-menu .inline-dot.bg-dkgray-trans {
+	background-color: rgba(23, 41, 46, 0.6);
+}
+
+.ak-donate-step-2::after,
+.ak-donate-step-2::before {
+	content: unset;
+}
+
+.inline-dot {
+	width: 2.5em;
+	height: 2.5em;
+	border-radius: 2em;
+	border: 2px solid white;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#afteraction-flow-share .ak-donate-step-1 .ak-step-number::after{
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	width: 1px;
+	height: 20px;
+	background-color: white;
+	transform: translateX(-50%);
+	z-index: 0;
+}
+
+#afteraction-flow-share .ak-donate-step-1 .ak-step-complete::after {
+	content: " ";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	width: 1px;
+	height: 20px;
+	background-color: white;
+	transform: translateX(-50%);
+	z-index: 0;
+}
+
+#afteraction-flow-share .share-buttons-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+#afteraction-flow-share .share-container,
+#afteraction-flow-share .post-share-container {
+	max-width: 30em;
+}
+
+.more-campaigns {
+	width: 100%;
+}
+
+#afteraction-flow-share .bg-email-icon {
+	background-color: rgb(255, 169, 2);
+	background-image: url('https://s3.us-east-1.amazonaws.com/s3.350.org/images/email.svg');
+}
+
+#afteraction-flow-share .bg-bluesky-icon {
+	background-color: #59B0FF;
+	background-image: url('https://s3.us-east-1.amazonaws.com/s3.350.org/images/bluesky-white.svg');
+}
+
+#afteraction-flow-share .find-ways-action {
+	text-decoration: none;
+	text-align: center;
+}
+
+#afteraction-flow-share .section {
+	padding: 1em;
+}
+
+@media screen and (max-width:720px) {
+	#afteraction-flow-share .ak-donate-menu {
+		display: none;
+	}
+}
+</style>
+
 <script>
   jQuery(document).ready(function($){
     $('.email-share').on('click', function(e) {

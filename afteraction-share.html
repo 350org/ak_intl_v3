@@ -1044,7 +1044,7 @@ jQuery(document).ready(function($){
 						city: city,
 					}
 					const iframe = document.getElementById("donate-iframe");
-					iframe.setAttribute("sandbox", "allow-scripts allow-top-navigation allow-same-origin");
+					iframe.setAttribute("sandbox", "allow-scripts allow-top-navigation allow-same-origin allow-forms");
 					iframe.contentWindow.postMessage(dataToSend);
 				}
 			}

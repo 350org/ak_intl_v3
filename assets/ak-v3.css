@@ -2335,24 +2335,10 @@ a.tf-logo:hover {
   display: inline-block;
 }
 
-/* FOOTER OPAQUE */
 .Signup footer.bg-blue_opaque,
 .Petition footer.bg-blue_opaque,
 .Letter footer.bg-blue_opaque {
   background-color: #0f81e8;
-}
-
-.Signup footer.bg-white_opaque,
-.Petition footer.bg-white_opaque,
-.Letter footer.bg-white_opaque {
-  background-color: rgba(255,255,255);
-}
-
-.Signup footer.bg-dkgray_opaque,
-.Petition footer.bg-dkgray_opaque,
-.Letter footer.bg-dkgray_opaque {
-  background-color: rgba(23,36,41);
-  color: #fff;
 }
 
 #donation-other, #site-footer {
@@ -4473,29 +4459,17 @@ label.ak-survey-radio-choice {
   background-color: rgba(15, 129, 232, 0.7);
   color: #fff;
 }
-
-/* FADE COLOURS */
-.bg-blue_opaque-fade .section-inner {
+.Donation .bg-blue_opaque-fade .section-inner {
   background-color: #0F81E9;
   color: #fff;
+  padding: 48px 24px;
 }
 
-.bg-white_opaque-fade .section-inner {
-  background-color: #ffffff;
-  color: #144872;
-}
-
-.bg-dkgray_opaque-fade .section-inner {
-  background-color: #172429;
+.Signup .bg-blue_opaque-fade .section-inner,
+.Petition .bg-blue_opaque-fade .section-inner,
+.Letter .bg-blue_opaque-fade .section-inner {
+  background-color: #0F81E9;
   color: #fff;
-}
-
-:is(.Signup, .Petition, .Letter) .bg-dkgray_opaque-fade span.highlight.bg-dkgray-trans {
-  background: rgba(255, 255, 255, 0.10);
-}
-
-/* SHARED LAYOUT */
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner {
   padding: 48px 36px;
   border-radius: 64px;
   max-width: 1133px;
@@ -4503,37 +4477,47 @@ label.ak-survey-radio-choice {
   flex-wrap: wrap;
 }
 
-/* HEADER, FORM & COPY */
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-header {
+.Signup .bg-blue_opaque-fade .section-inner #action-header,
+.Petition .bg-blue_opaque-fade .section-inner #action-header,
+.Letter .bg-blue_opaque-fade .section-inner #action-header {
   max-width: 520px;
   padding: 0 24px;
 }
 
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-form {
+.Signup .bg-blue_opaque-fade .section-inner #action-form,
+.Petition .bg-blue_opaque-fade .section-inner #action-form,
+.Letter .bg-blue_opaque-fade .section-inner #action-form {
   margin: auto;
 }
 
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner p {
-  font-family: Klima, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+.Signup .bg-blue_opaque-fade .section-inner p,
+.Petition .bg-blue_opaque-fade .section-inner p,
+.Letter .bg-blue_opaque-fade .section-inner p {
+  font-family: Klima, -apple-system-, BlinkMacSystemFont, Arial, sans-serif;
 }
 
-/* HIGHLIGHT BOX */
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner .highlight {
+.Signup .bg-blue_opaque-fade .section-inner .highlight,
+.Petition .bg-blue_opaque-fade .section-inner .highlight,
+.Letter .bg-blue_opaque-fade .section-inner .highlight {
   border-radius: 8px;
   background: #144872;
   height: 52px;
   padding: 12px;
   gap: 10px;
-  color: #fff;
+  color: #FFF;
   font-size: 24px;
-  font-weight: 600;
+  font-style: normal;
+  font-weight: 647;
   line-height: normal;
 }
 
-/* TITLE */
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-title {
+.Signup .bg-blue_opaque-fade .section-inner #action-title,
+.Petition .bg-blue_opaque-fade .section-inner #action-title,
+.Letter .bg-blue_opaque-fade .section-inner #action-title {
   margin-top: 25px;
+  color: #FFF;
   font-size: 58px;
+  font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
@@ -4855,29 +4839,6 @@ label.ak-donate-step.active-step .inline-dot {
   color: #fff;
 }
 
-.bg-dkgray_opaque-fade label.ak-donate-step.active-step .inline-dot {
-	background: #FFFFFF1A;
-}
-
-.bg-dkgray_opaque-fade #ak-multi-currency {
-  color: #fff;
-}
-
-.bg-white_opaque-fade label.ak-donate-step .inline-dot {
-	background: #ffffff;
-  color: #144872;
-  border-color: #144872;
-}
-
-.bg-white_opaque-fade #ak-multi-currency {
-  color: #144872;
-}
-
-.bg-white_opaque-fade .ak-donate-step-1 .ak-step-number::after, .bg-white_opaque-fade .ak-donate-step-2 .ak-step-number::after, .bg-white_opaque-fade .ak-donate-step-1 .ak-step-complete::after{
-	background-color: #144872;
-}
-
-
 .ak-donate-step-2 {
   padding: 0 1.5em;
   position: relative;
@@ -5143,55 +5104,54 @@ input:checked+.toggle-donation-type .toggle-option-2 {
 }
 
 @media screen and (max-width: 900px) {
-
-  :is(.Signup, .Petition, .Letter) #action-lead[class$="_opaque-fade"] {
+  .Signup #action-lead.bg-blue_opaque-fade,
+  .Petition #action-lead.bg-blue_opaque-fade,
+  .Letter #action-lead.bg-blue_opaque-fade {
     padding: 16px;
   }
 
-  [class$="_opaque-fade"] .section-inner #action-header {
+  .Signup .bg-blue_opaque-fade .section-inner #action-header,
+  .Petition .bg-blue_opaque-fade .section-inner #action-header,
+  .Letter .bg-blue_opaque-fade .section-inner #action-header {
     margin: auto;
     max-width: 650px;
   }
 }
-@media screen and (max-width: 720px) {
+
+@media screen and (max-width:720px) {
 
   #action-after-header {
     padding: 4rem;
   }
-
-  :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner {
+  .Signup .bg-blue_opaque-fade .section-inner,
+  .Petition .bg-blue_opaque-fade .section-inner,
+  .Letter .bg-blue_opaque-fade .section-inner {
     padding: 0 0 32px;
     border-radius: 0;
     z-index: 20;
     top: 228px;
+    background: linear-gradient(180deg, rgba(15, 129, 233, 0.00) 0%, #0F81E9 5%);
   }
 
-  .bg-blue_opaque-fade .section-inner {
-    background: linear-gradient(180deg, rgba(15, 129, 233, 0) 0%, #0F81E9 5%);
-  }
-
-  .bg-white_opaque-fade .section-inner {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 5%);
-  }
-
-  .bg-dkgray_opaque-fade .section-inner {
-    background: linear-gradient(180deg, rgba(23, 36, 41, 0) 0%, #172429 5%);
-  }
-
-  :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-header {
+  .Signup .bg-blue_opaque-fade .section-inner #action-header,
+  .Petition .bg-blue_opaque-fade .section-inner #action-header,
+  .Letter .bg-blue_opaque-fade .section-inner #action-header {
     max-width: 100%;
     padding: 0;
   }
 
-  :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-title {
+  .Signup .bg-blue_opaque-fade .section-inner #action-title,
+  .Petition .bg-blue_opaque-fade .section-inner #action-title,
+  .Letter .bg-blue_opaque-fade .section-inner #action-title {
     font-size: 43px;
+    font-style: normal;
     font-weight: 400;
     line-height: normal;
   }
 
-  :is(.Signup, .Petition, .Letter) #body-mobile-background.bg-blue_opaque,
-  :is(.Signup, .Petition, .Letter) #body-mobile-background.bg-white_opaque,
-  :is(.Signup, .Petition, .Letter) #body-mobile-background.bg-dkgray_opaque {
+  .Signup #body-mobile-background.bg-blue_opaque,
+  .Petition #body-mobile-background.bg-blue_opaque,
+  .Letter #body-mobile-background.bg-blue_opaque {
     height: 443px;
     width: calc(100% - 32px);
     left: 16px;
@@ -5205,13 +5165,6 @@ input:checked+.toggle-donation-type .toggle-option-2 {
     background: #0F81E9;
   }
 
-  body:is(.Signup, .Petition, .Letter).body-white_opaque {
-    background: #ffffff;
-  }
-
-  body:is(.Signup, .Petition, .Letter).body-dkgray_opaque {
-    background: #172429;
-  }
 }
 
 @media screen and (min-width:720px) {
@@ -5660,47 +5613,42 @@ a.bg-blue {
 a.bg-blue:hover {
   color: rgba(255, 255, 255, 0.75);
 }
-:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a,
-:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a {
+
+/* Blue Opaque Colors */
+.Signup .bg-blue_opaque a,
+.Signup .bg-blue_opaque.text-color-override a,
+.Petition .bg-blue_opaque a,
+.Petition .bg-blue_opaque.text-color-override a,
+.Letter .bg-blue_opaque a,
+.Letter .bg-blue_opaque.text-color-override a {
   color: rgba(255, 255, 255, 0.75);
 }
 
-:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a:hover,
-:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a:hover {
+/* Link:hover Color */
+.Signup .bg-blue_opaque a:hover,
+.Signup .bg-blue_opaque.text-color-override a:hover,
+.Petition .bg-blue_opaque a:hover,
+.Petition .bg-blue_opaque.text-color-override a:hover,
+.Letter .bg-blue_opaque a:hover,
+.Letter .bg-blue_opaque.text-color-override a:hover {
   color: rgba(255, 255, 255, 0.3);
 }
 
-:is(.Signup, .Petition, .Letter) a[class*="_opaque"]:not(.bg-white_opaque),
-:is(.Signup, .Petition, .Letter) [class*="_opaque-fade"]:not(.bg-white_opaque-fade) a {
+/* Button Text Color */
+.Signup a.bg-blue_opaque,
+.Signup .bg-blue_opaque-fade a,
+.Petition a.bg-blue_opaque,
+.Petition .bg-blue_opaque-fade a,
+.Letter a.bg-blue_opaque,
+.Letter .bg-blue_opaque-fade a {
   color: #ffffff;
 }
 
-:is(.Signup, .Petition, .Letter) a[class*="_opaque"]:not(.bg-white_opaque):hover {
+/* Button:hover Text Color */
+.Signup a.bg-blue_opaque:hover,
+.Petition a.bg-blue_opaque:hover,
+.Letter a.bg-blue_opaque:hover {
   color: rgba(255, 255, 255, 0.75);
-}
-
-:is(.Signup, .Petition, .Letter) .bg-white_opaque a,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque .text-color-override a,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade .text-color-override a {
-  color: #144872;
-}
-
-:is(.Signup, .Petition, .Letter) .bg-white_opaque a:hover,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque .text-color-override a:hover,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a:hover,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade .text-color-override a:hover {
-  color: rgba(20, 72, 114, 0.75);
-}
-
-:is(.Signup, .Petition, .Letter) a.bg-white_opaque,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a {
-  color: #144872;
-}
-
-:is(.Signup, .Petition, .Letter) a.bg-white_opaque:hover,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a:hover {
-  color: rgba(20, 72, 114, 0.75);
 }
 
 /* Thick Underline */

@@ -229,6 +229,20 @@
 			emailLink.href += `&action_id=${actionID}`;
 		}
 
+    function show_tick(current_step) {
+      // hide step number
+      $('#afteraction-flow-share input[name="ak-donate-step"]:checked')
+        .closest('label')
+        .find('span.ak-step-number')
+        .addClass('hidden');
+
+      // show tick
+      $('#afteraction-flow-share input[name="ak-donate-step"]:checked')
+        .closest('label')
+        .find('span.ak-step-complete')
+        .removeClass('hidden');
+    }
+
 		$('.copy-link-share').on('click', function (e) {
 			e.preventDefault();
 			var initialShareURL = e.target.href;
@@ -243,6 +257,7 @@
 			}).done(function(shareURL) {
 				navigator.clipboard.writeText(shareURL);
 				linkButton.text = 'Link Copied!';
+				show_tick(1);
 			}).fail(function() {
 				navigator.clipboard.writeText(window.location.href);
 			});

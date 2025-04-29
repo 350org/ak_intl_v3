@@ -3,7 +3,6 @@
 
 {% block css_additions %}
 <link href="https://dbqvwi2zcv14h.cloudfront.net/ak/donate.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" id="baseline-css" href="https://xs17wgd2wu.ufs.sh/f/nX6SBdwGAudfMc7nEwkpwOVbmzKeyQ79SYAD4PgvC38niq6j" type="text/css" media="screen">
 {% endblock %}
 
 {% if templateset.custom_fields.donate_hide_paypal.strip|lower == 'y' %}
@@ -18,44 +17,35 @@
   #action-lead {
     max-width: 800px;
   }
-
-  #donation-other, #ak-recurring-type, #in-honor-of {
+  #donation-other, #ak-recurring-type, #in-honor-of, #site-footer, #admin-bar, #action-toc {
     display: none !important;
-  }
-
-  #site-footer {
-    display: none;
   }
   .ak-pagetype-donate.Donation {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    background-color: transparent;
-  }
-  #admin-bar {
-    display: none;
   }
   #ak-donation-details {
     background-color: transparent !important;
     padding: 0 !important;
+    width: 100%;
   }
   .ak-field-box.ak-donate-three-step {
     display: flex;
   }
-  #action-header {
+  #action-header, #donate {
     text-align: left !important;
     padding: 0 !important;
     margin: 0 !important;
-  }
-  #donate {
-    margin: 0 !important;
-    padding: 0 !important;
+    width: 100%;
   }
   #action-lead .section-inner {
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-wrap: nowrap;
+    padding: 48px 36px;
+    border-radius: 64px;
   }
   .ak-donate-menu {
     display: flex;
@@ -64,9 +54,6 @@
     background-color: transparent;
     height: 200px;
     align-self: center;
-  }
-  #action-toc {
-    display: none;
   }
   .inline-dot {
     width: 2.5em;
@@ -140,10 +127,88 @@
     color: white;
   }
 
+  /* Dark Gray background overrides */
+  .bg-dkgray_opaque-fade label.ak-donate-step.active-step .inline-dot {
+    background: #FFFFFF1A;
+  }
+  .bg-dkgray_opaque-fade #ak-multi-currency {
+    color: #fff;
+  }
+
+  /* White background overrides */
+  .bg-white_opaque-fade label.ak-donate-step .inline-dot {
+    background: #ffffff;
+    color: #144872;
+    border-color: #144872;
+  }
+  .bg-white_opaque-fade #ak-multi-currency {
+    color: #144872;
+  }
+  .bg-white_opaque-fade .ak-donate-step-1 .ak-step-number::after,
+  .bg-white_opaque-fade .ak-donate-step-2 .ak-step-complete::after,
+  .bg-white_opaque-fade .ak-donate-step-1 .ak-step-complete::after {
+    background-color: #144872 !important;
+  }
+
+  .bg-blue_opaque-fade   .section-inner { background-color: #0F81E9; color: #fff; }
+  .bg-white_opaque-fade  .section-inner { background-color: #ffffff; color: #144872; }
+  .bg-dkgray_opaque-fade .section-inner { background-color: #172429; color: #fff; }
+
+  [class$="_opaque-fade"] .section-inner {
+    padding: 48px 36px;
+    border-radius: 64px;
+    max-width: 1133px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  [class$="_opaque-fade"] .section-inner #action-header {
+    max-width: 520px;
+    padding:   0 24px;
+    width: 100%;
+  }
+
+  [class$="_opaque-fade"] .section-inner #action-form {
+    margin: auto;
+  }
+
+  [class$="_opaque-fade"] .section-inner p {
+    font-family: Klima, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  }
+
+  [class$="_opaque-fade"] .section-inner .highlight {
+    border-radius: 8px;
+    background:    #144872;
+    height:        52px;
+    padding:       12px;
+    gap:           10px;
+    color:         #fff;
+    font-size:     24px;
+    font-weight:   600;
+    line-height:   normal;
+  }
+
+  [class$="_opaque-fade"] .section-inner #action-title {
+    margin-top:  25px;
+    font-size:   58px;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .bg-dkgray_opaque-fade .section-inner .highlight {
+    background: rgba(255, 255, 255, 0.10);
+  }
   /* Tablet Styles */
   @media screen and (max-width:900px) {
     #jump-to-form {
       display: none;
+    }
+    .Donation #action-lead[class$="_opaque-fade"] {
+      padding: 16px;
+    }
+
+    [class$="_opaque-fade"] .section-inner #action-header {
+      margin: auto;
+      max-width: 650px;
     }
   }
 
@@ -162,6 +227,7 @@
     #action-lead .section-inner {
       padding: 10px;
       width: 100%;
+      border-radius: 0 0 24px 24px;
     }
     .payments-container {
       min-width: 300px !important;
@@ -169,11 +235,64 @@
     #body-mobile-background {
       background-image: url('{{ page.custom_fields.page_background_image }}') !important;
     }
-    #jump-to-form {
-      display: none;
-    }
     #ak-donation-details {
       margin: 10px;
+    }
+    #body-mobile-background.bg-blue_opaque,
+    #body-mobile-background.bg-white_opaque,
+    #body-mobile-background.bg-dkgray_opaque {
+      height: 443px;
+      width: calc(100% - 32px);
+      left: 16px;
+      border-radius: 24px;
+      position: absolute;
+      top: 16px;
+      z-index: 10;
+    }
+
+    .body-blue_opaque {
+      background: #0F81E9;
+    }
+
+    .body-white_opaque {
+      background: #ffffff;
+    }
+
+    .body-dkgray_opaque {
+      background: #172429;
+    }
+    #action-after-header {
+      padding: 4rem;
+    }
+
+    [class$="_opaque-fade"] .section-inner {
+      padding: 0 0 32px;
+      border-radius: 0;
+      z-index: 20;
+      top: 228px;
+    }
+
+    .bg-blue_opaque-fade .section-inner {
+      background: linear-gradient(180deg, rgba(15, 129, 233, 0) 0%, #0F81E9 5%);
+    }
+
+    .bg-white_opaque-fade .section-inner {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 5%);
+    }
+
+    .bg-dkgray_opaque-fade .section-inner {
+      background: linear-gradient(180deg, rgba(23, 36, 41, 0) 0%, #172429 5%);
+    }
+
+    [class$="_opaque-fade"] .section-inner #action-header {
+      max-width: 100%;
+      padding: 0;
+    }
+
+    [class$="_opaque-fade"] .section-inner #action-title {
+      font-size: 43px;
+      font-weight: 400;
+      line-height: normal;
     }
   }
 </style>
@@ -1698,7 +1817,7 @@
 </style>
 
 <!-- New styles for more accessible donate pages -->
-{% if page.custom_fields.page_background_color == 'new_accessible' or page.custom_fields.page_background_color == 'new_accessible_desktop' %}
+{% if page.custom_fields.after_action_next_step != "flow" and page.custom_fields.page_background_color in "new_accessible,new_accessible_desktop,blue_opaque,white_opaque,dkgray_opaque"|split:"," %}
   <style>
     #body-mobile-background {
       opacity: 1;
@@ -1732,6 +1851,9 @@
 
       #action-lead {
         padding: 9vh 7.5vw;
+      }
+      #action-lead .section-inner {
+        padding: 75px 50px;
       }
     }
     #action-lead .section-inner,  #action-lead .section-inner a,

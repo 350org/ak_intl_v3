@@ -203,14 +203,7 @@
 			display: none;
 		}
 	</style>
-	<script>
-		jQuery(document).ready(function($){
-		window.parent.postMessage({
-			type: 'donationSuccess',
-			'donation': true
-		});
-		});
-	</script>
+{% include "./afteraction-flow-share.html" %}
 {% endif %}
 	<section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 		<div class="section-inner">

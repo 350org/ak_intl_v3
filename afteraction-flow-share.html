@@ -197,7 +197,8 @@
       var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
     {% endif %}
 
-    var actionID = currShareURL.searchParams.get('action_id');
+    var currentUrl = new URL(window.location.href);
+    var actionID = currentUrl.searchParams.get('action_id');
     $('.email-share').on('click', function(e) {
       e.preventDefault();
       if (typeof gtag !== 'undefined') {

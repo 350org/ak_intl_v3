@@ -22,12 +22,18 @@
 					class="highlight bg-dkgray-trans">{% filter ak_text:"flow_share_step_pre_header" %}Complete your support{% endfilter %}</span></p>
 				<h2 id="action-title" class="title3 text-style-title3">
 					<span class="afteraction-share-title {{ page.custom_fields.page_title_style }}">
-						{% filter ak_text:"flow_donate_step_thanks_taking_action"|safe %}
+						{% filter ak_text:"flow_donate_step_thanks_taking_action" %}
+						Thanks for taking action, <span class="actionFirstName">friend</span>!
+						{% endfilter %}
           </span>
 				</h2>
 				<div class="afteraction-share-ask-text margin-bottom-huge">
 					{% if page.custom_fields.after_action_flow_share_ask_intro_text %}
-						{% filter ak_text:"after_action_flow_share_ask_intro_text"|safe %}
+						{% filter ak_text:"after_action_flow_share_ask_intro_text" %}
+						<p>There's more you can do to help this campaign succeed.</p>
+						<p> Sharing this page will help us reach the necessary people to win this fight.</p>
+						<p class="text-bold"> Can you share this action with at least one person?</p>
+						{% endfilter %}
 					{% else %}
 						<p>{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}</p>
 					{% endif %}

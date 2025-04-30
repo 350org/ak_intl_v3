@@ -22,12 +22,12 @@
 					class="highlight bg-dkgray-trans">{% filter ak_text:"flow_share_step_pre_header" %}Complete your support{% endfilter %}</span></p>
 				<h2 id="action-title" class="title3 text-style-title3">
 					<span class="afteraction-share-title {{ page.custom_fields.page_title_style }}">
-						{% include_tmpl page.custom_fields.flow_donate_step_thanks_taking_action %}
+						{% filter ak_text:"flow_donate_step_thanks_taking_action"|safe %}
           </span>
 				</h2>
 				<div class="afteraction-share-ask-text margin-bottom-huge">
 					{% if page.custom_fields.after_action_flow_share_ask_intro_text %}
-						{% include_tmpl page.custom_fields.after_action_flow_share_ask_intro_text %}
+						{% filter ak_text:"after_action_flow_share_ask_intro_text"|safe %}
 					{% else %}
 						<p>{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}</p>
 					{% endif %}

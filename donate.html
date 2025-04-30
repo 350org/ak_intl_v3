@@ -244,7 +244,11 @@
         <h2 id="action-title" class="title3 text-style-title3">
           {% if page.custom_fields.after_action_next_step == "flow" %}
             <span class="{{ page.custom_fields.page_title_style }}">
-              {% include_tmpl page.custom_fields.flow_donate_step_thanks_taking_action %}
+              {% if page.custom_fields.flow_donate_step_thanks_taking_action %}
+                {% filter ak_text:"flow_donate_step_thanks_taking_action"|safe %}
+              {% else %}
+                Thanks for taking action, <span class="actionFirstName">friend</span>!
+              {% endif %}
             </span>
           {% else %}
             {% if page.custom_fields.page_title_custom_html %}

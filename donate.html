@@ -12,6 +12,291 @@
 {% endif %}
 
 {% block content %}
+{% if page.custom_fields.after_action_next_step == "flow" %}
+<style>
+  #action-lead {
+    max-width: 800px;
+  }
+  #donation-other, #ak-recurring-type, #in-honor-of, #site-footer, #admin-bar, #action-toc {
+    display: none !important;
+  }
+  .ak-pagetype-donate.Donation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  #ak-donation-details {
+    background-color: transparent !important;
+    padding: 0 !important;
+    width: 100%;
+  }
+  .ak-field-box.ak-donate-three-step {
+    display: flex;
+  }
+  #action-header, #donate {
+    text-align: left !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+  #action-lead .section-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    padding: 48px 36px;
+    border-radius: 64px;
+  }
+  .ak-donate-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: transparent;
+    height: 200px;
+    align-self: center;
+  }
+  .inline-dot {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 2em;
+    border: 2px solid white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .ak-step-number {
+    color: white;
+  }
+  .ak-donate-step-2::after,
+  .ak-donate-step-2::before {
+    content: unset;
+  }
+  .payments-container {
+    background-color: white;
+    min-width: 530px;
+  }
+  .ak-donate-step-1 .ak-step-number::after,
+  .ak-donate-step-2 .ak-step-number::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 1px;
+    height: 48px;
+    background-color: white;
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  .ak-donate-step-1 .ak-step-complete::after,
+  .ak-donate-step-2 .ak-step-complete::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 1px;
+    height: 48px;
+    background-color: white;
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  #ak-donation-contact,
+  .ak-donate-area-step-3 {
+    margin-top: 1rem;
+  }
+
+  .ak-donate-area-step-3.ak-submit-button {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  label.ak-radio-checked {
+    background-color: rgb(255, 169, 2);
+  }
+  #ak-donation-details {
+    width: 100%;
+  }
+  #ak-continue-button {
+    margin-bottom: 1em;
+  }
+  .cant-donate {
+    text-decoration: none;
+  }
+  .cant-donate:hover {
+    color: white;
+  }
+
+  /* Dark Gray background overrides */
+  .bg-dkgray_opaque-fade label.ak-donate-step.active-step .inline-dot {
+    background: #FFFFFF1A;
+  }
+  .bg-dkgray_opaque-fade #ak-multi-currency {
+    color: #fff;
+  }
+
+  /* White background overrides */
+  .bg-white_opaque-fade label.ak-donate-step .inline-dot {
+    background: #ffffff;
+    color: #144872;
+    border-color: #144872;
+  }
+  .bg-white_opaque-fade #ak-multi-currency {
+    color: #144872;
+  }
+  .bg-white_opaque-fade .ak-donate-step-1 .ak-step-number::after,
+  .bg-white_opaque-fade .ak-donate-step-2 .ak-step-complete::after,
+  .bg-white_opaque-fade .ak-donate-step-1 .ak-step-complete::after {
+    background-color: #144872 !important;
+  }
+
+  .bg-blue_opaque-fade   .section-inner { background-color: #0F81E9; color: #fff; }
+  .bg-white_opaque-fade  .section-inner { background-color: #ffffff; color: #144872; }
+  .bg-dkgray_opaque-fade .section-inner { background-color: #172429; color: #fff; }
+
+  [class$="_opaque-fade"] .section-inner {
+    padding: 48px 36px;
+    border-radius: 64px;
+    max-width: 1133px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  [class$="_opaque-fade"] .section-inner #action-header {
+    max-width: 520px;
+    padding:   0 24px;
+    width: 100%;
+  }
+
+  [class$="_opaque-fade"] .section-inner #action-form {
+    margin: auto;
+  }
+
+  [class$="_opaque-fade"] .section-inner p {
+    font-family: Klima, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  }
+
+  [class$="_opaque-fade"] .section-inner .highlight {
+    border-radius: 8px;
+    background:    #144872;
+    height:        52px;
+    padding:       12px;
+    gap:           10px;
+    color:         #fff;
+    font-size:     24px;
+    font-weight:   600;
+    line-height:   normal;
+  }
+
+  [class$="_opaque-fade"] .section-inner #action-title {
+    margin-top:  25px;
+    font-size:   58px;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .bg-dkgray_opaque-fade .section-inner .highlight {
+    background: rgba(255, 255, 255, 0.10);
+  }
+  /* Tablet Styles */
+  @media screen and (max-width:900px) {
+    #jump-to-form {
+      display: none;
+    }
+    .Donation #action-lead[class$="_opaque-fade"] {
+      padding: 16px;
+    }
+
+    [class$="_opaque-fade"] .section-inner #action-header {
+      margin: auto;
+      max-width: 650px;
+    }
+  }
+
+  /* Mobile Styles */
+  @media screen and (max-width:720px) {
+    #action-pretitle span.highlight {
+      line-height: 2.2;
+    }
+    .ak-donate-menu.ak-donate-three-step {
+      display: none;
+    }
+    #action-lead {
+      min-height: unset;
+      height: 100%;
+    }
+    #action-lead .section-inner {
+      padding: 10px;
+      width: 100%;
+      border-radius: 0 0 24px 24px;
+    }
+    .payments-container {
+      min-width: 300px !important;
+    }
+    #body-mobile-background {
+      background-image: url('{{ page.custom_fields.page_background_image }}') !important;
+    }
+    #ak-donation-details {
+      margin: 10px;
+    }
+    #body-mobile-background.bg-blue_opaque,
+    #body-mobile-background.bg-white_opaque,
+    #body-mobile-background.bg-dkgray_opaque {
+      height: 443px;
+      width: calc(100% - 32px);
+      left: 16px;
+      border-radius: 24px;
+      position: absolute;
+      top: 16px;
+      z-index: 10;
+    }
+
+    .body-blue_opaque {
+      background: #0F81E9;
+    }
+
+    .body-white_opaque {
+      background: #ffffff;
+    }
+
+    .body-dkgray_opaque {
+      background: #172429;
+    }
+    #action-after-header {
+      padding: 4rem;
+    }
+
+    [class$="_opaque-fade"] .section-inner {
+      padding: 0 0 32px;
+      border-radius: 0;
+      z-index: 20;
+      top: 228px;
+    }
+
+    .bg-blue_opaque-fade .section-inner {
+      background: linear-gradient(180deg, rgba(15, 129, 233, 0) 0%, #0F81E9 5%);
+    }
+
+    .bg-white_opaque-fade .section-inner {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 5%);
+    }
+
+    .bg-dkgray_opaque-fade .section-inner {
+      background: linear-gradient(180deg, rgba(23, 36, 41, 0) 0%, #172429 5%);
+    }
+
+    [class$="_opaque-fade"] .section-inner #action-header {
+      max-width: 100%;
+      padding: 0;
+    }
+
+    [class$="_opaque-fade"] .section-inner #action-title {
+      font-size: 43px;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+</style>
+{% endif %}
 <section id="action-lead"
   class="section donate-lead action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
   {% if page.custom_fields.donate_enable_countdown and page.custom_fields.donate_countdown_date and page.custom_fields.donate_countdown_copy %}
@@ -31,6 +316,30 @@
       {% endautoescape %}
     </div>
     {% else %}
+    {% if page.custom_fields.after_action_next_step == "flow" %}
+    <div
+      class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
+      <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
+        <span class="ak-step-number strong inline-dot bg-trans">1</span>
+        <span class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span
+          class="ak-amount-label"></span>
+        <input type="radio" id="ak-donate-step-1" class="hidden" name="ak-donate-step" value="1"
+          checked="checked">
+      </label>
+      <label class="ak-donate-step ak-donate-step-2" for="ak-donate-step-2">
+        <span class="ak-step-number strong inline-dot bg-trans">2</span>
+        <span
+          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span></span>
+        <input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
+      </label>
+      <label class="ak-donate-step ak-donate-step-3" for="ak-donate-step-3">
+        <span class="ak-step-number strong inline-dot bg-trans">3</span>
+        <span
+          class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span></span>
+        <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
+      </label>
+    </div>
+    {% endif %}
     <form id="act" name="act"
       class="{% if page.payfment_processor_information.use_tr %}braintree_form{% endif %} {{ templateset.custom_fields.donation_steps }} "
       method="POST" action="/act/" accept-charset="utf-8" autocomplete="on">
@@ -38,17 +347,31 @@
         class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"donate_submit_button" %}Donate{% endfilter %}{% endif %}</a>
       <input type="hidden" name="page" value="{{ page.name }}">
       <input type="hidden" name="orig_akid" value="{{ akid }}">
+      {% if page.custom_fields.after_action_next_step == "flow" %}
+      <input id="action_original_actionid" type="hidden" name=action_original_actionid value="">
+      <input id="action_original_page_name" type="hidden" name=action_original_page_name value="">
+      {% endif %}
       <div id="action-header"
-        class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
+        class="{% if page.custom_fields.page_layout_style == 'expanded' or page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
         {% if page.custom_fields.page_pretitle %}
-        <p id="action-pretitle" class="text-font-secondary"><span
+        <p id="action-pretitle" class="text-font-secondary" {% if page.custom_fields.after_action_next_step == "flow" %}style="display: none;"{% endif%}><span
             class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
         {% endif %}
         <h2 id="action-title" class="title3 text-style-title3">
-          {% if page.custom_fields.page_title_custom_html %}
-          {% include_tmpl page.custom_fields.page_title_custom_html %}
+          {% if page.custom_fields.after_action_next_step == "flow" %}
+            <span class="{{ page.custom_fields.page_title_style }}">
+              {% if page.custom_fields.flow_donate_step_thanks_taking_action %}
+              {% include_tmpl page.custom_fields.flow_donate_step_thanks_taking_action %}
+              {% else %}
+              Thanks for taking action, <span class="actionFirstName">friend</span>!
+              {% endif %}
+            </span>
           {% else %}
-          <span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
+            {% if page.custom_fields.page_title_custom_html %}
+              {% include_tmpl page.custom_fields.page_title_custom_html %}
+            {% else %}
+              <span class="{{ page.custom_fields.page_title_style }}">{{ page.title }}</span>
+            {% endif %}
           {% endif %}
         </h2>
         {% if page.custom_fields.page_author %}
@@ -66,7 +389,7 @@
           {% endif %}
 
           <div id="action-description"
-            class="{% if page.custom_fields.page_layout_style == 'expanded' %}c5 ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
+            class="{% if page.custom_fields.page_layout_style == 'expanded' %}{% if page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
             {% if page.custom_fields.featured_image %}
             <img class="ak-featured-img" src="{{ page.custom_fields.featured_image }}">
             {% endif %}
@@ -86,7 +409,7 @@
 
             {% comment %}The ID "donate" here breaks from normal naming convention so that there's a cleaner appearance
             when using it for anchor linking directly to the form.{% endcomment %}
-            <div id="donate" class="action-form c5 ct10 cm10 c-wide margin-top-none">
+            <div id="donate" class="action-form {% if page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide margin-top-none">
               <div class="ak-field-box ak-donate-three-step">
                 {% autoescape off %}
                 {% if page.custom_fields.form_text_above_form %}
@@ -99,7 +422,8 @@
                 <!-- Render progress meter -->
                 {% include "./progress_meter.html" %}
                 <!--Add .ak-donate-three-step for three-step-->
-                <div
+                {% if page.custom_fields.after_action_next_step != "flow" %}
+                  <div
                   class="ak-donate-menu ak-donate-three-step ak-donate-three-step-visible text-center margin-bottom-none box text-small bg-white-trans">
                   <label class="ak-donate-step ak-donate-step-1 active-step" for="ak-donate-step-1">
                     <span class="ak-step-number strong inline-dot bg-dkgray-trans">1</span>
@@ -121,7 +445,7 @@
                     <input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
                   </label>
                 </div>
-
+                {% endif %}
                 <div id="ak-donation-details" class="box box-medium bg-white">
                   <div id="ak-product-list" class="ak-donate-area-step-1 ak-errs-below">
                     {% if has_products %}
@@ -693,7 +1017,6 @@
       }
     });
   });
-
 
   var address_fields = [
     'address1', 'address2', 'city', 'state', 'zip'
@@ -1309,6 +1632,35 @@
   });
   {% endif %}
 
+	{% if page.custom_fields.after_action_next_step == "flow" %}
+    $(function () {
+      $('.ak-submit-button').on('click', function(e) {
+        if (typeof gtag !== 'undefined') {
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_donate_step3_submit'});
+        }
+      });
+      $('.ak-amount-radio-button').on('click', function(e) {
+        if (typeof gtag !== 'undefined') {
+          var currencyValue = $('#ak-currency-switcher').val();
+          var currency = getCurrencyCode();
+          var amount = e.target.value;
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_${amount}_${currency}`});
+        }
+      });
+
+      $('#ak-other-amount-container').on('click', function() {
+        if (typeof gtag !== 'undefined') {
+          var currencyValue = $('#ak-currency-switcher').val();
+          var currency = getCurrencyCode();
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_other_${currency}`});
+        }
+      });
+    });
+  {% endif %}
+
 </script>
 
 {% with page.payment_processor_information as pp %}
@@ -1475,7 +1827,7 @@
 </style>
 
 <!-- New styles for more accessible donate pages -->
-{% if page.custom_fields.page_background_color == 'new_accessible' or page.custom_fields.page_background_color == 'new_accessible_desktop' %}
+{% if page.custom_fields.after_action_next_step != "flow" and page.custom_fields.page_background_color in "new_accessible,new_accessible_desktop,blue_opaque,white_opaque,dkgray_opaque"|split:"," %}
   <style>
     #body-mobile-background {
       opacity: 1;
@@ -1509,6 +1861,9 @@
 
       #action-lead {
         padding: 9vh 7.5vw;
+      }
+      #action-lead .section-inner {
+        padding: 75px 50px;
       }
     }
     #action-lead .section-inner,  #action-lead .section-inner a,
@@ -1596,9 +1951,72 @@
 
 </style>
 {% endif %}
-
 <script>
   $(function () {
+    {% if page.custom_fields.after_action_next_step == "flow" %}
+    window.addEventListener('message', function(event) {
+      const data = event.data;
+      if (data.type === "signupForm") {
+        $('.actionFirstName').text(data.firstName);
+        $('#id_email').val(data.email);
+        $('#id_first_name').val(data.firstName);
+        $('#action_original_actionid').val(data.actionID);
+        $('#action_original_page_name').val(data.pageName);
+        if (data.lastName) {
+          $('#id_last_name').val(data.lastName);
+        }
+        $('#id_city').val(data.city);
+      }
+    });
+
+    $('#ak-continue-button').on('click', function() {
+      var currentStep = parseInt($('input[name="ak-donate-step"]:checked').val()) - 1;
+      if (typeof gtag !== 'undefined') {
+        // send google analytics event
+        gtag('event', 'scrolling-signup', {'click_id': `thanksflow_donate_step${currentStep}_continue`});
+      }
+      if ($('.ak-donate-area-step-1').is(':visible')) {
+        $('#action-title').show();
+        $('#action-description').show();
+      } else {
+        $('#action-pretitle').show();
+      }
+      if ($('.ak-donate-area-step-2').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
+      }
+      if ($('.ak-donate-area-step-3').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
+      }
+    });
+
+    $('.ak-donate-step').on('click', function() {
+      if ($('.ak-donate-area-step-1').is(':visible')) {
+        $('#action-title').show();
+        $('#action-description').show();
+      } else {
+        $('#action-pretitle').show();
+      }
+      if ($('.ak-donate-area-step-2').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
+      }
+      if ($('.ak-donate-area-step-3').is(':visible')) {
+        $('#action-title').hide();
+        $('#action-description').hide();
+      }
+    });
+
+    $('.cant-donate').on('click', function() {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
+      }
+      $('#afteraction-flow').hide();
+      $('#afteraction-flow-share').show();
+    });
+    {% endif %}
+
     var searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {
       three_step_advance();

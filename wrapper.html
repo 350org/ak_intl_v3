@@ -184,7 +184,6 @@
 
 	<link rel='stylesheet' id='baseline-css' href='https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.css'
 		type='text/css' media='screen' />
-
 	<link rel='stylesheet' href='https://dbqvwi2zcv14h.cloudfront.net/ak/custom.css' type='text/css' media='screen' />
 
 	{% if templateset.custom_fields.site_addl_css_url %}
@@ -200,8 +199,8 @@
 	{% if page.custom_fields.page_background_image %}
 		<style>
 			#body-mobile-background {
-				background-color: {{templateset.custom_fields.color_page}};
-				background-image: url({{ page.custom_fields.page_background_image }});
+				background-color: '{{templateset.custom_fields.color_page}}';
+				background-image: url('{{ page.custom_fields.page_background_image }}');
 			}
 
 		</style>

@@ -245,9 +245,9 @@
           {% if page.custom_fields.after_action_next_step == "flow" %}
             <span class="{{ page.custom_fields.page_title_style }}">
               {% if page.custom_fields.flow_donate_step_thanks_taking_action %}
-                {% filter ak_text:"flow_donate_step_thanks_taking_action"|safe %}
+              {% include_tmpl page.custom_fields.flow_donate_step_thanks_taking_action %}
               {% else %}
-                Thanks for taking action, <span class="actionFirstName">friend</span>!
+              Thanks for taking action, <span class="actionFirstName">friend</span>!
               {% endif %}
             </span>
           {% else %}

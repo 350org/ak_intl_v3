@@ -5189,9 +5189,9 @@ input:checked+.toggle-donation-type .toggle-option-2 {
     line-height: normal;
   }
 
-  :is(.Signup, .Petition, .Letter) #body-mobile-background.bg-blue_opaque,
-  :is(.Signup, .Petition, .Letter) #body-mobile-background.bg-white_opaque,
-  :is(.Signup, .Petition, .Letter) #body-mobile-background.bg-dkgray_opaque {
+  :is(.Signup, .Petition, .Letter, .Donation) #body-mobile-background.bg-blue_opaque,
+  :is(.Signup, .Petition, .Letter, .Donation) #body-mobile-background.bg-white_opaque,
+  :is(.Signup, .Petition, .Letter, .Donation) #body-mobile-background.bg-dkgray_opaque {
     height: 443px;
     width: calc(100% - 32px);
     left: 16px;
@@ -5201,15 +5201,15 @@ input:checked+.toggle-donation-type .toggle-option-2 {
     z-index: 10;
   }
 
-  body:is(.Signup, .Petition, .Letter).body-blue_opaque {
+  body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque {
     background: #0F81E9;
   }
 
-  body:is(.Signup, .Petition, .Letter).body-white_opaque {
+  body:is(.Signup, .Petition, .Letter, .Donation).body-white_opaque {
     background: #ffffff;
   }
 
-  body:is(.Signup, .Petition, .Letter).body-dkgray_opaque {
+  body:is(.Signup, .Petition, .Letter, .Donation).body-dkgray_opaque {
     background: #172429;
   }
 }
@@ -5774,6 +5774,9 @@ a.text-white-trans {
 .button.bg-dkgray {
   background-color: rgb(23, 41, 46);
   border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+.bg-dkgray_opaque-fade .ak-privacy {
   color: #ffffff;
 }
 

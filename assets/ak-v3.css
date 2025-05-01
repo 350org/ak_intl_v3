@@ -64,7 +64,7 @@ body.bg-on {
   background-color: #17292e;
 }
 
-body:is(.Signup, .Petition, .Letter).body-blue_opaque {
+body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque {
   background: #0F81E9;
 }
 
@@ -4490,12 +4490,12 @@ label.ak-survey-radio-choice {
   color: #fff;
 }
 
-:is(.Signup, .Petition, .Letter) .bg-dkgray_opaque-fade span.highlight.bg-dkgray-trans {
+:is(.Signup, .Petition, .Letter, .Donation) .bg-dkgray_opaque-fade span.highlight.bg-dkgray-trans {
   background: rgba(255, 255, 255, 0.10);
 }
 
 /* SHARED LAYOUT */
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner {
+:is(.Signup, .Petition, .Letter, .Donation) [class$="_opaque-fade"] .section-inner {
   padding: 48px 36px;
   border-radius: 64px;
   max-width: 1133px;
@@ -4504,21 +4504,21 @@ label.ak-survey-radio-choice {
 }
 
 /* HEADER, FORM & COPY */
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-header {
+:is(.Signup, .Petition, .Letter, .Donation) [class$="_opaque-fade"] .section-inner #action-header {
   max-width: 520px;
   padding: 0 24px;
 }
 
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-form {
+:is(.Signup, .Petition, .Letter, .Donation) [class$="_opaque-fade"] .section-inner #action-form {
   margin: auto;
 }
 
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner p {
+:is(.Signup, .Petition, .Letter, .Donation) [class$="_opaque-fade"] .section-inner p {
   font-family: Klima, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 }
 
 /* HIGHLIGHT BOX */
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner .highlight {
+:is(.Signup, .Petition, .Letter, .Donation) [class$="_opaque-fade"] .section-inner .highlight {
   border-radius: 8px;
   background: #144872;
   height: 52px;
@@ -4531,7 +4531,7 @@ label.ak-survey-radio-choice {
 }
 
 /* TITLE */
-:is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-title {
+:is(.Signup, .Petition, .Letter, .Donation) [class$="_opaque-fade"] .section-inner #action-title {
   margin-top: 25px;
   font-size: 58px;
   font-weight: 400;
@@ -5144,7 +5144,7 @@ input:checked+.toggle-donation-type .toggle-option-2 {
 
 @media screen and (max-width: 900px) {
 
-  :is(.Signup, .Petition, .Letter) #action-lead[class$="_opaque-fade"] {
+  :is(.Signup, .Petition, .Letter, .Donation) #action-lead[class$="_opaque-fade"] {
     padding: 16px;
   }
 
@@ -5159,7 +5159,7 @@ input:checked+.toggle-donation-type .toggle-option-2 {
     padding: 4rem;
   }
 
-  :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner {
+  :is(.Signup, .Petition, .Letter, .Donation) [class$="_opaque-fade"] .section-inner {
     padding: 0 0 32px;
     border-radius: 0;
     z-index: 20;
@@ -5178,12 +5178,12 @@ input:checked+.toggle-donation-type .toggle-option-2 {
     background: linear-gradient(180deg, rgba(23, 36, 41, 0) 0%, #172429 5%);
   }
 
-  :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-header {
+  :is(.Signup, .Petition, .Letter, .Donation) [class$="_opaque-fade"] .section-inner #action-header {
     max-width: 100%;
     padding: 0;
   }
 
-  :is(.Signup, .Petition, .Letter) [class$="_opaque-fade"] .section-inner #action-title {
+  :is(.Signup, .Petition, .Letter, .Donation) [class$="_opaque-fade"] .section-inner #action-title {
     font-size: 43px;
     font-weight: 400;
     line-height: normal;
@@ -5660,46 +5660,46 @@ a.bg-blue {
 a.bg-blue:hover {
   color: rgba(255, 255, 255, 0.75);
 }
-:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a,
-:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a {
+:is(.Signup, .Petition, .Letter, .Donation) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a,
+:is(.Signup, .Petition, .Letter, .Donation) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a {
   color: rgba(255, 255, 255, 0.75);
 }
 
-:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a:hover,
-:is(.Signup, .Petition, .Letter) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a:hover {
+:is(.Signup, .Petition, .Letter, .Donation) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a:hover,
+:is(.Signup, .Petition, .Letter, .Donation) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a:hover {
   color: rgba(255, 255, 255, 0.3);
 }
 
-:is(.Signup, .Petition, .Letter) a[class*="_opaque"]:not(.bg-white_opaque),
-:is(.Signup, .Petition, .Letter) [class*="_opaque-fade"]:not(.bg-white_opaque-fade) a {
+:is(.Signup, .Petition, .Letter, .Donation) a[class*="_opaque"]:not(.bg-white_opaque),
+:is(.Signup, .Petition, .Letter, .Donation) [class*="_opaque-fade"]:not(.bg-white_opaque-fade) a {
   color: #ffffff;
 }
 
-:is(.Signup, .Petition, .Letter) a[class*="_opaque"]:not(.bg-white_opaque):hover {
+:is(.Signup, .Petition, .Letter, .Donation) a[class*="_opaque"]:not(.bg-white_opaque):hover {
   color: rgba(255, 255, 255, 0.75);
 }
 
-:is(.Signup, .Petition, .Letter) .bg-white_opaque a,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque .text-color-override a,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade .text-color-override a {
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque a,
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque .text-color-override a,
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque-fade a,
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque-fade .text-color-override a {
   color: #144872;
 }
 
-:is(.Signup, .Petition, .Letter) .bg-white_opaque a:hover,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque .text-color-override a:hover,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a:hover,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade .text-color-override a:hover {
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque a:hover,
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque .text-color-override a:hover,
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque-fade a:hover,
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque-fade .text-color-override a:hover {
   color: rgba(20, 72, 114, 0.75);
 }
 
-:is(.Signup, .Petition, .Letter) a.bg-white_opaque,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a {
+:is(.Signup, .Petition, .Letter, .Donation) a.bg-white_opaque,
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque-fade a {
   color: #144872;
 }
 
-:is(.Signup, .Petition, .Letter) a.bg-white_opaque:hover,
-:is(.Signup, .Petition, .Letter) .bg-white_opaque-fade a:hover {
+:is(.Signup, .Petition, .Letter, .Donation) a.bg-white_opaque:hover,
+:is(.Signup, .Petition, .Letter, .Donation) .bg-white_opaque-fade a:hover {
   color: rgba(20, 72, 114, 0.75);
 }
 

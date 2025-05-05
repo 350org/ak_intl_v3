@@ -218,6 +218,7 @@
 			top: unset !important;
 			bottom: -10rem !important;
 			width: 100%;
+			display: none;
 		}
 
 		body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque {
@@ -237,9 +238,6 @@
 			}
 		}
 	</style>
-	<div class="actionDict">
-		{{ action.as_dict }}
-	</div>
 	{% if action.source == "website" %}
 	<div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute; height: 0; width: 0;">
 		<iframe id="donate-iframe" style="height: 110vh; width: 100vw;"></iframe>
@@ -253,22 +251,28 @@
 			const pageId = '{{ page.id }}';
 			const donateSourceCode = `aa_${pageId}_thanksflow`;
 			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/build';
-			iframe.src = `${donatePageEmbedURL}?source=${donateSourceCode}`;
+			if (iframe) {
+				iframe.src = `${donatePageEmbedURL}?source=${donateSourceCode}`;
+			} else {
+				$('.ak-donate-menu').addClass('tall');
+				$('.ak-donate-step-3').removeClass('hidden');
+			}
 
 			const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 			const country = '{{ user.country }}';
 
 			var currentUrl = new URL(window.location.href);
+			var source = '{{ action.source }}';
 			var actionID = '{{ action.custom_fields.original_actionid }}';
 			var origPageName = '{{ action.custom_fields.original_page_name }}';
 			var akid = currentUrl.searchParams.get('akid');
 
 			// Render donation form if in fundraising country and not already donated
-			if (fundraisingRegions.includes(country) && !actionID) {
+			if (fundraisingRegions.includes(country) && source === "website") {
 				$('#afteraction-flow').addClass('afteraction-flow-show');
 				$('#site-footer').addClass('site-footer-iframe');
 				$('#afteraction-flow').show();
-			} else if (actionID) {
+			} else if (source != "website") {
 				// Render share ask if post-donation
 				$('#afteraction-flow').removeClass('afteraction-flow-show');
 				show_share_tick(1);

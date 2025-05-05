@@ -199,7 +199,7 @@
 
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
-	<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/afteraction-flow-updated.js"></script>
+	<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/afteraction-flow-shared.js"></script>
 	<style>
 		#thanks {
 			display: none;
@@ -213,16 +213,12 @@
 			width: 100% !important;
 		}
 
-		.site-footer-iframe {
-			position: absolute !important;
-			top: unset !important;
-			bottom: -10rem !important;
-			width: 100%;
-			display: none;
-		}
-
 		body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque {
 			background: unset;
+		}
+
+		#site-footer {
+			display: none;
 		}
 
 		@media screen and (max-width:720px) {
@@ -251,9 +247,17 @@
 			const pageId = '{{ page.id }}';
 			const donateSourceCode = `aa_${pageId}_thanksflow`;
 			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/build';
+			let isPostDonate = false;
 			if (iframe) {
 				iframe.src = `${donatePageEmbedURL}?source=${donateSourceCode}`;
 			} else {
+				isPostDonate = true;
+				$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);
+				show_share_tick();
+				$('#afteraction-flow-share #ak-donate-step-2').prop('checked', true);
+				show_share_tick();
+				$('.ak-donate-step-1').removeClass('active-step');
+				$('.ak-donate-step-3').addClass('active-step');
 				$('.ak-donate-menu').addClass('tall');
 				$('.ak-donate-step-3').removeClass('hidden');
 			}
@@ -261,33 +265,39 @@
 			const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 			const country = '{{ user.country }}';
 
-			var currentUrl = new URL(window.location.href);
 			var source = '{{ action.source }}';
-			var actionID = '{{ action.custom_fields.original_actionid }}';
-			var origPageName = '{{ action.custom_fields.original_page_name }}';
-			var akid = currentUrl.searchParams.get('akid');
-
 			// Render donation form if in fundraising country and not already donated
 			if (fundraisingRegions.includes(country) && source === "website") {
 				$('#afteraction-flow').addClass('afteraction-flow-show');
-				$('#site-footer').addClass('site-footer-iframe');
 				$('#afteraction-flow').show();
 			} else if (source != "website") {
 				// Render share ask if post-donation
 				$('#afteraction-flow').removeClass('afteraction-flow-show');
-				show_share_tick(1);
+				show_share_tick();
 				$('.afteraction-share-title').text('{% filter ak_text:"flow_share_step_thanks_donating" %}Thanks for your donation!{% endfilter %}');
 				$('#afteraction-flow-share').show();
 			} else {
 				// Render share ask without editing title
-				show_share_tick(1);
+				show_share_tick();
 				$('#afteraction-flow-share').show();
 			}
+
+			var currentUrl = new URL(window.location.href);
+			var actionID = '{{ action.custom_fields.original_actionid }}' || currentUrl.searchParams.get('action_id');
+			var origPageName = '{{ action.custom_fields.original_page_name }}';
+			var akid = currentUrl.searchParams.get('akid');
 
 			if (typeof gtag !== 'undefined') {
 				// send google analytics event
 				gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
 			}
+
+			// Add action_id to Facebook share URL
+			const fbShareEl = $('#afteraction-flow-share .fb-share');
+			if (fbShareEl && fbShareEl.length > 0) {
+				fbShareEl[0].href += `&action_id=${actionID}&akid=${akid}`;
+			}
+
 			// Set Copy Link URL with action_id
 			var copyLinks = $('.copy-link');
 			for (var i = 0; i < copyLinks.length; i++) {
@@ -309,8 +319,58 @@
 				blueskyBtn.href += `&action_id=${actionID}&page=${origPageName}`;
 			}
 
+			$('.bluesky-share').on('click', function(e) {
+				e.preventDefault();
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
+				}
+				if (isPostDonate) {
+					$('#afteraction-flow-share #ak-donate-step-3').prop('checked', true);
+					show_share_tick();
+				}
+				var initialShareURL = e.target.href + '&source=share-ak-thanksflow-bsk';
+				$.ajax({
+					method: 'GET',
+					url: initialShareURL,
+				}).done(function(shareURL) {
+					var blueskyShareURL = `https://bsky.app/intent/compose?text=${shareURL}`;
+					window.open(blueskyShareURL);
+				}).fail(function() {
+					var blueskyShareURL = `https://bsky.app/intent/compose?text=${window.location.href}`;
+					window.open(blueskyShareURL);
+				});
+			});
+
+			$('.copy-link-share').on('click', function (e) {
+				e.preventDefault();
+				if (isPostDonate) {
+					$('#afteraction-flow-share #ak-donate-step-3').prop('checked', true);
+					show_share_tick();
+				}
+				var initialShareURL = e.target.href;
+				var linkButton = e.target;
+				initialShareURL += `&action_id=${actionID}&page=${origPageName}&source=share-ak-thanksflow-copylink`;
+				if (typeof gtag !== 'undefined') {
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
+				}
+				$.ajax({
+					method: 'GET',
+					url: initialShareURL,
+				}).done(function(shareURL) {
+					navigator.clipboard.writeText(shareURL);
+					linkButton.text = 'Link Copied!';
+				}).fail(function() {
+					navigator.clipboard.writeText(window.location.href);
+				});
+			});
+
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
+				if (isPostDonate) {
+					$('#afteraction-flow-share #ak-donate-step-3').prop('checked', true);
+					show_share_tick();
+				}
 				// Set Whatsapp Share URL based on response from API
 				var getShareURL = `/share/link?type=ot&short=1&source=share-ak-thanksflow-wa&action_id=${actionID}&page=${origPageName}`;
 				if (typeof gtag !== 'undefined') {
@@ -327,7 +387,6 @@
 					if (win) {
 						win.focus();
 					}
-					show_tick(1);
 				}).fail(function () {
 					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + window.location.href;
 					var win = window.open(whatsappShareURL);

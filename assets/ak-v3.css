@@ -4874,7 +4874,7 @@ label.ak-donate-step.active-step .inline-dot {
 }
 
 .bg-white_opaque-fade .ak-donate-step-1 .ak-step-number::after, .bg-white_opaque-fade .ak-donate-step-2 .ak-step-number::after, .bg-white_opaque-fade .ak-donate-step-1 .ak-step-complete::after{
-	background-color: #144872;
+	background-color: #144872 !important;
 }
 
 

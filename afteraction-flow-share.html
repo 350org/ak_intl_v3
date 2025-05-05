@@ -119,8 +119,12 @@
 	padding-right: 0;
 }
 
+#afteraction-flow-share .ak-donate-step-2 {
+	display: flex;
+}
+
 .ak-donate-menu.tall {
-	height: 200px;
+	height: 200px !important;
 }
 
 #afteraction-flow-share .ak-donate-menu .inline-dot.bg-dkgray-trans {
@@ -142,7 +146,8 @@
 	align-items: center;
 }
 
-#afteraction-flow-share .ak-donate-step-1 .ak-step-number::after{
+#afteraction-flow-share .ak-donate-step-1 .ak-step-number::after,
+#afteraction-flow-share .ak-donate-menu.tall .ak-donate-step-2 .ak-step-number::after {
 	content: "";
 	position: absolute;
 	top: 100%;
@@ -154,7 +159,19 @@
 	z-index: 0;
 }
 
-#afteraction-flow-share .ak-donate-step-1 .ak-step-complete::after {
+#afteraction-flow-share .ak-donate-menu.tall .ak-donate-step-1 .ak-step-number::after,
+#afteraction-flow-share .ak-donate-menu.tall .ak-donate-step-2 .ak-step-number::after,
+#afteraction-flow-share .ak-donate-menu.tall .ak-donate-step-1 .ak-step-complete::after,
+#afteraction-flow-share .ak-donate-menu.tall .ak-donate-step-2 .ak-step-complete::after {
+	height: 50px !important;
+}
+
+#afteraction-flow-share .ak-step-complete {
+	font-size: 0.65em;
+}
+
+#afteraction-flow-share .ak-donate-step-1 .ak-step-complete::after,
+#afteraction-flow-share .ak-donate-menu.tall .ak-donate-step-2 .ak-step-complete::after {
 	content: " ";
 	position: absolute;
 	top: 100%;
@@ -237,15 +254,14 @@
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
       }
       var initialShareURL = e.target.href + '&source=share-ak-thanksflow-bsk';
-      var pageName = '{{ page.title }}';
       $.ajax({
         method: 'GET',
         url: initialShareURL,
       }).done(function(shareURL) {
-        var blueskyShareURL = `https://bsky.app/intent/compose?text=${pageName} ${shareURL}`;
+        var blueskyShareURL = `https://bsky.app/intent/compose?text=${shareURL}`;
         window.open(blueskyShareURL);
       }).fail(function() {
-        var blueskyShareURL = `https://bsky.app/intent/compose?text=${pageName} ${window.location.href}`;
+        var blueskyShareURL = `https://bsky.app/intent/compose?text=${window.location.href}`;
         window.open(blueskyShareURL);
       });
     });
@@ -262,7 +278,7 @@
 
     $('.find-ways-action').on('click', function(e) {
       $(`#afteraction-flow-share .ak-donate-step-1 input[name="ak-donate-step"]`).prop('checked', true);
-      show_share_tick(1);
+      show_share_tick();
       $('#afteraction-flow-share .share-container').hide();
       $('#afteraction-flow-share .post-share-container').show();
       if (typeof gtag !== 'undefined') {
@@ -273,7 +289,7 @@
 
     $('.more-campaigns').on('click', function(e) {
       $(`#afteraction-flow-share .ak-donate-step-2 input[name="ak-donate-step"]`).prop('checked', true);
-      show_share_tick(2);
+      show_share_tick();
       if (typeof gtag !== 'undefined') {
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_more'});
@@ -286,7 +302,7 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
       }
-      show_share_tick(1);
+      show_share_tick();
     });
   });
 </script>

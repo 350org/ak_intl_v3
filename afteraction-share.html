@@ -281,6 +281,7 @@ Custom template for same-page post-AJAX submit share ask.
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}
 			{% endif %}
+
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
@@ -306,7 +307,7 @@ Custom template for same-page post-AJAX submit share ask.
 					if (win) {
 						win.focus();
 					}
-					show_tick(1);
+					show_share_tick(1);
 				}).fail(function () {
 					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + window.location.href;
 					var win = window.open(whatsappShareURL);
@@ -362,6 +363,7 @@ Custom template for same-page post-AJAX submit share ask.
 	actionkit.forms.contextRoot = '/context/';
 	actionkit.forms.initForm('act-donate');
 </script>
+<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/afteraction-flow-updated.js"></script>
 {% endif %}
 <script>
 jQuery(document).ready(function($){
@@ -562,26 +564,6 @@ jQuery(document).ready(function($){
 				emailLink.href += `&action_id=${actionID}`;
 			}
 
-			$('.copy-link-share').on('click', function (e) {
-				e.preventDefault();
-				var initialShareURL = e.target.href;
-				var linkButton = e.target;
-				initialShareURL += `&action_id=${actionID}&akid=${akid}`;
-				{% if page.custom_fields.after_action_next_step == "flow" %}
-				if (typeof gtag !== 'undefined') {
-					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
-				}
-				{% endif %}
-				$.ajax({
-					method: 'GET',
-					url: initialShareURL,
-				}).done(function(shareURL) {
-					navigator.clipboard.writeText(shareURL);
-					linkButton.text = 'Link Copied!';
-				}).fail(function() {
-					navigator.clipboard.writeText(window.location.href);
-				});
-			});
 
 			if (afterActionNextStep === 'scroll-share') {
 				// show the share ask
@@ -669,7 +651,11 @@ jQuery(document).ready(function($){
 				});
 			} else if (afterActionNextStep === 'flow') {
 				$('#site-footer').addClass('site-footer-iframe');
-				const country = $('#country').val();
+				let country = $('#country').val();
+				if (!country) {
+					// case when form is embedded and country is not set
+					country = '{{ user.country }}';
+				}
 				const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 				const fbShareEl = $('#afteraction-flow-share .fb-share');
 				const blueskyShareEl = $('#afteraction-flow-share .bluesky-share');
@@ -719,7 +705,7 @@ jQuery(document).ready(function($){
 						pageName: '{{ page.name }}'
 					}
 					const iframe = document.getElementById("donate-iframe");
-					iframe.setAttribute("sandbox", "allow-scripts allow-top-navigation allow-same-origin allow-forms");
+					iframe.setAttribute("sandbox", "allow-scripts allow-top-navigation allow-same-origin allow-forms allow-popups");
 					iframe.contentWindow.postMessage(dataToSend);
 				}
 			}

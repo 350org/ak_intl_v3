@@ -16,6 +16,12 @@
 						class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span></span>
 					<input type="radio" id="ak-donate-step-2" class="hidden" name="ak-donate-step" value="2">
 				</label>
+				<label class="ak-donate-step ak-donate-step-3 hidden" for="ak-donate-step-3">
+					<span class="ak-step-number strong inline-dot bg-trans">3</span>
+					<span
+						class="ak-step-complete inline-dot bg-dkgray-trans hidden">✔</span>&nbsp;<span></span>
+					<input type="radio" id="ak-donate-step-3" class="hidden" name="ak-donate-step" value="3">
+				</label>
     	</div>
 			<div class="share-container">
 				<p id="action-pretitle" class="text-font-secondary"><span
@@ -111,6 +117,10 @@
 	align-self: center;
 	padding-left: 0;
 	padding-right: 0;
+}
+
+.ak-donate-menu.tall {
+	height: 200px;
 }
 
 #afteraction-flow-share .ak-donate-menu .inline-dot.bg-dkgray-trans {
@@ -240,20 +250,6 @@
       });
     });
 
-    function show_tick(current_step) {
-      // hide step number
-      $('#afteraction-flow-share input[name="ak-donate-step"]:checked')
-        .closest('label')
-        .find('span.ak-step-number')
-        .addClass('hidden');
-
-      // show tick
-      $('#afteraction-flow-share input[name="ak-donate-step"]:checked')
-        .closest('label')
-        .find('span.ak-step-complete')
-        .removeClass('hidden');
-    }
-
     $('#afteraction-flow-share .ak-donate-step-1').on('click', function(e) {
       $('#afteraction-flow-share .share-container').show();
       $('#afteraction-flow-share .post-share-container').hide()
@@ -266,7 +262,7 @@
 
     $('.find-ways-action').on('click', function(e) {
       $(`#afteraction-flow-share .ak-donate-step-1 input[name="ak-donate-step"]`).prop('checked', true);
-      show_tick(1);
+      show_share_tick(1);
       $('#afteraction-flow-share .share-container').hide();
       $('#afteraction-flow-share .post-share-container').show();
       if (typeof gtag !== 'undefined') {
@@ -277,7 +273,7 @@
 
     $('.more-campaigns').on('click', function(e) {
       $(`#afteraction-flow-share .ak-donate-step-2 input[name="ak-donate-step"]`).prop('checked', true);
-      show_tick(2);
+      show_share_tick(2);
       if (typeof gtag !== 'undefined') {
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_more'});
@@ -290,7 +286,7 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
       }
-      show_tick(1);
+      show_share_tick(1);
     });
   });
 </script>

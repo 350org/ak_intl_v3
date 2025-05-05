@@ -199,10 +199,31 @@
 
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
+	<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/afteraction-flow-updated.js"></script>
 	<style>
 		#thanks {
 			display: none;
 		}
+		.afteraction-flow-show {
+			position: absolute;
+			right: 0;
+			left: 0 !important;
+			visibility: visible !important;
+			height: 100% !important;
+			width: 100% !important;
+		}
+
+		.site-footer-iframe {
+			position: absolute !important;
+			top: unset !important;
+			bottom: -10rem !important;
+			width: 100%;
+		}
+
+		body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque {
+			background: unset;
+		}
+
 		@media screen and (max-width:720px) {
 			#site-footer {
 				display: none;
@@ -216,104 +237,103 @@
 			}
 		}
 	</style>
-{% include "./afteraction-flow-share.html" %}
-<script>
-	jQuery(document).ready(function($){
-		$('.afteraction-share-title').text('{% filter ak_text:"flow_share_step_thanks_donating" %}Thanks for your donation!{% endfilter %}');
-		$('#afteraction-flow-share').show();
-    var currentUrl = new URL(window.location.href);
-    var actionID = '{{ action.custom_fields.original_actionid }}';
-		var origPageName = '{{ action.custom_fields.original_page_name }}';
-		var akid = currentUrl.searchParams.get('akid');
+	<div class="actionDict">
+		{{ action.as_dict }}
+	</div>
+	{% if action.source == "website" %}
+	<div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute; height: 0; width: 0;">
+		<iframe id="donate-iframe" style="height: 110vh; width: 100vw;"></iframe>
+	</div>
+	{% endif %}
 
-		if (typeof gtag !== 'undefined') {
-			// send google analytics event
-			gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
-		}
-		// Set Copy Link URL with action_id
-		var copyLinks = $('.copy-link');
-		for (var i = 0; i < copyLinks.length; i++) {
-			var copyLink = copyLinks[i];
-			copyLink.href += `&action_id=${actionID}&page=${origPageName}`;
-		}
+	{% include "./afteraction-flow-share.html" %}
+	<script>
+		jQuery(document).ready(function($){
+			const iframe = document.getElementById('donate-iframe');
+			const pageId = '{{ page.id }}';
+			const donateSourceCode = `aa_${pageId}_thanksflow`;
+			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/build';
+			iframe.src = `${donatePageEmbedURL}?source=${donateSourceCode}`;
 
-		// Add action_id to Email button URL
-		var emailBtns = $('.email-share');
-		for (var i = 0; i < emailBtns.length; i++) {
-			var emailLink = emailBtns[0];
-			emailLink.href += `&action_id=${actionID}&page=${origPageName}`;
-		}
+			const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
+			const country = '{{ user.country }}';
 
-		// Add action_id to Bluesky URL
-		var blueskyBtns = $('.bluesky-share');
-		for (var i = 0; i < blueskyBtns.length; i++) {
-			var blueskyBtn = blueskyBtns[0];
-			blueskyBtn.href += `&action_id=${actionID}&page=${origPageName}`;
-		}
+			var currentUrl = new URL(window.location.href);
+			var actionID = '{{ action.custom_fields.original_actionid }}';
+			var origPageName = '{{ action.custom_fields.original_page_name }}';
+			var akid = currentUrl.searchParams.get('akid');
 
-    function show_tick(current_step) {
-      // hide step number
-      $('#afteraction-flow-share input[name="ak-donate-step"]:checked')
-        .closest('label')
-        .find('span.ak-step-number')
-        .addClass('hidden');
-
-      // show tick
-      $('#afteraction-flow-share input[name="ak-donate-step"]:checked')
-        .closest('label')
-        .find('span.ak-step-complete')
-        .removeClass('hidden');
-    }
-
-		$('.copy-link-share').on('click', function (e) {
-			e.preventDefault();
-			var initialShareURL = e.target.href;
-			var linkButton = e.target;
-			initialShareURL += `&action_id=${actionID}&page=${origPageName}`;
-			if (typeof gtag !== 'undefined') {
-				gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
+			// Render donation form if in fundraising country and not already donated
+			if (fundraisingRegions.includes(country) && !actionID) {
+				$('#afteraction-flow').addClass('afteraction-flow-show');
+				$('#site-footer').addClass('site-footer-iframe');
+				$('#afteraction-flow').show();
+			} else if (actionID) {
+				// Render share ask if post-donation
+				$('#afteraction-flow').removeClass('afteraction-flow-show');
+				show_share_tick(1);
+				$('.afteraction-share-title').text('{% filter ak_text:"flow_share_step_thanks_donating" %}Thanks for your donation!{% endfilter %}');
+				$('#afteraction-flow-share').show();
+			} else {
+				// Render share ask without editing title
+				show_share_tick(1);
+				$('#afteraction-flow-share').show();
 			}
-			$.ajax({
-				method: 'GET',
-				url: initialShareURL,
-			}).done(function(shareURL) {
-				navigator.clipboard.writeText(shareURL);
-				linkButton.text = 'Link Copied!';
-				show_tick(1);
-			}).fail(function() {
-				navigator.clipboard.writeText(window.location.href);
+
+			if (typeof gtag !== 'undefined') {
+				// send google analytics event
+				gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
+			}
+			// Set Copy Link URL with action_id
+			var copyLinks = $('.copy-link');
+			for (var i = 0; i < copyLinks.length; i++) {
+				var copyLink = copyLinks[i];
+				copyLink.href += `&action_id=${actionID}&page=${origPageName}`;
+			}
+
+			// Add action_id to Email button URL
+			var emailBtns = $('.email-share');
+			for (var i = 0; i < emailBtns.length; i++) {
+				var emailLink = emailBtns[0];
+				emailLink.href += `&action_id=${actionID}&page=${origPageName}`;
+			}
+
+			// Add action_id to Bluesky URL
+			var blueskyBtns = $('.bluesky-share');
+			for (var i = 0; i < blueskyBtns.length; i++) {
+				var blueskyBtn = blueskyBtns[0];
+				blueskyBtn.href += `&action_id=${actionID}&page=${origPageName}`;
+			}
+
+			$('.whatsapp-share').on('click', function(e) {
+				e.preventDefault();
+				// Set Whatsapp Share URL based on response from API
+				var getShareURL = `/share/link?type=ot&short=1&source=share-ak-thanksflow-wa&action_id=${actionID}&page=${origPageName}`;
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
+				}
+				$.ajax({
+					method: 'GET',
+					url: getShareURL,
+				}).done(function(shareURL) {
+					var newURL = 'https://api.whatsapp.com/send?text=' + shareURL;
+					$(e.target).attr('href', newURL);
+					var win = window.open(newURL);
+					if (win) {
+						win.focus();
+					}
+					show_tick(1);
+				}).fail(function () {
+					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + window.location.href;
+					var win = window.open(whatsappShareURL);
+					if (win) {
+						win.focus();
+					}
+				});
 			});
 		});
-
-    $('.whatsapp-share').on('click', function(e) {
-      e.preventDefault();
-      // Set Whatsapp Share URL based on response from API
-      var getShareURL = `/share/link?type=ot&short=1&source=share-ak-thanksflow-wa&action_id=${actionID}&page=${origPageName}`;
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
-      }
-      $.ajax({
-        method: 'GET',
-        url: getShareURL,
-      }).done(function(shareURL) {
-        var newURL = 'https://api.whatsapp.com/send?text=' + shareURL;
-        $(e.target).attr('href', newURL);
-        var win = window.open(newURL);
-        if (win) {
-          win.focus();
-        }
-        show_tick(1);
-      }).fail(function () {
-        var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + window.location.href;
-        var win = window.open(whatsappShareURL);
-        if (win) {
-          win.focus();
-        }
-      });
-    });
-	});
-</script>
+	</script>
 {% endif %}
 	<section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 		<div class="section-inner">

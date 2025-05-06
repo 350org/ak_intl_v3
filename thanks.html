@@ -330,6 +330,7 @@
 					show_share_tick();
 				}
 				var initialShareURL = e.target.href + '&source=share-ak-thanksflow-bsk';
+				var pageFollowup = '{{ page.followup.twitter_message }}';
 				$.ajax({
 					method: 'GET',
 					url: initialShareURL,

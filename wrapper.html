@@ -363,6 +363,49 @@
 
 <body
 	class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.iso_code|default:'en-US'}} page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %} {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js body-{{ page.custom_fields.page_background_color }}">
+	{% if page.custom_fields.flow_show_logo != 'N' %}
+		<nav id="flow-logo-bar">
+			<div class="flow-logo-wrapper">
+				<span class="text-large2">
+					<a class="tf-logo text-large3" href="{% filter ak_text:"footer_logo_url" %}https://350.org/{% endfilter %}">
+						350.org
+					</a>
+				</span>
+			</div>
+		</nav>
+		<style>
+			#flow-logo-bar {
+			padding: 0.5rem 1rem;
+		}
+
+		.flow-logo-wrapper {
+			display: flex;
+			background: #107FE5;
+			border-radius: 16px;
+			width: 60px;
+			height: 52px;
+			padding: 20px;
+			font-weight: bold;
+			text-decoration: none;
+			align-items: center;
+			justify-content: center;
+			position: absolute;
+			top: 22px;
+			left: 22px;
+			z-index: 1000;
+		}
+
+		.flow-logo-wrapper .tf-logo {
+			width: 42px;
+			height: auto;
+		}
+
+		.body-dkgray_opaque .flow-logo-wrapper {
+			background: #172429;
+		}
+
+		</style>
+	{% endif %}
 
 	{% if page.custom_fields.page_disable_gtm != 'Y' %}
 	<!-- Google Tag Manager (noscript) -->

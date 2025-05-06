@@ -78,16 +78,17 @@ Custom template for same-page post-AJAX submit share ask.
 	overflow: hidden;
 }
 
-.site-footer-iframe {
-	position: absolute !important;
-	top: unset !important;
-	bottom: -10rem !important;
-	width: 100%;
-}
-
 #site-footer {
 	display: none;
 }
+
+.bg-white_opaque-fade .ak-donate-step-1 .ak-step-number::after,
+.bg-white_opaque-fade .ak-donate-step-2 .ak-step-number::after,
+.bg-white_opaque-fade .ak-donate-step-2 .ak-step-complete::after,
+.bg-white_opaque-fade .ak-donate-step-1 .ak-step-complete::after {
+	background-color: #144872 !important;
+}
+
 @media screen and (max-width:900px) {
 	#jump-to-form {
 		display: none;
@@ -281,6 +282,7 @@ Custom template for same-page post-AJAX submit share ask.
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}
 			{% endif %}
+
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
@@ -306,7 +308,7 @@ Custom template for same-page post-AJAX submit share ask.
 					if (win) {
 						win.focus();
 					}
-					show_tick(1);
+					show_share_tick();
 				}).fail(function () {
 					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + window.location.href;
 					var win = window.open(whatsappShareURL);
@@ -362,6 +364,7 @@ Custom template for same-page post-AJAX submit share ask.
 	actionkit.forms.contextRoot = '/context/';
 	actionkit.forms.initForm('act-donate');
 </script>
+<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/afteraction-flow-shared.js"></script>
 {% endif %}
 <script>
 jQuery(document).ready(function($){
@@ -668,8 +671,11 @@ jQuery(document).ready(function($){
 					}
 				});
 			} else if (afterActionNextStep === 'flow') {
-				$('#site-footer').addClass('site-footer-iframe');
-				const country = $('#country').val();
+				let country = $('#country').val();
+				if (!country) {
+					// case when form is embedded and country is not set
+					country = '{{ user.country }}';
+				}
 				const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 				const fbShareEl = $('#afteraction-flow-share .fb-share');
 				const blueskyShareEl = $('#afteraction-flow-share .bluesky-share');
@@ -693,6 +699,8 @@ jQuery(document).ready(function($){
 					$('#body-mobile-background').addClass('mobile-hide');
 					actionLead.hide();
 				} else {
+					$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);
+					show_share_tick();
 					afteractionFlowShare.show();
 					if (typeof gtag !== 'undefined') {
 						// send google analytics event
@@ -719,7 +727,7 @@ jQuery(document).ready(function($){
 						pageName: '{{ page.name }}'
 					}
 					const iframe = document.getElementById("donate-iframe");
-					iframe.setAttribute("sandbox", "allow-scripts allow-top-navigation allow-same-origin allow-forms");
+					iframe.setAttribute("sandbox", "allow-scripts allow-top-navigation allow-same-origin allow-forms allow-popups");
 					iframe.contentWindow.postMessage(dataToSend);
 				}
 			}

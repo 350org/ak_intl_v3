@@ -905,11 +905,13 @@
                         class="ak-donation-monthly">{% filter ak_text:"donate_monthly" %}monthly{% endfilter %}</span></button>
                     {% endif %}
                   </div>
+                  {% if page.custom_fields.after_action_next_step == "flow" %}
                   <div class="cant-donate-container">
                     <p class="text-center cant-donate">
                       I can't donate right now >
                     </p>
                   </div>
+                  {% endif %}
                 </div>
               </div>
               <div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
@@ -2060,7 +2062,7 @@
       }
       var currentPageName = '{{ page.name }}';
       var currentQueryParams = window.location.search;
-      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}`;
+      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}`;
     });
 
     const step3Div = document.querySelector('.ak-donate-area-step-3.form-style-labelabove');

@@ -298,22 +298,23 @@ Custom template for same-page post-AJAX submit share ask.
 				if (actionID) {
 					getShareURL = '/share/link?type=ot&short=1&page_name={{page.name}}&source=share-ak-thanksflow-wa' + '&action_id=' + actionID;
 				}
+				var newTab = window.open('', '_blank');
 				$.ajax({
 					method: 'GET',
 					url: getShareURL,
 				}).done(function(shareURL) {
 					var newURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + shareURL;
 					$(e.target).attr('href', newURL);
-					var win = window.open(newURL);
-					if (win) {
-						win.focus();
+					newTab.location.href = newURL;
+					if (newTab) {
+						newTab.focus();
 					}
 					show_share_tick();
 				}).fail(function () {
 					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + whatsappMsg + window.location.href;
-					var win = window.open(whatsappShareURL);
-					if (win) {
-						win.focus();
+					newTab.location.href = whatsappShareURL;
+					if (newTab) {
+						newTab.focus();
 					}
 				});
 			});

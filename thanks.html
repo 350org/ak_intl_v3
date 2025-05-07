@@ -239,7 +239,8 @@
 
 	<script>
 		jQuery(document).ready(function($){
-			var source = '{{ action.source }}';
+			var urlParams = new URLSearchParams(window.location.search);
+			var source = '{{ action.source }}' || urlParams.get('source');
 			const pageId = '{{ page.id }}';
 			const donateSourceCode = `aa_${pageId}_thanksflow`;
 			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/build';
@@ -253,6 +254,17 @@
 				let currentQueryParams = window.location.search;
 				currentQueryParams += `&source=${donateSourceCode}`;
 				window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
+			} else if (source === "post-donation-share") {
+				// Render share ask without editing title
+				$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);
+				show_share_tick();
+				$('#afteraction-flow-share #ak-donate-step-2').prop('checked', true);
+				show_share_tick();
+				$('.ak-donate-step-3').addClass('active-step');
+				$('.ak-donate-menu').addClass('tall');
+				$('.ak-donate-step-3').removeClass('hidden');
+				show_share_tick();
+				$('#afteraction-flow-share').show();
 			} else if (source != "website") {
 				// Render share ask if post-donation
 				isPostDonate = true;

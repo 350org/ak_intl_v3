@@ -110,10 +110,6 @@ Custom template for same-page post-AJAX submit share ask.
 </style>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
-<div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute; height: 0; width: 0;">
-	<iframe id="donate-iframe" style="height: 110vh; width: 100vw;" scrolling="yes"></iframe>
-</div>
-
 {% include "./afteraction-flow-share.html" %}
 {% endif %}
 
@@ -270,22 +266,6 @@ Custom template for same-page post-AJAX submit share ask.
 			var whatsappMsg = '{{ page.custom_fields.share_whatsapp_message|escapejs }} ';
 			{% else %}
 				var whatsappMsg = '{{ page.followup.share_title_value|escapejs }} ';
-			{% endif %}
-
-			{% if page.custom_fields.after_action_next_step == "flow" %}
-			const iframe = document.getElementById('donate-iframe');
-			const pageId = '{{ page.id }}';
-			const donateSourceCode = `aa_${pageId}_thanksflow`;
-			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/build';
-			iframe.src = `${donatePageEmbedURL}?source=${donateSourceCode}`;
-
-			window.addEventListener('message', function(event) {
-				var data = event.data;
-				if (data.type === "cancelledDonation") {
-					$('#afteraction-flow').hide();
-					$('#afteraction-flow-share').show();
-				}
-			});
 			{% endif %}
 
 			$('.whatsapp-share').on('click', function(e) {
@@ -696,14 +676,14 @@ jQuery(document).ready(function($){
 					whatsappShareEl[0].href += `?action_id=${actionID}&akid=${akid}`;
 				}
 				if (fundraisingRegions.includes(country)) {
-					afteractionFlowSlide.addClass('afteraction-flow-show');
-					afteractionFlowSlide.show();
 					if (typeof gtag !== 'undefined') {
 						// send google analytics event
 						gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
 					}
-					$('#body-mobile-background').addClass('mobile-hide');
-					actionLead.hide();
+					const pageId = '{{ page.id }}';
+					const donateSourceCode = `aa_${pageId}_thanksflow`;
+					const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/build';
+					window.location.href = `${donatePageEmbedURL}?source=${donateSourceCode}`;
 				} else {
 					$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);
 					show_share_tick();

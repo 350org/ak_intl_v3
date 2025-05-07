@@ -882,7 +882,7 @@
                         class="ak-donation-monthly">{% filter ak_text:"donate_monthly" %}monthly{% endfilter %}</span></button>
                     {% endif %}
                   </div>
-                  <div>
+                  <div class="cant-donate-container">
                     <p class="text-center cant-donate">
                       I can't donate right now >
                     </p>
@@ -2034,6 +2034,21 @@
         type: "cancelledDonation"
       }, "https://act.350.org");
     });
+
+    const step3Div = document.querySelector('.ak-donate-area-step-3');
+    const observer = new MutationObserver(() => {
+      if ($('.ak-donate-area-step-3').is(':visible')) {
+        $('.cant-donate-container').hide();
+      } else {
+        $('.cant-donate-container').show();
+      }
+    });
+
+    observer.observe(step3Div, {
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
+
     {% endif %}
 
     var searchParams = new URLSearchParams(window.location.search);

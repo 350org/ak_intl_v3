@@ -18,7 +18,9 @@
     background-image: unset;
   }
 
-  body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque {
+  body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque,
+  body:is(.Signup, .Petition, .Letter, .Donation).body-white_opaque,
+  body:is(.Signup, .Petition, .Letter, .Donation).body-dkgray_opaque {
     background: unset;
   }
   #action-lead {
@@ -129,6 +131,9 @@
   }
   .cant-donate {
     text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
   }
   .cant-donate:hover {
     color: white;
@@ -138,7 +143,7 @@
   .bg-dkgray_opaque-fade label.ak-donate-step.active-step .inline-dot {
     background: #FFFFFF1A;
   }
-  .bg-dkgray_opaque-fade #ak-multi-currency {
+  .bg-dkgray_opaque-fade #ak-multi-currency, .cant-donate {
     color: #fff;
   }
 
@@ -876,6 +881,11 @@
                         class="ak-donation-total-amount"></span>&nbsp;<span
                         class="ak-donation-monthly">{% filter ak_text:"donate_monthly" %}monthly{% endfilter %}</span></button>
                     {% endif %}
+                  </div>
+                  <div>
+                    <p class="text-center cant-donate">
+                      I can't donate right now >
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1960,7 +1970,7 @@
 </style>
 {% endif %}
 <script>
-  $(function () {
+  jQuery(document).ready(function($){
     {% if page.custom_fields.after_action_next_step == "flow" %}
     window.addEventListener('message', function(event) {
       const data = event.data;
@@ -2020,8 +2030,9 @@
       if (typeof gtag !== 'undefined') {
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
       }
-      $('#afteraction-flow').hide();
-      $('#afteraction-flow-share').show();
+      window.parent.postMessage({
+        type: "cancelledDonation"
+      }, "https://act.350.org");
     });
     {% endif %}
 

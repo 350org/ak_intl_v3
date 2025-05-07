@@ -281,6 +281,14 @@ Custom template for same-page post-AJAX submit share ask.
 			if ($(window).width() > 600) {
 				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
 			}
+
+			window.addEventListener('message', function(event) {
+				var data = event.data;
+				if (data.type === "cancelledDonation") {
+					$('#afteraction-flow').hide();
+					$('#afteraction-flow-share').show();
+				}
+			});
 			{% endif %}
 
 			$('.whatsapp-share').on('click', function(e) {

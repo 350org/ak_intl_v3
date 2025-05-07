@@ -111,7 +111,7 @@ Custom template for same-page post-AJAX submit share ask.
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
 <div id="afteraction-flow" style="visibility: hidden; left: -999px; position: absolute; height: 0; width: 0;">
-	<iframe id="donate-iframe" style="height: 110vh; width: 100vw;"></iframe>
+	<iframe id="donate-iframe" style="height: 110vh; width: 100vw;" scrolling="yes"></iframe>
 </div>
 
 {% include "./afteraction-flow-share.html" %}

@@ -3,7 +3,7 @@
 {% block content %}
 
 <section id="action-lead"
-  class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_image and page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}-fade{% else %}blue_opaque-fade{% endif %}">
+	class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif page.custom_fields.after_action_next_step == 'flow' %}blue_opaque-fade{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 		<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
 			<a id="jump-to-form" href="#action-form" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"letter_submit_button" %}Send Your Message{% endfilter %}{% endif %}</a>

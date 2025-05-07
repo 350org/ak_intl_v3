@@ -14,10 +14,6 @@
 {% block content %}
 {% if page.custom_fields.after_action_next_step == "flow" %}
 <style>
-  #body-mobile-background {
-    background-image: unset;
-  }
-
   body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque,
   body:is(.Signup, .Petition, .Letter, .Donation).body-white_opaque,
   body:is(.Signup, .Petition, .Letter, .Donation).body-dkgray_opaque {
@@ -1971,21 +1967,25 @@
 {% endif %}
 <script>
   jQuery(document).ready(function($){
+    const searchParams = new URLSearchParams(window.location.search);
+
     {% if page.custom_fields.after_action_next_step == "flow" %}
-    window.addEventListener('message', function(event) {
-      const data = event.data;
-      if (data.type === "signupForm") {
-        $('.actionFirstName').text(data.firstName);
-        $('#id_email').val(data.email);
-        $('#id_first_name').val(data.firstName);
-        $('#action_original_actionid').val(data.actionID);
-        $('#action_original_page_name').val(data.pageName);
-        if (data.lastName) {
-          $('#id_last_name').val(data.lastName);
-        }
-        $('#id_city').val(data.city);
-      }
-    });
+    var firstName = '{{ user.first_name }}';
+    var lastName = '{{ user.last_name }}';
+    var emailAddress = '{{ user.email }}';
+    var city = '{{ user.city }}';
+    var actionID = searchParams.get('action_id');
+    var ogPageName = searchParams.get('og_page_name');
+
+    if (firstName) {
+      $('.actionFirstName').text(firstName);
+    }
+    $('#id_first_name').val(firstName);
+    $('#id_last_name').val(lastName);
+    $('#id_email').val(emailAddress);
+    $('#action_original_actionid').val(actionID);
+    $('#action_original_page_name').val(ogPageName);
+    $('#id_city').val(city);
 
     $('#ak-continue-button').on('click', function() {
       var currentStep = parseInt($('input[name="ak-donate-step"]:checked').val()) - 1;
@@ -2051,7 +2051,6 @@
 
     {% endif %}
 
-    var searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {
       three_step_advance();
     }

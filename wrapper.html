@@ -362,7 +362,7 @@
 </head>
 
 <body
-	class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.iso_code|default:'en-US'}} page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %} {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js body-{{ page.custom_fields.page_background_color }}">
+class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.iso_code|default:'en-US'}} page-layout-{% if page.custom_fields.page_layout_style %}{{ page.custom_fields.page_layout_style }}{% else %}condensed{% endif %} {% if page.lang.is_rtl %}ak-rtl{% endif %} no-js ak-no-js body-{{ page.custom_fields.page_background_color }} {% if page.custom_fields.after_action_next_step == 'flow' %}afteraction-flow{% endif%}">
 	{% if page.custom_fields.flow_show_logo != 'N' %}
 		<nav id="flow-logo-bar">
 			<div class="flow-logo-wrapper">

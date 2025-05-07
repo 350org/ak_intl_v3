@@ -278,9 +278,6 @@ Custom template for same-page post-AJAX submit share ask.
 			const donateSourceCode = `aa_${pageId}_thanksflow`;
 			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/build';
 			iframe.src = `${donatePageEmbedURL}?source=${donateSourceCode}`;
-			if ($(window).width() > 600) {
-				$('#donate-iframe')[0].setAttribute('scrolling', 'no')
-			}
 
 			window.addEventListener('message', function(event) {
 				var data = event.data;

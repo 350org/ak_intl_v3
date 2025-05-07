@@ -330,7 +330,6 @@
 					show_share_tick();
 				}
 				var initialShareURL = e.target.href + '&source=share-ak-thanksflow-bsk';
-				var pageFollowup = '{{ page.followup.twitter_message }}';
 				$.ajax({
 					method: 'GET',
 					url: initialShareURL,
@@ -378,21 +377,22 @@
 					// send google analytics event
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
 				}
+				var newTab = window.open('', '_blank');
 				$.ajax({
 					method: 'GET',
 					url: getShareURL,
 				}).done(function(shareURL) {
 					var newURL = 'https://api.whatsapp.com/send?text=' + shareURL;
 					$(e.target).attr('href', newURL);
-					var win = window.open(newURL);
-					if (win) {
-						win.focus();
+					newTab.location.href = newURL;
+					if (newTab) {
+						newTab.focus();
 					}
 				}).fail(function () {
 					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + window.location.href;
-					var win = window.open(whatsappShareURL);
-					if (win) {
-						win.focus();
+					newTab.location.href = newURL;
+					if (newTab) {
+						newTab.focus();
 					}
 				});
 			});
@@ -943,4 +943,3 @@ jQuery(document).ready(function($){
 </script>
 {% endif %}
 {% endblock %}
-

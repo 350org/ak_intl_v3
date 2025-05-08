@@ -14,14 +14,12 @@
 {% block content %}
 {% if page.custom_fields.after_action_next_step == "flow" %}
 <style>
-  #body-mobile-background {
-    background-image: unset;
-  }
-
-  body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque,
-  body:is(.Signup, .Petition, .Letter, .Donation).body-white_opaque,
-  body:is(.Signup, .Petition, .Letter, .Donation).body-dkgray_opaque {
-    background: unset;
+  @media screen and (min-width:720px) {
+    body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque,
+    body:is(.Signup, .Petition, .Letter, .Donation).body-white_opaque,
+    body:is(.Signup, .Petition, .Letter, .Donation).body-dkgray_opaque {
+      background: unset;
+    }
   }
   #action-lead {
     max-width: 800px;
@@ -363,6 +361,31 @@
       {% if page.custom_fields.after_action_next_step == "flow" %}
       <input id="action_original_actionid" type="hidden" name=action_original_actionid value="">
       <input id="action_original_page_name" type="hidden" name=action_original_page_name value="">
+      <ul id="ak-errors" style="display: none;"></ul>
+      <style>
+        #ak-errors {
+          background-color: #fff0d4;
+          color: initial;
+          margin: -1px 0 0;
+          padding: 0.4rem 0.6rem;
+          position: relative;
+          display: block;
+        }
+        #ak-errors li {
+          font-size: 0.85rem;
+          line-height: 1.4;
+          list-style-type: none;
+        }
+        #ak-errors li::before {
+          background: #ffa902;
+          border-radius: 1em;
+          content: '';
+          display: inline-block;
+          height: 0.7em;
+          margin-right: 0.4rem;
+          width: 0.7em;
+        }
+      </style>
       {% endif %}
       <div id="action-header"
         class="{% if page.custom_fields.page_layout_style == 'expanded' or page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
@@ -882,11 +905,13 @@
                         class="ak-donation-monthly">{% filter ak_text:"donate_monthly" %}monthly{% endfilter %}</span></button>
                     {% endif %}
                   </div>
+                  {% if page.custom_fields.after_action_next_step == "flow" %}
                   <div class="cant-donate-container">
                     <p class="text-center cant-donate">
                       I can't donate right now >
                     </p>
                   </div>
+                  {% endif %}
                 </div>
               </div>
               <div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
@@ -1971,24 +1996,29 @@
 {% endif %}
 <script>
   jQuery(document).ready(function($){
+    const searchParams = new URLSearchParams(window.location.search);
+
     {% if page.custom_fields.after_action_next_step == "flow" %}
-    window.addEventListener('message', function(event) {
-      const data = event.data;
-      if (data.type === "signupForm") {
-        $('.actionFirstName').text(data.firstName);
-        $('#id_email').val(data.email);
-        $('#id_first_name').val(data.firstName);
-        $('#action_original_actionid').val(data.actionID);
-        $('#action_original_page_name').val(data.pageName);
-        if (data.lastName) {
-          $('#id_last_name').val(data.lastName);
-        }
-        $('#id_city').val(data.city);
-      }
-    });
+    var firstName = '{{ user.first_name }}';
+    var lastName = '{{ user.last_name }}';
+    var emailAddress = '{{ user.email }}';
+    var city = '{{ user.city }}';
+    var actionID = searchParams.get('action_id');
+    var akid = searchParams.get('akid');
+    var origPageName = searchParams.get('og_page_name');
+
+    if (firstName) {
+      $('.actionFirstName').text(firstName);
+    }
+    $('#id_first_name').val(firstName);
+    $('#id_last_name').val(lastName);
+    $('#id_email').val(emailAddress);
+    $('#action_original_actionid').val(actionID);
+    $('#action_original_page_name').val(origPageName);
+    $('#id_city').val(city);
 
     $('#ak-continue-button').on('click', function() {
-      var currentStep = parseInt($('input[name="ak-donate-step"]:checked').val()) - 1;
+      var currentStep = parseInt($('.donate-lead input[name="ak-donate-step"]:checked').val()) - 1;
       if (typeof gtag !== 'undefined') {
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': `thanksflow_donate_step${currentStep}_continue`});
@@ -2030,9 +2060,9 @@
       if (typeof gtag !== 'undefined') {
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
       }
-      window.parent.postMessage({
-        type: "cancelledDonation"
-      }, "https://act.350.org");
+      var currentPageName = '{{ page.name }}';
+      var currentQueryParams = window.location.search;
+      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}`;
     });
 
     const step3Div = document.querySelector('.ak-donate-area-step-3.form-style-labelabove');
@@ -2051,7 +2081,6 @@
 
     {% endif %}
 
-    var searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('skip2') && searchParams.get('skip2') === 'true') {
       three_step_advance();
     }
@@ -2064,6 +2093,7 @@
         $('.paypal-title').show();
       }
     });
+
   });
 </script>
 

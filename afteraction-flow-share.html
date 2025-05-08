@@ -292,6 +292,8 @@
     $('.more-campaigns').on('click', function(e) {
       $(`#afteraction-flow-share .ak-donate-step-2 input[name="ak-donate-step"]`).prop('checked', true);
       show_share_tick();
+			$(`#afteraction-flow-share .ak-donate-step-3 input[name="ak-donate-step"]`).prop('checked', true);
+      show_share_tick();
       if (typeof gtag !== 'undefined') {
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_more'});

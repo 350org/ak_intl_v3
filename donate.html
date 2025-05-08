@@ -377,6 +377,9 @@
       {% if page.custom_fields.after_action_next_step == "flow" %}
       <input id="action_original_actionid" type="hidden" name=action_original_actionid value="">
       <input id="action_original_page_name" type="hidden" name=action_original_page_name value="">
+      {% if page.custom_fields.page_background_image %}
+      <input id="action_original_bgimage" type="hidden" name=action_original_bgimage value="">
+			{% endif %}
       <ul id="ak-errors" style="display: none;"></ul>
       <style>
         #ak-errors {
@@ -2023,6 +2026,9 @@
     var akid = searchParams.get('akid');
     var origPageName = searchParams.get('og_page_name');
     var origBgImage = '{{ action.custom_fields.original_bgimage }}';
+    if (origBgImage) {
+      $('#action_original_bgimage').val(origBgImage);
+    }
 
     if (firstName) {
       $('.actionFirstName').text(firstName);
@@ -2079,7 +2085,7 @@
       }
       var currentPageName = '{{ page.name }}';
       var currentQueryParams = window.location.search;
-      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}`;
+      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}&origBgImage=${origBgImage}`;
     });
 
     const step3Div = document.querySelector('.ak-donate-area-step-3.form-style-labelabove');

@@ -200,6 +200,14 @@
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
 	<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/afteraction-flow-shared.js"></script>
+	{% if action.custom_fields.original_bgimage %}
+	<style>
+	#body-mobile-background {
+		background-image: url('{{ action.custom_fields.original_bgimage }}') !important;
+	}
+	</style>
+	{% endif %}
+
 	<style>
 		#thanks {
 			display: none;
@@ -249,6 +257,12 @@
 			const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 			const country = '{{ user.country }}';
 			const firstName = '{{ user.first_name }}' || urlParams.get('firstName');
+			const origBgImage = urlParams.get('origBgImage');
+
+			if (origBgImage) {
+				const bgDiv = document.getElementById('body-mobile-background');
+				bgDiv.style.setProperty('background-image', `url('${decodeURIComponent(origBgImage)}')`, 'important');
+			}
 
 			// Render donation form if in fundraising country and not already donated
 			if (fundraisingRegions.includes(country) && source === "website") {

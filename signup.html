@@ -71,9 +71,11 @@
 			{% include "./progress_meter.html" %}
 			<input type="hidden" name="utf8" value="&#x2714;">
 			<input type="hidden" name="page" value="{{ page.name }}" />
+
       {% if page.custom_fields.after_action_next_step == "flow" and page.custom_fields.page_background_image %}
       <input id="action_original_bgimage" type="hidden" name=action_original_bgimage value="{{ page.custom_fields.page_background_image }}">
 			{% endif %}
+
 			{% include "./user_form_wrapper.html" %}
 	{% endautoescape %}
 			<ul style="display:none;" id="ak-errors"><li></li></ul>

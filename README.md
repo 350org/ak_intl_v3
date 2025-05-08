@@ -19,6 +19,7 @@ The following affiliate templatesets need to be updated after PR reviews, and be
 * 350 Aotearoa
 * 350 Australia
 * 350 Canada
+* 350 Global
 
 Navigate to the templateset in the 350 Admin (via the links shared above). Scroll to the bottom of the page and click the “Create New Template” link to create a new file that has the same name as the new file created in code. This file should extend the file from the International v3 templateset:
 

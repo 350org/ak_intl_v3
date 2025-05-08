@@ -2,7 +2,8 @@
 {% load actionkit_tags %}
 {% block content %}
 
-<section id="action-lead" class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+<section id="action-lead"
+	class="section action-lead title-section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif page.custom_fields.after_action_next_step == 'flow' %}blue_opaque-fade{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 	<div class="section-inner">
 		<div id="action-header" class="{% if page.custom_fields.page_layout_style == 'expanded' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide">
 			<a id="jump-to-form" href="#action-form" class="tablet-hide desktop-hide mobile-hide bg-orange text-underline-none text-center arrow-down text-large2">{% if page.custom_fields.form_submit_button_text %}{{ page.custom_fields.form_submit_button_text }}{% else %}{% filter ak_text:"letter_submit_button" %}Send Your Message{% endfilter %}{% endif %}</a>
@@ -44,6 +45,11 @@
 		<form id="action-form" class="c5 ct7_5 cm10 c-wide form-changeorg form-style-labelabove ak-form action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
 			<input type="hidden" name="utf8" value="&#x2714;">
 			<input type="hidden" name="page" value="{{ page.name }}" />
+
+      {% if page.custom_fields.after_action_next_step == "flow" and page.custom_fields.page_background_image %}
+      <input id="action_original_bgimage" type="hidden" name=action_original_bgimage value="{{ page.custom_fields.page_background_image }}">
+			{% endif %}
+
 			{% autoescape off %}
 			<div id="form-intro" class="p text-large text-lineheight-small strong">
 				{% if page.custom_fields.form_text_above_form %}

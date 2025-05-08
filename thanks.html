@@ -196,13 +196,235 @@
 		}
 	{% endif %}																									
 	</script>
+
+{% if page.custom_fields.after_action_next_step == "flow" %}
+	<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/afteraction-flow-shared.js"></script>
+	{% if action.custom_fields.original_bgimage %}
+	<style>
+	#body-mobile-background {
+		background-image: url('{{ action.custom_fields.original_bgimage }}') !important;
+	}
+	</style>
+	{% endif %}
+
+	<style>
+		#thanks {
+			display: none;
+		}
+		.afteraction-flow-show {
+			position: absolute;
+			right: 0;
+			left: 0 !important;
+			visibility: visible !important;
+			height: 100% !important;
+			width: 100% !important;
+		}
+
+		body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque {
+			background: unset;
+		}
+
+		#site-footer {
+			display: none;
+		}
+
+		@media screen and (max-width:720px) {
+			#site-footer {
+				display: none;
+			}
+			#afteraction-flow-share .section-inner {
+				max-width: unset;
+				border-radius: unset !important;
+				width: 100%;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+	</style>
+
+	{% include "./afteraction-flow-share.html" %}
+
+	<script>
+		jQuery(document).ready(function($){
+			var urlParams = new URLSearchParams(window.location.search);
+			var source = '{{ action.source }}' || urlParams.get('source');
+			const pageId = '{{ page.id }}';
+			const donateSourceCode = `aa_${pageId}_thanksflow`;
+			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
+
+			let isPostDonate = false;
+			const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
+			const country = '{{ user.country }}';
+			const firstName = '{{ user.first_name }}' || urlParams.get('firstName');
+			const origBgImage = urlParams.get('origBgImage');
+
+			if (origBgImage) {
+				const bgDiv = document.getElementById('body-mobile-background');
+				bgDiv.style.setProperty('background-image', `url('${decodeURIComponent(origBgImage)}')`, 'important');
+			}
+
+			// Render donation form if in fundraising country and not already donated
+			if (fundraisingRegions.includes(country) && source === "website") {
+				let currentQueryParams = window.location.search;
+				currentQueryParams += `&source=${donateSourceCode}`;
+				window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
+			} else if (source === "post-donation-share") {
+				// Render share ask without editing title
+				if (firstName) {
+					$('.actionFirstName').text(firstName);
+				}
+				$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);
+				show_share_tick();
+				$('#afteraction-flow-share #ak-donate-step-2').prop('checked', true);
+				show_share_tick();
+				$('.ak-donate-step-3').addClass('active-step');
+				$('.ak-donate-menu').addClass('tall');
+				$('.ak-donate-step-3').removeClass('hidden');
+				show_share_tick();
+				$('#afteraction-flow-share').show();
+			} else if (source != "website") {
+				// Render share ask if post-donation
+				isPostDonate = true;
+				$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);
+				show_share_tick();
+				$('#afteraction-flow-share #ak-donate-step-2').prop('checked', true);
+				show_share_tick();
+				$('.ak-donate-step-1').removeClass('active-step');
+				$('.ak-donate-step-3').addClass('active-step');
+				$('.ak-donate-menu').addClass('tall');
+				$('.ak-donate-step-3').removeClass('hidden');
+				$('.afteraction-share-title').text('{% filter ak_text:"flow_share_step_thanks_donating" %}Thanks for your donation!{% endfilter %}');
+				$('#afteraction-flow-share').show();
+			} else {
+				// Render share ask without editing title
+				show_share_tick();
+				$('#afteraction-flow-share').show();
+			}
+
+			var currentUrl = new URL(window.location.href);
+			var actionID = '{{ action.custom_fields.original_actionid }}' || currentUrl.searchParams.get('action_id');
+			var origPageName = '{{ action.custom_fields.original_page_name }}';
+			var akid = currentUrl.searchParams.get('akid');
+
+			if (typeof gtag !== 'undefined') {
+				// send google analytics event
+				gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
+			}
+
+			// Add action_id to Facebook share URL
+			const fbShareEl = $('#afteraction-flow-share .fb-share');
+			if (fbShareEl && fbShareEl.length > 0) {
+				fbShareEl[0].href += `&action_id=${actionID}`;
+			}
+
+			// Set Copy Link URL with action_id
+			var copyLinks = $('.copy-link');
+			for (var i = 0; i < copyLinks.length; i++) {
+				var copyLink = copyLinks[i];
+				copyLink.href += `&action_id=${actionID}&page=${origPageName}`;
+			}
+
+			// Add action_id to Email button URL
+			var emailBtns = $('.email-share');
+			for (var i = 0; i < emailBtns.length; i++) {
+				var emailLink = emailBtns[0];
+				emailLink.href += `&action_id=${actionID}&page=${origPageName}`;
+			}
+
+			// Add action_id to Bluesky URL
+			var blueskyBtns = $('.bluesky-share');
+			for (var i = 0; i < blueskyBtns.length; i++) {
+				var blueskyBtn = blueskyBtns[0];
+				blueskyBtn.href += `&action_id=${actionID}&page=${origPageName}`;
+			}
+
+			$('.bluesky-share').on('click', function(e) {
+				e.preventDefault();
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
+				}
+				if (isPostDonate) {
+					$('#afteraction-flow-share #ak-donate-step-3').prop('checked', true);
+					show_share_tick();
+				}
+				var initialShareURL = e.target.href + '&source=share-ak-thanksflow-bsk';
+				$.ajax({
+					method: 'GET',
+					url: initialShareURL,
+				}).done(function(shareURL) {
+					var blueskyShareURL = `https://bsky.app/intent/compose?text=${shareURL}`;
+					window.open(blueskyShareURL);
+				}).fail(function() {
+					var blueskyShareURL = `https://bsky.app/intent/compose?text=${window.location.href}`;
+					window.open(blueskyShareURL);
+				});
+			});
+
+			$('.copy-link-share').on('click', function (e) {
+				e.preventDefault();
+				if (isPostDonate) {
+					$('#afteraction-flow-share #ak-donate-step-3').prop('checked', true);
+					show_share_tick();
+				}
+				var initialShareURL = e.target.href;
+				var linkButton = e.target;
+				initialShareURL += `&action_id=${actionID}&page=${origPageName}&source=share-ak-thanksflow-copylink`;
+				if (typeof gtag !== 'undefined') {
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
+				}
+				$.ajax({
+					method: 'GET',
+					url: initialShareURL,
+				}).done(function(shareURL) {
+					navigator.clipboard.writeText(shareURL);
+					linkButton.text = 'Link Copied!';
+				}).fail(function() {
+					navigator.clipboard.writeText(window.location.href);
+				});
+			});
+
+			$('.whatsapp-share').on('click', function(e) {
+				e.preventDefault();
+				if (isPostDonate) {
+					$('#afteraction-flow-share #ak-donate-step-3').prop('checked', true);
+					show_share_tick();
+				}
+				// Set Whatsapp Share URL based on response from API
+				var getShareURL = `/share/link?type=ot&short=1&source=share-ak-thanksflow-wa&action_id=${actionID}&page=${origPageName}`;
+				if (typeof gtag !== 'undefined') {
+					// send google analytics event
+					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
+				}
+				var newTab = window.open('', '_blank');
+				$.ajax({
+					method: 'GET',
+					url: getShareURL,
+				}).done(function(shareURL) {
+					var newURL = 'https://api.whatsapp.com/send?text=' + shareURL;
+					$(e.target).attr('href', newURL);
+					newTab.location.href = newURL;
+					if (newTab) {
+						newTab.focus();
+					}
+				}).fail(function () {
+					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + window.location.href;
+					newTab.location.href = newURL;
+					if (newTab) {
+						newTab.focus();
+					}
+				});
+			});
+		});
+	</script>
+{% endif %}
 	<section id="thanks" class="section width-medium padding-medium bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
 		<div class="section-inner">
 			<form class="ak-form dummy" name="act" method="POST" action="/act/" accept-charset="utf-8">
 			<input type="hidden" name="page" value="{{ page.name }}" />
 			{% include "./progress_meter.html" %}
 			</form>
-			<div id="thanks-message" class="bg-dkgray-trans c10 ct10 cm10 box box-huge margin-bottom-large">
+			<div id="thanks-message" class="c10 ct10 cm10 box box-huge margin-bottom-large">
 			{% include_tmpl form.thank_you_text %}
 
 			{% if page.custom_fields.thank_you_page_show_upsell == 'Y' and not action.orderrecurring and not user.orderrecurring_set.active %}

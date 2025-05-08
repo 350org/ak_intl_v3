@@ -685,7 +685,7 @@ jQuery(document).ready(function($){
 					const pageName = '{{ page.name }}';
 					let currentQueryParams = window.location.search;
 					currentQueryParams += `&source=${donateSourceCode}&og_page_name=${pageName}&action_id=${actionID}&akid=${akid}`;
-					const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/build';
+					const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
 					window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
 				} else {
 					$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);

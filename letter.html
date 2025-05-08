@@ -45,6 +45,9 @@
 		<form id="action-form" class="c5 ct7_5 cm10 c-wide form-changeorg form-style-labelabove ak-form action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
 			<input type="hidden" name="utf8" value="&#x2714;">
 			<input type="hidden" name="page" value="{{ page.name }}" />
+      {% if page.custom_fields.after_action_next_step == "flow" and page.custom_fields.page_background_image %}
+      <input id="action_original_bgimage" type="hidden" name=action_original_bgimage value="{{ page.custom_fields.page_background_image }}">
+			{% endif %}
 			{% autoescape off %}
 			<div id="form-intro" class="p text-large text-lineheight-small strong">
 				{% if page.custom_fields.form_text_above_form %}

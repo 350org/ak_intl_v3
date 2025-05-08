@@ -13,6 +13,15 @@
 
 {% block content %}
 {% if page.custom_fields.after_action_next_step == "flow" %}
+{% if action.custom_fields.original_bgimage %}
+<style>
+#body-mobile-background {
+  background-image: url('{{ action.custom_fields.original_bgimage }}') !important;
+}
+</style>
+{% endif %}
+
+
 <style>
   @media screen and (min-width:720px) {
     body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque,
@@ -21,6 +30,7 @@
       background: unset;
     }
   }
+
   #action-lead {
     max-width: 800px;
   }
@@ -243,9 +253,15 @@
     .payments-container {
       min-width: 300px !important;
     }
+    {% if action.custom_fields.original_bgimage %}
+    #body-mobile-background {
+      background-image: url('{{ action.custom_fields.original_bgimage }}') !important;
+    }
+    {% else %}
     #body-mobile-background {
       background-image: url('{{ page.custom_fields.page_background_image }}') !important;
     }
+    {% endif %}
     #ak-donation-details {
       margin: 10px;
     }
@@ -361,6 +377,9 @@
       {% if page.custom_fields.after_action_next_step == "flow" %}
       <input id="action_original_actionid" type="hidden" name=action_original_actionid value="">
       <input id="action_original_page_name" type="hidden" name=action_original_page_name value="">
+      {% if page.custom_fields.page_background_image %}
+      <input id="action_original_bgimage" type="hidden" name=action_original_bgimage value="">
+			{% endif %}
       <ul id="ak-errors" style="display: none;"></ul>
       <style>
         #ak-errors {
@@ -2006,6 +2025,10 @@
     var actionID = searchParams.get('action_id');
     var akid = searchParams.get('akid');
     var origPageName = searchParams.get('og_page_name');
+    var origBgImage = '{{ action.custom_fields.original_bgimage }}';
+    if (origBgImage) {
+      $('#action_original_bgimage').val(origBgImage);
+    }
 
     if (firstName) {
       $('.actionFirstName').text(firstName);
@@ -2062,7 +2085,7 @@
       }
       var currentPageName = '{{ page.name }}';
       var currentQueryParams = window.location.search;
-      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}`;
+      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}&origBgImage=${origBgImage}`;
     });
 
     const step3Div = document.querySelector('.ak-donate-area-step-3.form-style-labelabove');

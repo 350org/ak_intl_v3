@@ -369,6 +369,10 @@
 				}
 				var initialShareURL = e.target.href;
 				var linkButton = e.target;
+				if (!actionID && !origPageName) {
+					navigator.clipboard.writeText(window.location.href);
+					return;
+				}
 				initialShareURL += `&action_id=${actionID}&page=${origPageName}&source=share-ak-thanksflow-copylink`;
 				if (typeof gtag !== 'undefined') {
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
@@ -424,7 +428,7 @@
 			<input type="hidden" name="page" value="{{ page.name }}" />
 			{% include "./progress_meter.html" %}
 			</form>
-			<div id="thanks-message" class="c10 ct10 cm10 box box-huge margin-bottom-large">
+			<div id="thanks-message" class="{% if page.custom_fields.after_action_next_step != 'flow' %}bg-dkgray-trans{% endif %} c10 ct10 cm10 box box-huge margin-bottom-large">
 			{% include_tmpl form.thank_you_text %}
 
 			{% if page.custom_fields.thank_you_page_show_upsell == 'Y' and not action.orderrecurring and not user.orderrecurring_set.active %}

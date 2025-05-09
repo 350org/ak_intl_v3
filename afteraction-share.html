@@ -560,6 +560,10 @@ jQuery(document).ready(function($){
 				if (typeof gtag !== 'undefined') {
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
 				}
+				if (!actionID && !akid) {
+					navigator.clipboard.writeText(window.location.href);
+					return;
+				}
 				{% endif %}
 				$.ajax({
 					method: 'GET',

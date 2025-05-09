@@ -370,7 +370,6 @@
 				var initialShareURL = e.target.href;
 				var linkButton = e.target;
 				if (!actionID && !origPageName) {
-					navigator.clipboard.writeText(window.location.href);
 					return;
 				}
 				initialShareURL += `&action_id=${actionID}&page=${origPageName}&source=share-ak-thanksflow-copylink`;

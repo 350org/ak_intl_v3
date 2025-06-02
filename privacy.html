@@ -119,4 +119,31 @@
 	#privacy_optin, #privacy_optout {
 		-webkit-appearance: auto;
 	}
+
+	.ak-privacy.gdpr-hidden {
+    	display: none !important;
+  	}
 </style>
+
+<script>
+  jQuery(document).ready(function($){
+    var urlParams = new URLSearchParams(window.location.search);
+    var gdprOptedIn = urlParams.get('gdpr_opted_in');
+    
+    if (gdprOptedIn) {
+      // Add a class and hide GDPR section completely
+      $('.ak-privacy').addClass('gdpr-hidden').hide();
+      
+      // Set the appropriate choice silently
+      if (gdprOptedIn === '1') {
+        $('#privacy_optin').prop('checked', true);
+        $('#sub').val('{{ list_id }}');
+        $('#unsub_all').val('');
+      } else {
+        $('#privacy_optout').prop('checked', true);
+        $('#sub').val('');
+        $('#unsub_all').val('1');
+      }
+    }
+  });
+</script>

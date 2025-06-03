@@ -127,6 +127,7 @@
 
 <script>
   jQuery(document).ready(function($){
+	{% if page.custom_fields.after_action_next_step == "flow" %}
     var urlParams = new URLSearchParams(window.location.search);
     var gdprOptedIn = urlParams.get('gdpr_opted_in');
     
@@ -145,5 +146,6 @@
         $('#unsub_all').val('1');
       }
     }
+	{% endif %}
   });
 </script>

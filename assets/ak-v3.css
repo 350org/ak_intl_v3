@@ -66,6 +66,7 @@ body.bg-on {
 
 body:is(.Signup, .Petition, .Letter, .Donation).body-blue_opaque {
   background: #0F81E9;
+  color: white;
 }
 
 #body-mobile-background {

@@ -5663,13 +5663,13 @@ a.bg-blue {
 a.bg-blue:hover {
   color: rgba(255, 255, 255, 0.75);
 }
-:is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a,
-:is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a {
+:is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade):not(.bg-dkgray_opaque) a,
+:is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade):not(.bg-dkgray_opaque) .text-color-override a {
   color: rgba(255, 255, 255, 0.75);
 }
 
-:is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) a:hover,
-:is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade) .text-color-override a:hover {
+:is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade):not(.bg-dkgray_opaque) a:hover,
+:is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) [class*="_opaque"]:not(.bg-white_opaque):not(.bg-white_opaque-fade):not(.bg-dkgray_opaque) .text-color-override a:hover {
   color: rgba(255, 255, 255, 0.3);
 }
 

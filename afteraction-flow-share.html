@@ -363,5 +363,31 @@
 	  });
 	  return false;
     });
+
+	$('.whatsapp-share').on('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		e.stopImmediatePropagation();
+
+		if (typeof gtag !== 'undefined') {
+			gtag('event', 'scrolling-signup', { 'click_id': 'thanksflow_share_wa' });
+		}
+
+		const shareHref = '/share/link?type=wa&short=1&source=share-ak-thanksflow-wa';
+		const fallbackShare = window.location.href.replace('/cms/thanks/', '/donate/');
+
+		$.ajax({
+			method: 'GET',
+			url: shareHref,
+		}).done(function(shareURL) {
+			const waShareURL = `https://wa.me/?text=${encodeURIComponent(shareURL)}`;
+			window.open(waShareURL, '_blank');
+		}).fail(function() {
+			const fallbackURL = `https://wa.me/?text=${encodeURIComponent(fallbackShare)}`;
+			window.open(fallbackURL, '_blank');
+		});
+
+		return false;
+	});
   });
 </script>

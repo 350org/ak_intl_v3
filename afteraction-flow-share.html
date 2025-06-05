@@ -62,7 +62,7 @@
 						<span class="text-small">Whatsapp</span>
 					</div>
 					<div class="afteraction-bluesky-share-intro afteraction-share-option-intro margin-bottom-medium">
-						<a class="afteraction-share-bluesky bluesky-share button-icon bg-bluesky-color bg-bluesky-icon button-share-bluesky" href="/share/link?type=ot&bluesky=true&short=1">
+						<a class="afteraction-share-bluesky bluesky-share button-icon bg-bluesky-color bg-bluesky-icon button-share-bluesky" href="#" data-share-href="/share/link?type=ot&bluesky=true&short=1">
 						</a>
 						<span class="text-small">Bluesky</span>
 					</div>
@@ -252,10 +252,11 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
       }
-      var initialShareURL = e.target.href + '&source=share-ak-thanksflow-bsk';
+      const shareHref = $(e.currentTarget).data('share-href') + '&source=share-ak-thanksflow-bsk';
+
       $.ajax({
         method: 'GET',
-        url: initialShareURL,
+        url: shareHref,
       }).done(function(shareURL) {
         const blueskyShareURL = `https://bsky.app/intent/compose?text=${encodeURIComponent(shareURL)}`;
     	window.open(blueskyShareURL, '_blank');
@@ -263,6 +264,7 @@
         const fallbackURL = `https://bsky.app/intent/compose?text=${encodeURIComponent(window.location.href)}`;
     	window.open(fallbackURL, '_blank');
       });
+	  return false;
     });
 
     $('#afteraction-flow-share .ak-donate-step-1').on('click', function(e) {

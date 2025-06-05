@@ -253,16 +253,16 @@
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
       }
       const shareHref = $(e.currentTarget).data('share-href') + '&source=share-ak-thanksflow-bsk';
-
+	  const newTab = window.open('', '_blank');
       $.ajax({
         method: 'GET',
         url: shareHref,
       }).done(function(shareURL) {
         const blueskyShareURL = `https://bsky.app/intent/compose?text=${encodeURIComponent(shareURL)}`;
-    	window.open(blueskyShareURL, '_blank');
+    	newTab.location.href = blueskyShareURL;
       }).fail(function() {
         const fallbackURL = `https://bsky.app/intent/compose?text=${encodeURIComponent(window.location.href)}`;
-    	window.open(fallbackURL, '_blank');
+    	newTab.location.href = fallbackURL;
       });
 	  return false;
     });

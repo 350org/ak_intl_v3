@@ -226,6 +226,37 @@
 
 <script>
   jQuery(document).ready(function($){
+  	const fallbackBaseURL = window.location.href.replace('/cms/thanks/', '/donate/');
+
+	$('.copy-link-share').on('click', function(e) {
+		e.preventDefault();
+		const $button = $(this);
+		const originalText = $button.text();
+		const shareHref = $button.attr('href') + '&source=share-ak-thanksflow-copy';
+
+		const updateButtonText = (text) => {
+		$button.text(text);
+		setTimeout(() => {
+			$button.text(originalText);
+		}, 3000);
+		};
+
+		$.ajax({
+		method: 'GET',
+		url: shareHref,
+		})
+		.done(function(shareURL) {
+		navigator.clipboard.writeText(shareURL).then(() => {
+			updateButtonText('Link copied!');
+		});
+		})
+		.fail(function() {
+		navigator.clipboard.writeText(fallbackBaseURL).then(() => {
+			updateButtonText('Link copied!');
+		});
+		});
+	});
+
     $('.email-share').on('click', function(e) {
       e.preventDefault();
       if (typeof gtag !== 'undefined') {

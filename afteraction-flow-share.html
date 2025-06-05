@@ -233,16 +233,15 @@
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
       }
       var initialShareURL = e.target.href + '&source=share-ak-thanksflow-em';
-			var newTab = window.open('', '_blank');
       $.ajax({
         method: 'GET',
         url: initialShareURL,
       }).done(function(shareURL) {
         var mailtoURL = `mailto:?body=${shareURL}`;
-        newTab.location.href = mailtoURL;
+        window.location.href = mailtoURL;
       }).fail(function() {
         var mailtoURL = `mailto:?body=${window.location.href}`;
-        newTab.location.href = mailtoURL;
+        window.location.href = mailtoURL;
       });
 
     });

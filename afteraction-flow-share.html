@@ -47,7 +47,7 @@
 				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share copy-link button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
 				<div class="share-buttons-container margin-top-large">
 					<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
-						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&short=1&source=share-ak-thanksflow-fb">
+						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" data-share-href="/share/link?type=fb&short=1&source=share-ak-thanksflow-fb">
 						</a>
 						<span class="text-small">Facebook</span>
 					</div>
@@ -263,15 +263,16 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
       }
-      var initialShareURL = e.target.href + '&source=share-ak-thanksflow-em';
+      const shareHref = $(this).attr('href') + '&source=share-ak-thanksflow-em';
+ 	  const fallbackShare = window.location.href.replace('/cms/thanks/', '/donate/');
       $.ajax({
         method: 'GET',
-        url: initialShareURL,
+        url: shareHref,
       }).done(function(shareURL) {
         var mailtoURL = `mailto:?body=${shareURL}`;
         window.location.href = mailtoURL;
       }).fail(function() {
-        var mailtoURL = `mailto:?body=${window.location.href}`;
+        var mailtoURL = `mailto:?body=${fallbackShare}`;
         window.location.href = mailtoURL;
       });
 
@@ -286,8 +287,10 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
       }
-      const shareHref = $(e.currentTarget).data('share-href') + '&source=share-ak-thanksflow-bsk';
-	  const newTab = window.open('', '_blank');
+	  const shareHref = $(e.currentTarget).data('share-href') + '&source=share-ak-thanksflow-bsk';
+  	  const fallbackShare = window.location.href.replace('/cms/thanks/', '/donate/');	  
+  	  const newTab = window.open('', '_blank');
+
       $.ajax({
         method: 'GET',
         url: shareHref,
@@ -295,7 +298,7 @@
         const blueskyShareURL = `https://bsky.app/intent/compose?text=${encodeURIComponent(shareURL)}`;
     	newTab.location.href = blueskyShareURL;
       }).fail(function() {
-        const fallbackURL = `https://bsky.app/intent/compose?text=${encodeURIComponent(window.location.href)}`;
+        const fallbackURL = `https://bsky.app/intent/compose?text=${encodeURIComponent(fallbackShare)}`;
     	newTab.location.href = fallbackURL;
       });
 	  return false;
@@ -335,11 +338,30 @@
     });
 
     $('.fb-share').on('click', function(e) {
+	  e.preventDefault(); 
+	  e.stopPropagation();
+  	  e.stopImmediatePropagation();
+
       if (typeof gtag !== 'undefined') {
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
       }
       show_share_tick();
+	  const shareHref = $(this).data('share-href') + '&source=share-ak-thanksflow-fb';
+	  const newTab = window.open('', '_blank');
+	  const fallbackShare = window.location.href.replace('/cms/thanks/', '/donate/');
+
+	  $.ajax({
+		method: 'GET',
+		url: shareHref,
+	  }).done(function(shareURL) {
+		const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareURL)}`;
+		newTab.location.href = fbShareURL;
+	  }).fail(function() {
+		const fbFallbackURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fallbackShare)}`;
+		newTab.location.href = fbFallbackURL;
+	  });
+	  return false;
     });
   });
 </script>

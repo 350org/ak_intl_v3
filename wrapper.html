@@ -4,6 +4,8 @@
 	{% endif %}>
 
 <head>
+	<!-- Usercentrics snippet -->
+	{% include "./350_cookie_banner.html" %}
 
 	<!-- Google Optimise Anti-flicker snippet -->
 	<script>
@@ -521,6 +523,11 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 					href="{% filter ak_text:"footer_donate_url" %}https://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a>
 				/ {% endifequal%}<a id="privacy-link"
 					href="{% filter ak_text:"footer_privacy_url" %}https://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a>
+				/ {% if geoip.is_gdpr_country %}
+					<a href="#" onClick="UC_UI.showSecondLayer();">Cookies</a>
+					{% else %} 
+					<a href="https://www.350.org/cookies">Cookies</a>
+				{% endif %} 
 				/ <a
 					href="{% filter ak_text:"footer_contact_url" %}https://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
 				{% endif %}

@@ -2118,6 +2118,44 @@
       }
     });
 
+    // Return currency based on region and country code
+    function getCurrency(region) {
+      const europeanRegions = [
+        "AX", "AL", "AD", "AT", "BE", "BA", "BG", "HR", "CY", "CZ", "DK", "EE", "FO", "FI", "FR", "DE",
+        "GI", "GR", "GG", "HU", "IC", "IE", "IM", "IT", "JE", "XK", "LV", "LI", "LT", "LU", "MT", "MC",
+        "ME", "NL", "MK", "NO", "PL", "PT", "RO", "SM", "RS", "SK", "SI", "ES", "SE", "CH", "GB", "VA"
+      ];
+      if (region === "CA") {
+        return "CAD";
+      } else if (region === "UK") {
+        return "GBP";
+      } else if (region === "JP") {
+        return "JPY";
+      } else if (region === "AU") {
+        return "AUD";
+      } else if (region === "NZ") {
+        return "NZD";
+      } else if (region === "ZA") {
+        return "ZAR";
+      } else if (region === "BR") {
+        return "BRL";
+      } else if (europeanRegions.includes(region)) {
+        return "EUR";
+      }
+
+      return "USD";
+    }
+
+    // Geolocate donation forms based on location
+    function geolocateDonationForm() {
+      const currentURL = new URL(window.location.href);
+      const region = currentURL.searchParams.get('r');
+      const currency = getCurrency(region);
+
+      $('#ak-currency-switcher').val(`Braintree Client-Side Encryption ${currency}`);
+    }
+
+    geolocateDonationForm();
   });
 </script>
 

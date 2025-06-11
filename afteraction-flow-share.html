@@ -273,9 +273,22 @@
 			method: 'GET',
 			url: shareURL,
 		}).done(function(shareURL) {
-			navigator.clipboard.writeText(shareURL);
+			navigator.clipboard.writeText(shareURL).catch(function(err) {
+				// Fallback: use a hidden textarea
+				var $temp = $('<textarea>');
+				$('body').append($temp);
+				$temp.val(shareURL).select();
+				document.execCommand('copy');
+				$temp.remove();
+			});
 		}).fail(function() {
-			navigator.clipboard.writeText(fallbackBaseURL);
+			navigator.clipboard.writeText(fallbackBaseURL).catch(function(err) {
+				var $temp = $('<textarea>');
+				$('body').append($temp);
+				$temp.val(fallbackBaseURL).select();
+				document.execCommand('copy');
+				$temp.remove();
+			});
 		});
 	});
 

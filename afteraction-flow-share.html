@@ -226,83 +226,108 @@
 
 <script>
   jQuery(document).ready(function($){
-  	const fallbackBaseURL = window.location.href.replace('/cms/thanks/', '/donate/');
+  	const fallbackBaseURL = '{{ action.custom_fields.original_page_url|default:page.canonical_url|escapejs }}';
+	let actionID = '{{ action.custom_fields.original_actionid|escapejs }}';
+	if (!actionID) actionID = '{{ action.id|escapejs }}';
+	if (!actionID || actionID === '0') {
+		const params = new URLSearchParams(window.location.search);
+		actionID = params.get('action_id') || '0';
+	}
+	let origPageName = '{{ action.custom_fields.original_page_name|escapejs }}';
+	if (!origPageName) origPageName = '{{ page.name|escapejs }}';
+	if (!origPageName || origPageName === 'unknown-page') {
+		const params = new URLSearchParams(window.location.search);
+		origPageName = params.get('og_page_name') || params.get('page') || 'unknown-page';
+	}
 
-	$('.copy-link-share').on('click', function(e) {
+	function buildShareURL(baseHref, params) {
+		const url = new URL(baseHref, window.location.origin);
+		Object.keys(params).forEach(key => {
+			if (params[key]) url.searchParams.set(key, params[key]);
+		});
+		return url.toString();
+	}
+
+	$('.copy-link-share').off('click').on('click', function (e) {
 		e.preventDefault();
-		const $button = $(this);
-		const originalText = $button.text();
-		const shareHref = $button.attr('href') + '&source=share-ak-thanksflow-copy';
+		var $button = $(this);
+		var originalText = $button.text();
 
-		const updateButtonText = (text) => {
-		$button.text(text);
-		setTimeout(() => {
+		var baseHref = this.getAttribute('href');
+		var shareURL = buildShareURL(baseHref, {
+			action_id: actionID,
+			page: origPageName,
+			source: 'share-ak-thanksflow-copylink'
+		});
+
+		$button.text('Link Copied!');
+		setTimeout(function() {
 			$button.text(originalText);
 		}, 3000);
-		};
 
 		$.ajax({
-		method: 'GET',
-		url: shareHref,
-		})
-		.done(function(shareURL) {
-		navigator.clipboard.writeText(shareURL).then(() => {
-			updateButtonText('Link copied!');
-		});
-		})
-		.fail(function() {
-		navigator.clipboard.writeText(fallbackBaseURL).then(() => {
-			updateButtonText('Link copied!');
-		});
+			method: 'GET',
+			url: shareURL,
+		}).done(function(shareURL) {
+			navigator.clipboard.writeText(shareURL);
+		}).fail(function() {
+			navigator.clipboard.writeText(fallbackBaseURL);
 		});
 	});
 
-    $('.email-share').on('click', function(e) {
-      e.preventDefault();
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
-      }
-      const shareHref = $(this).attr('href') + '&source=share-ak-thanksflow-em';
- 	  const fallbackShare = window.location.href.replace('/cms/thanks/', '/donate/');
-      $.ajax({
-        method: 'GET',
-        url: shareHref,
-      }).done(function(shareURL) {
-        var mailtoURL = `mailto:?body=${shareURL}`;
-        window.location.href = mailtoURL;
-      }).fail(function() {
-        var mailtoURL = `mailto:?body=${fallbackShare}`;
-        window.location.href = mailtoURL;
-      });
+	$('.email-share').on('click', function(e) {
+		e.preventDefault();
+		if (typeof gtag !== 'undefined') {
+			gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
+		}
 
-    });
+		var baseHref = $(this).attr('href');
+		var shareHref = buildShareURL(baseHref, {
+			action_id: actionID,
+			page: origPageName,
+			source: 'share-ak-thanksflow-em'
+		});
 
-    $('.bluesky-share').on('click', function(e) {
-      e.preventDefault();
-	  e.stopPropagation();
-  	  e.stopImmediatePropagation();
+		const fallbackShare = fallbackBaseURL;
 
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
-      }
-	  const shareHref = $(e.currentTarget).data('share-href') + '&source=share-ak-thanksflow-bsk';
-  	  const fallbackShare = window.location.href.replace('/cms/thanks/', '/donate/');	  
-  	  const newTab = window.open('', '_blank');
+		$.ajax({
+			method: 'GET',
+			url: shareHref,
+		}).done(function(shareURL) {
+			var mailtoURL = `mailto:?body=${shareURL}`;
+			window.location.href = mailtoURL;
+		}).fail(function() {
+			var mailtoURL = `mailto:?body=${fallbackShare}`;
+			window.location.href = mailtoURL;
+		});
+	});
 
-      $.ajax({
-        method: 'GET',
-        url: shareHref,
-      }).done(function(shareURL) {
-        const blueskyShareURL = `https://bsky.app/intent/compose?text=${encodeURIComponent(shareURL)}`;
-    	newTab.location.href = blueskyShareURL;
-      }).fail(function() {
-        const fallbackURL = `https://bsky.app/intent/compose?text=${encodeURIComponent(fallbackShare)}`;
-    	newTab.location.href = fallbackURL;
-      });
-	  return false;
-    });
+	$('.bluesky-share').on('click', function(e) {
+		e.preventDefault();
+		if (typeof gtag !== 'undefined') {
+			gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
+		}
+		if (typeof isPostDonate !== 'undefined' && isPostDonate) {
+			$('#afteraction-flow-share #ak-donate-step-3').prop('checked', true);
+			if (typeof show_share_tick === 'function') show_share_tick();
+		}
+		var baseHref = $(this).data('share-href') || this.getAttribute('href');
+		var shareURL = buildShareURL(baseHref, {
+			action_id: actionID,
+			page: origPageName,
+			source: 'share-ak-thanksflow-bsk'
+		});
+		$.ajax({
+			method: 'GET',
+			url: shareURL,
+		}).done(function(shareURL) {
+			var blueskyShareURL = `https://bsky.app/intent/compose?text=${shareURL}`;
+			window.open(blueskyShareURL);
+		}).fail(function() {
+			var blueskyShareURL = `https://bsky.app/intent/compose?text=${fallbackBaseURL}`;
+			window.open(blueskyShareURL);
+		});
+	});
 
     $('#afteraction-flow-share .ak-donate-step-1').on('click', function(e) {
       $('#afteraction-flow-share .share-container').show();
@@ -338,56 +363,68 @@
     });
 
     $('.fb-share').on('click', function(e) {
-	  e.preventDefault(); 
-	  e.stopPropagation();
-  	  e.stopImmediatePropagation();
-
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
-      }
-      show_share_tick();
-	  const shareHref = $(this).data('share-href') + '&source=share-ak-thanksflow-fb';
-	  const newTab = window.open('', '_blank');
-	  const fallbackShare = window.location.href.replace('/cms/thanks/', '/donate/');
-
-	  $.ajax({
-		method: 'GET',
-		url: shareHref,
-	  }).done(function(shareURL) {
-		const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareURL)}`;
-		newTab.location.href = fbShareURL;
-	  }).fail(function() {
-		const fbFallbackURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fallbackShare)}`;
-		newTab.location.href = fbFallbackURL;
-	  });
-	  return false;
-    });
-
-	$('.whatsapp-share').on('click', function(e) {
-		e.preventDefault();
+		e.preventDefault(); 
 		e.stopPropagation();
 		e.stopImmediatePropagation();
 
 		if (typeof gtag !== 'undefined') {
-			gtag('event', 'scrolling-signup', { 'click_id': 'thanksflow_share_wa' });
+			gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
 		}
-
-		const shareHref = '/share/link?type=wa&short=1&source=share-ak-thanksflow-wa';
-		const fallbackShare = window.location.href.replace('/cms/thanks/', '/donate/');
-
+		show_share_tick();
+		var baseHref = $(this).data('share-href') || this.getAttribute('href');
+		var shareURL = buildShareURL(baseHref, {
+			action_id: actionID,
+			page: origPageName,
+			source: 'share-ak-thanksflow-fb'
+		});
+		var newTab = window.open('', '_blank');
 		$.ajax({
 			method: 'GET',
-			url: shareHref,
+			url: shareURL,
 		}).done(function(shareURL) {
-			const waShareURL = `https://wa.me/?text=${encodeURIComponent(shareURL)}`;
-			window.open(waShareURL, '_blank');
+			const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareURL)}`;
+			newTab.location.href = fbShareURL;
 		}).fail(function() {
-			const fallbackURL = `https://wa.me/?text=${encodeURIComponent(fallbackShare)}`;
-			window.open(fallbackURL, '_blank');
+			const fbFallbackURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fallbackBaseURL)}`;
+			newTab.location.href = fbFallbackURL;
 		});
-
 		return false;
+	});
+
+	$('.whatsapp-share').on('click', function(e) {
+		e.preventDefault();
+		if (typeof isPostDonate !== 'undefined' && isPostDonate) {
+			$('#afteraction-flow-share #ak-donate-step-3').prop('checked', true);
+			if (typeof show_share_tick === 'function') show_share_tick();
+		}
+		var getShareURL = buildShareURL('/share/link', {
+			type: 'ot',
+			short: '1',
+			source: 'share-ak-thanksflow-wa',
+			action_id: actionID,
+			page: origPageName
+		});
+		if (typeof gtag !== 'undefined') {
+			gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
+		}
+		var newTab = window.open('', '_blank');
+		$.ajax({
+			method: 'GET',
+			url: getShareURL,
+		}).done(function(shareURL) {
+			var newURL = 'https://api.whatsapp.com/send?text=' + shareURL;
+			$(e.target).attr('href', newURL);
+			newTab.location.href = newURL;
+			if (newTab) {
+				newTab.focus();
+			}
+		}).fail(function () {
+			var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + fallbackBaseURL;
+			newTab.location.href = whatsappShareURL;
+			if (newTab) {
+				newTab.focus();
+			}
+		});
 	});
   });
 </script>

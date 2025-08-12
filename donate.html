@@ -935,7 +935,7 @@
               </div>
               <div id="action-toc" class="text-small icon-before icon-faded" data-icon="&#xE93E;">
                 <strong>{% filter ak_text:"donate_secure_donation" %}Secure donation{% endfilter %}.</strong>
-                {% if page.custom_fields.form_short_toc %}{% autoescape off %}{{ page.custom_fields.form_short_toc }}{% endautoescape %}{% else %}Your
+                {% if page.custom_fields.form_short_toc %}{% autoescape off %}{% include_tmpl page.custom_fields.form_short_toc %}{% endautoescape %}{% else %}Your
                 contribution will support 350.org groups all over the world working to build a better, climate-safe
                 future.{% endif %}
                 <span style="display:none;"

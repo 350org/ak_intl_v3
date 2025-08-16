@@ -689,6 +689,13 @@ jQuery(document).ready(function($){
 					const pageName = '{{ page.name }}';
 					let currentQueryParams = window.location.search;
 					currentQueryParams += `&source=${donateSourceCode}&og_page_name=${pageName}&action_id=${actionID}&akid=${akid}`;
+
+					if (window.gdprOptedIn === '1') {
+						currentQueryParams += `&gdpr_opted_in=1`;
+					} else if (window.gdprOptedIn === '0') {
+						currentQueryParams += `&gdpr_opted_in=0`;
+					}
+					
 					const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
 					window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
 				} else {

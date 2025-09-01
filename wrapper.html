@@ -751,11 +751,21 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	
 	.bg-dtl-red, .bg-ltgray {
 		background-color: #ff4122;
+		color: white !important;
 	}
 	
 	body {
 		background-color: #ff4122;
 		color: white !important;
+	}
+
+	p, .section-header, a.lang {
+		color: white !important;
+	}
+
+	a {
+		background-color: black;
+    font-family: Klima, sans-serif;
 	}
 	
 	.text-blue {
@@ -777,7 +787,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		background-color: #ff4122;
 	}
 	.notification-success {
-  		background-color: #80FFB3;
+		background-color: #80FFB3;
 	}
 </style>
 

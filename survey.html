@@ -41,7 +41,7 @@
 			<div id="survey-custom-questions" class="form-style-expanded margin-bottom-huge {{templateset.custom_fields.field_errors_class|default:"ak-errs-below"}}">
 	{% for question in form.surveyquestion_set.all %}
 				<div class="survey-question margin-bottom-large input input-{{ question.field_type }} survey-q-vertical-spacing">
-					<label class="strong text-strong text-blue margin-bottom-normal">{{ question.question_label|safe }}</label>
+					<label class="strong text-strong text-white margin-bottom-normal">{{ question.question_label|safe }}</label>
 				{{ question.input_html|safe }}
 				</div>
 	{% endfor %}

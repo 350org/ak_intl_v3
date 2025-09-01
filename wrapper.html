@@ -458,6 +458,12 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 
 	{% endif %}
 	{% include "./language_picker.html" %}
+	<nav id="dtl-nav">
+		<div class="dtl-nav-wrapper">
+			<a class="tf-logo text-large3" href="https://drawtheline.world/">
+			</a>
+		</div>
+	</nav>
 	<script type="text/javascript">
 		actionkit.forms.initPage()
 	</script>
@@ -695,7 +701,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		color: white;
 		background: #ff4122;
 		text-transform: uppercase;
-		letter-spacing: 2px;
+		letter-spacing: 0.15rem;
 		padding: 0.75rem;		
 		box-shadow: none;
 	}
@@ -704,6 +710,10 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		color: #1F1F1F;
 	}
 
+	#page-title {
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+	}
 	
 	.bg-white a, .bg-white.text-color-override a {
 		color: #ff4122;
@@ -759,7 +769,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		color: white !important;
 	}
 
-	.bg-dtl-red p, .bg-dtl-red .section-header, a.lang, #footer-links a {
+	.bg-dtl-red p, .bg-ltgray p, .bg-dtl-red .section-header, a.lang, #footer-links a {
 		color: white !important;
 	}
 

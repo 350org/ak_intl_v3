@@ -458,9 +458,9 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 
 	{% endif %}
 	{% include "./language_picker.html" %}
-	<nav id="dtl-nav">
-		<div class="dtl-nav-wrapper">
-			<a class="tf-logo text-large3" href="https://drawtheline.world/">
+	<nav class="bg-white section padding-small width-full text-small" id="dtl-nav">
+		<div class="section-inner">
+			<a class="tf-logo dtl-nav text-large3" href="https://drawtheline.world/">
 			</a>
 		</div>
 	</nav>
@@ -797,6 +797,11 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	}
 	.notification-success {
 		background-color: #80FFB3;
+	}
+
+	.tf-logo.dtl-nav {
+		width: 90px;
+		height: auto;
 	}
 </style>
 

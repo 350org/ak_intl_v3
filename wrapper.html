@@ -11,6 +11,7 @@
 	<script>
 		dataLayer = [];
 	</script>
+
 	<!-- Anti-flicker snippet (recommended)  -->
 	<style>
 		.async-hide {
@@ -500,7 +501,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 
 	{% if page.custom_fields.events_webinar != 'Yes' %}
 	<footer id="site-footer"
-		class="section padding-small bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% elif templateset.custom_fields.site_bg_color_slug %}{{ templateset.custom_fields.site_bg_color_slug }}{% else %}white{% endif %} width-full text-small">
+		class="section padding-small width-full text-small">
 		<div class="section-inner">
 
 			<nav id="footer-links" class="c6_6 ct10 cm10 c-wide">
@@ -510,7 +511,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 				{% include_tmpl templateset.custom_fields.site_logo_html %}
 				{% else %}
 				<span class="text-large2"><a id="footer-logo" class="tf-logo text-large3"
-						href="{% filter ak_text:"footer_logo_url" %}https://350.org/{% endfilter %}">350.org</a></span>
+						href="https://drawtheline.world/">Draw the Line</a></span>
 				{% endif %}
 				{% if templateset.custom_fields.site_footer_menu %}
 				<div class="footer-custom-links">
@@ -518,9 +519,9 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 				</div>
 				{% else %}
 				&nbsp;&nbsp; <a
-					href="{% filter ak_text:"footer_about_url" %}https://350.org/about{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a>
+					href="{% filter ak_text:"footer_about_url" %}https://drawtheline.world#about{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a>
 				/{% ifequal page.type "Donation" %} {% else %} <a
-					href="{% filter ak_text:"footer_donate_url" %}https://350.org/donate{% endfilter %}">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a>
+					href="https://act.350.org/donate/web-draw-the-line">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a>
 				/ {% endifequal%}<a id="privacy-link"
 					href="{% filter ak_text:"footer_privacy_url" %}https://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a>
 				/ {% if geoip.is_gdpr_country %}
@@ -528,8 +529,6 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 					{% else %} 
 					<a href="https://www.350.org/cookies">Cookies</a>
 				{% endif %} 
-				/ <a
-					href="{% filter ak_text:"footer_contact_url" %}https://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
 				{% endif %}
 				{% endautoescape %}
 				{% endfilter %}
@@ -689,5 +688,97 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	<!-- scripts to all be moved here. -->
 	{% endblock %}
 </body>
+
+<!-- Draw the Line Styles -->
+<style>
+	#action-title {
+		color: white;
+		background: #ff4122;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		padding: 0.75rem;		
+		box-shadow: none;
+	}
+
+	p {
+		color: #1F1F1F;
+	}
+
+	
+	.bg-white a, .bg-white.text-color-override a {
+		color: #ff4122;
+	}
+
+	.bg-white a:hover, .bg-white.text-color-override a:hover {
+		color: rgba(255, 65, 34, 0.7);
+	}
+	
+	a, a.area-link:hover .area-link-hover, a.text-blue {
+		color: #ff4122;
+	}
+	
+	input.submit, button.submit, input[type="submit"], .button, .button-primary {
+		background: #ff4122;
+		border-radius: 0;
+		text-shadow: none;
+	}
+	
+	input.submit, button.submit, input[type="submit"], .button {
+		border-bottom: none;
+	}
+	
+	.form-style-labelabove .input-text label, .form-style-labelabove .input-textarea label, .form-style-labelabove .input-number label, .form-style-labelabove .input-select label {
+		color: #ff4122;
+	}
+	
+	.tf-logo {
+		background-image: url("https://payload-cms-dtl.onrender.com/api/media/file/DTL-Red.png") !important;
+		background-size: 100%;
+		height: 60px;
+		width: 60px;
+		
+	}
+	
+	.bg-white .tf-logo {
+		background-color: transparent;
+		height: 60px;
+		width: 60px;
+	}
+	
+	body.EventSignup, body.ak-pagetype-thanks {
+		background-color: rgb(249, 231, 228);
+	}	
+	
+	.bg-dtl-red, .bg-ltgray {
+		background-color: #ff4122;
+	}
+	
+	body {
+		background-color: #ff4122;
+		color: white !important;
+	}
+	
+	.text-blue {
+		color: white !important;
+	}
+	
+	.form-style-labelabove .ak-err, .form-style-expanded .ak-err, .ak-err-below input.ak-error, .ak-err-above input.ak-error, .ak-err-below select.ak-error, .ak-err-above select.ak-error {
+		background-color: rgb(249, 231, 228);
+	}
+	.form-style-labelabove .ak-err li::before, .form-style-expanded .ak-err li::before {
+		background-color: rgb(249, 231, 228);
+	}
+	
+	 .ak-err {
+		 color: #ff4122;
+	 }
+	
+	.bg-blue, .button.bg-blue {
+		background-color: #ff4122;
+	}
+	.notification-success {
+  		background-color: #80FFB3;
+	}
+</style>
 
 </html><!-- one more test for cache awesomeness -->

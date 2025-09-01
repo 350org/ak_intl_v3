@@ -320,7 +320,7 @@
   <input type="hidden" name="utf8" value="&#x2714;" />
   <input type="hidden" name="page" value="{{ page.name }}" />
 
-  <div id="event-create-event-info" class="section notch form-style-expanded bg-ltgray width-normal padding-medium">
+  <div id="event-create-event-info" class="section notch form-style-expanded bg-dtl-red width-normal padding-medium">
     <div class="section-inner">
 
       <fieldset id="event-info">
@@ -416,7 +416,7 @@
           <label for="id_event_public_description">{% filter ak_text:"event_create_field_label_description" %}Event
             description{% endfilter %}</label>
           <textarea id="id_event_public_description"
-                    name="event_public_description">{% if page.custom_fields.event_default_description %}{% autoescape off %}{% include_tmpl page.custom_fields.event_default_description %}{% endautoescape %}{% endif %}</textarea>
+					name="event_public_description">{% if page.custom_fields.event_default_description %}{% autoescape off %}{% include_tmpl page.custom_fields.event_default_description %}{% endautoescape %}{% endif %}</textarea>
         </div>
         <p class="text-small opacity-50">
           {% if page.custom_fields.event_create_description_helptext %}
@@ -450,7 +450,7 @@
   <!--Event create fields-->
   {% include "./event_create_field_set.html" %}
   <!--Event create fields end-->
-  <div id="event-create-host-info" class="section bg-ltgray form-style-expanded width-normal padding-medium">
+  <div id="event-create-host-info" class="section bg-dtl-red form-style-expanded width-normal padding-medium">
     <div class="section-inner">
       <h3 class="section-header meta margin-bottom-large">{% filter ak_text:"event_create_section_contact" %}Your
         contact information{% endfilter %}</h3>
@@ -716,6 +716,53 @@
 
 </script>
 
+{% if not update %}
+{% if page.custom_fields.event_host_ground_rules_canada %}
+<script type="text/plain" id="host-rules-template">
+{% include_tmpl page.custom_fields.event_host_ground_rules_canada %}
+</script>
+{% endif %}
+
+<script type="text/javascript">
+var buildDescription = (ctx) => {
+  try {
+    with (ctx) {
+     {% if page.custom_fields.events_default_description_dynamic %}{% autoescape off %}{% include_tmpl page.custom_fields.events_default_description_dynamic %}{% endautoescape %}{% endif %}
+    }
+  } catch(err) {
+    return '';
+  }
+  return '';
+}
+
+var renderDescription = () => {
+  const formData = new FormData(actionkit.form);
+  const ctx = Object.fromEntries(formData.entries());
+  const result = buildDescription(ctx);
+  return result;
+};
+
+$(window).on("load", function() {
+ const originalHostRules = $("#host-rules").html();
+ const listenForCountryChange = (country) => {
+  document.querySelector('textarea[name=event_public_description').value = renderDescription();
+  if (!document.querySelector('#host-rules-template')) {
+    return;
+  }
+  if (country !== 'Canada') {
+    $("#host-rules").html(originalHostRules);
+  } else {
+    const hostRules = document.querySelector('#host-rules-template').textContent;
+    $("#host-rules").html(hostRules);
+  }	 
+ };
+ document.querySelector('[name=event_country]').addEventListener('change', (e) => {
+  const country = e.target.value;
+  listenForCountryChange(country);
+ });
+ listenForCountryChange(document.querySelector('[name=event_country]').value);
+});
+</script>
+{% endif %}
+
 {% endblock %}
-
-

@@ -85,10 +85,8 @@
 {% endif %}
 	<strong class="text-small2 text-caps opacity-50">{% filter ak_text:"event_details_signup_link" %}Event signup link:{% endfilter %} </strong><br>
 	<div class="event-url">
-		<a href="{% if templateset.custom_fields.ak_url_root %}{{ templateset.custom_fields.ak_url_root }}{% else %}https://act.350.org{% endif %}{{ event.public_url }}">{% if templateset.custom_fields.ak_url_root %}{{ templateset.custom_fields.ak_url_root }}{% else %}https://act.350.org{% endif %}{{ event.public_url }}</a>
+		<a href="{% if templateset.custom_fields.ak_url_root %}{{ templateset.custom_fields.ak_url_root }}{% else %}https://act.350.org{% endif %}{{ event.public_url }}?via=host">{% if templateset.custom_fields.ak_url_root %}{{ templateset.custom_fields.ak_url_root }}{% else %}https://act.350.org{% endif %}{{ event.public_url }}?via=host</a>
 	</div>
 </div>
 
 {% endfilter %}
-
-

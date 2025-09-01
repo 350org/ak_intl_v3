@@ -101,7 +101,7 @@
   
   }
   </style>
-  <div id="page-header" class="section width-normal padding-large text-center bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
+  <div id="page-header" class="section width-normal padding-large text-center">
     <div class="section-inner">
   {% if page.custom_fields.page_pretitle %}
       <p id="action-pretitle" class="text-font-secondary"><span class="highlight bg-dkgray-trans">{{ page.custom_fields.page_pretitle }}</span></p>
@@ -140,16 +140,16 @@
             <input type="hidden" name="limit" value="10">
             <input type="hidden" name="event_search_on_load" value="1">
             <div id="event-search-postal-wrapper" class="input-wrapper input-text">
-              <label for="id_place" class="text-caps text-strong text-blue">{% filter ak_text:"event_search_label_search" %}City/Postal{% endfilter %}</label>
+              <label for="id_place" class="text-caps text-strong">{% filter ak_text:"event_search_label_search" %}City/Postal{% endfilter %}</label>
               <input id="id_place" class="" type="text" name="place" value="{% if args.place %}{{args.place}}{% else %}{{args.zip}}{% endif %}" placeholder="{% filter ak_text:'event_search_form_placeholder' %}Search by city name{% endfilter %}">
             </div>
         {% if form.templateset.is_intl %}
             <div id="event-search-country-wrapper" class="input-wrapper input-select input-country">
-              <label for="id_country" class="text-caps text-strong text-blue">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
+              <label for="id_country" class="text-caps text-strong">{% filter ak_text:"field_country" %}Country{% endfilter %}</label>
               {% include "./country_select.html" %}
             </div>
         {% endif %}
-            <button type="submit" id="event-search-submit" class="ak-event-search text-caps button bg-teal">{% filter ak_text:'event_search_label_submit' %}Search{% endfilter %}</button>
+            <button type="submit" id="event-search-submit" class="ak-event-search text-caps button">{% filter ak_text:'event_search_label_submit' %}Search{% endfilter %}</button>
             <ul class="compact hidden" id="ak-errors"></ul>
           </form>
         </div>

@@ -1,0 +1,109 @@
+{% store as whatsapp_share %}{% verbatim %}I just joined the global call to #DrawTheLine — for peace, climate justice, and a world beyond fossil fuels. I'll be taking action in {{ action.event.city }} on {{ action.event.starts_at|date }}. Will you join me? https://drawtheline.world/?event_id={{action.event.id}}&utm_source=whatsapp&utm_medium=referral&utm_campaign=dtlsignupshare&source=whatsapp-share-072025-dtlsignup{% endverbatim %}{% endstore %}
+
+{% store as bluesky_share %}{% verbatim %}I just joined the global call to #DrawTheLine — for peace, climate justice, and a world beyond fossil fuels. I'll be taking action in {{ action.event.city }} on {{ action.event.starts_at|date }}. Will you join me? https://drawtheline.world/?event_id={{action.event.id}}&utm_source=bluesky&utm_medium=referral&utm_campaign=dtlsignupshare&source=bs-share-072025-dtlsignup{% endverbatim %}{% endstore %}
+
+{% store as email_share_subject %}{% verbatim %}Join me and Draw The Line in {{ action.event.city }}{% endverbatim %}{% endstore %}
+
+{% store as email_share_body %}{% verbatim %}I just joined the global call to #DrawTheLine — for peace, climate justice, and a world beyond fossil fuels. I'll be taking action in {{ action.event.city }} on {{ action.event.starts_at|date }}. Will you join me? 
+
+https://drawtheline.world/?event_id={{action.event.id}}&utm_source=email&utm_medium=referral&utm_campaign=dtlsignupshare&source=email-share-072025-dtlsignup
+
+Here are the details:
+{{ action.event.title }}
+{{ action.event.city }}, {{ action.event.state|default:action.event.country }}
+{{ action.event.starts_at|date }}
+
+{{ action.event.description }}
+I hope to see you there!
+{% endverbatim %}{% endstore %}
+
+{% load i18n %}
+{% language page.lang.iso_code %}
+
+<div class="share-buttons-container">
+
+<a style="font-size: 15px; font-family: Averta,Avenir,Gotham,Helvetica,Arial,sans-serif; background-color: #0f81e8; border-top: 1px solid #0F81E8; border-bottom: 2px solid #0F81E8; color: white; margin: 4px 4px; text-align: center; text-decoration: none; padding: 14px 5px 13px; font-weight: bold; display: inline-flex; letter-spacing: 0px; border-radius: 0; text-transform: uppercase;" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//drawtheline.world/?lang={{ page.lang.iso_code }}&event_id={{action.event.id}}&utm_source=facebook%26utm_medium=referral%26utm_campaign=dtlsignupshare%26source=fb-share-072025-dtlsignup" target="_blank" rel="noopener">{% filter ak_text:"general_share_on_fb" %}Share on Facebook{% endfilter %}</a>
+
+<a class="whatsapp-share-btn" style="font-size: 15px; font-family: Averta,Avenir,Gotham,Helvetica,Arial,sans-serif; background-color: #80ffb3; border-top: 1px solid #80FFB3; border-bottom: 2px solid #80FFB3; color: black; margin: 4px 4px; text-align: center; text-decoration: none; padding: 14px 5px 13px; font-weight: bold; display: inline-flex; letter-spacing: 0px; border-radius: 0; text-transform: uppercase;" href="https://api.whatsapp.com/send?text={% if page.custom_fields.event_share_whatsapp %}{% include_tmpl page.custom_fields.event_share_whatsapp urlencode %}{% else %}{% include_tmpl whatsapp_share urlencode %}{% endif %}" target="_blank" rel="noopener">{% filter ak_text:"general_share_on_whatsapp" %}Share on WhatsApp{% endfilter %}</a>
+
+<a class="email-share-btn" style="font-size: 15px; font-family: Averta,Avenir,Gotham,Helvetica,Arial,sans-serif; background-color: #1f1f1f; border-top: 1px solid #1F1F1F; border-bottom: 2px solid #1F1F1F; color: white; margin: 4px 4px; text-align: center; text-decoration: none; padding: 14px 5px 13px; font-weight: bold; display: inline-flex; letter-spacing: 0px; border-radius: 0; text-transform: uppercase;" href="mailto:?subject={% if page.custom_fields.event_share_email_subject %}{% include_tmpl page.custom_fields.event_share_email_subject urlencode %}{% else %}{% include_tmpl email_share_subject urlencode %}{% endif %}&body={% if page.custom_fields.event_share_email_body %}{% include_tmpl page.custom_fields.event_share_email_body urlencode %}{% else %}{% include_tmpl email_share_body urlencode %}{% endif %}">{% filter ak_text:"general_share_on_email" %}Share on Email{% endfilter %}</a>
+
+<a style="font-size: 15px; font-family: Averta,Avenir,Gotham,Helvetica,Arial,sans-serif; background-color: #1fb2fb; border-top: 1px solid #1FB2FB; border-bottom: 2px solid #1FB2FB; color: white; margin: 4px 4px; text-align: center; text-decoration: none; padding: 14px 5px 13px; font-weight: bold; display: inline-flex; letter-spacing: 0px; border-radius: 0; text-transform: uppercase;" href="https://bsky.app/intent/compose?text={% if page.custom_fields.event_share_bluesky %}{% include_tmpl page.custom_fields.event_share_bluesky urlencode %}{% else %}{% include_tmpl bluesky_share urlencode %}{% endif %}" target="_blank">{% filter ak_text:"general_share_on_bluesky" %}Share on Bluesky{% endfilter %}</a></div>
+</div>
+</div>
+
+
+<style><!--
+/* Share section styling */
+#power-up-share-ask-section
+	{text-align: center;}
+
+.arrow {
+  position: absolute;
+  bottom: -25px; /* Adjust the positioning of the arrow */
+  right: 35%;
+  display: none;
+}
+
+
+.share-buttons-container {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.share-buttons-container a {
+  display: grid;
+  place-content: center;
+}
+	
+
+</style>
+
+<!--
+<script>
+  jQuery(document).ready(function($){
+    $('.email-share-btn').on('click', function(e) {
+      e.preventDefault();
+      var initialShareURL = e.target.href + '&source=draw-the-line-en';
+	  var newTab = window.open('', '_blank');
+      $.ajax({
+        method: 'GET',
+        url: initialShareURL,
+      }).done(function(shareURL) {
+        var mailtoURL = `mailto:?body=${shareURL}`;
+        newTab.location.href = mailtoURL;
+      }).fail(function() {
+        var mailtoURL = `mailto:?body=${window.location.href}`;
+        newTab.location.href = mailtoURL;
+      });
+    });
+	$('.whatsapp-share-btn').on('click', function(e) {
+		e.preventDefault();
+		var initialShareURL = e.target.href + '&source=draw-the-line-en';
+		var newTab = window.open('', '_blank');
+		$.ajax({
+			method: 'GET',
+			url: initialShareURL,
+		}).done(function(shareURL) {
+			var newURL = 'https://api.whatsapp.com/send?text=' + shareURL;
+			$(e.target).attr('href', newURL);
+			newTab.location.href = newURL;
+			if (newTab) {
+				newTab.focus();
+			}
+		}).fail(function () {
+			var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + window.location.href;
+			newTab.location.href = whatsappShareURL;
+			if (newTab) {
+				newTab.focus();
+			}
+		});
+
+	});
+  });
+</script>
+-->
+
+{% endlanguage %}

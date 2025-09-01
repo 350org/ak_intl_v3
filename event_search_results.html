@@ -42,7 +42,7 @@ event titles, venues, etc., and different choices produce different HTML.
 		<a class="area-link event-link" href="/event/{{ campaign.local_name }}/{{event.id}}/signup/?akid={{args.akid}}&zip={{args.zip}}">
 			<div class="event-info margin-bottom-normal">
 				<p class="event-title text-style-lead3 text-large3 margin-bottom-small">
-					<span class="text-strong text-blue area-link-hover">{% if campaign.use_title and campaign.show_title %} {{ event.title }} {% else %} {{ campaign.title }} {% endif %}</span>
+					<span class="text-strong area-link-hover">{% if campaign.use_title and campaign.show_title %} {{ event.title }} {% else %} {{ campaign.title }} {% endif %}</span>
 				</p>
 				<div class="event-time text-strong">
 			{% if page.lang.iso_code == "en" %}

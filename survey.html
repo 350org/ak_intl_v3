@@ -3,7 +3,7 @@
 {% block content %}
 
 <section id="action-lead" class="section action-lead width-narrow padding-large notch notch-down bg-{% if page.custom_fields.page_background_color %}{{ page.custom_fields.page_background_color }}{% else %}white{% endif %}{% if page.custom_fields.page_background_image %}-fade{% endif %}">
-	<nav class="section padding-small width-full text-small bg-white" id="dtl-nav">
+	<nav class="section padding-small width-full text-small" id="dtl-nav">
 		<div class="section-inner">
 			<a class="tf-logo dtl-nav text-large3" href="https://drawtheline.world/">
 			</a>
@@ -133,6 +133,10 @@
 	.form-style-expanded .survey-q-vertical-spacing.input-radio .radio-item .ak-survey-radio-choice:last-child {
 		margin-bottom: 0;
 		padding-bottom: 0;
+	}
+
+	#action-lead {
+		padding-top: 0;
 	}
 	@media screen and (min-width: 720px) {
 		.form-style-expanded .survey-q-vertical-spacing:not(:first-child),

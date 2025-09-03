@@ -458,12 +458,6 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 
 	{% endif %}
 	{% include "./language_picker.html" %}
-	<nav class="section padding-small width-full text-small" id="dtl-nav">
-		<div class="section-inner">
-			<a class="tf-logo dtl-nav text-large3" href="https://drawtheline.world/">
-			</a>
-		</div>
-	</nav>
 	<script type="text/javascript">
 		actionkit.forms.initPage()
 	</script>
@@ -755,10 +749,6 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		width: 60px;
 	}
 	
-	body.EventSignup, body.ak-pagetype-thanks {
-		background-color: rgb(249, 231, 228);
-	}	
-	
 	.bg-dtl-red, .bg-ltgray {
 		background-color: #ff4122;
 		color: white !important;
@@ -801,6 +791,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	}
 
 	.tf-logo.dtl-nav {
+		background: unset;
 		background-size: 100%;
 		border: none;
 	}

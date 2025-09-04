@@ -802,12 +802,13 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		align-items: center;
 	}
 	.dtl-nav-items {
+		display: flex;
 		margin-left: auto;
 		gap: 10px;
 	}
 	.dtl-nav-items a {
-		display: flex;
-		color: #17292e;
+		display: flex !important;
+		color: #17292e !important;
 		font-size: 1.4rem;
 	}
 	.dtl-nav-items a.dtl-btn {

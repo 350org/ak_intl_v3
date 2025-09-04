@@ -795,6 +795,26 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		background-size: 100% !important;
 		border: none;
 	}
+	.dtl-nav-wrapper {
+		display: flex;
+		max-width: 1448px;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.dtl-nav-items {
+		margin-left: auto;
+		gap: 10px;
+	}
+	.dtl-nav-items a {
+		display: flex;
+		color: #17292e;
+		font-size: 1.4rem;
+	}
+	.dtl-nav-items a.dtl-btn {
+		background-color: #80ffb3;
+		padding: 1.5rem;
+		color: black;
+	}
 	#jump-to-form, .ak-event-search {
 		background-color: black;
 		color: white;

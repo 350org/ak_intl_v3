@@ -794,6 +794,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		background: url("https://payload-cms-dtl.onrender.com/api/media/file/DTL-Red.png") !important;
 		background-size: 100% !important;
 		border: none;
+		background-repeat: no-repeat !important;
 	}
 	.dtl-nav-wrapper {
 		display: flex;
@@ -821,6 +822,18 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		background-color: black;
 		color: white;
 		border-radius: 0;
+	}
+
+	@media screen and (max-width:1024px) {
+		.dtl-nav-items {
+			gap: 0.5rem;
+		}
+		.dtl-nav-items a {
+			font-size: 0.7rem !important
+		}
+		.dtl-nav-items a:first-child {
+			margin-left: 0.5rem;
+		}
 	}
 </style>
 

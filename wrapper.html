@@ -798,7 +798,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	}
 	.dtl-nav-wrapper {
 		display: flex;
-		max-width: 1448px;
+		max-width: 1448px !important;
 		justify-content: space-between;
 		align-items: center;
 	}
@@ -812,6 +812,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		display: flex !important;
 		color: #364153 !important;
 		font-size: 1.4rem !important;
+		border: none;
 	}
 	.dtl-nav-items a.dtl-btn {
 		background-color: #80ffb3;
@@ -829,7 +830,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 			gap: 0.5rem;
 		}
 		.dtl-nav-items a {
-			font-size: 0.7rem !important
+			font-size: 0.8rem !important
 		}
 		.dtl-nav-items a:first-child {
 			margin-left: 0.5rem;

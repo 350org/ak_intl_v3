@@ -520,9 +520,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 				{% else %}
 				&nbsp;&nbsp; <a
 					href="{% filter ak_text:"footer_about_url" %}https://drawtheline.world#about{% endfilter %}">{% filter ak_text:"footer_about" %}About{% endfilter %}</a>
-				/{% ifequal page.type "Donation" %} {% else %} <a
-					href="https://act.350.org/donate/web-draw-the-line">{% filter ak_text:"footer_donate" %}Donate{% endfilter %}</a>
-				/ {% endifequal%}<a id="privacy-link"
+				/<a id="privacy-link"
 					href="{% filter ak_text:"footer_privacy_url" %}https://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a>
 				/ {% if geoip.is_gdpr_country %}
 					<a href="#" onClick="UC_UI.showSecondLayer();">Cookies</a>

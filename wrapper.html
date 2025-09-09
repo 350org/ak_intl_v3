@@ -740,7 +740,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		width: 60px;
 	}
 	#footer-logo {
-		background-image: url("https://payload-cms-dtl.onrender.com/api/media/file/DTL-Black.png") !important;
+		background-image: url("{% filter ak_text:'dtl_footer_logo_url' %}https://payload-cms-dtl.onrender.com/api/media/file/DTL-Black.png{% endfilter %}") !important;
 	}
 	
 	.bg-white .tf-logo {

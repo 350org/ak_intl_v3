@@ -20,30 +20,29 @@
 				<a class="dtl-btn" href="https://drawtheline.world/#map" style="text-transform: uppercase;">
 					{% filter ak_text:"dtl_nav_join_us" %}JOIN US{% endfilter %}
 				</a>
-			</div>	
-		</div>
-		<button
-			class="desktop-hide flex items-center ml-2"
-			id="mobile-menu-toggle"
-			aria-label="Toggle Menu"
-			onclick="document.getElementById('mobile-menu').classList.toggle('translate-x-full');document.getElementById('mobile-menu').classList.toggle('translate-x-0');"
-		>
-			<svg
-				id="hamburger-open"
-				xmlns="http://www.w3.org/2000/svg"
-				class="h-8 w-8 text-black block"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke="currentColor"
-				style="width: 30px;"
+			</div>
+			<button
+				class="desktop-hide flex items-center ml-2"
+				id="mobile-menu-toggle"
+				aria-label="Toggle Menu"
+				onclick="document.getElementById('mobile-menu').classList.toggle('translate-x-full');document.getElementById('mobile-menu').classList.toggle('translate-x-0');"
 			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M4 6h16M4 12h16M4 18h16"></path>
-			</svg>
-		</button>
+				<svg
+					id="hamburger-open"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					style="width: 30px; background: none; border: none;"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M4 6h16M4 12h16M4 18h16"></path>
+				</svg>
+			</button>
+		</div>
 	</nav>
 	<div class="fixed inset-0 bg-white z-40 transition-all duration-300 transform translate-x-full desktop-hide" id="mobile-menu">
     <!-- Close button -->

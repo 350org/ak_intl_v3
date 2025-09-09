@@ -791,7 +791,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	}
 
 	.tf-logo.dtl-nav {
-		background: url("https://payload-cms-dtl.onrender.com/api/media/file/DTL-Red.png") !important;
+		background: url("{% filter ak_text:'dtl_nav_logo_url' %}https://payload-cms-dtl.onrender.com/api/media/file/DTL-Red.png{% endfilter %}") !important;
 		background-size: 100% !important;
 		border: none;
 		background-repeat: no-repeat !important;

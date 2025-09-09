@@ -842,6 +842,13 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
     left: 0;
 	}
 
+	#mobile-menu {
+    --tw-duration: .3s;
+    transition-duration: .3s;
+    transition-property: all;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
 	#mobile-menu a.dtl-btn {
 		background-color: #80ffb3;
 		padding: 12px 24px;

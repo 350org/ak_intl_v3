@@ -23,19 +23,19 @@
     <a class="tf-logo dtl-nav text-large3" href="https://drawtheline.world/">
     </a>
     <div class="display-flex dtl-nav-items">
-      <a href="https://drawtheline.world/#about">
-        ABOUT
-      </a>
-      <a href="https://drawtheline.world/#get-involved">
-        GET INVOLVED
-      </a>
-      <a href="https://drawtheline.world/#faq">
-        FAQ
-      </a>
-      <a class="dtl-btn" href="https://drawtheline.world/#map">
-        JOIN US
-      </a>
-    </div>
+			<a href="https://drawtheline.world/#about" style="text-transform: uppercase;">
+				{% filter ak_text:"dtl_nav_about" %}ABOUT{% endfilter %}
+			</a>
+			<a href="https://drawtheline.world/#get-involved" style="text-transform: uppercase;">
+				{% filter ak_text:"dtl_nav_get_involved" %}GET INVOLVED{% endfilter %}
+			</a>
+			<a href="https://drawtheline.world/#faq" style="text-transform: uppercase;">
+				{% filter ak_text:"dtl_nav_faq" %}FAQ{% endfilter %}
+			</a>
+			<a class="dtl-btn" href="https://drawtheline.world/#map" style="text-transform: uppercase;">
+				{% filter ak_text:"dtl_nav_join_us" %}JOIN US{% endfilter %}
+			</a>
+	</div>
 
   </div>
 </nav>

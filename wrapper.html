@@ -711,11 +711,6 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		color: #ff4122;
 	}
 
-	.bg-white-trans a,
-	.bg-white-trans p {
-		color: #ff4122 !important;
-	}
-
 	.bg-white a:hover, .bg-white.text-color-override a:hover {
 		color: rgba(255, 65, 34, 0.7);
 	}
@@ -761,6 +756,11 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 
 	.bg-dtl-red a, .bg-ltgray a {
 		color: white !important;
+	}
+
+	.bg-white-trans a,
+	.bg-white-trans p {
+		color: #ff4122 !important;
 	}
 	
 	body {

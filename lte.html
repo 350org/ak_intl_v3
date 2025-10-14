@@ -7,7 +7,7 @@
 </div>
 
 <!-- {% include "includes/jquery_ui.html" %} -->
-<script type="text/javascript">
+<script type="text/javascript" justification="custom lettter functionality">
 function toggleChooser(on) {
     var name,
         to_letter = $("#letter_form"),
@@ -159,7 +159,7 @@ Phone Number: [%=mediaTarget.phone%][% } %]">
 } %]
 </script>
 
-<script type="text/javascript">
+<script type="text/javascript" justification="hide letter form">
 $(document).ready(function(){
     $("#letter_form").hide();
 });
@@ -201,12 +201,6 @@ setupTabs();
 setupLabels();
 } %]
 </script>
-<script type="text/javascript">
-$(document).ready(function(){
-
-});
-</script>
-
 
 <input type="hidden" name="page" value="{{ page.name }}">
 </div>

@@ -209,7 +209,7 @@
 	{% endif %}
 
 	{% block css_additions %}{% endblock %}
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" justification="Include JQuery" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script
   src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
@@ -362,7 +362,7 @@
 	</script>
 
 	{% if templateset.custom_fields.site_addl_js_url %}
-	<script type="text/javascript" src="{{ templateset.custom_fields.site_addl_js_url }}"></script>
+	<script type="text/javascript" justification="Include additional JS" src="{{ templateset.custom_fields.site_addl_js_url }}"></script>
 	{% endif %}
 
 	{% if page.custom_fields.page_custom_header_code %}
@@ -562,7 +562,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	{% if page.custom_fields.form_include_college %}
 	{% comment %} Select menu plugin for huge select menus: https://harvesthq.github.com/chosen/ {% endcomment %}
 	<link rel="stylesheet" type="text/css" href="//dbqvwi2zcv14h.cloudfront.net/images/chosen.css" />
-	<script type="text/javascript" src="//dbqvwi2zcv14h.cloudfront.net/images/chosen.js"></script>
+	<script type="text/javascript" justification="Custom Select Box" src="//dbqvwi2zcv14h.cloudfront.net/images/chosen.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function () {
 			jQuery("#user_campus").chosen();

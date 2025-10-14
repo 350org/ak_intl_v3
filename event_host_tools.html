@@ -2,7 +2,7 @@
 {% load actionkit_tags %}
 
 {% block script_additions %}
-<script type="text/javascript">
+<script type="text/javascript" justification="init host tools">
   // Roster toggle-all checkbox
   function toggleSignups() {
     $(this)
@@ -315,7 +315,7 @@ a.cancel-link:hover,
 {% endblock %}
 
 {% block below_form %}
-    <script type="text/javascript">
+    <script type="text/javascript" justification="init AK form">
         actionkit.forms.contextRoot = '/context/';
         actionkit.forms.initTafForm('taf');
     </script>

@@ -2121,4 +2121,9 @@
   });
 </script>
 
+<script>
+  // Script to handle Cloudflare obfuscation
+  const email = String.fromCharCode(100,111,110,97,116,105,111,110,115,1<<6,51,53,48,46,111,114,103);
+  if (actionkit.donations) $('.__cf_email__').closest('a').text(email).attr('href', 'mailto:'+email+'?subject=Question%20about%20donation%20to%20350.org')
+</script>  
 {% endblock %}

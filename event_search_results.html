@@ -113,7 +113,7 @@ event titles, venues, etc., and different choices produce different HTML.
 
 <!-- Gets the 'source' part of the URL query and tacks it on to the end of the href attribute of event links, so partner source info gets passed to individual event pages when a partner links to the general search page -->
 
-<script type="text/javascript">
+<script type="text/javascript" justification="custom tracking functionality">
 $.urlParam = function(name){
 	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
 	if (!results) { return 0; }

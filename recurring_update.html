@@ -101,8 +101,8 @@ $(function() {
 {% endif %}
 {% if profile.payment_processor_information.use_vgs %}
 {% once %}
- <script type="text/javascript" src="https://js.verygoodvault.com/vgs-collect/2.8/vgs-collect.js"></script>
- <script type="text/javascript" src="/resources/ak_vgs.js"></script>
+ <script type="text/javascript" justification="VGS library" src="https://js.verygoodvault.com/vgs-collect/2.8/vgs-collect.js"></script>
+ <script type="text/javascript" justification="VGS library" src="/resources/ak_vgs.js"></script>
 {% endonce %}
 {% endif %}
 {% if profile.payment_processor_information.use_vzero %}
@@ -172,8 +172,8 @@ function initVZeroForForm(form_id, clientToken, is_ach, use_3d_secure, nonce, bi
 {% endif %}
 {% if profile.payment_processor_information.processor == 'stripe' %}
 {% once %}
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-<script type="text/javascript">
+<script type="text/javascript" justification="Stripe library" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript" justification="Stripe functionality">
 $(function() {
     $('[data-stripe-pub-key] [name=card_num]').attr('data-stripe', 'number');
     $('[data-stripe-pub-key] [name=exp_date]').attr('data-stripe', 'exp');
@@ -235,7 +235,7 @@ function onStripeResponse(status, response) {
 {% endif %}
 {% endfor %}
 
-<script type="text/javascript">
+<script type="text/javascript" justification="Bank account validation">
 function valid_bank_account_number(value) {
     return /^\d{4,17}$/.test(value);
 }

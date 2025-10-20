@@ -170,7 +170,7 @@
 {% block tail_js %}
 
 {% if page.custom_fields.custom_single_event_marker_icon_url and page.custom_fields.custom_multiple_event_marker_icon_url %}
-<script type="text/javascript">
+<script type="text/javascript" justification="set map sprite info">
       RAH = {};
       RAH.sprite_url = "{{ page.custom_fields.custom_single_event_marker_icon_url }}";
       RAH.multiple_sprite_url = "{{ page.custom_fields.custom_multiple_event_marker_icon_url }}";
@@ -179,7 +179,7 @@
       RAH.map_center = {};
 </script>
 {% else %}
-<script type="text/javascript">
+<script type="text/javascript" justification="set default map sprite info">
   RAH = {};
   RAH.sprite_url = "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2_hdpi.png";
   RAH.multiple_sprite_url = "https://350-ak-map-assets.netlify.com/images/marker-cluster.png";
@@ -188,10 +188,10 @@
   RAH.map_center = {};
 </script>
 {% endif %}
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc65HgY18lHPM_vjvZS-jgkqpZPwaCDc&sensor=false"></script>
-<script type="text/javascript" src="https://s3.amazonaws.com/s3.350.org/js/map/markerclusterer.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-<script type="text/javascript">
+<script type="text/javascript" justification="Google Maps API" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc65HgY18lHPM_vjvZS-jgkqpZPwaCDc&sensor=false"></script>
+<script type="text/javascript" justification="Maps functionality" src="https://s3.amazonaws.com/s3.350.org/js/map/markerclusterer.js"></script>
+<script justification="date/time functions" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+<script type="text/javascript" justification="Maps functionality">
 
 $.urlParam = function(name){
 	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -313,7 +313,7 @@ function codeAddress(address) {
         });
 }
 </script>
-<script type="text/javascript">
+<script type="text/javascript" justification="Maps functionality">
 window.mapEvents = [
 {% for event in campaign.event_set.all.select_related %}
 {% if not event.is_private %}{% if event.host_is_confirmed and event.status == "active" %}{% if event.is_approved or not campaign.require_staff_approval %}

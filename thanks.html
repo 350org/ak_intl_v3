@@ -198,7 +198,7 @@
 	</script>
 
 {% if page.custom_fields.after_action_next_step == "flow" %}
-	<script type="text/javascript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/afteraction-flow-shared.js"></script>
+	<script type="text/javascript" justification="custom UI" src="https://dbqvwi2zcv14h.cloudfront.net/ak/afteraction-flow-shared.js"></script>
 	{% if action.custom_fields.original_bgimage %}
 	<style>
 	#body-mobile-background {
@@ -616,10 +616,6 @@
 						</label>
 						<button type="submit" class="display-none submit-optin"></button>
 					</form>
-				{% elif user.custom_fields.optin_donate_social_proof == "Y" %}
-					<p class="text-center">
-						In 2025, it is more important than ever that we all come together to fight back — as hard as we can — against the fossil fuel companies, billionaires and right-wing politicians that are wrecking our planet. So thank you for showing your support for the climate movement.
-					</p>
 				{% endif %}
 			</div>
 			<form name="taf" method="POST" action="/update_action/" accept-charset="utf-8">

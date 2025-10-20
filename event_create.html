@@ -480,7 +480,7 @@
             private{% endfilter %})</p>
           {% include "./user_form.html" %}
           {% if update %}
-          <script type="text/javascript">
+          <script type="text/javascript" justification="disable email input">
             $(function () { $('#user-info input[name=email]').attr('disabled', 'disabled') });
           </script>
           {% endif %}
@@ -664,7 +664,7 @@
 </script>
 
 {% if update %}
-<script type="text/javascript">
+<script type="text/javascript" justification="disable email input">
   $(function () {
     $('#user-info input[name=email]').attr('disabled', 'disabled')
   });
@@ -672,7 +672,7 @@
 {% endif %}
 
 
-<script type="text/javascript">
+<script type="text/javascript" justification="custom form functionality">
   var address_fields = [
     'address1', 'address2', 'city', 'state', 'zip', 'postal', 'country'
   ];

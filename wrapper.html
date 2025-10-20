@@ -8,16 +8,16 @@
 	{% include "./350_cookie_banner.html" %}
 
 	<!-- Google Optimise Anti-flicker snippet -->
-	<script>
+	<script justification="Google Tracking code">
 		dataLayer = [];
 	</script>
 	<!-- Anti-flicker snippet (recommended)  -->
-	<style>
+	<style justification="Google Optimise anti-flicker snippet">
 		.async-hide {
 			opacity: 0 !important
 		}
 	</style>
-	<script>
+	<script justification="Google Optimise anti-flicker snippet">
 		(function (a, s, y, n, c, h, i, d, e) {
 			s.className += ' ' + y;
 			h.start = 1 * new Date;
@@ -37,7 +37,7 @@
 
 	{% if page.custom_fields.page_disable_gtm != 'Y' %}
 	<!-- Google Tag Manager -->
-	<script>
+	<script justification="Include Google Tag Manager">
 		(function (w, d, s, l, i) {
 			w[l] = w[l] || [];
 			w[l].push({
@@ -55,8 +55,8 @@
 	</script>
        {% if page.type == "Donation" %}
        <!-- Conversion Funnel Tracking -->
-       <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JDP8BTBJM"></script>
-       <script>
+       <script justification="Conversion Funnel Tracking" async src="https://www.googletagmanager.com/gtag/js?id=G-2JDP8BTBJM"></script>
+       <script justification="Google Tag Manager code">
 	 window.dataLayer = window.dataLayer || [];
 	 function gtag(){dataLayer.push(arguments);}
 	 gtag('js', new Date());
@@ -67,7 +67,7 @@
 	<!-- End Google Tag Manager -->
 	<!-- Start VWO Async SmartCode -->
 	<link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
-	<script type='text/javascript' id='vwoCode'>
+	<script type='text/javascript' id='vwoCode' justification="Include VWO">
 		window._vwo_code=window._vwo_code || (function() {
 		var account_id=725714,
 		version = 1.5,
@@ -164,10 +164,10 @@
 	<meta name="twitter:site:id" content="{{ templateset.custom_fields.site_url }}" />
 
 	{% block meta_additions %}{% endblock %}
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script justification="Include Recaptcha" src="https://www.google.com/recaptcha/api.js" async defer></script>
 	{% if page.type != "Donation" %}
 	<!-- Mapbox GL Source -->
-	<script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+	<script justification="Include Mapbox" src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
 	<!-- End -->
 	{% endif %}
@@ -211,6 +211,7 @@
 	{% block css_additions %}{% endblock %}
 	<script type="text/javascript" justification="Include JQuery" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script
+	justification="Include JQuery UI"
   src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
   crossorigin="anonymous"></script>
@@ -218,7 +219,7 @@
 		<!--Recaptcha-->
 	   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<!--Timepicker JS-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+	<script justification="Include Timepicker" src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 	<!--[if lte IE 9]>
 	<link href="https://dbqvwi2zcv14h.cloudfront.net/images/ak-v3-ie9.css" rel="stylesheet" type="text/css">
 	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -228,7 +229,7 @@
 
 	{% if page.custom_fields.page_add_regional_fb_pixel %}
 	<!-- Facebook Pixel Code -->
-	<script>
+	<script justification="Include Facebook Pixel">
 		! function (f, b, e, v, n, t, s) {
 			if (f.fbq) return;
 			n = f.fbq = function () {
@@ -338,7 +339,7 @@
 	{% endif %}
 
 	<!-- Hotjar Tracking Code -->
-	<script>
+	<script justification="Include Hotjar">
 		(function (h, o, t, j, a, r) {
 			h.hj = h.hj || function () {
 				(h.hj.q = h.hj.q || []).push(arguments)
@@ -355,7 +356,7 @@
 		})(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
 	</script>
 
-	<script type="text/javascript">
+	<script type="text/javascript" justification="Add ActionKit Template info to Google Tracking">
 		dataLayer.push({
 			'actionKitTemplate': '{{templateset.name}}',
 		});
@@ -554,8 +555,8 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	</footer>
 	{% endif %}
 
-	<script src="https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.js"></script>
-	<script>
+	<script justification="Include custom JavaScript" src="https://dbqvwi2zcv14h.cloudfront.net/ak/ak-v3.js"></script>
+	<script justification="Add variable for embedded AK forms">
 		// JS variable used by crossdomain script to determain folloup url for embedded ak forms
 		var akFollowupPage = "{{ page.followup.url }}";
 		</script>		
@@ -563,7 +564,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	{% comment %} Select menu plugin for huge select menus: https://harvesthq.github.com/chosen/ {% endcomment %}
 	<link rel="stylesheet" type="text/css" href="//dbqvwi2zcv14h.cloudfront.net/images/chosen.css" />
 	<script type="text/javascript" justification="Custom Select Box" src="//dbqvwi2zcv14h.cloudfront.net/images/chosen.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" justification="Add custom select box">
 		jQuery(document).ready(function () {
 			jQuery("#user_campus").chosen();
 		});
@@ -606,7 +607,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 			font-family: "Noto Naskh Arabic", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 		}
 	</style>
-	<script>
+	<script justification="Add custom fonts">
 		WebFontConfig = {
 			custom: {
 				families: ['tf-icons:n7'],
@@ -639,7 +640,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	{% if templateset.custom_fields.font_loading_code_roman %}
 	{{ templateset.custom_fields.font_loading_code_roman }}
 	{% else %}
-	<script>
+	<script justification="Add custom fonts">
 		WebFontConfig = {
 			custom: {
 				families: ['GraphCondensedWeb:n7', 'KlimaWeb:n9', 'tf-icons:n7'],
@@ -662,7 +663,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 			s.parentNode.insertBefore(wf, s);
 		})();
 	</script>
-	<script>
+	<script justification="Set start time">
 		startTime = new Date()
 	</script>
 	{% endif %}
@@ -671,20 +672,20 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	{% endautoescape %}
 
 	{% ifequal page.type "EventCreate" %}
-	<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+	<script justification="Include Tiny MCE library" src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 	{% endifequal %}
 
 	{% block tail_js %}{% endblock %}
 
-	<script type="text/javascript">
+	<script type="text/javascript" justification="Add script for embedded iFrames">
 		if ('parentIFrame' in window) {
 			parentIFrame.sendMessage(window.location.href, "*");
 		}
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.26/dayjs.min.js"></script>
+	<script justification="Include DayJS library to parse dates" src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.26/dayjs.min.js"></script>
 	<div id="body-mobile-background" class="bg-{{ page.custom_fields.page_background_color }}"></div>
 	{% block scripts %}
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+	<script justification="Include MomentJS library to parse dates" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 
 	<!-- scripts to all be moved here. -->
 	{% endblock %}

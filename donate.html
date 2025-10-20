@@ -605,7 +605,7 @@
                     </div>
                     {% endif %}
 
-                    <script>
+                    <script justification="Custom script to select currency based on query params">
                       // Select currency in AK currency switcher if query param `currency` is passed through in URL
                       $(function() {
                         function urlParam(name){
@@ -637,7 +637,7 @@
                               onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
                               id="ak-other-amount-field" class="text-font-display" name="amount_other" size="3">
                           </label>
-                          <script>
+                          <script justification="Measure product impressions">
                             // Measures product impressions
                             dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
                             dataLayer.push({
@@ -665,7 +665,7 @@
                               class="ak-amount-radio-button hidden" name="amount"
                               {% if not args.amount_other and amount == default_amount %}checked{% endif %}>
                           </label>
-                          <script>
+                          <script justification="Measure product impressions">
                             // Measures product impressions
                             dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
                             dataLayer.push({
@@ -692,7 +692,7 @@
 
                   <div id="ak-donation-total-div"></div>
                   <!-- Displays updated donation total based on selection of products/candidate donation amounts -->
-                  <script type="text/ak-template" for="ak-donation-total-div">
+                  <script justification="Display updated donation total" type="text/ak-template" for="ak-donation-total-div">
           [% if (has_products || has_candidates) { %]
             <p class="ak-donation-total ak-donate-area-step-1">
               <label for="amount">Total Amount</label>
@@ -959,7 +959,7 @@
 {% block script_additions %}
 
 {% if page.custom_fields.donate_payment_frequency_above_amounts.strip|lower == 'y' %}
-<script>
+<script justification="Add recurring type selector above donation amounts section">
   $(function () {
     $('#ak-recurring-type').insertBefore('#ak-amount-list');
     $('#ak-recurring-type').addClass('paymenttype-above');
@@ -1006,7 +1006,7 @@
 
 <script type="text/javascript" justification="custom ui" src="https://dbqvwi2zcv14h.cloudfront.net/ak/donate.js"></script>
 
-<script language="javascript">
+<script language="javascript" justification="Custom code for product selection">
 
   $(function () {
     $('input[name="amount"]').on(
@@ -1769,8 +1769,8 @@
   }
 </style>
 {% braintree_js_libs %}
-<script src="/resources/ak_braintree_vzero.js"></script>
-<script>
+<script justification="Include Braintree library" src="/resources/ak_braintree_vzero.js"></script>
+<script justification="Add custom payment functionality">
   $(function () {
     {% if not page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower != 'y' %}
     var form = document.querySelector("#act"),
@@ -1862,7 +1862,7 @@
 {% endwith %}
 
 {% if page.custom_fields.donate_payment_frequency_above_amounts.strip|lower == 'y' %}
-<script>
+<script justification="Add recurring type selector above donation amounts section">
   $(function () {
     $('#ak-recurring-type').insertBefore('#ak-amount-list');
     $('#ak-recurring-type').addClass('paymenttype-above');
@@ -2013,7 +2013,7 @@
 
 </style>
 {% endif %}
-<script>
+<script justification="Add custom script for 'flow' after action step">
   jQuery(document).ready(function($){
     const searchParams = new URLSearchParams(window.location.search);
 
@@ -2121,7 +2121,7 @@
   });
 </script>
 
-<script>
+<script justification="Script to handle Cloudflare obfuscation">
   // Script to handle Cloudflare obfuscation
   $(function() {
   const email = String.fromCharCode(100,111,110,97,116,105,111,110,115,1<<6,51,53,48,46,111,114,103);

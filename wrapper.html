@@ -50,6 +50,7 @@
 			j.async = true;
 			j.src =
 				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			j.justification = "Include Google Tag Manager";
 			f.parentNode.insertBefore(j, f);
 		})(window, document, 'script', 'dataLayer', 'GTM-MNNGDHL');
 	</script>
@@ -626,6 +627,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 				'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
 			wf.type = 'text/javascript';
 			wf.async = 'true';
+			wf.justification = "Add Google Webfont script";
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(wf, s);
 		})();
@@ -659,6 +661,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 				'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
 			wf.type = 'text/javascript';
 			wf.async = 'true';
+			wf.justification = "Add Google Webfont script";
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(wf, s);
 		})();

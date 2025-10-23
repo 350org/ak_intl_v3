@@ -1,10 +1,10 @@
-{% if geoip.is_gdpr_country %}
+{% if geoip.is_gdpr_country or args.load_uc %}
 <!-- BEGIN UserCentrics related code -->
 <link rel="preconnect" href="//app.usercentrics.eu">
 <link rel="preconnect" href="//web.cmp.usercentrics.eu">
 <link rel="preconnect" href="//privacy-proxy.usercentrics.eu">
-<link rel="preload" href="//app.usercentrics.eu/browser-ui/latest/loader.js" as="script">
-<link rel="preload" href="//privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js" as="script">
+<link rel="preload" nonce="{{nonce}}" href="//app.usercentrics.eu/browser-ui/latest/loader.js" as="script">
+<link rel="preload" nonce="{{nonce}}" href="//privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js" as="script">
 <script id="usercentrics-cmp" src="https://web.cmp.usercentrics.eu/ui/loader.js" data-settings-id="AcMHYQUX2Y80Au" async></script>
 <script type="application/javascript" src="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js"></script>
 <script justification="Add Usercentrics script">

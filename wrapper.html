@@ -50,7 +50,7 @@
 			j.async = true;
 			j.src =
 				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-			j.justification = "Include Google Tag Manager";
+			j.setAttribute("justification", "Include Google Tag Manager");
 			f.parentNode.insertBefore(j, f);
 		})(window, document, 'script', 'dataLayer', 'GTM-MNNGDHL');
 	</script>
@@ -368,9 +368,7 @@
 	{% endif %}
 
 	{% if page.custom_fields.page_custom_header_code %}
-	{% autoescape off %}
-	{{ page.custom_fields.page_custom_header_code }}
-	{% endautoescape %}
+	{% include_tmpl page.custom_fields.page_custom_header_code %}
 	{% endif %}
 
 </head>
@@ -627,7 +625,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 				'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
 			wf.type = 'text/javascript';
 			wf.async = 'true';
-			wf.justification = "Add Google Webfont script";
+			wf.setAttribute("justification", "Add Google Webfont script");
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(wf, s);
 		})();
@@ -661,7 +659,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 				'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
 			wf.type = 'text/javascript';
 			wf.async = 'true';
-			wf.justification = "Add Google Webfont script";
+			wf.setAttribute("justification","Add Google Webfont script");
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(wf, s);
 		})();

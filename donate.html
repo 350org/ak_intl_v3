@@ -1452,7 +1452,7 @@
 
   {% if show_paypal or page.custom_fields.donation_only_paypal or page.custom_fields.donation_only_paypal.strip|lower == 'y' %}
 
-  function submit_paypal() {
+  function submit_paypal(event) {
     {% if page.paypal_user_requirements != "none" %}
     {% if page.paypal_user_requirements == "email" %}
     validate_fields = ["email", "privacy"];
@@ -1470,7 +1470,6 @@
                ];
     {% endif %}
 
-    actionkit.donations.skip_cc_validation = true;
     doing_step_validation = true;
     actionkit.forms.validate();
     doing_step_validation = false;
@@ -1494,7 +1493,10 @@
 
     /* and keep submitting */
     checkout_step_track(2, "paypal");
-    return true;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    var form = document.querySelector('#act');
+    form.submit();
     }
 
   function submit_cc() {

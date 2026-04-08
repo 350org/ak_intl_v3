@@ -461,6 +461,12 @@
 			</div>
 
 			<input type="hidden" name="page" value="{{ page.name }}">
+			<input type="hidden" name="action_utm_source" value="{{ args.utm_source }}">
+			<input type="hidden" name="action_utm_campaign" value="{{ args.utm_campaign }}">
+			<input type="hidden" name="action_utm_medium" value="{{ args.utm_medium }}">
+			<input type="hidden" name="action_utm_term" value="{{ args.utm_term }}">
+			<input type="hidden" name="action_utm_content" value="{{ args.utm_content }}">
+			<input type="hidden" name="action_referring_element" value="{{ args.referring_element }}">
 			</div>
 			</form>
 		{% endif %}

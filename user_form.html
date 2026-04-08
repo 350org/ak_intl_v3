@@ -69,6 +69,13 @@
   <input name="action_honey">
 </div>
 
+<input type="hidden" name="action_utm_source" value="{{ args.utm_source }}">
+<input type="hidden" name="action_utm_campaign" value="{{ args.utm_campaign }}">
+<input type="hidden" name="action_utm_medium" value="{{ args.utm_medium }}">
+<input type="hidden" name="action_utm_term" value="{{ args.utm_term }}">
+<input type="hidden" name="action_utm_content" value="{{ args.utm_content }}">
+<input type="hidden" name="action_referring_element" value="{{ args.referring_element }}">
+
   {% if 'country'|is_in:fields %}
   <input type="hidden" name="auto_country" value="1">
   <style type="text/css">

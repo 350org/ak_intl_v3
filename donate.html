@@ -1285,7 +1285,12 @@
 
     // trigger validation on the step we're leaving
     var current_step = $('input[name="ak-donate-step"]:checked').val();
-    validate_step(current_step);
+    
+    // if after-action flow page with FundraiseUp enabled, skip validation
+    var afteraction = '{{ page.custom_fields.after_action_next_step }}';
+    if (afteraction !== 'flow') {
+      validate_step(current_step);
+    }
 
     if (!step_has_errors) {
       show_tick(current_step);
@@ -1729,6 +1734,28 @@
           gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_other_${currency}`});
         }
       });
+
+      window.FundraiseUp.on('donationComplete', function(details) {
+        var currentStep = parseInt($('.donate-lead input[name="ak-donate-step"]:checked').val()) - 1;
+        if (typeof gtag !== 'undefined') {
+          // send google analytics event
+          gtag('event', 'scrolling-signup', {'click_id': `thanksflow_donate_step${currentStep}_continue`});
+        }
+        if ($('.ak-donate-area-step-1').is(':visible')) {
+          $('#action-title').show();
+          $('#action-description').show();
+        } else {
+          $('#action-pretitle').show();
+        }
+        if ($('.ak-donate-area-step-2').is(':visible')) {
+          $('#action-title').hide();
+          $('#action-description').hide();
+        }
+        if ($('.ak-donate-area-step-3').is(':visible')) {
+          $('#action-title').hide();
+          $('#action-description').hide();
+        }
+      });
     });
   {% endif %}
 
@@ -1775,6 +1802,12 @@
       margin: 0px 0 0 3%;
       width: 49%;
     }
+  }
+
+  .fundraiseup-buttons {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
   }
 </style>
 {% braintree_js_libs %}

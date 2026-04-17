@@ -1724,7 +1724,7 @@
         ak_track(`thanksflow_step1_donate_yes_other_${currency}`);
       });
 
-      window.FundraiseUp.on('donationComplete', function(details) {
+      FundraiseUp.on('checkoutClose', function(details) {
         const url = new URL(window.location.href);
         url.pathname = url.pathname.replace('/donate/', '/cms/thanks/');
         window.location.href = url.toString();

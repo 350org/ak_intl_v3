@@ -1723,12 +1723,6 @@
         var currency = getCurrencyCode();
         ak_track(`thanksflow_step1_donate_yes_other_${currency}`);
       });
-
-      FundraiseUp.on('checkoutClose', function(details) {
-        const url = new URL(window.location.href);
-        url.pathname = url.pathname.replace('/donate/', '/cms/thanks/');
-        window.location.href = url.toString();
-      });
     });
   {% endif %}
 
@@ -2057,6 +2051,11 @@
     $('#action_original_page_name').val(origPageName);
     $('#id_city').val(city);
 
+    FundraiseUp.on('checkoutClose', function(details) {
+      var currentPageName = '{{ page.name }}';
+      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}&origBgImage=${origBgImage}`;
+    });
+
     $('#ak-continue-button').on('click', function() {
       var currentStep = parseInt($('.donate-lead input[name="ak-donate-step"]:checked').val()) - 1;
       ak_track(`thanksflow_donate_step${currentStep}_continue`);
@@ -2096,7 +2095,6 @@
     $('.cant-donate').on('click', function() {
       ak_track('thanksflow_step1__donate_no');
       var currentPageName = '{{ page.name }}';
-      var currentQueryParams = window.location.search;
       window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}&origBgImage=${origBgImage}`;
     });
 

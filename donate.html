@@ -619,7 +619,7 @@
                         }
                       });
                     </script>
-
+                    {% if page.custom_fields.after_action_next_step != "flow" %}
                     <div class="ak-amount-wrapper clearfix margin-bottom-small">
                       <h5 class="margin-bottom-normal ak-donate-three-step-hidden">Amount:</h5>
                       <ul class="ak-unstyled nobullet text-large">
@@ -689,6 +689,11 @@
                         {% endfor %}
                       </ul>
                     </div>
+                    {% else %}
+                    <div class="fundraiseup-buttons">
+                      <a href="#XHJDRUNC" style="display: none"></a>
+                    </div>
+                    {% endif %}
                   </div>
 
                   <div id="ak-donation-total-div"></div>

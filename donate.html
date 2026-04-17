@@ -2067,27 +2067,8 @@
       window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}&origBgImage=${origBgImage}`;
     });
 
-    $('#ak-continue-button').on('click', function() {
-      var currentStep = parseInt($('.donate-lead input[name="ak-donate-step"]:checked').val()) - 1;
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': `thanksflow_donate_step${currentStep}_continue`});
-      }
-      if ($('.ak-donate-area-step-1').is(':visible')) {
-        $('#action-title').show();
-        $('#action-description').show();
-      } else {
-        $('#action-pretitle').show();
-      }
-      if ($('.ak-donate-area-step-2').is(':visible')) {
-        $('#action-title').hide();
-        $('#action-description').hide();
-      }
-      if ($('.ak-donate-area-step-3').is(':visible')) {
-        $('#action-title').hide();
-        $('#action-description').hide();
-      }
-    });
+    $('#ak-continue-button').hide();
+    $('#ak-multi-currency').hide();
 
     $('.ak-donate-step').on('click', function() {
       if ($('.ak-donate-area-step-1').is(':visible')) {

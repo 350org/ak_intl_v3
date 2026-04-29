@@ -317,20 +317,29 @@ Custom template for same-page post-AJAX submit share ask.
 	</p>
 
 	<div class="afteraction-donate-amount-container">
-		<a
-			class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=3&source=aa_{{ page.id }}"
-		>$3</a>
-		<a
-			class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=10&source=aa_{{ page.id }}"
-		>$10</a>
-		<a
-			class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
-			href="{% if page.custom_fields.afteraction_donate_alternate_url %}{{ page.custom_fields.afteraction_donate_alternate_url }}{% else %}{% include_tmpl templateset.custom_fields.afteraction_donate_url %}{% endif %}?amount=35&source=aa_{{ page.id }}"
-		>$35</a>
-	</div>
-
+		{% if page.custom_fields.afteraction_donate_alternate_url %}
+			<a class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
+				href="{{ page.custom_fields.afteraction_donate_alternate_url }}?amount=3&source=aa_{{ page.id }}">$3</a>
+			<a class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
+				href="{{ page.custom_fields.afteraction_donate_alternate_url }}?amount=10&source=aa_{{ page.id }}">$10</a>
+			<a class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
+				href="{{ page.custom_fields.afteraction_donate_alternate_url }}?amount=35&source=aa_{{ page.id }}">$35</a>
+		{% elif templateset.custom_fields.disable_fundraiseup == 'Y' %}
+			<a class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large"
+				href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}?amount=3&source=aa_{{ page.id }}">$3</a>
+			<a class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large"
+				href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}?amount=10&source=aa_{{ page.id }}">$10</a>
+			<a class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large"
+				href="{% include_tmpl templateset.custom_fields.afteraction_donate_url %}?amount=35&source=aa_{{ page.id }}">$35</a>
+		{% else %}
+			<a class="afteraction-donate-amount afteraction-donate-amount-1 button margin-bottom-large fu-afteraction-donate-amt"
+				href="?amount=5&source=aa_{{ page.id }}">$5</a>
+			<a class="afteraction-donate-amount afteraction-donate-amount-2 button margin-bottom-large fu-afteraction-donate-amt"
+				href="?amount=10&source=aa_{{ page.id }}">$10</a>
+			<a class="afteraction-donate-amount afteraction-donate-amount-3 button margin-bottom-large fu-afteraction-donate-amt"
+				href="?amount=35&source=aa_{{ page.id }}">$35</a>
+		{% endif %}
+		</div>
 	<div>
 		<a
 			class="afteraction-donate-ask-no button button-alternate"
@@ -759,6 +768,21 @@ jQuery(document).ready(function($){
 						initDonateAmounts.push(parseInt($(this).html().substring(1)));
 					});
 					updateDonateCurrency(userCountry);
+					$('.fu-afteraction-donate-amt').attr('href', function(i, oldHref) {
+						var currUrl = new URL(window.location.href);
+						var oldParams = new URLSearchParams(oldHref);
+						var queryParams = new URLSearchParams(currUrl.search);
+						if (queryParams.get("r") === "CA") {
+							oldParams.set("form", "FUNYEKJXZJF");
+						} else if (queryParams.get("r") === "US") {
+							oldParams.set("form", "FUNHGUXMNTJ");
+						} else if (queryParams.get("r") === "NL") {
+							oldParams.set("form", "FUNSZPAZXLE");
+						} else {
+							oldParams.set("form", "FUNLBGSMNDU");
+						}
+						return '?' + oldParams.toString();
+					});
 					$(document).trigger('domUpdated');
 					$('html, body').animate({
 						scrollTop: afteractionDonateSlide.offset().top

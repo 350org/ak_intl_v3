@@ -672,7 +672,7 @@ jQuery(document).ready(function($){
 					// case when form is embedded and country is not set
 					country = '{{ user.country }}';
 				}
-				const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
+				const skipFundraising = '{{ page.custom_fields.after_action_skip_donate }}';
 				const fbShareEl = $('#afteraction-flow-share .fb-share');
 				const blueskyShareEl = $('#afteraction-flow-share .bluesky-share');
 				const whatsappShareEl = $('#afteraction-flow-share .whatsapp-share');
@@ -685,7 +685,7 @@ jQuery(document).ready(function($){
 				if (whatsappShareEl && whatsappShareEl.length > 0) {
 					whatsappShareEl[0].href += `?action_id=${actionID}&akid=${akid}`;
 				}
-				if (fundraisingRegions.includes(country)) {
+				if (skipFundraising === 'N') {
 					if (typeof gtag !== 'undefined') {
 						// send google analytics event
 						gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });

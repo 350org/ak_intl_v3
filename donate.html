@@ -2078,7 +2078,7 @@
 
     FundraiseUp.on('checkoutClose', function(details) {
       var currentPageName = '{{ page.name }}';
-      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}&origBgImage=${origBgImage}`;
+      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&origBgImage=${origBgImage}`;
     });
 
     $('#ak-continue-button').hide();
@@ -2107,7 +2107,7 @@
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
       }
       var currentPageName = '{{ page.name }}';
-      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}&origBgImage=${origBgImage}`;
+      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&origBgImage=${origBgImage}`;
     });
 
     const step3Div = document.querySelector('.ak-donate-area-step-3.form-style-labelabove');

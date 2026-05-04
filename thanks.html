@@ -259,6 +259,7 @@
 			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
 
 			let isPostDonate = false;
+			const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
 			const country = '{{ user.country }}';
 			const firstName = '{{ user.first_name }}' || urlParams.get('firstName');
 			const origBgImage = urlParams.get('origBgImage');
@@ -268,8 +269,8 @@
 				bgDiv.style.setProperty('background-image', `url('${decodeURIComponent(origBgImage)}')`, 'important');
 			}
 
-			// Render donation form if not already donated
-			if (source === "website") {
+			// Render donation form if in fundraising country and not already donated
+			if (fundraisingRegions.includes(country) && source === "website") {
 				let currentQueryParams = window.location.search;
 				currentQueryParams += `&source=${donateSourceCode}`;
 				window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;

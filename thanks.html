@@ -269,12 +269,8 @@
 				bgDiv.style.setProperty('background-image', `url('${decodeURIComponent(origBgImage)}')`, 'important');
 			}
 
-			// Render donation form if in fundraising country and not already donated
-			if (skipFundraising === 'N' && source === "website") {
-				let currentQueryParams = window.location.search;
-				currentQueryParams += `&source=${donateSourceCode}`;
-				window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
-			} else if (skipFundraising === 'Y' || source === "post-donation-share") {
+			// Render donation form if skip fundraising is not enabled and not already donated
+			if (skipFundraising === 'Y' || source === "post-donation-share") {
 				// Render share ask without editing title
 				if (firstName) {
 					$('.actionFirstName').text(firstName);
@@ -288,6 +284,10 @@
 				$('.ak-donate-step-3').removeClass('hidden');
 				show_share_tick();
 				$('#afteraction-flow-share').show();
+			} else if (skipFundraising === 'N' && source === "website") {
+				let currentQueryParams = window.location.search;
+				currentQueryParams += `&source=${donateSourceCode}`;
+				window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
 			} else if (source != "website") {
 				// Render share ask if post-donation
 				isPostDonate = true;

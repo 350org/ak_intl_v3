@@ -2299,6 +2299,8 @@ img.b-loaded {
   text-indent: -9999px;
   vertical-align: middle;
   width: 1.9em;
+  pointer-events: none;
+  cursor: default;
 }
 
 .bg-white .tf-logo {

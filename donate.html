@@ -694,6 +694,23 @@
                     {% else %}
                     <div class="fundraiseup-buttons">
                       <a href="#XAGBJVUV" id="fu-donate-link" style="display: none"></a>
+                      <div class="fu-skeleton" id="fu-skeleton">
+                        <div class="fu-skeleton-tabs">
+                          <div class="fu-skeleton-tab fu-skeleton-tab--active"></div>
+                          <div class="fu-skeleton-tab"></div>
+                        </div>
+                        <div class="fu-skeleton-heading"></div>
+                        <div class="fu-skeleton-amounts">
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                        </div>
+                        <div class="fu-skeleton-input"></div>
+                        <div class="fu-skeleton-cta"></div>
+                      </div>
                     </div>
                     <script>
                       (function() {
@@ -707,6 +724,31 @@
                         if (link && campaigns[r]) {
                           link.setAttribute('href', campaigns[r]);
                         }
+                      })();
+                    </script>
+                    <script>
+                      (function() {
+                        var skeleton = document.getElementById('fu-skeleton');
+                        if (!skeleton) return;
+                        function hideSkeleton() {
+                          skeleton.style.display = 'none';
+                        }
+                        var observer = new MutationObserver(function(mutations) {
+                          for (var i = 0; i < mutations.length; i++) {
+                            for (var j = 0; j < mutations[i].addedNodes.length; j++) {
+                              if (mutations[i].addedNodes[j] !== skeleton) {
+                                hideSkeleton();
+                                observer.disconnect();
+                                return;
+                              }
+                            }
+                          }
+                        });
+                        observer.observe(skeleton.parentElement, { childList: true, subtree: true });
+                        // setTimeout(function() {
+                        //   hideSkeleton();
+                        //   observer.disconnect();
+                        // }, 8000);
                       })();
                     </script>
                     {% endif %}
@@ -1802,6 +1844,82 @@
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  @keyframes fu-shimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
+
+  .fu-skeleton {
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .fu-skeleton-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .fu-skeleton-tab {
+    flex: 1;
+    height: 38px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
+  }
+
+  .fu-skeleton-tab--active {
+    border: 2px solid #3b82f6;
+    background: linear-gradient(90deg, #dbeafe 25%, #eff6ff 50%, #dbeafe 75%);
+    background-size: 800px 100%;
+  }
+
+  .fu-skeleton-heading {
+    height: 18px;
+    width: 65%;
+    margin: 0 auto 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
+  }
+
+  .fu-skeleton-amounts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .fu-skeleton-amount {
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
+  }
+
+  .fu-skeleton-input {
+    height: 52px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
+  }
+
+  .fu-skeleton-cta {
+    height: 52px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #bfdbfe 25%, #dbeafe 50%, #bfdbfe 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
   }
 </style>
 {% braintree_js_libs %}

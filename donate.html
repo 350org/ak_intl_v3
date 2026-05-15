@@ -1841,7 +1841,12 @@
   }
 
   .fundraiseup-buttons {
-    max-width: 500px;
+    height: 416px;
+    min-height: 416px;
+    max-height: 416px;
+    width: 100%;
+    min-width: 286px;
+    max-width: 376px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -1852,10 +1857,12 @@
   }
 
   .fu-skeleton {
+    height: 100%;
     padding: 16px;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     background: #fff;
+    box-sizing: border-box;
   }
 
   .fu-skeleton-tabs {

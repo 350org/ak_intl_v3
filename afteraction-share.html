@@ -661,22 +661,6 @@ jQuery(document).ready(function($){
 				if (whatsappShareEl && whatsappShareEl.length > 0) {
 					whatsappShareEl[0].href += `?action_id=${actionID}&akid=${akid}`;
 				}
-				if (skipFundraising === 'Y') {
-					$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);
-					show_share_tick();
-					afteractionFlowShare.show();
-					ak_track('thanksflow_step1_nonfundraising', { view_id: 'thanksflow_step1_nonfundraising' });
-					actionLead.hide();
-				} else {
-					ak_track('thanksflow_step1_fundraising_ask', { view_id: 'thanksflow_step1_fundraising_ask' });
-					const pageId = '{{ page.id }}';
-					const donateSourceCode = `aa_${pageId}_thanksflow`;
-					const pageName = '{{ page.name }}';
-					let currentQueryParams = window.location.search;
-					currentQueryParams += `&source=${donateSourceCode}&og_page_name=${pageName}&action_id=${actionID}&akid=${akid}`;
-					const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
-					window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
-				}
 				if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
 					const name = $('#id_name').val().split(' ');
 					const firstName = name[0];
@@ -694,7 +678,24 @@ jQuery(document).ready(function($){
 						city: city,
 						actionID: actionID,
 						pageName: '{{ page.name }}'
-					}
+				}
+				if (skipFundraising === 'Y') {
+					$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);
+					show_share_tick();
+					afteractionFlowShare.show();
+					ak_track('thanksflow_step1_nonfundraising', { view_id: 'thanksflow_step1_nonfundraising' });
+					actionLead.hide();
+				} else {
+					ak_track('thanksflow_step1_fundraising_ask', { view_id: 'thanksflow_step1_fundraising_ask' });
+					const pageId = '{{ page.id }}';
+					const donateSourceCode = `aa_${pageId}_thanksflow`;
+					const pageName = '{{ page.name }}';
+					let currentQueryParams = window.location.search;
+					currentQueryParams += `&source=${donateSourceCode}&og_page_name=${pageName}&action_id=${actionID}&akid=${akid}&firstName=${firstName}`;
+					const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
+					window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
+				}
+				if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
 					const iframe = document.getElementById("donate-iframe");
 					iframe.setAttribute("sandbox", "allow-scripts allow-top-navigation allow-same-origin allow-forms allow-popups");
 					iframe.contentWindow.postMessage(dataToSend);

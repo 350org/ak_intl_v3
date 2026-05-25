@@ -2208,17 +2208,6 @@
       window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&origBgImage=${origBgImage}`;
     });
 
-    const btn = document.querySelector('.fundraiseup-buttons button[type="submit"]');
-    btn.addEventListener('click', function() {
-      FundraiseUp.openCheckout('FUNLBGSMNDU', {
-        supporter: {
-          firstName: '{{ user.first_name }}',
-          lastName: '{{ user.last_name }}',
-          email: '{{ user.email }}'
-        }
-      });
-    });
-
     $('#ak-continue-button').hide();
     $('#ak-multi-currency').hide();
     $('.cant-donate-container').addClass('margin-top-small');

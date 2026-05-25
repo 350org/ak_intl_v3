@@ -286,7 +286,7 @@
 				$('#afteraction-flow-share').show();
 			} else if (skipFundraising === 'N' && source === "website") {
 				let currentQueryParams = window.location.search;
-				currentQueryParams += `&source=${donateSourceCode}`;
+				currentQueryParams += `&source=${donateSourceCode}&firstName=${firstName}`;
 				window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
 			} else if (source != "website") {
 				// Render share ask if post-donation

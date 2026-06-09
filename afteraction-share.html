@@ -274,7 +274,7 @@ Custom template for same-page post-AJAX submit share ask.
 			$('.whatsapp-share').on('click', function(e) {
 				e.preventDefault();
 				// Set Whatsapp Share URL based on response from API
-				var currShareURL = new URL(e.target.href);
+				var currShareURL = new (window.URL)(e.target.href);
 				var getShareURL = '/share/link?type=ot&action_id={{action.id}}&short=1&page_name={{page.name}}';
 				var actionID = currShareURL.searchParams.get('action_id');
 				{% if page.custom_fields.after_action_next_step == "flow" %}
@@ -463,7 +463,7 @@ jQuery(document).ready(function($){
 			}
 		}
 
-		function setFacebookShareURL(responseHTML) {
+		function setFacebookShareLink(responseHTML) {
 			// Set FB Share URL based on response from API
 			var fbShareEl = $(responseHTML).find('a.fb-share');
 			if (fbShareEl.length > 0) {
@@ -479,7 +479,7 @@ jQuery(document).ready(function($){
 			}
 		}
 
-		function setTwitterShareURL(responseHTML) {
+		function setTwitterShareLink(responseHTML) {
 			// Set Twitter Share URL based on response from API
 			var twShareEl = $(responseHTML).find('a.tw-share');
 			if (twShareEl.length > 0) {
@@ -754,8 +754,8 @@ jQuery(document).ready(function($){
 					var responseHTML = document.createElement('html');
 					responseHTML.innerHTML = response;
 
-					setFacebookShareURL(responseHTML);
-					setTwitterShareURL(responseHTML);
+					setFacebookShareLink(responseHTML);
+					setTwitterShareLink(responseHTML);
 				});
 		};
 
@@ -772,7 +772,7 @@ jQuery(document).ready(function($){
 					});
 					updateDonateCurrency(userCountry);
 					$('.fu-afteraction-donate-amt').attr('href', function(i, oldHref) {
-						var currUrl = new URL(window.location.href);
+						var currUrl = new (window.URL)(window.location.href);
 						var oldParams = new URLSearchParams(oldHref);
 						var queryParams = new URLSearchParams(currUrl.search);
 						if (queryParams.get("r") === "CA") {
@@ -853,7 +853,7 @@ jQuery(document).ready(function($){
 					xhr.onreadystatechange = function () {
 						if (xhr.readyState === 4) {
 							if (xhr.status >= 200 && xhr.status < 300) {
-								var responseURL = new URL(xhr.responseURL);
+								var responseURL = new (window.URL)(xhr.responseURL);
 								var params = responseURL.searchParams;
 								var actionID = params.get('action_id');
 								var akid = params.get('akid');

@@ -28,9 +28,13 @@
 					class="highlight bg-dkgray-trans">{% filter ak_text:"flow_share_step_pre_header" %}Complete your support{% endfilter %}</span></p>
 				<h2 id="action-title" class="title3 text-style-title3">
 					<span class="afteraction-share-title {{ page.custom_fields.page_title_style }}">
-						{% filter ak_text:"flow_donate_step_thanks_taking_action" %}
-						Thanks for taking action, <span class="actionFirstName">friend</span>!
-						{% endfilter %}
+						{% if page.custom_fields.flow_donate_step_thanks_taking_action %}
+							{% include_tmpl page.custom_fields.flow_donate_step_thanks_taking_action %}
+						{% else %}
+							{% filter ak_text:"flow_donate_step_thanks_taking_action" %}
+							Thanks for taking action, <span class="actionFirstName">friend</span>!
+							{% endfilter %}
+						{% endif %}
           </span>
 				</h2>
 				<div class="afteraction-share-ask-text margin-bottom-huge">
@@ -80,7 +84,11 @@
 						{% filter ak_text:"flow_final_step_header" %}Find more ways to get involved.{% endfilter %}
 					</span>
 				</h2>
+				{% if page.custom_fields.flow_final_step_paragraph_text %}
 				{% include_tmpl page.custom_fields.flow_final_step_paragraph_text %}
+				{% else %}
+				<p>{% filter ak_text:"flow_final_step_paragraph_text" %}You've proven you're one of our top supporters - check out some of our other campaigns below!{% endfilter %}</p>
+				{% endif %}
 				<a href='#' class="bg-orange more-campaigns button button-large">
 					{% filter ak_text:"flow_final_step_button_text" %}More Campaigns{% endfilter %} >
 				</a>

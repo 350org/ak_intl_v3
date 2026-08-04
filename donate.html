@@ -2205,7 +2205,11 @@
 
     FundraiseUp.on('checkoutClose', function(details) {
       var currentPageName = '{{ page.name }}';
-      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&origBgImage=${origBgImage}`;
+      if (details.donation && details.donation.amount) {
+        window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&action_id=${actionID}&origBgImage=${origBgImage}`;
+      } else {
+        window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&origBgImage=${origBgImage}`;
+      }
     });
 
     $('#ak-continue-button').hide();

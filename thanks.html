@@ -256,7 +256,18 @@
 			var source = '{{ action.source }}' || urlParams.get('source');
 			const pageId = '{{ page.id }}';
 			const donateSourceCode = `aa_${pageId}_thanksflow`;
-			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
+			const pageBgColor = '{{page.custom_fields.page_background_color}}';
+			let donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}';
+
+			if (!donatePageEmbedURL) {
+				if (pageBgColor === 'dkgray_opaque') {
+					donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in-grey';
+				} else if (pageBgColor === 'white_opaque') {
+					donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in-white';
+				} else {
+					donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
+				}
+			}
 
 			let isPostDonate = false;
 			const skipFundraising = '{{ page.custom_fields.after_action_skip_donate }}';

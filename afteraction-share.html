@@ -722,7 +722,18 @@ jQuery(document).ready(function($){
 					const pageName = '{{ page.name }}';
 					let currentQueryParams = window.location.search;
 					currentQueryParams += `&source=${donateSourceCode}&og_page_name=${pageName}&action_id=${actionID}&akid=${akid}&firstName=${firstName}`;
-					const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
+					const pageBgColor = '{{page.custom_fields.page_background_color}}';
+					let donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}';
+
+					if (!donatePageEmbedURL) {
+						if (pageBgColor === 'dkgray_opaque') {
+							donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in-grey';
+						} else if (pageBgColor === 'white_opaque') {
+							donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in-white';
+						} else {
+							donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
+						}
+					}
 					window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
 				}
 				if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {

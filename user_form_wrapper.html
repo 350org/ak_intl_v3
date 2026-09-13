@@ -84,6 +84,28 @@
 <!--<input name="lists" value="{{ page.list.id }}" type="hidden"/>-->
 {% endif %}
 
+<script>
+  jQuery(function(){
+    {% if page.custom_fields.after_action_next_step == "flow" %}
+    jQuery('form#action-form').on('submit', function() {
+      var userOptedIn = false;
+      
+      // Check privacy radio selection
+      var selectedRadio = jQuery('input[name="privacy"]:checked');
+      if (selectedRadio.length && selectedRadio.attr('id') === 'privacy_optin') {
+        userOptedIn = true;
+      }
+      // Check other opt-in methods
+      else if (jQuery('input[name="lists"]:checked').length > 0 || jQuery('input[name="opt_in"]').val() === '1') {
+        userOptedIn = true;
+      }
+      
+      window.gdprOptedIn = userOptedIn ? '1' : '0';
+    });
+    {% endif %}
+  });
+</script>
+
 {% if page.custom_fields.page_region_specific_thank_you_pages %}
 <script>
 	jQuery(function(){

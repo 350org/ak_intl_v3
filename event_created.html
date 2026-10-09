@@ -16,6 +16,7 @@
 </div>
 
 <script type="text/javascript" justification="send iFrame event">
+	sa_event('event_created');
 	jQuery(window).load(function() {
 		if ('parentIFrame' in window) {
       parentIFrame.sendMessage("event_created");

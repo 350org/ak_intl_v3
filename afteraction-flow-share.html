@@ -232,6 +232,7 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
       }
+      sa_event('thanksflow_share_em');
       var initialShareURL = e.target.href + '&source=share-ak-thanksflow-em';
 			var newTab = window.open('', '_blank');
       $.ajax({
@@ -253,6 +254,7 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
       }
+      sa_event('thanksflow_share_bsk');
       var initialShareURL = e.target.href + '&source=share-ak-thanksflow-bsk';
 			var newTab = window.open('', '_blank');
       $.ajax({
@@ -286,6 +288,7 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_other'});
       }
+      sa_event('thanksflow_other');
     });
 
     $('.more-campaigns').on('click', function(e) {
@@ -297,6 +300,7 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_more'});
       }
+      sa_event('thanksflow_more');
       window.open('{% filter ak_text:"flow_final_step_link" %}https://350.org/get-involved{% endfilter %}', "_blank");
     });
 
@@ -305,6 +309,7 @@
         // send google analytics event
         gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
       }
+      sa_event('thanksflow_share_fb');
       show_share_tick();
     });
   });

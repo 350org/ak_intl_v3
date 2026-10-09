@@ -394,4 +394,10 @@ $(window).load(function() {
 });
 </script>
 
+<script justification="Simple Analytics event search tracking">
+	$('#event-search-form').on('submit', function () {
+		sa_event('event_search');
+	});
+</script>
+
 {% endblock %}

@@ -192,8 +192,12 @@
 					}]
 				}
 			});
+			// Simple Analytics conversion (no transaction ID or amount)
+			sa_event('donation_complete', { recurring: {% if action.orderrecurring %}true{% else %}false{% endif %}, currency: '{{ action.order.currency }}' });
 			insertUrlParam('success', 1);
 		}
+	{% else %}
+		sa_event('action_complete');
 	{% endif %}																									
 	</script>
 
@@ -310,6 +314,7 @@
 				// send google analytics event
 				gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
 			}
+			sa_event('thanksflow_step1_fundraising_ask');
 
 			// Add action_id to Facebook share URL
 			const fbShareEl = $('#afteraction-flow-share .fb-share');
@@ -344,6 +349,7 @@
 					// send google analytics event
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
 				}
+				sa_event('thanksflow_share_bsk');
 				if (isPostDonate) {
 					$('#afteraction-flow-share #ak-donate-step-3').prop('checked', true);
 					show_share_tick();
@@ -376,6 +382,7 @@
 				if (typeof gtag !== 'undefined') {
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
 				}
+				sa_event('thanksflow_share_copylink');
 				$.ajax({
 					method: 'GET',
 					url: initialShareURL,
@@ -399,6 +406,7 @@
 					// send google analytics event
 					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
 				}
+				sa_event('thanksflow_share_wa');
 				var newTab = window.open('', '_blank');
 				$.ajax({
 					method: 'GET',

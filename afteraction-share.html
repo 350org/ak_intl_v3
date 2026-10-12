@@ -278,10 +278,7 @@ Custom template for same-page post-AJAX submit share ask.
 				var getShareURL = '/share/link?type=ot&action_id={{action.id}}&short=1&page_name={{page.name}}';
 				var actionID = currShareURL.searchParams.get('action_id');
 				{% if page.custom_fields.after_action_next_step == "flow" %}
-					if (typeof gtag !== 'undefined') {
-						// send google analytics event
-						gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_wa'});
-					}
+					ak_track('thanksflow_share_wa');
 				{% endif %}
 				if (actionID) {
 					getShareURL = '/share/link?type=ot&short=1&page_name={{page.name}}&source=share-ak-thanksflow-wa' + '&action_id=' + actionID;
@@ -531,6 +528,8 @@ jQuery(document).ready(function($){
 				// trigger GA event for successful after action signup
 				dataLayer.push(({'event': 'afterActionSignup'}));
 			}
+			// Simple Analytics (kept separate from the GA block above, which also pushes to dataLayer)
+			if (typeof sa_event !== 'undefined') sa_event('signup');
 			// send FB tracker event
 			if (typeof fbq === "function") {
 				fbq('track', 'CompleteRegistration');
@@ -569,9 +568,7 @@ jQuery(document).ready(function($){
 				var linkButton = e.target;
 				initialShareURL += `&action_id=${actionID}&akid=${akid}`;
 				{% if page.custom_fields.after_action_next_step == "flow" %}
-				if (typeof gtag !== 'undefined') {
-					gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_copylink'});
-				}
+				ak_track('thanksflow_share_copylink');
 				if (!actionID && !akid) {
 					navigator.clipboard.writeText(window.location.href);
 					return;
@@ -595,16 +592,10 @@ jQuery(document).ready(function($){
 				// if user opts to share, show share dialog
 				$('.afteraction-share-ask-yes').on('click', function(){
 					afteractionShowShare(msg);
-					// handle adblockers preventing the loading of Google Analytics library
-					if (typeof gtag !== 'undefined') {
-						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
-					}
+					ak_track('afteraction-share-ask-yes');
 				});
 				$('.afteraction-share-ask-no').on('click', function(){
-					// handle adblockers preventing the loading of Google Analytics library
-					if (typeof gtag !== 'undefined') {
-						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
-					}
+					ak_track('afteraction-share-ask-no');
 				});
 				// if user opts not to share or has completed sharing, show donate ask
 				afteraction.on('click','.afteraction-share-ask-no, .afteraction-share-button', function(){
@@ -614,15 +605,10 @@ jQuery(document).ready(function($){
 				$('.afteraction-donate-amount, .afteraction-donate-ask-yes').on('click', function(){
 					// handle adblockers preventing the loading of Google Analytics library
 
-					if (typeof gtag !== 'undefined') {
-						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-yes'});
-					}
+					ak_track('afteraction-donate-yes');
 				});
 				$('.afteraction-donate-ask-no').on('click', function(){
-					// handle adblockers preventing the loading of Google Analytics library
-					if (typeof gtag !== 'undefined') {
-						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
-					}
+					ak_track('afteraction-donate-no');
 				});
 			} else if (afterActionNextStep === 'scroll-donate') {
 				// show the donate ask
@@ -632,10 +618,7 @@ jQuery(document).ready(function($){
 					// prevent getting redirected to the Get Involved URL
 					e.preventDefault();
 
-					// handle adblockers preventing the loading of Google Analytics library
-					if (typeof gtag !== 'undefined') {
-						gtag('event', 'scrolling-signup', {'click_id': 'afteraction-donate-no'});
-					}
+					ak_track('afteraction-donate-no');
 					var el = $(this);
 					// if user doesn't want to donate, show the share ask
 					afteractionShowShareAsk(el);
@@ -643,16 +626,10 @@ jQuery(document).ready(function($){
 					// if user opts to share, show share dialog
 					$('.afteraction-share-ask-yes').on('click', function(){
 						afteractionShowShare(msg);
-						// handle adblockers preventing the loading of Google Analytics library
-						if (typeof gtag !== 'undefined') {
-							gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-yes'});
-						}
+						ak_track('afteraction-share-ask-yes');
 					});
 					$('.afteraction-share-ask-no').on('click', function(){
-						// handle adblockers preventing the loading of Google Analytics library
-						if (typeof gtag !== 'undefined') {
-							gtag('event', 'scrolling-signup', {'click_id': 'afteraction-share-ask-no'});
-						}
+						ak_track('afteraction-share-ask-no');
 						var queryString = window.location.search;
 						window.location.href = getInvolvedURL + queryString;
 					});
@@ -692,10 +669,7 @@ jQuery(document).ready(function($){
 					whatsappShareEl[0].href += `?action_id=${actionID}&akid=${akid}`;
 				}
 				if (fundraisingRegions.includes(country)) {
-					if (typeof gtag !== 'undefined') {
-						// send google analytics event
-						gtag('event', 'scrolling-signup', { 'view_id': 'thanksflow_step1_fundraising_ask' });
-					}
+					ak_track('thanksflow_step1_fundraising_ask', { view_id: 'thanksflow_step1_fundraising_ask' });
 					const pageId = '{{ page.id }}';
 					const donateSourceCode = `aa_${pageId}_thanksflow`;
 					const pageName = '{{ page.name }}';
@@ -707,10 +681,7 @@ jQuery(document).ready(function($){
 					$('#afteraction-flow-share #ak-donate-step-1').prop('checked', true);
 					show_share_tick();
 					afteractionFlowShare.show();
-					if (typeof gtag !== 'undefined') {
-						// send google analytics event
-						gtag('event', 'scrolling-signup',  { 'view_id': 'thanksflow_step1_nonfundraising' });
-					}
+					ak_track('thanksflow_step1_nonfundraising', { view_id: 'thanksflow_step1_nonfundraising' });
 					actionLead.hide();
 				}
 				if ($('#id_name').val() && $('#id_name').val().split(' ').length > 0) {
@@ -819,13 +790,11 @@ jQuery(document).ready(function($){
 			var winLeft = (screen.width / 2) - (popupWidth / 2);
 			window.open( destination , 'new-window-popup', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,resizable=yes,scrollbars=yes,width=' + popupWidth + ',height=' + popupHeight );
 			// send Google Analytics event
-			if (typeof gtag !== 'undefined') {
-				{% if page.custom_fields.after_action_next_step == "flow" %}
-				gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
-				{% else %}
-				gtag('event', 'scrolling-signup', {'click_id': 'share-facebook'});
-				{% endif %}
-			}
+			{% if page.custom_fields.after_action_next_step == "flow" %}
+			ak_track('thanksflow_share_fb');
+			{% else %}
+			ak_track('share-facebook');
+			{% endif %}
 		});
 
 		/* When the main form is submitted... */

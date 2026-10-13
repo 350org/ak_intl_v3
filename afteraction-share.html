@@ -521,15 +521,11 @@ jQuery(document).ready(function($){
 		}
 
 		function onSuccess(msg, actionID, akid) {
-			// handle adblockers preventing the loading of Google Analytics library
+			ak_track('signup');
+			// trigger GA event for successful after action signup (GA-only, so not part of ak_track)
 			if (typeof gtag !== 'undefined') {
-				// send google analytics event
-				gtag('event', 'scrolling-signup', {'click_id': 'signup'});
-				// trigger GA event for successful after action signup
 				dataLayer.push(({'event': 'afterActionSignup'}));
 			}
-			// Simple Analytics (kept separate from the GA block above, which also pushes to dataLayer)
-			if (typeof sa_event !== 'undefined') sa_event('signup');
 			// send FB tracker event
 			if (typeof fbq === "function") {
 				fbq('track', 'CompleteRegistration');

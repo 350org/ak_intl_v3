@@ -4,6 +4,20 @@
 	{% endif %}>
 
 <head>
+	<!-- Simple Analytics: queue events until the script loads, plus page-level metadata (no personal data) -->
+	<script justification="Simple Analytics event queue">
+		window.sa_event = window.sa_event || function () {
+			var a = [].slice.call(arguments);
+			window.sa_event.q ? window.sa_event.q.push(a) : (window.sa_event.q = [a]);
+		};
+		window.sa_metadata = {
+			page_type: "{{ page.type|escapejs }}",
+			page_name: "{{ page.name|escapejs }}",
+			lang: "{{ page.lang.iso_code|default:'en-US'|escapejs }}",
+			layout: "{{ page.custom_fields.page_layout_style|default:'condensed'|escapejs }}"
+		};
+	</script>
+
 	<!-- Usercentrics snippet -->
 	{% include "./350_cookie_banner.html" %}
 

@@ -255,4 +255,14 @@ actionkit.forms.initTafForm('taf');
 
         </script>
 
+<script justification="Simple Analytics RSVP tracking">
+	// Only count arrivals straight from an RSVP submit, not return visits from emails
+	try {
+		if (sessionStorage.getItem('sa_event_rsvp')) {
+			sessionStorage.removeItem('sa_event_rsvp');
+			sa_event('event_rsvp_complete');
+		}
+	} catch (e) {}
+</script>
+
 {% endblock %}

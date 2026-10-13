@@ -305,4 +305,12 @@
 
         </script>
 
+<script justification="Simple Analytics RSVP tracking">
+{% if not update %}
+	// Flag the RSVP submit so the attendee tools page records the completion once
+	$('#id_act').on('submit', function () {
+		try { sessionStorage.setItem('sa_event_rsvp', '1'); } catch (e) {}
+	});
+{% endif %}
+</script>
 {% endblock %}

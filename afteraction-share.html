@@ -522,6 +522,7 @@ jQuery(document).ready(function($){
 
 		function onSuccess(msg, actionID, akid) {
 			ak_track('signup');
+			sa_event('action_complete');
 			// trigger GA event for successful after action signup (GA-only, so not part of ak_track)
 			if (typeof gtag !== 'undefined') {
 				dataLayer.push(({'event': 'afterActionSignup'}));

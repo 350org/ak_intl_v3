@@ -77,6 +77,13 @@
 			if (typeof gtag !== 'undefined') gtag('event', 'scrolling-signup', gaParams || { click_id: name });
 			if (typeof sa_event !== 'undefined') sa_event(name);
 		}
+		// Page-level metadata added to every Simple Analytics page view and event (no personal data)
+		window.sa_metadata = {
+			page_type: "{{ page.type|escapejs }}",
+			page_name: "{{ page.name|escapejs }}",
+			lang: "{{ page.lang.iso_code|default:'en-US'|escapejs }}",
+			layout: "{{ page.custom_fields.page_layout_style|default:'condensed'|escapejs }}"
+		};
 	</script>
 
 	<!-- Start VWO Async SmartCode -->
@@ -714,7 +721,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	<!-- scripts to all be moved here. -->
 	{% endblock %}
 
-	<!-- 100% privacy-first analytics -->  <script async src="https://sa.350.org/latest.js"></script>  <noscript><img src="https://sa.350.org/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+	<!-- 100% privacy-first analytics -->  <script async src="https://sa.350.org/latest.js"></script>  <script async src="https://sa.350.org/auto-events.js"></script>  <noscript><img src="https://sa.350.org/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 
 	</body>
 

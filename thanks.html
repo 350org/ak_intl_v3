@@ -192,8 +192,12 @@
 					}]
 				}
 			});
+			// Simple Analytics conversion (no transaction ID or amount)
+			sa_event('donation_complete', { recurring: {% if action.orderrecurring %}true{% else %}false{% endif %}, currency: '{{ action.order.currency }}' });
 			insertUrlParam('success', 1);
 		}
+	{% else %}
+		sa_event('action_complete');
 	{% endif %}																									
 	</script>
 

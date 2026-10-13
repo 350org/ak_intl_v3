@@ -228,10 +228,7 @@
   jQuery(document).ready(function($){
     $('.email-share').on('click', function(e) {
       e.preventDefault();
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_em'});
-      }
+      ak_track('thanksflow_share_em');
       var initialShareURL = e.target.href + '&source=share-ak-thanksflow-em';
 			var newTab = window.open('', '_blank');
       $.ajax({
@@ -249,10 +246,7 @@
 
     $('.bluesky-share').on('click', function(e) {
       e.preventDefault();
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_bsk'});
-      }
+      ak_track('thanksflow_share_bsk');
       var initialShareURL = e.target.href + '&source=share-ak-thanksflow-bsk';
 			var newTab = window.open('', '_blank');
       $.ajax({
@@ -282,10 +276,7 @@
       show_share_tick();
       $('#afteraction-flow-share .share-container').hide();
       $('#afteraction-flow-share .post-share-container').show();
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_other'});
-      }
+      ak_track('thanksflow_other');
     });
 
     $('.more-campaigns').on('click', function(e) {
@@ -293,18 +284,12 @@
       show_share_tick();
 			$(`#afteraction-flow-share .ak-donate-step-3 input[name="ak-donate-step"]`).prop('checked', true);
       show_share_tick();
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_more'});
-      }
+      ak_track('thanksflow_more');
       window.open('{% filter ak_text:"flow_final_step_link" %}https://350.org/get-involved{% endfilter %}', "_blank");
     });
 
     $('.fb-share').on('click', function(e) {
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_share_fb'});
-      }
+      ak_track('thanksflow_share_fb');
       show_share_tick();
     });
   });

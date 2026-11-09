@@ -714,7 +714,9 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	<!-- scripts to all be moved here. -->
 	{% endblock %}
 
-	<!-- 100% privacy-first analytics -->  <script async src="https://sa.350.org/latest.js"></script>  <noscript><img src="https://sa.350.org/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+	<!-- 100% privacy-first analytics -->
+	<script async data-detect-404="true" src="https://sa.350.org/latest.js"></script>
+	<noscript><img src="https://sa.350.org/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 
 	</body>
 

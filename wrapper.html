@@ -66,6 +66,19 @@
        </script>
        {% endif %}
 	<!-- End Google Tag Manager -->
+
+	<!-- Simple Analytics events: define sa_event() up front as a queue stub so calls are always safe,
+	     even if sa.350.org/latest.js is blocked or fails to load. latest.js (loaded at end of body) flushes the queue. -->
+	<script justification="Simple Analytics events queue + unified ak_track event helper">
+		window.sa_event = window.sa_event || function () { var a = [].slice.call(arguments); window.sa_event.q ? window.sa_event.q.push(a) : window.sa_event.q = [a]; };
+		// Fire one analytics event to GA (when present) and Simple Analytics. Each tag is guarded, matching the existing
+		// gtag calls, so a missing or blocked tag never throws. Pass gaParams to override GA's default { click_id: name }.
+		function ak_track(name, gaParams) {
+			if (typeof gtag !== 'undefined') gtag('event', 'scrolling-signup', gaParams || { click_id: name });
+			if (typeof sa_event !== 'undefined') sa_event(name);
+		}
+	</script>
+
 	<!-- Start VWO Async SmartCode -->
 	<link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
 	<script type='text/javascript' id='vwoCode' justification="Include VWO">
@@ -535,9 +548,9 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 					href="{% filter ak_text:"footer_privacy_url" %}https://350.org/en/privacy{% endfilter %}">{% filter ak_text:"footer_privacy" %}Privacy{% endfilter %}</a>
 				/ {% if geoip.is_gdpr_country %}
 					<a href="#" onClick="UC_UI.showSecondLayer();">Cookies</a>
-					{% else %} 
+					{% else %}
 					<a href="https://www.350.org/cookies">Cookies</a>
-				{% endif %} 
+				{% endif %}
 				/ <a
 					href="{% filter ak_text:"footer_contact_url" %}https://350.org/en/contact/{% endfilter %}">{% filter ak_text:"footer_contact" %}Contact{% endfilter %}</a>
 				{% endif %}
@@ -568,7 +581,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 	<script justification="Add variable for embedded AK forms">
 		// JS variable used by crossdomain script to determain folloup url for embedded ak forms
 		var akFollowupPage = "{{ page.followup.url }}";
-		</script>		
+		</script>
 	{% if page.custom_fields.form_include_college %}
 	{% comment %} Select menu plugin for huge select menus: https://harvesthq.github.com/chosen/ {% endcomment %}
 	<link rel="stylesheet" type="text/css" href="//dbqvwi2zcv14h.cloudfront.net/images/chosen.css" />
@@ -700,6 +713,11 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 
 	<!-- scripts to all be moved here. -->
 	{% endblock %}
-</body>
+
+	<!-- 100% privacy-first analytics -->
+	<script async data-detect-404="true" src="https://sa.350.org/latest.js"></script>
+	<noscript><img src="https://sa.350.org/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+
+	</body>
 
 </html><!-- one more test for cache awesomeness -->

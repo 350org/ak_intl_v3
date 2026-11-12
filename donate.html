@@ -1700,28 +1700,17 @@
 	{% if page.custom_fields.after_action_next_step == "flow" %}
     $(function () {
       $('.ak-submit-button').on('click', function(e) {
-        if (typeof gtag !== 'undefined') {
-          // send google analytics event
-          gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_donate_step3_submit'});
-        }
+        ak_track('thanksflow_donate_step3_submit');
       });
       $('.ak-amount-radio-button').on('click', function(e) {
-        if (typeof gtag !== 'undefined') {
-          var currencyValue = $('#ak-currency-switcher').val();
-          var currency = getCurrencyCode();
-          var amount = e.target.value;
-          // send google analytics event
-          gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_${amount}_${currency}`});
-        }
+        var currency = getCurrencyCode();
+        var amount = e.target.value;
+        ak_track(`thanksflow_step1_donate_yes_${amount}_${currency}`);
       });
 
       $('#ak-other-amount-container').on('click', function() {
-        if (typeof gtag !== 'undefined') {
-          var currencyValue = $('#ak-currency-switcher').val();
-          var currency = getCurrencyCode();
-          // send google analytics event
-          gtag('event', 'scrolling-signup', {'click_id': `thanksflow_step1_donate_yes_other_${currency}`});
-        }
+        var currency = getCurrencyCode();
+        ak_track(`thanksflow_step1_donate_yes_other_${currency}`);
       });
     });
   {% endif %}
@@ -2047,10 +2036,7 @@
 
     $('#ak-continue-button').on('click', function() {
       var currentStep = parseInt($('.donate-lead input[name="ak-donate-step"]:checked').val()) - 1;
-      if (typeof gtag !== 'undefined') {
-        // send google analytics event
-        gtag('event', 'scrolling-signup', {'click_id': `thanksflow_donate_step${currentStep}_continue`});
-      }
+      ak_track(`thanksflow_donate_step${currentStep}_continue`);
       if ($('.ak-donate-area-step-1').is(':visible')) {
         $('#action-title').show();
         $('#action-description').show();
@@ -2085,9 +2071,7 @@
     });
 
     $('.cant-donate').on('click', function() {
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'scrolling-signup', {'click_id': 'thanksflow_step1__donate_no'});
-      }
+      ak_track('thanksflow_step1__donate_no');
       var currentPageName = '{{ page.name }}';
       var currentQueryParams = window.location.search;
       window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}&origBgImage=${origBgImage}`;

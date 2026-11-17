@@ -71,10 +71,13 @@
 	     even if sa.350.org/latest.js is blocked or fails to load. latest.js (loaded at end of body) flushes the queue. -->
 	<script justification="Simple Analytics events queue + unified ak_track event helper">
 		window.sa_event = window.sa_event || function () { var a = [].slice.call(arguments); window.sa_event.q ? window.sa_event.q.push(a) : window.sa_event.q = [a]; };
-		// Fire one analytics event to GA (when present) and Simple Analytics. Each tag is guarded, matching the existing
-		// gtag calls, so a missing or blocked tag never throws. Pass gaParams to override GA's default { click_id: name }.
+		// Push an ak_track event to the GTM dataLayer; GTM sends it to GA4 as scrolling_signup.
+		// Also fires Simple Analytics. Pass gaParams to override the default { click_id: name }.
 		function ak_track(name, gaParams) {
-			if (typeof gtag !== 'undefined') gtag('event', 'scrolling-signup', gaParams || { click_id: name });
+			var p = gaParams || { click_id: name };
+			window.dataLayer = window.dataLayer || [];
+			dataLayer.push({ event: 'ak_track', ak_event_name: 'scrolling_signup',
+			                 ak_click_id: p.click_id, ak_view_id: p.view_id });
 			if (typeof sa_event !== 'undefined') sa_event(name);
 		}
 	</script>

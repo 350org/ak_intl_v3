@@ -2,14 +2,9 @@
 Custom template for same-page post-AJAX submit share ask.
 {% endcomment %}
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-V7QV8EHFVY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-V7QV8EHFVY');
 </script>
 
 <!-- {{page}} -->
@@ -519,10 +514,9 @@ jQuery(document).ready(function($){
 
 		function onSuccess(msg, actionID, akid) {
 			ak_track('signup');
-			// trigger GA event for successful after action signup (GA-only, so not part of ak_track)
-			if (typeof gtag !== 'undefined') {
-				dataLayer.push(({'event': 'afterActionSignup'}));
-			}
+			// GTM event: fires the Google Ads lead tags (After Action Signup trigger)
+			window.dataLayer = window.dataLayer || [];
+			dataLayer.push({'event': 'afterActionSignup'});
 			// send FB tracker event
 			if (typeof fbq === "function") {
 				fbq('track', 'CompleteRegistration');

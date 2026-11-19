@@ -7,34 +7,6 @@
 	<!-- Usercentrics snippet -->
 	{% include "./350_cookie_banner.html" %}
 
-	<!-- Google Optimise Anti-flicker snippet -->
-	<script justification="Google Tracking code">
-		dataLayer = [];
-	</script>
-	<!-- Anti-flicker snippet (recommended)  -->
-	<style justification="Google Optimise anti-flicker snippet">
-		.async-hide {
-			opacity: 0 !important
-		}
-	</style>
-	<script justification="Google Optimise anti-flicker snippet">
-		(function (a, s, y, n, c, h, i, d, e) {
-			s.className += ' ' + y;
-			h.start = 1 * new Date;
-			h.end = i = function () {
-				s.className = s.className.replace(RegExp(' ?' + y), '')
-			};
-			(a[n] = a[n] || []).hide = h;
-			setTimeout(function () {
-				i();
-				h.end = null
-			}, c);
-			h.timeout = c;
-		})(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {
-			'GTM-K5CC87Q7': true
-		});
-	</script>
-
 	{% if page.custom_fields.page_disable_gtm != 'Y' %}
 	<!-- Google Tag Manager -->
 	<script justification="Include Google Tag Manager">
@@ -85,6 +57,12 @@
 	<!-- Start VWO Async SmartCode -->
 	<link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
 	<script type='text/javascript' id='vwoCode' justification="Include VWO">
+		// Consent-gated. Where a banner shows, consent is known only after Usercentrics
+		// loads, so VWO starts late and skips its own page-hiding (it needs
+		// document.currentScript): a test may briefly show the original first.
+		// pageLoadOnly: consent given on this page applies from the next page, so a
+		// test never changes a page the visitor is already reading.
+		loadWithConsent('Visual Website Optimizer (VWO)', function () {
 		window._vwo_code=window._vwo_code || (function() {
 		var account_id=725714,
 		version = 1.5,
@@ -96,6 +74,7 @@
 		hide_element_style = 'opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important',
 		/* DO NOT EDIT BELOW THIS LINE */
 		f=false,w=window,d=document,vwoCodeEl=d.querySelector('#vwoCode'),code={use_existing_jquery:function(){return use_existing_jquery},library_tolerance:function(){return library_tolerance},hide_element_style:function(){return'{'+hide_element_style+'}'},finish:function(){if(!f){f=true;var e=d.getElementById('_vis_opt_path_hides');if(e)e.parentNode.removeChild(e)}},finished:function(){return f},load:function(e){var t=d.createElement('script');t.fetchPriority='high';t.src=e;t.type='text/javascript';t.onerror=function(){_vwo_code.finish()};d.getElementsByTagName('head')[0].appendChild(t)},getVersion:function(){return version},getMatchedCookies:function(e){var t=[];if(document.cookie){t=document.cookie.match(e)||[]}return t},getCombinationCookie:function(){var e=code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);e=e.map(function(e){try{var t=decodeURIComponent(e);if(!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)){return''}return t}catch(e){return''}});var i=[];e.forEach(function(e){var t=e.match(/([\d,]+)/g);t&&i.push(t.join('-'))});return i.join('|')},init:function(){if(d.URL.indexOf('__vwo_disable__')>-1)return;w.settings_timer=setTimeout(function(){_vwo_code.finish()},settings_tolerance);var e=d.currentScript,t=d.createElement('style'),i=e&&!e.async?hide_element?hide_element+'{'+hide_element_style+'}':'':code.lA=1,n=d.getElementsByTagName('head')[0];t.setAttribute('id','_vis_opt_path_hides');vwoCodeEl&&t.setAttribute('nonce',vwoCodeEl.nonce);t.setAttribute('type','text/css');if(t.styleSheet)t.styleSheet.cssText=i;else t.appendChild(d.createTextNode(i));n.appendChild(t);var o=this.getCombinationCookie();this.load('https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&f='+ +is_spa+'&vn='+version+(o?'&c='+o:''));return settings_timer}};w._vwo_settings_timer = code.init();return code;}());
+		}, { pageLoadOnly: true });
 	</script>
 	<!-- End VWO Async SmartCode -->
 	{% endif %}
@@ -241,7 +220,7 @@
 	<link href="https://dbqvwi2zcv14h.cloudfront.net/images/ak-v3-ie9.css" rel="stylesheet" type="text/css">
 	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
 	<script src="https://dbqvwi2zcv14h.cloudfront.net/images/respond.js"></script>
-<![endif]-->
+	<![endif]-->
 	{% block script_additions %}{% endblock %}
 
 	{% if page.custom_fields.page_add_regional_fb_pixel %}
@@ -354,24 +333,6 @@
 	<!-- End Facebook Pixel Code -->
 
 	{% endif %}
-
-	<!-- Hotjar Tracking Code -->
-	<script justification="Include Hotjar">
-		(function (h, o, t, j, a, r) {
-			h.hj = h.hj || function () {
-				(h.hj.q = h.hj.q || []).push(arguments)
-			};
-			h._hjSettings = {
-				hjid: 1573381,
-				hjsv: 6
-			};
-			a = o.getElementsByTagName('head')[0];
-			r = o.createElement('script');
-			r.async = 1;
-			r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-			a.appendChild(r);
-		})(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-	</script>
 
 	<script type="text/javascript" justification="Add ActionKit Template info to Google Tracking">
 		dataLayer.push({

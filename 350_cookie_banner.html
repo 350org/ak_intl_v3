@@ -1,9 +1,78 @@
+{% comment %}
+Usercentrics consent management — included first in wrapper.html <head>.
+
+Keep id="usercentrics-cmp" on the loader script: GTM-K5CC87Q7 checks for
+that element on gtm.init and, when it is missing, fires its "no banner" tags
+(Google tag, Conversion Linker, Meta).
+
+loadWithConsent(service, load, options) is defined in both branches; it gates
+the scripts Usercentrics does not block itself (VWO in wrapper.html).
+{% endcomment %}
+<script justification="Initialise the GTM dataLayer">
+  window.dataLayer = window.dataLayer || [];
+</script>
 {% if geoip.is_gdpr_country or args.load_uc %}
 <!-- BEGIN UserCentrics related code -->
+<script justification="Consent Mode v2 defaults">
+  // 1. Consent Mode v2 defaults — must run before GTM. Usercentrics sends the
+  //    update (Google Consent Mode is enabled in AelB3mtRNvAY5D).
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 2000
+  });
+</script>
+<script justification="Consent gate for scripts Usercentrics does not block">
+  // 2. loadWithConsent(service, load, options) runs `load` once Usercentrics
+  //    reports consent for `service` — the service name exactly as Usercentrics
+  //    sends it in its ucEvent / consent_status payload (the same names the
+  //    GTM Data Layer Variables use, e.g. 'Facebook Pixel').
+  //
+  //    ucEvent fires on every page load with the stored choice (the initial
+  //    one is all-denied for a new visitor), and again on Accept / Reject /
+  //    Save. A service Usercentrics does not know never loads: fail closed.
+  //
+  //    options.pageLoadOnly: only honour the choice known when the page
+  //    loaded; consent given later on this page applies from the next page.
+  (function () {
+    var consent = null;
+    var eventsSeen = 0;
+    var waiting = [];
+
+    window.addEventListener('ucEvent', function (event) {
+      consent = event.detail || {};
+      eventsSeen += 1;
+      waiting = waiting.filter(function (entry) {
+        if (entry.pageLoadOnly && eventsSeen > 1) {
+          return false;
+        }
+        if (consent[entry.service] === true) {
+          entry.load();
+          return false;
+        }
+        return true;
+      });
+    });
+
+    window.loadWithConsent = function (service, load, options) {
+      var pageLoadOnly = !!(options && options.pageLoadOnly);
+      if (pageLoadOnly && eventsSeen > 1) {
+        return;
+      }
+      if (consent && consent[service] === true) {
+        load();
+        return;
+      }
+      waiting.push({ service: service, load: load, pageLoadOnly: pageLoadOnly });
+    };
+  })();
+</script>
 <link rel="preconnect" href="//app.usercentrics.eu">
 <link rel="preconnect" href="//web.cmp.usercentrics.eu">
 <link rel="preconnect" href="//privacy-proxy.usercentrics.eu">
-<link rel="preload" nonce="{{nonce}}" href="//app.usercentrics.eu/browser-ui/latest/loader.js" as="script">
 <link rel="preload" nonce="{{nonce}}" href="//privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js" as="script">
 <script justification="Add Usercentrics script" id="usercentrics-cmp" src="https://web.cmp.usercentrics.eu/ui/loader.js" data-settings-id="AelB3mtRNvAY5D" async></script>
 <script justification="Add Usercentrics script" type="application/javascript" src="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js"></script>
@@ -13,11 +82,30 @@ uc.reloadOnOptIn( [
   'BJz7qNsdj-7', // YouTube
   'Hko_qNsui-Q' // reCAPTCHA v3
 ] );
-// deactivate blocking for critial resources
+// deactivate blocking for critical resources
 uc.deactivateBlocking( [
-  'BJ59EidsWQ', // Google Tag Manager
+  'BJ59EidsWQ', // Google Tag Manager — safe only because of the defaults above
   'gIwEsybsHImyP9' // Actionkit
 ] );
 </script>
 <!-- END UserCentrics related code -->
+{% else %}
+<script justification="Consent Mode v2 defaults: no banner in this country">
+  // No banner here. Say so to Google explicitly (granted) rather than leaving
+  // consent "not set". Safe to decide on the server: act.350.org pages are not
+  // edge-cached (cf-cache-status: DYNAMIC), so each visitor gets their own
+  // country's render.
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'granted',
+    analytics_storage: 'granted',
+    ad_user_data: 'granted',
+    ad_personalization: 'granted'
+  });
+</script>
+<script justification="Consent gate: no banner in this country">
+  // Nothing gates these scripts here (the same policy GTM applies when
+  // #usercentrics-cmp is absent).
+  window.loadWithConsent = function (service, load) { load(); };
+</script>
 {% endif %}

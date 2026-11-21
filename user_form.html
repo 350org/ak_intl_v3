@@ -76,16 +76,16 @@
 <input type="hidden" name="action_utm_content" value="{{ args.utm_content }}">
 <input type="hidden" name="action_referring_element" value="{{ args.referring_element }}">
 
-  {% if 'country'|is_in:fields %}
-  <input type="hidden" name="auto_country" value="1">
-  <style type="text/css">
-    /* Ensure that, if there's no JavaScript, the global-friendly fields show
-     * rather than the US-only ones */
-    #id_zip_box, #id_state_box { display: none; }
-  </style>
-  {% else %}
-  <input type="hidden" name="country" value="United States">
-  {% endif %}
+{% if 'country'|is_in:fields %}
+<input type="hidden" name="auto_country" value="1">
+<style type="text/css">
+	/* Ensure that, if there's no JavaScript, the global-friendly fields show
+		* rather than the US-only ones */
+	#id_zip_box, #id_state_box { display: none; }
+</style>
+{% else %}
+<input type="hidden" name="country" value="United States">
+{% endif %}
 {% endfilter %}
 
 {% if page.custom_fields.form_include_phone %}

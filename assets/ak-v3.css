@@ -5683,6 +5683,12 @@ a.bg-blue:hover {
   color: rgba(255, 255, 255, 0.75);
 }
 
+/* Language switcher: keep hover text white over its dark hover background
+   (the _opaque link hover above would fade it to 30%) */
+#language-nav:is(.bg-dkgray_opaque, .bg-blue_opaque) .menu a:hover {
+  color: #fff;
+}
+
 :is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) .bg-white_opaque a,
 :is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) .bg-white_opaque .text-color-override a,
 :is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) .bg-white_opaque-fade a,

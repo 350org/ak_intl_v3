@@ -419,7 +419,7 @@
 					}
 				}).fail(function () {
 					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + window.location.href;
-					newTab.location.href = newURL;
+					newTab.location.href = whatsappShareURL;
 					if (newTab) {
 						newTab.focus();
 					}

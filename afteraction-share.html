@@ -551,8 +551,11 @@ jQuery(document).ready(function($){
 			// Add action_id to Email button URL
 			var emailBtn = $('.email-share');
 			for (var i = 0; i < emailBtn.length; i++) {
-				var emailLink = emailBtn[0];
+				var emailLink = emailBtn[i];
 				emailLink.href += `&action_id=${actionID}`;
+			}
+			if (window.prepareEmailShare) {
+				window.prepareEmailShare();
 			}
 
 			$('.copy-link-share').on('click', function (e) {

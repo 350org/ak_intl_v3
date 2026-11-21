@@ -341,9 +341,10 @@
 			// Add action_id to Email button URL
 			var emailBtns = $('.email-share');
 			for (var i = 0; i < emailBtns.length; i++) {
-				var emailLink = emailBtns[0];
+				var emailLink = emailBtns[i];
 				emailLink.href += `&action_id=${actionID}&page=${origPageName}`;
 			}
+			window.prepareEmailShare();
 
 			// Add action_id to Bluesky URL
 			var blueskyBtns = $('.bluesky-share');

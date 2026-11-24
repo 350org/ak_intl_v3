@@ -696,8 +696,6 @@ jQuery(document).ready(function($){
 					const pageId = '{{ page.id }}';
 					const donateSourceCode = `aa_${pageId}_thanksflow`;
 					const pageName = '{{ page.name }}';
-					let currentQueryParams = window.location.search;
-					currentQueryParams += `&source=${donateSourceCode}&og_page_name=${pageName}&action_id=${actionID}&akid=${akid}&firstName=${encodeURIComponent(firstName)}`;
 					const pageBgColor = '{{page.custom_fields.page_background_color}}';
 					let donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}';
 
@@ -710,7 +708,22 @@ jQuery(document).ready(function($){
 							donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
 						}
 					}
-					window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
+					// Build with URL so the query string always starts with '?', even when
+					// this page was loaded without one, and values are encoded.
+					const donateURL = new URL(donatePageEmbedURL, window.location.origin);
+					new URLSearchParams(window.location.search).forEach(function(value, key) {
+						donateURL.searchParams.set(key, value);
+					});
+					donateURL.searchParams.set('source', donateSourceCode);
+					donateURL.searchParams.set('og_page_name', pageName);
+					if (actionID) {
+						donateURL.searchParams.set('action_id', actionID);
+					}
+					if (akid) {
+						donateURL.searchParams.set('akid', akid);
+					}
+					donateURL.searchParams.set('firstName', firstName);
+					window.location.href = donateURL.toString();
 				}
 				const iframe = document.getElementById("donate-iframe");
 				if (dataToSend && iframe) {

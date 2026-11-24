@@ -7,6 +7,11 @@ that element on gtm.init and, when it is missing, fires its "no banner" tags
 
 loadWithConsent(service, load, options) is defined in both branches; it gates
 the scripts Usercentrics does not block itself (VWO in wrapper.html).
+
+wrapper.html calls loadWithConsent unconditionally, so a template set must have
+this version of the file whenever it has that wrapper. If a set renders an
+empty "Usercentrics snippet" block and logs "loadWithConsent is not defined",
+it has a stale copy of this file: re-sync it.
 {% endcomment %}
 <script justification="Initialise the GTM dataLayer">
   window.dataLayer = window.dataLayer || [];

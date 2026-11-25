@@ -2299,6 +2299,8 @@ img.b-loaded {
   text-indent: -9999px;
   vertical-align: middle;
   width: 1.9em;
+  pointer-events: none;
+  cursor: default;
 }
 
 .bg-white .tf-logo {
@@ -5679,6 +5681,15 @@ a.bg-blue:hover {
 
 :is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) a[class*="_opaque"]:not(.bg-white_opaque):hover {
   color: rgba(255, 255, 255, 0.75);
+}
+
+/* Language switcher: keep hover text white over its dark hover background
+   (the _opaque link hover rules above would fade it or turn it navy).
+   The dark hover background only applies from 900px, so match that. */
+@media only screen and (min-width:900px) {
+  #language-nav:is(.bg-dkgray_opaque, .bg-blue_opaque, .bg-white_opaque) .menu a:hover {
+    color: #fff;
+  }
 }
 
 :is(.Signup.afteraction-flow, .Petition.afteraction-flow, .Letter.afteraction-flow, .Donation.afteraction-flow) .bg-white_opaque a,

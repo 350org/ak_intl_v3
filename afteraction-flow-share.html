@@ -44,7 +44,7 @@
 						<p>{% filter ak_text:"afteraction_share_ask" %}Will you share this to get more people involved?{% endfilter %}</p>
 					{% endif %}
 				</div>
-				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share copy-link button button-large">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
+				<a href='/share/link?type=ot&short=1' class="bg-orange copy-link-share copy-link button button-large refresh">{% filter ak_text:"general_share_link_copy_button" %}Copy Link{% endfilter %}</a>
 				<div class="share-buttons-container margin-top-large">
 					<div class="afteraction-facebook-share-intro afteraction-share-option-intro margin-bottom-medium">
 						<a class="afteraction-share-button fb-share button-icon bg-facebook-color bg-facebook-icon button-share-facebook" href="/share/link?type=fb&short=1&source=share-ak-thanksflow-fb">
@@ -225,23 +225,45 @@
 </style>
 
 <script>
+  // Email share opens mailto: in the same tab. A new tab (window.open) leaves a blank
+  // tab behind, and on iOS Safari makes the mail app wait behind an "Open in…?" prompt.
+  function emailShareMailto(shareURL) {
+    return 'mailto:?body=' + encodeURIComponent(shareURL);
+  }
+
+  function fetchEmailShareURL(link) {
+    return jQuery.ajax({
+      method: 'GET',
+      url: link.href + '&source=share-ak-thanksflow-em',
+    });
+  }
+
+  // Resolve the share link before the click, so the tap can open the mail app
+  // synchronously. Call this once the .email-share href has its action_id.
+  window.prepareEmailShare = function() {
+    jQuery('.email-share').each(function() {
+      var link = this;
+      fetchEmailShareURL(link).done(function(shareURL) {
+        jQuery(link).data('mailto', emailShareMailto(shareURL));
+      });
+    });
+  };
+
   jQuery(document).ready(function($){
     $('.email-share').on('click', function(e) {
       e.preventDefault();
       ak_track('thanksflow_share_em');
-      var initialShareURL = e.target.href + '&source=share-ak-thanksflow-em';
-			var newTab = window.open('', '_blank');
-      $.ajax({
-        method: 'GET',
-        url: initialShareURL,
-      }).done(function(shareURL) {
-        var mailtoURL = `mailto:?body=${shareURL}`;
-        newTab.location.href = mailtoURL;
+      var mailtoURL = $(this).data('mailto');
+      if (mailtoURL) {
+        window.location.href = mailtoURL;
+        return;
+      }
+      // Share link not resolved yet: fetch it now, still opening in this tab.
+      fetchEmailShareURL(this).done(function(shareURL) {
+        window.location.href = emailShareMailto(shareURL);
       }).fail(function() {
-        var mailtoURL = `mailto:?body=${window.location.href}`;
-        newTab.location.href = mailtoURL;
+        window.location.href = emailShareMailto(window.location.href);
       });
-
     });
 
     $('.bluesky-share').on('click', function(e) {

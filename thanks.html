@@ -7,6 +7,12 @@
 	{% include "./thanks_unsubscribe.html" %}
 {% else %}
 	<style>
+		.button.refresh {
+			border-radius: 4px;
+			flex: 1 1 23%;
+			margin: 1%;
+			padding: 0.7em 0;
+		}
 		.display-none {
 			display: none;
 		}
@@ -250,10 +256,21 @@
 			var source = '{{ action.source }}' || urlParams.get('source');
 			const pageId = '{{ page.id }}';
 			const donateSourceCode = `aa_${pageId}_thanksflow`;
-			const donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}' || 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
+			const pageBgColor = '{{page.custom_fields.page_background_color}}';
+			let donatePageEmbedURL = '{{ page.custom_fields.afteraction_donate_alternate_url }}';
+
+			if (!donatePageEmbedURL) {
+				if (pageBgColor === 'dkgray_opaque') {
+					donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in-grey';
+				} else if (pageBgColor === 'white_opaque') {
+					donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in-white';
+				} else {
+					donatePageEmbedURL = 'https://act.350.org/donate/afteraction-thanks-and-chip-in';
+				}
+			}
 
 			let isPostDonate = false;
-			const fundraisingRegions = ['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'South Africa', 'Japan', 'France', 'Germany'];
+			const skipFundraising = '{{ page.custom_fields.after_action_skip_donate }}';
 			const country = '{{ user.country }}';
 			const firstName = '{{ user.first_name }}' || urlParams.get('firstName');
 			const origBgImage = urlParams.get('origBgImage');
@@ -263,12 +280,8 @@
 				bgDiv.style.setProperty('background-image', `url('${decodeURIComponent(origBgImage)}')`, 'important');
 			}
 
-			// Render donation form if in fundraising country and not already donated
-			if (fundraisingRegions.includes(country) && source === "website") {
-				let currentQueryParams = window.location.search;
-				currentQueryParams += `&source=${donateSourceCode}`;
-				window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
-			} else if (source === "post-donation-share") {
+			// Render donation form if skip fundraising is not enabled and not already donated
+			if (skipFundraising === 'Y' || source === "post-donation-share") {
 				// Render share ask without editing title
 				if (firstName) {
 					$('.actionFirstName').text(firstName);
@@ -282,6 +295,10 @@
 				$('.ak-donate-step-3').removeClass('hidden');
 				show_share_tick();
 				$('#afteraction-flow-share').show();
+			} else if (skipFundraising === 'N' && source === "website") {
+				let currentQueryParams = window.location.search;
+				currentQueryParams += `&source=${donateSourceCode}&firstName=${firstName}`;
+				window.location.href = `${donatePageEmbedURL}${currentQueryParams}`;
 			} else if (source != "website") {
 				// Render share ask if post-donation
 				isPostDonate = true;
@@ -324,9 +341,10 @@
 			// Add action_id to Email button URL
 			var emailBtns = $('.email-share');
 			for (var i = 0; i < emailBtns.length; i++) {
-				var emailLink = emailBtns[0];
+				var emailLink = emailBtns[i];
 				emailLink.href += `&action_id=${actionID}&page=${origPageName}`;
 			}
+			window.prepareEmailShare();
 
 			// Add action_id to Bluesky URL
 			var blueskyBtns = $('.bluesky-share');
@@ -401,7 +419,7 @@
 					}
 				}).fail(function () {
 					var whatsappShareURL = 'https://api.whatsapp.com/send?text=' + window.location.href;
-					newTab.location.href = newURL;
+					newTab.location.href = whatsappShareURL;
 					if (newTab) {
 						newTab.focus();
 					}

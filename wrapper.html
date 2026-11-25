@@ -276,6 +276,8 @@
 			fbq('init', '960998399567137');
 			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 ES' %}
 			fbq('init', '28932143223067254');
+			{% elif page.custom_fields.page_add_regional_fb_pixel == '350 TR' %}
+			fbq('init', '822427305653331');
 			{% endif %}
 			fbq('track', 'PageView');
 	</script>
@@ -366,7 +368,7 @@ class="ak-pagetype-{{ filename|split:'.'|nth:0 }} {{ page.type }} {{page.lang.is
 		<nav id="flow-logo-bar">
 			<div class="flow-logo-wrapper">
 				<span class="text-large2">
-					<a class="tf-logo text-large3" href="{% filter ak_text:"footer_logo_url" %}https://350.org/{% endfilter %}">
+					<a class="tf-logo text-large3" href="#">
 						350.org
 					</a>
 				</span>

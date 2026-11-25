@@ -52,9 +52,11 @@
   }
   #action-header, #donate {
     text-align: left !important;
-    padding: 0 !important;
     margin: 0 !important;
+  }
+  #action-header {
     width: 100%;
+    padding: 0 !important;
   }
   #action-lead .section-inner {
     display: flex;
@@ -444,7 +446,7 @@
           {% endif %}
 
           <div id="action-description"
-            class="{% if page.custom_fields.page_layout_style == 'expanded' %}{% if page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
+            class="{% if page.custom_fields.page_layout_style == 'expanded' %}c5 cm10{% endif %} text-large margin-top-none margin-bottom-huge">
             {% if page.custom_fields.featured_image %}
             <img class="ak-featured-img" src="{{ page.custom_fields.featured_image }}">
             {% endif %}
@@ -464,7 +466,7 @@
 
             {% comment %}The ID "donate" here breaks from normal naming convention so that there's a cleaner appearance
             when using it for anchor linking directly to the form.{% endcomment %}
-            <div id="donate" class="action-form {% if page.custom_fields.after_action_next_step == 'flow' %}c10{% else %}c5{% endif %} ct10 cm10 c-wide margin-top-none">
+            <div id="donate" class="action-form c5 cm10 c-wide margin-top-none">
               <div class="ak-field-box ak-donate-three-step">
                 {% autoescape off %}
                 {% if page.custom_fields.form_text_above_form %}
@@ -619,6 +621,7 @@
                         }
                       });
                     </script>
+                    {% if page.custom_fields.after_action_next_step != "flow" %}
                     <div class="ak-amount-wrapper clearfix margin-bottom-small">
                       <h5 class="margin-bottom-normal ak-donate-three-step-hidden">Amount:</h5>
                       <ul class="ak-unstyled nobullet text-large">
@@ -688,6 +691,67 @@
                         {% endfor %}
                       </ul>
                     </div>
+                    {% else %}
+                    <div class="fundraiseup-buttons">
+                      <a href="#XAGBJVUV" id="fu-donate-link" style="display: none"></a>
+                      <div class="fu-skeleton" id="fu-skeleton">
+                        <div class="fu-skeleton-tabs">
+                          <div class="fu-skeleton-tab fu-skeleton-tab--active"></div>
+                          <div class="fu-skeleton-tab"></div>
+                        </div>
+                        <div class="fu-skeleton-heading"></div>
+                        <div class="fu-skeleton-amounts">
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                          <div class="fu-skeleton-amount"></div>
+                        </div>
+                        <div class="fu-skeleton-input"></div>
+                        <div class="fu-skeleton-cta"></div>
+                      </div>
+                    </div>
+                    <script>
+                      (function() {
+                        var r = new URLSearchParams(window.location.search).get('r');
+                        var campaigns = {
+                          US: '#XAGBJVUV',
+                          CA: '#XAGBJVUV',
+                          NL: '#XECUGTAF'
+                        };
+                        var link = document.getElementById('fu-donate-link');
+                        if (link && campaigns[r]) {
+                          link.setAttribute('href', campaigns[r]);
+                        }
+                      })();
+                    </script>
+                    <script>
+                      (function() {
+                        var skeleton = document.getElementById('fu-skeleton');
+                        if (!skeleton) return;
+                        function hideSkeleton() {
+                          skeleton.style.display = 'none';
+                        }
+                        var observer = new MutationObserver(function(mutations) {
+                          for (var i = 0; i < mutations.length; i++) {
+                            for (var j = 0; j < mutations[i].addedNodes.length; j++) {
+                              if (mutations[i].addedNodes[j] !== skeleton) {
+                                hideSkeleton();
+                                observer.disconnect();
+                                return;
+                              }
+                            }
+                          }
+                        });
+                        observer.observe(skeleton.parentElement, { childList: true, subtree: true });
+                        // setTimeout(function() {
+                        //   hideSkeleton();
+                        //   observer.disconnect();
+                        // }, 8000);
+                      })();
+                    </script>
+                    {% endif %}
                   </div>
 
                   <div id="ak-donation-total-div"></div>
@@ -1279,7 +1343,12 @@
 
     // trigger validation on the step we're leaving
     var current_step = $('input[name="ak-donate-step"]:checked').val();
-    validate_step(current_step);
+    
+    // if after-action flow page with FundraiseUp enabled, skip validation
+    var afteraction = '{{ page.custom_fields.after_action_next_step }}';
+    if (afteraction !== 'flow') {
+      validate_step(current_step);
+    }
 
     if (!step_has_errors) {
       show_tick(current_step);
@@ -1759,6 +1828,95 @@
       width: 49%;
     }
   }
+
+  .fundraiseup-buttons {
+    height: 416px;
+    min-height: 416px;
+    max-height: 416px;
+    width: 100%;
+    min-width: 286px;
+    max-width: 376px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @keyframes fu-shimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
+
+  .fu-skeleton {
+    height: 100%;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  .fu-skeleton-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .fu-skeleton-tab {
+    flex: 1;
+    height: 38px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
+  }
+
+  .fu-skeleton-tab--active {
+    border: 2px solid #3b82f6;
+    background: linear-gradient(90deg, #dbeafe 25%, #eff6ff 50%, #dbeafe 75%);
+    background-size: 800px 100%;
+  }
+
+  .fu-skeleton-heading {
+    height: 18px;
+    width: 65%;
+    margin: 0 auto 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
+  }
+
+  .fu-skeleton-amounts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .fu-skeleton-amount {
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
+  }
+
+  .fu-skeleton-input {
+    height: 52px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
+  }
+
+  .fu-skeleton-cta {
+    height: 52px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #bfdbfe 25%, #dbeafe 50%, #bfdbfe 75%);
+    background-size: 800px 100%;
+    animation: fu-shimmer 1.4s infinite linear;
+  }
 </style>
 {% braintree_js_libs %}
 <script justification="Include Braintree library" src="/resources/ak_braintree_vzero.js"></script>
@@ -2034,24 +2192,18 @@
     $('#action_original_page_name').val(origPageName);
     $('#id_city').val(city);
 
-    $('#ak-continue-button').on('click', function() {
-      var currentStep = parseInt($('.donate-lead input[name="ak-donate-step"]:checked').val()) - 1;
-      ak_track(`thanksflow_donate_step${currentStep}_continue`);
-      if ($('.ak-donate-area-step-1').is(':visible')) {
-        $('#action-title').show();
-        $('#action-description').show();
+    FundraiseUp.on('checkoutClose', function(details) {
+      var currentPageName = '{{ page.name }}';
+      if (details.donation && details.donation.amount) {
+        window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&action_id=${actionID}&origBgImage=${origBgImage}`;
       } else {
-        $('#action-pretitle').show();
-      }
-      if ($('.ak-donate-area-step-2').is(':visible')) {
-        $('#action-title').hide();
-        $('#action-description').hide();
-      }
-      if ($('.ak-donate-area-step-3').is(':visible')) {
-        $('#action-title').hide();
-        $('#action-description').hide();
+        window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&origBgImage=${origBgImage}`;
       }
     });
+
+    $('#ak-continue-button').hide();
+    $('#ak-multi-currency').hide();
+    $('.cant-donate-container').addClass('margin-top-small');
 
     $('.ak-donate-step').on('click', function() {
       if ($('.ak-donate-area-step-1').is(':visible')) {
@@ -2073,8 +2225,7 @@
     $('.cant-donate').on('click', function() {
       ak_track('thanksflow_step1__donate_no');
       var currentPageName = '{{ page.name }}';
-      var currentQueryParams = window.location.search;
-      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&firstName=${firstName}&origBgImage=${origBgImage}`;
+      window.location.href = `/cms/thanks/${currentPageName}/?og_page_name=${origPageName}&source=post-donation-share&action_id=${actionID}&origBgImage=${origBgImage}`;
     });
 
     const step3Div = document.querySelector('.ak-donate-area-step-3.form-style-labelabove');

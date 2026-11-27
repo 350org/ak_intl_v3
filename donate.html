@@ -693,7 +693,7 @@
                     </div>
                     {% else %}
                     <div class="fundraiseup-buttons">
-                      <a href="#XAGBJVUV" id="fu-donate-link" style="display: none"></a>
+                      <a href="#{% if page.custom_fields.fundraiseup_form_id %}{{ page.custom_fields.fundraiseup_form_id|cut:"#"|cut:" " }}{% else %}XAGBJVUV{% endif %}" id="fu-donate-link" style="display: none"></a>
                       <div class="fu-skeleton" id="fu-skeleton">
                         <div class="fu-skeleton-tabs">
                           <div class="fu-skeleton-tab fu-skeleton-tab--active"></div>
@@ -712,13 +712,15 @@
                         <div class="fu-skeleton-cta"></div>
                       </div>
                     </div>
+                    {% if not page.custom_fields.fundraiseup_form_id %}
                     <script>
+                      // Pick the FRU form by region (?r=). US and CA have their own forms; everything else uses Global (default href above).
+                      // Override per page with the fundraiseup_form_id page custom field.
                       (function() {
-                        var r = new URLSearchParams(window.location.search).get('r');
+                        var r = (new URLSearchParams(window.location.search).get('r') || '').toUpperCase();
                         var campaigns = {
-                          US: '#XAGBJVUV',
-                          CA: '#XAGBJVUV',
-                          NL: '#XECUGTAF'
+                          US: '#XJNQAKPC',
+                          CA: '#XBCZJDTJ'
                         };
                         var link = document.getElementById('fu-donate-link');
                         if (link && campaigns[r]) {
@@ -726,6 +728,7 @@
                         }
                       })();
                     </script>
+                    {% endif %}
                     <script>
                       (function() {
                         var skeleton = document.getElementById('fu-skeleton');

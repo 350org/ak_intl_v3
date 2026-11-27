@@ -693,7 +693,7 @@
                     </div>
                     {% else %}
                     <div class="fundraiseup-buttons">
-                      <a href="#{% if page.custom_fields.donate_fundraiseup_form_id %}{{ page.custom_fields.donate_fundraiseup_form_id|cut:"#"|cut:" " }}{% else %}XAGBJVUV{% endif %}" id="fu-donate-link" style="display: none"></a>
+                      <a href="#XAGBJVUV" id="fu-donate-link" style="display: none"></a>
                       <div class="fu-skeleton" id="fu-skeleton">
                         <div class="fu-skeleton-tabs">
                           <div class="fu-skeleton-tab fu-skeleton-tab--active"></div>
@@ -712,7 +712,6 @@
                         <div class="fu-skeleton-cta"></div>
                       </div>
                     </div>
-                    {% if not page.custom_fields.donate_fundraiseup_form_id %}
                     <script>
                       (function() {
                         var r = new URLSearchParams(window.location.search).get('r');
@@ -726,7 +725,6 @@
                         }
                       })();
                     </script>
-                    {% endif %}
                     <script>
                       (function() {
                         var skeleton = document.getElementById('fu-skeleton');

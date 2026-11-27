@@ -714,10 +714,8 @@
                     </div>
                     {% if not page.custom_fields.donate_fundraiseup_form_id %}
                     <script>
-                      // Pick the FRU form by region (?r=). US and CA have their own forms; everything else uses Global (default href above).
-                      // Override per page with the donate_fundraiseup_form_id page custom field.
                       (function() {
-                        var r = (new URLSearchParams(window.location.search).get('r') || '').toUpperCase();
+                        var r = new URLSearchParams(window.location.search).get('r');
                         var campaigns = {
                           US: '#XJNQAKPC',
                           CA: '#XBCZJDTJ'
